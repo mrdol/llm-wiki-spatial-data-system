@@ -628,3 +628,80 @@ Key additions:
 - Identified 10 papers linked to explicit datasets, data descriptors, or named public benchmark datasets.
 - Marked which candidates already have local PDFs and which earlier automated downloads returned rejected HTML or empty responses.
 - Separated strong data-descriptor candidates from lower-priority method papers that are mainly useful through benchmark dataset links.
+
+## [2026-04-30] query | add R-first estimator implementation layer
+
+Pages consulted:
+- `AGENTS.md`
+- `wiki/metadata/restricted_estimator_policy_v1.md`
+- `wiki/metadata/estimator_fiche_schema_v1.md`
+- selected estimator fiches under `wiki/estimators/`
+- software package manifests under `data/manifests/`
+
+Output filed: yes - R implementation policy, backend audit, registry, and wrapper skeletons
+
+Pages created:
+- `wiki/metadata/r_estimator_implementation_policy_v1.md`
+- `wiki/analyses/modeling/estimations/r_estimator_backend_audit_2026_04_30.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/log.md`
+
+Files created outside wiki:
+- `data/manifests/estimator_software_registry.jsonl`
+- `R/utils/estimator_common.R`
+- `R/estimators/README.md`
+- `R/estimators/load_estimators.R`
+- `R/estimators/fit_xgboost.R`
+- `R/estimators/fit_lightgbm.R`
+- `R/estimators/fit_gamboost.R`
+- `R/estimators/fit_random_forest.R`
+- `R/estimators/fit_mars.R`
+- `R/estimators/fit_inla.R`
+- `R/estimators/fit_svc.R`
+- `R/estimators/fit_stvc.R`
+- `R/estimators/fit_mgwr.R`
+- `R/estimators/fit_mgwrsar.R`
+- `R/estimators/fit_spboost.R`
+- `R/estimators/fit_rnn_reticulate.R`
+- `R/estimators/fit_svm.R`
+
+Key additions:
+- Added an R-first rule: use native R packages when available, use Python only through R-facing `reticulate` wrappers when necessary.
+- Added a machine-readable backend registry for all allowlisted estimators.
+- Added initial wrapper functions with common return metadata and clear missing-package failures.
+- Marked SpBoost as pending until a stable backend is selected.
+
+Validation:
+- Parsed 15 R files successfully with `Rscript` from R 4.5.3.
+- Loaded `R/estimators/load_estimators.R` successfully and confirmed 13 `fit_*` functions.
+- Detected installed R backends: `mboost`, `mgcv`, `mgwrsar`, `reticulate`, `e1071`.
+- Detected missing R backends: `xgboost`, `lightgbm`, `ranger`, `earth`, `INLA`, `GWmodel`.
+
+## [2026-04-30] query | add R bridge for Python scraping scripts
+
+Pages consulted:
+- `pipeline_portals/python/scraping_examples.ps1`
+- `pipeline_portals/python/run_portal_plan.py`
+- `pipeline_portals/python/execute_portal_jobs.py`
+- `pipeline_lit/run_literature_plan.py`
+
+Output filed: yes - R bridge for existing Python scraping entry points
+
+Pages created:
+- `wiki/metadata/r_python_scraping_bridge_policy_v1.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/log.md`
+
+Files created outside wiki:
+- `R/scraping/python_scraper_bridge.R`
+- `R/scraping/README.md`
+
+Key additions:
+- Added `run_python_script()` to execute project Python scripts from R.
+- Added `run_portal_scraper()` for warehouse and scientific portal scrapers.
+- Added `run_portal_plan()`, `run_portal_jobs()`, and `run_literature_plan()`.
+- Kept Python scrapers as the execution source of truth and avoided duplicating scraping logic in R.

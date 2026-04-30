@@ -109,6 +109,8 @@ Each entry follows this format:
 - [[discovery_policy_v3]] - Discovery policy for spatial, metadata-rich, license-aware, and paper-linked ranking | metadata | 2026-04-22
 - [[restricted_estimator_policy_v1]] - Strict project allowlist for estimators used in catalog records and discovery | metadata | 2026-04-22
 - [[estimator_fiche_schema_v1]] - Schema for caret-like estimator fiches, paper evidence, and tuning-relevant hyperparameters | metadata | 2026-04-23
+- [[r_estimator_implementation_policy_v1]] - R-first implementation policy for allowed estimators, with reticulate as the Python fallback route | metadata | 2026-04-30
+- [[r_python_scraping_bridge_policy_v1]] - Policy for calling existing Python scraping scripts from R without rewriting every scraper | metadata | 2026-04-30
 
 ---
 
@@ -160,6 +162,7 @@ Each entry follows this format:
 - [[book_lookup_statistics_for_high_dimensional_data_2026_04_23]] - Lookup and access-status note for the Springer book Statistics for High-Dimensional Data | analysis | 2026-04-23
 - [[scientific_data_linked_papers_2026_04_27]] - Shortlist of 10 scientific papers linked to explicit datasets or reusable data assets | analysis | 2026-04-27
 - [[software_dataset_literature_links_2026_04_29]] - OpenAlex candidate links between documented software datasets and journal papers that may use them | analysis | 2026-04-29
+- [[r_estimator_backend_audit_2026_04_30]] - Audit of R-native, R-variant, reticulate, and pending backend routes for allowed estimators | analysis | 2026-04-30
 
 ---
 
