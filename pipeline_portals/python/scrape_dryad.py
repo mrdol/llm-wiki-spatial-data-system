@@ -45,6 +45,8 @@ DEFAULT_QUERY = "spatiotemporal OR spatial OR geospatial OR longitudinal OR pane
 
 
 def _as_list(value: Any) -> list[Any]:
+    """Garantit qu'une valeur Dryad est manipulee comme une liste."""
+
     if value is None:
         return []
     if isinstance(value, list):
@@ -53,6 +55,8 @@ def _as_list(value: Any) -> list[Any]:
 
 
 def dryad_get(session: requests.Session, endpoint: str, params: dict[str, Any]) -> dict[str, Any] | None:
+    """Interroge l'API JSON Dryad avec requests."""
+
     try:
         response = session.get(f"{DRYAD_BASE_URL}{endpoint}", params=params, timeout=60)
     except requests.RequestException:
@@ -63,6 +67,8 @@ def dryad_get(session: requests.Session, endpoint: str, params: dict[str, Any]) 
 
 
 def fetch_dryad_records(query: str, *, max_pages: int, per_page: int, verbose: bool) -> list[dict[str, Any]]:
+    """Recherche des datasets Dryad page par page via l'API."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     for page in range(1, max_pages + 1):
@@ -86,6 +92,8 @@ def fetch_dryad_records(query: str, *, max_pages: int, per_page: int, verbose: b
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Extrait les fichiers ou l'archive globale declares dans une fiche Dryad."""
+
     files: list[dict[str, Any]] = []
     for item in _as_list(record.get("files") or record.get("file_links") or record.get("_embedded", {}).get("stash:files")):
         if not isinstance(item, dict):
@@ -132,6 +140,8 @@ def parse_dryad_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise une fiche Dryad en candidat dataset."""
+
     title = record.get("title") or record.get("name")
     description = record.get("abstract") or record.get("description")
     keywords = record.get("keywords") or record.get("subjects")
@@ -184,6 +194,8 @@ def scrape_dryad_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux Dryad complet: API, fichiers, DOI et scoring."""
+
     raw_records = fetch_dryad_records(query, max_pages=max_pages, per_page=per_page, verbose=verbose)
     parsed = [
         result
@@ -201,6 +213,8 @@ def scrape_dryad_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour Dryad: scraping, export et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape Dryad spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--query", default=DEFAULT_QUERY)
     parser.add_argument("--max-pages", type=int, default=3)

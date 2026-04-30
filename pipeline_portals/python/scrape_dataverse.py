@@ -45,6 +45,8 @@ DEFAULT_QUERY = "spatiotemporal OR spatial OR geospatial OR longitudinal OR pane
 
 
 def dataverse_get(base_url: str, endpoint: str, params: dict[str, Any]) -> dict[str, Any] | None:
+    """Interroge une API Dataverse et retourne la reponse JSON."""
+
     try:
         response = requests.get(f"{base_url.rstrip('/')}{endpoint}", params=params, timeout=60)
     except requests.RequestException:
@@ -62,6 +64,8 @@ def fetch_dataverse_records(
     per_page: int,
     verbose: bool,
 ) -> list[dict[str, Any]]:
+    """Recherche des datasets Dataverse via l'API de recherche."""
+
     records: list[dict[str, Any]] = []
     for page in range(max_pages):
         start = page * per_page
@@ -81,6 +85,8 @@ def fetch_dataverse_records(
 
 
 def fetch_dataset_detail(base_url: str, persistent_id: str | None) -> dict[str, Any] | None:
+    """Recupere les metadonnees detaillees d'un dataset Dataverse par DOI/persistent ID."""
+
     if not persistent_id:
         return None
     payload = dataverse_get(
@@ -93,6 +99,8 @@ def fetch_dataset_detail(base_url: str, persistent_id: str | None) -> dict[str, 
 
 
 def metadata_field(version: dict[str, Any], name: str) -> Any:
+    """Lit un champ de metadonnees Dataverse dans les blocs de la version courante."""
+
     for block in version.get("metadataBlocks", {}).values():
         for field in block.get("fields", []):
             if field.get("typeName") == name:
@@ -101,6 +109,8 @@ def metadata_field(version: dict[str, Any], name: str) -> Any:
 
 
 def extract_files(base_url: str, detail: dict[str, Any] | None) -> list[dict[str, Any]]:
+    """Extrait les fichiers Dataverse et construit leurs URLs d'acces API."""
+
     version = (detail or {}).get("latestVersion") or {}
     files: list[dict[str, Any]] = []
     for item in version.get("files") or []:
@@ -133,6 +143,8 @@ def parse_dataverse_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise un dataset Dataverse en candidat exploitable."""
+
     persistent_id = record.get("global_id") or record.get("persistent_id")
     detail = fetch_dataset_detail(base_url, persistent_id)
     version = (detail or {}).get("latestVersion") or {}
@@ -193,6 +205,8 @@ def scrape_dataverse_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux Dataverse complet: recherche API, detail, fichiers et scoring."""
+
     raw_records = fetch_dataverse_records(base_url, query, max_pages=max_pages, per_page=per_page, verbose=verbose)
     parsed = [
         result
@@ -211,6 +225,8 @@ def scrape_dataverse_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour Dataverse: scraping, export et telechargement controle."""
+
     parser = argparse.ArgumentParser(description="Scrape Dataverse spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--base-url", default=DEFAULT_BASE_URL)
     parser.add_argument("--query", default=DEFAULT_QUERY)

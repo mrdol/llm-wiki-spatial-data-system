@@ -6,10 +6,8 @@ import argparse
 import json
 import re
 import sys
-from html import unescape
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin
 
 import requests
 
@@ -27,9 +25,12 @@ from portal_common import (
     download_candidate_files,
     emit_discovery_payload,
     extract_dois_from_text,
+    extract_html_links,
     file_extension,
     first_found_paper_metadata,
     has_spatiotemporal_signal,
+    html_text,
+    html_title,
     is_spatial_format,
     plan_to_payload,
     save_plan_payload,
@@ -45,6 +46,8 @@ FILE_EXTENSIONS = {"zip", "csv", "xlsx", "xls", "pdf", "txt", "dta", "rds", "7z"
 
 
 def fetch_text(session: requests.Session, url: str) -> str | None:
+    """Recupere une page CEPII avec requests quand le contenu est statique."""
+
     try:
         response = session.get(url, timeout=60, headers={"User-Agent": "llm-wiki-scraper/0.1"})
     except requests.RequestException:
@@ -57,32 +60,9 @@ def fetch_text(session: requests.Session, url: str) -> str | None:
     return response.text
 
 
-def html_title(html: str) -> str | None:
-    match = re.search(r"<title[^>]*>(.*?)</title>", html, flags=re.I | re.S)
-    if not match:
-        return None
-    return re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(1)))).strip()
-
-
-def html_text(html: str) -> str:
-    cleaned = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
-    cleaned = re.sub(r"<style[\s\S]*?</style>", " ", cleaned, flags=re.I)
-    cleaned = re.sub(r"<[^>]+>", " ", cleaned)
-    return re.sub(r"\s+", " ", unescape(cleaned)).strip()
-
-
-def extract_links(html: str, base_url: str) -> list[dict[str, str]]:
-    links: list[dict[str, str]] = []
-    for match in re.finditer(r"<a\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", html, flags=re.I | re.S):
-        href = unescape(match.group(1)).strip()
-        label = re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(2)))).strip()
-        if not href or href.startswith(("mailto:", "javascript:")):
-            continue
-        links.append({"url": urljoin(base_url, href), "label": label})
-    return links
-
-
 def seed_urls() -> list[str]:
+    """Construit la liste des pages CEPII a visiter a partir du catalogue local."""
+
     plan = build_portal_plan(
         warehouse_id="cepii",
         preferred_layer_types=PREFERRED_LAYER_TYPES,
@@ -93,6 +73,8 @@ def seed_urls() -> list[str]:
 
 
 def fetch_cepii_records(query: str, *, verbose: bool) -> list[dict[str, Any]]:
+    """Parcourt les pages CEPII et garde les pages contenant des liens de donnees pertinents."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     query_terms = [term.lower() for term in re.findall(r"[a-z0-9_]+", query.lower())]
@@ -103,7 +85,7 @@ def fetch_cepii_records(query: str, *, verbose: bool) -> list[dict[str, Any]]:
         if html is None:
             continue
         page_text = html_text(html)
-        links = extract_links(html, url)
+        links = extract_html_links(html, url)
         file_links = [
             link
             for link in links
@@ -126,6 +108,8 @@ def fetch_cepii_records(query: str, *, verbose: bool) -> list[dict[str, Any]]:
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Convertit les liens CEPII trouves en objets fichiers normalises."""
+
     files: list[dict[str, Any]] = []
     for link in record.get("file_links") or []:
         if not isinstance(link, dict):
@@ -154,6 +138,8 @@ def parse_cepii_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Transforme une page CEPII brute en candidat dataset exploitable par le systeme."""
+
     title = record.get("title")
     description = record.get("description")
     files = extract_files(record)
@@ -194,6 +180,8 @@ def scrape_cepii_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux complet CEPII: pages HTML, fichiers, DOI, scoring et candidats."""
+
     raw_records = fetch_cepii_records(query, verbose=verbose)
     parsed = [
         result
@@ -211,6 +199,8 @@ def scrape_cepii_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour lancer CEPII en mode plan, scraping ou telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape CEPII spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--plan", action="store_true", help="Only build the legacy portal scraping plan.")
     parser.add_argument("--query", default=DEFAULT_QUERY)

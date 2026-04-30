@@ -15,7 +15,6 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin
 
 import requests
 
@@ -23,7 +22,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from portal_common import build_fetch_jobs, enrich_paper_dois, resolve_plan_payload
+from portal_common import build_fetch_jobs, enrich_paper_dois, extract_html_links, html_title, resolve_plan_payload
 from run_portal_plan import WAREHOUSE_LAYER_DEFAULTS
 
 
@@ -32,10 +31,14 @@ TEXT_TYPES = ("text/", "application/json", "application/xml", "application/vnd.s
 
 
 def _utc_now() -> str:
+    """Retourne la date UTC pour tracer chaque job execute."""
+
     return datetime.now(timezone.utc).isoformat()
 
 
 def _append_jsonl(path: str | Path, record: dict[str, Any]) -> None:
+    """Ajoute un enregistrement JSON sur une ligne dans un fichier de manifest."""
+
     output = Path(path)
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("a", encoding="utf-8") as handle:
@@ -43,21 +46,24 @@ def _append_jsonl(path: str | Path, record: dict[str, Any]) -> None:
 
 
 def _is_textual(content_type: str | None) -> bool:
+    """Dit si la reponse HTTP peut etre capturee comme texte ou metadonnees."""
+
     value = (content_type or "").lower()
     return any(marker in value for marker in TEXT_TYPES)
 
 
 def _extract_title(text: str) -> str | None:
-    match = re.search(r"<title[^>]*>(.*?)</title>", text, flags=re.IGNORECASE | re.DOTALL)
-    if not match:
-        return None
-    return re.sub(r"\s+", " ", match.group(1)).strip()
+    """Extrait le titre HTML avec BeautifulSoup si possible, sinon avec regex."""
+
+    return html_title(text)
 
 
 def _extract_links(text: str, base_url: str, limit: int = 30) -> list[str]:
+    """Extrait les liens HTML statiques avec BeautifulSoup et garde les premiers liens uniques."""
+
     links: list[str] = []
-    for match in re.finditer(r"""href=["']([^"']+)["']""", text, flags=re.IGNORECASE):
-        url = urljoin(base_url, match.group(1))
+    for link in extract_html_links(text, base_url):
+        url = link["url"]
         if url not in links:
             links.append(url)
         if len(links) >= limit:
@@ -66,11 +72,15 @@ def _extract_links(text: str, base_url: str, limit: int = 30) -> list[str]:
 
 
 def _extract_dois(text: str) -> list[str]:
+    """Repere les DOI presents dans une page ou une reponse texte."""
+
     matches = re.findall(r"\b10\.\d{4,9}/[-._;()/:A-Z0-9]+\b", text, flags=re.IGNORECASE)
     return sorted(set(match.rstrip(".,);]") for match in matches))
 
 
 def _extract_license_terms(text: str) -> list[str]:
+    """Cherche des indices simples de licence ou de conditions de reutilisation."""
+
     patterns = [
         "license",
         "licence",
@@ -91,6 +101,8 @@ def _extract_license_terms(text: str) -> list[str]:
 
 
 def _json_summary(text: str) -> dict[str, Any] | None:
+    """Resume une reponse JSON sans stocker tout son contenu dans le manifest."""
+
     try:
         payload = json.loads(text)
     except json.JSONDecodeError:
@@ -109,6 +121,13 @@ def _json_summary(text: str) -> dict[str, Any] | None:
 
 
 def _render_with_playwright(url: str, timeout_ms: int = 20000) -> dict[str, Any]:
+    """Rend une page JavaScript avec Playwright quand requests ne suffit pas.
+
+    Playwright est plus lourd que BeautifulSoup: il lance un vrai navigateur.
+    On l'utilise seulement pour les pages dynamiques ou quand l'extraction HTML
+    simple ne trouve pas de liens.
+    """
+
     try:
         from playwright.sync_api import sync_playwright
     except Exception as exc:  # pragma: no cover - optional dependency
@@ -145,6 +164,14 @@ def execute_job(
     enrich_paper: bool = False,
     mailto: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Execute un job de scraping controle et produit une trace brute plus une trace normalisee.
+
+    La logique suit trois niveaux:
+    1. `requests` recupere les API, JSON, XML ou HTML statiques;
+    2. BeautifulSoup extrait les titres et liens des pages HTML statiques;
+    3. Playwright intervient seulement pour les pages dynamiques si l'option le demande.
+    """
+
     session = requests.Session()
     headers = job.get("headers", {})
     result: dict[str, Any] = {
@@ -242,6 +269,8 @@ def execute_job(
 
 
 def main() -> None:
+    """Point d'entree CLI pour executer une petite serie de jobs issus d'un plan."""
+
     parser = argparse.ArgumentParser(description="Execute real controlled portal scraping jobs.")
     parser.add_argument("--plan", help="Path to a saved portal plan JSON.")
     parser.add_argument("--warehouse-id", help="Warehouse id to build the plan on the fly.")

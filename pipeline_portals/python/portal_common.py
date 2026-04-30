@@ -13,8 +13,10 @@ import json
 import re
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from html import unescape
 from pathlib import Path
 from typing import Any, Iterable
+from urllib.parse import urljoin
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_PATH = REPO_ROOT / "catalogue_datasets.json"
@@ -186,10 +188,14 @@ def _matches_alias(candidate: str | None, aliases: set[str]) -> bool:
 
 
 def utc_now() -> str:
+    """Retourne la date UTC actuelle pour tracer quand un scraping a ete fait."""
+
     return datetime.now(timezone.utc).isoformat()
 
 
 def text_values(value: Any) -> Iterable[str]:
+    """Aplati une valeur Python en morceaux de texte utilisables pour les filtres."""
+
     if value is None:
         return
     if isinstance(value, str):
@@ -208,6 +214,8 @@ def text_values(value: Any) -> Iterable[str]:
 
 
 def file_extension(filename_or_url: str | None) -> str:
+    """Recupere l'extension d'un nom de fichier ou d'une URL."""
+
     if not filename_or_url:
         return ""
     cleaned = filename_or_url.split("?", maxsplit=1)[0].rstrip("/")
@@ -215,15 +223,21 @@ def file_extension(filename_or_url: str | None) -> str:
 
 
 def is_spatial_format(filename_or_url: str | None) -> bool:
+    """Indique si un fichier a une extension typiquement spatiale ou geo-scientifique."""
+
     return file_extension(filename_or_url) in SPATIAL_EXTENSIONS
 
 
 def has_spatiotemporal_signal(*parts: Any) -> bool:
+    """Teste si un texte contient a la fois un signal spatial et un signal temporel."""
+
     text = " ".join(item for part in parts for item in text_values(part)).lower()
     return any(term in text for term in SPATIAL_TERMS) and any(term in text for term in TEMPORAL_TERMS)
 
 
 def selected_download_urls(files: list[dict[str, Any]], *, max_size_mb: float | None = None) -> list[str]:
+    """Selectionne les URLs telechargeables en evitant les fichiers au-dessus du seuil donne."""
+
     urls: list[str] = []
     max_bytes = max_size_mb * 1_000_000 if max_size_mb is not None else None
     for file_info in files:
@@ -238,10 +252,83 @@ def selected_download_urls(files: list[dict[str, Any]], *, max_size_mb: float | 
 
 
 def safe_filename(value: str | None, *, fallback: str = "download") -> str:
+    """Transforme un titre ou une URL en nom de fichier valide et stable."""
+
     text = (value or fallback).strip().replace("\\", "_").replace("/", "_")
     text = re.sub(r"[^A-Za-z0-9._-]+", "_", text)
     text = text.strip("._")
     return text[:180] or fallback
+
+
+def _beautifulsoup(html: str) -> Any | None:
+    """Charge BeautifulSoup si disponible, sinon laisse le scraper utiliser le plan de secours regex.
+
+    BeautifulSoup sert ici uniquement aux pages HTML statiques: pages institutionnelles,
+    listes de fichiers, pages de documentation. Les API JSON restent traitees avec
+    `requests` et `json`, et les pages JavaScript doivent passer par Playwright.
+    """
+
+    try:
+        from bs4 import BeautifulSoup
+    except ImportError:
+        return None
+    return BeautifulSoup(html, "html.parser")
+
+
+def html_title(html: str) -> str | None:
+    """Extrait le titre lisible d'une page HTML statique."""
+
+    soup = _beautifulsoup(html)
+    if soup and soup.title and soup.title.string:
+        return re.sub(r"\s+", " ", soup.title.string).strip()
+
+    match = re.search(r"<title[^>]*>(.*?)</title>", html, flags=re.I | re.S)
+    if not match:
+        return None
+    return re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(1)))).strip()
+
+
+def html_text(html: str) -> str:
+    """Transforme une page HTML statique en texte nettoye pour les filtres de recherche."""
+
+    soup = _beautifulsoup(html)
+    if soup:
+        for tag in soup(["script", "style", "noscript"]):
+            tag.decompose()
+        return re.sub(r"\s+", " ", soup.get_text(" ")).strip()
+
+    cleaned = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
+    cleaned = re.sub(r"<style[\s\S]*?</style>", " ", cleaned, flags=re.I)
+    cleaned = re.sub(r"<[^>]+>", " ", cleaned)
+    return re.sub(r"\s+", " ", unescape(cleaned)).strip()
+
+
+def extract_html_links(html: str, base_url: str) -> list[dict[str, str]]:
+    """Extrait les liens d'une page HTML et les normalise en URLs absolues.
+
+    C'est le point ou BeautifulSoup intervient dans les scrapers institutionnels:
+    il repere proprement les balises `<a href=...>`. Si BeautifulSoup n'est pas
+    installe, le code continue avec une extraction regex moins precise.
+    """
+
+    links: list[dict[str, str]] = []
+    soup = _beautifulsoup(html)
+    if soup:
+        for anchor in soup.find_all("a", href=True):
+            href = str(anchor.get("href") or "").strip()
+            label = re.sub(r"\s+", " ", anchor.get_text(" ")).strip()
+            if not href or href.startswith(("mailto:", "javascript:")):
+                continue
+            links.append({"url": urljoin(base_url, href), "label": label})
+        return links
+
+    for match in re.finditer(r"<a\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", html, flags=re.I | re.S):
+        href = unescape(match.group(1)).strip()
+        label = re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(2)))).strip()
+        if not href or href.startswith(("mailto:", "javascript:")):
+            continue
+        links.append({"url": urljoin(base_url, href), "label": label})
+    return links
 
 
 def download_candidate_files(

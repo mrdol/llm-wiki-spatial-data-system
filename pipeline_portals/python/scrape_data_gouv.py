@@ -42,6 +42,8 @@ PREFERRED_LAYER_TYPES = ("portal", "bulk_download", "api")
 
 
 def data_gouv_get(session: requests.Session, endpoint: str, params: dict[str, Any]) -> dict[str, Any] | None:
+    """Interroge l'API JSON officielle de data.gouv.fr avec requests."""
+
     try:
         response = session.get(f"{DATA_GOUV_API}{endpoint}", params=params, timeout=60)
     except requests.RequestException:
@@ -52,6 +54,8 @@ def data_gouv_get(session: requests.Session, endpoint: str, params: dict[str, An
 
 
 def fetch_data_gouv_records(query: str, *, max_pages: int, page_size: int, verbose: bool) -> list[dict[str, Any]]:
+    """Recherche des jeux de donnees data.gouv.fr page par page via l'API."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     for page in range(1, max_pages + 1):
@@ -72,6 +76,8 @@ def fetch_data_gouv_records(query: str, *, max_pages: int, page_size: int, verbo
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Extrait les ressources telechargeables d'un dataset data.gouv.fr."""
+
     files: list[dict[str, Any]] = []
     for resource in record.get("resources") or []:
         if not isinstance(resource, dict):
@@ -102,6 +108,8 @@ def parse_data_gouv_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise un dataset data.gouv.fr en candidat spatial/spatio-temporel."""
+
     title = record.get("title")
     description = record.get("description")
     tags = record.get("tags") or []
@@ -155,6 +163,8 @@ def scrape_data_gouv_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux data.gouv.fr complet: API, fichiers, DOI, scoring et candidats."""
+
     raw_records = fetch_data_gouv_records(query, max_pages=max_pages, page_size=page_size, verbose=verbose)
     parsed = [
         result
@@ -172,6 +182,8 @@ def scrape_data_gouv_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour data.gouv.fr: plan, scraping, export et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape data.gouv.fr spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--plan", action="store_true", help="Only build the legacy portal scraping plan.")
     parser.add_argument("--query", default=DEFAULT_QUERY)

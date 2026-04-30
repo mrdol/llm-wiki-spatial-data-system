@@ -52,6 +52,8 @@ def figshare_request(
     params: dict[str, Any] | None = None,
     json_body: dict[str, Any] | None = None,
 ) -> Any:
+    """Interroge l'API Figshare avec la methode HTTP demandee."""
+
     try:
         response = session.request(
             method,
@@ -68,6 +70,8 @@ def figshare_request(
 
 
 def fetch_figshare_records(query: str, *, max_pages: int, page_size: int, verbose: bool) -> list[dict[str, Any]]:
+    """Recherche des articles Figshare de type dataset puis recupere leur detail."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     for page in range(1, max_pages + 1):
@@ -95,6 +99,8 @@ def fetch_figshare_records(query: str, *, max_pages: int, page_size: int, verbos
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Extrait les fichiers telechargeables declares dans une fiche Figshare."""
+
     files: list[dict[str, Any]] = []
     for item in record.get("files") or []:
         if not isinstance(item, dict):
@@ -121,6 +127,8 @@ def parse_figshare_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise un enregistrement Figshare en candidat dataset."""
+
     title = record.get("title")
     description = record.get("description")
     tags = record.get("tags") or record.get("categories")
@@ -178,6 +186,8 @@ def scrape_figshare_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux Figshare complet: API, fichiers, DOI, papier associe et scoring."""
+
     raw_records = fetch_figshare_records(query, max_pages=max_pages, page_size=page_size, verbose=verbose)
     parsed = [
         result
@@ -195,6 +205,8 @@ def scrape_figshare_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour Figshare: scraping, export et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape Figshare spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--query", default=DEFAULT_QUERY)
     parser.add_argument("--max-pages", type=int, default=3)

@@ -41,6 +41,8 @@ PREFERRED_LAYER_TYPES = ("catalog", "bulk_download", "api", "sdmx_api_documentat
 
 
 def world_bank_get(session: requests.Session, endpoint: str, params: dict[str, Any]) -> Any:
+    """Interroge l'API JSON World Bank avec requests."""
+
     try:
         response = session.get(f"{WORLD_BANK_API}{endpoint}", params=params, timeout=60)
     except requests.RequestException:
@@ -51,6 +53,8 @@ def world_bank_get(session: requests.Session, endpoint: str, params: dict[str, A
 
 
 def fetch_world_bank_records(query: str, *, page_size: int, verbose: bool) -> list[dict[str, Any]]:
+    """Charge le catalogue d'indicateurs World Bank et filtre par mots de requete."""
+
     session = requests.Session()
     query_terms = [term.lower() for term in re.findall(r"[a-z0-9_]+", query.lower())]
     payload = world_bank_get(
@@ -79,6 +83,8 @@ def parse_world_bank_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Normalise un indicateur World Bank en candidat country x time."""
+
     indicator_id = record.get("id")
     title = record.get("name")
     description = record.get("sourceNote") or record.get("sourceOrganization")
@@ -135,6 +141,8 @@ def scrape_world_bank_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux World Bank complet: catalogue API, filtre et candidats."""
+
     raw_records = fetch_world_bank_records(query, page_size=page_size, verbose=verbose)
     parsed = [
         result
@@ -152,6 +160,8 @@ def scrape_world_bank_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour World Bank: plan, scraping, export et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape World Bank spatial/spatio-temporal indicator metadata.")
     parser.add_argument("--plan", action="store_true", help="Only build the legacy portal scraping plan.")
     parser.add_argument("--query", default=DEFAULT_QUERY)

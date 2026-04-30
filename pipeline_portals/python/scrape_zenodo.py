@@ -189,15 +189,21 @@ LOW_MODELING_VALUE_TERMS = (
 
 
 def utc_now() -> str:
+    """Retourne la date UTC pour tracer quand le record Zenodo a ete produit."""
+
     return datetime.now(timezone.utc).isoformat()
 
 
 def log(message: str, verbose: bool) -> None:
+    """Affiche un message de progression seulement si le mode verbeux est actif."""
+
     if verbose:
         print(message, file=sys.stderr)
 
 
 def text_values(value: Any) -> Iterable[str]:
+    """Aplati des valeurs imbriquees Zenodo en texte pour les filtres."""
+
     if value is None:
         return
     if isinstance(value, str):
@@ -216,6 +222,8 @@ def text_values(value: Any) -> Iterable[str]:
 
 
 def get_path(value: dict[str, Any], *keys: str, default: Any = None) -> Any:
+    """Lit un chemin imbrique dans un dictionnaire Zenodo sans lever d'erreur."""
+
     current: Any = value
     for key in keys:
         if not isinstance(current, dict) or key not in current:
@@ -225,6 +233,8 @@ def get_path(value: dict[str, Any], *keys: str, default: Any = None) -> Any:
 
 
 def as_list(value: Any) -> list[Any]:
+    """Garantit qu'une valeur est manipulee comme une liste."""
+
     if value is None:
         return []
     if isinstance(value, list):
@@ -233,6 +243,8 @@ def as_list(value: Any) -> list[Any]:
 
 
 def file_extension(filename_or_url: str | None) -> str:
+    """Recupere l'extension d'un fichier ou d'une URL Zenodo."""
+
     if not filename_or_url:
         return ""
     cleaned = filename_or_url.split("?", maxsplit=1)[0].rstrip("/")
@@ -247,6 +259,8 @@ def zenodo_get(
     max_tries: int,
     verbose: bool,
 ) -> dict[str, Any] | None:
+    """Interroge l'API Zenodo avec temporisation et gestion des erreurs HTTP."""
+
     url = f"{ZENODO_BASE_URL}{endpoint}"
     delay = 60 / ZENODO_RPM
 
@@ -290,6 +304,8 @@ def openalex_get_by_doi(
     mailto: str | None,
     verbose: bool,
 ) -> dict[str, Any] | None:
+    """Interroge OpenAlex pour retrouver les metadonnees d'un papier a partir d'un DOI."""
+
     doi_value = doi.strip()
     if not doi_value:
         return None
@@ -312,6 +328,8 @@ def openalex_get_by_doi(
 
 
 def abstract_from_inverted_index(index: dict[str, Any] | None) -> str | None:
+    """Reconstruit un abstract OpenAlex stocke sous forme d'index inverse."""
+
     if not isinstance(index, dict) or not index:
         return None
     positions: list[tuple[int, str]] = []
@@ -327,6 +345,8 @@ def abstract_from_inverted_index(index: dict[str, Any] | None) -> str | None:
 
 
 def compact_authors(work: dict[str, Any], limit: int = 8) -> list[str]:
+    """Retourne une liste courte d'auteurs depuis une fiche OpenAlex."""
+
     authors = []
     for authorship in as_list(work.get("authorships"))[:limit]:
         author = authorship.get("author") if isinstance(authorship, dict) else None
@@ -342,6 +362,8 @@ def extract_paper_metadata(
     mailto: str | None,
     verbose: bool,
 ) -> dict[str, Any]:
+    """Recupere le premier papier OpenAlex disponible parmi les DOI lies au dataset."""
+
     if not enrich_paper or not publication_dois:
         return {}
 
@@ -373,6 +395,8 @@ def extract_paper_metadata(
 
 
 def analyze_modeling_signals(text_source: str | None) -> dict[str, Any]:
+    """Detecte dans le titre/abstract les indices de regression, prediction ou modelisation."""
+
     text = (text_source or "").lower()
     signals: list[str] = []
     evidence_terms: list[str] = []
@@ -434,6 +458,8 @@ def fetch_all_zenodo_records(
     communities: list[str],
     verbose: bool,
 ) -> list[dict[str, Any]]:
+    """Recupere les pages de resultats Zenodo correspondant a la requete."""
+
     session = requests.Session()
     all_hits: list[dict[str, Any]] = []
     total: int | None = None
@@ -474,6 +500,8 @@ def fetch_all_zenodo_records(
 
 
 def is_dataset(record: dict[str, Any]) -> bool:
+    """Verifie que l'enregistrement Zenodo est bien de type dataset."""
+
     resource_type = get_path(record, "metadata", "resource_type", "type")
     resource_id = get_path(record, "metadata", "resource_type", "id")
     value = str(resource_type or resource_id or "").lower()
@@ -481,6 +509,8 @@ def is_dataset(record: dict[str, Any]) -> bool:
 
 
 def keyword_terms(record: dict[str, Any]) -> list[str]:
+    """Extrait les mots-cles et sujets declares dans les metadonnees Zenodo."""
+
     metadata = record.get("metadata", {})
     terms: list[str] = []
     for keyword in as_list(metadata.get("keywords")):
@@ -494,6 +524,8 @@ def keyword_terms(record: dict[str, Any]) -> list[str]:
 
 
 def record_blob(record: dict[str, Any]) -> str:
+    """Construit un grand texte titre-description-notes-mots-cles pour les filtres."""
+
     metadata = record.get("metadata", {})
     return " ".join(
         [
@@ -506,6 +538,8 @@ def record_blob(record: dict[str, Any]) -> str:
 
 
 def is_spatial_record(record: dict[str, Any]) -> bool:
+    """Teste si un record Zenodo porte un signal spatial ou un fichier spatial."""
+
     keyword_blob = " ".join(keyword_terms(record)).lower()
     if any(tag.lower() in keyword_blob for tag in SPATIAL_TAGS):
         return True
@@ -519,11 +553,15 @@ def is_spatial_record(record: dict[str, Any]) -> bool:
 
 
 def has_temporal_dimension(record: dict[str, Any]) -> bool:
+    """Teste si un record Zenodo contient un signal temporel exploitable."""
+
     blob = record_blob(record)
     return any(re.search(pattern, blob, flags=re.IGNORECASE) for pattern in TEMPORAL_TAGS)
 
 
 def extract_publication_dois(record: dict[str, Any]) -> list[str]:
+    """Extrait les DOI de papiers associes dans les relations Zenodo."""
+
     related = as_list(get_path(record, "metadata", "related_identifiers"))
     publication_relations = {"issupplementto", "isreferencedby", "iscitedby", "isdocumentedby"}
     dois: list[str] = []
@@ -550,6 +588,8 @@ class FileInfo:
 
 
 def extract_download_urls(record: dict[str, Any]) -> list[FileInfo]:
+    """Normalise les fichiers Zenodo en FileInfo avec URL, taille, format et signal spatial."""
+
     files = as_list(record.get("files"))
     if not files:
         doi = record.get("doi") or record.get("conceptdoi")
@@ -584,6 +624,8 @@ def extract_download_urls(record: dict[str, Any]) -> list[FileInfo]:
 
 
 def extract_dimensions_from_text(record: dict[str, Any]) -> dict[str, Any]:
+    """Cherche N et T dans la description Zenodo avec des expressions regulieres."""
+
     text = " ".join(
         [
             str(get_path(record, "metadata", "description", default="")),
@@ -627,6 +669,8 @@ def extract_dimensions_from_text(record: dict[str, Any]) -> dict[str, Any]:
 
 
 def read_csv_partial(url: str, *, n_bytes: int = 65536) -> dict[str, Any] | None:
+    """Lit seulement le debut d'un CSV distant pour estimer les lignes et periodes."""
+
     try:
         response = requests.get(url, headers={"Range": f"bytes=0-{n_bytes - 1}"}, timeout=60)
     except requests.RequestException:
@@ -657,6 +701,8 @@ def read_csv_partial(url: str, *, n_bytes: int = 65536) -> dict[str, Any] | None
 
 
 def enrich_dimensions_from_file(file_info: FileInfo) -> dict[str, Any] | None:
+    """Complete N/T depuis un fichier leger quand le format le permet."""
+
     if not file_info.url_dl:
         return None
     if file_info.format == "csv":
@@ -672,6 +718,8 @@ def parse_zenodo_record(
     mailto: str | None,
     verbose: bool,
 ) -> dict[str, Any] | None:
+    """Filtre, enrichit et transforme un record Zenodo brut en candidat dataset."""
+
     if not is_dataset(record):
         return None
     if not is_spatial_record(record):
@@ -744,6 +792,8 @@ def parse_zenodo_record(
 
 
 def append_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
+    """Ajoute les candidats Zenodo dans un fichier JSONL de manifest."""
+
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as handle:
         for record in records:
@@ -794,6 +844,8 @@ def records_to_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    """Ecrit une table CSV compacte pour notebook ou tableur."""
+
     path.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = list(rows[0].keys()) if rows else [
         "zenodo_id",
@@ -827,6 +879,8 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 
 
 def print_markdown_table(rows: list[dict[str, Any]], *, max_title: int = 80) -> None:
+    """Affiche une table Markdown courte dans le terminal."""
+
     columns = [
         "zenodo_id",
         "title",
@@ -861,6 +915,8 @@ def scrape_zenodo_spatial(
     mailto: str | None = None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux Zenodo complet: API, filtrage spatial/temporel, enrichissement et scoring."""
+
     raw_records = fetch_all_zenodo_records(query, max_pages=max_pages, communities=communities, verbose=verbose)
     parsed: list[dict[str, Any]] = []
     for record in raw_records:
@@ -877,6 +933,8 @@ def scrape_zenodo_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour Zenodo: scraping, export, enrichissement et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape Zenodo spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--query", default=SPATIAL_QUERY, help="Plain Zenodo query string.")
     parser.add_argument("--max-pages", type=int, default=ZENODO_MAX_PAGES, help="Maximum API pages to fetch.")

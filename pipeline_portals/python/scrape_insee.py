@@ -6,10 +6,9 @@ import argparse
 import json
 import re
 import sys
-from html import unescape
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote_plus, urljoin
+from urllib.parse import quote_plus
 
 import requests
 
@@ -27,9 +26,12 @@ from portal_common import (
     download_candidate_files,
     emit_discovery_payload,
     extract_dois_from_text,
+    extract_html_links,
     file_extension,
     first_found_paper_metadata,
     has_spatiotemporal_signal,
+    html_text,
+    html_title,
     is_spatial_format,
     plan_to_payload,
     save_plan_payload,
@@ -45,6 +47,8 @@ FILE_EXTENSIONS = {"csv", "xlsx", "xls", "zip", "dbf", "txt", "pdf", "xml", "jso
 
 
 def fetch_text(session: requests.Session, url: str) -> str | None:
+    """Recupere une page ou une reponse texte INSEE avec requests."""
+
     try:
         response = session.get(url, timeout=60, headers={"User-Agent": "llm-wiki-scraper/0.1"})
     except requests.RequestException:
@@ -57,32 +61,9 @@ def fetch_text(session: requests.Session, url: str) -> str | None:
     return response.text
 
 
-def html_title(html: str) -> str | None:
-    match = re.search(r"<title[^>]*>(.*?)</title>", html, flags=re.I | re.S)
-    if not match:
-        return None
-    return re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(1)))).strip()
-
-
-def html_text(html: str) -> str:
-    cleaned = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
-    cleaned = re.sub(r"<style[\s\S]*?</style>", " ", cleaned, flags=re.I)
-    cleaned = re.sub(r"<[^>]+>", " ", cleaned)
-    return re.sub(r"\s+", " ", unescape(cleaned)).strip()
-
-
-def extract_links(html: str, base_url: str) -> list[dict[str, str]]:
-    links: list[dict[str, str]] = []
-    for match in re.finditer(r"<a\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", html, flags=re.I | re.S):
-        href = unescape(match.group(1)).strip()
-        label = re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(2)))).strip()
-        if not href or href.startswith(("mailto:", "javascript:")):
-            continue
-        links.append({"url": urljoin(base_url, href), "label": label})
-    return links
-
-
 def seed_urls(query: str) -> list[str]:
+    """Construit les points de depart INSEE: catalogue local plus recherche web INSEE."""
+
     plan = build_portal_plan(
         warehouse_id="insee",
         preferred_layer_types=PREFERRED_LAYER_TYPES,
@@ -94,6 +75,8 @@ def seed_urls(query: str) -> list[str]:
 
 
 def fetch_insee_records(query: str, *, max_pages: int, verbose: bool) -> list[dict[str, Any]]:
+    """Explore les pages INSEE et suit quelques liens statistiques/metadonnees pertinents."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     visited: set[str] = set()
@@ -111,7 +94,7 @@ def fetch_insee_records(query: str, *, max_pages: int, verbose: bool) -> list[di
         if html is None:
             continue
         page_text = html_text(html)
-        links = extract_links(html, url)
+        links = extract_html_links(html, url)
         file_links = [
             link
             for link in links
@@ -143,6 +126,8 @@ def fetch_insee_records(query: str, *, max_pages: int, verbose: bool) -> list[di
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Convertit les liens de fichiers INSEE en objets fichiers normalises."""
+
     files: list[dict[str, Any]] = []
     for link in record.get("file_links") or []:
         if not isinstance(link, dict):
@@ -171,6 +156,8 @@ def parse_insee_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise une page INSEE en candidat dataset."""
+
     title = record.get("title")
     description = record.get("description")
     files = extract_files(record)
@@ -214,6 +201,8 @@ def scrape_insee_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux INSEE complet: exploration HTML, fichiers, DOI et enrichissement."""
+
     raw_records = fetch_insee_records(query, max_pages=max_pages, verbose=verbose)
     parsed = [
         result
@@ -231,6 +220,8 @@ def scrape_insee_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour INSEE: plan, scraping, export et telechargement controle."""
+
     parser = argparse.ArgumentParser(description="Scrape INSEE spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--plan", action="store_true", help="Only build the legacy portal scraping plan.")
     parser.add_argument("--query", default=DEFAULT_QUERY)

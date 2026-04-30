@@ -6,10 +6,8 @@ import argparse
 import json
 import re
 import sys
-from html import unescape
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin
 
 import requests
 
@@ -27,9 +25,12 @@ from portal_common import (
     download_candidate_files,
     emit_discovery_payload,
     extract_dois_from_text,
+    extract_html_links,
     file_extension,
     first_found_paper_metadata,
     has_spatiotemporal_signal,
+    html_text,
+    html_title,
     is_spatial_format,
     plan_to_payload,
     save_plan_payload,
@@ -50,6 +51,8 @@ REFERENCE_URLS = (
 
 
 def fetch_text(session: requests.Session, url: str) -> str | None:
+    """Recupere une page ou un fichier de reference UN Comtrade via requests."""
+
     try:
         response = session.get(url, timeout=60, headers={"User-Agent": "llm-wiki-scraper/0.1"})
     except requests.RequestException:
@@ -59,31 +62,9 @@ def fetch_text(session: requests.Session, url: str) -> str | None:
     return response.text
 
 
-def html_title(html: str) -> str | None:
-    match = re.search(r"<title[^>]*>(.*?)</title>", html, flags=re.I | re.S)
-    if not match:
-        return None
-    return re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(1)))).strip()
-
-
-def html_text(html: str) -> str:
-    cleaned = re.sub(r"<script[\s\S]*?</script>", " ", html, flags=re.I)
-    cleaned = re.sub(r"<style[\s\S]*?</style>", " ", cleaned, flags=re.I)
-    cleaned = re.sub(r"<[^>]+>", " ", cleaned)
-    return re.sub(r"\s+", " ", unescape(cleaned)).strip()
-
-
-def extract_links(html: str, base_url: str) -> list[dict[str, str]]:
-    links: list[dict[str, str]] = []
-    for match in re.finditer(r"<a\b[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", html, flags=re.I | re.S):
-        href = unescape(match.group(1)).strip()
-        label = re.sub(r"\s+", " ", unescape(re.sub("<[^>]+>", " ", match.group(2)))).strip()
-        if href and not href.startswith(("mailto:", "javascript:")):
-            links.append({"url": urljoin(base_url, href), "label": label})
-    return links
-
-
 def seed_urls() -> list[str]:
+    """Construit les URLs de depart UN Comtrade: pages catalogue et fichiers JSON legers."""
+
     plan = build_portal_plan(
         warehouse_id="un_comtrade",
         preferred_layer_types=PREFERRED_LAYER_TYPES,
@@ -95,6 +76,8 @@ def seed_urls() -> list[str]:
 
 
 def fetch_un_comtrade_records(query: str, *, max_pages: int, verbose: bool) -> list[dict[str, Any]]:
+    """Parcourt les ressources UN Comtrade et extrait les references de donnees utiles."""
+
     session = requests.Session()
     records: list[dict[str, Any]] = []
     query_terms = [term.lower() for term in re.findall(r"[a-z0-9_]+", query.lower())]
@@ -124,7 +107,7 @@ def fetch_un_comtrade_records(query: str, *, max_pages: int, verbose: bool) -> l
             )
             continue
         page_text = html_text(text)
-        links = extract_links(text, url)
+        links = extract_html_links(text, url)
         file_links = [
             link
             for link in links
@@ -146,6 +129,8 @@ def fetch_un_comtrade_records(query: str, *, max_pages: int, verbose: bool) -> l
 
 
 def extract_files(record: dict[str, Any]) -> list[dict[str, Any]]:
+    """Convertit les references UN Comtrade en objets fichiers telechargeables."""
+
     if isinstance(record.get("files"), list):
         return [item for item in record["files"] if isinstance(item, dict)]
     files: list[dict[str, Any]] = []
@@ -174,6 +159,8 @@ def parse_un_comtrade_record(
     mailto: str | None,
     max_file_size_mb: float | None,
 ) -> dict[str, Any] | None:
+    """Filtre et normalise une ressource UN Comtrade en candidat dataset."""
+
     title = record.get("title")
     description = record.get("description")
     files = extract_files(record)
@@ -215,6 +202,8 @@ def scrape_un_comtrade_spatial(
     max_file_size_mb: float | None,
     verbose: bool,
 ) -> tuple[list[dict[str, Any]], int]:
+    """Execute le flux UN Comtrade complet: references, fichiers, DOI et scoring."""
+
     raw_records = fetch_un_comtrade_records(query, max_pages=max_pages, verbose=verbose)
     parsed = [
         result
@@ -232,6 +221,8 @@ def scrape_un_comtrade_spatial(
 
 
 def main() -> None:
+    """Point d'entree CLI pour UN Comtrade: plan, scraping, export et telechargement."""
+
     parser = argparse.ArgumentParser(description="Scrape UN Comtrade spatial/spatio-temporal dataset metadata.")
     parser.add_argument("--plan", action="store_true", help="Only build the legacy portal scraping plan.")
     parser.add_argument("--query", default=DEFAULT_QUERY)
