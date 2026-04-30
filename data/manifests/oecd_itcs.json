@@ -1,0 +1,36 @@
+{
+  "dataset_id": "oecd_itcs",
+  "title": "OECD International Trade by Commodity Statistics (ITCS)",
+  "warehouse": "OECD",
+  "access_methods": [
+    {
+      "type": "publication_portal",
+      "url": "https://www.oecd.org/en/publications/serials/international-trade-by-commodity-statistics_g1g11c24.html",
+      "notes": "Official OECD serial page documenting annual ITCS dissemination."
+    },
+    {
+      "type": "api_documentation",
+      "url": "https://www.oecd.org/en/data/insights/data-explainers/2024/09/api.html",
+      "notes": "Official OECD Data Explorer API documentation describing SDMX raw-data access syntax."
+    },
+    {
+      "type": "sdmx_public_registry",
+      "url": "https://sdmx.oecd.org/public/rest/dataflow/all",
+      "notes": "Official OECD public SDMX dataflow registry tested on 2026-04-22."
+    },
+    {
+      "type": "sdmx_archive_registry",
+      "url": "https://sdmx.oecd.org/archive/rest/dataflow/all",
+      "notes": "Official OECD archive SDMX dataflow registry tested on 2026-04-22 because ITCS is documented as discontinued."
+    }
+  ],
+  "access_conditions": [
+    "OECD documents SDMX API access for OECD Data Explorer datasets through the public and archive registries.",
+    "The publication portal for ITCS remained web-only in this session."
+  ],
+  "limitations": [
+    "No exact OECD SDMX dataflow for ITCS was identified in the official public or archive registries tested on 2026-04-22.",
+    "The official OECD ITCS publication page returned HTTP 403 in this environment, so no raw ITCS file was downloaded in this session."
+  ],
+  "transformation": "none"
+}

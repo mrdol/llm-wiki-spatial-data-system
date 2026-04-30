@@ -1,162 +1,135 @@
-# LLM Wiki (Karpathy Pattern)
+# LLM Wiki Spatial Data System
 
-A self-maintaining personal knowledge base powered by LLMs, based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285).
+Prototype de système de découverte, documentation et préparation de jeux de données spatiaux et spatio-temporels pour la modélisation.
 
-Instead of re-searching raw documents on every question (like RAG), the LLM **reads your sources once and builds a persistent, interlinked wiki** that compounds over time. The more sources you feed it, the richer and more connected it gets.
+Ce projet combine :
+- un wiki local orienté LLM ;
+- un serveur MCP pour interroger le catalogue local ;
+- des pipelines de scraping pour entrepôts de données ;
+- des pipelines de recherche bibliographique ;
+- des manifests machine pour tracer les jeux de données, papiers, métadonnées et décisions de sélection.
 
----
+## Objectif
 
-## Prerequisites
+L’objectif est d’aider à identifier des jeux de données utilisables pour des modèles spatiaux ou spatio-temporels.
 
-- [Cursor](https://cursor.sh/) (or any LLM-powered editor that reads a schema file)
-- [Obsidian](https://obsidian.md/) (free) for browsing the wiki in real time
+Un jeu de données candidat doit idéalement contenir :
+- une dimension spatiale ;
+- une dimension temporelle si possible ;
+- une variable à expliquer `Y` ;
+- des variables explicatives candidates `X_candidate` ;
+- des variables sélectionnées `X_selected` après inspection ;
+- une documentation ou un papier scientifique associé ;
+- des indices de modélisation existante dans un article, un code ou une métadonnée.
 
----
+## Structure Du Projet
 
-## Getting Started
+```text
+wiki/
+  concepts/              Définitions utiles au système
+  datasets/              Fiches de datasets documentés
+  estimators/            Fiches d’estimateurs
+  metadata/              Schémas et règles de métadonnées
+  analyses/              Synthèses, découvertes et profils progressifs
+  sources/               Sources de données par famille
 
-### 1. Clone the repo
+pipeline_portals/
+  python/                Scrapers des entrepôts de données
+  notebook/              Versions notebook des scrapers
 
-```bash
-git clone https://github.com/balukosuri/llm-wiki-karpathy.git
-cd llm-wiki-karpathy
+pipeline_lit/
+  Recherche et analyse de papiers scientifiques liés aux données
+
+data/
+  manifests/             Traces machine des découvertes et résultats
+  candidates/            Candidats issus des recherches
+  downloads/             Données téléchargées, non versionnées dans Git
+
+scripts/
+  Scripts utilitaires pour extraction, metadata et littérature
 ```
+## Sources couvertes
 
-### 2. Open the project in Cursor
+Le système couvre trois familles de sources.
 
-Cursor reads `CLAUDE.md` automatically and understands the wiki's structure, page formats, and workflows.
+### Entrepôts de données
 
-If you use a different AI agent (Claude Code, Codex, etc.), paste the contents of `CLAUDE.md` into your agent's context.
+- Zenodo
+- Figshare
+- Dryad
+- Dataverse
+- data.gouv
+- INSEE
+- CEPII
+- Eurostat
+- OECD
+- World Bank
+- UN Comtrade
 
-### 3. Open the same folder in Obsidian
+### Sources logicielles
 
-Open the project directory as an Obsidian vault. You'll have two windows side by side — Cursor on the left where you talk to the AI, Obsidian on the right where you browse the wiki as pages appear.
+Le système documente aussi des datasets distribués dans des packages logiciels :
 
-### 4. Drop a source into `raw/`
+- packages R avec jeux de données spatiaux ou spatio-temporels ;
+- packages Python comme `geodatasets`, `libpysal`, `giddy`, `geosnap`, `xarray`, `movingpandas`, `scikit-mobility`.
 
-Any document works:
+### Sources bibliographiques
 
-- Product specs, design docs, or PRDs
-- Meeting transcripts
-- Web articles (use [Obsidian Web Clipper](https://obsidian.md/clipper) to save pages as markdown)
-- Style guides
-- PDFs, reports, email threads saved as text
-- Competitor documentation
+- OpenAlex
+- Crossref
+- DOI
+- papiers scientifiques associés aux datasets candidats
 
-### 5. Say "ingest"
+## Rôle du wiki
 
-Type this in Cursor:
+Le wiki sert de mémoire structurée, lisible à la fois par un humain et par le LLM.
 
-> ingest raw/my-document.pdf
+Il contient :
 
-The AI will:
+- les définitions conceptuelles ;
+- les fiches de datasets ;
+- les fiches d’estimateurs ;
+- les règles de sélection ;
+- les analyses produites pendant la recherche ;
+- les liens entre datasets, papiers, variables et estimateurs.
 
-1. Read the document
-2. Discuss key takeaways with you
-3. Create a source summary page in `wiki/sources/`
-4. Create new pages for any products, features, personas, or concepts it finds
-5. Update the glossary with new terms
-6. Update the index with all new pages
-7. Update the overview if the big picture shifted
-8. Log everything in `wiki/log.md`
+## Rôle des manifests
 
-A single source can touch 5-15 wiki pages. Watch them appear in Obsidian in real time.
+Les fichiers dans `data/manifests/` sont des traces structurées au format JSON, JSONL ou CSV.
 
-### 6. Ask questions
+Ils servent à :
 
-> What are the main risks identified across all my sources?
+- retrouver ce qui a été découvert ;
+- éviter de scraper plusieurs fois la même source ;
+- conserver les DOI, URLs, licences, chemins locaux et décisions ;
+- fournir au MCP et au LLM une base locale exploitable.
 
-The AI reads the wiki, synthesizes an answer with citations, and asks: *"Should I save this as a wiki page?"* If you say yes, the answer becomes a permanent analysis page. Your questions make the knowledge base richer over time.
+## Données téléchargées
 
-### 7. Lint the wiki
+Les datasets téléchargés sont stockés dans :
 
-Every 10 ingests or so, run a health check:
-
-> lint the wiki
-
-The AI checks for contradictions between pages, stale claims, orphan pages with no links, missing cross-references, and inconsistent terminology. It reports what it found and asks which fixes to apply.
-
----
-
-## Repo Structure
-
+```text
+data/downloads/
+Ce dossier est volontairement ignoré par Git, car il peut contenir des fichiers lourds.
 ```
-llm-wiki-karpathy/
-├── CLAUDE.md          # Schema — the AI's operating manual
-├── llm-wiki.md        # Karpathy's original idea document
-├── article.md         # Walkthrough article explaining this project
-│
-├── raw/               # Your source documents (AI reads, never writes)
-│   └── .gitkeep
-│
-├── wiki/              # AI-generated knowledge base (AI owns this layer)
-│   ├── index.md       # Master catalog — the AI reads this first on every query
-│   ├── overview.md    # Big-picture synthesis (evolves with each ingest)
-│   ├── glossary.md    # Terms, definitions, and style conventions
-│   └── log.md         # Chronological record of all activity
-│
-└── .obsidian/         # Pre-configured Obsidian vault settings
-```
+Les manifests gardent la trace des données téléchargées ou candidates.
 
-### How the layers work
+## MCP
+Le serveur MCP permet au LLM d’interroger le catalogue local et les manifests sans relire manuellement tout le système.
 
-| Layer | Folder | Who owns it | Purpose |
-|-------|--------|-------------|---------|
-| Raw sources | `raw/` | You | Immutable source documents. The AI reads from here but never modifies anything. |
-| The wiki | `wiki/` | The AI | Structured, interlinked markdown pages. The AI creates, updates, and maintains everything here. |
-| The schema | `CLAUDE.md` | You + AI | Defines page types, workflows, and conventions. Edit this to customize the AI's behavior for your domain. |
+Dans ce projet, le MCP n’est pas un RAG complet. Il sert surtout de couche d’accès structurée aux informations locales : datasets, métadonnées, chemins, sources, papiers et estimateurs.
 
-### Wiki page types
+## État actuel
+Le système contient actuellement :
 
-The AI creates different page types depending on what it finds in your sources:
+des scrapers institutionnels ;
+des scrapers de portails scientifiques ;
+des scripts de recherche de papiers ;
+des fiches conceptuelles ;
+des fiches d’estimateurs ;
+des manifests de datasets logiciels R/Python ;
+une cartographie des datasets disponibles dans plusieurs langages.
 
-| Type | Location | What it captures |
-|------|----------|-----------------|
-| Source | `wiki/sources/` | Summary of a raw document — key facts, quotes, metadata |
-| Feature | `wiki/features/` | A product feature — what it does, how it works |
-| Product | `wiki/products/` | A product or tool — overview, versions, related features |
-| Persona | `wiki/personas/` | A user type — goals, pain points, expertise level |
-| Concept | `wiki/concepts/` | A domain idea — definition, related terms, common misconceptions |
-| Style Rule | `wiki/style/` | A writing convention — when to apply, examples, exceptions |
-| Analysis | `wiki/analyses/` | A synthesized output — comparison table, gap analysis, outline |
+## Origine
+Ce projet est basé initialement sur le modèle llm-wiki-karpathy, puis adapté pour un usage de recherche sur les données spatiales et spatio-temporelles.
 
----
-
-## Customizing for Your Domain
-
-The schema file `CLAUDE.md` is not set in stone. Edit it to fit your needs:
-
-- **Add new page types.** If your domain needs "API endpoints" or "customer segments" or "recipe variations", add them to the entity types table and tell the AI.
-- **Change the ingest workflow.** If you want the AI to skip the discussion step and just process silently, update the workflow section.
-- **Adjust output formats.** The AI can produce markdown pages, comparison tables, doc outlines, release notes drafts, or persona briefs. Add formats that make sense for your work.
-
----
-
-## Tips
-
-**Ingest one source at a time.** You can batch-ingest, but you lose the chance to guide the AI. Stay involved — read the summaries, tell it what to emphasize, ask follow-ups during ingestion.
-
-**Save your best questions.** When you ask something and get a useful answer, tell the AI to save it as an analysis page. Your explorations compound in the wiki instead of disappearing into chat history.
-
-**Use graph view often.** Press `Cmd+G` in Obsidian. The visual map shows which pages are hubs, which are orphans, and how everything connects.
-
-**Check the glossary before writing.** Open `wiki/glossary.md` before you write anything. It has the right terms, the wrong terms, and the reasons behind each choice.
-
-**Don't write wiki pages yourself.** Your job is to find good sources and ask good questions. The AI handles the summarizing, cross-referencing, filing, and bookkeeping.
-
----
-
-## Use Cases
-
-- **Technical writers** — Ingest specs, transcripts, and competitor docs. Get a living glossary, persona pages, and structured outlines without writing them yourself.
-- **Researchers** — Feed it papers, articles, and reports over weeks. End up with a wiki that has an evolving thesis and all the connections already made.
-- **Product managers** — Ingest PRDs, customer interviews, competitive analyses, and retros. The wiki maintains the big picture.
-- **Students** — Ingest textbook chapters one at a time. The AI builds concept pages, links them together, and flags connections between chapters.
-- **Anyone accumulating knowledge** — Trip planning, hobby research, health tracking, course notes, book clubs. Anything where information comes from multiple sources and you want it organized.
-
----
-
-## Credits
-
-- Pattern by [Andrej Karpathy](https://gist.github.com/karpathy/1dd0294ef9567971c1e4348a90d69285)
-- Implementation and article by [Balu Kosuri](https://github.com/balukosuri)

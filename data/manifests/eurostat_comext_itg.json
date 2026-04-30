@@ -1,0 +1,53 @@
+{
+  "dataset_id": "eurostat_comext_itg",
+  "title": "Eurostat Comext International Trade in Goods (ITG)",
+  "warehouse": "Eurostat",
+  "downloads": [
+    {
+      "local_path": "data/downloads/eurostat_comext_itg_ext_st_eu27_2020sitc.json",
+      "source_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ext_st_eu27_2020sitc?lang=EN",
+      "source_page": "https://ec.europa.eu/eurostat/web/international-trade-in-goods/database",
+      "format": "json",
+      "description": "Raw Eurostat API export of dataset ext_st_eu27_2020sitc, covering EU27 trade by SITC product group.",
+      "size_bytes": 96025244,
+      "sha256": "E1BD113E51A2018E353FBF35948C80D0D87F202DD32F805BF9E4CFCB6E878194",
+      "downloaded_at_utc": "2026-04-22T14:06:59.9775005Z"
+    }
+  ],
+  "access_methods": [
+    {
+      "type": "portal",
+      "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods",
+      "notes": "Official thematic page linking database, bulk download, and web services."
+    },
+    {
+      "type": "metadata_page",
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_agg_esms.htm",
+      "notes": "Official metadata page describing dimensions, nomenclatures, and dissemination frequency."
+    },
+    {
+      "type": "api_guide",
+      "url": "https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-getting-started/comext-database",
+      "notes": "Official Eurostat guide for Comext API access and the dedicated comext dissemination endpoint."
+    },
+    {
+      "type": "api_json",
+      "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ext_st_eu27_2020sitc?lang=EN",
+      "notes": "Verified on 2026-04-22 as a live raw JSON endpoint returning dataset content."
+    },
+    {
+      "type": "comext_dataflow_registry",
+      "url": "https://ec.europa.eu/eurostat/api/comext/dissemination/sdmx/2.1/dataflow/ESTAT/all",
+      "notes": "Official Comext SDMX dataflow registry used to verify the dedicated Comext dissemination service."
+    }
+  ],
+  "access_conditions": [
+    "Public aggregate access is available through Eurostat web interfaces and API endpoints.",
+    "Comext full datasets may require filtering or bulk-download workflows depending on dataset size."
+  ],
+  "limitations": [
+    "The downloaded file is one verified Comext API dataset and not the full Comext bulk domain.",
+    "The current manifest pins a working raw endpoint for one documented ITG table rather than the entire family of trade datasets."
+  ],
+  "transformation": "none"
+}

@@ -1,0 +1,2240 @@
+﻿{
+  "schema_version": "3.0",
+  "updated_at": "2026-04-22",
+  "catalog_policy": {
+    "supported_record_types": [
+      "dataset",
+      "paper",
+      "warehouse",
+      "source"
+    ],
+    "directory_conventions": {
+      "dataset_pages": "wiki/datasets/",
+      "paper_pages": "wiki/papers/",
+      "warehouse_pages": "wiki/sources/warehouses/",
+      "raw_papers_preferred": "raw/papers/",
+      "paper_manifests": "data/manifests/papers/",
+      "source_warehouse_pages": "wiki/sources/warehouses/",
+      "source_software_pages": "wiki/sources/software/",
+      "source_literature_pages": "wiki/sources/literature/",
+      "metadata_rules": "wiki/metadata/",
+      "estimator_reference_pages": "wiki/estimators/",
+      "analysis_metadata_profiles": "wiki/analyses/metadata/",
+      "analysis_discovery": "wiki/analyses/discovery/",
+      "analysis_estimations": "wiki/analyses/modeling/estimations/",
+      "analysis_predictions": "wiki/analyses/modeling/predictions/",
+      "analysis_cross_validation": "wiki/analyses/modeling/cross_validation/"
+    },
+    "license_priority": [
+      "explicit_open_reusable",
+      "explicit_reusable_with_conditions",
+      "explicit_restricted",
+      "not_explicitly_documented"
+    ],
+    "doi_traceability_rules": [
+      "dataset DOI and publication DOI must remain separate fields",
+      "missing DOI values must stay null",
+      "linked papers must not be inferred without documentation"
+    ],
+    "paper_link_rules": [
+      "paper-linked dataset discovery may use explicit registry links only",
+      "papers with published data receive a positive discovery signal when documented"
+    ],
+    "discovery_priorities": [
+      "spatial_and_spatiotemporal",
+      "metadata_richness",
+      "license_reusability",
+      "paper_linkage",
+      "doi_traceability"
+    ],
+    "license_evidence_rules": [
+      "exact legal license names must be stored only when explicitly documented",
+      "generic dissemination wording must not be treated as an explicit legal license",
+      "is_open and allows_reuse may only be classified from explicit documented license evidence"
+    ]
+  },
+  "estimator_policy": {
+    "policy_id": "restricted_allowlist_v1",
+    "allow_only_listed_estimators": true,
+    "allowed_estimators": [
+      "XGBoost",
+      "LightGBM",
+      "GAMBoost",
+      "Random Forest",
+      "MARS",
+      "INLA",
+      "STVC",
+      "SVC",
+      "MGWR",
+      "MGWRSAR",
+      "SpBoost",
+      "RNN",
+      "SVM"
+    ],
+    "notes": "Only listed estimators are allowed. Every dataset must carry a plausibility assessment using candidate_estimators with justification; pending is allowed when no documented assessment has been performed yet.",
+    "dataset_assessment_required": true,
+    "candidate_estimator_fields": [
+      "name",
+      "plausible",
+      "justification",
+      "evidence_basis",
+      "compatible_y_types",
+      "compatible_x_types",
+      "modeling_evidence_basis"
+    ]
+  },
+  "datasets": [
+    {
+      "record_type": "dataset",
+      "dataset_id": "insee_emploi_chomage_population_active",
+      "identity": {
+        "title": "INSEE - Emploi, chomage, population active",
+        "short_title": "INSEE emploi/chomage",
+        "description": "French labour-market series covering employment, unemployment, labour-force participation, and unemployment rates across national and subnational breakdowns depending on the series.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "fr",
+        "status": "active",
+        "wiki_page": "wiki/datasets/insee_emploi_chomage_population_active.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "INSEE",
+            "warehouse_type": "national statistical warehouse",
+            "provider": "INSEE",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "portal",
+                "name": "INSEE statistics portal",
+                "access": "public",
+                "url": "https://www.insee.fr/"
+              },
+              {
+                "layer_type": "publication_page",
+                "name": "INSEE publication page",
+                "access": "public",
+                "url": "https://www.insee.fr/fr/statistiques/7625228"
+              },
+              {
+                "layer_type": "bulk_download",
+                "name": "CSV download",
+                "access": "public",
+                "url": "https://www.insee.fr/fr/statistiques/fichier/7625228/T304.csv"
+              },
+              {
+                "layer_type": "api",
+                "name": "INSEE API documentation path",
+                "access": "documented_public",
+                "url": "https://api.insee.fr/"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "emploi",
+          "chomage",
+          "population active",
+          "taux de chomage",
+          "France",
+          "regional",
+          "territorial"
+        ],
+        "variables": [
+          {
+            "name": "emploi",
+            "role": "outcome",
+            "type": "count_or_rate"
+          },
+          {
+            "name": "chomage",
+            "role": "outcome",
+            "type": "count_or_rate"
+          },
+          {
+            "name": "population_active",
+            "role": "denominator",
+            "type": "count"
+          },
+          {
+            "name": "taux_chomage",
+            "role": "derived_indicator",
+            "type": "rate"
+          },
+          {
+            "name": "diplome",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "sexe",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "age_regroupe",
+            "role": "classification_dimension",
+            "type": "categorical"
+          }
+        ],
+        "classification_systems": [
+          "BIT/ILO unemployment concepts",
+          "INSEE demographic breakdowns",
+          "education level categories"
+        ],
+        "use_cases": [
+          "France labour-market monitoring",
+          "territorial unemployment analysis",
+          "education and unemployment breakdowns"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate statistics",
+        "structure": "repeated cross-sections and time series by series",
+        "spatial_support": "France national and some subnational outputs",
+        "spatial_resolution": "France; regions and departments for some series",
+        "spatial_extent": "France",
+        "temporal_resolution": "variable by series, often annual or quarterly",
+        "time_range": "variable by series",
+        "n_observations": "variable",
+        "t_periods": "variable",
+        "nt_profile": "small N / medium-to-long T depending on territorial breakdown"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "csv",
+          "html",
+          "sdmx/api depending on series"
+        ],
+        "api_available": true,
+        "bulk_download": true,
+        "license": "public statistical dissemination subject to INSEE terms",
+        "license_metadata": {
+          "name": "public statistical dissemination subject to INSEE terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public download available from INSEE publication pages.",
+          "Localized unemployment data are also documented as available via api.insee.fr SDMX service."
+        ],
+        "update_frequency": "variable by series",
+        "machine_readable": true,
+        "reproducibility_strength": "medium",
+        "reproducibility_notes": "A raw CSV was downloaded previously, but the exact territorial SDMX endpoint is still missing."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "INSEE"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "France-only labour-market work",
+          "territorial unemployment analysis",
+          "education-related unemployment splits"
+        ],
+        "not_preferred_when": [
+          "strict cross-country harmonized comparison is required"
+        ],
+        "task_types": [
+          "descriptive statistics",
+          "territorial comparison",
+          "labour-market profiling"
+        ],
+        "legacy_candidate_estimators": [
+          "rate comparison",
+          "panel or repeated cross-section analysis depending on chosen series"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "official France source",
+          "territorial availability",
+          "education and demographic breakdowns"
+        ],
+        "comparability_notes": "Best for national and territorial France use; less suitable than Eurostat LFS for harmonized European comparison.",
+        "indicator_specification": "Unemployment counts and rates, employment and labour-force indicators under INSEE/BIT definitions.",
+        "risks": [
+          "series heterogeneity",
+          "exact table identifiers not all pinned down"
+        ],
+        "limitations": [
+          "The exact SDMX export URL for the localized territorial series was not pinned down.",
+          "The current architecture records one raw table historically, not the full family of labour-market series."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "eurostat_labour_force_survey",
+      "identity": {
+        "title": "Eurostat Labour Force Survey",
+        "short_title": "Eurostat LFS",
+        "description": "Harmonized European labour-force dataset with employment, unemployment, and education measures that includes France and supports cross-country comparison.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/eurostat_labour_force_survey.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Eurostat",
+            "warehouse_type": "supranational statistical warehouse",
+            "provider": "Eurostat",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "portal",
+                "name": "Eurostat LFS portal",
+                "access": "public",
+                "url": "https://ec.europa.eu/eurostat/web/lfs"
+              },
+              {
+                "layer_type": "api",
+                "name": "Eurostat dissemination API",
+                "access": "public",
+                "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/lfst_r_lfu3rt?lang=EN"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "employment",
+          "unemployment",
+          "education",
+          "France",
+          "Europe",
+          "region"
+        ],
+        "variables": [
+          {
+            "name": "employment",
+            "role": "outcome",
+            "type": "count_or_rate"
+          },
+          {
+            "name": "unemployment",
+            "role": "outcome",
+            "type": "count_or_rate"
+          },
+          {
+            "name": "education_level",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "age",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "sex",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "geo",
+            "role": "spatial_dimension",
+            "type": "code"
+          },
+          {
+            "name": "time",
+            "role": "temporal_dimension",
+            "type": "period"
+          }
+        ],
+        "classification_systems": [
+          "ISCED-related outputs depending on table",
+          "NUTS geography",
+          "Eurostat labour concepts"
+        ],
+        "use_cases": [
+          "harmonized European comparison",
+          "France-in-Europe regional unemployment analysis",
+          "education/labour cross-tabulations"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate statistics and survey-based outputs",
+        "structure": "country-region by time tables",
+        "spatial_support": "European countries and selected regional outputs",
+        "spatial_resolution": "Europe including France; some subnational outputs",
+        "spatial_extent": "Europe",
+        "temporal_resolution": "annual or quarterly depending on table",
+        "time_range": "2000-2023",
+        "n_observations": "large",
+        "t_periods": "medium-to-long",
+        "nt_profile": "medium N / medium T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "json-stat",
+          "tsv",
+          "csv depending on access path"
+        ],
+        "api_available": true,
+        "bulk_download": true,
+        "license": "public aggregate access via Eurostat",
+        "license_metadata": {
+          "name": "public aggregate access via Eurostat",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public aggregate access via Eurostat website and API.",
+          "Microdata access conditions differ from public aggregate access."
+        ],
+        "update_frequency": "regular Eurostat refresh cycle",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "A raw API export of one regional unemployment table was downloaded previously and documented."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "Eurostat"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "cross-country comparison is required",
+          "France should be comparable to other European units",
+          "regional NUTS-level unemployment analysis"
+        ],
+        "not_preferred_when": [
+          "France-only official series with national statistical framing are preferred"
+        ],
+        "task_types": [
+          "harmonized comparison",
+          "panel-style regional analysis",
+          "education and labour outcome comparison"
+        ],
+        "legacy_candidate_estimators": [
+          "time-series comparison",
+          "panel or pseudo-panel on aggregate tables"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "harmonization",
+          "European geography",
+          "education and demographic dimensions"
+        ],
+        "comparability_notes": "More harmonized than INSEE across countries, but table choice remains important for exact topic fit.",
+        "indicator_specification": "Employment and unemployment indicators from EU-LFS public aggregate tables.",
+        "risks": [
+          "table fragmentation across topics",
+          "microdata access differs from aggregate access"
+        ],
+        "limitations": [
+          "The downloaded file historically used in the project is a regional unemployment-rate table, not the full EU-LFS microdata corpus.",
+          "The current wiki still lacks a single pinned table code covering all unemployment and education use cases."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "un_comtrade_merchandise_trade",
+      "identity": {
+        "title": "UN Comtrade Merchandise Trade Database",
+        "short_title": "UN Comtrade",
+        "description": "Global official merchandise trade flows with exports and imports by commodity, country, partner, and time.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/un_comtrade_merchandise_trade.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "UN Comtrade / UNSD",
+            "warehouse_type": "international statistical warehouse",
+            "provider": "United Nations Statistics Division",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "methodology_page",
+                "name": "UNSD trade methodology",
+                "access": "public",
+                "url": "https://unstats.un.org/unsd/trade/imts/methodology.asp"
+              },
+              {
+                "layer_type": "record_layout",
+                "name": "Trade record layout",
+                "access": "public",
+                "url": "https://unstats.un.org/unsd/trade/dataextract/datarecord.htm"
+              },
+              {
+                "layer_type": "portal",
+                "name": "UN Comtrade explorer about page",
+                "access": "public",
+                "url": "https://comtrade.un.org/labs/data-explorer/About.html"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "trade",
+          "exports",
+          "imports",
+          "global",
+          "HS",
+          "SITC",
+          "BEC"
+        ],
+        "variables": [
+          {
+            "name": "reporter_code",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "partner_code",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "commodity_code",
+            "role": "classification_dimension",
+            "type": "code"
+          },
+          {
+            "name": "trade_flow",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "trade_value",
+            "role": "outcome",
+            "type": "currency"
+          },
+          {
+            "name": "netweight",
+            "role": "outcome",
+            "type": "quantity"
+          },
+          {
+            "name": "qty_unit",
+            "role": "classification_dimension",
+            "type": "unit"
+          },
+          {
+            "name": "time",
+            "role": "temporal_dimension",
+            "type": "year_or_month"
+          }
+        ],
+        "classification_systems": [
+          "HS",
+          "SITC",
+          "BEC"
+        ],
+        "use_cases": [
+          "global trade baseline",
+          "metadata-rich product-country-time panels",
+          "upstream source for derived trade datasets"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate trade statistics",
+        "structure": "reporter-partner-product-time records",
+        "spatial_support": "reporter and partner countries",
+        "spatial_resolution": "country level",
+        "spatial_extent": "global",
+        "temporal_resolution": "annual with some monthly access paths depending on dissemination",
+        "time_range": "1962-present depending on series",
+        "n_observations": "very large",
+        "t_periods": "long",
+        "nt_profile": "large N / long T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "portal extracts and machine-readable records"
+        ],
+        "api_available": null,
+        "bulk_download": null,
+        "license": "UN dissemination terms",
+        "license_metadata": {
+          "name": "UN dissemination terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public methodology, record layout, and explorer pages are available."
+        ],
+        "update_frequency": "roughly biweekly according to official about page",
+        "machine_readable": true,
+        "reproducibility_strength": "medium",
+        "reproducibility_notes": "Field structure and official access context are documented, but no raw extraction was run in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "UN Comtrade / UNSD"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "maximum global official coverage is required",
+          "upstream official classifications matter",
+          "derived reconciled products are not yet needed"
+        ],
+        "not_preferred_when": [
+          "reconciled bilateral mirror statistics are essential"
+        ],
+        "task_types": [
+          "trade panel construction",
+          "classification-aware global analysis",
+          "source lineage documentation"
+        ],
+        "legacy_candidate_estimators": [
+          "trade ratios",
+          "IIT measures",
+          "panel models on aggregate trade flows"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "global coverage",
+          "official field layout",
+          "multiple product classifications"
+        ],
+        "comparability_notes": "Foundational official source; derived datasets like BACI can then be compared against it.",
+        "indicator_specification": "Exports/imports and related quantity measures by reporter, partner, product, and time.",
+        "risks": [
+          "mirror-flow discrepancies across reporters/importers"
+        ],
+        "limitations": [
+          "The registry records official methodology and record-layout URLs rather than a concrete raw data export endpoint."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "oecd_itcs",
+      "identity": {
+        "title": "OECD International Trade by Commodity Statistics (ITCS)",
+        "short_title": "OECD ITCS",
+        "description": "OECD commodity trade panel with annual country-partner-product structure and commodity classifications.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/oecd_itcs.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "OECD",
+            "warehouse_type": "intergovernmental statistical warehouse",
+            "provider": "OECD",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "publication_portal",
+                "name": "OECD ITCS serial page",
+                "access": "public",
+                "url": "https://www.oecd.org/en/publications/serials/international-trade-by-commodity-statistics_g1g11c24.html"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "trade",
+          "OECD",
+          "commodity statistics",
+          "SITC",
+          "HS",
+          "annual"
+        ],
+        "variables": [
+          {
+            "name": "reporting_country",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "partner_country",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "commodity_code",
+            "role": "classification_dimension",
+            "type": "code"
+          },
+          {
+            "name": "exports",
+            "role": "outcome",
+            "type": "currency"
+          },
+          {
+            "name": "imports",
+            "role": "outcome",
+            "type": "currency"
+          },
+          {
+            "name": "time",
+            "role": "temporal_dimension",
+            "type": "year"
+          }
+        ],
+        "classification_systems": [
+          "SITC Rev.3",
+          "HS depending on dissemination path"
+        ],
+        "use_cases": [
+          "OECD-centered trade comparison",
+          "commodity-level annual trade panels",
+          "metadata comparison against UN Comtrade and BACI"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate trade statistics",
+        "structure": "annual country-partner-product panels",
+        "spatial_support": "reporting and partner countries",
+        "spatial_resolution": "country level",
+        "spatial_extent": "OECD members plus selected non-OECD economies",
+        "temporal_resolution": "annual",
+        "time_range": "multi-decade annual coverage",
+        "n_observations": "large",
+        "t_periods": "long",
+        "nt_profile": "medium-to-large N / long T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "online database and publication-linked data exports"
+        ],
+        "api_available": null,
+        "bulk_download": null,
+        "license": "OECD dissemination terms",
+        "license_metadata": {
+          "name": "OECD dissemination terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public OECD serial page documents annual ITCS dissemination."
+        ],
+        "update_frequency": "annual",
+        "machine_readable": true,
+        "reproducibility_strength": "medium",
+        "reproducibility_notes": "Access path is documented, but a stable machine endpoint was not pinned beyond the official serial page."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "OECD"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "OECD coverage is central",
+          "annual commodity trade comparison is sufficient",
+          "SITC framing is desired"
+        ],
+        "not_preferred_when": [
+          "maximum global official coverage or reconciled bilateral HS6 detail is required"
+        ],
+        "task_types": [
+          "commodity trade comparison",
+          "annual panel construction",
+          "classification comparison"
+        ],
+        "legacy_candidate_estimators": [
+          "trade ratios",
+          "IIT measures after compatible aggregation choices"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "OECD focus",
+          "annual regularity",
+          "commodity metadata"
+        ],
+        "comparability_notes": "Useful intermediate source between Eurostat regional specificity and full global UN/CEPII sources.",
+        "indicator_specification": "Annual exports and imports by commodity and country pair.",
+        "risks": [
+          "less explicit machine access than some other warehouses"
+        ],
+        "limitations": [
+          "Only the official dissemination page is pinned in the current architecture."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "cepii_baci",
+      "identity": {
+        "title": "CEPII BACI Bilateral Trade Database",
+        "short_title": "BACI",
+        "description": "Harmonized bilateral trade database derived from UN Comtrade, with reconciled exporter-importer reports and HS6 detail.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/cepii_baci.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "CEPII",
+            "warehouse_type": "research data portal",
+            "provider": "CEPII",
+            "roles": [
+              "publisher",
+              "derived_dataset_provider"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "direct_download_portal",
+                "name": "BACI webpage",
+                "access": "public",
+                "url": "https://www.cepii.fr/DATA_DOWNLOAD/baci/doc/baci_webpage.html"
+              }
+            ]
+          },
+          {
+            "name": "UN Comtrade / UNSD",
+            "warehouse_type": "upstream_dependency",
+            "provider": "United Nations Statistics Division",
+            "roles": [
+              "upstream_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "upstream_dependency",
+                "name": "UN Comtrade lineage",
+                "access": "public",
+                "url": "https://unstats.un.org/unsd/trade/imts/methodology.asp"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "trade",
+          "CEPII",
+          "BACI",
+          "HS6",
+          "bilateral",
+          "reconciled"
+        ],
+        "variables": [
+          {
+            "name": "t",
+            "role": "temporal_dimension",
+            "type": "year"
+          },
+          {
+            "name": "i",
+            "role": "spatial_dimension",
+            "type": "exporter_country_code"
+          },
+          {
+            "name": "j",
+            "role": "spatial_dimension",
+            "type": "importer_country_code"
+          },
+          {
+            "name": "k",
+            "role": "classification_dimension",
+            "type": "HS6_code"
+          },
+          {
+            "name": "v",
+            "role": "outcome",
+            "type": "trade_value"
+          },
+          {
+            "name": "q",
+            "role": "outcome",
+            "type": "quantity"
+          }
+        ],
+        "classification_systems": [
+          "HS92",
+          "HS96",
+          "HS02",
+          "HS07",
+          "HS12",
+          "HS17",
+          "HS22"
+        ],
+        "use_cases": [
+          "reconciled bilateral trade analysis",
+          "HS6 panel construction",
+          "high-resolution trade metadata cataloging"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate trade statistics",
+        "structure": "annual exporter-importer-product panel",
+        "spatial_support": "origin and destination countries",
+        "spatial_resolution": "country level",
+        "spatial_extent": "global",
+        "temporal_resolution": "annual",
+        "time_range": "1995-2024",
+        "n_observations": "very large",
+        "t_periods": "30 annual waves",
+        "nt_profile": "large N / long T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "zip archives with csv-like tabular data and metadata files"
+        ],
+        "api_available": false,
+        "bulk_download": true,
+        "license": "CEPII dissemination terms",
+        "license_metadata": {
+          "name": "CEPII dissemination terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public direct download portal for yearly files and metadata bundles."
+        ],
+        "update_frequency": "annual",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "Direct yearly archives and metadata files are documented; no raw file was downloaded in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [
+          "un_comtrade_merchandise_trade"
+        ],
+        "linked_warehouses": [
+          "CEPII",
+          "UN Comtrade / UNSD"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "reconciled bilateral flows are needed",
+          "HS6 detail matters",
+          "UN Comtrade mirror discrepancies should be mitigated"
+        ],
+        "not_preferred_when": [
+          "strictly official raw reporter values are required"
+        ],
+        "task_types": [
+          "trade panel construction",
+          "IIT analysis",
+          "high-resolution bilateral comparison"
+        ],
+        "legacy_candidate_estimators": [
+          "Grubel-Lloyd index",
+          "gravity-style trade panels",
+          "classification-aware aggregation"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "reconciliation",
+          "HS6 detail",
+          "long annual coverage"
+        ],
+        "comparability_notes": "Best suited for harmonized bilateral trade panels derived from UN Comtrade.",
+        "indicator_specification": "Annual bilateral product-level values and quantities at HS6.",
+        "risks": [
+          "derived methodology must be understood before comparing to official raw flows"
+        ],
+        "limitations": [
+          "Only official access metadata are pinned in the registry; no raw file is downloaded in this architecture update."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "eurostat_comext_itg",
+      "identity": {
+        "title": "Eurostat Comext International Trade in Goods (ITG)",
+        "short_title": "Eurostat Comext ITG",
+        "description": "EU reference trade-in-goods warehouse with strong country-partner-product-time metadata and multiple nomenclatures.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/eurostat_comext_itg.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Eurostat",
+            "warehouse_type": "supranational statistical warehouse",
+            "provider": "Eurostat",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "portal",
+                "name": "International trade in goods portal",
+                "access": "public",
+                "url": "https://ec.europa.eu/eurostat/web/international-trade-in-goods"
+              },
+              {
+                "layer_type": "metadata_page",
+                "name": "ITG metadata page",
+                "access": "public",
+                "url": "https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_agg_esms.htm"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "trade",
+          "EU",
+          "country",
+          "partner",
+          "product",
+          "CN",
+          "SITC",
+          "BEC",
+          "CPA"
+        ],
+        "variables": [
+          {
+            "name": "reporter",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "partner",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "product_code",
+            "role": "classification_dimension",
+            "type": "code"
+          },
+          {
+            "name": "flow",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "trade_value",
+            "role": "outcome",
+            "type": "currency"
+          },
+          {
+            "name": "quantity",
+            "role": "outcome",
+            "type": "quantity"
+          },
+          {
+            "name": "time",
+            "role": "temporal_dimension",
+            "type": "period"
+          }
+        ],
+        "classification_systems": [
+          "CN",
+          "SITC",
+          "BEC",
+          "CPA"
+        ],
+        "use_cases": [
+          "EU trade analysis",
+          "classification-aware metadata design",
+          "product-country-time panel construction"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "aggregate trade statistics",
+        "structure": "country-partner-product-time panels",
+        "spatial_support": "reporting country and partner country/economic area",
+        "spatial_resolution": "country or partner area",
+        "spatial_extent": "EU and partner world coverage",
+        "temporal_resolution": "monthly, annual, or daily depending on table",
+        "time_range": "long historical coverage depending on table",
+        "n_observations": "very large",
+        "t_periods": "long",
+        "nt_profile": "large N / long T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "database tables",
+          "bulk download files",
+          "web services"
+        ],
+        "api_available": true,
+        "bulk_download": true,
+        "license": "public Eurostat dissemination",
+        "license_metadata": {
+          "name": "public Eurostat dissemination",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public access through Eurostat database, metadata pages, and machine-readable services."
+        ],
+        "update_frequency": "monthly with annual and daily derivatives depending on table",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "Access paths are documented; no raw extraction was performed in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "Eurostat"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "EU trade coverage is central",
+          "classification-rich product metadata matter",
+          "partner geography and time need to be explicit"
+        ],
+        "not_preferred_when": [
+          "global reconciled bilateral trade is needed beyond Eurostat framing"
+        ],
+        "task_types": [
+          "trade panel construction",
+          "classification comparison",
+          "EU partner analysis"
+        ],
+        "legacy_candidate_estimators": [
+          "trade ratios",
+          "panel analysis",
+          "industry aggregation diagnostics"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "multiple nomenclatures",
+          "regular updates",
+          "strong official metadata"
+        ],
+        "comparability_notes": "Useful bridge between EU official trade dissemination and broader global trade sources.",
+        "indicator_specification": "Trade values and quantities by flow, product, reporter, partner, and time.",
+        "risks": [
+          "table proliferation across nomenclatures"
+        ],
+        "limitations": [
+          "Metadata and access layers are documented, but raw downloads were not triggered in this architecture update."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "insee_base_permanente_equipements",
+      "identity": {
+        "title": "Base permanente des equipements",
+        "short_title": "INSEE BPE",
+        "description": "Annual French territorial inventory of equipment and services with commune, IRIS, and coordinate-level metadata.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "fr",
+        "status": "active",
+        "wiki_page": "wiki/datasets/insee_base_permanente_equipements.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "INSEE",
+            "warehouse_type": "national statistical warehouse",
+            "provider": "INSEE",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "metadata_page",
+                "name": "BPE source metadata",
+                "access": "public",
+                "url": "https://www.insee.fr/fr/metadonnees/source/serie/s1161"
+              },
+              {
+                "layer_type": "bulk_download",
+                "name": "BPE download page",
+                "access": "public",
+                "url": "https://www.insee.fr/fr/metadonnees/source/operation/s2027/bases-donnees-ligne"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "equipements",
+          "services",
+          "commune",
+          "IRIS",
+          "coordinates",
+          "France",
+          "territorial"
+        ],
+        "variables": [
+          {
+            "name": "type_equipement",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "gamme",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "domaine",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "code_commune",
+            "role": "spatial_dimension",
+            "type": "code"
+          },
+          {
+            "name": "iris",
+            "role": "spatial_dimension",
+            "type": "code"
+          },
+          {
+            "name": "x",
+            "role": "spatial_dimension",
+            "type": "coordinate"
+          },
+          {
+            "name": "y",
+            "role": "spatial_dimension",
+            "type": "coordinate"
+          }
+        ],
+        "classification_systems": [
+          "229 equipment types",
+          "7 domains",
+          "gammes of equipment/services"
+        ],
+        "use_cases": [
+          "territorial service accessibility",
+          "commune/IRIS enrichment",
+          "spatial metadata testing"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "territorial inventory",
+        "structure": "annual cross-section with fine spatial support",
+        "spatial_support": "equipment/service locations attached to communes and IRIS",
+        "spatial_resolution": "commune, IRIS, and coordinates",
+        "spatial_extent": "France",
+        "temporal_resolution": "annual snapshot",
+        "time_range": "2007-2024",
+        "n_observations": "large",
+        "t_periods": "18 annual snapshots",
+        "nt_profile": "large N / medium T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "csv",
+          "dbf"
+        ],
+        "api_available": false,
+        "bulk_download": true,
+        "license": "public INSEE dissemination subject to INSEE terms",
+        "license_metadata": {
+          "name": "public INSEE dissemination subject to INSEE terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public annual file download documented by INSEE."
+        ],
+        "update_frequency": "annual",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "Direct file access is documented, but no download was performed in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "INSEE"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "fine territorial metadata are needed",
+          "commune/IRIS support should be explicit",
+          "spatial enrichment needs coordinates and classification layers"
+        ],
+        "not_preferred_when": [
+          "non-French or person-level analysis is required"
+        ],
+        "task_types": [
+          "spatial enrichment",
+          "territorial analysis",
+          "accessibility mapping"
+        ],
+        "legacy_candidate_estimators": [
+          "spatial descriptive analysis",
+          "panel or repeated cross-section by territory after downstream preparation"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "rich geography",
+          "coordinates",
+          "stable annual cadence",
+          "multiple classification layers"
+        ],
+        "comparability_notes": "Excellent for local French support design; less suitable for international comparison.",
+        "indicator_specification": "Inventory-style counts and categorized locations of equipment and services.",
+        "risks": [
+          "inventory logic differs from survey or transaction datasets"
+        ],
+        "limitations": [
+          "Metadata were extracted from official source pages only in this architecture update."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "data_gouv_dvf_geolocalisees",
+      "identity": {
+        "title": "Demandes de valeurs foncieres geolocalisees",
+        "short_title": "DVF geolocalisees",
+        "description": "French geolocated property transaction dataset with parcel, commune, address, and coordinate metadata in repeated releases.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "fr",
+        "status": "active",
+        "wiki_page": "wiki/datasets/data_gouv_dvf_geolocalisees.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "data.gouv.fr",
+            "warehouse_type": "open data portal",
+            "provider": "Etalab / French public open data portal",
+            "roles": [
+              "publisher_portal",
+              "discovery_portal"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "portal",
+                "name": "DVF geolocalisees page",
+                "access": "public",
+                "url": "https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "property",
+          "parcel",
+          "coordinates",
+          "mutation",
+          "France",
+          "commune",
+          "department"
+        ],
+        "variables": [
+          {
+            "name": "id_mutation",
+            "role": "identifier",
+            "type": "string"
+          },
+          {
+            "name": "date_mutation",
+            "role": "temporal_dimension",
+            "type": "date"
+          },
+          {
+            "name": "valeur_fonciere",
+            "role": "outcome",
+            "type": "currency"
+          },
+          {
+            "name": "code_commune",
+            "role": "spatial_dimension",
+            "type": "code"
+          },
+          {
+            "name": "code_departement",
+            "role": "spatial_dimension",
+            "type": "code"
+          },
+          {
+            "name": "id_parcelle",
+            "role": "spatial_dimension",
+            "type": "parcel_identifier"
+          },
+          {
+            "name": "longitude",
+            "role": "spatial_dimension",
+            "type": "coordinate"
+          },
+          {
+            "name": "latitude",
+            "role": "spatial_dimension",
+            "type": "coordinate"
+          }
+        ],
+        "classification_systems": [
+          "INSEE commune codes",
+          "FANTOIR road-code normalization",
+          "local type and land-use codes"
+        ],
+        "use_cases": [
+          "fine-grained French territorial linkage",
+          "transaction analysis",
+          "spatial metadata design"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal transactional dataset",
+        "structure": "event-level transactions indexed by date and parcel localization fields",
+        "spatial_support": "department, commune, parcel, and coordinates",
+        "spatial_resolution": "parcel, commune, department, and coordinates",
+        "spatial_extent": "France with documented exclusions",
+        "temporal_resolution": "transaction date with semiannual publication rhythm",
+        "time_range": "2014-present in rolling public releases",
+        "n_observations": "very large",
+        "t_periods": "long rolling coverage",
+        "nt_profile": "very large N / medium T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "csv or portal-delivered tabular files depending on resource"
+        ],
+        "api_available": false,
+        "bulk_download": true,
+        "license": "open-data dissemination via data.gouv under publisher terms",
+        "license_metadata": {
+          "name": "open-data dissemination via data.gouv under publisher terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public download from data.gouv dataset page."
+        ],
+        "update_frequency": "semiannual",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "The access URL is pinned, but no raw file was downloaded in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "data.gouv.fr"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "fine-grained French territorial coordinates are needed",
+          "parcel or commune identifiers matter",
+          "spatio-temporal event data improve metadata coverage"
+        ],
+        "not_preferred_when": [
+          "international comparability is required"
+        ],
+        "task_types": [
+          "spatial enrichment",
+          "transaction analysis",
+          "territorial linkage"
+        ],
+        "legacy_candidate_estimators": [
+          "event aggregation",
+          "hedonic or local descriptive pipelines after downstream preparation"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "coordinates",
+          "parcel codes",
+          "commune metadata",
+          "dated transactions"
+        ],
+        "comparability_notes": "Excellent for local French geography and event time design; not harmonized internationally.",
+        "indicator_specification": "Property transaction events with price and cadastral context.",
+        "risks": [
+          "legal and territorial dissemination caveats",
+          "event-level volume may require careful downstream processing"
+        ],
+        "limitations": [
+          "Only access metadata and official field descriptions are documented in the current architecture."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "world_bank_world_development_indicators",
+      "identity": {
+        "title": "World Development Indicators",
+        "short_title": "World Bank WDI",
+        "description": "Global country-time indicator warehouse with rich indicator, geography, and topic metadata.",
+        "dataset_doi": null,
+        "publication_doi": null,
+        "language": "en",
+        "status": "active",
+        "wiki_page": "wiki/datasets/world_bank_world_development_indicators.md"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "World Bank",
+            "warehouse_type": "international development data warehouse",
+            "provider": "World Bank",
+            "roles": [
+              "publisher",
+              "official_source"
+            ],
+            "discovery_layers": [
+              {
+                "layer_type": "catalog",
+                "name": "World Bank Data Catalog",
+                "access": "public",
+                "url": "https://datacatalog.worldbank.org/infrastructure-data/search/dataset/0037712/world-development-indicators"
+              },
+              {
+                "layer_type": "api_documentation",
+                "name": "World Bank SDMX API documentation",
+                "access": "public",
+                "url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/1886701-sdmx-api-queries"
+              }
+            ]
+          }
+        ]
+      },
+      "content_metadata": {
+        "keywords": [
+          "indicators",
+          "country",
+          "time",
+          "topics",
+          "classification",
+          "global",
+          "metadata-rich"
+        ],
+        "variables": [
+          {
+            "name": "indicator_code",
+            "role": "classification_dimension",
+            "type": "code"
+          },
+          {
+            "name": "indicator_name",
+            "role": "classification_dimension",
+            "type": "string"
+          },
+          {
+            "name": "country_code",
+            "role": "spatial_dimension",
+            "type": "country_code"
+          },
+          {
+            "name": "country_name",
+            "role": "spatial_dimension",
+            "type": "string"
+          },
+          {
+            "name": "region",
+            "role": "spatial_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "income_group",
+            "role": "classification_dimension",
+            "type": "categorical"
+          },
+          {
+            "name": "time",
+            "role": "temporal_dimension",
+            "type": "year"
+          },
+          {
+            "name": "value",
+            "role": "outcome",
+            "type": "numeric"
+          }
+        ],
+        "classification_systems": [
+          "World Bank indicator topics",
+          "country metadata such as region, income group, lending type"
+        ],
+        "use_cases": [
+          "country-year metadata enrichment",
+          "cross-domain indicator discovery",
+          "global panel construction"
+        ],
+        "variable_typology": {
+          "y_candidates": [],
+          "x_variables": [],
+          "modeling_task_hint": "unknown",
+          "status": "pending"
+        },
+        "feature_selection": {
+          "x_total_reported": null,
+          "x_candidates": [],
+          "x_candidate_count": null,
+          "x_selected": [],
+          "x_selected_count": null,
+          "selection_source": "unknown",
+          "selection_method": "unknown",
+          "selection_reason": null,
+          "target_y": null,
+          "estimation_context": null,
+          "confidence": "low",
+          "status": "pending"
+        }
+      },
+      "spatiotemporal": {
+        "data_type": "indicator panel",
+        "structure": "country-indicator-year panel",
+        "spatial_support": "countries and economies",
+        "spatial_resolution": "country level",
+        "spatial_extent": "global",
+        "temporal_resolution": "mostly annual",
+        "time_range": "long historical coverage varying by indicator",
+        "n_observations": "very large",
+        "t_periods": "long",
+        "nt_profile": "large N / long T"
+      },
+      "access_metadata": {
+        "file_formats": [
+          "downloadable files from catalog",
+          "api responses"
+        ],
+        "api_available": true,
+        "bulk_download": true,
+        "license": "World Bank open data terms",
+        "license_metadata": {
+          "name": "World Bank open data terms",
+          "category": "unknown",
+          "requires_attribution": null,
+          "requires_share_alike": null,
+          "commercial_use": null,
+          "machine_readable": false,
+          "notes": "Exact legal license not yet pinned from official source; current wording is treated as generic access terms only.",
+          "explicit_license_present": false,
+          "exact_name": null,
+          "evidence_type": "generic_access_terms",
+          "is_open": null,
+          "allows_reuse": null
+        },
+        "access_conditions": [
+          "Public catalog downloads and API documentation are available."
+        ],
+        "update_frequency": "regular but indicator-specific",
+        "machine_readable": true,
+        "reproducibility_strength": "high",
+        "reproducibility_notes": "Catalog and API entry points are pinned; no raw extract was performed in this architecture update."
+      },
+      "traceability": {
+        "linked_papers": [],
+        "linked_datasets": [],
+        "linked_warehouses": [
+          "World Bank"
+        ],
+        "doi_traceability_status": "not_documented"
+      },
+      "methodological_selection": {
+        "recommended_when": [
+          "broad country-year metadata are needed",
+          "indicator families and country classifications should be explicit",
+          "global comparison matters more than within-country fine geography"
+        ],
+        "not_preferred_when": [
+          "subnational French or parcel-level spatial work is required"
+        ],
+        "task_types": [
+          "panel construction",
+          "indicator discovery",
+          "country metadata enrichment"
+        ],
+        "legacy_candidate_estimators": [
+          "cross-country panel models",
+          "comparative descriptive statistics"
+        ],
+        "estimator_policy_ref": "restricted_allowlist_v1",
+        "selection_criteria": [
+          "very rich indicator metadata",
+          "country classifications",
+          "API and catalog availability"
+        ],
+        "comparability_notes": "Excellent for cross-country metadata coverage, but mostly country-level rather than subnational.",
+        "indicator_specification": "Numeric indicators indexed by country, year, and indicator code.",
+        "risks": [
+          "heterogeneous definitions across indicator families"
+        ],
+        "limitations": [
+          "No direct raw export was downloaded in this architecture update."
+        ],
+        "estimator_assessment_status": "pending",
+        "at_least_one_allowed_estimator_plausible": null,
+        "candidate_estimators": []
+      },
+      "modeling_evidence": {
+        "existing_model_found": null,
+        "equation_text": null,
+        "equation_family": "unknown",
+        "y_variable": null,
+        "x_variables": [],
+        "model_family": null,
+        "estimator_name": null,
+        "source_type": "unknown",
+        "source_ref": null,
+        "confidence": "low"
+      }
+    }
+  ],
+  "papers": [],
+  "warehouses": [
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "insee",
+      "identity": {
+        "title": "INSEE",
+        "description": "French national statistical warehouse producing official economic, demographic, territorial, and labour-market data for France.",
+        "wiki_page": "wiki/sources/warehouses/insee.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "national statistical warehouse",
+        "provider": "INSEE",
+        "scope": "France",
+        "access_modes": [
+          "portal",
+          "api",
+          "bulk_download",
+          "publication_page"
+        ],
+        "license_signals": [
+          "public dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "eurostat",
+      "identity": {
+        "title": "Eurostat",
+        "description": "European statistical warehouse providing harmonized multi-country datasets, including labour-market, regional, and trade indicators.",
+        "wiki_page": "wiki/sources/warehouses/eurostat.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "supranational statistical warehouse",
+        "provider": "Eurostat",
+        "scope": "Europe",
+        "access_modes": [
+          "portal",
+          "api",
+          "bulk_download",
+          "metadata_page"
+        ],
+        "license_signals": [
+          "public dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "data_gouv",
+      "identity": {
+        "title": "data.gouv.fr",
+        "description": "French open-data portal exposing reusable public datasets and documentation from multiple producers.",
+        "wiki_page": "wiki/sources/warehouses/data_gouv.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "open data portal",
+        "provider": "Etalab / French public open data portal",
+        "scope": "France",
+        "access_modes": [
+          "portal",
+          "bulk_download"
+        ],
+        "license_signals": [
+          "open-data wording present on some resources",
+          "exact license may vary by producer"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "oecd",
+      "identity": {
+        "title": "OECD",
+        "description": "OECD data warehouse and publication ecosystem combining international indicators, classifications, and comparative statistical products.",
+        "wiki_page": "wiki/sources/warehouses/oecd.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "intergovernmental statistical warehouse",
+        "provider": "OECD",
+        "scope": "International",
+        "access_modes": [
+          "publication_portal"
+        ],
+        "license_signals": [
+          "dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "world_bank",
+      "identity": {
+        "title": "World Bank",
+        "description": "Global development-data warehouse combining catalog metadata, downloadable files, and API-first dissemination for indicator databases.",
+        "wiki_page": "wiki/sources/warehouses/world_bank.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "international development data warehouse",
+        "provider": "World Bank",
+        "scope": "Global",
+        "access_modes": [
+          "catalog",
+          "api",
+          "bulk_download"
+        ],
+        "license_signals": [
+          "open data terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "un_comtrade",
+      "identity": {
+        "title": "UN Comtrade / UNSD Trade Statistics",
+        "description": "UN Statistics Division trade warehouse for international merchandise trade statistics, classifications, and correspondence tables.",
+        "wiki_page": "wiki/sources/warehouses/un_comtrade.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "international statistical warehouse",
+        "provider": "United Nations Statistics Division",
+        "scope": "Global",
+        "access_modes": [
+          "portal",
+          "methodology_page",
+          "record_layout"
+        ],
+        "license_signals": [
+          "UN dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "cepii",
+      "identity": {
+        "title": "CEPII",
+        "description": "Research data portal publishing harmonized international-economy datasets with explicit methodological documentation and versioned releases.",
+        "wiki_page": "wiki/sources/warehouses/cepii.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "research data portal",
+        "provider": "CEPII",
+        "scope": "International",
+        "access_modes": [
+          "direct_download_portal"
+        ],
+        "license_signals": [
+          "CEPII dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "dataset_id": "un_comtrade_merchandise_trade",
+  "title": "UN Comtrade Merchandise Trade Database",
+  "warehouse": "UN Comtrade / UNSD",
+  "access_methods": [
+    {
+      "type": "methodology_page",
+      "url": "https://unstats.un.org/unsd/trade/imts/methodology.asp",
+      "notes": "Official UNSD methodology and classification inventory."
+    },
+    {
+      "type": "record_layout",
+      "url": "https://unstats.un.org/unsd/trade/dataextract/datarecord.htm",
+      "notes": "Official record layout for trade data fields."
+    },
+    {
+      "type": "portal",
+      "url": "https://comtrade.un.org/labs/data-explorer/About.html",
+      "notes": "Official about page for the UN Comtrade explorer."
+    },
+    {
+      "type": "api_catalogue",
+      "url": "https://unstats.un.org/unsd/api/",
+      "notes": "Official UNSD API catalogue linking to the UN Comtrade API portal."
+    },
+    {
+      "type": "api_portal_reference",
+      "url": "https://comtrade.un.org/data/dev/portal/",
+      "notes": "Official UN Comtrade API portal URL referenced by the UNSD API catalogue."
+    },
+    {
+      "type": "current_api_candidate_tested",
+      "url": "https://comtradeplus.un.org/api/v1/get?typeCode=C&freqCode=A&clCode=HS&period=2021&reporterCode=554&partnerCode=156&cmdCode=080810&flowCode=X&format=json",
+      "notes": "Tested on 2026-04-22. In this environment the endpoint returned the Comtrade web application shell as HTML rather than raw JSON, so it is not yet accepted here as a verified raw download endpoint."
+    }
+  ],
+  "access_conditions": [
+    "UNSD documents public API-based dissemination for UN Comtrade.",
+    "A stable raw dataset endpoint was not verified in this session from the current live Comtradeplus interface."
+  ],
+  "limitations": [
+    "The current manifest documents official API references and a tested current endpoint candidate, but no raw file was downloaded on 2026-04-22.",
+    "The historically documented API routes observed in UNSD sources appear to have changed, and the tested live candidate returned HTML rather than machine-readable trade records in this environment."
+  ],
+  "transformation": "none"
+}
