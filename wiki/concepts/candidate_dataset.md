@@ -26,6 +26,6 @@ A candidate dataset is a dataset-like record found through a warehouse, software
 
 ## Related Pages
 
-- [[variable_typology]]
-- [[modeling_evidence]]
-- [[spatiotemporal_data]]
+- variable typology
+- modeling evidence
+- spatiotemporal data

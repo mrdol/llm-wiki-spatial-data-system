@@ -2,7 +2,7 @@
 title: R Estimator Backend Audit 2026-04-30
 type: analysis
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-05-05
 sources: []
 tags: [analysis, modeling, estimators, r, reticulate]
 ---
@@ -13,7 +13,7 @@ Audit of the R-first implementation route for the project allowlisted estimators
 
 The modeling layer now has a first implementation map that privileges R-native packages and keeps Python-only routes behind R wrappers with `reticulate`.
 
-The canonical machine-readable registry is `data/manifests/estimator_software_registry.jsonl`.
+The canonical machine-readable registry is `data/manifests/runs/estimator_software_registry.jsonl`.
 
 ## Backend Decisions
 
@@ -29,7 +29,7 @@ The canonical machine-readable registry is `data/manifests/estimator_software_re
 | STVC | `mgcv` spatio-temporal smooth variant | none selected | `r_native_variant` | Validate against estimator fiche |
 | MGWR | `GWmodel` | optional Python `mgwr` route | `native_r` | Use R first |
 | MGWRSAR | `mgwrsar` | none selected | `native_r` | Confirm exact package API before production fitting |
-| SpBoost | none validated | none selected | `implementation_pending` | Select package route before fitting |
+| SpBoost | local package `spboost` | none selected | `native_r_local_package` | Install local source and validate first fits |
 | RNN | R wrapper around `tensorflow.keras` | Python backend through `reticulate` | `r_wrapper_python` | Keep Python hidden behind R |
 | SVM | `e1071` | not needed | `native_r` | Use R first |
 
@@ -53,7 +53,7 @@ The canonical machine-readable registry is `data/manifests/estimator_software_re
 
 - Confirm whether `GWmodel::gwr.multiscale` covers the project MGWR definition sufficiently.
 - Confirm the exact public fitting function exposed by the installed `mgwrsar` package.
-- Select or reject a concrete `SpBoost` backend before any production fit.
+- Validate the local `spboost` package installation and first `spbgam()` fits before any production run.
 - Decide whether SVC and STVC should remain `mgcv` smooth variants or move to a more specialized spatial package.
 - Add estimator-specific tests once the first modeling dataset is fixed.
 

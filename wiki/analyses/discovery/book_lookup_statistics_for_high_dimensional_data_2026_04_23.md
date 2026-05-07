@@ -32,7 +32,7 @@ Unofficial pirate sources were not used.
 
 ## Stored Artifacts
 
-- Manifest: `data/manifests/reference_books/statistics_for_high_dimensional_data_buhlmann_vandegeer_2026_04_23.json`
+- Manifest: `data/manifests/papers/statistics_for_high_dimensional_data_buhlmann_vandegeer_2026_04_23.json`
 - Springer record response: `data/downloads/2026-04-23_books/2026-04-23_book_statistics_for_high_dimensional_data_buhlmann_vandegeer_springer_page.html`
 - ETH record response: `data/downloads/2026-04-23_books/2026-04-23_book_statistics_for_high_dimensional_data_eth_record.html`
 - ETH API bundles response: `data/downloads/2026-04-23_books/2026-04-23_book_eth_bundles_api.json`

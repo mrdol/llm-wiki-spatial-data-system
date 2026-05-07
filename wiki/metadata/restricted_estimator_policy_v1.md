@@ -53,12 +53,11 @@ Only the following estimators are allowed in this project:
 ## Current Implication
 
 - Existing dataset records should not carry free-form approved-estimator suggestions.
-- Historical references such as [[grubel_lloyd_index]] remain useful for methodological context but are outside the restricted project registry.
+- Historical or descriptive indicators that are not in the allowlist should not be represented as estimator fiches.
 
 ## Related Pages
 
 - [[catalog_registry_schema_v3]]
 - [[discovery_policy_v3]]
-- [[grubel_lloyd_index]]
 - [[rnn]]
 - [[svm]]

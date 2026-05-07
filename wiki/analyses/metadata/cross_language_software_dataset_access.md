@@ -1,3 +1,12 @@
+---
+title: Cross-language Software Dataset Access
+type: analysis
+created: 2026-04-29
+updated: 2026-05-05
+sources: [data/manifests/datasets/software_cross_language_dataset_access.jsonl]
+tags: [analysis, metadata, software, r, python, datasets]
+---
+
 # Cross-language Software Dataset Access
 
 This note consolidates software datasets that exist in both R and Python. The system keeps one conceptual dataset identity for metadata and modeling decisions, while preserving both software access routes and both downloaded copies when available.
@@ -7,7 +16,7 @@ This note consolidates software datasets that exist in both R and Python. The sy
 - One conceptual metadata fiche when the same empirical dataset appears in both ecosystems.
 - Multiple access routes under that fiche: `R` and `Python`.
 - Do not delete duplicated downloaded data: duplicates are useful for checking package-specific geometry, coding, column names, and documentation differences.
-- Machine records for this mapping are stored in `data/manifests/software_cross_language_dataset_access.jsonl`.
+- Machine records for this mapping are stored in `data/manifests/datasets/software_cross_language_dataset_access.jsonl`.
 
 ## Conceptual Datasets
 
@@ -74,3 +83,10 @@ This note consolidates software datasets that exist in both R and Python. The sy
 ## How the LLM Should Use This
 
 When the user asks for software datasets, first reason at the conceptual dataset level. If a dataset exists in both languages, report it once, then list the available software access routes. For implementation, choose the route that best matches the current workflow: R for estimator examples from R packages, Python for GeoPandas/PySAL workflows, or both for reproducibility checks.
+
+## Related Pages
+
+- [[software_python_priority_datasets_metadata]]
+- [[software_r_priority_datasets_metadata]]
+- [[software_dataset_literature_links_2026_04_29]]
+- [[r_python_scraping_bridge_policy_v1]]

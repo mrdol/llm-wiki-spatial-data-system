@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# eval/hooks/pre-commit — Hook git pré-commit pour l'évaluation des fiches wiki.
+#
+# Installation :
+#   python eval/install_hook.py
+# ou manuellement :
+#   cp eval/hooks/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+
+set -euo pipefail
+
+META_PATTERN="(index|log|overview|glossary|eval_queue)\.md$"
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM \
+  | grep -E "^wiki/.*\.md$" \
+  | grep -Ev "$META_PATTERN" \
+  || true)
+
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+echo ""
+echo "🔍 Eval — vérification des fiches wiki modifiées..."
+
+FAILED=0
+for FILE in $STAGED; do
+  if ! python eval/run_eval.py "$FILE"; then
+    FAILED=1
+  fi
+done
+
+echo ""
+if [ "$FAILED" -ne 0 ]; then
+  echo "❌ Tier 1 échoué — commit bloqué."
+  echo "   Corrige les erreurs ci-dessus puis recommite."
+  exit 1
+fi
+
+echo "✅ Toutes les fiches ont passé Tier 1."
+exit 0

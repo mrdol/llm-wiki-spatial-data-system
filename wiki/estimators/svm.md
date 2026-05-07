@@ -103,5 +103,5 @@ SVM is plausible for tabular datasets after preprocessing. It becomes spatial or
 - [[rnn]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- [[variable_typology]]
+- variable typology
 - [[data_leakage]]

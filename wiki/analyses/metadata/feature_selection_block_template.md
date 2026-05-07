@@ -72,6 +72,6 @@ Use this block when a paper, README, codebase, metadata page, or data inspection
 
 ## Related Pages
 
-- [[variable_typology]]
-- [[modeling_evidence]]
+- variable typology
+- modeling evidence
 - [[catalog_registry_schema_v3]]

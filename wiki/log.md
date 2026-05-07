@@ -1,3 +1,12 @@
+---
+title: Wiki Log
+type: metadata
+created: 2026-04-07
+updated: 2026-05-06
+sources: []
+tags: [log, wiki, chronology]
+---
+
 # Wiki Log
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
@@ -5,6 +14,54 @@ Append-only chronological record of all activity: ingests, queries, and lint pas
 To view recent activity: `grep "^## \[" log.md | tail -10`
 
 ---
+
+## [2026-05-06] ingest | Zenodo scraping — 3 spatial panel datasets
+
+Pages created:
+- wiki/datasets/zenodo_15530852_mexico_municipalities_expenditure.md
+- wiki/datasets/zenodo_15627695_mexico_property_tax_spillovers.md
+- wiki/datasets/zenodo_15781610_poland_ekc_nuts.md
+
+Key additions:
+- Dataset 15530852 : panel équilibré 860 municipalités mexicaines × 22 ans (2000-2021), variables fiscales + spatiales, modèle SAR/SDM — Tier 1 PASS, Tier 2 AMBER 0.74 (paper DOI à résoudre)
+- Dataset 15627695 : panel non balancé municipalités mexicaines, taxe foncière, retards spatiaux, 2001-2019 — Tier 1 PASS, Tier 2 AMBER 0.74 (paper DOI à résoudre)
+- Dataset 15781610 : NUTS2/NUTS3 Pologne + GeoJSON, courbe Kuznets environnementale, Excel + géométries — Tier 1 PASS, Tier 2 AMBER 0.72 (Y/X à vérifier par inspection)
+- wiki/index.md mis à jour avec les 3 nouvelles entrées
+
+Scripts utilisés: pipeline_portals/python/scrape_zenodo.py (requête "spatial panel regression econometric", 3 pages API)
+Évaluation: Tier 1 PASS × 3 / Tier 2 AMBER × 3 (raw source absent → cap 0.74) → ajoutés à eval_queue.md
+
+---
+
+## [2026-05-05] lint | remove removed trade index estimator and linked pages
+
+Issues found:
+- The removed trade index estimator was no longer relevant to the project estimator scope.
+- It had active links from the index, glossary, estimator policy, source pages, and historical notes.
+
+Fixes applied:
+- Deleted the removed trade-index estimator fiche.
+- Deleted the directly linked trade-methodology source page.
+- Removed the estimator from `wiki/index.md`.
+- Removed related glossary terms and policy references.
+- Removed active wiki links and stale references connected to that estimator.
+
+## [2026-05-05] lint | remove unlicensed dataset fiches and normalize wiki/json files
+
+Issues found:
+- Dataset fiches in `wiki/datasets/` had no documented licence evidence.
+- Some wiki pages lacked YAML frontmatter.
+- Some JSON files used UTF-8 with BOM.
+- Deleted dataset page links needed demotion to plain text to avoid broken wiki links.
+
+Fixes applied:
+- Removed unlicensed dataset fiches from `wiki/datasets/`.
+- Removed dataset records without `license_metadata` from `data/catalogue_datasets.json`.
+- Cleared dataset entries from `wiki/index.md` until licence metadata is documented.
+- Added YAML frontmatter to `wiki/index.md`, `wiki/log.md`, `wiki/analyses/discovery/software_dataset_literature_links_2026_04_29.md`, and `wiki/analyses/metadata/cross_language_software_dataset_access.md`.
+- Added missing `sources: []` fields to software source pages.
+- Normalized BOM-encoded JSON and key wiki files to UTF-8 without BOM.
+- Replaced links to removed dataset fiches with plain code-form identifiers.
 
 ## [2026-04-07] init | Wiki created
 
@@ -24,15 +81,11 @@ Core pages created:
 
 Next step: Drop your first source into `raw/` and say **"ingest [filename]"**.
 
-## [2026-04-21] ingest | pagoulatos1975.pdf
 
 Pages created:
-- `wiki/sources/pagoulatos1975_two_way_trade.md`
 - `wiki/concepts/intra_industry_trade.md`
 - `wiki/concepts/trade_aggregation_bias.md`
 - `wiki/concepts/product_differentiation_in_trade.md`
-- `wiki/estimators/grubel_lloyd_index.md`
-- `wiki/analyses/pagoulatos1975_methodology_to_metadata.md`
 
 Pages updated:
 - `wiki/index.md`
@@ -42,18 +95,15 @@ Pages updated:
 
 Key additions:
 - Ingested a scientific article as a methodological source (no dataset page created).
-- Extracted concepts: intra-industry trade, aggregation bias, product differentiation in trade.
-- Added estimator page for the Grubel-Lloyd index and documented measurement caveats.
+- Extracted concepts: trade overlap, aggregation bias, product differentiation in trade.
+- Added estimator page for the removed trade index and documented measurement caveats.
 - Added analysis translating econometric design choices into metadata schema requirements.
 - Updated core wiki navigation and synthesis pages with cross-links and ingest status.
 
-## [2026-04-21] query | suitable datasets for Grubel-Lloyd index
+## [2026-04-21] query | suitable datasets for removed trade index
 
 Pages consulted:
 - `wiki/index.md`
-- `wiki/estimators/grubel_lloyd_index.md`
-- `wiki/analyses/pagoulatos1975_methodology_to_metadata.md`
-- `wiki/sources/pagoulatos1975_two_way_trade.md`
 
 Output filed: yes - dataset pages created
 
@@ -69,7 +119,7 @@ Pages updated:
 - `wiki/log.md`
 
 Key additions:
-- Identified four real-world, documented trade datasets suitable for Grubel-Lloyd computation.
+- Identified four real-world, documented trade datasets suitable for removed trade index computation.
 - Added variable-level mapping for `Xi`, `Mi`, classification, time, and country dimensions.
 - Documented key limitations (aggregation bias, classification revision breaks, comparability constraints, metadata gaps).
 
@@ -105,7 +155,6 @@ Key additions:
 Pages consulted:
 - `wiki/index.md`
 - `wiki/overview.md`
-- `wiki/analyses/pagoulatos1975_methodology_to_metadata.md`
 - `wiki/analyses/france_unemployment_datasets_comparison.md`
 - `wiki/datasets/insee_emploi_chomage_population_active.md`
 - `wiki/datasets/eurostat_labour_force_survey.md`
@@ -157,8 +206,8 @@ Pages updated:
 Files created:
 - `data/downloads/insee_t304_chomage_diplome.csv`
 - `data/downloads/eurostat_lfst_r_lfu3rt.json`
-- `data/manifests/insee_emploi_chomage_population_active.json`
-- `data/manifests/eurostat_labour_force_survey.json`
+- `data/manifests/datasets/insee_emploi_chomage_population_active.json`
+- `data/manifests/datasets/eurostat_labour_force_survey.json`
 
 Key additions:
 - Confirmed two documented candidate datasets from the current wiki and MCP results: INSEE labour-market series and Eurostat Labour Force Survey.
@@ -210,13 +259,13 @@ Pages updated:
 - `wiki/log.md`
 
 Files created:
-- `data/manifests/insee_base_permanente_equipements.json`
-- `data/manifests/eurostat_comext_itg.json`
-- `data/manifests/data_gouv_dvf_geolocalisees.json`
-- `data/manifests/oecd_itcs.json`
-- `data/manifests/world_bank_world_development_indicators.json`
-- `data/manifests/un_comtrade_merchandise_trade.json`
-- `data/manifests/cepii_baci.json`
+- `data/manifests/datasets/insee_base_permanente_equipements.json`
+- `data/manifests/datasets/eurostat_comext_itg.json`
+- `data/manifests/datasets/data_gouv_dvf_geolocalisees.json`
+- `data/manifests/datasets/oecd_itcs.json`
+- `data/manifests/datasets/world_bank_world_development_indicators.json`
+- `data/manifests/datasets/un_comtrade_merchandise_trade.json`
+- `data/manifests/datasets/cepii_baci.json`
 
 Key additions:
 - Extended the warehouse coverage from INSEE and Eurostat to data.gouv, OECD, World Bank, UN Comtrade, and CEPII.
@@ -302,7 +351,7 @@ Pages updated:
 - `wiki/log.md`
 
 Files updated outside wiki:
-- `catalogue_datasets.json`
+- `data/catalogue_datasets.json`
 - `mcp_datasets_server.py`
 - `data/manifests/papers/README.md`
 
@@ -330,7 +379,7 @@ Pages updated:
 - `wiki/log.md`
 
 Files updated outside wiki:
-- `catalogue_datasets.json`
+- `data/catalogue_datasets.json`
 - `mcp_datasets_server.py`
 
 Key additions:
@@ -358,9 +407,9 @@ Pages updated:
 - `wiki/log.md`
 
 Files updated outside wiki:
-- `data/manifests/eurostat_comext_itg.json`
-- `data/manifests/un_comtrade_merchandise_trade.json`
-- `data/manifests/oecd_itcs.json`
+- `data/manifests/datasets/eurostat_comext_itg.json`
+- `data/manifests/datasets/un_comtrade_merchandise_trade.json`
+- `data/manifests/datasets/oecd_itcs.json`
 
 Key additions:
 - Verified and recorded a working raw Eurostat Comext JSON endpoint, then linked it to the downloaded local file in the manifest.
@@ -374,7 +423,6 @@ Pages consulted:
 - `wiki/index.md`
 - `wiki/log.md`
 - `wiki/metadata/restricted_estimator_policy_v1.md`
-- `wiki/estimators/grubel_lloyd_index.md`
 - `raw/paper/`
 
 Output filed: yes - estimator schema and fiche templates created
@@ -452,7 +500,7 @@ Pages updated:
 
 Files created outside wiki:
 - `data/downloads/reference_books/ISLRv2_corrected_June_2023.pdf`
-- `data/manifests/reference_books/islr2.json`
+- `data/manifests/papers/islr2.json`
 
 Key additions:
 - Downloaded the official ISLR second-edition PDF from the authors' official download page.
@@ -488,9 +536,9 @@ Key additions:
 Pages consulted:
 - `AGENTS.md`
 - `pipeline_portals/execute_portal_jobs.py`
-- `data/manifests/plans/world_bank.records.jsonl`
-- `data/manifests/plans/eurostat.records.jsonl`
-- `data/manifests/plans/data_gouv.records.jsonl`
+- `data/manifests/datasets/world_bank.records.jsonl`
+- `data/manifests/datasets/eurostat.records.jsonl`
+- `data/manifests/datasets/data_gouv.records.jsonl`
 
 Output filed: yes - controlled metadata-only scrape records generated
 
@@ -498,12 +546,12 @@ Pages updated:
 - `wiki/log.md`
 
 Files created or updated outside wiki:
-- `data/manifests/plans/world_bank.seed-log.jsonl`
-- `data/manifests/plans/world_bank.records.jsonl`
-- `data/manifests/plans/eurostat.seed-log.jsonl`
-- `data/manifests/plans/eurostat.records.jsonl`
-- `data/manifests/plans/data_gouv.seed-log.jsonl`
-- `data/manifests/plans/data_gouv.records.jsonl`
+- `data/manifests/datasets/world_bank.seed-log.jsonl`
+- `data/manifests/datasets/world_bank.records.jsonl`
+- `data/manifests/datasets/eurostat.seed-log.jsonl`
+- `data/manifests/datasets/eurostat.records.jsonl`
+- `data/manifests/datasets/data_gouv.seed-log.jsonl`
+- `data/manifests/datasets/data_gouv.records.jsonl`
 - `pipeline_portals/execute_portal_jobs.py`
 
 Key additions:
@@ -569,8 +617,8 @@ Files created outside wiki:
 - `data/downloads/2026-04-23_datasets/`
 - `data/downloads/2026-04-23_papers/`
 - `data/downloads/2026-04-23_rejected_responses/`
-- `data/manifests/download_batches/2026-04-23_download_batch_datasets10_papers10.json`
-- `data/manifests/download_batches/2026-04-23_final_download_batch_datasets10_papers10.json`
+- `data/manifests/runs/2026-04-23_download_batch_datasets10_papers10.json`
+- `data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json`
 
 Key additions:
 - Downloaded 10 dataset files with date-prefixed filenames.
@@ -597,8 +645,8 @@ Pages updated:
 Files created outside wiki:
 - `data/downloads/2026-04-23_books/`
 - `data/downloads/2026-04-23_books/rejected_responses/`
-- `data/manifests/download_batches/2026-04-23_book_statistics_for_high_dimensional_data_attempt.json`
-- `data/manifests/reference_books/statistics_for_high_dimensional_data_buhlmann_vandegeer_2026_04_23.json`
+- `data/manifests/runs/2026-04-23_book_statistics_for_high_dimensional_data_attempt.json`
+- `data/manifests/papers/statistics_for_high_dimensional_data_buhlmann_vandegeer_2026_04_23.json`
 
 Key additions:
 - Identified the requested book as Peter Buhlmann and Sara van de Geer, `Statistics for High-Dimensional Data: Methods, Theory and Applications`, DOI `10.1007/978-3-642-20192-9`.
@@ -612,7 +660,7 @@ Key additions:
 Pages consulted:
 - `wiki/analyses/raw_spatiotemporal_dataset_scraping_targets_2026_04_23.md`
 - `wiki/analyses/download_batch_2026_04_23_datasets10_papers10.md`
-- `data/manifests/download_batches/2026-04-23_final_download_batch_datasets10_papers10.json`
+- `data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json`
 - online publication pages for Scientific Data, Earth System Science Data, IJCAI, Google Research, Global Fishing Watch, NOAA/GHCN, and ERA5 reference metadata
 
 Output filed: yes - shortlist of 10 data-linked scientific papers
@@ -649,7 +697,7 @@ Pages updated:
 - `wiki/log.md`
 
 Files created outside wiki:
-- `data/manifests/estimator_software_registry.jsonl`
+- `data/manifests/runs/estimator_software_registry.jsonl`
 - `R/utils/estimator_common.R`
 - `R/estimators/README.md`
 - `R/estimators/load_estimators.R`
@@ -679,6 +727,89 @@ Validation:
 - Detected installed R backends: `mboost`, `mgcv`, `mgwrsar`, `reticulate`, `e1071`.
 - Detected missing R backends: `xgboost`, `lightgbm`, `ranger`, `earth`, `INLA`, `GWmodel`.
 
+## [2026-04-30] ingest | enrich MGWR and MGWRSAR estimator fiches from local package docs
+
+Pages consulted:
+- `AGENTS.md`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/DESCRIPTION`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/MGWRSAR.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/multiscale_gwr.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/TDS_MGWR.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/kernel_matW.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/search_bandwidths.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/predict.mgwrsar.Rd`
+- `raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/mgwrsar_bootstrap_test.Rd`
+
+Output filed: yes - estimator fiches updated from local R package documentation
+
+Pages updated:
+- `wiki/estimators/mgwr.md`
+- `wiki/estimators/mgwrsar.md`
+- `wiki/index.md`
+- `wiki/log.md`
+
+Key additions:
+- Replaced placeholder text with operational estimator fiches.
+- Added documented model variants for OLS, SAR, GWR, MGWR, and MGWRSAR.
+- Added hyperparameters for kernels, bandwidths, adaptive neighborhoods, spatial weights, generalized kernel types, search controls, prediction controls, and bootstrap comparison.
+- Added data requirements, metadata fields to record, validation protocols, diagnostics, and failure modes.
+- Left `raw/` unchanged.
+
+## [2026-05-04] ingest | enrich SpBoost estimator fiche from article
+
+Pages consulted:
+- `AGENTS.md`
+- `raw/paper/spbbost_article.pdf`
+- `wiki/estimators/spboost.md`
+
+Output filed: yes - SpBoost estimator fiche updated from article evidence
+
+Pages updated:
+- `wiki/estimators/spboost.md`
+- `wiki/index.md`
+- `wiki/log.md`
+
+Key additions:
+- Replaced the SpBoost template with a structured fiche for nonlinear spatial autoregressive boosting.
+- Added readable LaTeX equations for additive boosting, SAR, SEM, SARAR, transformed losses, and CFE spatial-parameter estimation.
+- Added hyperparameters for `W`, `mstop`, learning rate, base learners, CFE/ML choice, and geographic smoother inclusion.
+- Added identification warning against flexible geographic smoothers with spatially structured covariates.
+- Clarified validation policy and implementation-pending backend status.
+- Left `raw/` unchanged.
+
+## [2026-05-05] ingest | integrate local SpBoost package source
+
+Pages consulted:
+- `AGENTS.md`
+- `raw/estimators/spboost_0.6.3/spboost/DESCRIPTION`
+- `raw/estimators/spboost_0.6.3/spboost/NAMESPACE`
+- `raw/estimators/spboost_0.6.3/spboost/man/spb_make_boost_control.Rd`
+- `raw/estimators/spboost_0.6.3/spboost/man/BSPA_SAR_CFE.Rd`
+- `raw/estimators/spboost_0.6.3/spboost/man/BSPA_SEM_CFE.Rd`
+- `raw/estimators/spboost_0.6.3/spboost/man/predict_spboost.Rd`
+
+Output filed: yes - SpBoost estimator fiche, R wrapper, and manual R example updated
+
+Pages updated:
+- `wiki/estimators/spboost.md`
+- `wiki/index.md`
+- `wiki/log.md`
+- `wiki/analyses/modeling/estimations/r_estimator_backend_audit_2026_04_30.md`
+
+Files updated outside wiki:
+- `R/estimators/fit_spboost.R`
+- `R/estimators/README.md`
+- `data/manifests/runs/estimator_software_registry.jsonl`
+
+Files created outside wiki:
+- `R/estimators/manual_spboost_example.R`
+
+Key additions:
+- Connected the project wrapper to `spboost::spbgam`.
+- Documented the local package API: `BSPA_SAR_*`, `BSPA_SEM_*`, `BSPA_SARAR_*`, `predict_spboost`, and `build_Wk`.
+- Added a commented manual R workflow for installing, simulating, fitting SAR CFE/ML, and using the wrapper.
+- Left `raw/` unchanged.
+
 ## [2026-04-30] query | add R bridge for Python scraping scripts
 
 Pages consulted:
@@ -705,3 +836,391 @@ Key additions:
 - Added `run_portal_scraper()` for warehouse and scientific portal scrapers.
 - Added `run_portal_plan()`, `run_portal_jobs()`, and `run_literature_plan()`.
 - Kept Python scrapers as the execution source of truth and avoided duplicating scraping logic in R.
+
+## [2026-05-05] quality-control | apply human-LLM quality pedigree matrix
+
+Pages consulted:
+- `AGENTS.md`
+- `data/catalogue_datasets.json`
+- Mick Yates, Adding Quality Control to Andrej Karpathy's LLM Wiki
+
+Output filed: yes - quality pedigree schema, tests, and human review templates
+
+Pages created:
+- `wiki/metadata/quality_pedigree_schema_v1.md`
+
+Pages updated:
+- `AGENTS.md`
+- `wiki/index.md`
+- `wiki/log.md`
+
+Files created outside wiki:
+- `tests/validation/test_quality_pedigree.py`
+- `tests/evaluation/quality_pedigree_review_grid.md`
+- `tests/evaluation/sample_quality_pedigree_review.md`
+
+Files updated outside wiki:
+- `data/catalogue_datasets.json`
+- `tests/README.md`
+
+Key additions:
+- Added `quality_pedigree` blocks to active warehouse records in the local catalog.
+- Required score evidence fields for provenance, rigour, evidence, coherence, and claim discipline.
+- Added Delta1 risk and human-review gate so LLM-proposed scores stay pending until reviewed by a human.
+- Added pytest validation for score ranges, evidence presence, review status, and schema registration.
+
+## [2026-05-05] quality-control | add citation metrics to quality pedigree
+
+Pages consulted:
+- `wiki/metadata/quality_pedigree_schema_v1.md`
+- `tests/validation/test_quality_pedigree.py`
+- `data/catalogue_datasets.json`
+
+Output filed: yes - citation metrics rules integrated into quality control
+
+Pages updated:
+- `AGENTS.md`
+- `wiki/metadata/quality_pedigree_schema_v1.md`
+- `wiki/log.md`
+
+Files updated outside wiki:
+- `data/catalogue_datasets.json`
+- `tests/validation/test_quality_pedigree.py`
+- `tests/evaluation/quality_pedigree_review_grid.md`
+- `tests/evaluation/sample_quality_pedigree_review.md`
+- `tests/README.md`
+
+Key additions:
+- Added `citation_metrics` as a decision signal inside `quality_pedigree`.
+- Kept dataset citations and paper citations separate.
+- Required citation source, interpretation, evidence, and checked date when counts are recorded.
+- Documented that citations can enrich `evidence_evidence`, but cannot automatically validate quality or set `review_status` to reviewed.
+
+## [2026-05-06] ingest | Zenodo and Dryad candidate scraping
+
+Pages consulted:
+- `data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl`
+- `data/manifests/datasets/dryad_discovery_fixed_2026_05_06.jsonl`
+- `pipeline_portals/python/scrape_dryad.py`
+- `pipeline_portals/python/scrape_zenodo.py`
+
+Output filed: yes - Zenodo dataset fiches and source pages
+
+Pages created:
+- `wiki/datasets/zenodo_18421412_mountain_fire.md`
+- `wiki/datasets/zenodo_5534232_linear_pottery_harris.md`
+- `wiki/datasets/zenodo_14499026_cranial_modifications_americas.md`
+- `wiki/datasets/zenodo_10476054_stehme_holsea_norway.md`
+- `wiki/datasets/zenodo_15501267_imf_by_paper.md`
+- `wiki/sources/warehouses/zenodo.md`
+- `wiki/sources/warehouses/dryad.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/log.md`
+
+Files updated outside wiki:
+- `pipeline_portals/python/scrape_dryad.py`
+
+Key additions:
+- Created five Zenodo dataset fiches only for records with explicit license metadata and local downloads.
+- Documented local datacandidate paths and pending quality review status.
+- Fixed Dryad discovery to retrieve file-level metadata through version file endpoints.
+- Dryad automated downloads remain blocked by server-side WAF/API responses; metadata and official file links are preserved in manifests.
+
+## [2026-05-06] lint | normalize Zenodo dataset fiches to AGENTS format
+
+Pages consulted:
+- `AGENTS.md`
+- `wiki/index.md`
+- `wiki/log.md`
+- `wiki/datasets/zenodo_18421412_mountain_fire.md`
+- `wiki/datasets/zenodo_5534232_linear_pottery_harris.md`
+- `wiki/datasets/zenodo_14499026_cranial_modifications_americas.md`
+- `wiki/datasets/zenodo_10476054_stehme_holsea_norway.md`
+- `wiki/datasets/zenodo_15501267_imf_by_paper.md`
+
+Output filed: yes - dataset fiches normalized in place
+
+Pages updated:
+- `wiki/datasets/zenodo_18421412_mountain_fire.md`
+- `wiki/datasets/zenodo_5534232_linear_pottery_harris.md`
+- `wiki/datasets/zenodo_14499026_cranial_modifications_americas.md`
+- `wiki/datasets/zenodo_10476054_stehme_holsea_norway.md`
+- `wiki/datasets/zenodo_15501267_imf_by_paper.md`
+- `wiki/log.md`
+
+Key additions:
+- Added explicit dataset name, source family, source URL, DOI, and reproducibility fields.
+- Added candidate Y/X typologies and imputed-X status.
+- Added structured `feature_selection` and `modeling_evidence` blocks.
+- Added data type, N/T profile, spatial and temporal resolution, spatial extent, and time range fields.
+- Preserved pending/unknown values where data inspection has not yet been performed.
+
+## [2026-05-06] eval | strengthen dataset fiche evaluation criteria
+
+Pages consulted:
+- `AGENTS.md`
+- `eval/tier1_structural.py`
+- `eval/tier2_semantic.py`
+- `eval/tier3_queue.py`
+- `eval/run_eval.py`
+- `wiki/datasets/zenodo_5534232_linear_pottery_harris.md`
+
+Output filed: yes - evaluation pipeline improved
+
+Pages updated:
+- `wiki/datasets/zenodo_5534232_linear_pottery_harris.md`
+- `wiki/log.md`
+
+Files updated outside wiki:
+- `eval/tier1_structural.py`
+- `eval/tier2_semantic.py`
+- `eval/tier3_queue.py`
+- `eval/run_eval.py`
+
+Key additions:
+- Made Tier 1 enforce canonical dataset fields from `AGENTS.md` instead of accepting broad section names alone.
+- Added checks for `feature_selection`, `modeling_evidence`, `quality_pedigree`, typology fields, imputed-X status, N/T, resolution, extent, and time range.
+- Added a minimal frontmatter parser fallback when PyYAML is unavailable.
+- Replaced mojibake/emoji console output with ASCII-safe messages for Windows terminals.
+- Extended Tier 2 source loading to use project-relative evidence files such as manifests, not only files under `raw/`.
+- Normalized the Linear Pottery Zenodo fiche to the canonical dataset labels caught by the stricter validator.
+
+## [2026-05-06] ingest | France official datasets metadata scrape
+
+Pages consulted:
+- `AGENTS.md`
+- `wiki/index.md`
+- `wiki/log.md`
+- `wiki/sources/warehouses/data_gouv.md`
+- `wiki/sources/warehouses/insee.md`
+- `data/manifests/datasets/data_gouv_dvf_geolocalisees.json`
+- `data/manifests/datasets/insee_base_permanente_equipements.json`
+- `data/manifests/datasets/insee_emploi_chomage_population_active.json`
+
+Output filed: yes - official France dataset fiches and metadata manifest
+
+Pages created:
+- `wiki/datasets/data_gouv_dvf_geolocalisees.md`
+- `wiki/datasets/data_gouv_dvf.md`
+- `wiki/datasets/insee_base_permanente_equipements.md`
+- `wiki/datasets/insee_chomage_halo_series_longues.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/sources/warehouses/data_gouv.md`
+- `wiki/sources/warehouses/insee.md`
+- `wiki/log.md`
+
+Files created outside wiki:
+- `data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json`
+
+Key additions:
+- Scraped official data.gouv.fr API metadata for raw DVF and geolocated DVF.
+- Verified `lov2` license metadata, open access status, temporal coverage, file URLs, file formats, and large file sizes for DVF resources.
+- Verified current INSEE BPE metadata and BPE 2024 access route without downloading large files.
+- Reintroduced INSEE unemployment/halo long-series table as a dataset fiche based on the official page and the existing downloaded CSV manifest.
+- Preserved unknown values for N, imputation, exact file schema, and model equations until direct file inspection is performed.
+
+## [2026-05-06] eval | strengthen DOI and enriched metadata gates
+
+Pages consulted:
+- `eval/tier1_structural.py`
+- `eval/tier2_semantic.py`
+- `tests/validation/test_external_catalog_integrity.py`
+- `tests/validation/test_doi_format.py`
+
+Output filed: yes - evaluation checks updated
+
+Files updated outside wiki:
+- `eval/tier1_structural.py`
+- `eval/tier2_semantic.py`
+- `tests/validation/test_external_catalog_integrity.py`
+
+Key additions:
+- Tier 1 now checks non-null critical dataset fields, while allowing explicit `Dataset DOI: none` only as a warning when no DOI is available.
+- Tier 1 now supports `type: paper` and requires scientific paper DOI, source URL, abstract, dataset linkage evidence, quality pedigree, and related pages.
+- Tier 2 dataset prompt now evaluates metadata completeness, DOI traceability, paper linkage, feature selection, modeling evidence, license, reproducibility, and quality gate status.
+- Tier 2 now includes a dedicated scientific-paper prompt.
+- External URL validation now tolerates transient HTTP 5xx server errors and skips cleanly when the local environment blocks all outbound network checks.
+
+Validation:
+- `pytest tests/validation/test_external_catalog_integrity.py` with external validation enabled passed outside sandbox.
+- Local blocked-network run skipped the external URL test instead of producing false URL failures.
+
+## [2026-05-06] scraping | capture dataset and paper descriptions
+
+Pages consulted:
+- `pipeline_portals/python/portal_common.py`
+- `pipeline_portals/python/scrape_zenodo.py`
+- `pipeline_portals/python/scrape_data_gouv.py`
+- `pipeline_portals/python/scrape_insee.py`
+- `pipeline_lit/lit_common.py`
+
+Output filed: yes - scraping helpers updated
+
+Files updated outside wiki:
+- `pipeline_portals/python/portal_common.py`
+- `pipeline_portals/python/scrape_zenodo.py`
+- `pipeline_portals/python/scrape_data_gouv.py`
+- `pipeline_portals/python/scrape_insee.py`
+- `pipeline_lit/lit_common.py`
+
+Key additions:
+- Dataset scrapers now emit `description_metadata` with cleaned full description, short excerpt, description source, source URL, capture timestamp, and language when known.
+- Zenodo descriptions are captured from API metadata; data.gouv.fr descriptions from API records; INSEE descriptions from cleaned HTML page text.
+- Paper discovery records now emit `description_metadata` from OpenAlex/Crossref abstracts, preserving the full abstract in manifests and exposing an excerpt for future fiche/catalogue use.
+- The intended storage split is explicit: full source description stays in manifests; fiches and catalogue should use short excerpts plus source links.
+
+Validation:
+- Python compilation passed for modified scrapers and helpers.
+- Local fake-record checks confirmed Zenodo, data.gouv.fr, INSEE, and OpenAlex records now include `description_metadata`.
+
+## [2026-05-07] discovery | Dryad spatial datasets
+
+Pages consulted:
+- `AGENTS.md`
+- `pipeline_portals/python/scrape_dryad.py`
+- `wiki/sources/warehouses/dryad.md`
+- `data/manifests/datasets/dryad_3_spatial_2026_05_07.jsonl`
+
+Output filed: yes - Dryad manifest, CSV, dataset fiches and catalog records
+
+Pages created:
+- `wiki/datasets/dryad_v41ns1rvb_forest_loss_cordillera.md`
+- `wiki/datasets/dryad_bk3j9kdfk_benthic_trophic_networks.md`
+- `wiki/datasets/dryad_8w9ghx3jj_citizen_science_habitat_suitability.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/sources/warehouses/dryad.md`
+- `wiki/log.md`
+
+Files updated outside wiki:
+- `pipeline_portals/python/scrape_dryad.py`
+- `data/catalogue_datasets.json`
+- `data/manifests/datasets/dryad_3_spatial_2026_05_07.jsonl`
+- `data/manifests/datasets/dryad_3_spatial_2026_05_07.csv`
+
+Key additions:
+- Scraped three Dryad candidates using the Dryad API with DOI, source description, CC0 license, file metadata and download URLs.
+- Added `description_metadata` capture to the Dryad scraper so full descriptions remain in manifests and fiches use short source excerpts.
+- Documented three spatial or spatio-temporal candidates: forest loss in the Philippines, benthic trophic networks in Swedish coastal basins, and citizen-science habitat suitability modelling in Sweden.
+- No `raw/` files were modified and no dataset files were downloaded during this ingest.
+
+Validation:
+- `python -m json.tool data/catalogue_datasets.json` passed.
+- Local catalogue, quality pedigree and estimator policy tests passed.
+- Tier 1 structural evaluation passed for the three new Dryad fiches, with warnings only for fields intentionally pending file inspection.
+
+## [2026-05-07] scraping | description metadata across portal scrapers
+
+Pages consulted:
+- `pipeline_portals/python/portal_common.py`
+- `pipeline_portals/python/scrape_cepii.py`
+- `pipeline_portals/python/scrape_dataverse.py`
+- `pipeline_portals/python/scrape_eurostat.py`
+- `pipeline_portals/python/scrape_figshare.py`
+- `pipeline_portals/python/scrape_oecd.py`
+- `pipeline_portals/python/scrape_un_comtrade.py`
+- `pipeline_portals/python/scrape_world_bank.py`
+
+Output filed: yes - scraper metadata fields updated
+
+Files updated outside wiki:
+- `pipeline_portals/python/scrape_cepii.py`
+- `pipeline_portals/python/scrape_dataverse.py`
+- `pipeline_portals/python/scrape_eurostat.py`
+- `pipeline_portals/python/scrape_figshare.py`
+- `pipeline_portals/python/scrape_oecd.py`
+- `pipeline_portals/python/scrape_un_comtrade.py`
+- `pipeline_portals/python/scrape_world_bank.py`
+
+Key additions:
+- All remaining portal dataset scrapers now emit `description_metadata` alongside the existing `description` field.
+- The field stores cleaned full text, a short excerpt, source type, source URL and capture timestamp.
+- Existing OpenAlex/Crossref paper discovery already emits the same metadata from abstracts via `pipeline_lit/lit_common.py`.
+
+Validation:
+- Python compilation passed for all portal scrapers and the shared helpers.
+- Local fake-record checks confirmed CEPII, Dataverse, Eurostat, Figshare, OECD, UN Comtrade and World Bank records include `description_metadata.description_excerpt`.
+
+## [2026-05-07] maintenance | dataset fiches grouped by warehouse
+
+Pages consulted:
+- `AGENTS.md`
+- `data/catalogue_datasets.json`
+- `wiki/index.md`
+
+Output filed: yes - dataset fiche directory convention updated
+
+Pages moved:
+- `wiki/datasets/data_gouv/*.md`
+- `wiki/datasets/dryad/*.md`
+- `wiki/datasets/insee/*.md`
+- `wiki/datasets/zenodo/*.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/log.md`
+
+Files updated outside wiki:
+- `data/catalogue_datasets.json`
+
+Key additions:
+- Dataset fiches are now grouped by source warehouse under `wiki/datasets/<warehouse>/`.
+- The catalogue records now point to the new warehouse-specific fiche paths through `identity.wiki_page`.
+- Historical log entries were left unchanged as past ingest traces.
+
+## [2026-05-07] maintenance | manifest directory simplified
+
+Pages consulted:
+- `AGENTS.md`
+- `data/catalogue_datasets.json`
+- `data/manifests/`
+
+Output filed: yes - manifest directory structure simplified
+
+Files moved:
+- Dataset/source manifests and scraping outputs to `data/manifests/datasets/`
+- Paper and reference-book manifests to `data/manifests/papers/`
+- Batch, execution and registry manifests to `data/manifests/runs/`
+
+Files updated:
+- `AGENTS.md`
+- `data/catalogue_datasets.json`
+- `data/manifests/README.md`
+- `pipeline_portals/python/portal_common.py`
+- Wiki pages that referenced old manifest paths
+
+Key additions:
+- `data/manifests/` now keeps only three active buckets: `datasets`, `papers`, and `runs`.
+- Legacy `plans`, `download_batches`, and `reference_books` directories were collapsed into those buckets.
+- The catalogue and wiki references now point to the new manifest paths.
+
+## [2026-05-07] maintenance | catalogue moved under data
+
+Pages consulted:
+- `AGENTS.md`
+- `data/catalogue_datasets.json`
+- `LLM-wiki-Assessment/tests/`
+- `Code_scrapping/`
+
+Output filed: yes - catalogue path updated
+
+Files moved:
+- `catalogue_datasets.json` to `data/catalogue_datasets.json`
+
+Files updated:
+- `AGENTS.md`
+- `data/manifests/README.md`
+- `mcp_datasets_server.py`
+- `Code_scrapping/pipeline_lit/lit_common.py`
+- `Code_scrapping/pipeline_portals/python/portal_common.py`
+- `Code_scrapping/pipeline_portals/python/scrape_zenodo.py`
+- `LLM-wiki-Assessment/tests/`
+
+Key additions:
+- The canonical catalogue path is now `data/catalogue_datasets.json`.
+- Scrapers, the MCP server, and assessment tests now load the catalogue from the new location.

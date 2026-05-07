@@ -1,0 +1,1609 @@
+{
+  "schema_version": "3.0",
+  "updated_at": "2026-05-07",
+  "catalog_policy": {
+    "supported_record_types": [
+      "dataset",
+      "paper",
+      "warehouse",
+      "source"
+    ],
+    "directory_conventions": {
+      "catalog": "data/catalogue_datasets.json",
+      "dataset_pages": "wiki/datasets/",
+      "dataset_pages_by_warehouse": "wiki/datasets/<warehouse>/",
+      "paper_pages": "wiki/papers/",
+      "warehouse_pages": "wiki/sources/warehouses/",
+      "raw_papers_preferred": "raw/papers/",
+      "dataset_manifests": "data/manifests/datasets/",
+      "paper_manifests": "data/manifests/papers/",
+      "run_manifests": "data/manifests/runs/",
+      "source_warehouse_pages": "wiki/sources/warehouses/",
+      "source_software_pages": "wiki/sources/software/",
+      "source_literature_pages": "wiki/sources/literature/",
+      "metadata_rules": "wiki/metadata/",
+      "estimator_reference_pages": "wiki/estimators/",
+      "analysis_metadata_profiles": "wiki/analyses/metadata/",
+      "analysis_discovery": "wiki/analyses/discovery/",
+      "analysis_estimations": "wiki/analyses/modeling/estimations/",
+      "analysis_predictions": "wiki/analyses/modeling/predictions/",
+      "analysis_cross_validation": "wiki/analyses/modeling/cross_validation/"
+    },
+    "license_priority": [
+      "explicit_open_reusable",
+      "explicit_reusable_with_conditions",
+      "explicit_restricted",
+      "not_explicitly_documented"
+    ],
+    "doi_traceability_rules": [
+      "dataset DOI and publication DOI must remain separate fields",
+      "missing DOI values must stay null",
+      "linked papers must not be inferred without documentation"
+    ],
+    "paper_link_rules": [
+      "paper-linked dataset discovery may use explicit registry links only",
+      "papers with published data receive a positive discovery signal when documented"
+    ],
+    "discovery_priorities": [
+      "spatial_and_spatiotemporal",
+      "metadata_richness",
+      "license_reusability",
+      "paper_linkage",
+      "doi_traceability"
+    ],
+    "license_evidence_rules": [
+      "exact legal license names must be stored only when explicitly documented",
+      "generic dissemination wording must not be treated as an explicit legal license",
+      "is_open and allows_reuse may only be classified from explicit documented license evidence"
+    ],
+    "quality_pedigree_policy": {
+      "schema": "wiki/metadata/quality_pedigree_schema_v1.md",
+      "reference_sources": [
+        "https://www.yatesweb.com/adding-quality-control-to-andrej-karpathys-llm-wiki/",
+        "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f"
+      ],
+      "score_scale": "1_to_5",
+      "score_evidence_required": true,
+      "llm_may_propose_scores": true,
+      "human_review_required_for_reviewed_status": true,
+      "review_status_values": [
+        "pending",
+        "needs_revision",
+        "reviewed",
+        "rejected"
+      ],
+      "delta1_risk_values": [
+        "low",
+        "medium",
+        "high",
+        "not_applicable"
+      ],
+      "citation_metrics_policy": {
+        "citation_counts_are_decision_signals_not_quality_proofs": true,
+        "dataset_and_paper_citations_must_remain_separate": true,
+        "citation_source_required_when_count_recorded": true,
+        "citation_checked_at_required_when_count_recorded": true,
+        "allowed_sources": [
+          "openalex",
+          "datacite",
+          "crossref",
+          "manual_review",
+          "none",
+          "unknown"
+        ],
+        "interpretation_values": [
+          "not_applicable",
+          "not_checked",
+          "no_signal",
+          "weak_signal",
+          "moderate_signal",
+          "strong_signal",
+          "very_strong_signal",
+          "ambiguous"
+        ]
+      },
+      "citation_interpretation_thresholds": [
+        "0 citations: no_signal, but no automatic penalty for recent or official sources",
+        "1-10 citations: weak_signal",
+        "11-50 citations: moderate_signal",
+        "51-200 citations: strong_signal",
+        "more than 200 citations: very_strong_signal"
+      ]
+    }
+  },
+  "estimator_policy": {
+    "policy_id": "restricted_allowlist_v1",
+    "allow_only_listed_estimators": true,
+    "allowed_estimators": [
+      "XGBoost",
+      "LightGBM",
+      "GAMBoost",
+      "Random Forest",
+      "MARS",
+      "INLA",
+      "STVC",
+      "SVC",
+      "MGWR",
+      "MGWRSAR",
+      "SpBoost",
+      "RNN",
+      "SVM"
+    ],
+    "notes": "Only listed estimators are allowed. Every dataset must carry a plausibility assessment using candidate_estimators with justification; pending is allowed when no documented assessment has been performed yet.",
+    "dataset_assessment_required": true,
+    "candidate_estimator_fields": [
+      "name",
+      "plausible",
+      "justification",
+      "evidence_basis",
+      "compatible_y_types",
+      "compatible_x_types",
+      "modeling_evidence_basis"
+    ]
+  },
+  "datasets": [
+    {
+      "record_type": "dataset",
+      "dataset_id": "data_gouv_dvf_geolocalisees",
+      "identity": {
+        "title": "Demandes de valeurs foncieres geolocalisees",
+        "wiki_page": "wiki/datasets/data_gouv/data_gouv_dvf_geolocalisees.md",
+        "dataset_doi": null
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "data.gouv.fr",
+            "provider": "Etalab / French public open data portal",
+            "url": "https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres-geolocalisees",
+            "discovery_layers": [
+              {
+                "layer_type": "api",
+                "url": "https://www.data.gouv.fr/api/1/datasets/demandes-de-valeurs-foncieres-geolocalisees/",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
+      },
+      "content_metadata": {
+        "candidate_y": ["valeur_fonciere", "surface_reelle_bati", "surface_terrain"],
+        "candidate_y_typology": ["continuous", "count"],
+        "candidate_x": ["date_mutation", "code_commune", "code_departement", "id_parcelle", "type_local", "longitude", "latitude"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "geometry", "timestamp"],
+        "presence_of_imputed_x": "unknown"
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "transaction-level event data",
+        "n_observations": "unknown",
+        "t_periods": "daily event dates; aggregate T depends on grouping",
+        "n_t_profile": "N very large, T medium",
+        "spatial_resolution": "parcel, commune, department, WGS-84 coordinates",
+        "temporal_resolution": "transaction date",
+        "spatial_extent": "France",
+        "time_range": "2020-07-01 to 2025-12-31"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "lov2",
+        "license_open": true,
+        "license_evidence": "data.gouv.fr API returned license=lov2 and access_type=open."
+      },
+      "quality_pedigree": {
+        "provenance": "official_open_data_portal",
+        "provenance_score": 4,
+        "provenance_evidence": "Official data.gouv.fr API metadata identifies dataset, source page, resources, license and temporal coverage.",
+        "rigour_score": 3,
+        "rigour_evidence": "The schema is documented and derived from official DGFiP DVF, but local file inspection is pending.",
+        "evidence_score": 4,
+        "evidence_evidence": "Official API metadata and resource URLs were captured in a local manifest.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog record, fiche and manifest describe the same data.gouv.fr dataset.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record leaves N, imputation and model equation pending until data inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked for this official administrative dataset."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "data_gouv_dvf",
+      "identity": {
+        "title": "Demandes de valeurs foncieres",
+        "wiki_page": "wiki/datasets/data_gouv/data_gouv_dvf.md",
+        "dataset_doi": null
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "data.gouv.fr",
+            "provider": "Etalab / French public open data portal",
+            "url": "https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres",
+            "discovery_layers": [
+              {
+                "layer_type": "api",
+                "url": "https://www.data.gouv.fr/api/1/datasets/demandes-de-valeurs-foncieres/",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
+      },
+      "content_metadata": {
+        "candidate_y": ["valeur_fonciere", "surface_reelle_bati", "surface_terrain"],
+        "candidate_y_typology": ["continuous", "count"],
+        "candidate_x": ["date_mutation", "nature_mutation", "code_commune", "code_departement", "id_parcelle", "type_local"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "timestamp"],
+        "presence_of_imputed_x": "unknown"
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "transaction-level event data",
+        "n_observations": "unknown",
+        "t_periods": "2021-2025 yearly resources and daily mutation dates",
+        "n_t_profile": "N very large, T medium",
+        "spatial_resolution": "parcel, commune, department",
+        "temporal_resolution": "transaction date and annual resource files",
+        "spatial_extent": "France except Alsace, Moselle and Mayotte according to dataset description",
+        "time_range": "2021-01-01 to 2025-12-31"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "lov2",
+        "license_open": true,
+        "license_evidence": "data.gouv.fr API returned license=lov2 and access_type=open; personal-data constraints are documented by producer."
+      },
+      "quality_pedigree": {
+        "provenance": "official_open_data_portal",
+        "provenance_score": 4,
+        "provenance_evidence": "Official data.gouv.fr API identifies the DGFiP DVF dataset and yearly archive resources.",
+        "rigour_score": 4,
+        "rigour_evidence": "Official documentation, conditions of use and yearly resource files are available.",
+        "evidence_score": 4,
+        "evidence_evidence": "Official API metadata and documentation/resource URLs were captured in a local manifest.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog record, fiche and manifest describe the same raw DVF dataset.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record preserves personal-data restrictions and avoids modeling claims before file inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked for this official administrative dataset."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "insee_base_permanente_equipements",
+      "identity": {
+        "title": "Base permanente des equipements",
+        "wiki_page": "wiki/datasets/insee/insee_base_permanente_equipements.md",
+        "dataset_doi": null
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "INSEE",
+            "provider": "INSEE",
+            "url": "https://www.insee.fr/fr/metadonnees/source/serie/s1161",
+            "discovery_layers": [
+              {
+                "layer_type": "metadata_page",
+                "url": "https://www.insee.fr/fr/metadonnees/source/serie/s1161",
+                "access": "open"
+              },
+              {
+                "layer_type": "bulk_download",
+                "url": "https://www.insee.fr/fr/metadonnees/source/operation/s2216/bases-donnees-ligne",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
+      },
+      "content_metadata": {
+        "candidate_y": ["equipment_count", "equipment_presence"],
+        "candidate_y_typology": ["count", "binary", "presence_absence"],
+        "candidate_x": ["equipment_type", "equipment_domain", "commune_code", "iris_code", "coordinates", "millesime"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "geometry"],
+        "presence_of_imputed_x": "unknown"
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "repeated annual cross-sections",
+        "n_observations": "unknown",
+        "t_periods": "annual millesimes",
+        "n_t_profile": "N large, T medium",
+        "spatial_resolution": "commune, IRIS, supra-communal zoning, coordinates",
+        "temporal_resolution": "annual snapshot",
+        "spatial_extent": "France",
+        "time_range": "annual series, exact range pending file inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "Licence Ouverte / Open License",
+        "license_open": true,
+        "license_evidence": "INSEE reuse terms and catalogue documentation indicate open reuse for INSEE datasets unless otherwise specified."
+      },
+      "quality_pedigree": {
+        "provenance": "official_statistical_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "Official INSEE metadata and BPE 2024 access pages document the source and access routes.",
+        "rigour_score": 4,
+        "rigour_evidence": "BPE is an official statistical source documented by INSEE, with file-level inspection pending.",
+        "evidence_score": 4,
+        "evidence_evidence": "Official metadata and access URLs are recorded in local manifests and fiche.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog record, fiche and source page consistently describe BPE.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record keeps N, imputation and model equation pending until file inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked for this official statistical dataset."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "insee_chomage_halo_series_longues",
+      "identity": {
+        "title": "Chomage et halo autour du chomage - series longues",
+        "wiki_page": "wiki/datasets/insee/insee_chomage_halo_series_longues.md",
+        "dataset_doi": null
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "INSEE",
+            "provider": "INSEE",
+            "url": "https://www.insee.fr/fr/statistiques/7625228",
+            "discovery_layers": [
+              {
+                "layer_type": "publication_page",
+                "url": "https://www.insee.fr/fr/statistiques/7625228",
+                "access": "open"
+              },
+              {
+                "layer_type": "bulk_download",
+                "url": "https://www.insee.fr/fr/statistiques/fichier/7625228/T304.csv",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/insee_emploi_chomage_population_active.json",
+        "local_download": "data/downloads/insee_t304_chomage_diplome.csv"
+      },
+      "content_metadata": {
+        "candidate_y": ["unemployment_count", "unemployment_rate", "halo_indicators"],
+        "candidate_y_typology": ["count", "rate"],
+        "candidate_x": ["year", "diploma_level", "sex", "grouped_age", "labour_market_status"],
+        "candidate_x_typology": ["temporal", "categorical", "identifier"],
+        "presence_of_imputed_x": "unknown"
+      },
+      "spatiotemporal": {
+        "data_type": "temporal",
+        "structure": "time series with demographic-category cross-sections",
+        "n_observations": "unknown",
+        "t_periods": "annual series, exact range pending CSV inspection",
+        "n_t_profile": "N medium, T medium",
+        "spatial_resolution": "national France for downloaded table",
+        "temporal_resolution": "annual average",
+        "spatial_extent": "France",
+        "time_range": "unknown before CSV inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "INSEE free reuse terms",
+        "license_open": true,
+        "license_evidence": "INSEE site reuse terms allow free reuse of data and publications with source attribution unless otherwise specified."
+      },
+      "quality_pedigree": {
+        "provenance": "official_statistical_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "Official INSEE publication page and existing local manifest identify the CSV URL, local path and checksum.",
+        "rigour_score": 4,
+        "rigour_evidence": "The table is an official INSEE statistical result, with direct CSV inspection pending.",
+        "evidence_score": 4,
+        "evidence_evidence": "Local manifest records source URL, local download, format, size, SHA-256 and timestamp.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog record maps the previous local manifest into the current dataset fiche.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record separates national time-series evidence from localized unemployment variants.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked for this official statistical table."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_10476054",
+      "identity": {
+        "title": "STEHME files & HOLSEA spreadsheet for \"Creel et al. 2022: Postglacial Relative Sea Level Change in Norway\" and Balascio et al. 2023: \"Refining Holocene sea-level dynamics for the Lofoten and Vesteralen archipelagos, northern Norway: Implications for prehistoric human-environment interactions\"",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_10476054_stehme_holsea_norway.md",
+        "dataset_doi": "10.5281/zenodo.10476054",
+        "concept_doi": "10.5281/zenodo.6330205"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "CERN / Zenodo research repository",
+            "url": "https://zenodo.org/records/10476054",
+            "discovery_layers": [
+              {
+                "layer_type": "record_page",
+                "url": "https://zenodo.org/records/10476054",
+                "access": "open"
+              },
+              {
+                "layer_type": "api_files",
+                "url": "https://zenodo.org/api/records/10476054",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl",
+        "local_download": "data/candidates/datasets/zenodo/10476054/",
+        "download_status": "partially_downloaded_under_size_filter",
+        "files_downloaded": "2 NetCDF files",
+        "approximate_downloaded_size_mb": 25.18
+      },
+      "content_metadata": {
+        "candidate_y": ["sea-level variables", "sea-level uncertainty variables"],
+        "candidate_y_typology": ["continuous", "unknown_pending_inspection"],
+        "candidate_x": ["spatial coordinates", "time", "depth or index variables"],
+        "candidate_x_typology": ["spatial", "temporal", "continuous", "identifier", "geometry", "unknown_pending_inspection"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["NetCDF", "CSV"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal candidate",
+        "structure": "gridded or indexed NetCDF data plus spreadsheet material",
+        "n_observations": "unknown",
+        "t_periods": "unknown",
+        "n_t_profile": "unknown",
+        "spatial_resolution": "NetCDF grid or sea-level site index, exact resolution pending inspection",
+        "temporal_resolution": "Holocene time/depth index, exact resolution pending inspection",
+        "spatial_extent": "northern Norway, including Lofoten and Vesteralen archipelagos",
+        "time_range": "Holocene, exact range pending inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "cc-by-4.0",
+        "license_open": true,
+        "license_evidence": "Zenodo record metadata returned cc-by-4.0."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "unknown",
+        "existing_model_or_equation": "unknown",
+        "evidence_source": "title and downloaded NetCDF files"
+      },
+      "reproducibility": {
+        "code_available": "unknown",
+        "repository": "unknown",
+        "local_data_path": "data/candidates/datasets/zenodo/10476054/",
+        "status": "partial; NetCDF files downloaded under size filter, spreadsheet material still requires access/inspection"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Zenodo record with DOI, explicit CC-BY-4.0 license, and downloaded NetCDF files.",
+        "rigour_score": 3,
+        "rigour_evidence": "Scientific sea-level dataset with structured NetCDF material, but variables and methods still require inspection.",
+        "evidence_score": 4,
+        "evidence_evidence": "Dataset DOI, license, landing URL, manifest, and local NetCDF downloads are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "Manifest, fiche and local download directory point to the same Zenodo record.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record keeps estimator suitability pending until NetCDF and spreadsheet inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citations were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_14499026",
+      "identity": {
+        "title": "Analytical dataset and R code for intentional cranial modifications in the Americas",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_14499026_cranial_modifications_americas.md",
+        "dataset_doi": "10.5281/zenodo.14499026",
+        "concept_doi": "10.5281/zenodo.14499025"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "CERN / Zenodo research repository",
+            "url": "https://zenodo.org/records/14499026",
+            "discovery_layers": [
+              {
+                "layer_type": "record_page",
+                "url": "https://zenodo.org/records/14499026",
+                "access": "open"
+              },
+              {
+                "layer_type": "api_files",
+                "url": "https://zenodo.org/api/records/14499026",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl",
+        "local_download": "data/candidates/datasets/zenodo/14499026/",
+        "download_status": "downloaded",
+        "files_downloaded": 5,
+        "approximate_total_size_mb": 86.89
+      },
+      "content_metadata": {
+        "candidate_y": ["unknown before data inspection"],
+        "candidate_y_typology": ["unknown"],
+        "candidate_x": ["archaeological variables", "location variables", "time-window variables", "cultural variables"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "continuous", "unknown_pending_inspection"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["CSV", "R", "DOCX", "ZIP"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal candidate",
+        "structure": "likely spatial points with temporal/cultural attributes",
+        "n_observations": 1722,
+        "t_periods": "unknown",
+        "n_t_profile": "N moderate, T unknown",
+        "spatial_resolution": "archaeological site or sampled individual/location, exact unit pending inspection",
+        "temporal_resolution": "archaeological time windows, exact resolution pending inspection",
+        "spatial_extent": "Americas",
+        "time_range": "unknown before data/DOCX/R inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "cc-by-sa-4.0",
+        "license_open": true,
+        "license_evidence": "Zenodo record metadata returned cc-by-sa-4.0; share-alike condition applies."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "unknown",
+        "existing_model_or_equation": "unknown",
+        "evidence_source": "title, R code, README/DOCX, and downloaded data"
+      },
+      "reproducibility": {
+        "code_available": true,
+        "repository": "unknown",
+        "local_data_path": "data/candidates/datasets/zenodo/14499026/",
+        "status": "partial; data and R code downloaded, workflow not inspected"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Zenodo record with DOI, explicit CC-BY-SA-4.0 license, data files, README/DOCX material, and R code.",
+        "rigour_score": 3,
+        "rigour_evidence": "Documentation and code are present, but methods and variables still require inspection.",
+        "evidence_score": 4,
+        "evidence_evidence": "Dataset DOI, license, landing URL, manifest, and local downloads are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "Manifest, fiche and local download directory point to the same Zenodo record.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not infer estimator suitability before variable and workflow inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citations were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_15501267",
+      "identity": {
+        "title": "Data for IMF By paper",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_15501267_imf_by_paper.md",
+        "dataset_doi": "10.5065/j0yy-wf53",
+        "publication_doi": "10.1029/2021JA029816"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "CERN / Zenodo research repository",
+            "url": "https://zenodo.org/records/15501267",
+            "discovery_layers": [
+              {
+                "layer_type": "record_page",
+                "url": "https://zenodo.org/records/15501267",
+                "access": "open"
+              },
+              {
+                "layer_type": "api_files",
+                "url": "https://zenodo.org/api/records/15501267",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl",
+        "local_download": "data/candidates/datasets/zenodo/15501267/",
+        "download_status": "downloaded",
+        "files_downloaded": "1 NetCDF file",
+        "approximate_downloaded_size_mb": 100.93
+      },
+      "content_metadata": {
+        "candidate_y": ["thermosphere simulation outputs", "ionosphere simulation outputs"],
+        "candidate_y_typology": ["continuous", "unknown_pending_inspection"],
+        "candidate_x": ["spatial coordinates", "time", "IMF By scenario variables"],
+        "candidate_x_typology": ["spatial", "temporal", "continuous", "timestamp", "unknown_pending_inspection"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["NetCDF", "XML"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal simulation candidate",
+        "structure": "likely multidimensional spatio-temporal simulation array",
+        "n_observations": "unknown",
+        "t_periods": "unknown",
+        "n_t_profile": "unknown",
+        "spatial_resolution": "simulation grid, exact resolution pending NetCDF inspection",
+        "temporal_resolution": "simulation timestep, exact resolution pending NetCDF inspection",
+        "spatial_extent": "thermosphere/ionosphere simulation domain, exact extent pending inspection",
+        "time_range": "geomagnetically quiet period at solar minimum, exact dates pending paper/NetCDF inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "cc-by-4.0",
+        "license_open": true,
+        "license_evidence": "Zenodo record metadata returned cc-by-4.0."
+      },
+      "modeling_evidence": {
+        "paper_doi": "10.1029/2021JA029816",
+        "paper_title": "The Effects of IMF By on the Middle Thermosphere During a Geomagnetically Quiet Period at Solar Minimum",
+        "paper_year": 2022,
+        "abstract_available": true,
+        "modeling_task_hint": "simulation_modeling",
+        "existing_model_or_equation": "unknown"
+      },
+      "linked_papers": [
+        {
+          "paper_doi": "10.1029/2021JA029816",
+          "paper_title": "The Effects of IMF By on the Middle Thermosphere During a Geomagnetically Quiet Period at Solar Minimum",
+          "paper_year": 2022,
+          "link_evidence": "Zenodo scraped manifest returned doi_publication and OpenAlex paper metadata."
+        }
+      ],
+      "reproducibility": {
+        "code_available": "unknown",
+        "repository": "unknown",
+        "local_data_path": "data/candidates/datasets/zenodo/15501267/",
+        "status": "partial; NetCDF data downloaded, simulation code/workflow not inspected"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Zenodo record with DOI, explicit CC-BY-4.0 license, downloaded NetCDF file, and linked paper DOI.",
+        "rigour_score": 4,
+        "rigour_evidence": "Associated peer-reviewed paper metadata and abstract were found; model details require full paper or NetCDF inspection.",
+        "evidence_score": 4,
+        "evidence_evidence": "Dataset DOI, publication DOI, license, landing URL, manifest, local file, and paper abstract are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "Manifest, local downloaded file, and linked paper metadata are coherent.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record keeps modeling evidence at simulation level and does not infer equations from the abstract alone.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citations were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_18421412",
+      "identity": {
+        "title": "Data and Code for Climate-Fire Relationships Across Global Mountain Systems",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_18421412_mountain_fire.md",
+        "dataset_doi": "10.5281/zenodo.18421412",
+        "concept_doi": "10.5281/zenodo.18421411"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "CERN / Zenodo research repository",
+            "url": "https://zenodo.org/records/18421412",
+            "discovery_layers": [
+              {
+                "layer_type": "record_page",
+                "url": "https://zenodo.org/records/18421412",
+                "access": "open"
+              },
+              {
+                "layer_type": "api_files",
+                "url": "https://zenodo.org/api/records/18421412",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl",
+        "local_download": "data/candidates/datasets/zenodo/18421412/",
+        "download_status": "downloaded",
+        "files_downloaded": 8,
+        "approximate_total_size_mb": 99.45
+      },
+      "content_metadata": {
+        "candidate_y": ["unknown before data inspection"],
+        "candidate_y_typology": ["unknown"],
+        "candidate_x": ["climate variables", "fire variables"],
+        "candidate_x_typology": ["temporal", "spatial", "continuous", "unknown_pending_inspection"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["CSV", "JavaScript", "Markdown"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal candidate",
+        "structure": "likely spatio-temporal panel or repeated regional observations",
+        "n_observations": "unknown",
+        "t_periods": "unknown",
+        "n_t_profile": "unknown",
+        "spatial_resolution": "mountain system / regional unit, exact resolution unknown before data inspection",
+        "temporal_resolution": "unknown; filenames indicate annual or multi-year material for 2013-2023",
+        "spatial_extent": "global mountain systems across six continents",
+        "time_range": "2013-2023 indicated by filenames, to verify in data"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "cc-by-4.0",
+        "license_open": true,
+        "license_evidence": "Zenodo record metadata returned cc-by-4.0."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "unknown",
+        "existing_model_or_equation": "unknown",
+        "evidence_source": "dataset title and downloaded files only"
+      },
+      "reproducibility": {
+        "code_available": true,
+        "repository": "unknown",
+        "local_data_path": "data/candidates/datasets/zenodo/18421412/",
+        "status": "partial; data and code downloaded, but execution workflow not inspected"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Zenodo record with DOI, explicit CC-BY-4.0 license, and downloaded CSV/code files.",
+        "rigour_score": 3,
+        "rigour_evidence": "Documentation and code are present, but methods and variables still require inspection.",
+        "evidence_score": 4,
+        "evidence_evidence": "DOI, license, landing URL, manifest, and local downloads are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "Manifest and local download directory point to the same Zenodo record.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The fiche does not infer estimator suitability before variable inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citations were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_5534232",
+      "identity": {
+        "title": "Supplementary data and files to Figure 8 of Eva Rosenstock, Linear Pottery and Harris (2022)",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_5534232_linear_pottery_harris.md",
+        "dataset_doi": "10.5281/zenodo.5534232",
+        "concept_doi": "10.5281/zenodo.5534231"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "CERN / Zenodo research repository",
+            "url": "https://zenodo.org/records/5534232",
+            "discovery_layers": [
+              {
+                "layer_type": "record_page",
+                "url": "https://zenodo.org/records/5534232",
+                "access": "open"
+              },
+              {
+                "layer_type": "api_files",
+                "url": "https://zenodo.org/api/records/5534232",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_5_downloaded_2026_05_06.jsonl",
+        "local_download": "data/candidates/datasets/zenodo/5534232/",
+        "download_status": "downloaded",
+        "files_downloaded": 8,
+        "approximate_total_size_mb": 1.49
+      },
+      "content_metadata": {
+        "candidate_y": ["unknown before graph/data inspection"],
+        "candidate_y_typology": ["unknown"],
+        "candidate_x": ["graph attributes", "stratigraphic variables"],
+        "candidate_x_typology": ["categorical", "identifier", "temporal", "graph", "spatial", "unknown_pending_inspection"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["GraphML", "CSV", "HMCX", "PDF", "JPG"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatial or spatio-temporal candidate",
+        "structure": "graph/network files plus tabular data",
+        "n_observations": "unknown",
+        "t_periods": "unknown",
+        "n_t_profile": "unknown",
+        "spatial_resolution": "archaeological or stratigraphic graph unit, exact resolution unknown",
+        "temporal_resolution": "unknown",
+        "spatial_extent": "unknown before data/PDF inspection",
+        "time_range": "unknown before data/PDF inspection"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "cc-by-4.0",
+        "license_open": true,
+        "license_evidence": "Zenodo record metadata returned cc-by-4.0."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "unknown",
+        "existing_model_or_equation": "unknown",
+        "evidence_source": "title, files, and Zenodo metadata"
+      },
+      "reproducibility": {
+        "code_available": "unknown",
+        "repository": "unknown",
+        "local_data_path": "data/candidates/datasets/zenodo/5534232/",
+        "status": "partial; supplementary files downloaded, executable workflow not inspected"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Zenodo record with DOI, explicit CC-BY-4.0 license, and downloaded supplementary graph/tabular files.",
+        "rigour_score": 3,
+        "rigour_evidence": "Supplementary materials are structured, but variables and workflow still require inspection.",
+        "evidence_score": 4,
+        "evidence_evidence": "DOI, license, landing URL, manifest, and local downloads are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "Manifest, fiche and local download directory point to the same Zenodo record.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not infer modeling suitability before graph/data inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citations were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "dryad_v41ns1rvb",
+      "identity": {
+        "title": "Spatio-temporal analysis of remotely sensed forest loss data in the Cordillera Administrative Region, Philippines",
+        "wiki_page": "wiki/datasets/dryad/dryad_v41ns1rvb_forest_loss_cordillera.md",
+        "dataset_doi": "10.5061/dryad.v41ns1rvb"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Dryad",
+            "provider": "Dryad research data repository",
+            "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.v41ns1rvb",
+            "discovery_layers": [
+              {
+                "layer_type": "api",
+                "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.v41ns1rvb",
+                "access": "open"
+              },
+              {
+                "layer_type": "file_download",
+                "url": "https://datadryad.org/api/v2/files/1141211/download",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/dryad_3_spatial_2026_05_07.jsonl",
+        "download_status": "metadata_scraped_file_not_downloaded",
+        "files_listed": 1,
+        "approximate_total_size_mb": 0.01
+      },
+      "content_metadata": {
+        "description_excerpt": "The Dryad description documents spatial and temporal forest-loss analysis in the Cordillera Administrative Region, Philippines, using Hansen Global Forest Change data from 2001 to 2019 and seven independent variables.",
+        "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.v41ns1rvb",
+        "candidate_y": ["forest_loss_area", "annual_deforestation_rate", "forest_loss_extent"],
+        "candidate_y_typology": ["continuous", "rate", "count"],
+        "candidate_x": ["forest_cover", "agricultural_areas", "built_up", "road_network", "socio_economic_data", "spatial_unit", "year"],
+        "candidate_x_typology": ["spatial", "temporal", "continuous", "categorical", "identifier", "timestamp"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["XLSX"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "likely administrative or regional spatial units observed across years",
+        "n_observations": "unknown",
+        "t_periods": "19 years indicated by source description",
+        "n_t_profile": "N unknown, T medium",
+        "spatial_resolution": "administrative or forest-cover analysis units, exact unit pending file inspection",
+        "temporal_resolution": "annual forest-loss observations",
+        "spatial_extent": "Cordillera Administrative Region, Philippines",
+        "time_range": "2001-2019"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "CC0-1.0",
+        "license_url": "https://spdx.org/licenses/CC0-1.0.html",
+        "license_open": true,
+        "license_evidence": "Dryad API record returned SPDX CC0-1.0 license URL."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "spatiotemporal_regression",
+        "existing_model_or_equation": "Pearson correlation coefficient between forest loss and seven independent variables",
+        "evidence_source": "Dryad source description"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Dryad record provides DOI, source description, CC0 license and file-level metadata.",
+        "rigour_score": 3,
+        "rigour_evidence": "The description documents source data, period and variables, but the XLSX schema was not inspected.",
+        "evidence_score": 4,
+        "evidence_evidence": "DOI, landing URL, license URL, manifest and file download URL are captured.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog, fiche and manifest consistently describe the same Dryad forest-loss dataset.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record marks file/schema inspection as pending and only stores model evidence from the source description.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "dryad_bk3j9kdfk",
+      "identity": {
+        "title": "Temporal and spatial changes in benthic invertebrate trophic networks along a taxonomic richness gradient",
+        "wiki_page": "wiki/datasets/dryad/dryad_bk3j9kdfk_benthic_trophic_networks.md",
+        "dataset_doi": "10.5061/dryad.bk3j9kdfk"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Dryad",
+            "provider": "Dryad research data repository",
+            "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.bk3j9kdfk",
+            "discovery_layers": [
+              {
+                "layer_type": "api",
+                "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.bk3j9kdfk",
+                "access": "open"
+              },
+              {
+                "layer_type": "file_download",
+                "url": "https://datadryad.org/api/v2/files/1524100/download",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/dryad_3_spatial_2026_05_07.jsonl",
+        "download_status": "metadata_scraped_files_not_downloaded",
+        "files_listed": 2,
+        "approximate_total_size_mb": 0.73
+      },
+      "content_metadata": {
+        "description_excerpt": "The Dryad description documents trophic networks constructed from biodiversity monitoring data and known trophic links, comparing benthic invertebrate networks across Swedish coastal basins and two time windows.",
+        "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.bk3j9kdfk",
+        "candidate_y": ["species_richness", "food_web_metrics", "network_diversity", "stability_metrics", "trophic_links"],
+        "candidate_y_typology": ["continuous", "count", "rate", "unknown"],
+        "candidate_x": ["time_period", "coastal_basin", "monitoring_location", "species_taxon", "trophic_link_attributes"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "continuous", "unknown"],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": ["XLSX", "TXT"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "monitoring data grouped by basin/location and time period",
+        "n_observations": "unknown",
+        "t_periods": "20 monitoring years described, with two decade windows",
+        "n_t_profile": "N unknown, T medium",
+        "spatial_resolution": "basin, coast or monitoring station level pending file inspection",
+        "temporal_resolution": "annual monitoring records or decade windows pending file inspection",
+        "spatial_extent": "Swedish Baltic Sea coast and Skagerrak",
+        "time_range": "1980-1989 and 2010-2019"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "CC0-1.0",
+        "license_url": "https://spdx.org/licenses/CC0-1.0.html",
+        "license_open": true,
+        "license_evidence": "Dryad API record returned SPDX CC0-1.0 license URL."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "unknown",
+        "existing_model_or_equation": "food-web metrics compared over space and time",
+        "evidence_source": "Dryad source description"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Dryad record provides DOI, source description, CC0 license, README and file-level metadata.",
+        "rigour_score": 3,
+        "rigour_evidence": "The source description documents monitoring data, spatial basins and temporal windows, but file variables are not inspected.",
+        "evidence_score": 4,
+        "evidence_evidence": "DOI, landing URL, license URL, manifest and file download URLs are captured.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog, fiche and manifest consistently describe the same Dryad trophic-network dataset.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record stores source-described network metrics without inferring an unobserved model equation.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "dryad_8w9ghx3jj",
+      "identity": {
+        "title": "Data from: Assessing the usefulness of Citizen Science Data for habitat suitability modelling",
+        "wiki_page": "wiki/datasets/dryad/dryad_8w9ghx3jj_citizen_science_habitat_suitability.md",
+        "dataset_doi": "10.5061/dryad.8w9ghx3jj"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Dryad",
+            "provider": "Dryad research data repository",
+            "url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.8w9ghx3jj",
+            "discovery_layers": [
+              {
+                "layer_type": "api",
+                "url": "https://datadryad.org/api/v2/datasets/doi%3A10.5061%2Fdryad.8w9ghx3jj",
+                "access": "open"
+              },
+              {
+                "layer_type": "file_download",
+                "url": "https://datadryad.org/api/v2/files/372529/download",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/dryad_3_spatial_2026_05_07.jsonl",
+        "download_status": "metadata_scraped_files_not_downloaded",
+        "files_listed": 16,
+        "approximate_total_size_mb": 30.18
+      },
+      "content_metadata": {
+        "description_excerpt": "The Dryad description documents a comparison of opportunistic reporting and systematic protocol data for species-distribution and habitat suitability modelling across Sweden in 2000-2013.",
+        "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.8w9ghx3jj",
+        "candidate_y": ["species_presence_absence", "habitat_suitability", "predictive_performance", "auc"],
+        "candidate_y_typology": ["binary", "continuous", "rate"],
+        "candidate_x": ["species", "reporting_protocol", "spatial_predictors", "environmental_predictors", "inferred_absences", "time_period"],
+        "candidate_x_typology": ["spatial", "temporal", "categorical", "continuous", "imputed", "identifier"],
+        "presence_of_imputed_x": "yes",
+        "main_file_formats": ["CSV"],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatial / spatio-temporal",
+        "structure": "species-by-protocol tabular files, likely repeated observations across space and time",
+        "n_observations": "unknown",
+        "t_periods": "14 years indicated by source description",
+        "n_t_profile": "N likely large, T medium",
+        "spatial_resolution": "occurrence or sampling/reporting locations, exact unit pending CSV inspection",
+        "temporal_resolution": "observation/reporting period pending CSV inspection",
+        "spatial_extent": "Sweden",
+        "time_range": "2000-2013"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "CC0-1.0",
+        "license_url": "https://spdx.org/licenses/CC0-1.0.html",
+        "license_open": true,
+        "license_evidence": "Dryad API record returned SPDX CC0-1.0 license URL."
+      },
+      "modeling_evidence": {
+        "paper_doi": null,
+        "modeling_task_hint": "classification",
+        "existing_model_or_equation": "logistic regression for species distribution / habitat suitability models",
+        "evidence_source": "Dryad source description"
+      },
+      "quality_pedigree": {
+        "provenance": "research_repository",
+        "provenance_score": 4,
+        "provenance_evidence": "Dryad record provides DOI, source description, CC0 license and 16 CSV file records.",
+        "rigour_score": 4,
+        "rigour_evidence": "The source description documents aim, location, period, model class, validation metric and protocol comparison.",
+        "evidence_score": 4,
+        "evidence_evidence": "DOI, landing URL, license URL, manifest, file download URLs and model evidence are captured.",
+        "coherence_score": 4,
+        "coherence_evidence": "Catalog, fiche and manifest consistently describe the same Dryad habitat-suitability dataset.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record stores logistic-regression evidence from the source and keeps exact file inspection pending.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation metrics were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    }
+  ],
+  "papers": [],
+  "warehouses": [
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "insee",
+      "identity": {
+        "title": "INSEE",
+        "description": "French national statistical warehouse producing official economic, demographic, territorial, and labour-market data for France.",
+        "wiki_page": "wiki/sources/warehouses/insee.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "national statistical warehouse",
+        "provider": "INSEE",
+        "scope": "France",
+        "access_modes": [
+          "portal",
+          "api",
+          "bulk_download",
+          "publication_page"
+        ],
+        "license_signals": [
+          "public dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "INSEE is an official national statistical warehouse with identifiable producer and institutional access routes.",
+        "rigour_score": 4,
+        "rigour_evidence": "Official statistical datasets generally include methodological documentation, but each extracted dataset still requires separate variable and license inspection.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents source identity, scope and access modes; exact dataset-level evidence must be added per dataset.",
+        "coherence_score": 4,
+        "coherence_evidence": "The warehouse role is coherent across the catalog and source page.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record only claims warehouse-level utility and does not assert dataset-level modeling suitability.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "eurostat",
+      "identity": {
+        "title": "Eurostat",
+        "description": "European statistical warehouse providing harmonized multi-country datasets, including labour-market, regional, and trade indicators.",
+        "wiki_page": "wiki/sources/warehouses/eurostat.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "supranational statistical warehouse",
+        "provider": "Eurostat",
+        "scope": "Europe",
+        "access_modes": [
+          "portal",
+          "api",
+          "bulk_download",
+          "metadata_page"
+        ],
+        "license_signals": [
+          "public dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "Eurostat is an official supranational statistical warehouse with harmonized European datasets and identifiable producer.",
+        "rigour_score": 4,
+        "rigour_evidence": "Eurostat datasets usually include classifications and metadata, but dataset-specific methodology must be checked before modeling.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents source identity, scope and access modes; dataset-specific DOI, license and variable evidence remain separate.",
+        "coherence_score": 4,
+        "coherence_evidence": "The catalog description matches the warehouse page and the intended source role.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not claim that every Eurostat dataset is directly suitable for spatial modeling.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "data_gouv",
+      "identity": {
+        "title": "data.gouv.fr",
+        "description": "French open-data portal exposing reusable public datasets and documentation from multiple producers.",
+        "wiki_page": "wiki/sources/warehouses/data_gouv.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "open data portal",
+        "provider": "Etalab / French public open data portal",
+        "scope": "France",
+        "access_modes": [
+          "portal",
+          "bulk_download"
+        ],
+        "license_signals": [
+          "open-data wording present on some resources",
+          "exact license may vary by producer"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "data.gouv.fr is the French public open-data portal, but individual datasets may come from different producers.",
+        "rigour_score": 3,
+        "rigour_evidence": "Portal metadata is structured, but rigor varies by producer and must be reviewed at dataset level.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents portal role and license variability; exact dataset evidence is required before ingestion.",
+        "coherence_score": 4,
+        "coherence_evidence": "The source page and catalog consistently treat data.gouv.fr as a multi-producer open-data warehouse.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record explicitly notes that exact license may vary by producer, avoiding a blanket open-license claim.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "oecd",
+      "identity": {
+        "title": "OECD",
+        "description": "OECD data warehouse and publication ecosystem combining international indicators, classifications, and comparative statistical products.",
+        "wiki_page": "wiki/sources/warehouses/oecd.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "intergovernmental statistical warehouse",
+        "provider": "OECD",
+        "scope": "International",
+        "access_modes": [
+          "publication_portal"
+        ],
+        "license_signals": [
+          "dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "OECD is an intergovernmental statistical source with identifiable institutional production.",
+        "rigour_score": 4,
+        "rigour_evidence": "OECD statistical products are generally methodologically documented, but each dataset still needs license and variable-level review.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents the source role and dissemination context but not all dataset-level evidence.",
+        "coherence_score": 4,
+        "coherence_evidence": "The catalog and source page consistently describe OECD as an international statistical warehouse.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record stays at source level and does not infer modeling suitability without dataset inspection.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "world_bank",
+      "identity": {
+        "title": "World Bank",
+        "description": "Global development-data warehouse combining catalog metadata, downloadable files, and API-first dissemination for indicator databases.",
+        "wiki_page": "wiki/sources/warehouses/world_bank.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "international development data warehouse",
+        "provider": "World Bank",
+        "scope": "Global",
+        "access_modes": [
+          "catalog",
+          "api",
+          "bulk_download"
+        ],
+        "license_signals": [
+          "open data terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "World Bank Open Data is an official international development-data warehouse with identifiable provider and API access.",
+        "rigour_score": 3,
+        "rigour_evidence": "Indicator metadata is structured, but country-year indicators require separate checks for spatial resolution, temporal coverage and modeling suitability.",
+        "evidence_score": 4,
+        "evidence_evidence": "The local record documents catalog/API access and open-data terms at source level.",
+        "coherence_score": 4,
+        "coherence_evidence": "The catalog record matches the source page description and scraper behavior.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not claim that every World Bank indicator is a useful spatial or spatio-temporal modeling dataset.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "un_comtrade",
+      "identity": {
+        "title": "UN Comtrade / UNSD Trade Statistics",
+        "description": "UN Statistics Division trade warehouse for international merchandise trade statistics, classifications, and correspondence tables.",
+        "wiki_page": "wiki/sources/warehouses/un_comtrade.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "international statistical warehouse",
+        "provider": "United Nations Statistics Division",
+        "scope": "Global",
+        "access_modes": [
+          "portal",
+          "methodology_page",
+          "record_layout"
+        ],
+        "license_signals": [
+          "UN dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "UN Comtrade is an official UNSD trade-statistics warehouse with identifiable institutional producer.",
+        "rigour_score": 4,
+        "rigour_evidence": "Trade classifications and record layouts are documented, but dataset extraction choices must be reviewed separately.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents source role and access modes; exact dataset-level license and extraction metadata are still required.",
+        "coherence_score": 4,
+        "coherence_evidence": "The warehouse description is consistent with existing wiki source notes.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not overstate modeling readiness beyond source-level availability.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    },
+    {
+      "record_type": "warehouse",
+      "warehouse_id": "cepii",
+      "identity": {
+        "title": "CEPII",
+        "description": "Research data portal publishing harmonized international-economy datasets with explicit methodological documentation and versioned releases.",
+        "wiki_page": "wiki/sources/warehouses/cepii.md"
+      },
+      "warehouse_metadata": {
+        "warehouse_type": "research data portal",
+        "provider": "CEPII",
+        "scope": "International",
+        "access_modes": [
+          "direct_download_portal"
+        ],
+        "license_signals": [
+          "CEPII dissemination terms"
+        ],
+        "notes": "Warehouse record derived from existing wiki page and dataset registry entries."
+      },
+      "quality_pedigree": {
+        "provenance": "official_warehouse",
+        "provenance_score": 4,
+        "provenance_evidence": "CEPII is an identifiable research-data portal for international economy datasets with versioned releases.",
+        "rigour_score": 4,
+        "rigour_evidence": "CEPII datasets usually come with methodological documentation, but each extracted dataset requires separate license and variable review.",
+        "evidence_score": 3,
+        "evidence_evidence": "The local record documents source identity, scope and direct-download role; dataset-level evidence must be added when records are recreated.",
+        "coherence_score": 4,
+        "coherence_evidence": "The source page and catalog consistently describe CEPII as a research data portal.",
+        "claim_discipline_score": 3,
+        "claim_discipline_evidence": "The record does not infer estimator suitability without dataset-level analysis.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_url": null,
+          "citation_interpretation": "not_applicable",
+          "citation_evidence": "Citation metrics are not applicable at the warehouse level; they must be collected for concrete datasets or papers."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending",
+        "reviewer": null,
+        "reviewed_at": null,
+        "reference_schema": "wiki/metadata/quality_pedigree_schema_v1.md"
+      }
+    }
+  ]
+}

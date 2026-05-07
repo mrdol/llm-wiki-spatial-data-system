@@ -4,6 +4,7 @@ type: source
 source_family: software
 created: 2026-04-29
 updated: 2026-04-29
+sources: []
 tags: [software, r, datasets, spatial, spatiotemporal]
 ---
 
@@ -14,11 +15,11 @@ This source page groups R packages that distribute benchmark datasets useful for
 ## Storage
 
 - Metadata fiche: `wiki/analyses/metadata/software_r_priority_datasets_metadata.md`
-- Machine manifest: `data/manifests/software_r_priority_datasets.jsonl`
+- Machine manifest: `data/manifests/datasets/software_r_priority_datasets.jsonl`
 - Downloaded CSVs: `data/downloads/software/r_datasets/rdatasets_csv/`
 - Downloaded CRAN archives: `data/downloads/software/r_datasets/cran_packages/`
 - Extracted `.rda` / `.RData` CSVs: `data/downloads/software/r_datasets/extracted_csv/`
-- Extraction manifest: `data/manifests/software_r_extracted_datasets.jsonl`
+- Extraction manifest: `data/manifests/datasets/software_r_extracted_datasets.jsonl`
 
 ## Role In The System
 
@@ -34,3 +35,9 @@ This source page groups R packages that distribute benchmark datasets useful for
 - Spatio-temporal examples: `spacetime`, `surveillance`, `STRbook` when available.
 - Epidemiology and ecology: `SpatialEpi`, `vegan`, `ade4`, `dismo`.
 - Agronomic trials: `agridat`.
+
+## Related Pages
+
+- [[python_software_datasets]]
+- [[cross_language_software_dataset_access]]
+- [[software_r_priority_datasets_metadata]]

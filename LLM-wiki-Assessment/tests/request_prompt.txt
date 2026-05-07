@@ -1,0 +1,100 @@
+Follow AGENTS.md strictly.
+
+Create a complete testing framework for the LLM Wiki system.
+
+The goal is to evaluate the system WITHOUT relying on LLM self-evaluation.
+
+---
+
+## 1. Create a tests/ directory with this structure:
+
+tests/
+  unit/
+  validation/
+  evaluation/
+
+---
+
+## 2. Implement deterministic Python tests (no LLM evaluation)
+
+### In tests/unit/ create:
+
+- test_catalog_schema.py
+  → check that data/catalogue_datasets.json is valid JSON
+  → check required top-level fields (datasets, warehouses, papers, estimator_policy)
+
+- test_required_fields.py
+  → for each dataset, verify presence of:
+     identity
+     source_access
+     content_metadata
+     spatiotemporal
+     license_metadata
+
+- test_wiki_links.py
+  → parse wiki/*.md
+  → verify that all [[links]] point to existing pages
+
+---
+
+### In tests/validation/ create:
+
+- test_license_metadata.py
+  → check that license_metadata contains:
+     license_present
+     license_name
+     license_open
+  → flag missing or null values
+
+- test_doi_format.py
+  → verify DOI format when present (must start with "10.")
+  → allow null if not available
+
+- test_manifest_urls.py
+  → check that URLs in data/manifests/*.json exist (simple HTTP check or format validation)
+
+- test_estimator_policy.py
+  → ensure that all dataset methodological_selection fields:
+     only contain estimators from the allowed list in estimator_policy
+  → fail if any unknown estimator is used
+
+---
+
+## 3. Create human evaluation templates (no Python)
+
+In tests/evaluation/ create:
+
+- evaluation_grid.md
+  → include a scoring grid with criteria:
+     source clarity
+     license presence
+     spatial dimension clarity
+     temporal dimension clarity
+     variable description quality
+     dataset usability
+     estimator justification
+     absence of hallucination
+
+- sample_review.md
+  → provide an example of a manually reviewed dataset page with a score
+
+---
+
+## 4. Constraints
+
+- Do NOT use any LLM to evaluate outputs
+- Use only deterministic checks for unit and validation tests
+- Do NOT modify raw/
+- Do NOT modify existing dataset content
+- Only add tests and minimal utilities if needed
+
+---
+
+## 5. Goal
+
+The system must be evaluable through:
+- automated tests (pass/fail)
+- validation checks (data reliability)
+- human review templates (scientific quality)
+
+Ensure everything is runnable with pytest.

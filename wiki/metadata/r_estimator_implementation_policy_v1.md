@@ -80,7 +80,7 @@ No wrapper should require users to call Python directly for an allowed estimator
 
 The machine-readable implementation map is stored in:
 
-`data/manifests/estimator_software_registry.jsonl`
+`data/manifests/runs/estimator_software_registry.jsonl`
 
 R wrapper files live under:
 

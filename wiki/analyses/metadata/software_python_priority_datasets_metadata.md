@@ -1,6 +1,6 @@
 ---
 title: Python Software Dataset Metadata Candidates
-type: analysis_metadata
+type: analysis
 created: 2026-04-29
 updated: 2026-04-29
 sources: [geodatasets, libpysal, geopandas, giddy, geosnap, xarray, movingpandas, scikit-mobility]
@@ -11,8 +11,8 @@ tags: [software, python, metadata, spatial, spatiotemporal, regression, classifi
 
 This consolidated fiche records Python package datasets retained for the system. They are software-distributed benchmark datasets, mostly from GeoDa/PySAL and `geodatasets`, used to test spatial regression, spatial panel, GWR/MGWR, epidemiology, health, housing, income, and agronomic workflows.
 
-Machine-readable manifest: `data/manifests/software_python_priority_datasets.jsonl`.
-Requested-package extension manifest: `data/manifests/software_python_requested_packages.jsonl`.
+Machine-readable manifest: `data/manifests/datasets/software_python_priority_datasets.jsonl`.
+Requested-package extension manifest: `data/manifests/datasets/software_python_requested_packages.jsonl`.
 Downloaded data root: `data/downloads/software/python_datasets/`.
 
 ## Selection Rules
@@ -28,8 +28,8 @@ Downloaded data root: `data/downloads/software/python_datasets/`.
 - Exported CSV + GeoJSON datasets: 20
 - CSV root: `data/downloads/software/python_datasets/csv/`
 - GeoJSON root: `data/downloads/software/python_datasets/geojson/`
-- Manifest: `data/manifests/software_python_priority_datasets.jsonl`
-- Requested package manifest: `data/manifests/software_python_requested_packages.jsonl`
+- Manifest: `data/manifests/datasets/software_python_priority_datasets.jsonl`
+- Requested package manifest: `data/manifests/datasets/software_python_requested_packages.jsonl`
 - Additional geosnap support exports: `data/downloads/software/python_datasets/geosnap/msa_definitions.csv` and `data/downloads/software/python_datasets/geosnap/bea_regions.csv`
 
 ## Requested Package Extensions
@@ -487,3 +487,9 @@ Downloaded data root: `data/downloads/software/python_datasets/`.
 - Extract canonical formulas from PySAL/GeoDa notebooks or examples where available.
 - Promote only the datasets actually used for estimator tests into separate dataset pages if needed.
 - Link selected datasets to estimator eligibility rules, especially `lagsarlm`, GWR/MGWR, count/risk models, and spatial panel models.
+
+## Related Pages
+
+- [[cross_language_software_dataset_access]]
+- [[software_dataset_literature_links_2026_04_29]]
+- [[software_r_priority_datasets_metadata]]

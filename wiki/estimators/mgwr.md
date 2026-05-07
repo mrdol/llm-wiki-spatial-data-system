@@ -2,114 +2,174 @@
 title: MGWR
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf]
-tags: [estimator, spatial, gwr, multiscale, hyperparameters, template]
+updated: 2026-04-30
+sources:
+  - Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf
+  - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/DESCRIPTION
+  - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/multiscale_gwr.Rd
+  - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/TDS_MGWR.Rd
+  - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/kernel_matW.Rd
+  - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/search_bandwidths.Rd
+tags: [estimator, spatial, gwr, mgwr, multiscale, hyperparameters, r-package]
 ---
 
-MGWR estimator fiche template for multiscale geographically weighted regression.
+MGWR is the project fiche for multiscale geographically weighted regression, where each explanatory variable may operate at a different spatial scale.
 
 ## Summary
 
-MGWR is an allowed estimator in the project registry. This fiche is prepared for future extraction from the Stewart et al. MGWR paper in `raw/paper`.
+MGWR extends GWR by estimating covariate-specific bandwidths. In this system, it is useful when:
+
+- the response `Y` is continuous;
+- the data have explicit spatial coordinates or areal geometry;
+- several explanatory variables may have effects at different spatial scales;
+- the goal is interpretation of spatially varying relationships, not only prediction.
+
+The local R source currently available in `raw/estimators/Mgwrsar` documents two implementation routes:
+
+- `multiscale_gwr()` for backfitting-based MGWR;
+- `TDS_MGWR()` for top-down scale MGWR and adaptive top-down variants.
 
 ## Estimator Family
 
-- Family: multiscale geographically weighted regression
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: multiscale geographically weighted regression.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Implementation route: R-first through package `mgwrsar`; `GWmodel` may remain an alternative backend if later needed.
+- Related estimators: [[mgwrsar]], [[svc]], [[stvc]].
 
 ## Model Equation
 
-Canonical multiscale geographically weighted regression:
+Canonical MGWR form:
 
-`y_i = beta_0(s_i) + sum_{j=1}^{p} beta_{b_j,j}(s_i) x_{ij} + epsilon_i`.
+`y_i = beta_0(s_i) + sum_j beta_j(s_i; b_j) x_ij + epsilon_i`
 
-Each coefficient surface can use its own bandwidth `b_j`, so covariates may operate at different spatial scales.
-
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf` | pending extraction | Use this paper to verify multiscale bandwidth selection |
+Each coefficient `beta_j` can have its own bandwidth `b_j`. A small bandwidth implies a highly local effect; a large bandwidth implies an effect closer to global.
 
 ## Data Structures It May Fit
 
-- Candidate use: spatial regression with covariate-specific spatial scales
-- Candidate structure: point or areal spatial cross-sections
-- Evidence status: project_candidate
+| Requirement | Expected form | Why it matters |
+|---|---|---|
+| Response `Y` | continuous numeric variable | MGWR is documented as a regression estimator |
+| Explanatory variables `X` | numeric or encoded variables | Each selected variable can receive its own scale |
+| Coordinates | two columns for spatial; three columns for space-time variants | Needed for kernel weights |
+| Spatial support | points or areal centroids | Defines local neighborhoods |
+| Variable metadata | `X_candidate`, `X_selected`, and variable types | Avoids fitting every available X without justification |
 
-## Main Use Cases
+MGWR is not appropriate for a dataset that only contains cartographic geometry without a modeling target.
 
-- Spatial nonstationarity with variable-specific bandwidths
-- Scale comparison across covariates
-- Interpretable local spatial modeling
+## Core Hyperparameters
 
-## Hyperparameters To Optimize
+| Hyperparameter | Package argument | Tune? | Notes |
+|---|---|---|---|
+| Kernel type | `kernels` | yes | `bisq` is documented as default in `multiscale_gwr()`; other choices include `gauss`, `triangle`, `tricube`, and `rectangle` |
+| Covariate-specific bandwidths | `H0`, searched `H`, or fitted bandwidths | yes | Central MGWR control |
+| Initialization | `control_mgwr$init` | sometimes | Documented choices include `GWR` and `lm` |
+| Maximum iterations | `control_mgwr$maxiter` | operational | Default documented as 20 |
+| Convergence tolerance | `control_mgwr$tolerance` | operational | Default documented as `1e-6` |
+| Stability count | `control_mgwr$nstable` | operational | Default documented as 6 |
+| AIC computation | `control_mgwr$get_AIC` | diagnostic | Enables AIC-related output |
+| Adaptive bandwidth | `control$adaptive` | yes | Default documented as `TRUE` |
+| Kernel type mode | `control$Type` | yes for ST models | `GD` for spatial, `GDT` for space-time |
+| Neighbor truncation | `control$NN` | yes for large data | Controls sparse local computation |
+| CPU cores | `control$ncore` | operational | Runtime control |
+| LOOCV/GCV flag | `control$isgcv` | diagnostic | Leave-one-out style criterion |
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `bandwidth_per_covariate` | Covariate-specific spatial scale | yes | project_candidate | Core MGWR tuning concept |
-| `kernel` | Spatial weighting function | yes | project_candidate | To verify available choices |
-| `neighbor_count` | Local sample support | yes | project_candidate | Alternative bandwidth representation |
-| `backfitting_tolerance` | Convergence tolerance | later | project_candidate | Implementation-dependent |
-| `max_iterations` | Backfitting iteration cap | later | project_candidate | Compute/stability control |
+## Top-Down Scale MGWR
 
-## Secondary Hyperparameters
+`TDS_MGWR()` adds a top-down bandwidth-selection strategy. It is especially relevant when full multiscale backfitting is too costly or when the project wants a structured decreasing scale search.
 
-- distance metric: depends on geometry
-- fixed versus adaptive bandwidth: to verify
-- local intercept treatment: implementation-dependent
+| Argument | Role |
+|---|---|
+| `Model` | `tds_mgwr`, `atds_mgwr`, or `atds_gwr` |
+| `fixed_vars` | variables kept with fixed/global coefficients |
+| `Ht` | optional temporal bandwidth for `GDT` models |
+| `control_tds$nns` | number of bandwidth steps in the decreasing sequence |
+| `control_tds$init_model` | initialization route: `OLS`, `GWR`, `GTWR`, or `known` |
+| `control_tds$tol` | convergence tolerance |
+| `control_tds$maxit` | maximum iterations |
+| `control_tds$nrounds` | boosting rounds for `atds_mgwr` stage 2 |
+| `control_tds$get_AIC` | AICc computation flag |
 
-## Hyperparameter Interactions
+The adaptive top-down variant can be useful when local bandwidths should vary by variable and by location.
 
-- Each covariate bandwidth changes the interpretation of local effects.
-- Kernel and bandwidth jointly define spatial weighting.
-- Convergence tolerance affects reproducibility and runtime.
+## Bandwidth Search
 
-## Cross-validation Policy
+For project use, bandwidth selection should be documented explicitly. `search_bandwidths()` supports:
 
-The cross-validation design will be fixed by the project owner.
+- spatial search through `hs_range`;
+- temporal search through `ht_range`;
+- coarse-to-fine grid search with `n_seq` and `n_rounds`;
+- optional golden-section refinement with `refine`;
+- tolerance control with `tol`;
+- parallel execution with `ncore` and `parallel_method`.
 
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+The selected bandwidths must be stored in metadata or modeling results, not only printed in the console.
+
+## Space-Time Extension
+
+MGWR is primarily spatial, but the local package exposes space-time kernels through `Type = GDT` and three-column coordinates. In this project:
+
+- use MGWR for spatial cross-sections;
+- use GDT or TDS/GTWR-style settings only when the dataset has a real temporal index;
+- prefer blocked space-time validation when time is used in the kernel.
 
 ## Diagnostics To Inspect
 
-- Bandwidths by covariate
-- Local coefficient maps
-- Residual spatial autocorrelation
-- Multicollinearity diagnostics
-- Convergence diagnostics
+- Bandwidth by variable.
+- Local coefficient maps.
+- Residual spatial autocorrelation.
+- Convergence status and number of iterations.
+- Sensitivity to kernel type and adaptive bandwidth.
+- Local collinearity or unstable local coefficients.
+- AICc, LOOCV/GCV, RMSE, MAE, or out-of-sample metrics depending on the validation protocol.
+
+## Cross-validation Policy
+
+MGWR should be validated with spatially aware folds.
+
+Recommended protocols:
+
+- spatial block validation;
+- leave-location-out validation for transfer to new locations;
+- blocked space-time validation if `Type = GDT`;
+- comparison against global linear regression and single-scale GWR.
 
 ## Failure Modes
 
-- Expensive computation on large datasets
-- Local coefficient instability
-- Misinterpretation when covariates have strong spatial collinearity
+- Overinterpretation of noisy local coefficients.
+- Local collinearity between X variables.
+- Too-small bandwidths producing unstable coefficient surfaces.
+- Runtime issues with large datasets.
+- Validation leakage if spatial neighbors from validation data are used during training.
 
 ## Minimal Tuning Workflow
 
-1. Fit global regression baseline.
-2. Fit single-scale spatial baseline if useful.
-3. Tune or estimate covariate-specific bandwidths.
-4. Inspect coefficient maps and bandwidth plausibility.
+1. Define `Y`, `X_candidate`, and `X_selected`.
+2. Fit global linear regression.
+3. Fit GWR as a single-scale baseline.
+4. Fit MGWR with adaptive bandwidths.
+5. Compare bandwidths, validation metrics, and residual spatial autocorrelation.
+6. If time is present, test `GDT` or TDS variants only with blocked temporal validation.
 
-## Dataset Compatibility Notes
+## Metadata Fields To Record
 
-- Requires explicit spatial support.
-- Best suited to spatial cross-sections or carefully aggregated spatial panels.
+For every MGWR modeling run, record:
 
-## Open Questions From Papers
-
-- Which bandwidth-selection criterion is used?
-- How are variable-specific scales estimated?
-- Which diagnostics are emphasized?
+- response variable and type;
+- `X_candidate` and `X_selected`;
+- coordinates and CRS;
+- temporal field if used;
+- kernel type;
+- adaptive/fixed bandwidth choice;
+- selected bandwidth per variable;
+- validation protocol;
+- residual spatial autocorrelation diagnostics.
 
 ## Related Pages
 
+- [[mgwrsar]]
+- [[svc]]
+- [[stvc]]
+- variable typology
+- modeling evidence
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- [[svc]]
-- [[mgwrsar]]

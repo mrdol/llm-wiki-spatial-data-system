@@ -28,6 +28,6 @@ Spatial panels are strong candidates for spatial panel models, [[stvc]], [[svc]]
 
 ## Related Pages
 
-- [[spatiotemporal_data]]
+- spatiotemporal data
 - [[spatial_autocorrelation]]
 - [[data_leakage]]

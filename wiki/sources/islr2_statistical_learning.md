@@ -1,4 +1,4 @@
-﻿---
+---
 title: An Introduction to Statistical Learning with Applications in R
 type: source
 created: 2026-04-23
@@ -23,7 +23,7 @@ Official statistical learning textbook used as a general modeling reference for 
 ## Local File
 
 - Local path: `data/downloads/reference_books/ISLRv2_corrected_June_2023.pdf`
-- Manifest: `data/manifests/reference_books/islr2.json`
+- Manifest: `data/manifests/papers/islr2.json`
 - SHA256: `7ed447d1a513c5dd95240a829603310f1d319a14a8079ddfb180c6a3d9d9a6ff`
 
 ## Project Role

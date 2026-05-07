@@ -23,6 +23,6 @@ Data leakage occurs when preprocessing, feature construction, spatial proximity,
 
 ## Related Pages
 
-- [[spatial_panel]]
-- [[spatiotemporal_data]]
-- [[variable_typology]]
+- spatial panel
+- spatiotemporal data
+- variable typology

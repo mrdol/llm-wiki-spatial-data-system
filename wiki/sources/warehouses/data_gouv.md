@@ -1,9 +1,9 @@
-﻿---
+---
 title: data.gouv.fr
 type: source
 source_family: warehouse
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-05-06
 sources: []
 tags: [source, warehouse, France, open-data, portal]
 ---
@@ -23,6 +23,13 @@ French open-data portal exposing heterogeneous public datasets, documentation, a
 ## Example Datasets
 
 - [[data_gouv_dvf_geolocalisees]]
+- [[data_gouv_dvf]]
+
+## Recent Metadata Scrape
+
+- 2026-05-06: data.gouv.fr API metadata captured for raw DVF and geolocated DVF.
+- Licenses were verified as `lov2` through the official API.
+- Large property transaction archives were not downloaded during this pass; URLs and sizes were preserved in the local manifest.
 
 ## Related Pages
 

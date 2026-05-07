@@ -58,8 +58,9 @@ The root registry is now a single object with explicit record groups and policy 
 - `wiki/analyses/modeling/predictions/` for prediction outputs and forecast diagnostics
 - `wiki/analyses/modeling/cross_validation/` for validation protocols, fold definitions, leakage checks, and validation results
 - `raw/papers/` as the preferred raw-paper staging directory for future ingest
-- `data/manifests/` for dataset access manifests
+- `data/manifests/datasets/` for dataset access manifests
 - `data/manifests/papers/` for paper access and traceability manifests
+- `data/manifests/runs/` for batch, execution, and registry manifests
 
 ## Dataset Record
 

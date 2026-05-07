@@ -1,4 +1,4 @@
-﻿---
+---
 title: Eurostat
 type: source
 source_family: warehouse
@@ -23,8 +23,8 @@ European statistical warehouse providing harmonized multi-country datasets, incl
 
 ## Example Datasets
 
-- [[eurostat_labour_force_survey]]
-- [[eurostat_comext_itg]]
+- `eurostat_labour_force_survey`
+- `eurostat_comext_itg`
 
 ## Related Pages
 

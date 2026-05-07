@@ -1,4 +1,4 @@
-﻿---
+---
 title: CEPII
 type: source
 source_family: warehouse
@@ -22,7 +22,7 @@ Research data portal publishing harmonized international-economy datasets with e
 
 ## Example Datasets
 
-- [[cepii_baci]]
+- `cepii_baci`
 
 ## Related Pages
 

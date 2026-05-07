@@ -1,4 +1,4 @@
-﻿---
+---
 title: UN Comtrade / UNSD Trade Statistics
 type: source
 source_family: warehouse
@@ -22,7 +22,7 @@ UN Statistics Division trade warehouse for international merchandise trade stati
 
 ## Example Datasets
 
-- [[un_comtrade_merchandise_trade]]
+- `un_comtrade_merchandise_trade`
 
 ## Related Pages
 

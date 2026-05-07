@@ -1,6 +1,6 @@
 ---
 title: R Software Dataset Metadata Candidates
-type: analysis_metadata
+type: analysis
 created: 2026-04-29
 updated: 2026-04-29
 sources: [Rdatasets, CRAN package archives]
@@ -11,7 +11,7 @@ tags: [software, r, metadata, spatial, spatiotemporal, regression, classificatio
 
 This consolidated fiche records the priority 1 and priority 2 R software datasets retained for the system. These datasets are not external warehouse targets; they are software-distributed benchmark datasets used to test estimator eligibility, variable typology, and spatial/spatio-temporal modeling workflows.
 
-Machine-readable manifest: `data/manifests/software_r_priority_datasets.jsonl`.
+Machine-readable manifest: `data/manifests/datasets/software_r_priority_datasets.jsonl`.
 Downloaded data root: `data/downloads/software/r_datasets/`.
 
 ## Selection Rules
@@ -28,7 +28,7 @@ Downloaded data root: `data/downloads/software/r_datasets/`.
 - Candidate records covered through CRAN package archives: 23
 - Not downloaded: 2
 - Extracted CSV objects from CRAN archives after enabling local R 4.5.3: 28
-- Extraction manifest: `data/manifests/software_r_extracted_datasets.jsonl`
+- Extraction manifest: `data/manifests/datasets/software_r_extracted_datasets.jsonl`
 - Extracted CSV root: `data/downloads/software/r_datasets/extracted_csv/`
 
 ## R Extraction Status
@@ -564,3 +564,9 @@ Some objects remain unconverted because they are specialized S4/spatial classes 
 - Inspect each downloaded CSV/archive to populate exact `X_candidates`, `X_selected`, geometry columns, and missingness.
 - Link each dataset to eligible estimators after variable typology is confirmed.
 - For CRAN archives, extract package manual examples to recover published formulas when available.
+
+## Related Pages
+
+- [[cross_language_software_dataset_access]]
+- [[software_dataset_literature_links_2026_04_29]]
+- [[software_python_priority_datasets_metadata]]

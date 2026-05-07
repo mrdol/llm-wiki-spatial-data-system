@@ -20,5 +20,5 @@ Spatial heterogeneity motivates local or varying-coefficient estimators such as 
 ## Related Pages
 
 - [[spatial_autocorrelation]]
-- [[variable_typology]]
-- [[modeling_evidence]]
+- variable typology
+- modeling evidence

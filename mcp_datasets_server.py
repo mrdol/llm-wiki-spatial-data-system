@@ -10,7 +10,7 @@ from mcp.server.fastmcp import FastMCP
 mcp = FastMCP("dataset-search")
 
 BASE_DIR = Path(__file__).parent
-CATALOG_PATH = BASE_DIR / "catalogue_datasets.json"
+CATALOG_PATH = BASE_DIR / "data" / "catalogue_datasets.json"
 
 SPATIAL_TERMS = {
     "spatial",

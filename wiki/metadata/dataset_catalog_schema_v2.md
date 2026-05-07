@@ -2,8 +2,8 @@
 title: Dataset Catalog Schema v2
 type: metadata
 created: 2026-04-21
-updated: 2026-04-21
-sources: [pagoulatos1975.pdf]
+updated: 2026-05-05
+sources: []
 tags: [metadata, schema, catalog, discovery, methodology]
 ---
 
@@ -25,7 +25,6 @@ Design a richer local catalog structure that can:
 ## Design Drivers from Current Project Documents
 
 - The minimal root catalog was sufficient for basic lookup but too shallow for source comparison and model-oriented selection.
-- [[pagoulatos1975_methodology_to_metadata]] requires explicit fields for classification transparency, comparability notes, and risk annotation.
 - [[france_unemployment_datasets_comparison]] shows that dataset choice depends on methodological intent, not only topic keywords.
 - Existing dataset pages already document access conditions, reproducibility constraints, spatial-temporal structure, and preferred analytical use.
 
@@ -141,7 +140,7 @@ For trade datasets:
 
 - UN Comtrade is preferred for maximum official global coverage
 - OECD ITCS is preferred for OECD-centered commodity trade comparisons
-- CEPII BACI is preferred when reconciled bilateral flows and HS6 detail matter for Grubel-Lloyd style work
+- CEPII BACI is preferred when reconciled bilateral flows and HS6 detail matter for trade-panel metadata work
 
 ## Supported Catalog Patterns
 
@@ -173,11 +172,11 @@ The live v2 catalog now includes five documented datasets spanning five distinct
 
 | Dataset | Provider | Warehouse type | Core methodological role |
 |---|---|---|---|
-| [[insee_emploi_chomage_population_active]] | INSEE | national statistical warehouse | France-only labour-market reference |
-| [[eurostat_labour_force_survey]] | Eurostat | supranational statistical warehouse | harmonized European comparison |
-| [[un_comtrade_merchandise_trade]] | UNSD | international statistical warehouse | global official trade baseline |
-| [[oecd_itcs]] | OECD | intergovernmental statistical warehouse | OECD-centered commodity trade analysis |
-| [[cepii_baci]] | CEPII | research data portal | reconciled high-resolution bilateral trade |
+| `insee_emploi_chomage_population_active` | INSEE | national statistical warehouse | France-only labour-market reference |
+| `eurostat_labour_force_survey` | Eurostat | supranational statistical warehouse | harmonized European comparison |
+| `un_comtrade_merchandise_trade` | UNSD | international statistical warehouse | global official trade baseline |
+| `oecd_itcs` | OECD | intergovernmental statistical warehouse | OECD-centered commodity trade analysis |
+| `cepii_baci` | CEPII | research data portal | reconciled high-resolution bilateral trade |
 
 ## Remaining Gaps
 
@@ -187,10 +186,9 @@ The live v2 catalog now includes five documented datasets spanning five distinct
 
 ## Related Pages
 
-- [[pagoulatos1975_methodology_to_metadata]]
 - [[france_unemployment_datasets_comparison]]
-- [[insee_emploi_chomage_population_active]]
-- [[eurostat_labour_force_survey]]
-- [[un_comtrade_merchandise_trade]]
-- [[oecd_itcs]]
-- [[cepii_baci]]
+- `insee_emploi_chomage_population_active`
+- `eurostat_labour_force_survey`
+- `un_comtrade_merchandise_trade`
+- `oecd_itcs`
+- `cepii_baci`

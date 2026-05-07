@@ -1,0 +1,72 @@
+{
+  "created_at": "2026-05-06",
+  "mode": "metadata_only_official_scrape",
+  "network_access": "official pages and APIs only; no large data files downloaded",
+  "records": [
+    {
+      "dataset_id": "data_gouv_dvf_geolocalisees",
+      "source": "data.gouv.fr API",
+      "source_url": "https://www.data.gouv.fr/api/1/datasets/demandes-de-valeurs-foncieres-geolocalisees/",
+      "landing_url": "https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres-geolocalisees",
+      "license": "lov2",
+      "access_type": "open",
+      "frequency": "semiannual",
+      "temporal_coverage": {"start": "2020-07-01", "end": "2025-12-31"},
+      "spatial_coverage": {"zones": ["country:fr"], "granularity": "other"},
+      "resources": [
+        {
+          "title": "DVF janvier 2021 - decembre 2025 - fichier unique",
+          "format": "csv.gz",
+          "filesize": 523248393,
+          "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres-geolocalisees/20260424-090024/dvf.csv.gz"
+        },
+        {
+          "title": "Donnees au format CSV",
+          "format": "url",
+          "url": "https://files.data.gouv.fr/geo-dvf/latest/csv/"
+        }
+      ]
+    },
+    {
+      "dataset_id": "data_gouv_dvf",
+      "source": "data.gouv.fr API",
+      "source_url": "https://www.data.gouv.fr/api/1/datasets/demandes-de-valeurs-foncieres/",
+      "landing_url": "https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres",
+      "license": "lov2",
+      "access_type": "open",
+      "frequency": "semiannual",
+      "temporal_coverage": {"start": "2021-01-01", "end": "2025-12-31"},
+      "spatial_coverage": {"zones": ["country:fr"], "granularity": "poi"},
+      "resources": [
+        {"title": "Valeurs foncieres 2025", "format": "txt.zip", "filesize": 69665132, "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002321/valeursfoncieres-2025.txt.zip"},
+        {"title": "Valeurs foncieres 2024", "format": "txt.zip", "filesize": 65334157, "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002306/valeursfoncieres-2024.txt.zip"},
+        {"title": "Valeurs foncieres 2023", "format": "txt.zip", "filesize": 71675691, "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002251/valeursfoncieres-2023.txt.zip"},
+        {"title": "Valeurs foncieres 2022", "format": "txt.zip", "filesize": 87222404, "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002236/valeursfoncieres-2022.txt.zip"},
+        {"title": "Valeurs foncieres 2021", "format": "txt.zip", "filesize": 86810248, "url": "https://static.data.gouv.fr/resources/demandes-de-valeurs-foncieres/20260405-002223/valeursfoncieres-2021.txt.zip"}
+      ]
+    },
+    {
+      "dataset_id": "insee_base_permanente_equipements",
+      "source": "INSEE official pages",
+      "source_url": "https://www.insee.fr/fr/metadonnees/source/serie/s1161",
+      "access_url": "https://www.insee.fr/fr/metadonnees/source/operation/s2216/bases-donnees-ligne",
+      "license": "Licence Ouverte / Open License for INSEE catalogue datasets",
+      "frequency": "annual",
+      "latest_millesime": "2024",
+      "published_at": "2026-04-28",
+      "spatial_units": ["commune", "supra-communal zoning", "IRIS", "coordinates"],
+      "domains_count": 7,
+      "equipment_types_2024": 229
+    },
+    {
+      "dataset_id": "insee_chomage_halo_series_longues",
+      "source": "INSEE publication page and downloaded CSV manifest",
+      "source_url": "https://www.insee.fr/fr/statistiques/7625228",
+      "download_url": "https://www.insee.fr/fr/statistiques/fichier/7625228/T304.csv",
+      "local_download": "data/downloads/insee_t304_chomage_diplome.csv",
+      "license": "INSEE free reuse terms",
+      "theme": "unemployment and halo around unemployment",
+      "format": "csv"
+    }
+  ]
+}

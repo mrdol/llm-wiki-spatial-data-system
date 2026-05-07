@@ -1,9 +1,9 @@
-﻿---
+---
 title: INSEE
 type: source
 source_family: warehouse
 created: 2026-04-21
-updated: 2026-04-22
+updated: 2026-05-06
 sources: []
 tags: [source, warehouse, France, official-statistics, labour-market, territorial]
 ---
@@ -23,8 +23,14 @@ French national statistical warehouse producing official economic, demographic, 
 
 ## Example Datasets
 
-- [[insee_emploi_chomage_population_active]]
+- [[insee_chomage_halo_series_longues]]
 - [[insee_base_permanente_equipements]]
+
+## Recent Metadata Scrape
+
+- 2026-05-06: metadata-only verification of BPE source and BPE 2024 access pages.
+- 2026-05-06: metadata-only verification of the long-series unemployment publication page and existing CSV manifest.
+- Large official files were not downloaded during this pass.
 
 ## Related Pages
 

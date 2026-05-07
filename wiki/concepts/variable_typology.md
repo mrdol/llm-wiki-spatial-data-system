@@ -34,4 +34,4 @@ Estimator eligibility depends on the target variable type. A continuous `Y` sugg
 
 - [[catalog_registry_schema_v3]]
 - [[estimator_fiche_schema_v1]]
-- [[modeling_evidence]]
+- modeling evidence

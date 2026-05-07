@@ -19,6 +19,6 @@ Spatiotemporal structure can make estimators such as [[stvc]], [[svc]], [[mgwr]]
 
 ## Related Pages
 
-- [[spatial_panel]]
+- spatial panel
 - [[spatial_autocorrelation]]
-- [[variable_typology]]
+- variable typology

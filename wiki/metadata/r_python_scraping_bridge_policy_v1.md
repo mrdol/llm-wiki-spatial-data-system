@@ -19,7 +19,7 @@ The existing Python scripts remain the source of truth for scraping behavior. R 
 
 For scraping workflows:
 
-1. Keep the Python CLI scripts under `pipeline_portals/python/` and `pipeline_lit/`.
+1. Keep the Python CLI scripts under `Code_scrapping/pipeline_portals/python/` and `Code_scrapping/pipeline_lit/`.
 2. Add R wrappers under `R/scraping/`.
 3. Prefer `system2()` for existing `argparse` scripts.
 4. Use `reticulate` only if a Python scraper is later refactored into importable functions.

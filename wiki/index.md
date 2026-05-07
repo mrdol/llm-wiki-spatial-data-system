@@ -1,4 +1,13 @@
-﻿# Wiki Index
+---
+title: Wiki Index
+type: metadata
+created: 2026-04-07
+updated: 2026-05-07
+sources: []
+tags: [index, wiki, catalog]
+---
+
+# Wiki Index
 
 Master catalog of all pages. The LLM reads this first when answering queries to find relevant pages. Updated on every ingest.
 
@@ -8,7 +17,7 @@ Master catalog of all pages. The LLM reads this first when answering queries to 
 
 Each entry follows this format:
 ```
-- [[filename]] - one-line summary | type | last updated
+- `filename` - one-line summary | type | last updated
 ```
 
 ---
@@ -26,7 +35,6 @@ Each entry follows this format:
 
 *One entry per raw document ingested.*
 
-- [[pagoulatos1975_two_way_trade]] - Econometric study of two-way trade determinants and metadata-relevant measurement issues | source | 2026-04-21
 - [[islr2_statistical_learning]] - Official statistical learning textbook used as a general modeling reference for resampling, SVMs, tree methods, and neural networks | source | 2026-04-23
 
 ---
@@ -34,16 +42,23 @@ Each entry follows this format:
 ## Datasets
 
 *One entry per dataset identified.*
+*Storage convention: dataset fiches are grouped by warehouse under `wiki/datasets/<warehouse>/`.*
 
-- [[un_comtrade_merchandise_trade]] - Global official goods trade flows by reporter, partner, product, and time | dataset | 2026-04-22
-- [[oecd_itcs]] - OECD commodity trade panel with annual country-partner-product structure and commodity classifications | dataset | 2026-04-22
-- [[eurostat_comext_itg]] - EU trade-in-goods warehouse with strong country-partner-product-time metadata and multiple nomenclatures | dataset | 2026-04-22
-- [[cepii_baci]] - Harmonized bilateral HS6 trade database with reconciled exporter-importer flows and yearly product metadata | dataset | 2026-04-22
-- [[insee_emploi_chomage_population_active]] - France-focused candidate covering unemployment, diploma-based breakdowns, and territorial labour-market analysis | dataset | 2026-04-21
-- [[eurostat_labour_force_survey]] - Harmonized European candidate covering unemployment, education-related labour outcomes, and regional comparison including France | dataset | 2026-04-21
-- [[insee_base_permanente_equipements]] - France equipment inventory with commune, IRIS, and coordinate-level annual territorial metadata | dataset | 2026-04-22
-- [[data_gouv_dvf_geolocalisees]] - Geolocated French property transactions with parcel, commune, and coordinate fields in repeated time slices | dataset | 2026-04-22
-- [[world_bank_world_development_indicators]] - Global country-time indicator warehouse with rich indicator, geography, and topic metadata | dataset | 2026-04-22
+- [[data_gouv_dvf_geolocalisees]] - Geolocated DVF derivative with normalized transaction fields, parcel identifiers, dates, and WGS-84 coordinates | dataset | 2026-05-06
+- [[data_gouv_dvf]] - Official DGFiP raw DVF dissemination for property transactions over the latest five-year window | dataset | 2026-05-06
+- [[insee_base_permanente_equipements]] - Annual INSEE territorial equipment and services inventory with commune, IRIS, zoning, and coordinate metadata | dataset | 2026-05-06
+- [[insee_chomage_halo_series_longues]] - INSEE long-series unemployment and halo table with a locally downloaded CSV manifest | dataset | 2026-05-06
+- [[zenodo_18421412_mountain_fire]] - Zenodo candidate dataset on climate-fire relationships across global mountain systems | dataset | 2026-05-06
+- [[zenodo_5534232_linear_pottery_harris]] - Zenodo supplementary graph and table files for Linear Pottery and Harris Figure 8 | dataset | 2026-05-06
+- [[zenodo_14499026_cranial_modifications_americas]] - Zenodo analytical dataset and R code for spatial-temporal cranial modification patterns in the Americas | dataset | 2026-05-06
+- [[zenodo_10476054_stehme_holsea_norway]] - Zenodo STEHME/HOLSEA NetCDF files for Norway sea-level dynamics | dataset | 2026-05-06
+- [[zenodo_15501267_imf_by_paper]] - Zenodo NetCDF simulation dataset linked to IMF By thermosphere paper | dataset | 2026-05-06
+- [[dryad_v41ns1rvb_forest_loss_cordillera]] - Dryad forest-loss dataset for spatio-temporal analysis in the Cordillera Administrative Region, Philippines | dataset | 2026-05-07
+- [[dryad_bk3j9kdfk_benthic_trophic_networks]] - Dryad trophic-network monitoring dataset with spatial and temporal Baltic/Skagerrak comparisons | dataset | 2026-05-07
+- [[dryad_8w9ghx3jj_citizen_science_habitat_suitability]] - Dryad citizen-science and systematic-protocol dataset for spatial habitat suitability modelling in Sweden | dataset | 2026-05-07
+- [[zenodo_15530852_mexico_municipalities_expenditure]] - Panel équilibré de 860 municipalités mexicaines (2000-2021) pour l'étude des spillovers de dépenses publiques — SAR/SDM | dataset | 2026-05-06
+- [[zenodo_15627695_mexico_property_tax_spillovers]] - Panel non balancé de municipalités mexicaines (2001-2019) avec taxe foncière et retards spatiaux pour modèles spatiaux dynamiques | dataset | 2026-05-06
+- [[zenodo_15781610_poland_ekc_nuts]] - Données régionales polonaises NUTS2/NUTS3 + GeoJSON pour la courbe de Kuznets environnementale | dataset | 2026-05-06
 
 ---
 
@@ -74,6 +89,8 @@ Each entry follows this format:
 - [[world_bank]] - World Bank warehouse and API ecosystem for global country-level indicators and metadata | source: warehouse | 2026-04-22
 - [[un_comtrade]] - UNSD trade warehouse and explorer for official merchandise trade records and classifications | source: warehouse | 2026-04-22
 - [[cepii]] - CEPII research data portal distributing derived international trade databases and documentation | source: warehouse | 2026-04-22
+- [[zenodo]] - Research repository used for DOI-backed dataset discovery and downloads | source: warehouse | 2026-05-06
+- [[dryad]] - Research data repository used for DOI-backed dataset discovery and file metadata | source: warehouse | 2026-05-07
 - [[r_software_datasets]] - R packages distributing benchmark spatial and spatio-temporal datasets for estimator testing | source: software | 2026-04-29
 - [[python_software_datasets]] - Python packages distributing benchmark spatial and spatio-temporal datasets, including PySAL, geosnap, xarray, and mobility routes | source: software | 2026-04-29
 
@@ -89,11 +106,11 @@ Each entry follows this format:
 
 *One entry per methodological or data concept.*
 
-- [[variable_typology]] - Classification of candidate Y and X variables by modeling role and value type | concept | 2026-04-29
-- [[modeling_evidence]] - Evidence that a paper, codebase, README, or metadata source already defines a model formulation | concept | 2026-04-29
-- [[candidate_dataset]] - Dataset discovered by the system but not yet validated as a final modeling dataset | concept | 2026-04-29
-- [[spatiotemporal_data]] - Data indexed by both space and time | concept | 2026-04-29
-- [[spatial_panel]] - Spatial units observed repeatedly over time | concept | 2026-04-29
+- variable typology - Classification of candidate Y and X variables by modeling role and value type | concept | 2026-04-29
+- modeling evidence - Evidence that a paper, codebase, README, or metadata source already defines a model formulation | concept | 2026-04-29
+- candidate dataset - Dataset discovered by the system but not yet validated as a final modeling dataset | concept | 2026-04-29
+- spatiotemporal data - Data indexed by both space and time | concept | 2026-04-29
+- spatial panel - Spatial units observed repeatedly over time | concept | 2026-04-29
 - [[spatial_autocorrelation]] - Dependence pattern where nearby or connected spatial units tend to have related values | concept | 2026-04-29
 - [[spatial_heterogeneity]] - Variation in relationships, distributions, or parameters across space | concept | 2026-04-29
 - [[data_leakage]] - Validation failure where train data indirectly uses validation or test information | concept | 2026-04-29
@@ -111,6 +128,7 @@ Each entry follows this format:
 - [[estimator_fiche_schema_v1]] - Schema for caret-like estimator fiches, paper evidence, and tuning-relevant hyperparameters | metadata | 2026-04-23
 - [[r_estimator_implementation_policy_v1]] - R-first implementation policy for allowed estimators, with reticulate as the Python fallback route | metadata | 2026-04-30
 - [[r_python_scraping_bridge_policy_v1]] - Policy for calling existing Python scraping scripts from R without rewriting every scraper | metadata | 2026-04-30
+- [[quality_pedigree_schema_v1]] - Human-LLM quality control matrix with score evidence, Delta1 risk, and review status | metadata | 2026-05-05
 
 ---
 
@@ -118,7 +136,6 @@ Each entry follows this format:
 
 *Reference fiches for statistical and machine learning models. Estimation results belong under `wiki/analyses/modeling/estimations/`.*
 
-- [[grubel_lloyd_index]] - Bounded indicator of intra-industry trade intensity based on exports and imports | estimator | 2026-04-21
 - [[xgboost]] - Gradient-boosted tree estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
 - [[lightgbm]] - LightGBM estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
 - [[gamboost]] - GAMBoost estimator fiche template for boosted additive modeling | estimator | 2026-04-23
@@ -127,9 +144,9 @@ Each entry follows this format:
 - [[inla]] - INLA estimator fiche template for latent Gaussian and spatial Bayesian modeling | estimator | 2026-04-23
 - [[stvc]] - STVC estimator fiche template for spatio-temporally varying coefficient modeling | estimator | 2026-04-23
 - [[svc]] - SVC estimator fiche template for spatially varying coefficient modeling | estimator | 2026-04-23
-- [[mgwr]] - MGWR estimator fiche template for multiscale geographically weighted regression | estimator | 2026-04-23
-- [[mgwrsar]] - MGWRSAR estimator fiche template for multiscale geographically weighted regression with spatial autoregressive structure | estimator | 2026-04-23
-- [[spboost]] - SpBoost estimator fiche template for spatial boosting | estimator | 2026-04-23
+- [[mgwr]] - Multiscale geographically weighted regression fiche with mgwrsar package controls, bandwidth search, TDS variants, and validation notes | estimator | 2026-04-30
+- [[mgwrsar]] - GWR/MGWR-SAR fiche with model variants, spatial weights, kernels, bandwidth search, prediction controls, and diagnostics | estimator | 2026-04-30
+- [[spboost]] - Nonlinear spatial autoregressive boosting fiche with local package API, SAR/SEM/SARAR methods, CFE rules, and manual R workflow | estimator | 2026-05-05
 - [[rnn]] - Recurrent neural network estimator fiche for ordered temporal or sequence prediction tasks | estimator | 2026-04-29
 - [[svm]] - Support vector machine estimator fiche for margin-based classification and regression | estimator | 2026-04-29
 
@@ -147,7 +164,6 @@ Each entry follows this format:
 - `wiki/analyses/modeling/predictions/` - prediction outputs and forecast diagnostics
 - `wiki/analyses/modeling/cross_validation/` - validation protocols, folds, leakage checks, and results
 
-- [[pagoulatos1975_methodology_to_metadata]] - Translation of econometric methodology into metadata design requirements | analysis | 2026-04-21
 - [[feature_selection_block_template]] - Generic block for documenting X candidates and X selected for estimation | analysis | 2026-04-29
 - [[software_r_priority_datasets_metadata]] - Consolidated metadata fiche for priority R software datasets with Y/X, temporal status, and download paths | analysis | 2026-04-29
 - [[software_python_priority_datasets_metadata]] - Consolidated metadata fiche for priority Python software datasets with Y/X, temporal status, and exported CSV/GeoJSON paths | analysis | 2026-04-29
@@ -172,4 +188,3 @@ Each entry follows this format:
 - Update the "last updated" date when a page changes substantially
 - Mark orphan pages with `orphan`
 - Prefer linking pages together
-

@@ -4,6 +4,7 @@ type: source
 source_family: software
 created: 2026-04-29
 updated: 2026-04-29
+sources: []
 tags: [software, python, datasets, spatial, spatiotemporal, pysal, geodatasets, giddy, geosnap, xarray]
 ---
 
@@ -14,9 +15,9 @@ This source page groups Python packages that distribute benchmark spatial and sp
 ## Storage
 
 - Metadata fiche: `wiki/analyses/metadata/software_python_priority_datasets_metadata.md`
-- Machine manifest: `data/manifests/software_python_priority_datasets.jsonl`
-- Requested package manifest: `data/manifests/software_python_requested_packages.jsonl`
-- Cross-language conceptual mapping: `data/manifests/software_cross_language_dataset_access.jsonl`
+- Machine manifest: `data/manifests/datasets/software_python_priority_datasets.jsonl`
+- Requested package manifest: `data/manifests/datasets/software_python_requested_packages.jsonl`
+- Cross-language conceptual mapping: `data/manifests/datasets/software_cross_language_dataset_access.jsonl`
 - Exported CSVs: `data/downloads/software/python_datasets/csv/`
 - Exported GeoJSONs: `data/downloads/software/python_datasets/geojson/`
 - geosnap support exports: `data/downloads/software/python_datasets/geosnap/`
@@ -38,3 +39,9 @@ This source page groups Python packages that distribute benchmark spatial and sp
 - Represent cross-language duplicates once at the conceptual level while keeping both R and Python local copies.
 - Test spatial regression, spatial panel, GWR/MGWR, epidemiological, housing, income, and agronomic examples.
 - Support fast local experiments before using heavier external warehouse or paper-derived datasets.
+
+## Related Pages
+
+- [[r_software_datasets]]
+- [[cross_language_software_dataset_access]]
+- [[software_python_priority_datasets_metadata]]

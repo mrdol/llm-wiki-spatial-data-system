@@ -1,3 +1,12 @@
+---
+title: Software Dataset Literature Links
+type: analysis
+created: 2026-04-29
+updated: 2026-05-05
+sources: [data/manifests/datasets/software_dataset_literature_links.jsonl]
+tags: [analysis, discovery, software-datasets, literature, papers]
+---
+
 # Software Dataset Literature Links
 
 This discovery note links documented software datasets to journal articles found through OpenAlex queries. These links are candidates: they should be manually checked before being treated as canonical evidence of dataset use.
@@ -136,3 +145,9 @@ Machine manifest: `data\manifests\software_dataset_literature_links.jsonl`.
 - Trip2Vec: a deep embedding approach for clustering and profiling taxi trip purposes (2018), Personal and Ubiquitous Computing. DOI/OpenAlex: https://doi.org/10.1007/s00779-018-1175-9. Authors: Chao Chen, Chengwu Liao, Xuefeng Xie, Yasha Wang.
 - Exploring the potential of deep regression model for next-location prediction (2024), Knowledge and Information Systems. DOI/OpenAlex: https://doi.org/10.1007/s10115-024-02082-x. Authors: Pushpak Shukla, Shailendra Shukla.
 - Research on the recommendation method of urban location point of interest based on DTCN-EFFN-Transformer (2024), The Journal of Supercomputing. DOI/OpenAlex: https://doi.org/10.1007/s11227-024-06742-1. Authors: Jing Zhang, Yiran Li, Yao Zhang, Yuguang Xu.
+
+## Related Pages
+
+- [[cross_language_software_dataset_access]]
+- [[software_python_priority_datasets_metadata]]
+- [[software_r_priority_datasets_metadata]]

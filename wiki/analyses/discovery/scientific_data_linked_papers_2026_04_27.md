@@ -5,7 +5,7 @@ created: 2026-04-27
 updated: 2026-04-27
 sources:
   - wiki/analyses/raw_spatiotemporal_dataset_scraping_targets_2026_04_23.md
-  - data/manifests/download_batches/2026-04-23_final_download_batch_datasets10_papers10.json
+  - data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json
 tags: [papers, datasets, data-descriptors, spatio-temporal, discovery]
 ---
 

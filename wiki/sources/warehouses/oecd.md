@@ -1,4 +1,4 @@
-﻿---
+---
 title: OECD
 type: source
 source_family: warehouse
@@ -22,7 +22,7 @@ OECD data warehouse and publication ecosystem combining international indicators
 
 ## Example Datasets
 
-- [[oecd_itcs]]
+- `oecd_itcs`
 
 ## Related Pages
 

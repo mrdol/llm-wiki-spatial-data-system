@@ -107,5 +107,5 @@ RNN is plausible only when the dataset has enough temporal depth or event order 
 - [[svm]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- [[spatiotemporal_data]]
+- spatiotemporal data
 - [[data_leakage]]

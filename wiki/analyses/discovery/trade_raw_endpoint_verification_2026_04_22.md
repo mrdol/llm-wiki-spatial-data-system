@@ -12,17 +12,17 @@ Verification note for the remaining trade-dataset acquisition gaps after the fir
 ## Scope
 
 - Datasets checked:
-  - [[un_comtrade_merchandise_trade]]
-  - [[oecd_itcs]]
-  - [[eurostat_comext_itg]]
+  - `un_comtrade_merchandise_trade`
+  - `oecd_itcs`
+  - `eurostat_comext_itg`
 
 ## Verified Outcome
 
-- [[eurostat_comext_itg]] now has a verified raw endpoint and a downloaded file:
+- `eurostat_comext_itg` now has a verified raw endpoint and a downloaded file:
   - endpoint: `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ext_st_eu27_2020sitc?lang=EN`
   - local file: `data/downloads/eurostat_comext_itg_ext_st_eu27_2020sitc.json`
-- [[un_comtrade_merchandise_trade]] still does not have a verified raw endpoint in the project, even after checking official UNSD and Comtrade references.
-- [[oecd_itcs]] still does not have a verified raw endpoint in the project, even after checking official OECD publication and SDMX references.
+- `un_comtrade_merchandise_trade` still does not have a verified raw endpoint in the project, even after checking official UNSD and Comtrade references.
+- `oecd_itcs` still does not have a verified raw endpoint in the project, even after checking official OECD publication and SDMX references.
 
 ## Evidence by Dataset
 
@@ -66,27 +66,27 @@ Verification note for the remaining trade-dataset acquisition gaps after the fir
 
 ### Newly confirmed in this pass
 
-- [[eurostat_comext_itg]]
+- `eurostat_comext_itg`
 
 ### Still unresolved for raw acquisition
 
-- [[un_comtrade_merchandise_trade]]
-- [[oecd_itcs]]
+- `un_comtrade_merchandise_trade`
+- `oecd_itcs`
 
 ## Practical Interpretation
 
 - The trade-download backlog is no longer generic:
-  - [[eurostat_comext_itg]] is operational
-  - [[un_comtrade_merchandise_trade]] is blocked by unresolved live API behavior
-  - [[oecd_itcs]] is blocked by unresolved mapping between the documented publication and a machine-readable SDMX dataflow
+  - `eurostat_comext_itg` is operational
+  - `un_comtrade_merchandise_trade` is blocked by unresolved live API behavior
+  - `oecd_itcs` is blocked by unresolved mapping between the documented publication and a machine-readable SDMX dataflow
 - Future work should focus on:
   - obtaining an official current UN Comtrade API example that returns raw records outside the application shell
   - locating an official OECD ITCS dataflow or bulk file reference that is explicitly tied to the discontinued series
 
 ## Related Pages
 
-- [[un_comtrade_merchandise_trade]]
-- [[oecd_itcs]]
-- [[eurostat_comext_itg]]
+- `un_comtrade_merchandise_trade`
+- `oecd_itcs`
+- `eurostat_comext_itg`
 - [[metadata_oriented_dataset_discovery_warehouses_2026_04_22]]
 - [[dataset_ranking_metadata_spatial_download_priority_2026_04_22]]

@@ -19,6 +19,6 @@ Spatial autocorrelation can motivate spatial weights, Moran eigenvectors, spatia
 
 ## Related Pages
 
-- [[spatial_panel]]
+- spatial panel
 - [[spatial_heterogeneity]]
 - [[data_leakage]]

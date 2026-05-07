@@ -26,6 +26,6 @@ Modeling evidence records the model form found in a source. It does not force ev
 
 ## Related Pages
 
-- [[variable_typology]]
+- variable typology
 - [[catalog_registry_schema_v3]]
 - [[restricted_estimator_policy_v1]]

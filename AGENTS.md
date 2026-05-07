@@ -1,4 +1,4 @@
-﻿# LLM Wiki — Schema for Dataset Research & Metadata
+# LLM Wiki — Schema for Dataset Research & Metadata
 
 This file is your operating manual. Read it at the start of every session.  
 It defines the wiki structure, entity types, workflows, and conventions you must follow.
@@ -116,6 +116,50 @@ Each dataset page must include:
 - Reproducibility (code, repository, etc.)
 - Presence of imputed X
 - Licence
+- Quality pedigree: provenance, score justifications, Delta1 risk, and human review status
+
+## Quality Pedigree Control
+
+Every new dataset, paper, warehouse, or source record that supports decisions must carry a `quality_pedigree` block following `wiki/metadata/quality_pedigree_schema_v1.md`.
+
+The LLM may propose scores, but it must not mark its own evaluation as final. Any LLM-proposed evaluation must remain:
+
+```yaml
+review_status: pending
+evaluator_proposed_by: llm
+human_review_required: true
+```
+
+until the user or supervisor explicitly validates or corrects it.
+
+For each numeric score, store the evidence behind the score:
+
+- `provenance_score` with `provenance_evidence`
+- `rigour_score` with `rigour_evidence`
+- `evidence_score` with `evidence_evidence`
+- `coherence_score` with `coherence_evidence`
+- `claim_discipline_score` with `claim_discipline_evidence`
+
+Use `delta1_risk` to flag whether the LLM is evaluating content it generated itself:
+
+- `low`: the claim is anchored in external verifiable sources
+- `medium`: the claim partly depends on LLM extraction or summary
+- `high`: the LLM is mainly evaluating its own generated content
+- `not_applicable`: purely technical schema or neutral convention
+
+When applying the matrix, ask the user whether they accept, reject, or revise the proposed evaluation before changing `review_status` to `reviewed`.
+
+Citation counts can enrich the decision but must not replace source evidence.
+
+When DOI information is available for a dataset or linked paper, store citation information under `quality_pedigree.citation_metrics` when it has been checked:
+
+- keep `dataset_citation_count` and `paper_citation_count` separate
+- store `citation_source`: OpenAlex, DataCite, Crossref, manual review, none, or unknown
+- store `citation_checked_at`
+- store `citation_interpretation`
+- explain the signal in `citation_evidence`
+
+Do not automatically raise `evidence_score` only because a paper or dataset is cited often. High citations indicate academic visibility or reuse, not necessarily license clarity, variable suitability, reproducibility, or estimator relevance.
 
 ## Analysis Output Routing
 
@@ -256,11 +300,11 @@ When the user asks for dataset discovery without a specific topic:
    - wiki/analyses/discovery/ (for comparisons, search traces, or discovery notes)
    - wiki/analyses/metadata/ (for progressively constructed metadata profiles)
 
-5. Update catalogue_datasets.json with enriched metadata fields
+5. Update data/catalogue_datasets.json with enriched metadata fields
 
 6. If direct access exists:
    - record access method (API, CSV, portal)
-   - create manifest in data/manifests/
+   - create manifest in data/manifests/datasets/
 
 7. Do not clean or transform data
 

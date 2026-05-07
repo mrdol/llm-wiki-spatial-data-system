@@ -14,7 +14,7 @@ Traceability note for the 2026-04-23 batch requested to download 10 datasets and
 - Dataset directory: `data/downloads/2026-04-23_datasets/`
 - Paper directory: `data/downloads/2026-04-23_papers/`
 - Rejected response directory: `data/downloads/2026-04-23_rejected_responses/`
-- Final manifest: `data/manifests/download_batches/2026-04-23_final_download_batch_datasets10_papers10.json`
+- Final manifest: `data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json`
 
 ## Downloaded Datasets
 

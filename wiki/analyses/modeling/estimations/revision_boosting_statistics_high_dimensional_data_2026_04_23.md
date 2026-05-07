@@ -653,3 +653,10 @@ Pas directement. Le livre l'utilise plutot comme screening possible avant sample
 - Forward selection et OMP ressemblent au boosting mais refittent les coefficients actifs, ce qui change leur comportement statistique.
 - Plus d'iterations ne signifie pas toujours mieux: au-dela d'un certain point, le modele surapprend.
 
+## Related Pages
+
+- [[xgboost]]
+- [[lightgbm]]
+- [[gamboost]]
+- [[random_forest]]
+
