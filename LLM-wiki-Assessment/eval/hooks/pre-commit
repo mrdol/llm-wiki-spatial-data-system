@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 # eval/hooks/pre-commit — Hook git pré-commit pour l'évaluation des fiches wiki.
 #
+# Ce hook tourne automatiquement a chaque commit qui modifie des fiches wiki.
+# Il execute Tier 1 (structurel), Tier 2 (semantique LLM) et la verification
+# reseau (resolution DOI + URLs) sans interaction — le flag --external est
+# toujours actif en mode git.
+#
+# Pour une verification manuelle sans --external (prompt interactif) :
+#   python LLM-wiki-Assessment/eval/run_eval.py wiki/...fiche.md
+#
 # Installation :
-#   python eval/install_hook.py
+#   python LLM-wiki-Assessment/eval/install_hook.py
 # ou manuellement :
-#   cp eval/hooks/pre-commit .git/hooks/pre-commit
+#   cp LLM-wiki-Assessment/eval/hooks/pre-commit .git/hooks/pre-commit
 #   chmod +x .git/hooks/pre-commit
 
 set -euo pipefail
+
+export PYTHONIOENCODING=utf-8
 
 META_PATTERN="(index|log|overview|glossary|eval_queue)\.md$"
 
@@ -21,21 +31,21 @@ if [ -z "$STAGED" ]; then
 fi
 
 echo ""
-echo "🔍 Eval — vérification des fiches wiki modifiées..."
+echo "Eval -- verification des fiches wiki modifiees (Tier 1 + Tier 2 + reseau)..."
 
 FAILED=0
 for FILE in $STAGED; do
-  if ! python eval/run_eval.py "$FILE"; then
+  if ! python LLM-wiki-Assessment/eval/run_eval.py "$FILE" --external; then
     FAILED=1
   fi
 done
 
 echo ""
 if [ "$FAILED" -ne 0 ]; then
-  echo "❌ Tier 1 échoué — commit bloqué."
+  echo "BLOQUE -- Tier 1 echoue sur au moins une fiche."
   echo "   Corrige les erreurs ci-dessus puis recommite."
   exit 1
 fi
 
-echo "✅ Toutes les fiches ont passé Tier 1."
+echo "OK -- Toutes les fiches ont passe Tier 1 + verification reseau."
 exit 0

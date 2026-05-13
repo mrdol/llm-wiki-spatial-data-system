@@ -14,7 +14,7 @@ This source page groups R packages that distribute benchmark datasets useful for
 
 ## Storage
 
-- Metadata fiche: `wiki/analyses/metadata/software_r_priority_datasets_metadata.md`
+- Discovery catalogue: `wiki/analyses/discovery/software_r_priority_datasets_metadata.md`
 - Machine manifest: `data/manifests/datasets/software_r_priority_datasets.jsonl`
 - Downloaded CSVs: `data/downloads/software/r_datasets/rdatasets_csv/`
 - Downloaded CRAN archives: `data/downloads/software/r_datasets/cran_packages/`

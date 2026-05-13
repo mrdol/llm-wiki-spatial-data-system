@@ -2,13 +2,17 @@
 
 Usage:
     python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> [<fiche.md> ...]
+    python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --external
     python LLM-wiki-Assessment/eval/run_eval.py --all
     python LLM-wiki-Assessment/eval/run_eval.py --all --external
     python LLM-wiki-Assessment/eval/run_eval.py --all --skip-tests
 
-Flags (only valid with --all):
-    --external    Also run network tests (DOI resolution, URL reachability).
-    --skip-tests  Skip pytest entirely, run only Tier 1/2/3 on wiki fiches.
+Flags:
+    --external    Run network checks (DOI resolution, URL reachability).
+                  Works with individual fiches and with --all.
+                  Without this flag, an interactive prompt is shown when
+                  evaluating individual fiches in a TTY session.
+    --skip-tests  Skip pytest entirely (only valid with --all).
 
 Exit codes:
     0 - Tier 1 passed on all fiches and pytest passed (or was skipped).
@@ -17,10 +21,15 @@ Exit codes:
 
 from __future__ import annotations
 
+import json
+import re
 import subprocess
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.parse import quote, urlparse
+from urllib.request import Request, urlopen
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent  # LLM-wiki-Assessment/eval/ → llm-wiki-karpathy/
 EVAL_PACKAGE_ROOT = Path(__file__).parent.parent    # LLM-wiki-Assessment/
@@ -157,6 +166,165 @@ def _print_pytest_section(result: PytestResult, external: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
+# External validation (DOI resolution + URL reachability) on a single fiche
+# ---------------------------------------------------------------------------
+
+_DOI_RE  = re.compile(r"\b10\.\d{4,9}/[^\s\)\]\>\`\"\']+", re.IGNORECASE)
+_URL_RE  = re.compile(r"https?://[^\s\)\]\>\`\"\']+")
+_TRAIL   = re.compile(r"[.,);>\]`'\"]+$")
+
+
+def _clean_doi(raw: str) -> str:
+    raw = _TRAIL.sub("", raw.strip())
+    raw = re.sub(r"^https?://(dx\.)?doi\.org/", "", raw, flags=re.IGNORECASE)
+    return raw.lower()
+
+
+def _extract_dois(body: str) -> list[str]:
+    seen: set[str] = set()
+    result = []
+    for m in _DOI_RE.finditer(body):
+        doi = _clean_doi(m.group())
+        if doi not in seen:
+            seen.add(doi)
+            result.append(doi)
+    return result
+
+
+def _extract_urls(body: str) -> list[str]:
+    seen: set[str] = set()
+    result = []
+    for m in _URL_RE.finditer(body):
+        url = _TRAIL.sub("", m.group())
+        parsed = urlparse(url)
+        if parsed.scheme in {"http", "https"} and parsed.netloc and url not in seen:
+            seen.add(url)
+            result.append(url)
+    return result
+
+
+def _fetch_doi_metadata(doi: str) -> dict:
+    """Query doi.org for CSL JSON metadata (raises on failure)."""
+    req = Request(
+        f"https://doi.org/{quote(doi, safe='/')}",
+        headers={
+            "Accept": "application/vnd.citationstyles.csl+json",
+            "User-Agent": "llm-wiki-validation/1.0 (run_eval external check)",
+        },
+    )
+    with urlopen(req, timeout=15) as resp:
+        payload = resp.read().decode("utf-8", errors="replace")
+    data = json.loads(payload)
+    if not isinstance(data, dict):
+        raise ValueError("doi.org did not return a JSON object")
+    return data
+
+
+def _check_url_reachable(url: str) -> tuple[bool, str | None]:
+    """HEAD then GET fallback. Returns (ok, reason_if_not_ok)."""
+    headers = {"User-Agent": "llm-wiki-validation/1.0 (run_eval external check)"}
+    for method in ("HEAD", "GET"):
+        req = Request(url, headers=headers, method=method)
+        try:
+            with urlopen(req, timeout=15) as resp:
+                status = getattr(resp, "status", 200)
+                if status < 400:
+                    return True, None
+                return False, f"HTTP {status}"
+        except HTTPError as exc:
+            if method == "HEAD" and exc.code in {403, 405, 501}:
+                continue
+            if 500 <= exc.code <= 599:
+                return True, f"transient server error HTTP {exc.code}"
+            return False, f"HTTP {exc.code}"
+        except (TimeoutError, URLError) as exc:
+            if "timed out" in str(exc).lower():
+                return True, f"timeout (traite comme transitoire)"
+            return False, str(exc)
+    return False, "unreachable"
+
+
+def _run_external_checks(body: str) -> bool:
+    """Run DOI resolution and URL reachability on content extracted from fiche.
+
+    Returns True if all checks passed (or no checks ran), False if any failed.
+    """
+    dois = _extract_dois(body)
+    urls = _extract_urls(body)
+
+    print("\nTier Ext - Verification reseau")
+    print("-" * 60)
+
+    if not dois and not urls:
+        print("  Aucun DOI ni URL HTTP/HTTPS trouves dans la fiche")
+        return True
+
+    all_ok = True
+
+    if dois:
+        print(f"\n  DOI trouves : {len(dois)}")
+        for doi in dois:
+            try:
+                remote = _fetch_doi_metadata(doi)
+                remote_title = remote.get("title") or ""
+                if isinstance(remote_title, list):
+                    remote_title = " ".join(str(x) for x in remote_title)
+                remote_type  = remote.get("type", "inconnu")
+                remote_doi   = _clean_doi(str(remote.get("DOI") or remote.get("doi") or doi))
+                match_marker = "OK" if remote_doi == doi else "WARN"
+                print(f"    OK   {doi}")
+                print(f"         type={remote_type}")
+                if remote_title:
+                    print(f"         titre distant : {remote_title[:100]}")
+                if match_marker == "WARN":
+                    print(f"         WARN DOI retourne par le serveur : {remote_doi!r}")
+            except Exception as exc:
+                print(f"    FAIL {doi}")
+                print(f"         {exc}")
+                all_ok = False
+
+    if urls:
+        print(f"\n  URLs trouvees : {len(urls)} (verification des 10 premieres)")
+        for url in urls[:10]:
+            ok, reason = _check_url_reachable(url)
+            marker = "OK  " if ok else "FAIL"
+            note   = f"  [{reason}]" if reason else ""
+            short  = url if len(url) <= 90 else url[:87] + "..."
+            print(f"    {marker} {short}{note}")
+            if not ok:
+                all_ok = False
+
+    print()
+    if all_ok:
+        print("  Resultat : tous les DOI et URLs sont accessibles")
+    else:
+        print("  Resultat : certains DOI ou URLs sont inaccessibles (voir details ci-dessus)")
+
+    return all_ok
+
+
+def _ask_external(external_flag: bool) -> bool:
+    """Return True if external checks should run.
+
+    - If --external flag is set: always True.
+    - If stdin is a TTY (interactive session): ask the user.
+    - Otherwise (CI / pipe): skip silently.
+    """
+    if external_flag:
+        return True
+    if not sys.stdin.isatty():
+        return False
+    try:
+        answer = input(
+            "\nLancer la verification reseau (resolution DOI + URLs) ? [o/N] "
+        ).strip().lower()
+        return answer in {"o", "oui", "y", "yes"}
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return False
+
+
+# ---------------------------------------------------------------------------
 # Fiche evaluation
 # ---------------------------------------------------------------------------
 
@@ -186,7 +354,7 @@ class FicheOutcome:
     score: float | None = None
 
 
-def eval_fiche(fiche_path: Path) -> FicheOutcome:
+def eval_fiche(fiche_path: Path, external: bool = False) -> FicheOutcome:
     """Evaluate one fiche. Returns a FicheOutcome summary."""
     outcome = FicheOutcome(path=fiche_path)
 
@@ -256,6 +424,10 @@ def eval_fiche(fiche_path: Path) -> FicheOutcome:
         print(f"  Reason: {t2.reasoning}")
 
     outcome.score = t2.score
+
+    # --- External validation (DOI resolution + URL reachability) ---
+    if _ask_external(external):
+        _run_external_checks(body)
 
     if t2.score >= SCORE_OK:
         tier3_queue.remove_from_queue(fiche_path)
@@ -336,9 +508,9 @@ def main() -> int:
     skip_tests  = "--skip-tests" in args
     file_args   = [a for a in args if not a.startswith("--")]
 
-    # --external and --skip-tests only make sense with --all
-    if (external or skip_tests) and not run_all:
-        print("--external and --skip-tests require --all")
+    # --skip-tests only makes sense with --all
+    if skip_tests and not run_all:
+        print("--skip-tests requires --all")
         return 1
 
     pytest_result: PytestResult | None = None
@@ -377,7 +549,7 @@ def main() -> int:
 
     outcomes: list[FicheOutcome] = []
     for path in paths:
-        outcome = eval_fiche(path)
+        outcome = eval_fiche(path, external=external)
         outcomes.append(outcome)
 
     # Step 3 — consolidated summary (only with --all)

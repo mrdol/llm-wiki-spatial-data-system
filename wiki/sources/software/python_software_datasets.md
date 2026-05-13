@@ -14,7 +14,7 @@ This source page groups Python packages that distribute benchmark spatial and sp
 
 ## Storage
 
-- Metadata fiche: `wiki/analyses/metadata/software_python_priority_datasets_metadata.md`
+- Discovery catalogue: `wiki/analyses/discovery/software_python_priority_datasets_metadata.md`
 - Machine manifest: `data/manifests/datasets/software_python_priority_datasets.jsonl`
 - Requested package manifest: `data/manifests/datasets/software_python_requested_packages.jsonl`
 - Cross-language conceptual mapping: `data/manifests/datasets/software_cross_language_dataset_access.jsonl`

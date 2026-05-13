@@ -22,6 +22,16 @@ Your job is to:
 You never modify files in `raw/`.  
 You own everything in `wiki/`.
 
+### Boundary with Tests and Evaluation
+
+The wiki maintainer agent does **not** own the test or evaluation layer.
+
+- Do not create, modify, reorganize, or delete files under `LLM-wiki-Assessment/`, `.eval/`, `eval/`, or any test/evaluation directory unless the user explicitly asks for that specific change.
+- Do not run `pytest`, external DOI checks, semantic judges, hooks, or evaluation scripts as part of normal scraping, ingest, or fiche creation.
+- Scraping and curation outputs should stop at manifests, wiki fiches, source pages, catalogue updates, and activity logs.
+- The evaluation agent is responsible for running tests, DOI validation, license validation, semantic checks, and reporting failures.
+- If a scraping or curation change may need validation, record what changed and which files should be checked, but leave execution to the evaluation agent.
+
 ---
 
 ## Directory Structure
@@ -118,6 +128,147 @@ Each dataset page must include:
 - Licence
 - Quality pedigree: provenance, score justifications, Delta1 risk, and human review status
 
+## Scientific Paper Ingestion Policy
+
+Only ingest scientific papers into the wiki or paper manifests when they satisfy the project data-discovery purpose.
+
+A paper is eligible when it provides both:
+
+- access information for a spatial or spatio-temporal dataset, such as a dataset DOI, repository landing page, supplementary data link, data availability statement, accession number, archive identifier, or enough explicit metadata to identify the dataset source; and
+- modeling evidence behind the dataset, such as a statistical model, machine-learning model, spatial/spatio-temporal regression, forecasting method, simulation model, point-process model, interpolation/kriging method, validation protocol, or comparable quantitative analysis.
+
+Default paper prioritization also requires:
+
+- at least 4 named authors; and
+- a recognized publisher, journal, or scientific data venue.
+
+If a paper has fewer than 4 authors, keep it in `review` unless it has unusually strong evidence: a resolvable dataset/archive DOI, a documented replication package or repository, and explicit spatial or spatio-temporal modeling evidence. Record the exception reason in the paper manifest and fiche.
+
+Recognized publisher or venue evidence includes, for example, Wiley, Elsevier, Springer Nature, Taylor & Francis, Oxford University Press, Cambridge University Press, Copernicus, MDPI, PLOS, AGU, INFORMS, ASA, Royal Statistical Society, Journal of Applied Econometrics, Earth System Science Data, and comparable peer-reviewed journals or data journals.
+
+Do not ingest papers that only mention a theme, geography, estimator, or dataset name without a usable dataset access route.
+
+Do not immediately scrape or download the dataset during the paper-discovery phase unless the user explicitly asks for dataset scraping. First store the paper DOI, title, authors, year, journal, dataset DOI or access link, data-availability excerpt, and modeling/method evidence in a paper or discovery manifest.
+
+Keep paper DOI and dataset DOI separate in all manifests and fiches.
+
+## Scientific Paper Page Format
+
+Scientific paper fiches live in `wiki/papers/` when they document a specific paper that gives access to a spatial or spatio-temporal dataset and contains modeling evidence.
+
+Use `type: paper` in YAML frontmatter for these pages.
+
+Every paper fiche must use the canonical field names below. Do not replace them with synonyms such as `Title`, `Publication DOI`, `Landing URL`, or `Dataset Evidence` unless the canonical fields are also present.
+
+```markdown
+---
+title: <short paper fiche title>
+type: paper
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+sources:
+  - <paper/discovery manifest>
+  - <paper DOI URL or publisher/source URL>
+  - <dataset/archive DOI URL or repository URL if known>
+  - <dataset manifest if already known>
+tags: [paper, dataset-source, spatial | spatiotemporal, <venue/source tags>]
+---
+
+One-line summary explaining why this paper is useful for dataset discovery.
+
+## Identity
+
+- Paper ID: `<stable_paper_id>`
+- Paper title: <full official title>
+- Authors: <author list>
+- Author count: <integer>
+- Year: <publication year>
+- Venue: <journal/conference/book/source>
+- Publisher / editor: <publisher, journal publisher, or recognized venue>
+- Publisher recognized: yes | no | uncertain
+- Paper DOI: `<doi>` or `unknown_not_found`
+- Source URL: <canonical DOI URL, publisher URL, or repository landing page>
+
+## Abstract
+
+Clean abstract or a faithful excerpt. If the abstract is very long or HTML-heavy, keep a concise cleaned excerpt here and store the full version in the manifest.
+
+Tier 1 treats the body of this `## Abstract` section as the canonical abstract value. Do not replace this section with only a frontmatter field.
+
+## Dataset Linkage
+
+- Dataset linkage present: yes | no | uncertain
+- Linked dataset ID: `<wiki_dataset_id>` or `unknown_pending_curation`
+- Linked dataset page: [[dataset_page]] or `not_created_yet`
+- Dataset DOI: `<dataset_doi>` or `unknown_not_found` or `not_applicable`
+- Dataset/archive DOI: `<archive_doi>` if the DOI is for an archive/release rather than a pure dataset DOI
+- Dataset source URL: <repository/warehouse/supplement URL>
+- Repository URL: <GitHub/GitLab/institutional repository URL if present>
+- Data availability excerpt: <clean excerpt from the paper>
+- Linkage evidence: <why the paper-dataset link is reliable>
+
+## Modeling Evidence
+
+```yaml
+modeling_evidence:
+  modeling_task_hint: regression | classification | count_model | survival | panel_regression | spatial_regression | spatiotemporal_regression | forecasting | simulation_modeling | point_process | interpolation | unknown
+  method_or_model: <method named in the paper>
+  response_variable: <Y if stated, otherwise unknown>
+  predictors_or_covariates: [<X variables or groups if stated>]
+  equation_or_objective: <source-faithful equation/formulation or unknown_not_extracted>
+  validation_evidence: <cross-validation, holdout, AUC, RMSE, posterior checks, etc. or unknown>
+  evidence_source: paper abstract | methods | data availability | supplementary material | code | manifest | manual lookup
+```
+
+## Dataset Access Decision
+
+- Ingestion decision: eligible | review | reject
+- Reason: <short reason>
+- Dataset scraping status: not_started | metadata_only | downloaded | rejected
+- Next action: <paper curation, dataset metadata scrape, dataset download, manual review, etc.>
+
+## Quality Pedigree
+
+```yaml
+quality_pedigree:
+  provenance: peer_reviewed_article | data_journal | preprint | book_chapter | repository_metadata | unknown
+  provenance_score: <1-5>
+  provenance_evidence: "<evidence>"
+  rigour_score: <1-5>
+  rigour_evidence: "<evidence>"
+  evidence_score: <1-5>
+  evidence_evidence: "<evidence>"
+  coherence_score: <1-5>
+  coherence_evidence: "<evidence>"
+  claim_discipline_score: <1-5>
+  claim_discipline_evidence: "<evidence>"
+  citation_metrics:
+    dataset_citation_count: null
+    paper_citation_count: null
+    citation_source: none | OpenAlex | DataCite | Crossref | manual review | unknown
+    citation_checked_at: null
+    citation_interpretation: not_checked
+    citation_evidence: "<evidence>"
+  delta1_risk: low | medium | high | not_applicable
+  evaluator_proposed_by: llm
+  human_review_required: true
+  review_status: pending
+```
+
+## Related Pages
+
+- [[linked_dataset_page]]
+- [[source_or_journal_page]]
+- [[discovery_note]]
+```
+
+Minimum acceptance requirements for paper fiches:
+
+- `Paper title`, `Paper DOI`, `Source URL`, `Abstract`, and `Dataset Linkage` must be present.
+- `Dataset Linkage` must separate paper DOI from dataset DOI or archive DOI.
+- `Modeling Evidence` must state whether the paper actually models the dataset or only publishes/describes it.
+- If no usable dataset access route is present, do not ingest the paper as a project paper fiche; keep it only in a rejected or exploratory discovery manifest.
+
 ## Quality Pedigree Control
 
 Every new dataset, paper, warehouse, or source record that supports decisions must carry a `quality_pedigree` block following `wiki/metadata/quality_pedigree_schema_v1.md`.
@@ -165,10 +316,10 @@ Do not automatically raise `evidence_score` only because a paper or dataset is c
 
 Do not put progressive pipeline outputs directly into `wiki/metadata/` or `wiki/estimators/`.
 
-- `wiki/metadata/` stores system rules and schemas only.
+- `wiki/metadata/` stores system rules, schemas, reusable templates, and routing conventions only.
 - `wiki/estimators/` stores stable method reference fiches only.
-- `wiki/analyses/metadata/` stores constructed metadata profiles based on raw metadata, dataset descriptions, and later direct data inspection.
-- `wiki/analyses/discovery/` stores dataset, paper, and source discovery outputs.
+- `wiki/analyses/metadata/` stores enriched metadata profiles for confirmed or validated datasets only. Do not place preparation templates, candidate lists, or generic rules there.
+- `wiki/analyses/discovery/` stores dataset, paper, and source discovery outputs, including candidate catalogues and priority lists.
 - `wiki/analyses/modeling/estimations/` stores fitted-model summaries and estimator comparison outputs.
 - `wiki/analyses/modeling/predictions/` stores prediction or forecasting outputs.
 - `wiki/analyses/modeling/cross_validation/` stores validation protocols, folds, leakage checks, and validation results.
@@ -297,8 +448,8 @@ When the user asks for dataset discovery without a specific topic:
    - wiki/sources/warehouses/ (if new warehouse source)
    - wiki/sources/software/ (if new software/package/API source)
    - wiki/sources/literature/ (if new scientific-literature source)
-   - wiki/analyses/discovery/ (for comparisons, search traces, or discovery notes)
-   - wiki/analyses/metadata/ (for progressively constructed metadata profiles)
+   - wiki/analyses/discovery/ (for comparisons, search traces, discovery notes, or candidate catalogues)
+   - wiki/analyses/metadata/ (only for enriched metadata profiles of confirmed or validated datasets)
 
 5. Update data/catalogue_datasets.json with enriched metadata fields
 
@@ -308,7 +459,9 @@ When the user asks for dataset discovery without a specific topic:
 
 7. Do not clean or transform data
 
-8. Focus on improving the metadata system, not solving a specific research question
+8. Do not run test or evaluation commands; leave validation to the evaluation agent
+
+9. Focus on improving the metadata system, not solving a specific research question
 
 ### Lint
 
@@ -389,6 +542,7 @@ At the start of every session:
 ## Notes
 
 - Never modify `raw/`
+- Never touch test/evaluation files or run evaluation commands unless explicitly requested
 - Prefer updating pages over duplication
 - Always maintain metadata quality
 - Always link related knowledge

@@ -1,6 +1,6 @@
 {
   "schema_version": "3.0",
-  "updated_at": "2026-05-07",
+  "updated_at": "2026-05-11",
   "catalog_policy": {
     "supported_record_types": [
       "dataset",
@@ -168,10 +168,32 @@
         "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
       },
       "content_metadata": {
-        "candidate_y": ["valeur_fonciere", "surface_reelle_bati", "surface_terrain"],
-        "candidate_y_typology": ["continuous", "count"],
-        "candidate_x": ["date_mutation", "code_commune", "code_departement", "id_parcelle", "type_local", "longitude", "latitude"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "geometry", "timestamp"],
+        "candidate_y": [
+          "valeur_fonciere",
+          "surface_reelle_bati",
+          "surface_terrain"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "count"
+        ],
+        "candidate_x": [
+          "date_mutation",
+          "code_commune",
+          "code_departement",
+          "id_parcelle",
+          "type_local",
+          "longitude",
+          "latitude"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "geometry",
+          "timestamp"
+        ],
         "presence_of_imputed_x": "unknown"
       },
       "spatiotemporal": {
@@ -243,10 +265,30 @@
         "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
       },
       "content_metadata": {
-        "candidate_y": ["valeur_fonciere", "surface_reelle_bati", "surface_terrain"],
-        "candidate_y_typology": ["continuous", "count"],
-        "candidate_x": ["date_mutation", "nature_mutation", "code_commune", "code_departement", "id_parcelle", "type_local"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "timestamp"],
+        "candidate_y": [
+          "valeur_fonciere",
+          "surface_reelle_bati",
+          "surface_terrain"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "count"
+        ],
+        "candidate_x": [
+          "date_mutation",
+          "nature_mutation",
+          "code_commune",
+          "code_departement",
+          "id_parcelle",
+          "type_local"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "timestamp"
+        ],
         "presence_of_imputed_x": "unknown"
       },
       "spatiotemporal": {
@@ -323,10 +365,30 @@
         "local_manifest": "data/manifests/datasets/france_official_datasets_metadata_2026_05_06.json"
       },
       "content_metadata": {
-        "candidate_y": ["equipment_count", "equipment_presence"],
-        "candidate_y_typology": ["count", "binary", "presence_absence"],
-        "candidate_x": ["equipment_type", "equipment_domain", "commune_code", "iris_code", "coordinates", "millesime"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "geometry"],
+        "candidate_y": [
+          "equipment_count",
+          "equipment_presence"
+        ],
+        "candidate_y_typology": [
+          "count",
+          "binary",
+          "presence_absence"
+        ],
+        "candidate_x": [
+          "equipment_type",
+          "equipment_domain",
+          "commune_code",
+          "iris_code",
+          "coordinates",
+          "millesime"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "geometry"
+        ],
         "presence_of_imputed_x": "unknown"
       },
       "spatiotemporal": {
@@ -404,10 +466,27 @@
         "local_download": "data/downloads/insee_t304_chomage_diplome.csv"
       },
       "content_metadata": {
-        "candidate_y": ["unemployment_count", "unemployment_rate", "halo_indicators"],
-        "candidate_y_typology": ["count", "rate"],
-        "candidate_x": ["year", "diploma_level", "sex", "grouped_age", "labour_market_status"],
-        "candidate_x_typology": ["temporal", "categorical", "identifier"],
+        "candidate_y": [
+          "unemployment_count",
+          "unemployment_rate",
+          "halo_indicators"
+        ],
+        "candidate_y_typology": [
+          "count",
+          "rate"
+        ],
+        "candidate_x": [
+          "year",
+          "diploma_level",
+          "sex",
+          "grouped_age",
+          "labour_market_status"
+        ],
+        "candidate_x_typology": [
+          "temporal",
+          "categorical",
+          "identifier"
+        ],
         "presence_of_imputed_x": "unknown"
       },
       "spatiotemporal": {
@@ -489,12 +568,32 @@
         "approximate_downloaded_size_mb": 25.18
       },
       "content_metadata": {
-        "candidate_y": ["sea-level variables", "sea-level uncertainty variables"],
-        "candidate_y_typology": ["continuous", "unknown_pending_inspection"],
-        "candidate_x": ["spatial coordinates", "time", "depth or index variables"],
-        "candidate_x_typology": ["spatial", "temporal", "continuous", "identifier", "geometry", "unknown_pending_inspection"],
+        "candidate_y": [
+          "sea-level variables",
+          "sea-level uncertainty variables"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "unknown_pending_inspection"
+        ],
+        "candidate_x": [
+          "spatial coordinates",
+          "time",
+          "depth or index variables"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "continuous",
+          "identifier",
+          "geometry",
+          "unknown_pending_inspection"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["NetCDF", "CSV"],
+        "main_file_formats": [
+          "NetCDF",
+          "CSV"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -588,12 +687,33 @@
         "approximate_total_size_mb": 86.89
       },
       "content_metadata": {
-        "candidate_y": ["unknown before data inspection"],
-        "candidate_y_typology": ["unknown"],
-        "candidate_x": ["archaeological variables", "location variables", "time-window variables", "cultural variables"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "continuous", "unknown_pending_inspection"],
+        "candidate_y": [
+          "unknown before data inspection"
+        ],
+        "candidate_y_typology": [
+          "unknown"
+        ],
+        "candidate_x": [
+          "archaeological variables",
+          "location variables",
+          "time-window variables",
+          "cultural variables"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "continuous",
+          "unknown_pending_inspection"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["CSV", "R", "DOCX", "ZIP"],
+        "main_file_formats": [
+          "CSV",
+          "R",
+          "DOCX",
+          "ZIP"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -687,12 +807,31 @@
         "approximate_downloaded_size_mb": 100.93
       },
       "content_metadata": {
-        "candidate_y": ["thermosphere simulation outputs", "ionosphere simulation outputs"],
-        "candidate_y_typology": ["continuous", "unknown_pending_inspection"],
-        "candidate_x": ["spatial coordinates", "time", "IMF By scenario variables"],
-        "candidate_x_typology": ["spatial", "temporal", "continuous", "timestamp", "unknown_pending_inspection"],
+        "candidate_y": [
+          "thermosphere simulation outputs",
+          "ionosphere simulation outputs"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "unknown_pending_inspection"
+        ],
+        "candidate_x": [
+          "spatial coordinates",
+          "time",
+          "IMF By scenario variables"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "continuous",
+          "timestamp",
+          "unknown_pending_inspection"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["NetCDF", "XML"],
+        "main_file_formats": [
+          "NetCDF",
+          "XML"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -796,12 +935,28 @@
         "approximate_total_size_mb": 99.45
       },
       "content_metadata": {
-        "candidate_y": ["unknown before data inspection"],
-        "candidate_y_typology": ["unknown"],
-        "candidate_x": ["climate variables", "fire variables"],
-        "candidate_x_typology": ["temporal", "spatial", "continuous", "unknown_pending_inspection"],
+        "candidate_y": [
+          "unknown before data inspection"
+        ],
+        "candidate_y_typology": [
+          "unknown"
+        ],
+        "candidate_x": [
+          "climate variables",
+          "fire variables"
+        ],
+        "candidate_x_typology": [
+          "temporal",
+          "spatial",
+          "continuous",
+          "unknown_pending_inspection"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["CSV", "JavaScript", "Markdown"],
+        "main_file_formats": [
+          "CSV",
+          "JavaScript",
+          "Markdown"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -895,12 +1050,32 @@
         "approximate_total_size_mb": 1.49
       },
       "content_metadata": {
-        "candidate_y": ["unknown before graph/data inspection"],
-        "candidate_y_typology": ["unknown"],
-        "candidate_x": ["graph attributes", "stratigraphic variables"],
-        "candidate_x_typology": ["categorical", "identifier", "temporal", "graph", "spatial", "unknown_pending_inspection"],
+        "candidate_y": [
+          "unknown before graph/data inspection"
+        ],
+        "candidate_y_typology": [
+          "unknown"
+        ],
+        "candidate_x": [
+          "graph attributes",
+          "stratigraphic variables"
+        ],
+        "candidate_x_typology": [
+          "categorical",
+          "identifier",
+          "temporal",
+          "graph",
+          "spatial",
+          "unknown_pending_inspection"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["GraphML", "CSV", "HMCX", "PDF", "JPG"],
+        "main_file_formats": [
+          "GraphML",
+          "CSV",
+          "HMCX",
+          "PDF",
+          "JPG"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -994,12 +1169,37 @@
       "content_metadata": {
         "description_excerpt": "The Dryad description documents spatial and temporal forest-loss analysis in the Cordillera Administrative Region, Philippines, using Hansen Global Forest Change data from 2001 to 2019 and seven independent variables.",
         "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.v41ns1rvb",
-        "candidate_y": ["forest_loss_area", "annual_deforestation_rate", "forest_loss_extent"],
-        "candidate_y_typology": ["continuous", "rate", "count"],
-        "candidate_x": ["forest_cover", "agricultural_areas", "built_up", "road_network", "socio_economic_data", "spatial_unit", "year"],
-        "candidate_x_typology": ["spatial", "temporal", "continuous", "categorical", "identifier", "timestamp"],
+        "candidate_y": [
+          "forest_loss_area",
+          "annual_deforestation_rate",
+          "forest_loss_extent"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "rate",
+          "count"
+        ],
+        "candidate_x": [
+          "forest_cover",
+          "agricultural_areas",
+          "built_up",
+          "road_network",
+          "socio_economic_data",
+          "spatial_unit",
+          "year"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "continuous",
+          "categorical",
+          "identifier",
+          "timestamp"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["XLSX"],
+        "main_file_formats": [
+          "XLSX"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -1088,12 +1288,39 @@
       "content_metadata": {
         "description_excerpt": "The Dryad description documents trophic networks constructed from biodiversity monitoring data and known trophic links, comparing benthic invertebrate networks across Swedish coastal basins and two time windows.",
         "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.bk3j9kdfk",
-        "candidate_y": ["species_richness", "food_web_metrics", "network_diversity", "stability_metrics", "trophic_links"],
-        "candidate_y_typology": ["continuous", "count", "rate", "unknown"],
-        "candidate_x": ["time_period", "coastal_basin", "monitoring_location", "species_taxon", "trophic_link_attributes"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "identifier", "continuous", "unknown"],
+        "candidate_y": [
+          "species_richness",
+          "food_web_metrics",
+          "network_diversity",
+          "stability_metrics",
+          "trophic_links"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "count",
+          "rate",
+          "unknown"
+        ],
+        "candidate_x": [
+          "time_period",
+          "coastal_basin",
+          "monitoring_location",
+          "species_taxon",
+          "trophic_link_attributes"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "continuous",
+          "unknown"
+        ],
         "presence_of_imputed_x": "unknown",
-        "main_file_formats": ["XLSX", "TXT"],
+        "main_file_formats": [
+          "XLSX",
+          "TXT"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -1182,12 +1409,37 @@
       "content_metadata": {
         "description_excerpt": "The Dryad description documents a comparison of opportunistic reporting and systematic protocol data for species-distribution and habitat suitability modelling across Sweden in 2000-2013.",
         "description_source_url": "https://datadryad.org/stash/dataset/doi:10.5061/dryad.8w9ghx3jj",
-        "candidate_y": ["species_presence_absence", "habitat_suitability", "predictive_performance", "auc"],
-        "candidate_y_typology": ["binary", "continuous", "rate"],
-        "candidate_x": ["species", "reporting_protocol", "spatial_predictors", "environmental_predictors", "inferred_absences", "time_period"],
-        "candidate_x_typology": ["spatial", "temporal", "categorical", "continuous", "imputed", "identifier"],
+        "candidate_y": [
+          "species_presence_absence",
+          "habitat_suitability",
+          "predictive_performance",
+          "auc"
+        ],
+        "candidate_y_typology": [
+          "binary",
+          "continuous",
+          "rate"
+        ],
+        "candidate_x": [
+          "species",
+          "reporting_protocol",
+          "spatial_predictors",
+          "environmental_predictors",
+          "inferred_absences",
+          "time_period"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "continuous",
+          "imputed",
+          "identifier"
+        ],
         "presence_of_imputed_x": "yes",
-        "main_file_formats": ["CSV"],
+        "main_file_formats": [
+          "CSV"
+        ],
         "variables_inspected": false
       },
       "spatiotemporal": {
@@ -1239,9 +1491,247 @@
         "human_review_required": true,
         "review_status": "pending"
       }
+    },
+    {
+      "record_type": "dataset",
+      "dataset_id": "zenodo_3998463_ipcc_atlas_regions",
+      "identity": {
+        "title": "SantanderMetGroup/ATLAS: Final version of IPCC WGI reference regions v4",
+        "wiki_page": "wiki/datasets/zenodo/zenodo_3998463_ipcc_atlas_regions.md",
+        "dataset_doi": null,
+        "archive_identifier": "10.5281/zenodo.3998463",
+        "archive_identifier_kind": "zenodo_mixed_code_data_archive"
+      },
+      "source_access": {
+        "warehouses": [
+          {
+            "name": "Zenodo",
+            "provider": "Zenodo research repository",
+            "url": "https://zenodo.org/record/3998463",
+            "discovery_layers": [
+              {
+                "layer_type": "datacite_api",
+                "url": "https://api.datacite.org/dois/10.5281/zenodo.3998463",
+                "access": "open"
+              },
+              {
+                "layer_type": "github_repository",
+                "url": "https://github.com/SantanderMetGroup/ATLAS",
+                "access": "open"
+              }
+            ]
+          },
+          {
+            "name": "Earth System Science Data",
+            "provider": "Copernicus data journal",
+            "url": "https://doi.org/10.5194/essd-12-2959-2020",
+            "discovery_layers": [
+              {
+                "layer_type": "paper_doi",
+                "url": "https://doi.org/10.5194/essd-12-2959-2020",
+                "access": "open"
+              }
+            ]
+          }
+        ],
+        "local_manifest": "data/manifests/datasets/zenodo_3998463_ipcc_atlas_regions_2026_05_11.json",
+        "download_status": "metadata_scraped_files_not_downloaded",
+        "files_listed": null,
+        "approximate_total_size_mb": null
+      },
+      "content_metadata": {
+        "description_excerpt": "Updated IPCC WGI reference regions with polygons, coordinates, shapefiles, notebooks, and monthly temperature and precipitation aggregates over reference regions for climate-model analysis.",
+        "description_source_url": "https://github.com/SantanderMetGroup/ATLAS",
+        "candidate_y": [
+          "regional_mean_precipitation",
+          "regional_mean_near_surface_temperature",
+          "regional_climate_change_signal"
+        ],
+        "candidate_y_typology": [
+          "continuous",
+          "temporal",
+          "spatial_aggregate"
+        ],
+        "candidate_x": [
+          "region_id",
+          "region_polygon",
+          "source_dataset",
+          "model",
+          "experiment",
+          "scenario",
+          "month",
+          "year",
+          "land_sea_mask",
+          "ensemble_member"
+        ],
+        "candidate_x_typology": [
+          "spatial",
+          "temporal",
+          "categorical",
+          "identifier",
+          "continuous"
+        ],
+        "presence_of_imputed_x": "unknown",
+        "main_file_formats": [
+          "GeoJSON",
+          "shapefile ZIP",
+          "CSV",
+          "RDA",
+          "NetCDF",
+          "notebooks",
+          "scripts"
+        ],
+        "variables_inspected": false
+      },
+      "spatiotemporal": {
+        "data_type": "spatio-temporal",
+        "structure": "region-time-source-model panel with polygon metadata and reproducible aggregation scripts",
+        "n_observations": "unknown before file inspection",
+        "t_periods": "monthly; exact range depends on source model or observation product",
+        "n_t_profile": "medium N by potentially long monthly T",
+        "spatial_resolution": "IPCC reference region",
+        "temporal_resolution": "monthly",
+        "spatial_extent": "global land and ocean IPCC reference regions",
+        "time_range": "source-dependent; not inspected locally"
+      },
+      "license_metadata": {
+        "license_present": true,
+        "license_name": "Creative Commons Attribution 4.0 International",
+        "license_url": "https://creativecommons.org/licenses/by/4.0/",
+        "license_open": true,
+        "license_evidence": "ATLAS LICENSE.md states that code, notebooks and datasets are CC BY 4.0 unless otherwise specified; source-specific CORDEX exceptions require later review."
+      },
+      "modeling_evidence": {
+        "paper_doi": "10.5194/essd-12-2959-2020",
+        "paper_title": "An update of IPCC climate reference regions for subcontinental analysis of climate model data: definition and aggregated datasets",
+        "modeling_task_hint": "regional_climate_projection_analysis",
+        "existing_model_or_equation": "climate-model ensemble summaries and regional aggregation workflow",
+        "evidence_source": "ESSD paper abstract, GitHub README files, Zenodo/DataCite metadata"
+      },
+      "methodological_selection": {
+        "candidate_estimators": [
+          {
+            "name": "Random Forest",
+            "plausible": "pending",
+            "justification": "Could model nonlinear regional climate responses after file inspection, but no supervised target has been selected yet.",
+            "evidence_basis": "metadata_only",
+            "compatible_y_types": [
+              "continuous"
+            ],
+            "compatible_x_types": [
+              "spatial",
+              "temporal",
+              "categorical",
+              "continuous"
+            ],
+            "modeling_evidence_basis": "paper documents regional climate aggregates, not a project-specific prediction task"
+          },
+          {
+            "name": "STVC",
+            "plausible": "pending",
+            "justification": "Spatio-temporal coefficient modeling may be relevant for region-month panels once variables and response definitions are inspected.",
+            "evidence_basis": "metadata_only",
+            "compatible_y_types": [
+              "continuous"
+            ],
+            "compatible_x_types": [
+              "spatial",
+              "temporal",
+              "continuous"
+            ],
+            "modeling_evidence_basis": "paper documents monthly regional aggregates and spatial regions"
+          }
+        ]
+      },
+      "linked_papers": [
+        {
+          "paper_id": "iturbide_2020_ipcc_regions",
+          "paper_title": "An update of IPCC climate reference regions for subcontinental analysis of climate model data: definition and aggregated datasets",
+          "paper_doi": "10.5194/essd-12-2959-2020",
+          "relationship": "defines_and_documents_dataset"
+        }
+      ],
+      "quality_pedigree": {
+        "provenance": "scientific_publication_to_research_repository",
+        "provenance_score": 5,
+        "provenance_evidence": "The route starts from a peer-reviewed ESSD data paper and points to explicit GitHub and Zenodo records.",
+        "rigour_score": 4,
+        "rigour_evidence": "The paper documents region definition, homogeneity analysis, aggregation workflow and worked examples; local file inspection remains pending.",
+        "evidence_score": 5,
+        "evidence_evidence": "Paper DOI, source repository, Zenodo archive identifier, license metadata and scraped manifest are available.",
+        "coherence_score": 4,
+        "coherence_evidence": "The paper abstract, GitHub repository structure and Zenodo/DataCite metadata describe the same ATLAS reference-region release.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The record is kept as a candidate and separates a mixed software/archive DOI from a pure dataset DOI.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation counts were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
     }
   ],
-  "papers": [],
+  "papers": [
+    {
+      "record_type": "paper",
+      "paper_id": "iturbide_2020_ipcc_regions",
+      "identity": {
+        "title": "An update of IPCC climate reference regions for subcontinental analysis of climate model data: definition and aggregated datasets",
+        "wiki_page": "wiki/papers/iturbide_2020_ipcc_regions.md",
+        "paper_doi": "10.5194/essd-12-2959-2020"
+      },
+      "source_access": {
+        "venue": "Earth System Science Data",
+        "publisher_route": "Copernicus",
+        "url": "https://doi.org/10.5194/essd-12-2959-2020",
+        "manifest": "data/manifests/datasets/zenodo_3998463_ipcc_atlas_regions_2026_05_11.json"
+      },
+      "linked_datasets": [
+        {
+          "dataset_id": "zenodo_3998463_ipcc_atlas_regions",
+          "wiki_page": "wiki/datasets/zenodo/zenodo_3998463_ipcc_atlas_regions.md",
+          "relationship": "defines_and_documents_dataset",
+          "archive_identifier": "10.5281/zenodo.3998463"
+        }
+      ],
+      "description_metadata": {
+        "description_excerpt": "The paper defines updated IPCC climate reference regions and documents monthly temperature and precipitation datasets aggregated over those regions.",
+        "description_source_url": "https://openalex.org/W3014759824"
+      },
+      "quality_pedigree": {
+        "provenance": "peer_reviewed_data_journal",
+        "provenance_score": 5,
+        "provenance_evidence": "The record comes from an Earth System Science Data article with DOI and explicit dataset/repository links.",
+        "rigour_score": 5,
+        "rigour_evidence": "The paper documents region definition, aggregation logic, data products and worked examples.",
+        "evidence_score": 5,
+        "evidence_evidence": "OpenAlex metadata, DOI, article landing page, Zenodo archive identifier and GitHub repository were captured.",
+        "coherence_score": 5,
+        "coherence_evidence": "The paper abstract and repository manifest consistently describe the ATLAS reference-region data products.",
+        "claim_discipline_score": 4,
+        "claim_discipline_evidence": "The paper is used as a dataset-source signal; local raw files still need inspection before modeling claims.",
+        "citation_metrics": {
+          "dataset_citation_count": null,
+          "paper_citation_count": null,
+          "citation_source": "none",
+          "citation_checked_at": null,
+          "citation_interpretation": "not_checked",
+          "citation_evidence": "Citation counts were not checked during this scraping run."
+        },
+        "delta1_risk": "low",
+        "evaluator_proposed_by": "llm",
+        "human_review_required": true,
+        "review_status": "pending"
+      }
+    }
+  ],
   "warehouses": [
     {
       "record_type": "warehouse",

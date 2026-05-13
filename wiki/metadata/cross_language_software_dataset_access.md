@@ -1,10 +1,10 @@
 ---
 title: Cross-language Software Dataset Access
-type: analysis
+type: metadata
 created: 2026-04-29
-updated: 2026-05-05
+updated: 2026-05-12
 sources: [data/manifests/datasets/software_cross_language_dataset_access.jsonl]
-tags: [analysis, metadata, software, r, python, datasets]
+tags: [metadata, convention, software, r, python, datasets]
 ---
 
 # Cross-language Software Dataset Access

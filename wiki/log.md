@@ -2,7 +2,7 @@
 title: Wiki Log
 type: metadata
 created: 2026-04-07
-updated: 2026-05-06
+updated: 2026-05-12
 sources: []
 tags: [log, wiki, chronology]
 ---
@@ -10,6 +10,80 @@ tags: [log, wiki, chronology]
 # Wiki Log
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
+
+## [2026-05-13] policy | paper author and publisher priority gate
+
+Files updated:
+- `AGENTS.md`
+- `wiki/metadata/discovery_policy_v3.md`
+- `data/manifests/papers/spatial_econometrics_paper_dataset_scrape_2026_05_12.json`
+- `wiki/analyses/discovery/spatial_econometrics_paper_dataset_scrape_2026_05_12.md`
+- recent JAE paper fiches in `wiki/papers/`
+
+Key additions:
+- Default paper scraping now prioritizes papers with at least 4 authors and a recognized publisher, journal, or scientific data venue.
+- Papers below the 4-author threshold may be retained only with an explicit exception: recognized venue, resolvable paper DOI, resolvable dataset/archive DOI or repository package, and explicit spatial or spatio-temporal modeling evidence.
+- Recent JAE fiches now record author count, publisher/editor, publisher recognition, and author-count exception reasons.
+
+---
+
+## [2026-05-12] eval-format | align paper fiches with AGENTS and Tier 1
+
+Files updated:
+- `AGENTS.md`
+- `LLM-wiki-Assessment/eval/tier1_structural.py`
+- `wiki/papers/ertur_koch_2007_growth_spatial_externalities.md`
+- `wiki/papers/parent_lesage_2008_knowledge_spillovers.md`
+- `wiki/papers/behrens_ertur_koch_2012_dual_gravity.md`
+- `wiki/papers/millo_2015_house_prices_replication.md`
+- `wiki/papers/jin_lee_yang_2024_spatial_moments_employment.md`
+
+Key additions:
+- Tier 1 now accepts the canonical `## Abstract` section from `AGENTS.md` as the abstract value.
+- Tier 1 now recognizes `## Dataset Linkage`, `## Modeling Evidence`, and `## Dataset Access Decision` for paper fiches.
+- Paper fiches now include external paper DOI and dataset/archive DOI URLs in `sources`, plus `Linkage evidence`.
+
+Checks:
+- `python -m py_compile LLM-wiki-Assessment/eval/tier1_structural.py`
+- No evaluation command was run.
+
+---
+
+## [2026-05-12] discovery | spatial econometrics paper-dataset scrape
+
+Pages created:
+- `wiki/analyses/discovery/spatial_econometrics_paper_dataset_scrape_2026_05_12.md`
+- `wiki/sources/warehouses/zbw_journal_data_archive.md`
+- `wiki/papers/ertur_koch_2007_growth_spatial_externalities.md`
+- `wiki/papers/parent_lesage_2008_knowledge_spillovers.md`
+- `wiki/papers/behrens_ertur_koch_2012_dual_gravity.md`
+- `wiki/papers/millo_2015_house_prices_replication.md`
+- `wiki/papers/jin_lee_yang_2024_spatial_moments_employment.md`
+
+Manifest created:
+- `data/manifests/papers/spatial_econometrics_paper_dataset_scrape_2026_05_12.json`
+
+Key additions:
+- Confirmed five paper-to-dataset routes with separate paper DOI and dataset/archive DOI.
+- Kept seven papers in review where dataset access was indirect, uncertain, or not found.
+- Did not download datasets and did not run tests or evaluation commands.
+
+---
+
+## [2026-05-12] organization | metadata analysis routing cleanup
+
+Pages moved:
+- `wiki/analyses/metadata/cross_language_software_dataset_access.md` -> `wiki/metadata/cross_language_software_dataset_access.md`
+- `wiki/analyses/metadata/feature_selection_block_template.md` -> `wiki/metadata/feature_selection_block_template.md`
+- `wiki/analyses/metadata/software_python_priority_datasets_metadata.md` -> `wiki/analyses/discovery/software_python_priority_datasets_metadata.md`
+- `wiki/analyses/metadata/software_r_priority_datasets_metadata.md` -> `wiki/analyses/discovery/software_r_priority_datasets_metadata.md`
+
+Key additions:
+- Reserved `wiki/analyses/metadata/` for enriched metadata profiles of confirmed or validated datasets.
+- Routed reusable metadata rules and templates to `wiki/metadata/`.
+- Routed software dataset candidate catalogues to `wiki/analyses/discovery/`.
+
+---
 
 To view recent activity: `grep "^## \[" log.md | tail -10`
 
@@ -1224,3 +1298,146 @@ Files updated:
 Key additions:
 - The canonical catalogue path is now `data/catalogue_datasets.json`.
 - Scrapers, the MCP server, and assessment tests now load the catalogue from the new location.
+
+## [2026-05-11] discovery | paper-linked dataset scraping
+
+Pages consulted:
+- `AGENTS.md`
+- `Code_scrapping/pipeline_lit/discover_spatiotemporal_papers.py`
+- `Code_scrapping/pipeline_lit/extract_dataset_links_from_papers.py`
+- `data/catalogue_datasets.json`
+
+Output filed: yes - one paper-linked dataset candidate documented
+
+Files created:
+- `data/manifests/papers/paper_linked_dataset_candidates_2026_05_11.jsonl`
+- `data/manifests/papers/paper_linked_dataset_candidates_2026_05_11.csv`
+- `data/manifests/papers/paper_linked_dataset_links_2026_05_11.json`
+- `data/manifests/datasets/zenodo_3998463_ipcc_atlas_regions_2026_05_11.json`
+- `wiki/datasets/zenodo/zenodo_3998463_ipcc_atlas_regions.md`
+- `wiki/papers/iturbide_2020_ipcc_regions.md`
+- `wiki/sources/literature/earth_system_science_data.md`
+- `wiki/analyses/discovery/paper_linked_dataset_scraping_2026_05_11.md`
+
+Files updated:
+- `data/catalogue_datasets.json`
+- `wiki/index.md`
+- `wiki/log.md`
+
+Key additions:
+- Selected an ESSD/Copernicus data paper as source evidence for an IPCC/ATLAS dataset candidate.
+- Kept the paper DOI and the Zenodo mixed archive identifier separate to avoid DOI-type confusion.
+- Captured the dataset description excerpt in the fiche and the fuller source description in the manifest.
+
+## [2026-05-12] discovery | open-access papers with dataset and method signals
+
+Pages consulted:
+- `AGENTS.md`
+- `wiki/index.md`
+- `Code_scrapping/pipeline_lit/discover_spatiotemporal_papers.py`
+- `Code_scrapping/pipeline_lit/extract_dataset_links_from_papers.py`
+
+Output filed: yes - candidate batch only, no dataset fiches generated
+
+Files created:
+- `data/manifests/papers/oa_dataset_methods_batch_2026_05_12.jsonl`
+- `data/manifests/papers/oa_dataset_methods_batch_2026_05_12.csv`
+- `data/manifests/papers/oa_dataset_methods_batch_2026_05_12_q2.csv`
+- `data/manifests/papers/oa_dataset_methods_batch_2026_05_12_q3.csv`
+- `data/manifests/papers/oa_dataset_methods_links_2026_05_12.json`
+- `data/manifests/papers/oa_dataset_methods_enriched_2026_05_12.json`
+- `data/manifests/papers/oa_dataset_methods_enriched_2026_05_12.csv`
+- `wiki/analyses/discovery/open_access_publication_dataset_methods_scraping_2026_05_12.md`
+
+Files updated:
+- `wiki/index.md`
+- `wiki/log.md`
+
+Key additions:
+- Queried OpenAlex for open-access-oriented publications with dataset and method signals.
+- Did not scrape ResearchGate directly and did not use ScienceDirect directly without an API/licensed route.
+- Produced a deduplicated enriched manifest with 22 paper candidates, 20 useful dataset/source-link records, and 16 records with detected methods.
+- Kept the batch out of `data/catalogue_datasets.json` until dataset identities and access routes are curated.
+
+## [2026-05-12] curation | rejected fiche evidence reconciliation
+
+Pages consulted:
+- `AGENTS.md`
+- `.eval/rejected/2026-05-12_*.json`
+- `wiki/eval_queue.md`
+- `data/manifests/runs/rejected_2026_05_12_network_recheck.json`
+- `data/manifests/runs/rejected_2026_05_12_dryad_8w9ghx3jj_files_recheck.json`
+
+Output filed: yes - fiche corrections and single-record evidence manifests, no tests or evaluation run
+
+Files created:
+- `data/manifests/datasets/dryad_8w9ghx3jj_evidence_2026_05_12.json`
+- `data/manifests/datasets/zenodo_10476054_evidence_2026_05_12.json`
+- `data/manifests/datasets/zenodo_14499026_evidence_2026_05_12.json`
+- `data/manifests/datasets/zenodo_15501267_evidence_2026_05_12.json`
+- `data/manifests/datasets/zenodo_5534232_evidence_2026_05_12.json`
+
+Files updated:
+- `wiki/datasets/dryad/dryad_8w9ghx3jj_citizen_science_habitat_suitability.md`
+- `wiki/datasets/zenodo/zenodo_10476054_stehme_holsea_norway.md`
+- `wiki/datasets/zenodo/zenodo_14499026_cranial_modifications_americas.md`
+- `wiki/datasets/zenodo/zenodo_15501267_imf_by_paper.md`
+- `wiki/datasets/zenodo/zenodo_5534232_linear_pottery_harris.md`
+- `wiki/analyses/modeling/estimations/r_estimator_backend_audit_2026_04_30.md`
+- `wiki/log.md`
+
+Key additions:
+- Reconciled rejected fiche identities against authoritative Zenodo/Dryad API records and explicit JSONL line numbers.
+- Added single-record evidence manifests to avoid ambiguity from multi-record JSONL files.
+- Filled verified linked-paper DOI fields where found: Dryad habitat suitability, STEHME/HOLSEA Norway, IMF By, and cranial modifications.
+- Marked the Linear Pottery linked publication DOI as `unknown_not_found` after lookup rather than leaving a vague unknown.
+- Added local data-inspection facts for NetCDF dimensions, CSV headers, row counts, and GraphML node/edge counts where available.
+- Updated the R estimator backend audit to reflect the `Code_scrapping/R/` relocation and added source traceability plus quality pedigree.
+
+## [2026-05-12] policy | scientific paper ingestion scope
+
+Pages consulted:
+- `AGENTS.md`
+
+Output filed: yes - policy update only
+
+Files updated:
+- `AGENTS.md`
+- `wiki/log.md`
+
+Key additions:
+- Added a scientific-paper ingestion policy: only ingest papers that provide access information for a spatial or spatio-temporal dataset and include modeling evidence behind the dataset.
+- Clarified that paper discovery should first capture paper DOI, dataset DOI/access route, data-availability excerpt, and modeling evidence, without immediately scraping or downloading datasets unless requested.
+- Reaffirmed that paper DOI and dataset DOI must remain separate.
+
+## [2026-05-12] curation | paper fiche canonical fields
+
+Pages consulted:
+- `wiki/papers/iturbide_2020_ipcc_regions.md`
+- `data/manifests/datasets/zenodo_3998463_ipcc_atlas_regions_2026_05_11.json`
+
+Output filed: yes - paper fiche enrichment only
+
+Files updated:
+- `wiki/papers/iturbide_2020_ipcc_regions.md`
+- `wiki/log.md`
+
+Key additions:
+- Added explicit canonical fields for Tier 1: `Paper title`, `Paper DOI`, `Source URL`, `Abstract`, and `Dataset Linkage`.
+- Kept paper DOI `10.5194/essd-12-2959-2020` separate from dataset/archive DOI `10.5281/zenodo.3998463`.
+
+## [2026-05-12] policy | canonical scientific paper fiche format
+
+Pages consulted:
+- `AGENTS.md`
+
+Output filed: yes - policy update only
+
+Files updated:
+- `AGENTS.md`
+- `wiki/log.md`
+
+Key additions:
+- Added a canonical `wiki/papers/` fiche format for scientific papers.
+- Required exact field names: `Paper title`, `Paper DOI`, `Source URL`, `Abstract`, `Dataset Linkage`, `Modeling Evidence`, `Dataset Access Decision`, and `Quality Pedigree`.
+- Clarified that paper DOI and dataset/archive DOI must remain separate and that a paper without usable dataset access should not become a project paper fiche.

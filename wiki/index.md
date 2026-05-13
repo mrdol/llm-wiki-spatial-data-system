@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-05-07
+updated: 2026-05-12
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -59,6 +59,7 @@ Each entry follows this format:
 - [[zenodo_15530852_mexico_municipalities_expenditure]] - Panel équilibré de 860 municipalités mexicaines (2000-2021) pour l'étude des spillovers de dépenses publiques — SAR/SDM | dataset | 2026-05-06
 - [[zenodo_15627695_mexico_property_tax_spillovers]] - Panel non balancé de municipalités mexicaines (2001-2019) avec taxe foncière et retards spatiaux pour modèles spatiaux dynamiques | dataset | 2026-05-06
 - [[zenodo_15781610_poland_ekc_nuts]] - Données régionales polonaises NUTS2/NUTS3 + GeoJSON pour la courbe de Kuznets environnementale | dataset | 2026-05-06
+- [[zenodo_3998463_ipcc_atlas_regions]] - IPCC/ATLAS reference-region polygons and monthly regional climate aggregates found through an ESSD data paper | dataset | 2026-05-11
 
 ---
 
@@ -67,6 +68,12 @@ Each entry follows this format:
 *One entry per documented paper; architecture pages may appear before the first paper record exists.*
 
 - [[papers_directory_conventions]] - Directory and traceability conventions for future paper records and paper manifests | metadata | 2026-04-22
+- [[iturbide_2020_ipcc_regions]] - ESSD data paper defining IPCC climate reference regions and linking ATLAS GitHub/Zenodo data assets | paper | 2026-05-11
+- [[ertur_koch_2007_growth_spatial_externalities]] - JAE paper linking spatial growth econometrics to a ZBW replication archive | paper | 2026-05-12
+- [[parent_lesage_2008_knowledge_spillovers]] - JAE paper using Bayesian CAR modeling for European regional patent spillovers with replication archive | paper | 2026-05-12
+- [[behrens_ertur_koch_2012_dual_gravity]] - JAE dual-gravity trade paper with spatial econometrics and ZBW replication archive | paper | 2026-05-12
+- [[millo_2015_house_prices_replication]] - JAE R replication of the Holly-Pesaran-Yamagata US house-price spatio-temporal model | paper | 2026-05-12
+- [[jin_lee_yang_2024_spatial_moments_employment]] - JAE spatial moments paper with US county employment-growth replication archive | paper | 2026-05-12
 
 ---
 
@@ -91,6 +98,8 @@ Each entry follows this format:
 - [[cepii]] - CEPII research data portal distributing derived international trade databases and documentation | source: warehouse | 2026-04-22
 - [[zenodo]] - Research repository used for DOI-backed dataset discovery and downloads | source: warehouse | 2026-05-06
 - [[dryad]] - Research data repository used for DOI-backed dataset discovery and file metadata | source: warehouse | 2026-05-07
+- [[zbw_journal_data_archive]] - Journal replication-data archive used for DOI-backed paper-to-dataset routes in economics | source: warehouse | 2026-05-12
+- [[earth_system_science_data]] - Scientific data journal route for identifying peer-reviewed dataset records and repositories | source: literature | 2026-05-11
 - [[r_software_datasets]] - R packages distributing benchmark spatial and spatio-temporal datasets for estimator testing | source: software | 2026-04-29
 - [[python_software_datasets]] - Python packages distributing benchmark spatial and spatio-temporal datasets, including PySAL, geosnap, xarray, and mobility routes | source: software | 2026-04-29
 
@@ -119,7 +128,7 @@ Each entry follows this format:
 
 ## Metadata
 
-*Metadata schemas, rules, and conventions. Progressive metadata profiles from data inspection belong under `wiki/analyses/metadata/`.*
+*Metadata schemas, rules, templates, and conventions. Enriched metadata profiles for confirmed datasets belong under `wiki/analyses/metadata/`.*
 
 - [[dataset_catalog_schema_v2]] - Schema redesign for the local dataset catalog with warehouse roles, discovery layers, and methodological selection | metadata | 2026-04-21
 - [[catalog_registry_schema_v3]] - Registry schema adding paper records, license metadata, DOI traceability, and estimator-policy integration | metadata | 2026-04-22
@@ -129,6 +138,8 @@ Each entry follows this format:
 - [[r_estimator_implementation_policy_v1]] - R-first implementation policy for allowed estimators, with reticulate as the Python fallback route | metadata | 2026-04-30
 - [[r_python_scraping_bridge_policy_v1]] - Policy for calling existing Python scraping scripts from R without rewriting every scraper | metadata | 2026-04-30
 - [[quality_pedigree_schema_v1]] - Human-LLM quality control matrix with score evidence, Delta1 risk, and review status | metadata | 2026-05-05
+- [[feature_selection_block_template]] - Reusable block for documenting X candidates and X selected for estimation | metadata | 2026-05-12
+- [[cross_language_software_dataset_access]] - Convention for software datasets available in both R and Python, with both local access routes preserved | metadata | 2026-05-12
 
 ---
 
@@ -154,20 +165,18 @@ Each entry follows this format:
 
 ## Analyses
 
-*Synthesized outputs, discovery notes, progressive metadata profiles, and modeling pipeline results.*
+*Synthesized outputs, discovery notes, enriched metadata profiles, and modeling pipeline results.*
 
 ### Analysis Subfolders
 
-- `wiki/analyses/metadata/` - metadata profiles built from raw metadata, dataset descriptions, and later data inspection
-- `wiki/analyses/discovery/` - dataset, paper, and source discovery outputs
+- `wiki/analyses/metadata/` - enriched metadata profiles for confirmed or validated datasets
+- `wiki/analyses/discovery/` - dataset, paper, source discovery outputs, candidate catalogues, and priority lists
 - `wiki/analyses/modeling/estimations/` - fitted model summaries and estimator comparisons
 - `wiki/analyses/modeling/predictions/` - prediction outputs and forecast diagnostics
 - `wiki/analyses/modeling/cross_validation/` - validation protocols, folds, leakage checks, and results
 
-- [[feature_selection_block_template]] - Generic block for documenting X candidates and X selected for estimation | analysis | 2026-04-29
-- [[software_r_priority_datasets_metadata]] - Consolidated metadata fiche for priority R software datasets with Y/X, temporal status, and download paths | analysis | 2026-04-29
-- [[software_python_priority_datasets_metadata]] - Consolidated metadata fiche for priority Python software datasets with Y/X, temporal status, and exported CSV/GeoJSON paths | analysis | 2026-04-29
-- [[cross_language_software_dataset_access]] - Conceptual mapping for software datasets available in both R and Python, with both local access routes preserved | analysis | 2026-04-29
+- [[software_r_priority_datasets_metadata]] - Discovery catalogue for priority R software dataset candidates with Y/X, temporal status, and download paths | analysis | 2026-05-12
+- [[software_python_priority_datasets_metadata]] - Discovery catalogue for priority Python software dataset candidates with Y/X, temporal status, and exported CSV/GeoJSON paths | analysis | 2026-05-12
 - [[france_unemployment_datasets_comparison]] - Short note comparing INSEE and Eurostat options for unemployment work on France | analysis | 2026-04-21
 - [[metadata_oriented_dataset_discovery_warehouses_2026_04_22]] - Cross-warehouse note on datasets with strong spatial, temporal, and classificatory metadata structure | analysis | 2026-04-22
 - [[dataset_ranking_metadata_spatial_download_priority_2026_04_22]] - Ranked review of newly documented datasets by metadata richness, spatial utility, and raw-download priority | analysis | 2026-04-22
@@ -179,6 +188,9 @@ Each entry follows this format:
 - [[scientific_data_linked_papers_2026_04_27]] - Shortlist of 10 scientific papers linked to explicit datasets or reusable data assets | analysis | 2026-04-27
 - [[software_dataset_literature_links_2026_04_29]] - OpenAlex candidate links between documented software datasets and journal papers that may use them | analysis | 2026-04-29
 - [[r_estimator_backend_audit_2026_04_30]] - Audit of R-native, R-variant, reticulate, and pending backend routes for allowed estimators | analysis | 2026-04-30
+- [[paper_linked_dataset_scraping_2026_05_11]] - OpenAlex/Copernicus discovery note for the paper-linked IPCC ATLAS dataset candidate | analysis | 2026-05-11
+- [[open_access_publication_dataset_methods_scraping_2026_05_12]] - Open-access publication scraping batch with dataset links and method extraction | analysis | 2026-05-12
+- [[spatial_econometrics_paper_dataset_scrape_2026_05_12]] - User-provided spatial econometrics paper scrape with confirmed and review paper-dataset routes | analysis | 2026-05-12
 
 ---
 

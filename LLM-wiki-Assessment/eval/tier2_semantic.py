@@ -90,7 +90,7 @@ def _raw_section(raw_available: bool, raw_context: str) -> str:
 
 
 PROMPT_DATASET = """Evaluate this dataset wiki fiche against AGENTS.md and catalog_registry_schema_v3.
-Return only valid JSON.
+Return only valid JSON. Write the "reasoning" field in French.
 
 ## Fiche
 
@@ -132,7 +132,7 @@ Return only valid JSON.
 """
 
 PROMPT_PAPER = """Evaluate this scientific paper wiki fiche against AGENTS.md and catalog_registry_schema_v3.
-Return only valid JSON.
+Return only valid JSON. Write the "reasoning" field in French.
 
 ## Fiche
 
@@ -168,7 +168,7 @@ Return only valid JSON.
 """
 
 PROMPT_ESTIMATOR = """Evaluate this estimator wiki fiche against AGENTS.md.
-Return only valid JSON.
+Return only valid JSON. Write the "reasoning" field in French.
 
 ## Fiche
 
@@ -198,7 +198,7 @@ Return only valid JSON.
 """
 
 PROMPT_ANALYSIS = """Evaluate this analysis wiki fiche against AGENTS.md.
-Return only valid JSON.
+Return only valid JSON. Write the "reasoning" field in French.
 
 ## Fiche
 

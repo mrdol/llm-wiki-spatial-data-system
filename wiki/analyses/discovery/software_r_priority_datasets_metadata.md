@@ -2,14 +2,14 @@
 title: R Software Dataset Metadata Candidates
 type: analysis
 created: 2026-04-29
-updated: 2026-04-29
+updated: 2026-05-12
 sources: [Rdatasets, CRAN package archives]
-tags: [software, r, metadata, spatial, spatiotemporal, regression, classification]
+tags: [analysis, discovery, software, r, metadata-candidates, spatial, spatiotemporal, regression, classification]
 ---
 
 # R Software Dataset Metadata Candidates
 
-This consolidated fiche records the priority 1 and priority 2 R software datasets retained for the system. These datasets are not external warehouse targets; they are software-distributed benchmark datasets used to test estimator eligibility, variable typology, and spatial/spatio-temporal modeling workflows.
+This discovery catalogue records the priority 1 and priority 2 R software datasets retained as candidates for the system. These datasets are not external warehouse targets; they are software-distributed benchmark datasets used to identify estimator eligibility, variable typology, and spatial/spatio-temporal modeling workflows.
 
 Machine-readable manifest: `data/manifests/datasets/software_r_priority_datasets.jsonl`.
 Downloaded data root: `data/downloads/software/r_datasets/`.

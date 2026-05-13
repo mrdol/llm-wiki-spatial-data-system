@@ -1,10 +1,10 @@
 ---
 title: Feature Selection Block Template
-type: analysis
+type: metadata
 created: 2026-04-29
-updated: 2026-04-29
-sources: []
-tags: [analysis, metadata, variables, feature-selection, template]
+updated: 2026-05-12
+sources: [AGENTS.md, raw/docs_methodology/metadata_construction.pdf]
+tags: [metadata, variables, feature-selection, template]
 ---
 
 Generic block for documenting the difference between all available explanatory variables and the subset used for estimation.

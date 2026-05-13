@@ -2,14 +2,14 @@
 title: Python Software Dataset Metadata Candidates
 type: analysis
 created: 2026-04-29
-updated: 2026-04-29
+updated: 2026-05-12
 sources: [geodatasets, libpysal, geopandas, giddy, geosnap, xarray, movingpandas, scikit-mobility]
-tags: [software, python, metadata, spatial, spatiotemporal, regression, classification]
+tags: [analysis, discovery, software, python, metadata-candidates, spatial, spatiotemporal, regression, classification]
 ---
 
 # Python Software Dataset Metadata Candidates
 
-This consolidated fiche records Python package datasets retained for the system. They are software-distributed benchmark datasets, mostly from GeoDa/PySAL and `geodatasets`, used to test spatial regression, spatial panel, GWR/MGWR, epidemiology, health, housing, income, and agronomic workflows.
+This discovery catalogue records Python package datasets retained as candidates for the system. They are software-distributed benchmark datasets, mostly from GeoDa/PySAL and `geodatasets`, used to identify spatial regression, spatial panel, GWR/MGWR, epidemiology, health, housing, income, and agronomic workflows.
 
 Machine-readable manifest: `data/manifests/datasets/software_python_priority_datasets.jsonl`.
 Requested-package extension manifest: `data/manifests/datasets/software_python_requested_packages.jsonl`.

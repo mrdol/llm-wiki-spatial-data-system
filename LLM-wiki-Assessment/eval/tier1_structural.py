@@ -100,7 +100,9 @@ PAPER_CHECKS: list[FieldCheck] = [
     FieldCheck("paper_doi", ["Identity", "Paper Metadata"], r"(?im)(paper\s*)?doi\s*:", "paper DOI"),
     FieldCheck("source_url", ["Source", "Source Access"], r"(?im)source\s*url\s*:", "source URL"),
     FieldCheck("abstract", ["Abstract", "Summary"], r"(?im)abstract\s*:", "abstract"),
-    FieldCheck("dataset_linkage", ["Related Datasets", "Datasets Mentioned"], r"(?im)(related\s*datasets|dataset\s*doi|dataset\s*link)\s*:", "dataset linkage"),
+    FieldCheck("dataset_linkage", ["Dataset Linkage", "Related Datasets", "Datasets Mentioned"], r"(?im)(related\s*datasets|dataset\s*doi|dataset/archive\s*doi|dataset\s*source\s*url|dataset\s*link)\s*:", "dataset linkage"),
+    FieldCheck("modeling_evidence", ["Modeling Evidence"], r"(?im)(modeling\s*evidence|model\s*family|method\s*evidence)\s*:", "modeling evidence"),
+    FieldCheck("dataset_access_decision", ["Dataset Access Decision"], r"(?im)(access\s*decision|next\s*action)\s*:", "dataset access decision"),
     FieldCheck("quality_pedigree", ["Quality Pedigree"], r"(?im)quality_pedigree\s*:", "quality pedigree"),
     FieldCheck("related_pages", ["Related Pages"], None, "## Related Pages"),
 ]
@@ -281,6 +283,16 @@ def _field_value(body: str, label: str) -> str | None:
     return match.group(1).strip() if match else None
 
 
+def _section_value(body: str, title: str) -> str | None:
+    pattern = rf"(?ims)^##\s+{re.escape(title)}\s*$\n(.*?)(?=^##\s+|\Z)"
+    match = re.search(pattern, body)
+    return match.group(1).strip() if match else None
+
+
+def _field_or_section_value(body: str, label: str) -> str | None:
+    return _field_value(body, label) or _section_value(body, label)
+
+
 def _clean_value(value: str | None) -> str:
     if value is None:
         return ""
@@ -354,7 +366,7 @@ def _check_dataset_non_null_fields(body: str, errors: list[str], warnings: list[
 
 def _check_paper_non_null_fields(body: str, errors: list[str], warnings: list[str]) -> None:
     for label in ("Paper title", "Source URL", "Abstract"):
-        value = _field_value(body, label)
+        value = _field_or_section_value(body, label)
         if value is None or _is_null_like(value) or _is_unknown_like(value):
             errors.append(f"Critical scientific paper field is empty or not enriched: {label}")
 
@@ -364,9 +376,18 @@ def _check_paper_non_null_fields(body: str, errors: list[str], warnings: list[st
     elif not _field_contains_doi(doi_value):
         errors.append(f"Paper DOI is not a valid DOI: {doi_value!r}")
 
-    related = _field_value(body, "Related datasets") or _field_value(body, "Dataset DOI")
+    related = (
+        _field_value(body, "Related datasets")
+        or _field_value(body, "Dataset DOI")
+        or _field_value(body, "Dataset/archive DOI")
+        or _field_value(body, "Dataset source URL")
+    )
     if related is None or _is_null_like(related) or _is_unknown_like(related):
         warnings.append("Scientific paper has no documented linked dataset; check whether this is expected")
+
+    modeling = _field_or_section_value(body, "Modeling Evidence")
+    if modeling is None or _is_null_like(modeling) or _is_unknown_like(modeling):
+        errors.append("Critical scientific paper field is empty or not enriched: Modeling Evidence")
 
 
 def run(fiche_path: Path) -> Tier1Result:
