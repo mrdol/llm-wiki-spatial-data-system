@@ -9,8 +9,8 @@ from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("dataset-search")
 
-BASE_DIR = Path(__file__).parent
-CATALOG_PATH = BASE_DIR / "data" / "catalogue_datasets.json"
+PROJECT_ROOT = Path(__file__).parent.parent
+CATALOG_PATH = PROJECT_ROOT / "data" / "catalogue_datasets.json"
 
 SPATIAL_TERMS = {
     "spatial",
@@ -449,6 +449,256 @@ def summarize_dataset(
     }
 
 
+REQUIRED_DATASET_FIELDS = {
+    "dataset_id": "Dataset id is required.",
+    "identity.title": "Dataset title is required.",
+    "identity.description": "Dataset description is required.",
+    "source_access.warehouses": "At least one source warehouse or portal is required.",
+    "source_access.access_route": "At least one source URL, local manifest, or discovery layer URL is required.",
+    "content_metadata.variables": "Candidate or documented variables are required.",
+    "spatiotemporal.data_type": "Spatial or spatio-temporal data type is required.",
+    "spatiotemporal.structure": "Dataset structure is required.",
+    "spatiotemporal.spatial_extent": "Spatial coverage is required.",
+    "spatiotemporal.spatial_resolution": "Spatial resolution is required.",
+    "spatiotemporal.temporal_resolution": "Temporal resolution is required.",
+    "spatiotemporal.time_range": "Temporal coverage is required.",
+    "license_metadata": "License metadata is required.",
+    "quality_pedigree.review_status": "Quality review status is required.",
+    "quality_pedigree.human_review_required": "Human review flag is required.",
+}
+
+RECOMMENDED_DATASET_FIELDS = {
+    "identity.dataset_doi": "Dataset DOI is recommended when available.",
+    "identity.publication_doi": "Publication DOI is recommended when available.",
+    "traceability.linked_papers": "Linked papers improve traceability.",
+    "traceability.linked_datasets": "Linked datasets improve cross-catalog traceability.",
+    "access_metadata.reproducibility_notes": "Reproducibility notes help downstream reuse.",
+    "access_metadata.access_conditions": "Access conditions should be explicit.",
+    "content_metadata.classification_systems": "Classification systems help interpret variables.",
+    "content_metadata.use_cases": "Use cases help prioritize analytical reuse.",
+    "methodological_selection.selection_criteria": "Selection criteria document why the dataset belongs in the bank.",
+    "methodological_selection.candidate_estimators": "Candidate estimators document modeling readiness.",
+    "spatiotemporal.n_observations": "N observations is recommended when available.",
+    "spatiotemporal.t_periods": "Number of time periods is recommended when available.",
+    "quality_pedigree.provenance": "Quality provenance is recommended.",
+    "quality_pedigree.provenance_score": "Quality provenance score is recommended.",
+    "quality_pedigree.evidence_score": "Quality evidence score is recommended.",
+    "quality_pedigree.coherence_score": "Quality coherence score is recommended.",
+}
+
+MISSING_SENTINELS = {
+    "",
+    "unknown",
+    "unknown_not_found",
+    "unknown_pending_curation",
+    "not_available",
+    "not applicable",
+    "not_applicable",
+    "pending",
+    "to_review",
+    "tbd",
+    "todo",
+    "none",
+    "null",
+}
+
+
+def is_missing_value(value: Any) -> bool:
+    """Détecte les valeurs absentes ou peu exploitables dans le catalogue."""
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() in MISSING_SENTINELS
+    if isinstance(value, (list, tuple, set)):
+        return len(value) == 0 or all(is_missing_value(item) for item in value)
+    if isinstance(value, dict):
+        return len(value) == 0 or all(is_missing_value(item) for item in value.values())
+    return False
+
+
+def nested_get(row: dict[str, Any], path: str) -> Any:
+    """Lit un champ imbriqué avec une notation par points, par exemple identity.title."""
+    current: Any = row
+    for part in path.split("."):
+        if not isinstance(current, dict) or part not in current:
+            return None
+        current = current[part]
+    return current
+
+
+def has_source_access_route(row: dict[str, Any]) -> bool:
+    """Vérifie qu'un dataset possède au moins une route d'accès stable ou documentée."""
+    source_access = row.get("source_access", {})
+    if not isinstance(source_access, dict):
+        return False
+    if not is_missing_value(source_access.get("local_manifest")):
+        return True
+    for warehouse in source_access.get("warehouses", []):
+        if not isinstance(warehouse, dict):
+            continue
+        if not is_missing_value(warehouse.get("url")):
+            return True
+        for layer in warehouse.get("discovery_layers", []):
+            if isinstance(layer, dict) and not is_missing_value(layer.get("url")):
+                return True
+    return False
+
+
+def get_variables_value(row: dict[str, Any]) -> list[Any]:
+    """Retourne les variables documentées, avec repli sur candidate_y/candidate_x."""
+    content = row.get("content_metadata", {})
+    if not isinstance(content, dict):
+        return []
+    variables = content.get("variables")
+    if not is_missing_value(variables):
+        return variables if isinstance(variables, list) else [variables]
+    candidates: list[Any] = []
+    for key in ("candidate_y", "candidate_x"):
+        value = content.get(key)
+        if isinstance(value, list):
+            candidates.extend(value)
+        elif not is_missing_value(value):
+            candidates.append(value)
+    return candidates
+
+
+def get_license_metadata(row: dict[str, Any]) -> Any:
+    """Retourne les métadonnées de licence, quel que soit le schéma déjà utilisé."""
+    access_metadata = row.get("access_metadata", {})
+    if isinstance(access_metadata, dict) and not is_missing_value(access_metadata.get("license_metadata")):
+        return access_metadata.get("license_metadata")
+    return row.get("license_metadata")
+
+
+def dataset_field_value(row: dict[str, Any], field: str, payload: dict[str, Any]) -> Any:
+    """Normalise la lecture des champs spéciaux utilisés par la validation."""
+    if field == "source_access.access_route":
+        return has_source_access_route(row)
+    if field == "content_metadata.variables":
+        return get_variables_value(row)
+    if field == "license_metadata":
+        return get_license_metadata(row)
+    if field == "traceability.linked_papers":
+        return get_dataset_linked_papers(row, payload)
+    return nested_get(row, field)
+
+
+def find_dataset_record(payload: dict[str, Any], dataset_id: str) -> dict[str, Any] | None:
+    """Cherche un record dataset par identifiant dans le catalogue chargé."""
+    for row in payload.get("datasets", []):
+        if isinstance(row, dict) and row.get("dataset_id") == dataset_id:
+            return row
+    return None
+
+
+def missing_fields(
+    row: dict[str, Any],
+    payload: dict[str, Any],
+    field_messages: dict[str, str],
+) -> list[str]:
+    """Liste les champs manquants parmi un groupe de règles de validation."""
+    missing: list[str] = []
+    for field in field_messages:
+        value = dataset_field_value(row, field, payload)
+        if value is False or is_missing_value(value):
+            missing.append(field)
+    return missing
+
+
+def validation_priority(missing_required: list[str], missing_recommended: list[str], score: float) -> str:
+    """Classe la priorité de curation selon les manques et le score de complétude."""
+    if len(missing_required) >= 4 or score < 0.55:
+        return "high"
+    if missing_required or len(missing_recommended) >= 5 or score < 0.8:
+        return "medium"
+    return "low"
+
+
+def validation_status(missing_required: list[str], score: float) -> tuple[bool, str]:
+    """Transforme les manques en verdict MCP: pass, review ou fail."""
+    if len(missing_required) >= 4 or score < 0.55:
+        return False, "fail"
+    if missing_required or score < 0.85:
+        return False, "review"
+    return True, "pass"
+
+
+def build_next_actions(missing_required: list[str], missing_recommended: list[str]) -> list[str]:
+    """Construit une courte liste d'actions concrètes pour compléter la fiche."""
+    actions = []
+    action_map = {
+        "identity.description": "Add a concise dataset description.",
+        "source_access.warehouses": "Add the source warehouse or portal.",
+        "source_access.access_route": "Add a stable URL, local manifest, or API discovery route.",
+        "content_metadata.variables": "Add candidate or documented variables.",
+        "spatiotemporal.data_type": "Classify the dataset as spatial or spatio-temporal.",
+        "spatiotemporal.structure": "Add the data structure: panel, cross-section, event data, etc.",
+        "spatiotemporal.spatial_extent": "Add spatial coverage.",
+        "spatiotemporal.spatial_resolution": "Add spatial resolution.",
+        "spatiotemporal.temporal_resolution": "Add temporal resolution.",
+        "spatiotemporal.time_range": "Add temporal coverage.",
+        "license_metadata": "Add license evidence and reuse classification.",
+        "quality_pedigree.review_status": "Add quality review status.",
+        "quality_pedigree.human_review_required": "Add the human review flag.",
+        "identity.dataset_doi": "Check whether a dataset DOI exists.",
+        "identity.publication_doi": "Check whether a related publication DOI exists.",
+        "traceability.linked_papers": "Record linked papers or state that none were found.",
+        "access_metadata.reproducibility_notes": "Add reproducibility notes.",
+        "spatiotemporal.n_observations": "Add N observations if available.",
+        "spatiotemporal.t_periods": "Add the number of time periods if available.",
+    }
+    for field in [*missing_required, *missing_recommended]:
+        action = action_map.get(field)
+        if action and action not in actions:
+            actions.append(action)
+    return actions[:10]
+
+
+def validate_dataset_row(row: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
+    """Valide un record dataset déjà chargé et calcule son statut de complétude."""
+    identity = row.get("identity", {}) if isinstance(row.get("identity"), dict) else {}
+    missing_required = missing_fields(row, payload, REQUIRED_DATASET_FIELDS)
+    missing_recommended = missing_fields(row, payload, RECOMMENDED_DATASET_FIELDS)
+    total_fields = len(REQUIRED_DATASET_FIELDS) + len(RECOMMENDED_DATASET_FIELDS)
+    weighted_missing = len(missing_required) * 2 + len(missing_recommended)
+    weighted_total = len(REQUIRED_DATASET_FIELDS) * 2 + len(RECOMMENDED_DATASET_FIELDS)
+    completeness_score = round(max(0.0, 1.0 - weighted_missing / weighted_total), 2)
+    valid, status = validation_status(missing_required, completeness_score)
+
+    errors = [
+        {"field": field, "message": REQUIRED_DATASET_FIELDS[field]}
+        for field in missing_required
+    ]
+    warnings = [
+        {"field": field, "message": RECOMMENDED_DATASET_FIELDS[field]}
+        for field in missing_recommended
+    ]
+
+    return {
+        "dataset_id": row.get("dataset_id"),
+        "title": identity.get("title"),
+        "valid": valid,
+        "status": status,
+        "score": completeness_score,
+        "completeness_score": completeness_score,
+        "priority": validation_priority(missing_required, missing_recommended, completeness_score),
+        "missing_required": missing_required,
+        "missing_recommended": missing_recommended,
+        "errors": errors,
+        "warnings": warnings,
+        "metadata_richness": compute_metadata_richness(row),
+        "spatial_signal": compute_spatial_signal(row),
+        "license_signal": compute_license_signal(row),
+        "traceability_signal": compute_traceability_signal(row, payload),
+        "next_actions": build_next_actions(missing_required, missing_recommended),
+        "field_counts": {
+            "required_missing": len(missing_required),
+            "recommended_missing": len(missing_recommended),
+            "total_checked": total_fields,
+        },
+    }
+
+
 def summarize_paper(row: dict[str, Any], score: float) -> dict[str, Any]:
     identity = row.get("identity", {})
     metadata = row.get("paper_metadata", {})
@@ -521,6 +771,72 @@ def search_datasets(query: str, top_k: int = 5) -> list[dict[str, Any]]:
     license reusability, and DOI or paper-link traceability signals.
     """
     return search_catalog(query=query, top_k=top_k, record_types=["dataset"])
+
+
+@mcp.tool()
+def validate_dataset_record(dataset_id: str) -> dict[str, Any]:
+    """
+    Valide un dataset précis et retourne un verdict pass/review/fail.
+    Le contrôle couvre l'identité, la source, les variables, la structure
+    spatio-temporelle, la licence, la traçabilité et la qualité.
+    """
+    payload = load_catalog_payload()
+    row = find_dataset_record(payload, dataset_id)
+    if row is None:
+        return {
+            "dataset_id": dataset_id,
+            "valid": False,
+            "status": "fail",
+            "score": 0.0,
+            "errors": [
+                {
+                    "field": "dataset_id",
+                    "message": "Dataset id not found in catalogue_datasets.json.",
+                }
+            ],
+            "warnings": [],
+            "next_actions": ["Add the dataset record to data/catalogue_datasets.json or check the dataset_id."],
+        }
+    return validate_dataset_row(row, payload)
+
+
+@mcp.tool()
+def list_missing_metadata(top_k: int = 50, include_pass: bool = False) -> list[dict[str, Any]]:
+    """
+    Audite tous les datasets et liste ceux qui ont des métadonnées manquantes.
+    Sert à prioriser la curation du catalogue et à repérer les datasets pas encore
+    prêts pour une analyse spatiale ou spatio-temporelle.
+    """
+    payload = load_catalog_payload()
+    audit_rows: list[dict[str, Any]] = []
+    for row in payload.get("datasets", []):
+        if not isinstance(row, dict):
+            continue
+        validation = validate_dataset_row(row, payload)
+        if include_pass or validation["missing_required"] or validation["missing_recommended"]:
+            audit_rows.append(
+                {
+                    "dataset_id": validation["dataset_id"],
+                    "title": validation["title"],
+                    "missing_required": validation["missing_required"],
+                    "missing_recommended": validation["missing_recommended"],
+                    "completeness_score": validation["completeness_score"],
+                    "priority": validation["priority"],
+                    "status": validation["status"],
+                    "metadata_richness": validation["metadata_richness"],
+                    "next_actions": validation["next_actions"],
+                }
+            )
+
+    priority_rank = {"high": 0, "medium": 1, "low": 2}
+    audit_rows.sort(
+        key=lambda item: (
+            priority_rank.get(str(item["priority"]), 9),
+            item["completeness_score"],
+            item["dataset_id"] or "",
+        )
+    )
+    return audit_rows[:top_k]
 
 
 if __name__ == "__main__":
