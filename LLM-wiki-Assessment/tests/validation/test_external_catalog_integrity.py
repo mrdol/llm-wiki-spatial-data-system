@@ -24,7 +24,6 @@ import os
 import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-from pathlib import Path
 from typing import Any, Iterable
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
@@ -297,7 +296,7 @@ def _iter_manifest_urls() -> Iterable[UrlCandidate]:
     """Retourne les URLs HTTP/HTTPS declarees dans les manifests JSON."""
 
     for manifest_path in sorted(MANIFESTS_DIR.rglob("*.json")):
-        with manifest_path.open("r", encoding="utf-8") as handle:
+        with manifest_path.open("r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
 
         for path, value in iter_nested_values(payload):

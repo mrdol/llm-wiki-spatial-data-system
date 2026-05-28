@@ -3,16 +3,24 @@
 Usage:
     python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> [<fiche.md> ...]
     python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --external
+    python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --formulas
+    python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --formulas --force-formulas
     python LLM-wiki-Assessment/eval/run_eval.py --all
     python LLM-wiki-Assessment/eval/run_eval.py --all --external
     python LLM-wiki-Assessment/eval/run_eval.py --all --skip-tests
 
 Flags:
-    --external    Run network checks (DOI resolution, URL reachability).
-                  Works with individual fiches and with --all.
-                  Without this flag, an interactive prompt is shown when
-                  evaluating individual fiches in a TTY session.
-    --skip-tests  Skip pytest entirely (only valid with --all).
+    --external       Run network checks (DOI resolution, URL reachability).
+                     Works with individual fiches and with --all.
+                     Without this flag, an interactive prompt is shown when
+                     evaluating individual fiches in a TTY session.
+    --formulas       Run Tier 2.5 formula verification (estimator fiches only).
+                     Extracts formulas from the raw PDF source via Claude vision
+                     and compares them with the ## Model Equation section.
+                     Requires: pip install pymupdf  +  ANTHROPIC_API_KEY.
+    --force-formulas Re-extract formulas from PDF even if a cached manifest exists.
+                     Only effective when used with --formulas.
+    --skip-tests     Skip pytest entirely (only valid with --all).
 
 Exit codes:
     0 - Tier 1 passed on all fiches and pytest passed (or was skipped).
@@ -44,7 +52,7 @@ try:
 except ImportError:
     pass
 
-from eval import tier1_structural, tier2_semantic, tier3_queue
+from eval import tier1_structural, tier2_semantic, tier2_5_formula, tier3_queue
 
 SCORE_OK = 0.75
 SCORE_AMBER_MIN = 0.50
@@ -239,7 +247,7 @@ def _check_url_reachable(url: str) -> tuple[bool, str | None]:
             return False, f"HTTP {exc.code}"
         except (TimeoutError, URLError) as exc:
             if "timed out" in str(exc).lower():
-                return True, f"timeout (traite comme transitoire)"
+                return True, "timeout (traite comme transitoire)"
             return False, str(exc)
     return False, "unreachable"
 
@@ -354,7 +362,12 @@ class FicheOutcome:
     score: float | None = None
 
 
-def eval_fiche(fiche_path: Path, external: bool = False) -> FicheOutcome:
+def eval_fiche(
+    fiche_path: Path,
+    external: bool = False,
+    formulas: bool = False,
+    force_formulas: bool = False,
+) -> FicheOutcome:
     """Evaluate one fiche. Returns a FicheOutcome summary."""
     outcome = FicheOutcome(path=fiche_path)
 
@@ -429,6 +442,16 @@ def eval_fiche(fiche_path: Path, external: bool = False) -> FicheOutcome:
     if _ask_external(external):
         _run_external_checks(body)
 
+    # --- Tier 2.5 — Formula verification (estimators only, optional) ---
+    if formulas and t1.entity_type == "estimator":
+        t25 = tier2_5_formula.run(fiche_path, t1.frontmatter, force_reextract=force_formulas)
+        if t25.skipped:
+            print(f"\n{t25.report}")
+        elif t25.error:
+            print(f"\nTier 2.5 - WARN : {t25.report}")
+        else:
+            print(f"\n{t25.report}")
+
     if t2.score >= SCORE_OK:
         tier3_queue.remove_from_queue(fiche_path)
     elif t2.score >= SCORE_AMBER_MIN:
@@ -466,7 +489,7 @@ def _print_summary(pytest_result: PytestResult | None, outcomes: list[FicheOutco
         print(f"\nTests catalogue/wiki (pytest, {label})")
         print(f"  {status}  {pytest_result.passed} passés / {total_fail} échoués")
 
-    print(f"\nFiches wiki (Tier 1/2/3)")
+    print("\nFiches wiki (Tier 1/2/3)")
     print(f"  PASS      {len(passed)}")
     print(f"  AMBER     {len(amber)}  → wiki/eval_queue.md")
     print(f"  REJECTED  {len(rejected)}  → .eval/rejected/")
@@ -498,19 +521,29 @@ def main() -> int:
 
     if not args:
         print("Usage: python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> [...]")
+        print("       python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --external")
+        print("       python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --formulas")
+        print("       python LLM-wiki-Assessment/eval/run_eval.py <fiche.md> --formulas --force-formulas")
         print("       python LLM-wiki-Assessment/eval/run_eval.py --all")
         print("       python LLM-wiki-Assessment/eval/run_eval.py --all --external")
         print("       python LLM-wiki-Assessment/eval/run_eval.py --all --skip-tests")
         return 1
 
-    run_all     = "--all" in args
-    external    = "--external" in args
-    skip_tests  = "--skip-tests" in args
-    file_args   = [a for a in args if not a.startswith("--")]
+    run_all       = "--all" in args
+    external      = "--external" in args
+    skip_tests    = "--skip-tests" in args
+    formulas      = "--formulas" in args
+    force_formulas = "--force-formulas" in args
+    file_args     = [a for a in args if not a.startswith("--")]
 
     # --skip-tests only makes sense with --all
     if skip_tests and not run_all:
         print("--skip-tests requires --all")
+        return 1
+
+    # --force-formulas only makes sense with --formulas
+    if force_formulas and not formulas:
+        print("--force-formulas requires --formulas")
         return 1
 
     pytest_result: PytestResult | None = None
@@ -549,7 +582,12 @@ def main() -> int:
 
     outcomes: list[FicheOutcome] = []
     for path in paths:
-        outcome = eval_fiche(path, external=external)
+        outcome = eval_fiche(
+            path,
+            external=external,
+            formulas=formulas,
+            force_formulas=force_formulas,
+        )
         outcomes.append(outcome)
 
     # Step 3 — consolidated summary (only with --all)
