@@ -122,6 +122,10 @@ portal_scraper_scripts <- c(
   cepii = "Code_scrapping/pipeline_portals/python/scrape_cepii.py"
 )
 
+software_scraper_scripts <- c(
+  python_packages = "Code_scrapping/extract_python_software_datasets.py"
+)
+
 run_portal_scraper <- function(source,
                                query = NULL,
                                limit = 5,
@@ -248,6 +252,27 @@ run_literature_plan <- function(warehouse_id = NULL,
       mailto = mailto,
       write = write,
       pretty = pretty
+    ),
+    python = python,
+    repo_root = repo_root,
+    echo = echo
+  )
+}
+
+run_software_package_scraper <- function(source = "python_packages",
+                                         allow_download = FALSE,
+                                         install_missing = FALSE,
+                                         probe_only = FALSE,
+                                         python = NULL,
+                                         repo_root = getwd(),
+                                         echo = TRUE) {
+  source <- match.arg(source, names(software_scraper_scripts))
+  run_python_script(
+    script = unname(software_scraper_scripts[[source]]),
+    args = list(
+      allow_download = allow_download,
+      install_missing = install_missing,
+      probe_only = probe_only
     ),
     python = python,
     repo_root = repo_root,

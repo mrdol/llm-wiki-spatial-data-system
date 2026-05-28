@@ -54,4 +54,32 @@ run_literature_plan(
 )
 ```
 
+Refresh Python package dataset routes:
+
+```r
+run_software_package_scraper(
+  source = "python_packages",
+  probe_only = TRUE
+)
+```
+
+To install missing Python packages in the active virtualenv before inventorying:
+
+```r
+run_software_package_scraper(
+  source = "python_packages",
+  install_missing = TRUE,
+  probe_only = TRUE
+)
+```
+
+To let `geodatasets` resolve or download missing cached assets, use:
+
+```r
+run_software_package_scraper(
+  source = "python_packages",
+  allow_download = TRUE
+)
+```
+
 The bridge automatically uses `.venv/Scripts/python.exe` on Windows when it exists.

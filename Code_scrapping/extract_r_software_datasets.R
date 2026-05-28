@@ -1,45 +1,91 @@
-# Extract selected R package datasets from downloaded CRAN source archives.
+# Télécharge et extrait exhaustivement les jeux de données des archives sources CRAN.
 #
-# Usage from the repository root:
-# Rscript scripts/extract_r_software_datasets.R
+# Utilisation depuis la racine du dépôt llm-wiki-karpathy :
+# Rscript Code_scrapping/extract_r_software_datasets.R
 #
-# The script reads downloaded package archives under:
+# Le script télécharge les archives de packages manquantes dans :
 # data/downloads/software/r_datasets/cran_packages/
-# and writes extractable tabular objects under:
+# écrit l'inventaire des datasets trouvés dans :
+# data/manifests/datasets/software_r_dataset_inventory.jsonl
+# puis écrit les objets tabulaires extractibles dans :
 # data/downloads/software/r_datasets/extracted_csv/
 
-repo_root <- normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+find_repo_root <- function(start = getwd()) {
+  start <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  if (basename(start) == "llm-wiki-karpathy") {
+    return(start)
+  }
+  nested <- file.path(start, "llm-wiki-karpathy")
+  if (dir.exists(nested)) {
+    return(normalizePath(nested, winslash = "/", mustWork = TRUE))
+  }
+  stop("Run from llm-wiki-karpathy or its parent workspace.", call. = FALSE)
+}
+
+repo_root <- find_repo_root()
 cran_dir <- file.path(repo_root, "data", "downloads", "software", "r_datasets", "cran_packages")
 out_dir <- file.path(repo_root, "data", "downloads", "software", "r_datasets", "extracted_csv")
-manifest_path <- file.path(repo_root, "data", "manifests", "software_r_extracted_datasets.jsonl")
+manifest_path <- file.path(repo_root, "data", "manifests", "datasets", "software_r_extracted_datasets.jsonl")
+inventory_manifest_path <- file.path(repo_root, "data", "manifests", "datasets", "software_r_dataset_inventory.jsonl")
+cran_repo <- getOption("repos")[["CRAN"]]
+if (is.null(cran_repo) || identical(cran_repo, "@CRAN@")) {
+  cran_repo <- "https://cloud.r-project.org"
+}
+rforge_repo <- "http://R-Forge.R-project.org"
+repos <- c(
+  CRAN = cran_repo,
+  nowosad = "https://nowosad.r-universe.dev",
+  RForge = rforge_repo
+)
+available_packages_cache <- NULL
+rforge_packages_cache <- NULL
 
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(dirname(manifest_path), recursive = TRUE, showWarnings = FALSE)
 
-targets <- list(
-  list(package = "spdep", dataset = "columbus", patterns = c("columbus")),
-  list(package = "spdep", dataset = "nc.sids", patterns = c("nc.sids", "sids")),
-  list(package = "GWmodel", dataset = "Georgia", patterns = c("Georgia")),
-  list(package = "GWmodel", dataset = "LondonHP", patterns = c("LondonHP")),
-  list(package = "GWmodel", dataset = "EWHP", patterns = c("EWHP")),
-  list(package = "GWmodel", dataset = "DubVoter", patterns = c("DubVoter")),
-  list(package = "gstat", dataset = "meuse", patterns = c("meuse")),
-  list(package = "gstat", dataset = "jura", patterns = c("jura")),
-  list(package = "spacetime", dataset = "air", patterns = c("air")),
-  list(package = "surveillance", dataset = "measles", patterns = c("measles")),
-  list(package = "surveillance", dataset = "rotavirus", patterns = c("rotavirus")),
-  list(package = "surveillance", dataset = "imdepi", patterns = c("imdepi")),
-  list(package = "SpatialEpi", dataset = "pennLC", patterns = c("pennLC")),
-  list(package = "SpatialEpi", dataset = "scotland", patterns = c("scotland")),
-  list(package = "SpatialEpi", dataset = "NYleukemia", patterns = c("NYleukemia")),
-  list(package = "SpatialEpi", dataset = "germany", patterns = c("germany")),
-  list(package = "vegan", dataset = "mite", patterns = c("mite")),
-  list(package = "vegan", dataset = "dune", patterns = c("dune")),
-  list(package = "vegan", dataset = "varespec_varechem", patterns = c("vare")),
-  list(package = "ade4", dataset = "doubs", patterns = c("doubs")),
-  list(package = "ade4", dataset = "mafragh", patterns = c("mafragh")),
-  list(package = "ade4", dataset = "rpjdl", patterns = c("rpjdl")),
-  list(package = "dismo", dataset = "bradypus", patterns = c("bradypus"))
+# Ce scraper travaille au niveau des archives de données plutôt qu'avec les APIs
+# internes des packages : ces APIs sont hétérogènes, peuvent nécessiter beaucoup
+# de dépendances, et exposent souvent les exemples via des helpers spécifiques.
+# La convention CRAN commune est que les datasets embarqués vivent sous data/
+# sous forme de fichiers sérialisés.
+packages <- c(
+  "spdep",
+  "spatialreg",
+  "spData",
+  "spDataLarge",
+  "sphet",
+  "spse",
+  "GWmodel",
+  "mgwrsar",
+  "spgwr",
+  "gstat",
+  "sp",
+  "sf",
+  "sfdep",
+  "plm",
+  "splm",
+  "spacetime",
+  "surveillance",
+  "STRbook",
+  "SpatialEpi",
+  "spatstat",
+  "spatstat.data",
+  "CARBayes",
+  "CARBayesST",
+  "spaMM",
+  "vegan",
+  "ade4",
+  "dismo",
+  "MASS",
+  "HistData",
+  "AER",
+  "agridat",
+  "rgeoboundaries",
+  "giscoR"
+)
+
+archive_urls <- list(
+  spse = "http://R-Forge.R-project.org/src/contrib/"
 )
 
 json_escape <- function(x) {
@@ -76,13 +122,322 @@ safe_filename <- function(x) {
 archive_for_package <- function(package) {
   hits <- list.files(cran_dir, pattern = paste0("^", package, "_.*[.]tar[.]gz$"), full.names = TRUE)
   if (length(hits) == 0) return(NA_character_)
+  hits <- hits[order(file.info(hits)$mtime, decreasing = TRUE)]
   hits[[1]]
 }
 
-is_candidate_member <- function(member, patterns) {
-  lower <- tolower(member)
-  grepl("/data/.*[.](rda|RData)$", member, ignore.case = TRUE) &&
-    any(vapply(patterns, function(pattern) grepl(tolower(pattern), lower, fixed = TRUE), logical(1)))
+download_current_cran_archive <- function(package) {
+  if (is.null(available_packages_cache)) {
+    available_packages_cache <<- try(utils::available.packages(repos = cran_repo, type = "source"), silent = TRUE)
+  }
+  available <- available_packages_cache
+  if (inherits(available, "try-error") || !(package %in% rownames(available))) {
+    return(NA_character_)
+  }
+
+  version <- available[package, "Version"]
+  filename <- paste0(package, "_", version, ".tar.gz")
+  destination <- file.path(cran_dir, filename)
+  if (file.exists(destination)) {
+    return(normalizePath(destination, winslash = "/", mustWork = TRUE))
+  }
+
+  source_url <- paste0(utils::contrib.url(cran_repo, type = "source"), "/", filename)
+  status <- try(utils::download.file(source_url, destination, mode = "wb", quiet = TRUE), silent = TRUE)
+  if (inherits(status, "try-error") || !file.exists(destination)) {
+    unlink(destination, force = TRUE)
+    return(NA_character_)
+  }
+  normalizePath(destination, winslash = "/", mustWork = TRUE)
+}
+
+download_current_rforge_archive <- function(package) {
+  if (is.null(rforge_packages_cache)) {
+    rforge_packages_cache <<- try(utils::available.packages(repos = rforge_repo, type = "source"), silent = TRUE)
+  }
+  available <- rforge_packages_cache
+  if (inherits(available, "try-error") || !(package %in% rownames(available))) {
+    return(NA_character_)
+  }
+
+  version <- available[package, "Version"]
+  filename <- paste0(package, "_", version, ".tar.gz")
+  destination <- file.path(cran_dir, filename)
+  if (file.exists(destination)) {
+    return(normalizePath(destination, winslash = "/", mustWork = TRUE))
+  }
+
+  source_url <- paste0(utils::contrib.url(rforge_repo, type = "source"), "/", filename)
+  status <- try(utils::download.file(source_url, destination, mode = "wb", quiet = TRUE), silent = TRUE)
+  if (inherits(status, "try-error") || !file.exists(destination)) {
+    unlink(destination, force = TRUE)
+    return(NA_character_)
+  }
+  normalizePath(destination, winslash = "/", mustWork = TRUE)
+}
+
+install_if_missing <- function(package) {
+  # Vérifie d'abord si le package est déjà installé.
+  # requireNamespace() ne charge pas le package dans l'environnement global.
+  if (requireNamespace(package, quietly = TRUE)) {
+    return(TRUE)
+  }
+
+  cat("\nInstallation de", package, "...\n")
+
+  # Tente une installation binaire depuis les dépôts indiqués.
+  # Sur Windows, type = "binary" évite autant que possible le besoin de Rtools.
+  ok <- tryCatch({
+    utils::install.packages(package, repos = repos, type = "binary")
+    requireNamespace(package, quietly = TRUE)
+  }, error = function(e) {
+    FALSE
+  })
+
+  # Si l'installation a réussi, on renvoie TRUE.
+  if (ok) {
+    return(TRUE)
+  }
+
+  # spse est distribué via R-Forge en source.
+  if (identical(package, "spse")) {
+    ok <- tryCatch({
+      utils::install.packages(package, repos = rforge_repo, type = "source")
+      requireNamespace(package, quietly = TRUE)
+    }, error = function(e) {
+      FALSE
+    })
+    if (ok) {
+      return(TRUE)
+    }
+  }
+
+  # Sinon, on signale l'échec et on laisse les autres fonctions essayer
+  # l'inspection de l'archive source CRAN sans installation.
+  cat("Installation standard échouée pour", package, "\n")
+  FALSE
+}
+
+list_installed_package_datasets <- function(package) {
+  # data(package = package) demande à R la liste officielle des datasets
+  # exposés par le package installé.
+  datasets <- tryCatch(
+    utils::data(package = package)$results,
+    error = function(e) NULL
+  )
+
+  # Si aucun dataset n'est déclaré, on renvoie un vecteur vide.
+  if (is.null(datasets) || nrow(datasets) == 0) {
+    return(character())
+  }
+
+  # La colonne "Item" contient les noms des datasets.
+  datasets[, "Item"]
+}
+
+get_cran_archive_url <- function(package) {
+  # Récupère la table des packages disponibles sur CRAN en version source.
+  if (is.null(available_packages_cache)) {
+    available_packages_cache <<- try(utils::available.packages(repos = repos["CRAN"], type = "source"), silent = TRUE)
+  }
+  available <- available_packages_cache
+
+  # Si le package est disponible sur CRAN courant, on construit directement
+  # l'URL de son archive .tar.gz.
+  if (!inherits(available, "try-error") && package %in% rownames(available)) {
+    version <- available[package, "Version"]
+    return(sprintf(
+      "%s/%s_%s.tar.gz",
+      utils::contrib.url(repos["CRAN"], type = "source"),
+      package,
+      version
+    ))
+  }
+
+  # Si le package n'est plus sur CRAN courant, on cherche dans l'archive
+  # historique de CRAN.
+  archive_index <- paste0("https://cran.r-project.org/src/contrib/Archive/", package, "/")
+
+  # Lit la page HTML de l'archive du package.
+  html <- tryCatch(
+    paste(readLines(archive_index, warn = FALSE), collapse = "\n"),
+    error = function(e) NULL
+  )
+
+  if (is.null(html)) {
+    return(NA_character_)
+  }
+
+  # Cherche tous les fichiers du type package_version.tar.gz.
+  files <- extract_archive_links(html, package)
+  if (length(files) == 0) {
+    return(NA_character_)
+  }
+
+  # Prend la dernière version trouvée selon l'ordre alphabétique décroissant.
+  latest <- sort(files, decreasing = TRUE)[1]
+
+  # Renvoie l'URL complète de l'archive.
+  paste0(archive_index, latest)
+}
+
+extract_archive_links <- function(index_html, package) {
+  matches <- gregexpr(paste0(package, "_[^\"'<>[:space:]]+[.]tar[.]gz"), index_html, perl = TRUE)
+  links <- regmatches(index_html, matches)[[1]]
+  unique(links)
+}
+
+download_archived_cran_archive <- function(package) {
+  base_url <- archive_urls[[package]]
+  if (is.null(base_url)) {
+    base_url <- paste0("https://cran.r-project.org/src/contrib/Archive/", package, "/")
+  }
+
+  index_html <- try(paste(readLines(base_url, warn = FALSE), collapse = "\n"), silent = TRUE)
+  if (inherits(index_html, "try-error")) {
+    return(NA_character_)
+  }
+
+  links <- extract_archive_links(index_html, package)
+  if (length(links) == 0) {
+    return(NA_character_)
+  }
+
+  filename <- sort(links, decreasing = TRUE)[[1]]
+  destination <- file.path(cran_dir, filename)
+  if (file.exists(destination)) {
+    return(normalizePath(destination, winslash = "/", mustWork = TRUE))
+  }
+
+  source_url <- paste0(base_url, filename)
+  status <- try(utils::download.file(source_url, destination, mode = "wb", quiet = TRUE), silent = TRUE)
+  if (inherits(status, "try-error") || !file.exists(destination)) {
+    unlink(destination, force = TRUE)
+    return(NA_character_)
+  }
+  normalizePath(destination, winslash = "/", mustWork = TRUE)
+}
+
+ensure_archive_for_package <- function(package) {
+  local_archive <- archive_for_package(package)
+  if (!is.na(local_archive)) {
+    return(list(path = local_archive, status = "local_archive_found"))
+  }
+
+  current_archive <- download_current_cran_archive(package)
+  if (!is.na(current_archive)) {
+    return(list(path = current_archive, status = "downloaded_current_cran"))
+  }
+
+  rforge_archive <- download_current_rforge_archive(package)
+  if (!is.na(rforge_archive)) {
+    return(list(path = rforge_archive, status = "downloaded_current_rforge"))
+  }
+
+  archived_archive <- download_archived_cran_archive(package)
+  if (!is.na(archived_archive)) {
+    return(list(path = archived_archive, status = "downloaded_cran_archive"))
+  }
+
+  list(path = NA_character_, status = "archive_not_found")
+}
+
+list_source_archive_datasets <- function(package) {
+  # Trouve l'archive source CRAN ou CRAN Archive, en réutilisant le cache local
+  # si l'archive a déjà été téléchargée.
+  archive_result <- ensure_archive_for_package(package)
+  archive <- archive_result$path
+
+  if (is.na(archive)) {
+    return(list(
+      datasets = character(),
+      source = "archive_indisponible",
+      archive = NA_character_,
+      archive_status = archive_result$status
+    ))
+  }
+
+  # Liste les fichiers contenus dans l'archive sans l'extraire complètement.
+  members <- tryCatch(
+    utils::untar(archive, list = TRUE),
+    error = function(e) character()
+  )
+
+  # Garde uniquement les fichiers de datasets R embarqués.
+  data_files <- members[
+    grepl(
+      "/data/.*[.](rda|RData|rda.gz|RData.gz)$",
+      members,
+      ignore.case = TRUE
+    )
+  ]
+
+  # Convertit les noms de fichiers en noms de datasets.
+  datasets <- basename(data_files)
+  datasets <- sub(
+    "[.](rda|RData|rda.gz|RData.gz)$",
+    "",
+    datasets,
+    ignore.case = TRUE
+  )
+
+  list(
+    datasets = unique(datasets),
+    source = "archive_cran_sans_installation",
+    archive = archive,
+    archive_status = archive_result$status
+  )
+}
+
+list_package_datasets_safe <- function(package) {
+  # Essaie d'abord la voie normale : installer le package, puis demander à R
+  # les datasets déclarés par data(package = ...).
+  installed <- install_if_missing(package)
+
+  if (installed) {
+    datasets <- list_installed_package_datasets(package)
+
+    if (length(datasets) > 0) {
+      cat("\n====================\n")
+      cat("Package :", package, "\n")
+      cat("Source  : package installé\n")
+      cat("====================\n")
+      print(datasets)
+      return(list(
+        datasets = datasets,
+        source = "package_installe",
+        archive = NA_character_,
+        archive_status = "not_needed"
+      ))
+    }
+  }
+
+  # Si le package n'est pas installable ou ne déclare aucun dataset, on inspecte
+  # directement l'archive source CRAN sans installation.
+  result <- list_source_archive_datasets(package)
+
+  cat("\n====================\n")
+  cat("Package :", package, "\n")
+  cat("Source  :", result$source, "\n")
+  cat("====================\n")
+
+  if (length(result$datasets) == 0) {
+    cat("Aucun dataset trouvé ou package inaccessible.\n")
+    return(result)
+  }
+
+  print(result$datasets)
+  result
+}
+
+is_candidate_member <- function(member) {
+  grepl("/data/.*[.](rda|RData|rda.gz|RData.gz)$", member, ignore.case = TRUE)
+}
+
+dataset_name_from_member <- function(member) {
+  name <- basename(member)
+  name <- sub("[.](rda|RData|rda.gz|RData.gz)$", "", name, ignore.case = TRUE)
+  safe_filename(name)
 }
 
 as_tabular <- function(object) {
@@ -115,19 +470,53 @@ as_tabular <- function(object) {
   NULL
 }
 
+inventory_con <- file(inventory_manifest_path, open = "w", encoding = "UTF-8")
+on.exit(close(inventory_con), add = TRUE)
+
+# Premier passage : inventaire lisible des datasets disponibles par package.
+# Cette sortie sert à vérifier manuellement les packages avant ou après
+# l'extraction CSV exhaustive.
+for (package in packages) {
+  inventory <- list_package_datasets_safe(package)
+
+  if (length(inventory$datasets) == 0) {
+    write_jsonl(inventory_con, list(
+      package = package,
+      dataset = NA_character_,
+      status = "no_dataset_found",
+      source = inventory$source,
+      archive_status = inventory$archive_status,
+      archive = inventory$archive
+    ))
+    next
+  }
+
+  for (dataset in inventory$datasets) {
+    write_jsonl(inventory_con, list(
+      package = package,
+      dataset = dataset,
+      status = "listed",
+      source = inventory$source,
+      archive_status = inventory$archive_status,
+      archive = inventory$archive
+    ))
+  }
+}
+
 manifest_con <- file(manifest_path, open = "w", encoding = "UTF-8")
 on.exit(close(manifest_con), add = TRUE)
 
-for (target in targets) {
-  archive <- archive_for_package(target$package)
-  target_dir <- file.path(out_dir, target$package, target$dataset)
-  dir.create(target_dir, recursive = TRUE, showWarnings = FALSE)
+for (package in packages) {
+  archive_result <- ensure_archive_for_package(package)
+  archive <- archive_result$path
+  archive_status <- archive_result$status
 
   if (is.na(archive)) {
     write_jsonl(manifest_con, list(
-      package = target$package,
-      dataset = target$dataset,
-      status = "archive_not_found",
+      package = package,
+      dataset = "all_data",
+      status = archive_status,
+      archive_status = archive_status,
       archive = NA_character_,
       member = NA_character_,
       object = NA_character_,
@@ -139,12 +528,13 @@ for (target in targets) {
   }
 
   members <- utils::untar(archive, list = TRUE)
-  candidates <- members[vapply(members, is_candidate_member, logical(1), patterns = target$patterns)]
+  candidates <- members[vapply(members, is_candidate_member, logical(1))]
   if (length(candidates) == 0) {
     write_jsonl(manifest_con, list(
-      package = target$package,
-      dataset = target$dataset,
+      package = package,
+      dataset = "all_data",
       status = "data_file_not_found",
+      archive_status = archive_status,
       archive = archive,
       member = NA_character_,
       object = NA_character_,
@@ -161,14 +551,19 @@ for (target in targets) {
   utils::untar(archive, files = candidates, exdir = temp_dir)
 
   for (member in candidates) {
+    dataset <- dataset_name_from_member(member)
+    target_dir <- file.path(out_dir, package, dataset)
+    dir.create(target_dir, recursive = TRUE, showWarnings = FALSE)
+
     data_path <- file.path(temp_dir, member)
     env <- new.env(parent = emptyenv())
     loaded <- try(load(data_path, envir = env), silent = TRUE)
     if (inherits(loaded, "try-error")) {
       write_jsonl(manifest_con, list(
-        package = target$package,
-        dataset = target$dataset,
+        package = package,
+        dataset = dataset,
         status = "load_failed",
+        archive_status = archive_status,
         archive = archive,
         member = member,
         object = NA_character_,
@@ -184,9 +579,10 @@ for (target in targets) {
       table <- try(as_tabular(object), silent = TRUE)
       if (inherits(table, "try-error") || is.null(table)) {
         write_jsonl(manifest_con, list(
-          package = target$package,
-          dataset = target$dataset,
+          package = package,
+          dataset = dataset,
           status = "not_tabular",
+          archive_status = archive_status,
           archive = archive,
           member = member,
           object = object_name,
@@ -200,9 +596,10 @@ for (target in targets) {
       output <- file.path(target_dir, paste0(safe_filename(object_name), ".csv"))
       utils::write.csv(table, output, row.names = FALSE, fileEncoding = "UTF-8")
       write_jsonl(manifest_con, list(
-        package = target$package,
-        dataset = target$dataset,
+        package = package,
+        dataset = dataset,
         status = "extracted_csv",
+        archive_status = archive_status,
         archive = archive,
         member = member,
         object = object_name,
@@ -214,4 +611,5 @@ for (target in targets) {
   }
 }
 
-cat("Extraction manifest:", manifest_path, "\n")
+cat("Manifeste d'inventaire :", inventory_manifest_path, "\n")
+cat("Manifeste d'extraction :", manifest_path, "\n")
