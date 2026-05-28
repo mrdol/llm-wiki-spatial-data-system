@@ -11,6 +11,40 @@ tags: [log, wiki, chronology]
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
 
+## [2026-05-13] estimator | enrich GAMBoost from PDF formula extraction
+
+Files updated:
+- `wiki/estimators/gamboost.md`
+- `wiki/index.md`
+
+Files moved:
+- `wiki/metadata/tier2_5_formula_verification.md` -> `LLM-wiki-Assessment/eval/tier2_5_formula_verification.md`
+
+Key additions:
+- Replaced the GAMBoost template status with `paper_formula_extracted_partial`.
+- Added paper-supported risk target, initialization, pseudo-residuals, iterative update, final aggregation, reweighting, loss functions, base learners, and stopping/complexity criteria.
+- Added `data/manifests/papers/GAMboosting_formulas_extracted.json` as formula evidence.
+- Ran Tier evaluation: Tier 1 passed; Tier 2 degraded gracefully because the semantic model dependency/network was unavailable.
+
+---
+
+## [2026-05-13] metadata | draft enriched profile for IPCC ATLAS dataset
+
+Pages created:
+- `wiki/analyses/metadata/zenodo_3998463_ipcc_atlas_regions_enriched_metadata_draft.md`
+
+Pages updated:
+- `wiki/index.md`
+
+Key additions:
+- Created a draft enriched metadata profile from the existing dataset fiche, paper fiche, manifest, and metadata schema.
+- Marked the profile as `draft_from_existing_fiches`, not validated.
+- Explicitly separated variable typology, feature selection, modeling evidence, methodological selection, traceability, and quality pedigree.
+- No dataset files were downloaded or inspected.
+- Ran Tier evaluation: Tier 1 passed; Tier 2 degraded gracefully because the semantic model connection was unavailable.
+
+---
+
 ## [2026-05-13] policy | paper author and publisher priority gate
 
 Files updated:

@@ -149,7 +149,7 @@ Each entry follows this format:
 
 - [[xgboost]] - Gradient-boosted tree estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
 - [[lightgbm]] - LightGBM estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
-- [[gamboost]] - GAMBoost estimator fiche template for boosted additive modeling | estimator | 2026-04-23
+- [[gamboost]] - GAMBoost estimator fiche enriched from PDF formulas with loss functions, pseudo-residuals, shrinkage, and stopping criteria | estimator | 2026-05-13
 - [[random_forest]] - Random Forest estimator fiche template for ensemble tree baselines | estimator | 2026-04-23
 - [[mars]] - MARS estimator fiche template for multivariate adaptive regression splines | estimator | 2026-04-23
 - [[inla]] - INLA estimator fiche template for latent Gaussian and spatial Bayesian modeling | estimator | 2026-04-23
@@ -191,6 +191,7 @@ Each entry follows this format:
 - [[paper_linked_dataset_scraping_2026_05_11]] - OpenAlex/Copernicus discovery note for the paper-linked IPCC ATLAS dataset candidate | analysis | 2026-05-11
 - [[open_access_publication_dataset_methods_scraping_2026_05_12]] - Open-access publication scraping batch with dataset links and method extraction | analysis | 2026-05-12
 - [[spatial_econometrics_paper_dataset_scrape_2026_05_12]] - User-provided spatial econometrics paper scrape with confirmed and review paper-dataset routes | analysis | 2026-05-12
+- [[zenodo_3998463_ipcc_atlas_regions_enriched_metadata_draft]] - Draft enriched metadata profile for the IPCC ATLAS regions dataset built from existing dataset and paper fiches | analysis | 2026-05-13
 
 ---
 
