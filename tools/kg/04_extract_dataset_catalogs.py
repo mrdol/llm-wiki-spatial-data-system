@@ -1,9 +1,12 @@
 """Extraire les catalogues datasets software vers le KG.
 
-Entrees lues de facon tolerante:
-- data/manifests/datasets/software_r_*.jsonl
-- data/manifests/datasets/software_python_*.jsonl
-- data/manifests/datasets/software_*catalog*.csv
+Source principale (generation juin 2026):
+- data/manifests/datasets/software_catalog_combined.RData
+  -> objet R `catalogue_combine_complet` (union R + Python, dedupliquee).
+  Lu directement via le paquet `rdata` (encodage latin1).
+
+Entrees complementaires lues de facon tolerante si presentes:
+- data/manifests/datasets/software_*catalog*.jsonl / *.csv (retro-compatibilite)
 - data/manifests/datasets/software_dataset_literature_links.jsonl
 - data/manifests/datasets/software_r_dataset_paper_formula_audit*.csv
 
@@ -14,12 +17,16 @@ Sorties:
 Cette couche complete GROBID: elle ajoute les packages, datasets, variables,
 coordonnees, geometries, fichiers auxiliaires et liens papier-dataset connus
 dans les catalogues.
+
+Dependance: `rdata` (pip install rdata). Si absent, les .RData sont ignores
+avec un avertissement et seules les entrees a plat sont traitees.
 """
 
 from __future__ import annotations
 
 import csv
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any, Iterable
@@ -31,16 +38,15 @@ OUT_DIR = ROOT / ".kg" / "extracted"
 NODE_PATH = OUT_DIR / "catalog_nodes.jsonl"
 EDGE_PATH = OUT_DIR / "catalog_edges.jsonl"
 
+# Catalogues .RData (nouvelle generation): (nom_fichier, nom_objet_R).
+# `catalogue_combine_complet` est l'union dedupliquee R + Python.
+RDATA_CATALOGS = [
+    ("software_catalog_combined.RData", "catalogue_combine_complet"),
+]
+# Catalogues a plat encore lus s'ils existent (retro-compatibilite). Les anciens
+# fichiers software_r_*/software_python_* obsoletes ont ete retires de cette liste.
 CATALOG_PATTERNS = [
-    "software_r_priority_datasets.jsonl",
-    "software_r_extracted_datasets.jsonl",
-    "software_r_dataset_inventory.jsonl",
-    "software_python_priority_datasets.jsonl",
-    "software_python_extracted_datasets.jsonl",
-    "software_python_dataset_inventory.jsonl",
-    "software_catalog_curated_final.csv",
-    "software_r_catalog_main_datasets.csv",
-    "software_python_catalog_all.csv",
+    "software_python_catalog_classified.jsonl",
 ]
 LITERATURE_LINKS = "software_dataset_literature_links.jsonl"
 AUDIT_LINK_PATTERNS = [
@@ -114,6 +120,55 @@ def read_csv(path: Path) -> Iterable[dict[str, Any]]:
     with path.open(encoding="utf-8-sig", errors="ignore", newline="") as fh:
         reader = csv.DictReader(fh, delimiter=sniff_delimiter(path))
         return list(reader)
+
+
+def clean_cell(value: Any) -> Any:
+    """Normalise une cellule issue d'un data.frame R (NA/NaN -> chaine vide)."""
+    if value is None:
+        return ""
+    if isinstance(value, float) and math.isnan(value):
+        return ""
+    text = str(value)
+    if text.strip() in {"nan", "NaN", "NA", "<NA>", "None"}:
+        return ""
+    return value
+
+
+def read_rdata_table(path: Path, object_name: str) -> Iterable[dict[str, Any]]:
+    """Lit un data.frame stocke dans un .RData (encodage latin1) en liste de dicts.
+
+    Renvoie une liste vide (avec avertissement) si `rdata` est absent ou si la
+    lecture echoue, afin de ne jamais bloquer la construction du graphe.
+    """
+    if not path.exists():
+        return []
+    try:
+        import rdata as _rdata  # import tolerant: dependance optionnelle
+    except ImportError:
+        print(f"[WARN] paquet 'rdata' absent: {path.name} ignore (pip install rdata)")
+        return []
+    try:
+        converted = _rdata.conversion.convert(
+            _rdata.parser.parse_file(path), default_encoding="latin1"
+        )
+    except Exception as exc:  # noqa: BLE001 - on degrade proprement
+        print(f"[WARN] lecture RData echouee {path.name}: {exc}")
+        return []
+
+    frame = converted.get(object_name)
+    if frame is None or not hasattr(frame, "to_dict"):
+        for value in converted.values():
+            if hasattr(value, "to_dict") and hasattr(value, "columns"):
+                frame = value
+                break
+    if frame is None or not hasattr(frame, "to_dict"):
+        print(f"[WARN] objet '{object_name}' introuvable dans {path.name}")
+        return []
+
+    rows: list[dict[str, Any]] = []
+    for record in frame.to_dict(orient="records"):
+        rows.append({str(key): clean_cell(val) for key, val in record.items()})
+    return rows
 
 
 def row_value(row: dict[str, Any], *keys: str) -> str:
@@ -191,7 +246,7 @@ def process_dataset_row(
     """Convertit une ligne de catalogue software en noeuds KG."""
     language = row_value(row, "source_language", "language")
     package = row_value(row, "package", "source_package", "import_name", "pip_name")
-    dataset = row_value(row, "dataset", "main_object", "dataset_key", "name", "bundle")
+    dataset = row_value(row, "dataset", "dataset_name", "main_object", "dataset_key", "name", "bundle", "source_entry")
     if not dataset and not package:
         return
     if not language:
@@ -206,15 +261,19 @@ def process_dataset_row(
         label,
         source="software_catalog",
         source_file=source_file,
+        record_id=row_value(row, "record_id"),
         language=language,
         package=package,
         dataset=dataset,
+        role=row_value(row, "role"),
         description=row_value(row, "description", "description_bundle"),
         family=row_value(row, "family"),
+        theme=row_value(row, "theme"),
+        final_category=row_value(row, "final_category"),
+        duplicate_status=row_value(row, "duplicate_status"),
         download_status=row_value(row, "download_status"),
-        local_csv=row_value(row, "local_csv"),
-        local_geojson=row_value(row, "local_geojson"),
-        url=row_value(row, "url", "download_url", "source"),
+        local_files=row_value(row, "local_files", "local_csv", "local_geojson"),
+        url=row_value(row, "url", "download_url", "source_url", "source"),
         n=row_value(row, "n", "nrows", "rows"),
         k=row_value(row, "k", "ncols", "columns"),
     )
@@ -239,17 +298,34 @@ def process_dataset_row(
         }.get(vtype, "HAS_VARIABLE")
         add_edge(edges, did, relation, vid, extraction_source=source_file)
 
-    for y in parse_listish(row.get("y")):
+    for y in parse_listish(row.get("y")) + parse_listish(row.get("candidate_y_variables")) + parse_listish(row.get("group_y_variables")):
         vid = f"responsevariable:{slug(label)}:{slug(y)}"
         add_node(nodes, vid, "ResponseVariable", y, source="software_catalog", dataset=label)
         add_edge(edges, did, "HAS_RESPONSE", vid, extraction_source=source_file)
 
-    for x in parse_listish(row.get("x")):
+    for x in parse_listish(row.get("x")) + parse_listish(row.get("candidate_x_variables")) + parse_listish(row.get("group_x_variables")):
         vid = f"covariate:{slug(label)}:{slug(x)}"
         add_node(nodes, vid, "Covariate", x, source="software_catalog", dataset=label)
         add_edge(edges, did, "HAS_COVARIATE", vid, extraction_source=source_file)
 
+    for ident in parse_listish(row.get("identifier_variables")):
+        vid = f"identifiervariable:{slug(label)}:{slug(ident)}"
+        add_node(nodes, vid, "IdentifierVariable", ident, source="software_catalog", dataset=label)
+        add_edge(edges, did, "HAS_IDENTIFIER", vid, extraction_source=source_file)
+
+    for coord in parse_listish(row.get("coordinate_columns")):
+        vid = f"coordinatevariable:{slug(label)}:{slug(coord)}"
+        add_node(nodes, vid, "CoordinateVariable", coord, source="software_catalog", dataset=label)
+        add_edge(edges, did, "HAS_COORDINATE", vid, extraction_source=source_file)
+
+    for dt in parse_listish(row.get("datetime_columns")):
+        vid = f"timevariable:{slug(label)}:{slug(dt)}"
+        add_node(nodes, vid, "TimeVariable", dt, source="software_catalog", dataset=label)
+        add_edge(edges, did, "HAS_TIME", vid, extraction_source=source_file)
+
     geometry_type = row_value(row, "geometry_type", "has_geom")
+    if not geometry_type and row_value(row, "has_geometry").lower() in {"yes", "true", "oui", "1"}:
+        geometry_type = "geometry"
     if geometry_type and geometry_type.upper() != "NA":
         gid = f"geometrycolumn:{slug(label)}:{slug(geometry_type)}"
         add_node(nodes, gid, "GeometryColumn", geometry_type, source="software_catalog", dataset=label)
@@ -260,11 +336,96 @@ def process_dataset_row(
         add_node(nodes, aid, "AuxiliaryFile", aux, source="software_catalog", dataset=label)
         add_edge(edges, did, "HAS_AUXILIARY_FILE", aid, extraction_source=source_file)
 
-    url = row_value(row, "url", "download_url", "source")
+    url = row_value(row, "url", "download_url", "source_url", "source")
     if url.startswith("http"):
         uid = f"documentationpage:{slug(url)}"
         add_node(nodes, uid, "DocumentationPage", url, url=url, source="software_catalog")
         add_edge(edges, did, "DOCUMENTED_BY", uid, extraction_source=source_file)
+
+    paper_title = row_value(row, "paper_title")
+    paper_doi = row_value(row, "paper_doi").replace("https://doi.org/", "")
+    paper_id = None
+    if paper_title or paper_doi:
+        paper_id = f"paper:doi:{paper_doi.lower()}" if paper_doi else f"paper:catalog:{slug(label)}:{slug(paper_title)}"
+        add_node(
+            nodes,
+            paper_id,
+            "Paper",
+            paper_title or paper_doi,
+            source="software_catalog",
+            doi=paper_doi,
+            evidence_status=row_value(row, "paper_evidence_status"),
+            use_summary=row_value(row, "paper_use_summary"),
+            model_keywords=row_value(row, "paper_model_keywords"),
+        )
+        add_edge(edges, paper_id, "USES_DATASET", did, extraction_source=source_file)
+
+    formula_text = row_value(row, "formula_text", "paper_formula_or_equation")
+    if formula_text and formula_text.upper() != "NA":
+        fid = f"formula:catalog:{slug(label)}:{slug(formula_text)[:96]}"
+        add_node(
+            nodes,
+            fid,
+            "Formula",
+            formula_text,
+            source="software_catalog",
+            dataset=label,
+            package=package,
+            formula_text=formula_text,
+        )
+        add_edge(edges, did, "SHOWS_FORMULA", fid, extraction_source=source_file)
+        if paper_id:
+            add_edge(edges, paper_id, "SHOWS_FORMULA", fid, extraction_source=source_file)
+
+
+def dedupe_cross_package(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Retire les doublons d'un meme jeu de donnees expose par plusieurs packages.
+
+    Cas typique: la meme donnee GeoDa publiee a la fois par `geodatasets` et
+    `libpysal`, ou un jeu present dans `spData` et `spdep`. Deux lignes sont
+    considerees identiques si elles partagent (description, n, k). Dans chaque
+    groupe couvrant plusieurs packages, on conserve la ligne du package au plus
+    haut `information_score` (tie-break: variables les plus completes), et on
+    supprime les lignes des autres packages.
+    """
+    def score(row: dict[str, Any]) -> float:
+        try:
+            return float(norm_space(row.get("information_score")) or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    def numkey(value: Any) -> str:
+        """Normalise un compteur (205.0 -> 205, 'nan'/'' -> '') pour comparer RData et JSONL."""
+        text = norm_space(value)
+        if not text or text.lower() in {"nan", "na"}:
+            return ""
+        match = re.match(r"^(\d+)(?:\.0+)?$", text)
+        return match.group(1) if match else text
+
+    def signature(row: dict[str, Any]) -> tuple[str, str, str]:
+        return (norm_space(row.get("description")).lower()[:80], numkey(row.get("n")), numkey(row.get("k")))
+
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        if norm_space(row.get("description")) and numkey(row.get("n")) and numkey(row.get("k")):
+            groups.setdefault(signature(row), []).append(row)
+
+    drop_ids: set[int] = set()
+    dropped = 0
+    for grp in groups.values():
+        packages = {norm_space(r.get("package")) for r in grp}
+        if len(packages) <= 1:
+            continue
+        best = max(grp, key=lambda r: (score(r), len(norm_space(r.get("variables"))), norm_space(r.get("package"))))
+        keep_pkg = norm_space(best.get("package"))
+        for r in grp:
+            if norm_space(r.get("package")) != keep_pkg:
+                drop_ids.add(id(r))
+                dropped += 1
+
+    if dropped:
+        print(f"[dedup] doublons inter-packages retires: {dropped}")
+    return [r for r in rows if id(r) not in drop_ids]
 
 
 def process_literature_link(
@@ -413,12 +574,24 @@ def main() -> None:
     nodes: dict[str, dict[str, Any]] = {}
     edges: dict[str, dict[str, Any]] = {}
 
+    catalog_rows: list[tuple[str, dict[str, Any]]] = []
+    for name, object_name in RDATA_CATALOGS:
+        path = DATASET_DIR / name
+        for row in read_rdata_table(path, object_name):
+            catalog_rows.append((name, row))
+
     for name in CATALOG_PATTERNS:
         path = DATASET_DIR / name
         if not path.exists():
             continue
         rows = read_jsonl(path) if path.suffix == ".jsonl" else read_csv(path)
         for row in rows:
+            catalog_rows.append((name, row))
+
+    # Deduplication inter-packages avant injection dans le graphe.
+    kept_ids = {id(row) for row in dedupe_cross_package([row for _, row in catalog_rows])}
+    for name, row in catalog_rows:
+        if id(row) in kept_ids:
             process_dataset_row(row, name, nodes, edges)
 
     links_path = DATASET_DIR / LITERATURE_LINKS
