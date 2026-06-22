@@ -2,117 +2,104 @@
 title: LightGBM
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [LightGBM.pdf]
-tags: [estimator, boosting, trees, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - LightGBM.pdf
+  - Ke et al. 2017, LightGBM: A Highly Efficient Gradient Boosting Decision Tree
+  - https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision
+  - https://lightgbm.readthedocs.io/en/v4.5.0/Parameters-Tuning.html
+tags: [estimator, boosting, trees, hyperparameters, paper-supported]
 ---
 
-LightGBM estimator fiche template for later paper-supported tuning documentation.
+LightGBM is a high-efficiency gradient boosting decision tree estimator. In this
+project it is mainly a fast tabular benchmark for large software, paper-derived
+or portal-derived datasets.
 
 ## Summary
 
-LightGBM is an allowed estimator in the project registry. This fiche is prepared for future extraction from `LightGBM.pdf`.
+LightGBM uses histogram-based tree learning and leaf-wise tree growth. This can
+be very efficient, but it makes complexity control through `num_leaves`,
+`min_data_in_leaf` and `max_depth` especially important.
+
+It is not an inherently spatial estimator. Spatial information must be supplied
+as engineered predictors, and validation must respect spatial or temporal
+dependence.
 
 ## Estimator Family
 
-- Family: gradient boosting with tree learners
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: gradient boosting decision trees.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference paper and official documentation.
+- Core reference: Ke et al. (2017).
 
 ## Model Equation
 
 Canonical additive tree ensemble:
 
-`y_hat_i = sum_{k=1}^{K} f_k(x_i)`, where `f_k` is a tree learner and `K` is the number of boosting rounds.
+```math
+\hat{y}_i = \sum_{k=1}^{K} f_k(x_i)
+```
 
-The method optimizes a differentiable loss by sequentially adding trees to reduce residual gradient structure.
-
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `LightGBM.pdf` | pending extraction | Use this paper to verify algorithm details and tuning fields |
+where trees are added sequentially to reduce loss gradients. The practical
+difference from XGBoost is mainly computational and algorithmic: LightGBM uses
+histograms and leaf-wise growth, so leaf complexity is central.
 
 ## Data Structures It May Fit
 
-- Candidate use: large tabular datasets with many covariates
-- Candidate structure: cross-section, engineered panels, high-dimensional indicators
-- Evidence status: project_candidate
-
-## Main Use Cases
-
-- Fast boosted-tree benchmark
-- Large feature matrices
-- Nonlinear prediction with interactions
+- Large tabular datasets.
+- High-dimensional feature matrices.
+- Spatial datasets after feature engineering.
+- Spatial panels after lag/window construction.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `num_leaves` | Leaf complexity | yes | project_candidate | Central LightGBM complexity field |
-| `learning_rate` | Shrinkage per boosting round | yes | project_candidate | Tune with boosting rounds |
-| `n_estimators` | Number of boosting rounds | yes | project_candidate | Tune jointly with `learning_rate` |
-| `max_depth` | Optional tree-depth cap | later | project_candidate | Use if leaf growth becomes unstable |
-| `min_child_samples` | Minimum observations per leaf | yes | project_candidate | Controls leaf reliability |
-| `subsample` | Row sampling | yes | project_candidate | Candidate overfitting control |
-| `colsample_bytree` | Feature sampling | yes | project_candidate | Candidate overfitting control |
-| `reg_alpha` | L1 regularization | later | project_candidate | Secondary regularization |
-| `reg_lambda` | L2 regularization | later | project_candidate | Secondary regularization |
-
-## Secondary Hyperparameters
-
-- `min_split_gain`: split threshold to verify
-- categorical-feature handling: pending implementation choice
-- objective-specific parameters: pending modeling target
-
-## Hyperparameter Interactions
-
-- `num_leaves`, `max_depth`, and `min_child_samples` jointly control model complexity.
-- `learning_rate` and `n_estimators` must be tuned together.
-- Sampling parameters should be used after baseline complexity is stable.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `num_leaves` | Maximum leaves per tree | yes | Main complexity control. |
+| `min_data_in_leaf` / `min_child_samples` | Minimum observations per leaf | yes | Crucial against overfitting. |
+| `learning_rate` | Shrinkage | yes | Tune with `n_estimators`. |
+| `n_estimators` / `num_iterations` | Boosting rounds | yes | Use early stopping when possible. |
+| `max_depth` | Depth cap | yes | Useful to constrain leaf-wise growth. |
+| `feature_fraction` / `colsample_bytree` | Feature sampling | yes | Reduces overfitting and cost. |
+| `bagging_fraction` / `subsample` | Row sampling | yes | Use with `bagging_freq`. |
+| `lambda_l1` / `reg_alpha` | L1 regularization | later | Secondary regularization. |
+| `lambda_l2` / `reg_lambda` | L2 regularization | later | Secondary regularization. |
+| `max_bin` | Histogram granularity | later | Accuracy-speed tradeoff. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+Use spatial or spatio-temporal blocking when data are spatially dependent.
+LightGBM is fast enough to encourage extensive tuning, but random folds can
+hide leakage.
 
 ## Diagnostics To Inspect
 
-- Validation error curve
-- Overfitting gap
-- Feature importance stability
-- Residual spatial or temporal autocorrelation where relevant
+- Early stopping iteration.
+- Train/validation gap.
+- Feature importance stability.
+- Error by location/time.
+- Residual spatial autocorrelation.
 
 ## Failure Modes
 
-- Overfitting from too many leaves
-- Instability on small datasets
-- Misleading importance when covariates are highly correlated
+- Too many leaves on small datasets.
+- Leaf-wise overfitting without `min_data_in_leaf`.
+- Misleading random-fold performance under spatial dependence.
+- Importance bias with correlated or duplicated predictors.
 
 ## Minimal Tuning Workflow
 
-1. Start with conservative `num_leaves` and `min_child_samples`.
-2. Tune `learning_rate` with `n_estimators`.
-3. Tune complexity fields.
-4. Tune sampling and regularization fields.
-
-## Dataset Compatibility Notes
-
-- Plausible for large metadata-rich tabular datasets.
-- Not inherently spatial; spatial structure must enter through features or diagnostics.
-
-## Open Questions From Papers
-
-- Which speed and memory arguments are paper-supported?
-- Which histogram or leaf-wise details matter for tuning?
-- Which defaults should be recorded for reproducibility?
+1. Fix the objective from the response type.
+2. Start with conservative `num_leaves` and `min_data_in_leaf`.
+3. Tune `learning_rate` and `n_estimators` with early stopping.
+4. Tune `num_leaves`, `max_depth`, and sampling fractions.
+5. Check blocked validation and residual maps.
 
 ## Related Pages
 
-- [[restricted_estimator_policy_v1]]
-- [[estimator_fiche_schema_v1]]
+- [[gam]]
 - [[xgboost]]
 - [[random_forest]]
+- [[data_leakage]]
+- [[restricted_estimator_policy_v1]]
+- [[estimator_fiche_schema_v1]]

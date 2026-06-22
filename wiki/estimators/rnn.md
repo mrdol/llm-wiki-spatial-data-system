@@ -2,110 +2,92 @@
 title: RNN
 type: estimator
 created: 2026-04-29
-updated: 2026-04-29
-sources: [ISLRv2_corrected_June_2023.pdf]
-tags: [estimator, neural-network, sequence, temporal, hyperparameters]
+updated: 2026-06-04
+sources:
+  - ISLRv2_corrected_June_2023.pdf
+  - Elman 1990, Finding Structure in Time, doi:10.1207/s15516709cog1402_1
+  - Hochreiter and Schmidhuber 1997, Long Short-Term Memory, doi:10.1162/neco.1997.9.8.1735
+tags: [estimator, neural-network, sequence, temporal, hyperparameters, paper-supported]
 ---
 
-Recurrent neural network estimator family for ordered temporal or sequential prediction tasks.
+RNNs are sequence models for ordered observations. In this project they are only
+appropriate when the dataset supports meaningful temporal or event sequences.
 
 ## Summary
 
-RNN is a standalone candidate estimator for datasets where the ordering of observations carries predictive information. It should not be used only because a dataset has dates; the data must support meaningful sequence construction.
+RNNs maintain a hidden state through time. Vanilla RNNs are historically
+important but often difficult to train over long horizons; LSTM/GRU-style cells
+are practical alternatives when long memory is required.
+
+RNNs should not be used just because a dataset contains dates. The data must
+support sequence construction: ordered panels, trajectories, time series, event
+streams or gridded temporal windows.
 
 ## Estimator Family
 
-- Family: recurrent neural networks
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Evidence status: background support from [[islr2_statistical_learning]], dedicated RNN paper still useful for later enrichment
+- Family: recurrent neural networks.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: ISLR background plus RNN/LSTM references.
 
 ## Model Equation
 
 Canonical recurrence:
 
-`h_t = phi(W_x x_t + W_h h_{t-1} + b)`
+```math
+h_t = \phi(W_x x_t + W_h h_{t-1} + b)
+```
 
-`y_hat_t = g(W_y h_t + c)`
+```math
+\hat{y}_t = g(W_y h_t + c)
+```
 
-Where:
-
-- `x_t` is the input feature vector at step `t`
-- `h_t` is the hidden state
-- `phi` is a nonlinear activation or recurrent cell update
-- `g` maps the hidden representation to the prediction target
-
-Evidence status: `canonical_form_pending_dedicated_rnn_paper`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| [[islr2_statistical_learning]] | background | General neural-network and resampling reference, not a dedicated RNN source |
-| dedicated RNN paper | missing | Add before treating architecture choices as paper-supported |
+where `h_t` is the hidden state and `x_t` is the input at time `t`.
 
 ## Data Structures It May Fit
 
-- Ordered time series
-- Spatial panels converted into ordered temporal sequences
-- Trajectory data
-- Event sequences
-- Spatio-temporal grids only after explicit sequence-window construction
-
-## Compatible Variable Typologies
-
-- Candidate `Y`: continuous, binary, categorical, count, rate, or proportion depending on output layer and loss
-- Candidate `X`: temporal, lagged, continuous, categorical embeddings, spatial features, engineered sequence windows
-- Required: explicit temporal order or sequence index
-
-## Main Use Cases
-
-- Forecasting
-- Sequence classification
-- Temporal pattern extraction
-- Benchmarking against tree-based and spatial estimators when temporal dependence is central
+- Time series.
+- Spatial panels with enough time depth.
+- Trajectory data.
+- Event sequences.
+- Space-time grids after explicit window construction.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `sequence_length` | Input time-window length | yes | project_candidate | Must be defined from the dataset temporal structure |
-| `hidden_units` | Latent state dimension | yes | project_candidate | Controls representation capacity |
-| `num_layers` | Recurrent depth | yes | project_candidate | Controls temporal abstraction |
-| `cell_type` | Vanilla RNN, GRU, or LSTM | later | project_candidate | Needs implementation and source decision |
-| `dropout` | Neural regularization | yes | project_candidate | Controls overfitting |
-| `learning_rate` | Optimizer step size | yes | project_candidate | Tune with batch size and optimizer |
-| `batch_size` | Optimization batch size | later | implementation_supported | Depends on implementation |
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `sequence_length` | Input window size | yes | Must be justified by temporal scale. |
+| `cell_type` | RNN, GRU, LSTM | yes | LSTM/GRU usually for longer dependencies. |
+| `hidden_units` | State dimension | yes | Capacity control. |
+| `num_layers` | Recurrent depth | yes | Adds abstraction but raises overfitting risk. |
+| `dropout` | Regularization | yes | Important on short panels. |
+| `learning_rate` | Optimizer step size | yes | Tune with batch size. |
+| `batch_size` | Optimization batch size | later | Implementation-dependent. |
 
 ## Cross-validation Policy
 
-The cross-validation design is external to this fiche.
-
-RNN validation must prevent temporal leakage: future observations must not influence training windows used to predict earlier periods.
+Use temporal, spatial or space-time blocked validation. Future observations must
+not enter training windows for earlier prediction targets.
 
 ## Diagnostics To Inspect
 
-- Train/validation loss curves
-- Temporal leakage checks
-- Sequence-window sensitivity
-- Error by time period
-- Error by spatial unit if the input is a spatial panel
+- Train/validation loss curves.
+- Error by horizon.
+- Error by spatial unit.
+- Sensitivity to sequence length.
+- Leakage checks in window construction.
 
 ## Failure Modes
 
-- Using RNN on unordered tabular data
-- Temporal leakage from random splits
-- Overfitting on short panels
-- Unstable results when sequence length is arbitrary
-- Poor interpretability compared with spatial coefficient models
-
-## Dataset Compatibility Notes
-
-RNN is plausible only when the dataset has enough temporal depth or event order to justify sequence learning.
+- Applying RNNs to unordered tabular data.
+- Short panels with too little temporal depth.
+- Temporal leakage from random splits.
+- Poor interpretability compared with coefficient models.
+- High variance across random initializations.
 
 ## Related Pages
 
+- [[spatiotemporal_data]]
+- [[data_leakage]]
 - [[svm]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- spatiotemporal data
-- [[data_leakage]]

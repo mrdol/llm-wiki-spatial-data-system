@@ -2,116 +2,120 @@
 title: INLA
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [OpitzINLA.pdf]
-tags: [estimator, bayesian, spatial, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - OpitzINLA.pdf
+  - Rue, Martino and Chopin 2009, Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations
+  - Lindgren, Rue and Lindstrom 2011, An explicit link between Gaussian fields and Gaussian Markov random fields: the stochastic partial differential equation approach
+  - https://www.r-inla.org/
+tags: [estimator, bayesian, spatial, latent-gaussian, spde, hyperparameters, paper-supported]
 ---
 
-INLA estimator fiche template for latent Gaussian and spatial Bayesian modeling.
+INLA is a deterministic approximate Bayesian inference framework for latent
+Gaussian models. In this project it is relevant for spatial, areal,
+geostatistical, hierarchical and spatio-temporal models where uncertainty and
+latent structure matter.
 
 ## Summary
 
-INLA is an allowed estimator in the project registry. This fiche is prepared for future extraction from `OpitzINLA.pdf`.
+INLA approximates posterior marginals for latent Gaussian models without running
+MCMC. The R-INLA ecosystem is especially important for spatial models because
+SPDE formulations can represent continuous spatial fields through sparse
+Gaussian Markov random fields.
 
 ## Estimator Family
 
-- Family: approximate Bayesian inference for latent Gaussian models
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: approximate Bayesian inference for latent Gaussian models.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference methodology and R-INLA project documentation.
+- Related concepts: latent Gaussian model, GMRF, SPDE, areal random effects.
 
 ## Model Equation
 
-Canonical latent Gaussian model:
+Generic latent Gaussian model:
 
-`y_i | eta_i, theta ~ p(y_i | eta_i, theta)` and `eta_i = alpha + x_i' beta + sum_k u_k(i)`.
+```math
+y_i \mid \eta_i,\theta \sim p(y_i \mid \eta_i,\theta)
+```
 
-Latent effects `u_k` are assigned Gaussian priors, and INLA approximates posterior marginals for latent variables and hyperparameters.
+```math
+\eta_i = \alpha + x_i^\top\beta + \sum_k u_k(i)
+```
 
-Evidence status: `canonical_form_pending_paper_extraction`.
+where the latent field is Gaussian conditional on hyperparameters:
 
-## Paper Evidence Status
+```math
+x \mid \theta \sim N(0, Q(\theta)^{-1})
+```
 
-| Source | Status | Notes |
+INLA approximates posterior marginals for latent components and
+hyperparameters.
+
+## Spatial Formulations
+
+| Formulation | Dataset type | Notes |
 |---|---|---|
-| `OpitzINLA.pdf` | pending extraction | Use this paper to verify INLA model components and hyperparameter treatment |
+| ICAR/BYM/BYM2 | areal data | Requires spatial adjacency or neighborhood graph. |
+| SPDE Matern field | point or areal with coordinates/mesh | Requires mesh, CRS and prior choices. |
+| Spatial econometric latent effects | areal/panel | Possible when latent model is implemented. |
+| Space-time latent effects | spatial panels or gridded time series | Requires careful temporal structure and validation. |
 
 ## Data Structures It May Fit
 
-- Candidate use: spatial, spatio-temporal, and hierarchical modeling
-- Candidate structure: areal, point-referenced, or latent-field models depending on formulation
-- Evidence status: project_candidate
+- Areal disease mapping or regional indicators.
+- Point-referenced spatial observations.
+- Spatial panels with repeated units.
+- Count, binary, Gaussian and other likelihood families supported by R-INLA.
 
-## Main Use Cases
+## Hyperparameters To Optimize Or Record
 
-- Bayesian spatial models
-- Latent field modeling
-- Structured random effects
-- Uncertainty-aware estimation
-
-## Hyperparameters To Optimize
-
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `family` | Likelihood family | yes | project_candidate | Determined by response type |
-| `spatial_effect` | Spatial latent effect specification | yes | project_candidate | Model-structure choice rather than simple scalar tuning |
-| `temporal_effect` | Temporal effect specification | yes | project_candidate | Use only for temporal data |
-| `prior_precision` | Precision prior settings | later | project_candidate | Must be paper-supported before final use |
-| `prior_range` | Spatial range prior settings | later | project_candidate | Relevant for SPDE-style models |
-| `mesh_resolution` | Spatial mesh granularity | yes | project_candidate | If using mesh-based spatial models |
-
-## Secondary Hyperparameters
-
-- integration strategy: implementation-dependent
-- random-effect structure: dataset-dependent
-- link function: response-dependent
-
-## Hyperparameter Interactions
-
-- Spatial prior choices and mesh resolution interact strongly.
-- Likelihood family and link function determine interpretation.
-- Temporal and spatial effects should be added only when supported by data structure.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `family` | Likelihood family | yes | Determined by response type. |
+| `link` | Mean-response link | yes | Must match likelihood and interpretation. |
+| spatial effect type | ICAR/BYM/SPDE/etc. | yes | Model-structure choice. |
+| prior precision | Latent-effect shrinkage | yes | Must be recorded. |
+| SPDE range prior | Spatial correlation scale | yes | Central for SPDE models. |
+| SPDE variance prior | Field amplitude | yes | Record prior assumptions. |
+| mesh resolution | Spatial discretization | yes | Accuracy-cost tradeoff. |
+| temporal effect type | AR, RW, iid, interaction | yes if temporal | Only when time structure is real. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters or model-structure choices to tune inside that future validation scheme.
+Use spatial or spatio-temporal validation, not only posterior fit criteria. WAIC,
+DIC, CPO and posterior predictive checks are useful, but they do not replace
+out-of-sample validation when the goal is prediction.
 
 ## Diagnostics To Inspect
 
-- Posterior summaries
-- Predictive validation metrics
-- Spatial residual structure
-- Sensitivity to priors
-- Computational stability
+- Posterior marginals and credible intervals.
+- Prior sensitivity.
+- WAIC/DIC/CPO where appropriate.
+- Posterior predictive checks.
+- Residual spatial autocorrelation.
+- Mesh sensitivity for SPDE models.
 
 ## Failure Modes
 
-- Misleading inference from poorly chosen priors
-- Mesh or spatial-resolution artifacts
-- High setup complexity relative to simpler baselines
+- Treating prior choices as neutral.
+- Mesh too coarse or too fine.
+- Using areal adjacency without checking geometry/topology.
+- Comparing models by information criteria only when prediction transfer is the goal.
+- Applying spatial effects to data without reliable spatial support.
 
-## Minimal Tuning Workflow
+## Minimal Workflow
 
-1. Define likelihood and response family.
-2. Fit a non-spatial or simple random-effect baseline.
-3. Add spatial and temporal effects only when metadata supports them.
-4. Inspect prior sensitivity and residual spatial structure.
-
-## Dataset Compatibility Notes
-
-- Plausible for spatial or spatio-temporal datasets with explicit geometry or spatial identifiers.
-- Less appropriate for purely tabular prediction if uncertainty and latent structure are not needed.
-
-## Open Questions From Papers
-
-- Which latent structures are discussed in `OpitzINLA.pdf`?
-- Which priors and diagnostics are recommended?
-- Which computational constraints matter for the project scale?
+1. Identify response type and likelihood.
+2. Define spatial support: coordinates, mesh or adjacency.
+3. Fit a non-spatial baseline.
+4. Add spatial latent structure.
+5. Record priors, mesh/adjacency, diagnostics and validation design.
 
 ## Related Pages
 
+- [[gam]]
+- [[svc]]
+- [[spatial_autocorrelation]]
+- [[spatiotemporal_data]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- [[stvc]]
-- [[svc]]

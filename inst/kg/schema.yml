@@ -1,0 +1,119 @@
+# Schema minimal du knowledge graph.
+
+node_types:
+  Paper:
+    description: Article scientifique, livre ou chapitre.
+  Author:
+    description: Auteur extrait de JabRef ou de GROBID.
+  Section:
+    description: Section d'un article extraite du TEI GROBID.
+  Citation:
+    description: Reference bibliographique citee par un papier.
+  WebSource:
+    description: Source web convertie en Markdown.
+  DocumentationPage:
+    description: Page de documentation ou URL source liee a un dataset, package ou papier.
+  Dataset:
+    description: Jeu de donnees, notamment package::dataset.
+  DatasetBundle:
+    description: Ensemble de fichiers ou objets auxiliaires associes a un jeu de donnees.
+  AuxiliaryFile:
+    description: Fichier auxiliaire qui complete un jeu de donnees principal.
+  Variable:
+    description: Variable detectee ou documentee dans un jeu de donnees.
+  ResponseVariable:
+    description: Variable candidate ou confirmee comme variable dependante.
+  Covariate:
+    description: Variable candidate comme covariable ou predicteur.
+  CoordinateVariable:
+    description: Variable jouant un role de coordonnee spatiale.
+  GeometryColumn:
+    description: Colonne geometrique ou type de geometrie.
+  TimeVariable:
+    description: Variable temporelle ou date.
+  IdentifierVariable:
+    description: Variable identifiant, code administratif ou cle.
+  RPackage:
+    description: Package R lie a un dataset ou une methode.
+  PythonPackage:
+    description: Package Python lie a un dataset ou une methode.
+  SourceFamily:
+    description: Famille de source comme software package, scientific literature ou data bank.
+  Method:
+    description: Methode statistique ou spatiale.
+  Formula:
+    description: Formule de modele ou specification empirique.
+  Concept:
+    description: Concept scientifique stable.
+  WikiPage:
+    description: Page de synthese du wiki.
+  Evidence:
+    description: Fragment de source qui justifie une relation.
+
+edge_types:
+  USES_DATASET:
+    from: Paper
+    to: Dataset
+  USES_PACKAGE:
+    from: Paper
+    to: RPackage
+  PROVIDES_DATASET:
+    from: RPackage | PythonPackage
+    to: Dataset
+  HAS_VARIABLE:
+    from: Dataset
+    to: Variable
+  HAS_RESPONSE:
+    from: Dataset
+    to: ResponseVariable
+  HAS_COVARIATE:
+    from: Dataset
+    to: Covariate
+  HAS_COORDINATE:
+    from: Dataset
+    to: CoordinateVariable
+  HAS_GEOMETRY:
+    from: Dataset
+    to: GeometryColumn
+  HAS_TIME:
+    from: Dataset
+    to: TimeVariable
+  HAS_IDENTIFIER:
+    from: Dataset
+    to: IdentifierVariable
+  HAS_AUXILIARY_FILE:
+    from: Dataset
+    to: AuxiliaryFile
+  DOCUMENTED_BY:
+    from: Dataset | RPackage | PythonPackage | Method
+    to: DocumentationPage | WebSource
+  BELONGS_TO_SOURCE_FAMILY:
+    from: Dataset | Paper | WebSource | DocumentationPage
+    to: SourceFamily
+  IMPLEMENTS:
+    from: RPackage | PythonPackage
+    to: Method
+  MENTIONS_METHOD:
+    from: Paper
+    to: Method
+  HAS_FORMULA:
+    from: Paper
+    to: Formula
+  HAS_AUTHOR:
+    from: Paper
+    to: Author
+  HAS_SECTION:
+    from: Paper
+    to: Section
+  CITES:
+    from: Paper
+    to: Citation
+  SUMMARIZES:
+    from: WikiPage
+    to: Paper
+  SHOWS_FORMULA:
+    from: WebSource | DocumentationPage
+    to: Formula
+  SUPPORTS:
+    from: Evidence
+    to: any

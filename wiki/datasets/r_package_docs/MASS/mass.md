@@ -1,0 +1,194 @@
+# MASS package help
+
+## Package Description
+
+- Package: MASS
+- Title: Support Functions and Datasets for Venables and Ripley's MASS
+- Version: 7.3-65
+- Date: 2025-02-19
+- Description: Functions and datasets to support Venables and Ripley,
+  "Modern Applied Statistics with S" (4th edition, 2002).
+- Authors@R: c(person("Brian", "Ripley", role = c("aut", "cre", "cph"),
+                    email = "Brian.Ripley@R-project.org"),
+	     person("Bill", "Venables", role = c("aut", "cph")),
+	     person(c("Douglas", "M."), "Bates", role = "ctb"),
+	     person("Kurt", "Hornik", role = "trl",
+                     comment = "partial port ca 1998"),
+	     person("Albrecht", "Gebhardt", role = "trl",
+                     comment = "partial port ca 1998"),
+	     person("David", "Firth", role = "ctb",
+	            comment = "support functions for polr"))
+- Author: Brian Ripley [aut, cre, cph],
+  Bill Venables [aut, cph],
+  Douglas M. Bates [ctb],
+  Kurt Hornik [trl] (partial port ca 1998),
+  Albrecht Gebhardt [trl] (partial port ca 1998),
+  David Firth [ctb] (support functions for polr)
+- Maintainer: Brian Ripley <Brian.Ripley@R-project.org>
+- Depends: R (>= 4.4.0), grDevices, graphics, stats, utils
+- Imports: methods
+- Suggests: lattice, nlme, nnet, survival
+- License: GPL-2 | GPL-3
+- URL: http://www.stats.ox.ac.uk/pub/MASS4/
+
+## Help Pages
+
+- abbey: Determinations of Nickel Content
+- accdeaths: Accidental Deaths in the US 1973-1978
+- addterm: Try All One-Term Additions to a Model
+- Aids2: Australian AIDS Survival Data
+- Animals: Brain and Body Weights for 28 Species
+- anorexia: Anorexia Data on Weight Change
+- anova.negbin: Likelihood Ratio Tests for Negative Binomial GLMs
+- area: Adaptive Numerical Integration
+- bacteria: Presence of Bacteria after Drug Treatments
+- bandwidth.nrd: Bandwidth for density() via Normal Reference Distribution
+- bcv: Biased Cross-Validation for Bandwidth Selection
+- beav1: Body Temperature Series of Beaver 1
+- beav2: Body Temperature Series of Beaver 2
+- biopsy: Biopsy Data on Breast Cancer Patients
+- birthwt: Risk Factors Associated with Low Infant Birth Weight
+- Boston: Housing Values in Suburbs of Boston
+- boxcox: Box-Cox Transformations for Linear Models
+- cabbages: Data from a cabbage field trial
+- caith: Colours of Eyes and Hair of People in Caithness
+- Cars93: Data from 93 Cars on Sale in the USA in 1993
+- cats: Anatomical Data from Domestic Cats
+- cement: Heat Evolved by Setting Cements
+- chem: Copper in Wholemeal Flour
+- con2tr: Convert Lists to Data Frames for use by lattice
+- confint: Confidence Intervals for Model Parameters
+- contr.sdif: Successive Differences Contrast Coding
+- coop: Co-operative Trial in Analytical Chemistry
+- corresp: Simple Correspondence Analysis
+- cov.rob: Resistant Estimation of Multivariate Location and Scatter
+- cov.trob: Covariance Estimation for Multivariate t Distribution
+- cpus: Performance of Computer CPUs
+- crabs: Morphological Measurements on Leptograpsus Crabs
+- Cushings: Diagnostic Tests on Patients with Cushing's Syndrome
+- DDT: DDT in Kale
+- deaths: Monthly Deaths from Lung Diseases in the UK
+- denumerate: Transform an Allowable Formula for 'loglm' into one for 'terms'
+- dose.p: Predict Doses for Binomial Assay model
+- drivers: Deaths of Car Drivers in Great Britain 1969-84
+- dropterm: Try All One-Term Deletions from a Model
+- eagles: Foraging Ecology of Bald Eagles
+- epil: Seizure Counts for Epileptics
+- eqscplot: Plots with Geometrically Equal Scales
+- farms: Ecological Factors in Farm Management
+- fgl: Measurements of Forensic Glass Fragments
+- fitdistr: Maximum-likelihood Fitting of Univariate Distributions
+- forbes: Forbes' Data on Boiling Points in the Alps
+- fractions: Rational Approximation
+- GAGurine: Level of GAG in Urine of Children
+- galaxies: Velocities for 82 Galaxies
+- gamma.dispersion: Calculate the MLE of the Gamma Dispersion Parameter in a GLM Fit
+- gamma.shape.glm: Estimate the Shape Parameter of the Gamma Distribution in a GLM Fit
+- gehan: Remission Times of Leukaemia Patients
+- genotype: Rat Genotype Data
+- geyser: Old Faithful Geyser Data
+- gilgais: Line Transect of Soil in Gilgai Territory
+- ginv: Generalized Inverse of a Matrix
+- glm.convert: Change a Negative Binomial fit to a GLM fit
+- glm.nb: Fit a Negative Binomial Generalized Linear Model
+- glmmPQL: Fit Generalized Linear Mixed Models via PQL
+- hills: Record Times in Scottish Hill Races
+- hist.scott: Plot a Histogram with Automatic Bin Width Selection
+- housing: Frequency Table from a Copenhagen Housing Conditions Survey
+- huber: Huber M-estimator of Location with MAD Scale
+- hubers: Huber Proposal 2 Robust Estimator of Location and/or Scale
+- immer: Yields from a Barley Field Trial
+- Insurance: Numbers of Car Insurance claims
+- isoMDS: Kruskal's Non-metric Multidimensional Scaling
+- kde2d: Two-Dimensional Kernel Density Estimation
+- lda: Linear Discriminant Analysis
+- ldahist: Histograms or Density Plots of Multiple Groups
+- leuk: Survival Times and White Blood Counts for Leukaemia Patients
+- lm.gls: Fit Linear Models by Generalized Least Squares
+- lm.ridge: Ridge Regression
+- loglm: Fit Log-Linear Models by Iterative Proportional Scaling
+- loglm1: Fit Log-Linear Models by Iterative Proportional Scaling -- Internal function
+- logtrans: Estimate log Transformation Parameter
+- lqs: Resistant Regression
+- mammals: Brain and Body Weights for 62 Species of Land Mammals
+- MASS-internal: Internal MASS functions
+- mca: Multiple Correspondence Analysis
+- mcycle: Data from a Simulated Motorcycle Accident
+- Melanoma: Survival from Malignant Melanoma
+- menarche: Age of Menarche in Warsaw
+- michelson: Michelson's Speed of Light Data
+- minn38: Minnesota High School Graduates of 1938
+- motors: Accelerated Life Testing of Motorettes
+- muscle: Effect of Calcium Chloride on Muscle Contraction in Rat Hearts
+- mvrnorm: Simulate from a Multivariate Normal Distribution
+- negative.binomial: Family function for Negative Binomial GLMs
+- newcomb: Newcomb's Measurements of the Passage Time of Light
+- nlschools: Eighth-Grade Pupils in the Netherlands
+- npk: Classical N, P, K Factorial Experiment
+- npr1: US Naval Petroleum Reserve No. 1 data
+- Null: Null Spaces of Matrices
+- oats: Data from an Oats Field Trial
+- OME: Tests of Auditory Perception in Children with OME
+- painters: The Painter's Data of de Piles
+- pairs.lda: Produce Pairwise Scatterplots from an 'lda' Fit
+- parcoord: Parallel Coordinates Plot
+- petrol: N. L. Prater's Petrol Refinery Data
+- phones: Belgium Phone Calls 1950-1973
+- Pima.tr: Diabetes in Pima Indian Women
+- plot.lda: Plot Method for Class 'lda'
+- plot.mca: Plot Method for Objects of Class 'mca'
+- polr: Ordered Logistic or Probit Regression
+- predict.glmmPQL: Predict Method for glmmPQL Fits
+- predict.lda: Classify Multivariate Observations by Linear Discrimination
+- predict.lqs: Predict from an lqs Fit
+- predict.mca: Predict Method for Class 'mca'
+- predict.qda: Classify from Quadratic Discriminant Analysis
+- profile.glm: Method for Profiling glm Objects
+- qda: Quadratic Discriminant Analysis
+- quine: Absenteeism from School in Rural New South Wales
+- Rabbit: Blood Pressure in Rabbits
+- rational: Rational Approximation
+- renumerate: Convert a Formula Transformed by 'denumerate'
+- rlm: Robust Fitting of Linear Models
+- rms.curv: Relative Curvature Measures for Non-Linear Regression
+- rnegbin: Simulate Negative Binomial Variates
+- road: Road Accident Deaths in US States
+- rotifer: Numbers of Rotifers by Fluid Density
+- Rubber: Accelerated Testing of Tyre Rubber
+- sammon: Sammon's Non-Linear Mapping
+- ships: Ships Damage Data
+- shoes: Shoe wear data of Box, Hunter and Hunter
+- shrimp: Percentage of Shrimp in Shrimp Cocktail
+- shuttle: Space Shuttle Autolander Problem
+- Sitka: Growth Curves for Sitka Spruce Trees in 1988
+- Sitka89: Growth Curves for Sitka Spruce Trees in 1989
+- Skye: AFM Compositions of Aphyric Skye Lavas
+- snails: Snail Mortality Data
+- SP500: Returns of the Standard and Poors 500
+- stdres: Extract Standardized Residuals from a Linear Model
+- steam: The Saturated Steam Pressure Data
+- stepAIC: Choose a model by AIC in a Stepwise Algorithm
+- stormer: The Stormer Viscometer Data
+- studres: Extract Studentized Residuals from a Linear Model
+- summary.loglm: Summary Method Function for Objects of Class 'loglm'
+- summary.negbin: Summary Method Function for Objects of Class 'negbin'
+- summary.rlm: Summary Method for Robust Linear Models
+- survey: Student Survey Data
+- synth.tr: Synthetic Classification Problem
+- theta.md: Estimate theta of the Negative Binomial
+- topo: Spatial Topographic Data
+- Traffic: Effect of Swedish Speed Limits on Accidents
+- truehist: Plot a Histogram
+- ucv: Unbiased Cross-Validation for Bandwidth Selection
+- UScereal: Nutritional and Marketing Information on US Cereals
+- UScrime: The Effect of Punishment Regimes on Crime Rates
+- VA: Veteran's Administration Lung Cancer Trial
+- waders: Counts of Waders at 15 Sites in South Africa
+- whiteside: House Insulation: Whiteside's Data
+- width.SJ: Bandwidth Selection by Pilot Estimation of Derivatives
+- write.matrix: Write a Matrix or Data Frame
+- wtloss: Weight Loss Data from an Obese Patient
+
+## Package Rd Help
+
+No package-level Rd help page found.

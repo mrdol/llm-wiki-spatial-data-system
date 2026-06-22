@@ -1,0 +1,50 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+ade4 (version 1.7.24)
+
+steppe: Transect in the Vegetation
+
+Transect in the Vegetation
+
+Description
+
+     This data set gives the presence-absence of 37 species on 515
+     sites.
+
+Usage
+
+     data(steppe)
+
+Format
+
+     ‘steppe’ is a list of 2 components.
+
+     tab is a data frame with 512 rows (sites) and 37 variables
+          (species) in presence-absence.
+
+     esp.names is a vector of the species names.
+
+Source
+
+     Estève, J. (1978) Les méthodes d'ordination : éléments pour une
+     discussion. in J. M. Legay and R. Tomassone, editors.  _Biométrie
+     et Ecologie_, Société Française de Biométrie, Paris, 223-250.
+
+Examples
+Run this code
+
+     par(mfrow = c(3,1))
+     data(steppe)
+     w1 <- col(as.matrix(steppe$tab[,1:15]))
+     w1 <- as.numeric(w1[steppe$tab[,1:15] > 0])
+     w2 <- row(as.matrix(steppe$tab[,1:15]))
+     w2 <- as.numeric(w2[steppe$tab[,1:15] > 0])
+     plot(w2, w1, pch = 20)
+     plot(dudi.pca(steppe$tab, scan = FALSE, scale = FALSE)$li[,1],
+         pch = 20, ylab = "PCA", xlab = "", type = "b")
+     plot(dudi.coa(steppe$tab, scan = FALSE)$li[,1], pch = 20,
+         ylab = "COA", xlab = "", type = "b")
+     par(mfrow = c(1,1))
+

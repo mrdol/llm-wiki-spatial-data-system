@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-05-12
+updated: 2026-06-04
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -44,10 +44,6 @@ Each entry follows this format:
 *One entry per dataset identified.*
 *Storage convention: dataset fiches are grouped by warehouse under `wiki/datasets/<warehouse>/`.*
 
-- [[data_gouv_dvf_geolocalisees]] - Geolocated DVF derivative with normalized transaction fields, parcel identifiers, dates, and WGS-84 coordinates | dataset | 2026-05-06
-- [[data_gouv_dvf]] - Official DGFiP raw DVF dissemination for property transactions over the latest five-year window | dataset | 2026-05-06
-- [[insee_base_permanente_equipements]] - Annual INSEE territorial equipment and services inventory with commune, IRIS, zoning, and coordinate metadata | dataset | 2026-05-06
-- [[insee_chomage_halo_series_longues]] - INSEE long-series unemployment and halo table with a locally downloaded CSV manifest | dataset | 2026-05-06
 - [[zenodo_18421412_mountain_fire]] - Zenodo candidate dataset on climate-fire relationships across global mountain systems | dataset | 2026-05-06
 - [[zenodo_5534232_linear_pottery_harris]] - Zenodo supplementary graph and table files for Linear Pottery and Harris Figure 8 | dataset | 2026-05-06
 - [[zenodo_14499026_cranial_modifications_americas]] - Zenodo analytical dataset and R code for spatial-temporal cranial modification patterns in the Americas | dataset | 2026-05-06
@@ -74,6 +70,15 @@ Each entry follows this format:
 - [[behrens_ertur_koch_2012_dual_gravity]] - JAE dual-gravity trade paper with spatial econometrics and ZBW replication archive | paper | 2026-05-12
 - [[millo_2015_house_prices_replication]] - JAE R replication of the Holly-Pesaran-Yamagata US house-price spatio-temporal model | paper | 2026-05-12
 - [[jin_lee_yang_2024_spatial_moments_employment]] - JAE spatial moments paper with US county employment-growth replication archive | paper | 2026-05-12
+- [[fotheringham_yang_kang_2017_mgwr]] - Canonical MGWR paper with formulas, simulations and Irish famine empirical application | paper | 2026-06-04
+- [[wu_ren_hu_du_2018_mgtwr]] - MGTWR paper using Shenzhen housing prices, spatio-temporal bandwidths and benchmark comparisons | paper | 2026-06-04
+- [[que_ma_ma_chen_2020_stwr]] - STWR paper with spatio-temporal kernels, bandwidth optimization, simulations and precipitation-isotope application | paper | 2026-06-04
+- [[comber_harris_brunsdon_2023_ggp_gam]] - GGP-GAM paper comparing smooth spatially varying coefficient modeling with MGWR on simulation and Brexit data | paper | 2026-06-04
+- [[lessani_li_2024_sgwr]] - SGWR paper combining geographic and attribute-similarity weights with AICc and prediction metrics | paper | 2026-06-04
+- [[li_2022_shap_xgboost_spatial_effects]] - XGBoost/SHAP paper comparing machine-learning spatial effects with SLM and MGWR | paper | 2026-06-04
+- [[yun_gramig_2021_spatial_panel_crop_yield]] - Spatial panel crop-yield paper comparing econometric weather-response specifications and prediction performance | paper | 2026-06-04
+- [[bivand_millo_piras_2021_spatial_econometrics_r]] - Review of R software for spatial econometrics, spatial panel models and package/data examples | paper | 2026-06-04
+- [[arribas_bel_patino_duque_2017_living_environment_deprivation]] - Remote-sensing LED paper comparing linear, spatial and machine-learning models | paper | 2026-06-04
 
 ---
 
@@ -123,6 +128,20 @@ Each entry follows this format:
 - [[spatial_autocorrelation]] - Dependence pattern where nearby or connected spatial units tend to have related values | concept | 2026-04-29
 - [[spatial_heterogeneity]] - Variation in relationships, distributions, or parameters across space | concept | 2026-04-29
 - [[data_leakage]] - Validation failure where train data indirectly uses validation or test information | concept | 2026-04-29
+- [[gwr]] - Local geographically weighted regression with bandwidth, kernel weights, and local coefficients | concept | 2026-06-04
+- [[mgwr]] - Multiscale GWR concept where coefficients can operate at different spatial bandwidths | concept | 2026-06-04
+- [[mgtwr]] - Multiscale GTWR concept with covariate-specific spatial and temporal bandwidths | concept | 2026-06-04
+- [[stwr]] - Spatiotemporal weighted regression with space-time local kernels and bandwidth/decay controls | concept | 2026-06-04
+- [[sgwr]] - GWR extension combining geographic proximity and attribute similarity weights | concept | 2026-06-04
+- [[geographical_gaussian_process_gam]] - GAM/Gaussian-process route for spatially varying coefficient modeling | concept | 2026-06-04
+- [[shap_spatial_effects]] - Local explanation route for comparing machine-learning spatial effects with spatial models | concept | 2026-06-04
+- [[spatial_regression]] - Umbrella concept for spatial dependence, heterogeneity, random effects, and feature-based baselines | concept | 2026-06-04
+- [[gradient_boosted_trees]] - Concept bridge for XGBoost and LightGBM tabular baselines | concept | 2026-06-04
+- [[generalized_additive_models]] - Concept bridge for GAM smooth additive models and spatial trend baselines | concept | 2026-06-04
+- [[support_vector_machines]] - Concept bridge for SVM and SVR kernel/margin models | concept | 2026-06-04
+- [[latent_gaussian_models]] - Concept bridge for INLA, GMRF and SPDE latent spatial models | concept | 2026-06-04
+- [[sequence_models]] - Concept bridge for RNN/LSTM sequence models and leakage-safe temporal windows | concept | 2026-06-04
+- [[adaptive_regression_splines]] - Concept bridge for MARS/earth hinge-function models | concept | 2026-06-04
 
 ---
 
@@ -147,19 +166,20 @@ Each entry follows this format:
 
 *Reference fiches for statistical and machine learning models. Estimation results belong under `wiki/analyses/modeling/estimations/`.*
 
-- [[xgboost]] - Gradient-boosted tree estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
-- [[lightgbm]] - LightGBM estimator fiche template for later paper-supported tuning documentation | estimator | 2026-04-23
-- [[gamboost]] - GAMBoost estimator fiche enriched from PDF formulas with loss functions, pseudo-residuals, shrinkage, and stopping criteria | estimator | 2026-05-13
-- [[random_forest]] - Random Forest estimator fiche template for ensemble tree baselines | estimator | 2026-04-23
-- [[mars]] - MARS estimator fiche template for multivariate adaptive regression splines | estimator | 2026-04-23
-- [[inla]] - INLA estimator fiche template for latent Gaussian and spatial Bayesian modeling | estimator | 2026-04-23
+- [[xgboost]] - Regularized gradient-boosted tree baseline with paper-supported objective and tuning fields | estimator | 2026-06-04
+- [[lightgbm]] - Efficient gradient boosting decision tree baseline with leaf-wise complexity controls | estimator | 2026-06-04
+- [[gam]] - Generalized additive model baseline with smooth effects, spatial smooth option, and mgcv route | estimator | 2026-06-04
+- [[gamboost]] - GAMBoost fiche enriched from PDF formulas and model-based boosting references | estimator | 2026-06-04
+- [[random_forest]] - Random Forest baseline with Breiman reference, OOB diagnostics, and blocked-validation cautions | estimator | 2026-06-04
+- [[mars]] - MARS adaptive regression spline baseline with hinge functions, pruning, and interaction controls | estimator | 2026-06-04
+- [[inla]] - INLA fiche for latent Gaussian, GMRF, SPDE and spatial Bayesian modeling | estimator | 2026-06-04
 - [[stvc]] - STVC estimator fiche template for spatio-temporally varying coefficient modeling | estimator | 2026-04-23
-- [[svc]] - SVC estimator fiche template for spatially varying coefficient modeling | estimator | 2026-04-23
-- [[mgwr]] - Multiscale geographically weighted regression fiche with mgwrsar package controls, bandwidth search, TDS variants, and validation notes | estimator | 2026-04-30
+- [[svc]] - Spatially varying coefficient fiche with smoothing, regularization and coefficient-map diagnostics | estimator | 2026-06-04
+- [[mgwr]] - Multiscale geographically weighted regression fiche with reference papers, bandwidth search, TDS variants, and validation notes | estimator | 2026-06-04
 - [[mgwrsar]] - GWR/MGWR-SAR fiche with model variants, spatial weights, kernels, bandwidth search, prediction controls, and diagnostics | estimator | 2026-04-30
 - [[spboost]] - Nonlinear spatial autoregressive boosting fiche with local package API, SAR/SEM/SARAR methods, CFE rules, and manual R workflow | estimator | 2026-05-05
-- [[rnn]] - Recurrent neural network estimator fiche for ordered temporal or sequence prediction tasks | estimator | 2026-04-29
-- [[svm]] - Support vector machine estimator fiche for margin-based classification and regression | estimator | 2026-04-29
+- [[rnn]] - RNN/LSTM sequence estimator fiche for leakage-safe temporal or event windows | estimator | 2026-06-04
+- [[svm]] - Support vector machine fiche for margin-based classification and regression with fold-local scaling | estimator | 2026-06-04
 
 ---
 

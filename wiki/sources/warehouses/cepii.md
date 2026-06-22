@@ -22,7 +22,6 @@ Research data portal publishing harmonized international-economy datasets with e
 
 ## Example Datasets
 
-- `cepii_baci`
 
 ## Related Pages
 

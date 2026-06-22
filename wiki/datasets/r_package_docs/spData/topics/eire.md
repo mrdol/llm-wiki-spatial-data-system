@@ -1,0 +1,124 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+spData (version 2.3.4)
+
+eire: Eire data sets
+
+Eire data sets
+
+Description
+
+     The Eire data set has been converted to shapefile format and
+     placed in the etc/shapes directory. The initial data objects are
+     now stored as a SpatialPolygonsDataFrame object, from which the
+     contiguity neighbour list is recreated. For purposes of record,
+     the original data set is retained.  The ‘eire.df’ data frame has
+     26 rows and 9 columns. In addition, polygons of the 26 counties
+     are provided as a multipart polylist in eire.polys.utm
+     (coordinates in km, projection UTM zone 30). Their centroids are
+     in eire.coords.utm. The original Cliff and Ord binary contiguities
+     are in eire.nb.
+
+Format
+
+     This data frame contains the following columns:
+
+        * A: Percentage of sample with blood group A
+
+        * towns: Towns/unit area
+
+        * pale: Beyond the Pale 0, within the Pale 1
+
+        * size: number of blood type samples
+
+        * ROADACC: arterial road network accessibility in 1961
+
+        * OWNCONS: percentage in value terms of gross agricultural
+          output of each county consumed by itself
+
+        * POPCHG: 1961 population as percentage of 1926
+
+        * RETSALE: value of retail sales British Pound000
+
+        * INCOME: total personal income British Pound000
+
+        * names: County names
+
+Source
+
+     Upton and Fingleton 1985, - Bailey and Gatrell 1995, ch. 1 for
+     blood group data, Cliff and Ord (1973), p. 107 for remaining
+     variables (also after O'Sullivan, 1968). Polygon borders and Irish
+     data sourced from Michael Tiefelsdorf's SPSS Saddlepoint bundle,
+     originally hosted at:
+     http://geog-www.sbs.ohio-state.edu/faculty/tiefelsdorf/GeoStat.htm.
+
+Examples
+Run this code
+
+     library(spdep)
+     eire <- sf::st_read(system.file("shapes/eire.gpkg", package="spData")[1])
+     eire.nb <- poly2nb(eire)
+
+     # Eire physical anthropology blood group data
+     summary(eire$A)
+     brks <- round(fivenum(eire$A), digits=2)
+     cols <- rev(heat.colors(4))
+     plot(eire, col=cols[findInterval(eire$A, brks, all.inside=TRUE)])
+     title(main="Percentage with blood group A in Eire")
+     legend(x=c(-50, 70), y=c(6120, 6050),
+       c("under 27.91", "27.91 - 29.26", "29.26 - 31.02", "over 31.02"),
+       fill=cols, bty="n")
+
+     plot(st_geometry(eire))
+     plot(eire.nb, st_geometry(eire), add=TRUE)
+
+     lA <- lag.listw(nb2listw(eire.nb), eire$A)
+     summary(lA)
+     moran.test(eire$A, nb2listw(eire.nb))
+     geary.test(eire$A, nb2listw(eire.nb))
+     cor(lA, eire$A)
+     moran.plot(eire$A, nb2listw(eire.nb), labels=eire$names)
+     A.lm <- lm(A ~ towns + pale, data=eire)
+     summary(A.lm)
+     res <- residuals(A.lm)
+     brks <- c(min(res),-2,-1,0,1,2,max(res))
+     cols <- rev(cm.colors(6))
+
+     plot(eire, col=cols[findInterval(res, brks, all.inside=TRUE)])
+     title(main="Regression residuals")
+     legend(x=c(-50, 70), y=c(6120, 6050),
+       legend=c("under -2", "-2 - -1", "-1 - 0", "0 - 1", "1 - 2", "over 2"),
+       fill=cols, bty="n")
+
+     lm.morantest(A.lm, nb2listw(eire.nb))
+     lm.morantest.sad(A.lm, nb2listw(eire.nb))
+     lm.LMtests(A.lm, nb2listw(eire.nb), test="LMerr")
+
+     # Eire agricultural data
+     brks <- round(fivenum(eire$OWNCONS), digits=2)
+     cols <- grey(4:1/5)
+     plot(eire, col=cols[findInterval(eire$OWNCONS, brks, all.inside=TRUE)])
+     title(main="Percentage own consumption of agricultural produce")
+     legend(x=c(-50, 70), y=c(6120, 6050),
+       legend=c("under 9", "9 - 12.2", "12.2 - 19", "over 19"), fill=cols, bty="n")
+
+     moran.plot(eire$OWNCONS, nb2listw(eire.nb))
+     moran.test(eire$OWNCONS, nb2listw(eire.nb))
+     e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
+     res <- residuals(e.lm)
+     brks <- c(min(res),-2,-1,0,1,2,max(res))
+     cols <- rev(cm.colors(6))
+     plot(eire, col=cols[findInterval(res, brks, all.inside=TRUE)])
+     title(main="Regression residuals")
+     legend(x=c(-50, 70), y=c(6120, 6050),
+       legend=c("under -2", "-2 - -1", "-1 - 0", "0 - 1", "1 - 2", "over 2"),
+       fill=cm.colors(6), bty="n")
+
+     lm.morantest(e.lm, nb2listw(eire.nb))
+     lm.morantest.sad(e.lm, nb2listw(eire.nb))
+     lm.LMtests(e.lm, nb2listw(eire.nb), test="LMerr")
+     print(localmoran.sad(e.lm, eire.nb, select=seq(along=eire.nb)))
+

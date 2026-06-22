@@ -1,0 +1,75 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+agridat (version 1.26)
+
+yan.winterwheat: Multi-environment trial of winter wheat in Ontario
+
+Multi-environment trial of winter wheat in Ontario
+
+Description
+
+     Yield of 18 varieties of winter wheat grown at 9 environments in
+     Ontario in 1993.
+
+Format
+
+     A data frame with 162 observations on the following 3 variables.
+
+     ‘gen’ genotype
+
+     ‘env’ environment
+
+     ‘yield’ yield in metric tons per hectare
+
+     Used with permission of Weikai Yan.
+
+Details
+
+     The yield is the mean of several reps, measured in metric tons per
+     hectare.
+
+     This data has often been used to illustrate GGE biplots.
+
+Source
+
+     Weikai Yan and M.S. Kang (2002).  GGE biplot analysis: A graphical
+     tool for breeders, geneticists, and agronomists.  CRC. Page 59.
+
+     Weikai Yan and Nicholas A. Tinker. 2006.  Biplot analysis of
+     multi-environment trial data: Principles and applications. Table
+     1.
+
+References
+
+     Weikai Yan and Manjit S. Kang and Baoluo Ma and Sheila Woods,
+     2007, GGE Biplot vs. AMMI Analysis of Genotype-by-Environment
+     Data, Crop Science, 2007, 47, 641-653.
+     https://doi.org/10.2135/cropsci2006.06.0374
+
+
+Variables detected from installed object
+
+gen: factor ; missing=0 ; examples=Ann, Ari, Aug
+
+env: factor ; missing=0 ; examples=BH93
+
+yield: numeric ; missing=0 ; examples=4.46, 4.417, 4.669
+
+Examples
+Run this code
+
+     ## Not run:
+
+     library(agridat)
+
+     data(yan.winterwheat)
+     dat <- yan.winterwheat
+
+     libs(gge)
+     m1 <- gge(dat, yield ~ gen*env)
+     biplot(m1, flip=c(1,1), hull=TRUE,
+            main="yan.winterwheat - GGE biplot")
+     ## End(Not run)
+

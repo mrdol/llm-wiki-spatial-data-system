@@ -2,112 +2,94 @@
 title: Random Forest
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [randomforest2001.pdf]
-tags: [estimator, trees, ensemble, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - randomforest2001.pdf
+  - Breiman 2001, Random Forests, doi:10.1023/A:1010933404324
+tags: [estimator, trees, ensemble, hyperparameters, paper-supported]
 ---
 
-Random Forest estimator fiche template for ensemble tree baselines.
+Random Forest is a bagged ensemble of randomized decision trees. In this project
+it is a robust nonlinear baseline for tabular datasets and engineered
+spatial/spatio-temporal feature matrices.
 
 ## Summary
 
-Random Forest is an allowed estimator in the project registry. This fiche is prepared for future extraction from `randomforest2001.pdf`.
+Random Forest averages many trees fitted on perturbed data and split candidates.
+It usually requires less delicate tuning than boosted trees, but it is not a
+spatial model by itself. Spatial dependence must be handled through feature
+engineering, blocked validation and residual diagnostics.
 
 ## Estimator Family
 
-- Family: bagged decision-tree ensemble
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: bagged decision-tree ensemble.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference paper.
+- Core reference: Breiman (2001).
 
 ## Model Equation
 
-Canonical forest predictor:
+Regression forest:
 
-`y_hat_i = (1 / B) * sum_{b=1}^{B} T_b(x_i)` for regression, where `T_b` is a tree fitted on a bootstrap sample.
+```math
+\hat{y}(x) = \frac{1}{B}\sum_{b=1}^{B} T_b(x)
+```
 
-For classification, the prediction is the majority vote or averaged class probability across trees.
-
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `randomforest2001.pdf` | pending extraction | Use this paper to verify original method assumptions and tuning fields |
+where `T_b` is a tree trained with bootstrap sampling and random feature
+selection at splits. Classification uses majority vote or averaged class
+probabilities.
 
 ## Data Structures It May Fit
 
-- Candidate use: robust nonlinear tabular baseline
-- Candidate structure: cross-section or engineered panel data
-- Evidence status: project_candidate
-
-## Main Use Cases
-
-- Strong baseline against boosted trees
-- Nonlinear prediction with moderate tuning burden
-- Variable-importance exploration
+- General tabular datasets.
+- Spatial datasets with coordinates, lags, distances or neighborhood summaries.
+- Spatial panels after feature engineering.
+- Classification or regression tasks.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `n_estimators` | Number of trees | yes | project_candidate | Usually tune until performance stabilizes |
-| `max_features` | Candidate predictors per split | yes | project_candidate | Core forest diversity parameter |
-| `min_samples_leaf` | Minimum leaf size | yes | project_candidate | Controls smoothness and overfitting |
-| `max_depth` | Maximum tree depth | later | project_candidate | Optional complexity cap |
-| `bootstrap` | Bootstrap sampling toggle | later | project_candidate | Depends on implementation |
-
-## Secondary Hyperparameters
-
-- split criterion: task-dependent
-- class weights: classification only
-- sample weights: if survey or importance weighting is needed
-
-## Hyperparameter Interactions
-
-- `max_features` controls tree decorrelation.
-- `min_samples_leaf` and `max_depth` control local complexity.
-- `n_estimators` mostly controls stability and compute cost.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `n_estimators` / `ntree` | Number of trees | yes | Increase until metrics and importances stabilize. |
+| `max_features` / `mtry` | Candidate predictors per split | yes | Core decorrelation parameter. |
+| `min_samples_leaf` / `nodesize` | Minimum leaf size | yes | Controls smoothness and overfitting. |
+| `max_depth` | Optional depth cap | later | Useful for memory or overfitting control. |
+| `bootstrap` | Sampling regime | later | Usually true for classical RF. |
+| `class_weight` | Class imbalance handling | later | Classification only. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+Out-of-bag error is useful but does not replace spatial or temporal validation.
+For spatial/ST datasets, use blocked validation and inspect whether the forest
+only interpolates nearby observations.
 
 ## Diagnostics To Inspect
 
-- Validation error
-- Out-of-bag diagnostics if used
-- Variable importance stability
-- Residual spatial or temporal patterning
+- OOB error if available.
+- Validation error under blocked folds.
+- Variable importance stability.
+- Partial dependence or accumulated local effects for selected predictors.
+- Residual spatial autocorrelation.
 
 ## Failure Modes
 
-- Poor extrapolation
-- Biased variable importance under correlated predictors
-- Heavy memory use with many trees and large data
+- Poor extrapolation.
+- Biased importance under correlated predictors.
+- Random folds overestimating spatial transfer.
+- Large memory use with many trees and large data.
 
 ## Minimal Tuning Workflow
 
-1. Tune `max_features` and `min_samples_leaf`.
-2. Increase `n_estimators` until metrics stabilize.
-3. Add depth constraints only if overfitting or compute pressure appears.
-
-## Dataset Compatibility Notes
-
-- Plausible general-purpose baseline for most tabular datasets.
-- Spatial or temporal structure must be encoded explicitly or checked in residuals.
-
-## Open Questions From Papers
-
-- Which original parameters are central in `randomforest2001.pdf`?
-- Which diagnostics are discussed in the source paper?
-- How should out-of-bag estimates be recorded in this project?
+1. Tune `mtry`/`max_features` and leaf size.
+2. Increase tree count until stable.
+3. Compare random-fold and spatial-block validation.
+4. Inspect residual spatial structure and variable importance stability.
 
 ## Related Pages
 
-- [[restricted_estimator_policy_v1]]
-- [[estimator_fiche_schema_v1]]
+- [[gam]]
 - [[xgboost]]
 - [[lightgbm]]
+- [[data_leakage]]
+- [[restricted_estimator_policy_v1]]
+- [[estimator_fiche_schema_v1]]

@@ -2,111 +2,97 @@
 title: MARS
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [Earth_MARS__a_note_on_earth.pdf]
-tags: [estimator, mars, splines, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - Earth_MARS__a_note_on_earth.pdf
+  - Friedman 1991, Multivariate Adaptive Regression Splines, doi:10.1214/aos/1176347963
+tags: [estimator, mars, splines, hyperparameters, paper-supported]
 ---
 
-MARS estimator fiche template for multivariate adaptive regression splines.
+MARS fits adaptive piecewise-linear spline models. In this project it is an
+interpretable nonlinear baseline between linear regression and tree ensembles.
 
 ## Summary
 
-MARS is an allowed estimator in the project registry. This fiche is prepared for future extraction from `Earth_MARS__a_note_on_earth.pdf`.
+MARS builds hinge-function basis terms in a forward pass and prunes them in a
+backward pass. It can represent nonlinearities and low-order interactions while
+remaining easier to inspect than boosted trees.
+
+It is not inherently spatial. Spatial structure must be encoded through
+coordinates, spatial lags, distances, regional effects or other engineered
+features.
 
 ## Estimator Family
 
-- Family: adaptive regression splines
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: adaptive regression splines.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference paper.
+- Core reference: Friedman (1991).
 
 ## Model Equation
 
-Canonical MARS predictor:
+```math
+\hat{y}_i = \beta_0 + \sum_{m=1}^{M} \beta_m B_m(x_i)
+```
 
-`y_hat_i = beta_0 + sum_{m=1}^{M} beta_m B_m(x_i)`, where `B_m` are hinge-function basis terms such as `max(0, x_j - c)` or `max(0, c - x_j)`.
+where basis functions are hinge terms such as:
 
-Model selection controls the number and interaction degree of retained basis terms.
+```math
+\max(0, x_j - c), \quad \max(0, c - x_j)
+```
 
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `Earth_MARS__a_note_on_earth.pdf` | pending extraction | Use this paper to verify earth/MARS parameters and pruning details |
+Interactions are products of basis terms up to a specified degree.
 
 ## Data Structures It May Fit
 
-- Candidate use: interpretable nonlinear tabular modeling
-- Candidate structure: cross-section or engineered panel data
-- Evidence status: project_candidate
-
-## Main Use Cases
-
-- Nonlinear regression with hinge functions
-- Interaction screening
-- More interpretable alternative to boosted trees
+- Continuous-response tabular regression.
+- Classification only through implementation-specific extensions.
+- Spatial datasets after feature engineering.
+- Medium-size datasets where interpretability matters.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `degree` | Maximum interaction degree | yes | project_candidate | Controls interaction complexity |
-| `nprune` | Number of retained terms | yes | project_candidate | Central pruning/complexity parameter |
-| `nk` | Maximum number of model terms | yes | project_candidate | Candidate upper bound on basis size |
-| `penalty` | Penalty for model complexity | later | project_candidate | To verify from earth documentation or paper |
-| `minspan` | Minimum spacing between knots | later | project_candidate | Data-size dependent |
-| `endspan` | Boundary knot control | later | project_candidate | To verify from paper |
-
-## Secondary Hyperparameters
-
-- response family settings: task-dependent
-- variable selection constraints: pending implementation
-
-## Hyperparameter Interactions
-
-- `degree`, `nk`, and `nprune` jointly define model flexibility.
-- `penalty` affects pruning and interpretability.
-- Knot-spacing fields affect stability in small or uneven datasets.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `degree` | Maximum interaction order | yes | Keep low unless validation supports interactions. |
+| `nprune` | Number of retained terms | yes | Main post-pruning complexity control. |
+| `nk` | Maximum candidate terms | yes | Upper bound during forward construction. |
+| `penalty` | Complexity penalty | yes | Affects pruning and interaction cost. |
+| `minspan` | Minimum spacing between knots | later | Stabilizes knot placement. |
+| `endspan` | Boundary knot control | later | Helps avoid unstable edge knots. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+Use the project validation scheme. For spatial datasets, tune term complexity
+under spatially blocked validation rather than random folds.
 
 ## Diagnostics To Inspect
 
-- Number of retained terms
-- Selected variables
-- Validation error
-- Residual plots and extrapolation behavior
+- Retained basis terms.
+- Selected variables and knot locations.
+- Validation error.
+- Residual spatial autocorrelation.
+- Extrapolation behavior outside observed covariate ranges.
 
 ## Failure Modes
 
-- Overfitting with too many terms or interactions
-- Instability under sparse covariate regions
-- Limited performance if discontinuous or highly local effects dominate
+- Too many terms causing unstable local fits.
+- Boundary artifacts from knots near data extremes.
+- Weak performance for highly discontinuous local processes.
+- Spatial leakage if random folds are used.
 
 ## Minimal Tuning Workflow
 
-1. Start with low interaction degree.
-2. Tune `nprune` and `nk`.
-3. Add interaction degree only if validation supports it.
-4. Inspect retained basis terms.
-
-## Dataset Compatibility Notes
-
-- Plausible for medium-size tabular datasets where interpretability matters.
-- Not inherently spatial unless spatial covariates or coordinates are included.
-
-## Open Questions From Papers
-
-- Which earth parameters are emphasized?
-- How is pruning selected?
-- What defaults should be preserved for reproducibility?
+1. Fit degree 1 with conservative `nk`.
+2. Tune `nprune`.
+3. Test degree 2 only if interactions improve blocked validation.
+4. Inspect retained terms and residual maps.
 
 ## Related Pages
 
+- [[gam]]
+- [[random_forest]]
+- [[xgboost]]
+- [[data_leakage]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]

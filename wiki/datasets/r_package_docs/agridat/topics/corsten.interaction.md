@@ -1,0 +1,73 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+agridat (version 1.26)
+
+corsten.interaction: Multi-environment trial of corn
+
+Multi-environment trial of corn
+
+Description
+
+     The data is the yield (kg/acre) of 20 genotypes of corn at 7
+     locations.
+
+Format
+
+     A data frame with 140 observations on the following 3 variables.
+
+     ‘gen’ genotype, 20 levels
+
+     ‘loc’ location, 7 levels
+
+     ‘yield’ yield, kg/acre
+
+Details
+
+     The data is used by Corsten & Denis (1990) to illustrate two-way
+     clustering by minimizing the interaction sum of squares.
+
+     In their paper, the labels on the location dendrogram have a
+     slight typo.  The order of the loc labels shown is 1 2 3 4 5 6 7.
+     The correct order of the loc labels is 1 2 4 5 6 7 3.
+
+     Used with permission of Jean-Baptiste Denis.
+
+Source
+
+     L C A Corsten and J B Denis, (1990).  Structuring Interaction in
+     Two-Way Tables By Clustering.  Biometrics, 46, 207-215. Table 1.
+     https://doi.org/10.2307/2531644
+
+
+Variables detected from installed object
+
+gen: factor ; missing=0 ; examples=G01, G02, G03
+
+loc: factor ; missing=0 ; examples=L1
+
+yield: numeric ; missing=0 ; examples=59.8, 64.5, 59.5
+
+Examples
+Run this code
+
+     ## Not run:
+
+     library(agridat)
+     data(corsten.interaction)
+     dat <- corsten.interaction
+
+     libs(reshape2)
+     m1 <- melt(dat, measure.var='yield')
+     dmat <- acast(m1, loc~gen)
+
+     # Corsten (1990) uses this data to illustrate simultaneous row and
+     # column clustering based on interaction sums-of-squares.
+     # There is no (known) function in R to reproduce this analysis
+     # (please contact the package maintainer if this is not true).
+     # For comparison, the 'heatmap' function clusters the rows and
+     # columns _independently_ of each other.
+     heatmap(dmat, main="corsten.interaction")
+     ## End(Not run)
+

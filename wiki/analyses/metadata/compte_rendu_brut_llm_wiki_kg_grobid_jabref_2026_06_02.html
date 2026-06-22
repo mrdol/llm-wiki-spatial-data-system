@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Compte rendu brut - LLM Wiki + KG + GROBID + JabRef</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+      margin: 40px auto;
+      max-width: 1100px;
+      color: #1f2933;
+    }
+    h1, h2, h3 {
+      color: #111827;
+      line-height: 1.25;
+    }
+    h1 {
+      border-bottom: 2px solid #d1d5db;
+      padding-bottom: 10px;
+    }
+    .meta {
+      color: #4b5563;
+      font-size: 0.95em;
+      margin-bottom: 28px;
+    }
+    .block {
+      border-left: 4px solid #9ca3af;
+      background: #f9fafb;
+      padding: 12px 16px;
+      margin: 16px 0;
+    }
+    .speaker {
+      font-weight: bold;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    pre {
+      background: #111827;
+      color: #f9fafb;
+      padding: 14px;
+      overflow-x: auto;
+      border-radius: 6px;
+      line-height: 1.35;
+    }
+    code {
+      background: #eef2f7;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f3f4f6;
+    }
+    .note {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      padding: 10px 14px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Compte rendu brut - LLM Wiki + KG + GROBID + JabRef</h1>
+  <div class="meta">
+    Date du compte rendu : 2 juin 2026<br>
+    Projet : <code>llm-wiki-karpathy</code><br>
+    Objet : discussion et mise en place initiale d'une architecture combinant LLM Wiki, Knowledge Graph, GROBID et JabRef.
+  </div>
+
+  <h2>1. Demande initiale</h2>
+  <div class="block">
+    <div class="speaker">Utilisateur</div>
+    <p>
+      Je pensais construire une base de papier scientifiques solide sur les jeux de donnees software R avant de passer a l'etape suivante mais je vais lancer la suite.
+      Cependant, tu ne fais aucune tache, tu t'informe juste.
+    </p>
+    <p>
+      Je veux ajouter a cette etape : je veux combiner LLM_wiki + KG + GROBID avec aussi JabRef quelque part.
+    </p>
+  </div>
+
+  <h2>2. Architecture cible proposee</h2>
+  <p>L'utilisateur a propose l'arborescence principale suivante :</p>
+  <pre><code>llm_wiki_kg/
+|
+|-- corpus/
+|   |-- bib/
+|   |   `-- references.bib
+|   |
+|   |-- papers/
+|   |   |-- raw_pdf/
+|   |   `-- tei/
+|   |
+|   |-- web_md/
+|   |   |-- geocomputation_with_r.md
+|   |   |-- spatial_data_science_r.md
+|   |   `-- gwmodel_docs.md
+|   |
+|   `-- sources.yml
+|
+|-- wiki/
+|   |-- index.md
+|   |-- concepts/
+|   |   |-- gwr.md
+|   |   |-- mgwr.md
+|   |   |-- spatial_autocorrelation.md
+|   |   `-- spatial_regression.md
+|   |
+|   |-- datasets/
+|   |   |-- columbus.md
+|   |   |-- georgia.md
+|   |   `-- guerry.md
+|   |
+|   |-- software/
+|   |   |-- spdep.md
+|   |   |-- spgwr.md
+|   |   |-- gwmodel.md
+|   |   `-- mgwr_python.md
+|   |
+|   `-- papers/
+|       `-- fotheringham_2002_gwr.md
+|
+|-- inst/
+|   `-- kg/
+|       |-- schema.yml
+|       |-- concepts.yml
+|       |-- entrypoints.yml
+|       `-- sources_rules.yml
+|
+|-- tools/
+|   `-- kg/
+|       |-- 01_extract_bib.py
+|       |-- 02_run_grobid.py
+|       |-- 03_parse_tei.py
+|       |-- 04_build_graph.py
+|       |-- 05_make_wiki_pages.py
+|       `-- query_kg.py
+|
+|-- .kg/
+|   |-- nodes.parquet
+|   |-- edges.parquet
+|   |-- graph.sqlite
+|   `-- summaries/
+|
+`-- AGENTS.md</code></pre>
+
+  <h2>3. Informations fournies par l'encadrant</h2>
+  <p>
+    L'utilisateur a indique que des documents utiles se trouvent dans :
+  </p>
+  <pre><code>C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\JOHN\inst\kg\docs</code></pre>
+
+  <p>Le point central transmis par l'encadrant est le suivant :</p>
+  <div class="block">
+    <p>
+      Le wiki sert a stabiliser les syntheses lisibles, tandis que le KG sert a structurer les relations entre documents, concepts, methodes, jeux de donnees et priorites de lecture.
+      GROBID vient s'ajouter avant le KG : il transforme les PDF scientifiques en donnees structurees exploitables.
+    </p>
+  </div>
+
+  <h2>4. Lecture des documents locaux</h2>
+  <p>Les documents suivants ont ete reperes dans <code>JOHN/inst/kg/docs</code> :</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Fichier</th>
+        <th>Role detecte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>demarche.md</code></td>
+        <td>Document general expliquant le couplage wiki LLM + KG, la separation des couches source/extraction/KG/wiki et l'adaptation possible a un projet spatial R.</td>
+      </tr>
+      <tr>
+        <td><code>Selected_bibliography.md</code></td>
+        <td>Bibliographie cible pour la spatial data science avancee : Geocomputation with R, Spatial Data Science with R, GWR, MGWR, GAM, FRK, ExaGeoStatR, etc.</td>
+      </tr>
+      <tr>
+        <td><code>spboost_kg_pipeline_cleaned.md</code></td>
+        <td>Modele de pipeline KG applique a un package R/Rcpp : extraction API R, Rcpp, documentation, GROBID, construction de graphe et production de resumes.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5. Interpretation proposee</h2>
+  <p>
+    La discussion a conduit a une lecture en quatre couches :
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Couche</th>
+        <th>Role</th>
+        <th>Exemples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>L0 - Sources canoniques</td>
+        <td>Materiaux d'origine, a conserver stables.</td>
+        <td>BibTeX JabRef, PDF, pages web, docs R, Rd, scripts.</td>
+      </tr>
+      <tr>
+        <td>L1 - Extractions</td>
+        <td>Representations structurees issues des sources.</td>
+        <td>TEI GROBID, Markdown web, metadonnees BibTeX, tables dataset/package.</td>
+      </tr>
+      <tr>
+        <td>L2 - Knowledge Graph</td>
+        <td>Relations entre les entites du projet.</td>
+        <td>Paper, Dataset, Package, Method, Formula, Concept, Evidence.</td>
+      </tr>
+      <tr>
+        <td>L3 - Wiki</td>
+        <td>Syntheses lisibles et stabilisees.</td>
+        <td>Pages concept, dataset, software, paper.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6. Place de JabRef</h2>
+  <p>
+    JabRef doit piloter le fichier :
+  </p>
+  <pre><code>corpus/bib/references.bib</code></pre>
+  <p>
+    Son role est bibliographique. Il gere les references, les DOI, les auteurs, les titres, les liens vers les PDF locaux et les priorites.
+    Il ne remplace ni GROBID, ni le KG, ni le wiki.
+  </p>
+  <p>Exemple de champs utiles dans une entree BibTeX :</p>
+  <pre><code>@article{muenchow2012_lsl,
+  title = {...},
+  author = {...},
+  year = {2012},
+  doi = {...},
+  file = {../papers/raw_pdf/spDataLarge_lsl - landslides.pdf},
+  keywords = {spDataLarge, lsl, landslide, spatial-cv},
+  kg_dataset = {spDataLarge::lsl},
+  kg_method = {glm, spatial-cv},
+  kg_priority = {high},
+  kg_status = {pdf_downloaded}
+}</code></pre>
+
+  <h2>7. Place de GROBID</h2>
+  <p>
+    GROBID est reserve aux PDF scientifiques :
+  </p>
+  <pre><code>corpus/papers/raw_pdf/*.pdf
+        |
+        v
+corpus/papers/tei/*.tei.xml</code></pre>
+  <p>
+    Il sert a extraire la structure des articles : titre, auteurs, abstract, sections et references.
+    Pour les livres ou documentations deja disponibles en HTML ou Markdown, il est preferable de les convertir directement en Markdown et de les placer dans <code>corpus/web_md/</code>.
+  </p>
+
+  <h2>8. Place du KG et du wiki</h2>
+  <p>Le KG doit repondre a des questions structurees :</p>
+  <ul>
+    <li>Quel papier utilise <code>spDataLarge::lsl</code> ?</li>
+    <li>Quel dataset est associe a une formule <code>glm</code> ?</li>
+    <li>Quel package R documente GWR ?</li>
+    <li>Quel papier cite Fotheringham ?</li>
+    <li>Quelle page wiki synthetise MGWR ?</li>
+  </ul>
+
+  <p>Les noeuds importants proposes :</p>
+  <pre><code>Paper
+Book
+WebSource
+Dataset
+RPackage
+Method
+Formula
+Concept
+WikiPage
+Citation
+Evidence</code></pre>
+
+  <p>Les relations importantes proposees :</p>
+  <pre><code>Paper USES_DATASET Dataset
+Paper MENTIONS_METHOD Method
+RPackage PROVIDES_DATASET Dataset
+RPackage IMPLEMENTS Method
+Paper HAS_FORMULA Formula
+WikiPage SUMMARIZES Paper
+Evidence SUPPORTS Edge</code></pre>
+
+  <h2>9. Mise en place realisee dans llm-wiki-karpathy</h2>
+  <p>
+    L'utilisateur a ensuite demande de mettre en place cette arborescence dans <code>llm-wiki-karpathy</code>, sans creer de nouveaux manifests, CSV ou autres artefacts generes.
+  </p>
+
+  <h3>9.1 Dossiers crees</h3>
+  <pre><code>corpus/
+corpus/bib/
+corpus/papers/raw_pdf/
+corpus/papers/tei/
+corpus/web_md/
+inst/kg/
+tools/kg/
+.kg/summaries/
+wiki/software/</code></pre>
+
+  <h3>9.2 Fichiers de base crees</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Fichier</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>corpus/bib/references.bib</code></td>
+        <td>Fichier JabRef canonique.</td>
+      </tr>
+      <tr>
+        <td><code>corpus/sources.yml</code></td>
+        <td>Registre manuel des familles de sources.</td>
+      </tr>
+      <tr>
+        <td><code>corpus/web_md/geocomputation_with_r.md</code></td>
+        <td>Stub pour source web Markdown.</td>
+      </tr>
+      <tr>
+        <td><code>corpus/web_md/spatial_data_science_r.md</code></td>
+        <td>Stub pour source web Markdown.</td>
+      </tr>
+      <tr>
+        <td><code>corpus/web_md/gwmodel_docs.md</code></td>
+        <td>Stub pour documentation GWmodel.</td>
+      </tr>
+      <tr>
+        <td><code>inst/kg/schema.yml</code></td>
+        <td>Schema minimal du KG : types de noeuds et relations.</td>
+      </tr>
+      <tr>
+        <td><code>inst/kg/concepts.yml</code></td>
+        <td>Concepts de depart : GWR, MGWR, autocorrelation spatiale, regression spatiale.</td>
+      </tr>
+      <tr>
+        <td><code>inst/kg/entrypoints.yml</code></td>
+        <td>Points d'entree JabRef, GROBID, Markdown web et graphe.</td>
+      </tr>
+      <tr>
+        <td><code>inst/kg/sources_rules.yml</code></td>
+        <td>Regles de separation entre sources brutes, extractions, KG et wiki.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>9.3 Scripts KG ajoutes</h3>
+  <p>
+    Les scripts ajoutes sont volontairement minimaux. Ils ne construisent pas encore le graphe ; ils documentent les entrees/sorties attendues.
+  </p>
+  <pre><code>tools/kg/01_extract_bib.py
+tools/kg/02_run_grobid.py
+tools/kg/03_parse_tei.py
+tools/kg/04_build_graph.py
+tools/kg/05_make_wiki_pages.py
+tools/kg/query_kg.py</code></pre>
+
+  <h3>9.4 Pages wiki ajoutees</h3>
+  <pre><code>wiki/concepts/gwr.md
+wiki/concepts/mgwr.md
+wiki/concepts/spatial_regression.md
+wiki/datasets/columbus.md
+wiki/datasets/georgia.md
+wiki/datasets/guerry.md
+wiki/software/spdep.md
+wiki/software/spgwr.md
+wiki/software/gwmodel.md
+wiki/software/mgwr_python.md
+wiki/papers/fotheringham_2002_gwr.md</code></pre>
+
+  <h3>9.5 Fichiers non crees</h3>
+  <p>Conformement a la demande, les artefacts suivants n'ont pas ete crees :</p>
+  <pre><code>.kg/nodes.parquet
+.kg/edges.parquet
+.kg/graph.sqlite
+nouveaux CSV
+nouveaux manifests de resultats</code></pre>
+
+  <h2>10. Regles .gitignore ajoutees</h2>
+  <p>
+    Les sorties generees du KG et de GROBID ont ete ajoutees a <code>.gitignore</code> :
+  </p>
+  <pre><code>.kg/
+corpus/papers/tei/</code></pre>
+  <p>
+    Cela evite de versionner les artefacts generes. Les sources stables restent versionnables : <code>references.bib</code>, <code>sources.yml</code>, les stubs Markdown et les pages wiki.
+  </p>
+
+  <h2>11. Verification effectuee</h2>
+  <p>Les scripts minimaux suivants ont ete lances sans traitement lourd :</p>
+  <pre><code>python tools/kg/01_extract_bib.py
+python tools/kg/02_run_grobid.py
+python tools/kg/03_parse_tei.py</code></pre>
+
+  <p>Sorties observees :</p>
+  <pre><code>BibTeX source ready: .../corpus/bib/references.bib
+GROBID input: .../corpus/papers/raw_pdf
+GROBID output: .../corpus/papers/tei
+TEI files found: 0</code></pre>
+
+  <h2>12. Fonctionnement global retenu</h2>
+  <pre><code>JabRef
+  references.bib
+      |
+      v
+PDF dans corpus/papers/raw_pdf
+      |
+      v
+GROBID
+      |
+      v
+TEI dans corpus/papers/tei
+      |
+      v
+scripts tools/kg
+      |
+      v
+KG dans .kg
+      |
+      v
+pages wiki enrichies</code></pre>
+
+  <div class="note">
+    <strong>Conclusion brute :</strong>
+    l'architecture mise en place separe clairement les sources canoniques, les extractions, le graphe et le wiki.
+    JabRef est place au niveau bibliographique, GROBID au niveau extraction PDF, le KG au niveau relationnel, et le wiki au niveau synthese lisible.
+  </div>
+</body>
+</html>
+

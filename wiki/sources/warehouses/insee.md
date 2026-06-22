@@ -23,8 +23,6 @@ French national statistical warehouse producing official economic, demographic, 
 
 ## Example Datasets
 
-- [[insee_chomage_halo_series_longues]]
-- [[insee_base_permanente_equipements]]
 
 ## Recent Metadata Scrape
 
@@ -37,4 +35,3 @@ French national statistical warehouse producing official economic, demographic, 
 - [[eurostat]]
 - [[data_gouv]]
 - [[france_unemployment_datasets_comparison]]
-

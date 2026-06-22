@@ -195,7 +195,7 @@ amber avec leur score, les champs suspects, et la raison du flag.
 ```markdown
 | Date | Fiche | Score | Type | Champs suspects | Raison | Statut |
 |------|-------|-------|------|-----------------|--------|--------|
-| 2026-05-06 | [[data_gouv_dvf_geolocalisees]] | 0.68 | dataset | x_typology | ... | [ ] à corriger |
+| 2026-05-06 | [[dataset_example]] | 0.68 | dataset | x_typology | ... | [ ] à corriger |
 ```
 
 ### Workflow de correction manuelle

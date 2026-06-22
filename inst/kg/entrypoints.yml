@@ -1,0 +1,20 @@
+# Points d'entree du pipeline KG.
+
+entrypoints:
+  jabref:
+    file: corpus/bib/references.bib
+    tool: JabRef
+    role: edition et controle manuel des references bibliographiques
+
+  grobid:
+    input_dir: corpus/papers/raw_pdf
+    output_dir: corpus/papers/tei
+    role: conversion des PDF scientifiques en TEI XML
+
+  web_markdown:
+    input_dir: corpus/web_md
+    role: sources web textuelles lues directement par le KG
+
+  graph:
+    output_dir: .kg
+    role: artefacts generes du knowledge graph

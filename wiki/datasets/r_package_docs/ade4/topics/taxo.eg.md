@@ -1,0 +1,53 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+ade4 (version 1.7.24)
+
+taxo.eg: Examples of taxonomy
+
+Examples of taxonomy
+
+Description
+
+     This data sets contains two taxonomies.
+
+Usage
+
+     data(taxo.eg)
+
+Format
+
+     ‘taxo.eg’ is a list containing the 2 following objects:
+
+     taxo.eg[[1]] is a data frame with 15 species and 3 columns.
+
+     taxo.eg[[2]] is a data frame with 40 species and 2 columns.
+
+Details
+
+     Variables of the first data frame are : genre (a factor genre with
+     8 levels), famille (a factor familiy with 5 levels) and ordre (a
+     factor order with 2 levels).
+     Variables of the second data frame are : gen(a factor genre with
+     29 levels), fam (a factor family with 19 levels).
+
+Examples
+Run this code
+
+     data(taxo.eg)
+     taxo.eg[[1]]
+     as.taxo(taxo.eg[[1]])
+     class(taxo.eg[[1]])
+     class(as.taxo(taxo.eg[[1]]))
+
+     tax.phy <- taxo2phylog(as.taxo(taxo.eg[[1]]),  add.tools = TRUE)
+     plot(tax.phy,clabel.l=1)
+
+     par(mfrow = c(1,2))
+     table.phylog(tax.phy$Bindica,tax.phy)
+     table.phylog(tax.phy$Bscores,tax.phy)
+     par(mfrow = c(1,1))
+
+     radial.phylog(taxo2phylog(as.taxo(taxo.eg[[2]])))
+

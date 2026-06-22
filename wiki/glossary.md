@@ -2,7 +2,7 @@
 title: Glossary
 type: glossary
 created: 2026-04-07
-updated: 2026-05-05
+updated: 2026-06-04
 sources: []
 tags: [terminology, style, glossary]
 ---
@@ -29,17 +29,14 @@ Each entry follows this format:
 **Unemployment rate** *(canonical form)*
 : Share of the labour force that is unemployed under the selected statistical definition.
 - Preferred: `unemployment rate` / Avoid: `joblessness ratio` (too informal/ambiguous)
-- See also: `insee_emploi_chomage_population_active`, `eurostat_labour_force_survey`
 
 **Labour Force Survey (LFS)** *(canonical form)*
 : Survey framework used to measure employment, unemployment, and activity status in a harmonized labour-market context.
 - Preferred: `Labour Force Survey (LFS)` / Avoid: `employment poll`
-- See also: `eurostat_labour_force_survey`
 
 **BIT/ILO unemployment** *(canonical form)*
 : Unemployment measured according to International Labour Organization criteria; `BIT` is the French shorthand often used in INSEE publications.
 - Preferred: `BIT/ILO unemployment` / Avoid: `official unemployment` without definition
-- See also: `insee_emploi_chomage_population_active`, `eurostat_labour_force_survey`
 
 **Warehouse type** *(canonical form)*
 : Functional category describing the nature of the data source that publishes or intermediates a dataset (for example national statistical warehouse, research data portal, or intergovernmental statistical warehouse).
@@ -80,6 +77,86 @@ Each entry follows this format:
 : Project rule that only allowlisted estimators may appear as approved estimators in dataset records or discovery outputs.
 - Preferred: `restricted estimator policy` / Avoid: `recommended models` unless they are in the allowlist
 - See also: [[restricted_estimator_policy_v1]]
+
+**Knowledge graph (KG)** *(canonical form)*
+: Structured graph layer linking papers, datasets, variables, formulas, methods, packages and documentation pages.
+- Preferred: `KG` or `knowledge graph` / Avoid: `graphify` unless referring to the external tool
+- See also: `inst/kg/concepts.yml`, `.kg/graph.sqlite`
+
+**Corpus** *(canonical form)*
+: Curated source layer containing bibliographic records, PDFs, TEI files, web Markdown and source metadata.
+- Preferred: `corpus` / Avoid: `raw` for curated material
+- See also: `corpus/bib/references.bib`, `corpus/papers/raw_pdf/`, `corpus/web_md/`
+
+**Raw archive** *(canonical form)*
+: Read-only archive or staging area at root `raw/`. Agents may inspect it but should not modify it unless explicitly asked.
+- Preferred: `raw archive` / Avoid: treating `raw/` as the active ingestion layer
+- See also: `corpus`
+
+**Source family** *(canonical form)*
+: One of the three dataset discovery routes: R/Python package datasets, scientific papers with open spatial/ST data, or data banks/portals.
+- Preferred: `source family` / Avoid: `source type` when the three-family distinction matters
+- See also: [[overview]]
+
+**Package dataset** *(canonical form)*
+: Dataset distributed through an R or Python package, often with package help, examples or documentation.
+- Preferred: `package dataset` / Avoid: `software dataset` if the package source is unclear
+- See also: `wiki/datasets/r_package_docs/`
+
+**GROBID** *(canonical form)*
+: PDF parsing service used to convert scientific PDFs into TEI XML for downstream KG extraction.
+- Preferred: `GROBID` / Avoid: treating it as a paper search or download tool
+- See also: `corpus/papers/tei/`
+
+**TEI** *(canonical form)*
+: XML representation of a parsed scientific document produced by GROBID.
+- Preferred: `TEI` / Avoid: treating TEI extraction as validated interpretation
+- See also: `corpus/papers/tei/`
+
+**JabRef/BibDesk bibliography** *(canonical form)*
+: Bibliographic management layer for `references.bib`, citation keys, DOI, metadata and local PDF links.
+- Preferred: `JabRef/BibDesk bibliography` / Avoid: treating JabRef as the KG
+- See also: `corpus/bib/references.bib`
+
+**GAM** *(canonical form)*
+: Generalized additive model using smooth terms to model nonlinear effects while preserving additive interpretability.
+- Preferred: `GAM` / Avoid: confusing with `GAMBoost`
+- See also: [[gam]], [[generalized_additive_models]]
+
+**GAMBoost** *(canonical form)*
+: Model-based boosting family that fits base learners to pseudo-residuals and updates an additive predictor through boosting iterations.
+- Preferred: `GAMBoost` / Avoid: using it as a synonym for ordinary GAM
+- See also: [[gamboost]], [[gam]]
+
+**MGTWR** *(canonical form)*
+: Multiscale geographically and temporally weighted regression, a GTWR extension with covariate-specific spatial and temporal bandwidths.
+- Preferred: `MGTWR` / Avoid: using it as a synonym for spatial-only `MGWR`
+- See also: [[mgtwr]], [[mgwr]]
+
+**STWR** *(canonical form)*
+: Spatiotemporal weighted regression, a local regression model using space-time weights to analyze nonstationarity in space and time.
+- Preferred: `STWR` / Avoid: treating it as ordinary spatial-only GWR
+- See also: [[stwr]], [[spatiotemporal_data]]
+
+**SGWR** *(canonical form)*
+: Similarity and geographically weighted regression, a GWR extension that combines geographic proximity and attribute similarity weights.
+- Preferred: `SGWR` / Avoid: using it for any similarity model without a geographic weighting component
+- See also: [[sgwr]], [[gwr]]
+
+**GGP-GAM** *(canonical form)*
+: Geographical Gaussian Process GAM, a smooth GAM/Gaussian-process route for spatially varying coefficient modeling.
+- Preferred: `GGP-GAM` / Avoid: treating it as a kernel-weighted GWR variant
+- See also: [[geographical_gaussian_process_gam]], [[generalized_additive_models]]
+
+**SHAP spatial effects** *(canonical form)*
+: Use of SHAP/local feature attribution to interpret spatial patterns learned by machine-learning models and compare them with spatial statistical models.
+- Preferred: `SHAP spatial effects` / Avoid: claiming SHAP estimates causal spatial effects without design evidence
+- See also: [[shap_spatial_effects]], [[gradient_boosted_trees]]
+
+**Spatial validation** *(canonical form)*
+: Validation design that respects spatial dependence, for example spatial blocks or leave-location-out splits.
+- Preferred: `spatial validation` / Avoid: random folds as default for spatial transfer claims
+- See also: [[data_leakage]], [[spatial_regression]]
 
 ---
 

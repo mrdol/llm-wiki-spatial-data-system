@@ -1,0 +1,117 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+AER (version 1.2.16)
+
+HousePrices: House Prices in the City of Windsor, Canada
+
+House Prices in the City of Windsor, Canada
+
+Description
+
+     Sales prices of houses sold in the city of Windsor, Canada, during
+     July, August and September, 1987.
+
+Usage
+
+     data("HousePrices")
+
+Format
+
+     A data frame containing 546 observations on 12 variables.
+
+     price Sale price of a house.
+
+     lotsize Lot size of a property in square feet.
+
+     bedrooms Number of bedrooms.
+
+     bathrooms Number of full bathrooms.
+
+     stories Number of stories excluding basement.
+
+     driveway Factor. Does the house have a driveway?
+
+     recreation Factor. Does the house have a recreational room?
+
+     fullbase Factor. Does the house have a full finished basement?
+
+     gasheat Factor. Does the house use gas for hot water heating?
+
+     aircon Factor. Is there central air conditioning?
+
+     garage Number of garage places.
+
+     prefer Factor. Is the house located in the preferred neighborhood
+          of the city?
+
+Source
+
+     Journal of Applied Econometrics Data Archive.
+
+     <http://qed.econ.queensu.ca/jae/1996-v11.6/anglin-gencay/>
+
+References
+
+     Anglin, P., and Gencay, R. (1996). Semiparametric Estimation of a
+     Hedonic Price Function.  _Journal of Applied Econometrics_, *11*,
+     633-648.
+
+     Verbeek, M. (2004). _A Guide to Modern Econometrics_, 2nd ed.
+     Chichester, UK: John Wiley.
+
+
+Variables detected from installed object
+
+price: numeric ; missing=0 ; examples=42000, 38500, 49500
+
+lotsize: numeric ; missing=0 ; examples=5850, 4000, 3060
+
+bedrooms: numeric ; missing=0 ; examples=3, 2
+
+bathrooms: numeric ; missing=0 ; examples=1
+
+stories: numeric ; missing=0 ; examples=2, 1
+
+driveway: factor ; missing=0 ; examples=yes
+
+recreation: factor ; missing=0 ; examples=no
+
+fullbase: factor ; missing=0 ; examples=yes, no
+
+gasheat: factor ; missing=0 ; examples=no
+
+aircon: factor ; missing=0 ; examples=no
+
+garage: numeric ; missing=0 ; examples=1, 0
+
+prefer: factor ; missing=0 ; examples=no
+
+Examples
+Run this code
+
+     data("HousePrices")
+
+     ### Anglin + Gencay (1996), Table II
+     fm_ag <- lm(log(price) ~ driveway + recreation + fullbase + gasheat +
+       aircon + garage + prefer + log(lotsize) + log(bedrooms) +
+       log(bathrooms) + log(stories), data = HousePrices)
+
+     ### Anglin + Gencay (1996), Table III
+     fm_ag2 <- lm(log(price) ~ driveway + recreation + fullbase + gasheat +
+       aircon + garage + prefer + log(lotsize) + bedrooms +
+       bathrooms + stories, data = HousePrices)
+
+     ### Verbeek (2004), Table 3.1
+     fm <- lm(log(price) ~ log(lotsize) + bedrooms + bathrooms + aircon, data = HousePrices)
+     summary(fm)
+
+     ### Verbeek (2004), Table 3.2
+     fm_ext <- lm(log(price) ~ . - lotsize + log(lotsize), data = HousePrices)
+     summary(fm_ext)
+
+     ### Verbeek (2004), Table 3.3
+     fm_lin <- lm(price ~ . , data = HousePrices)
+     summary(fm_lin)
+

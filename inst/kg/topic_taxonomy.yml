@@ -1,0 +1,170 @@
+# Taxonomie de themes pour classer les sources, datasets et papiers.
+
+version: 0.1
+
+policy:
+  note: >
+    Les themes sont des aides de routage pour le KG. Ils ne remplacent pas la
+    lecture des sources primaires. Les themes issus de titres ou mots-cles sont
+    provisoires; ils deviennent fiables apres verification par contenu, graphe
+    voisin et revue humaine.
+  stages:
+    - name: seed_from_title_or_catalog
+      output_field: kg_topic
+      status: provisional
+    - name: inferred_from_content
+      output_field: kg_topic_final
+      status: inferred
+    - name: manual_review
+      output_field: kg_topic_final
+      status: reviewed
+
+topics:
+  package-dataset:
+    label: "Datasets embarques dans packages R/Python"
+    seed_terms:
+      - package
+      - dataset
+      - r package
+      - python package
+      - cran
+      - geodatasets
+
+  scientific-open-data:
+    label: "Articles scientifiques avec donnees ouvertes"
+    seed_terms:
+      - open data
+      - data availability
+      - replication
+      - supplementary data
+      - figshare
+      - zenodo
+      - dataverse
+      - dryad
+
+  data-bank:
+    label: "Banques et portails de donnees"
+    seed_terms:
+      - data portal
+      - data bank
+      - official statistics
+      - open data
+      - eurostat
+      - insee
+      - world bank
+      - oecd
+
+  spatial-econometrics:
+    label: "Econometrie spatiale"
+    seed_terms:
+      - spatial econometrics
+      - spatial lag
+      - spatial error
+      - sar
+      - sem
+      - sarar
+      - durbin
+
+  gwr-mgwr-gtwr:
+    label: "Modeles geographiquement ponderes"
+    seed_terms:
+      - gwr
+      - mgwr
+      - gtwr
+      - geographically weighted
+      - multiscale geographically weighted
+      - bandwidth
+
+  spatial-statistics:
+    label: "Statistique spatiale"
+    seed_terms:
+      - spatial statistics
+      - moran
+      - lisa
+      - areal data
+      - spatial autocorrelation
+
+  bayesian-spatial-modeling:
+    label: "Modelisation spatiale bayesienne"
+    seed_terms:
+      - inla
+      - r-inla
+      - latent gaussian
+      - gmrf
+      - spde
+      - car
+      - bym
+
+  machine-learning-baselines:
+    label: "Baselines machine learning tabulaires"
+    seed_terms:
+      - xgboost
+      - lightgbm
+      - random forest
+      - svm
+      - mars
+      - rnn
+      - gradient boosting
+      - support vector
+
+  additive-smooth-models:
+    label: "Modeles additifs et lissages"
+    seed_terms:
+      - gam
+      - generalized additive model
+      - mgcv
+      - smooth
+      - spline
+      - tensor product
+      - gamboost
+      - mars
+
+  geostatistics:
+    label: "Geostatistique"
+    seed_terms:
+      - kriging
+      - variogram
+      - gaussian process
+      - geostatistics
+
+  point-process:
+    label: "Processus ponctuels"
+    seed_terms:
+      - point process
+      - intensity
+      - spatstat
+      - conditional intensity
+
+  spatiotemporal-modeling:
+    label: "Modelisation spatio-temporelle"
+    seed_terms:
+      - spatio-temporal
+      - spatiotemporal
+      - space-time
+      - temporal
+      - panel
+
+  disease-mapping:
+    label: "Cartographie des maladies et epidemiologie spatiale"
+    seed_terms:
+      - disease mapping
+      - epidemiology
+      - surveillance
+      - infection
+      - incidence
+
+  remote-sensing:
+    label: "Teledetection et raster"
+    seed_terms:
+      - remote sensing
+      - raster
+      - satellite
+      - terra
+      - environmental modeling
+
+derived_fields:
+  - kg_topic
+  - kg_topic_final
+  - kg_topic_confidence
+  - kg_topic_evidence
+  - kg_topic_status

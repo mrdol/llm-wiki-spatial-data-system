@@ -1,0 +1,181 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+agridat (version 1.26)
+
+thompson.cornsoy: Multi-environment trial of corn & soybean, 1930-1962, with temperature and precipitation
+
+Multi-environment trial of corn & soybean, 1930-1962, with temperature
+and precipitation
+
+Description
+
+     Average yield of corn and soybeans in five U.S. states (IA, IL,
+     IN, MO, OH) during the years 1930-1962.  Pre-season precipitation
+     and average temperature and precipitation during each month of the
+     growing season is included.
+
+Format
+
+     ‘state’ state
+
+     ‘year’ year, 1930-1962
+
+     ‘rain0’ pre-season precipitation in inches
+
+     ‘temp5’ may temperature, Fahrenheit
+
+     ‘rain6’ june rain, inches
+
+     ‘temp6’ june temp
+
+     ‘rain7’ july rain
+
+     ‘temp7’ july temp
+
+     ‘rain8’ august rain
+
+     ‘temp8’ august temp
+
+     ‘corn’ corn yield, bu/acre
+
+     ‘soy’ soybean yield, bu/acre
+
+Details
+
+     Note: The Iowa corn data has sometimes been identified (in other
+     sources) as the "Iowa wheat" data, but this is incorrect.
+
+     The 'year' variable affects yield through (1) improvements in
+     plant genetics (2) changes in management techniques such as
+     fertilizer, chemicals, tillage, planting date, and (3) climate,
+     pest infestations, etc.
+
+     Double-cross corn hybrids were introduced in the 1920s.
+     Single-cross hybrids became common around 1960.
+
+     During World War II, nitrogen was used in the production of TNT
+     for bombs.  After the war, these factories switched to producing
+     ammonia for fertilizer.  Nitrogen fertilizer use greatly increased
+     after WWII and is a major reason for yield gains of corn.
+     Soybeans gain little benefit from nitrogen fertilizer.  The other
+     major reason for increasing yields in both crops is due to
+     improved plant genetics.
+
+     Crops are often planted in May, and harvest begins in September.
+
+     Yields in 1936 were very low due to July being one of the hottest
+     and driest on record.
+
+     Some relevant maps of yield, heat, and precipitation can be found
+     in _Atlas of crop yield and summer weather patterns, 1931-1975_,
+     https://www.isws.illinois.edu/pubdoc/C/ISWSC-150.pdf
+
+     The following notes pertain to the Iowa data.
+
+     The 1947 June precipitation of 10.33 inches was the wettest June
+     on record (a new Iowa June record of 10.34 inches was set in
+     2010).  As quoted in _Monthly Weather Review_ (Dec 1957, p. 396)
+     "The dependence of Iowa agriculture upon the vagaries of the
+     weather was closely demonstrated during the 1947 season.  A cool
+     wet spring delayed crop planting activity and plant growth; then,
+     in addition, a hard freeze on May 29th ... further set back the
+     corn.  The heavy rains and subsequent floods during June caused
+     appreciable crop acreage to be abandoned ... followed by a hot dry
+     weather regime that persisted from mid-July through the first week
+     of September."
+
+     In 1949 soybean yields were average while corn yields were low.
+     From the same source above, "The year 1949 saw the greatest
+     infestation of corn borer in the history of corn in Iowa".
+
+     1955 yields were reduced due to dry weather in late July and
+     August.
+
+Source
+
+     Thompson, L.M., 1963. _Weather and technology in the production of
+     corn and soybeans_. CAED Report 17. The Center for Agriculture and
+     Economic Development, Iowa State University, Ames, Iowa.
+
+References
+
+     Draper, N. R. and Smith, H. (1981).  _Applied Regression
+     Analysis_, second ed., Wiley, New York.
+
+
+Variables detected from installed object
+
+state: factor ; missing=0 ; examples=Illinois
+
+year: integer ; missing=0 ; examples=1930, 1931, 1932
+
+rain0: numeric ; missing=0 ; examples=23.26, 20.26, 27.17
+
+temp5: numeric ; missing=0 ; examples=64.3, 59.6
+
+rain6: numeric ; missing=0 ; examples=3.36, 3.19, 4.08
+
+temp6: numeric ; missing=0 ; examples=71.9, 75.5, 74
+
+rain7: numeric ; missing=0 ; examples=1.01, 2.97, 3.32
+
+temp7: numeric ; missing=0 ; examples=79.1, 79.3, 77.6
+
+rain8: numeric ; missing=0 ; examples=1.97, 3.9, 5.53
+
+temp8: numeric ; missing=0 ; examples=76.4, 74.5, 74.9
+
+corn: numeric ; missing=0 ; examples=26.5, 37, 43
+
+soy: numeric ; missing=0 ; examples=17, 18, 20
+
+Examples
+Run this code
+
+     ## Not run:
+
+     library(agridat)
+
+     data(thompson.cornsoy)
+     dat <- thompson.cornsoy
+
+     # The droughts of 1934/36 were severe in IA/MO. Less so in OH.
+     libs(lattice)
+     xyplot(corn+soy~year|state, dat,
+            type=c('p','l','r'), auto.key=list(columns=2),
+            main="thompson.cornsoy",
+            layout=c(5,1),ylab='yield')
+
+     # In 1954, only Missouri suffered very hot, dry weather
+     ## xyplot(corn~year, dat,
+     ##        groups=state, type=c('p','l'),
+     ##        main="thompson.cornsoy",
+     ##        auto.key=list(columns=5), ylab='corn yield')
+
+     # Rain and temperature have negative correlation in each month.
+     # July is a critical month: temp and yield are negatively correlated,
+     # while rain and yield are positively correlated.
+     # splom(~dat[-1,-1], col=dat$state, cex=.5, main="thompson.cornsoy")
+
+       # Plots similar to those in Venables' Exegeses paper.
+
+       dat.ia <- subset(dat, state=="Iowa")
+
+       libs(splines)
+       m2 <- aov(corn ~ ns(rain0, 3) + ns(rain7, 3) +
+                   ns(temp8, 3) + ns(year,3), dat.ia)
+       op <- par(mfrow=c(2,2))
+       termplot(m2, se=TRUE, rug=TRUE, partial=TRUE, main="thompson.cornsoy")
+       par(op)
+
+       # do NOT use gam package
+       libs(mgcv)
+       m1 <- gam(corn ~ s(year, k=5) + s(rain0, k=5) +
+                   s(rain7, k=5) + s(temp8, k=5), data=dat.ia)
+       op <- par(mfrow=c(2,2))
+       plot.gam(m1, residuals=TRUE, se=TRUE, cex=2, main="thompson.cornsoy")
+       par(op)
+     ## End(Not run)
+

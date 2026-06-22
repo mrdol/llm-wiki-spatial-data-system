@@ -172,11 +172,8 @@ The live v2 catalog now includes five documented datasets spanning five distinct
 
 | Dataset | Provider | Warehouse type | Core methodological role |
 |---|---|---|---|
-| `insee_emploi_chomage_population_active` | INSEE | national statistical warehouse | France-only labour-market reference |
-| `eurostat_labour_force_survey` | Eurostat | supranational statistical warehouse | harmonized European comparison |
 | `un_comtrade_merchandise_trade` | UNSD | international statistical warehouse | global official trade baseline |
 | `oecd_itcs` | OECD | intergovernmental statistical warehouse | OECD-centered commodity trade analysis |
-| `cepii_baci` | CEPII | research data portal | reconciled high-resolution bilateral trade |
 
 ## Remaining Gaps
 
@@ -187,8 +184,5 @@ The live v2 catalog now includes five documented datasets spanning five distinct
 ## Related Pages
 
 - [[france_unemployment_datasets_comparison]]
-- `insee_emploi_chomage_population_active`
-- `eurostat_labour_force_survey`
 - `un_comtrade_merchandise_trade`
 - `oecd_itcs`
-- `cepii_baci`

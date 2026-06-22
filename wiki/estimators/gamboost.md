@@ -2,12 +2,14 @@
 title: GAMBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-05-13
+updated: 2026-06-04
 sources:
   - GAMboosting.pdf
   - raw/paper/GAMboosting.pdf
   - data/manifests/papers/GAMboosting_formulas_extracted.json
-tags: [estimator, boosting, gam, hyperparameters, formulas, paper-extracted]
+  - Buehlmann and Hothorn 2007, Boosting Algorithms: Regularization, Prediction and Model Fitting
+  - mboost R package documentation, https://search.r-project.org/CRAN/refmans/mboost/html/00Index.html
+tags: [estimator, boosting, gam, hyperparameters, formulas, paper-extracted, paper-supported]
 ---
 
 GAMBoost is an allowed estimator in the project registry. This fiche records the paper-supported functional-gradient boosting formulation extracted from `GAMboosting.pdf`.
@@ -15,6 +17,11 @@ GAMBoost is an allowed estimator in the project registry. This fiche records the
 ## Summary
 
 GAMBoost fits additive predictors by iteratively fitting a base procedure to pseudo-residuals, then updating the current predictor by a shrinked base-learner step. The paper formulation is more general than a single generalized additive model equation: it is a functional-gradient descent framework driven by a task-specific loss function.
+
+The project should treat `GAMBoost` as a model-based boosting family rather than
+as one fixed estimator. The relevant implementation route is close to the
+`mboost` logic: response family, base learners, shrinkage, stopping iteration
+and validation determine the usable model.
 
 ## Estimator Family
 
@@ -288,6 +295,10 @@ For GAMBoost, validation should tune at least `mstop`, `nu`, `loss_function`, an
 5. Select stopping criterion or validation metric.
 6. Inspect selected effects and pseudo-residual structure before model acceptance.
 
+For spatial or spatio-temporal datasets, use spatial or blocked space-time
+validation. GAMBoost can use spatial features, smooths, lags or coordinates, but
+it is not spatially valid merely because those variables are present.
+
 ## Dataset Compatibility Notes
 
 - Useful when interpretability of nonlinear effects matters.
@@ -305,6 +316,7 @@ For GAMBoost, validation should tune at least `mstop`, `nu`, `loss_function`, an
 
 ## Related Pages
 
+- [[gam]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
 - [[spboost]]

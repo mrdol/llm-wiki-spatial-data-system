@@ -2,121 +2,163 @@
 title: Overview
 type: overview
 created: 2026-04-21
-updated: 2026-05-05
-sources: []
-tags: [overview, synthesis]
+updated: 2026-06-04
+sources:
+  - AGENTS.md
+  - README.md
+  - inst/kg/concepts.yml
+  - wiki/index.md
+tags: [overview, synthesis, kg, corpus, wiki]
 ---
 
 # Knowledge Base Overview
 
-*This page is the LLM's working synthesis of the dataset and metadata knowledge base. It updates after every ingest or major query.*
+This page is the working synthesis of the LLM wiki, corpus and knowledge graph
+system. It updates after major ingest, query, lint or architecture changes.
 
 ---
 
 ## Current State
 
-The wiki contains a metadata-oriented inventory of official, software, and research source pages, plus an architecture layer for paper-aware, license-aware, DOI-traceable discovery.
+The project is now organized around a KG-first workflow:
 
-**Source count:** source pages only  
-**Datasets identified:** 0 validated dataset fiches with documented licence  
-**Papers documented:** 0  
-**Variables identified:** 0  
-**Wiki pages:** 34  
-**Last ingest:** SpBoost package source and estimator documentation  
-**Last query:** architecture upgrade for license-aware, paper-linked, DOI-traceable discovery and restricted estimator policy  
-**Last lint:** -  
+```text
+curated corpus -> KG extraction/query -> wiki synthesis -> improved KG rules
+```
 
----
+The wiki is the stable narrative layer. The KG is the structured relation layer.
+The corpus is the curated source layer. Root `raw/` remains read-only.
 
-## What This Wiki Covers
+Current durable layers:
 
-This wiki is designed to progressively build a structured knowledge base of:
-
-- datasets (economic, social, territorial, trade, and property)
-- variables and indicators
-- data source families: warehouses, software/package/API sources, and scientific-literature sources
-- paper records and paper-directory conventions for future source-linked discovery
-- metadata structures
-- methodological concepts
-- links between data and statistical models
-- dataset and paper registry schemas with methodological selection rules
-- direct-access manifests for reproducible raw extraction
-- analysis subfolders for progressive metadata construction, discovery, estimation, prediction, and cross-validation results
-- variable typology and modeling-evidence concepts for estimator eligibility decisions
+- `corpus/` for bibliographic records, PDFs, TEI and web Markdown;
+- `inst/kg/` for KG schema, concepts, source rules and topic taxonomy;
+- `.kg/graph.sqlite` for the local graph;
+- `wiki/` for validated synthesis;
+- `Code_scrapping/` for discovery, scraping, catalog and audit scripts.
 
 ---
 
-## Key Themes
+## Source Families
 
-Current themes from ingested literature and exploratory discovery:
+Dataset discovery follows three source families.
 
-- metadata design for proxy variables and constructed indicators
-- France labour-market measurement
-- unemployment dataset selection for national versus European comparison
-- metadata-oriented exploration of sources with strong spatial and spatio-temporal structure
-- classification-aware catalog design for product, geography, and time dimensions
-- raw-data acquisition workflow for candidate datasets without transformation
-- license-aware search and DOI-based traceability
-- paper-linked dataset discovery without inventing paper records
-- restricted estimator governance through a project allowlist
+| Source family | Purpose | Current state |
+|---|---|---|
+| R/Python package datasets | First controlled route for benchmark datasets distributed with software packages | most advanced |
+| Scientific papers with open data | Papers in spatial statistics, spatial econometrics and spatio-temporal modeling that provide data/code/supplements | in construction |
+| Data banks and portals | Research and institutional repositories such as Zenodo, Dryad, Dataverse, INSEE, Eurostat, OECD, World Bank | existing scrapers and manifests |
+
+The package route is the first source explored because package documentation,
+examples and references often expose variables, formulas and modeling context.
+
+---
+
+## Current Pipeline Picture
+
+```text
+R/Python packages
+-> dataset inventory and extraction
+-> package/dataset documentation
+-> paper/formula audit
+-> KG catalog extraction
+-> wiki synthesis
+```
+
+```text
+papers and books
+-> references.bib
+-> PDF in corpus/papers/raw_pdf/
+-> GROBID TEI in corpus/papers/tei/
+-> TEI parsing
+-> KG paper/method/formula/dataset relations
+-> wiki paper/concept/dataset pages
+```
+
+```text
+web docs and tutorials
+-> corpus/web_md/
+-> KG/web-source extraction
+-> wiki concepts, software and dataset documentation
+```
+
+---
+
+## What The KG Tracks
+
+The KG currently supports relations such as:
+
+- `Paper USES_DATASET Dataset`
+- `RPackage PROVIDES_DATASET Dataset`
+- `Dataset HAS_VARIABLE Variable`
+- `Dataset HAS_RESPONSE ResponseVariable`
+- `Dataset HAS_COVARIATE Covariate`
+- `Dataset SHOWS_FORMULA Formula`
+- `Dataset DOCUMENTED_BY DocumentationPage`
+- `Concept DOCUMENTED_BY WikiPage`
+
+The KG should answer first-level questions before the agent reads long wiki,
+TEI or corpus files.
+
+---
+
+## What The Wiki Stabilizes
+
+The wiki stabilizes:
+
+- dataset descriptions and metadata;
+- source pages;
+- estimator fiches;
+- concept definitions;
+- paper summaries;
+- software/package pages;
+- analysis notes and discovery outputs.
+
+Recent durable additions include:
+
+- enriched estimator fiches for GAM, GAMBoost, MGWR, SVC, INLA, MARS, SVM,
+  RNN, Random Forest, XGBoost and LightGBM;
+- concept pages for GWR, MGWR, spatial regression, generalized additive models,
+  gradient boosted trees, latent Gaussian models, sequence models, support
+  vector machines and adaptive regression splines;
+- paper fiches for STWR, SGWR, GGP-GAM, XGBoost/SHAP spatial effects, spatial
+  panel crop-yield models, R spatial econometrics software and remote-sensing
+  deprivation modeling;
+- a KG concept extraction script that creates `Concept DOCUMENTED_BY WikiPage`
+  relations.
 
 ---
 
 ## Open Questions
 
-*(Maintained dynamically by the LLM)*
-
-- Which metadata fields best capture proxy validity and confounder risks?
-- Which exact INSEE series should be treated as the canonical France unemployment reference in this wiki?
-- Which Eurostat LFS tables best align with France-focused unemployment analysis in this wiki?
-- Which exact INSEE API endpoint should be used to export localized unemployment series directly from `api.insee.fr`?
-- Which World Bank indicator families should receive dedicated variable pages first?
-- How should commune, IRIS, NUTS, country, and parcel-level supports be normalized across source families in the catalog?
-- Which documented papers should become the first explicit paper records in `wiki/papers/`?
-- Which datasets have exact legal licenses that can be normalized beyond `unknown` in the registry?
-- Which dataset pages can support dataset DOI or publication DOI fields from official documentation?
+- Which package datasets should become validated benchmark datasets first?
+- Which scientific papers provide both open data and explicit formulas/models?
+- Which paper-derived datasets should be promoted into `corpus/` and then KG/wiki?
+- Which data-bank datasets can be linked to spatial or spatio-temporal modeling evidence?
+- How should formula extraction distinguish robust source evidence from noisy TEI inference?
+- Which validation protocols should be standardized for spatial and
+  spatio-temporal estimator comparisons?
 
 ---
 
 ## Knowledge Gaps
 
-*(Areas where more sources or datasets are needed)*
-
-- no wiki variable pages yet for harmonization fields
-- new standardized catalog schema exists, but variable-level pages are still missing
-- limited guidance on HS-to-SITC concordance for cross-source comparability
-- no dedicated variable pages yet for labour-market indicators such as unemployment rate or labour-force participation
-- exact table identifiers are still missing for some labour-market records
-- many access pages are documented, but raw downloads were not attempted in this turn for the newly discovered sources
-- the wiki now records access manifests, but there is still no dedicated page for download-manifest conventions
-- no explicit paper records yet, even though the architecture now supports them
-- most dataset licenses are still normalized conservatively because exact legal license texts are not yet pinned
-- DOI fields are structurally present in the registry, but not yet populated from documented evidence
-- current dataset records do not yet validate any project-allowed estimator against a specific dataset
-- no progressive metadata-inspection outputs have yet been filed under `wiki/analyses/metadata/`
-- no estimation, prediction, or cross-validation pipeline outputs have yet been filed under `wiki/analyses/modeling/`
+- Some KG relations still depend on extraction heuristics and need manual review.
+- Scientific-paper-with-open-data discovery is less mature than package dataset discovery.
+- Source pages for several software packages and corpus web documents still need synthesis.
+- `wiki/log.md`, `wiki/glossary.md` and `wiki/overview.md` must be kept in sync after durable changes.
+- The KG has concept nodes, but richer concept-method-estimator relations can still be added.
 
 ---
 
 ## Related Pages
 
-- [[index]] - full catalog of all wiki pages
-- [[glossary]] - terminology and definitions
-- [[dataset_catalog_schema_v2]] - enriched local catalog schema with methodological selection
-- [[catalog_registry_schema_v3]] - registry schema adding papers, DOI fields, and license metadata
-- [[discovery_policy_v3]] - ranking logic for spatial, metadata, license, and paper traceability signals
-- [[restricted_estimator_policy_v1]] - strict project estimator allowlist
-- [[papers_directory_conventions]] - conventions for future paper pages and paper manifests
-- [[metadata_oriented_dataset_discovery_warehouses_2026_04_22]] - warehouse-level exploration for metadata enrichment
-- `insee_base_permanente_equipements` - strong commune/IRIS annual territorial structure
-- `data_gouv_dvf_geolocalisees` - property transaction dataset with coordinates and cadastral identifiers
-- `world_bank_world_development_indicators` - global indicator warehouse with country-time metadata
-- `eurostat_comext_itg` - EU trade warehouse with rich geography-product-time classifications
-- `un_comtrade_merchandise_trade` - global official trade baseline
-- `cepii_baci` - reconciled bilateral high-resolution trade database
-
-## Raw Access State
-
-- Historical raw downloads remain documented for earlier labour-market work.
-- No new raw datasets were downloaded in this architecture stage.
-- No raw papers were downloaded or transformed in this architecture stage.
+- [[index]]
+- [[glossary]]
+- [[gwr]]
+- [[mgwr]]
+- [[spatial_regression]]
+- [[generalized_additive_models]]
+- [[gradient_boosted_trees]]
+- [[latent_gaussian_models]]
+- [[data_leakage]]

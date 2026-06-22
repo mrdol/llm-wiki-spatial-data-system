@@ -1,0 +1,110 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+plm (version 2.6.7)
+
+Grunfeld's Investment Data
+
+Description
+
+     A balanced panel of 10 observational units (firms) from 1935 to
+     1954
+
+Format
+
+     A data frame containing :
+
+     firm observation
+
+     year date
+
+     inv gross Investment
+
+     value value of the firm
+
+     capital stock of plant and equipment
+
+Details
+
+     _total number of observations_ : 200
+
+     _observation_ : production units
+
+     _country_ : United States
+
+Note:
+
+     The Grunfeld data as provided in package ‘plm’ is the same data as
+     used in Baltagi (2001), see *Examples* below.
+
+     NB:
+     Various versions of the Grunfeld data circulate online. Also,
+     various text books (and also varying among editions) and papers
+     use different subsets of the original Grunfeld data, some of which
+     contain errors in a few data points compared to the original data
+     used by Grunfeld (1958) in his PhD thesis. See Kleiber/Zeileis
+     (2010) and its accompanying website for a comparison of various
+     Grunfeld data sets in use.
+
+Source
+
+     Online complements to Baltagi (2001):
+
+     <https://www.wiley.com/legacy/wileychi/baltagi/>
+
+     <https://www.wiley.com/legacy/wileychi/baltagi/supp/Grunfeld.fil>
+
+     Online complements to Baltagi (2013):
+
+     <https://bcs.wiley.com/he-bcs/Books?action=resource&bcsId=4338&itemId=1118672321&resourceId=13452>
+
+References
+
+     Baltagi BH (2001). _Econometric Analysis of Panel Data_, 3rd
+     edition. John Wiley and Sons ltd.
+
+     Baltagi BH (2013). _Econometric Analysis of Panel Data_, 5th
+     edition. John Wiley and Sons ltd.
+
+     Grunfeld Y (1958). _The determinants of corporate investment_.
+     Ph.D. thesis, Department of Economics, University of Chicago.
+
+     Kleiber C, Zeileis A (2010). “The Grunfeld Data at 50.” _German
+     Economic Review_, *11*, 404-417.
+     <https://doi.org/10.1111/j.1468-0475.2010.00513.x>.
+
+     website accompanying the paper with various variants of the
+     Grunfeld data: <https://www.zeileis.org/grunfeld/>.
+
+See Also
+
+     For the complete Grunfeld data (11 firms), see AER::Grunfeld, in
+     the ‘AER’ package.
+
+
+Variables detected from installed object
+
+firm: integer ; missing=0 ; examples=1
+
+year: integer ; missing=0 ; examples=1935, 1936, 1937
+
+inv: numeric ; missing=0 ; examples=317.6, 391.8, 410.6
+
+value: numeric ; missing=0 ; examples=3078.5, 4661.7, 5387.1
+
+capital: numeric ; missing=0 ; examples=2.8, 52.6, 156.9
+
+Examples
+Run this code
+
+     ## Not run:
+
+     # Compare plm's Grunfeld data to Baltagi's (2001) Grunfeld data:
+       data("Grunfeld", package="plm")
+       Grunfeld_baltagi2001 <- read.csv("http://www.wiley.com/legacy/wileychi/
+         baltagi/supp/Grunfeld.fil", sep="", header = FALSE)
+       library(compare)
+       compare::compare(Grunfeld, Grunfeld_baltagi2001, allowAll = T) # same data set
+     ## End(Not run)
+

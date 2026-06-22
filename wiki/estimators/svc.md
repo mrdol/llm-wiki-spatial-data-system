@@ -2,113 +2,95 @@
 title: SVC
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [SVC_Murakami.pdf]
-tags: [estimator, spatial, varying-coefficient, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - SVC_Murakami.pdf
+  - Murakami and Griffith, Spatially varying coefficient modeling for large datasets
+  - Gelfand et al. 2003, Spatial modeling with spatially varying coefficient processes
+tags: [estimator, spatial, varying-coefficient, hyperparameters, paper-supported]
 ---
 
-SVC estimator fiche template for spatially varying coefficient modeling.
+SVC models allow regression coefficients to vary over space. They are useful
+when the relationship between `Y` and one or more covariates is spatially
+nonstationary.
 
 ## Summary
 
-SVC is an allowed estimator in the project registry. This fiche is prepared for future extraction from `SVC_Murakami.pdf`.
+SVC is broader than GWR: coefficient variation can be represented through local
+kernels, Gaussian processes, eigenvector spatial filtering, basis functions or
+other regularized spatial structures. In this project, SVC is a methodological
+family for datasets where global coefficients are likely too restrictive.
 
 ## Estimator Family
 
-- Family: spatially varying coefficient model
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: spatially varying coefficient regression.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference papers and local PDF.
+- Related estimators: [[mgwr]], [[inla]], [[stvc]].
 
 ## Model Equation
 
-Canonical spatially varying coefficient regression:
+```math
+y_i = \beta_0(s_i) + \sum_{j=1}^{p}\beta_j(s_i)x_{ij} + \epsilon_i
+```
 
-`y_i = beta_0(s_i) + sum_{j=1}^{p} beta_j(s_i) x_{ij} + epsilon_i`, where `s_i` is the spatial location of observation `i`.
-
-Coefficient surfaces `beta_j(s)` vary over space and are smoothed or regularized by the model specification.
-
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `SVC_Murakami.pdf` | pending extraction | Use this paper to verify spatial coefficient model controls |
+where `s_i` is the spatial location and `beta_j(s_i)` is a spatially varying
+coefficient surface.
 
 ## Data Structures It May Fit
 
-- Candidate use: spatial regression where coefficients vary over geography
-- Candidate structure: point or areal spatial data
-- Evidence status: project_candidate
+- Point or areal spatial regression data.
+- Continuous response by default, unless implementation supports other
+  likelihoods.
+- Covariates whose effects may differ by region.
+- Spatial support must be reliable: coordinates, areal centroids or adjacency.
 
-## Main Use Cases
+## Hyperparameters To Optimize Or Record
 
-- Spatial nonstationarity
-- Local coefficient interpretation
-- Comparison against global regression
-
-## Hyperparameters To Optimize
-
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `spatial_bandwidth` | Spatial smoothing scale | yes | project_candidate | Central local-smoothing field |
-| `kernel` | Spatial weighting function | yes | project_candidate | If implementation exposes kernels |
-| `neighbor_count` | Local sample support | later | project_candidate | Alternative to bandwidth |
-| `regularization_strength` | Coefficient stabilization | later | project_candidate | To verify |
-| `basis_dimension` | Low-rank approximation size | later | project_candidate | If applicable |
-
-## Secondary Hyperparameters
-
-- distance metric: coordinate-system dependent
-- local intercept handling: implementation-dependent
-- covariance model: if applicable
-
-## Hyperparameter Interactions
-
-- Bandwidth and kernel jointly determine locality.
-- Regularization and basis dimension affect coefficient stability.
-- Coordinate system quality affects all spatial tuning choices.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| varying coefficients set | Which covariates vary spatially | yes | Do not vary every coefficient by default. |
+| spatial smoothing scale | Controls coefficient surface smoothness | yes | Bandwidth, covariance range or basis penalty. |
+| kernel/covariance/basis type | Representation of spatial variation | yes | Implementation-dependent. |
+| regularization strength | Stabilizes local coefficients | yes | Especially important with collinearity. |
+| basis dimension / rank | Low-rank approximation size | later | Needed for scalable SVC variants. |
+| local intercept | Whether intercept varies | yes | Can absorb omitted spatial structure. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+Use spatially blocked validation. Random folds may reward interpolation instead
+of real transfer. Compare against global regression, GWR/MGWR and non-spatial
+machine-learning baselines when prediction is the target.
 
 ## Diagnostics To Inspect
 
-- Coefficient maps
-- Local standard errors or uncertainty measures
-- Residual spatial autocorrelation
-- Sensitivity to bandwidth
+- Coefficient maps.
+- Uncertainty or stability of coefficient surfaces.
+- Local collinearity.
+- Residual spatial autocorrelation.
+- Sensitivity to smoothing scale and varying-coefficient set.
 
 ## Failure Modes
 
-- Overfitting local noise
-- Boundary artifacts
-- False interpretation of local effects under collinearity
+- Overinterpreting noisy local coefficients.
+- Letting too many coefficients vary.
+- Local collinearity producing unstable maps.
+- Boundary artifacts.
+- Treating coefficient maps as causal evidence without design support.
 
-## Minimal Tuning Workflow
+## Minimal Workflow
 
-1. Fit global baseline.
-2. Tune spatial bandwidth or neighbor support.
-3. Inspect local coefficients and residual spatial pattern.
-4. Compare against MGWR or STVC when scale or time variation matters.
-
-## Dataset Compatibility Notes
-
-- Requires reliable spatial coordinates or spatial units.
-- Temporal datasets may require STVC rather than SVC if time-varying effects matter.
-
-## Open Questions From Papers
-
-- Which SVC formulation is used?
-- How are local coefficients regularized?
-- Which diagnostics are recommended?
+1. Fit global regression.
+2. Identify candidate covariates for spatial variation.
+3. Tune smoothing/regularization under spatial validation.
+4. Inspect coefficient maps and residual autocorrelation.
+5. Compare with [[mgwr]] and [[inla]] when appropriate.
 
 ## Related Pages
 
+- [[mgwr]]
+- [[stvc]]
+- [[spatial_heterogeneity]]
+- [[spatial_regression]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- [[stvc]]
-- [[mgwr]]

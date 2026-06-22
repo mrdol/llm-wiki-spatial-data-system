@@ -22,7 +22,6 @@ Global development-data warehouse combining catalog metadata, downloadable files
 
 ## Example Datasets
 
-- `world_bank_world_development_indicators`
 
 ## Related Pages
 

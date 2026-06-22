@@ -123,7 +123,7 @@ portal_scraper_scripts <- c(
 )
 
 software_scraper_scripts <- c(
-  python_packages = "Code_scrapping/extract_python_software_datasets.py"
+  python_packages = "Code_scrapping/python_catalog/extract_python_software_datasets.py"
 )
 
 run_portal_scraper <- function(source,

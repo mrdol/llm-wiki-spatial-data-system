@@ -1,0 +1,85 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+agridat (version 1.26)
+
+hutchinson.cotton.uniformity: Uniformity trial of cotton
+
+Uniformity trial of cotton
+
+Description
+
+     Uniformity trial of cotton harvested in 1941
+
+Usage
+
+     data("hutchinson.cotton.uniformity")
+
+Format
+
+     A data frame with 2000 observations on the following 3 variables.
+
+     ‘row’ row ordinate
+
+     ‘col’ column ordinate
+
+     ‘yield’ yield per plant, grams
+
+Details
+
+     The data are lint yield from single plants in a cotton uniformity
+     trial in St. Vincent in 1940-41. The experiment was planted in 50
+     rows with 40 plants in each row. The spacing was 1.5 feet within
+     rows and 4 feet between rows.
+
+     Field length: 40 plants * 1.5 feet = 60 feet
+
+     Field width: 50 columns * 4 feet = 200 feet
+
+     This data was made available with special help from the staff at
+     Rothamsted Research Library.
+
+     Transcription details: Rothamsted library scanned the paper
+     documents to pdf.  K.Wright used the pdf to manually type the
+     values into an Excel file and checked the hand-typed values.
+     Plants marked as "Dead" on the PDF were left blank. There were 6
+     numbers that were illegible in the PDF. These were also left
+     blank.
+
+Source
+
+     Rothamsted Research Library, Box STATS17 WG Cochran, Folder 2.
+
+References
+
+     A. C. Brewer and R. Mead (1986).  Continuous Second Order Models
+     of Spatial Variation with Application to the Efficiency of Field
+     Crop Experiments.  Journal of the Royal Statistical Society.
+     Series A (General), 149(4), 314–348.  See page 325.
+     http://doi.org/10.2307/2981720
+
+
+Variables detected from installed object
+
+row: integer ; missing=0 ; examples=1, 2, 3
+
+col: integer ; missing=0 ; examples=1
+
+yield: numeric ; missing=52 ; examples=6.5, 25.5, 25.6
+
+Examples
+Run this code
+
+     ## Not run:
+
+       library(agridat)
+       data(hutchinson.cotton.uniformity)
+       dat <- hutchinson.cotton.uniformity
+
+       require(desplot)
+       desplot(dat, yield ~ col*row,
+               tick=TRUE, flip=TRUE, aspect=(40*1.5)/(50*4), # true aspect
+               main="hutchinson.cotton.uniformity")
+     ## End(Not run)
+

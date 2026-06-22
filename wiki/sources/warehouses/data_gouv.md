@@ -22,8 +22,6 @@ French open-data portal exposing heterogeneous public datasets, documentation, a
 
 ## Example Datasets
 
-- [[data_gouv_dvf_geolocalisees]]
-- [[data_gouv_dvf]]
 
 ## Recent Metadata Scrape
 

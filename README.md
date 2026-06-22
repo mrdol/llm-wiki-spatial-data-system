@@ -1,185 +1,227 @@
 # LLM Wiki Spatial Data System
 
-Prototype de système de découverte, documentation et préparation de jeux de données spatiaux et spatio-temporels pour la modélisation.
+Prototype de systeme de decouverte, documentation et preparation de jeux de
+donnees spatiaux et spatio-temporels pour comparer des modeles predictifs.
 
-Ce projet combine :
-- un wiki local orienté LLM ;
-- un serveur MCP pour interroger le catalogue local ;
-- des pipelines de scraping pour entrepôts de données ;
-- des pipelines de recherche bibliographique ;
-- des manifests machine pour tracer les jeux de données, papiers, métadonnées et décisions de sélection.
+Le projet combine quatre couches qui s'alimentent mutuellement :
+
+- un corpus scientifique et documentaire ;
+- un knowledge graph local ;
+- un wiki maintenu et valide ;
+- des pipelines de collecte, inspection et evaluation.
 
 ## Objectif
 
-L’objectif est d’aider à identifier des jeux de données utilisables pour des modèles spatiaux ou spatio-temporels.
+L'objectif est de construire progressivement une banque de jeux de donnees
+spatiaux et spatio-temporels reutilisable pour tester des estimateurs dans des
+conditions comparables.
 
-Un jeu de données candidat doit idéalement contenir :
-- une dimension spatiale ;
-- une dimension temporelle si possible ;
-- une variable à expliquer `Y` ;
-- des variables explicatives candidates `X_candidate` ;
-- des variables sélectionnées `X_selected` après inspection ;
-- une documentation ou un papier scientifique associé ;
-- des indices de modélisation existante dans un article, un code ou une métadonnée.
+Un dataset ideal contient :
 
-## Structure Du Projet
+- une structure spatiale explicite : coordonnees, geometrie, voisinage ou unite
+  territoriale ;
+- une structure temporelle si le probleme est spatio-temporel ;
+- une variable reponse `Y` identifiable ;
+- des covariables candidates `X_candidate` ;
+- une formule ou un modele deja utilise dans un papier, un livre, une
+  documentation ou un code ;
+- une licence et une source reutilisables ;
+- un lien clair vers un papier, un depot de donnees ou une documentation.
+
+## Familles de sources
+
+Le projet distingue trois familles de sources de jeux de donnees.
+
+| Famille | Role | Etat actuel |
+|---|---|---|
+| Packages R/Python | Premiere source exploree : datasets embarques dans des librairies de statistique spatiale, econometrie spatiale, SIG ou apprentissage | pipeline le plus avance |
+| Articles scientifiques avec donnees ouvertes | Papiers de statistique/econometrie spatiale qui publient leurs donnees, code ou supplements | pipeline bibliographique en construction |
+| Banques et entrepots de donnees | Zenodo, Dryad, Dataverse, Figshare, data.gouv, INSEE, Eurostat, OECD, World Bank, etc. | scrapers et manifests deja presents |
+
+Les packages R/Python ne sont donc pas l'objectif final : ils constituent une
+premiere entree plus controlee pendant que les deux autres familles sont
+structurees.
+
+## Architecture principale
 
 ```text
+corpus/
+  bib/                    Bibliographie JabRef/BibDesk, dont references.bib
+  papers/
+    raw_pdf/              PDF scientifiques valides
+    tei/                  TEI XML produits par GROBID
+  web_md/                 Pages web, manuels et tutoriels convertis en Markdown
+  sources.yml             Sources du corpus
+
 wiki/
-  concepts/              Définitions utiles au système
-  datasets/              Fiches de datasets documentés (par entrepôt)
-  estimators/            Fiches d’estimateurs
-  metadata/              Schémas et règles de métadonnées
-  analyses/              Synthèses, découvertes et profils progressifs
-  sources/               Sources de données par famille
-  eval_queue.md          File d’attente de révision manuelle (Tier 3)
+  concepts/               Concepts methodologiques et de donnees
+  datasets/               Fiches de datasets et documentation de packages
+  estimators/             Fiches d'estimateurs
+  papers/                 Fiches de papiers
+  software/               Fiches de packages/librairies
+  metadata/               Schemas, politiques et conventions
+  analyses/               Syntheses et sorties interpretees
+
+inst/kg/
+  schema.yml              Types de noeuds et relations du KG
+  concepts.yml            Concepts reconnus par le KG
+  entrypoints.yml         Entrees conseillees pour agents
+  sources_rules.yml       Regles de priorite des sources
+  topic_taxonomy.yml      Taxonomie de themes
+
+tools/kg/
+  01_extract_bib.py       Passerelle bibliographie
+  02_run_grobid.py        Conversion PDF -> TEI via GROBID
+  03_parse_tei.py         Extraction Paper/Section/Formula/Method/Dataset
+  ingest_papers.py        Ingestion incrementale de PDF scientifiques
+  04_extract_dataset_catalogs.py
+                          Passage des catalogues datasets vers le KG
+  04_build_graph.py       Fusion des noeuds/relations en SQLite
+  05_make_wiki_pages.py   Generation de pages wiki depuis le KG
+  07_export_agent_index.py
+                          Consultation lisible du KG pour les agents
+
+.kg/
+  extracted/              Noeuds et relations JSONL extraits
+  graph.sqlite            Graphe local consultable avec SQLite
+  summaries/              Resumes de parsing et controles
 
 Code_scrapping/
-  pipeline_portals/
-    python/              Scrapers des entrepôts de données
-    notebook/            Versions notebook des scrapers
-  pipeline_lit/          Recherche et analyse de papiers scientifiques
-  R/                     Scripts R pour estimateurs et extraction
-  extract_r_software_datasets.R
-  find_software_dataset_papers.py
-  load_datasets_to_dataframes.py
-  prepare_estimator_fiches.py
-
-LLM-wiki-Assessment/
-  eval/                  Pipeline d’évaluation des fiches wiki (Tier 1/2/3)
-    run_eval.py          Point d’entrée principal
-    tier1_structural.py  Vérifications structurelles (0 token)
-    tier2_semantic.py    Évaluation sémantique LLM-as-judge
-    tier3_queue.py       Gestion de la file de révision manuelle
-    hooks/pre-commit     Hook git : évalue les fiches avant chaque commit
-  tests/
-    unit/                Tests de format et de liens wiki
-    validation/          Tests DOI, licences, manifests, policy
-
-data/
-  manifests/             Traces machine (JSON, JSONL, CSV) — versionnées
-    datasets/            Manifests des datasets découverts ou téléchargés
-    papers/              Manifests des papiers scientifiques
-    runs/                Logs de téléchargement et d’exécution
-  candidates/            Métadonnées des candidats — versionnées
-    papers/              Papiers associés aux estimateurs
-    datasets/            Fichiers téléchargés — ignorés par Git
-  Final_datasets/        Données validées localement — ignorées par Git
+  r_catalog/              Pipeline datasets software R
+  python_catalog/         Pipeline datasets software Python
+  paper_links/            Liens dataset-package-papier-formule
+  pipeline_lit/           Recherche bibliographique OpenAlex/Crossref
+  pipeline_portals/       Scrapers d'entrepots de donnees
 ```
-## Sources couvertes
 
-Le système couvre trois familles de sources.
+## Pipeline datasets software
 
-### Entrepôts de données
+La couche software part des packages R/Python et produit des catalogues
+exploitables par le wiki et le KG.
 
-- Zenodo
-- Figshare
-- Dryad
-- Dataverse
-- data.gouv
-- INSEE
-- CEPII
-- Eurostat
-- OECD
-- World Bank
-- UN Comtrade
+```text
+packages R/Python
+-> inventaire des datasets
+-> extraction locale quand possible
+-> inspection des objets
+-> detection de geometrie, coordonnees, temps, Y, X et formules
+-> documentation package/dataset en Markdown
+-> audit papier/source/formule
+-> extraction vers KG
+-> fiches wiki et consultation agent
+```
 
-### Sources logicielles
+Scripts principaux :
 
-Le système documente aussi des datasets distribués dans des packages logiciels :
+- `Code_scrapping/r_catalog/extract_r_software_datasets.R`
+- `Code_scrapping/r_catalog/Inspection_of_each_dataset.R`
+- `Code_scrapping/r_catalog/create_r_software_catalog.R`
+- `Code_scrapping/r_catalog/render_r_dataset_rd_docs.R`
+- `Code_scrapping/r_catalog/llm_curate_r_datasets.R`
+- `Code_scrapping/python_catalog/extract_python_software_datasets.py`
+- `Code_scrapping/paper_links/build_dataset_paper_audit.py`
 
-- packages R avec jeux de données spatiaux ou spatio-temporels ;
-- packages Python comme `geodatasets`, `libpysal`, `giddy`, `geosnap`, `xarray`, `movingpandas`, `scikit-mobility`.
+Sorties principales :
 
-### Sources bibliographiques
+- `data/manifests/datasets/software_r_catalog_main_datasets.csv`
+- `data/manifests/datasets/software_python_catalog_all.csv`
+- `data/manifests/datasets/software_catalog_curated_final.csv`
+- `data/manifests/datasets/software_r_dataset_paper_formula_audit.csv`
+- `wiki/datasets/r_package_docs/<package>/<package>.md`
+- `wiki/datasets/r_package_docs/<package>/topics/<dataset>.md`
 
-- OpenAlex
-- Crossref
-- DOI
-- papiers scientifiques associés aux datasets candidats
+## Corpus, JabRef et GROBID
 
-## Rôle du wiki
+JabRef ou BibDesk gere `corpus/bib/references.bib` : metadonnees, DOI, URL,
+cle BibTeX et lien vers les PDF locaux. Il ne remplace ni le KG ni GROBID.
 
-Le wiki sert de mémoire structurée, lisible à la fois par un humain et par le LLM.
+GROBID lit les PDF de `corpus/papers/raw_pdf/` et produit les fichiers TEI dans
+`corpus/papers/tei/`. Ces TEI sont ensuite parses pour extraire titres,
+auteurs, sections, formules, references, methodes et mentions de datasets.
 
-Il contient :
+Workflow conseille :
 
-- les définitions conceptuelles ;
-- les fiches de datasets ;
-- les fiches d’estimateurs ;
-- les règles de sélection ;
-- les analyses produites pendant la recherche ;
-- les liens entre datasets, papiers, variables et estimateurs.
+```text
+references.bib + raw_pdf/
+-> tools/kg/02_run_grobid.py
+-> tools/kg/03_parse_tei.py
+-> tools/kg/04_extract_dataset_catalogs.py
+-> tools/kg/04_build_graph.py
+-> tools/kg/07_export_agent_index.py
+```
 
-## Rôle des manifests
-
-Les fichiers dans `data/manifests/` sont des traces structurées au format JSON, JSONL ou CSV.
-
-Ils servent à :
-
-- retrouver ce qui a été découvert ;
-- éviter de scraper plusieurs fois la même source ;
-- conserver les DOI, URLs, licences, chemins locaux et décisions ;
-- fournir au MCP et au LLM une base locale exploitable.
-
-## Données téléchargées
-
-Les fichiers de données réels sont ignorés par Git. Seuls les manifests et métadonnées sont versionnés.
-
-| Dossier | Statut Git | Contenu |
-|---|---|---|
-| `data/manifests/` | versionné | traces JSON/JSONL/CSV des découvertes |
-| `data/candidates/papers/` | versionné | JSONL des papiers estimateurs |
-| `data/candidates/datasets/` | ignoré | fichiers bruts téléchargés des portails |
-| `data/Final_datasets/` | ignoré | datasets validés pour la modélisation |
-| `data/downloads/` | ignoré | (ancien dossier, conservé localement) |
-
-Les manifests dans `data/manifests/` gardent la trace de tout ce qui a été découvert ou téléchargé.
-
-## Pipeline d’évaluation des fiches wiki
-
-Le dossier `LLM-wiki-Assessment/` contient un pipeline de contrôle qualité à 3 niveaux.
-
-| Niveau | Nom | Rôle | Coût |
-|---|---|---|---|
-| Tier 1 | Structural | Vérifie les sections obligatoires, le frontmatter YAML, les liens internes | 0 token |
-| Tier 2 | Semantic | Évaluation LLM-as-judge de la cohérence métadonnées/contenu | tokens Claude |
-| Tier 3 | Queue | Fiches bloquées ou rejetées orientées vers révision manuelle | 0 token |
-
-**Commandes principales :**
+Pour une ingestion ciblee de quelques papiers, utiliser plutot le pipeline
+incremental :
 
 ```bash
-# Évaluer une fiche
+python tools/kg/ingest_papers.py --pdf "article.pdf" --title "titre court"
+```
+
+Cette commande :
+
+- lance GROBID seulement si le TEI du PDF manque ;
+- parse seulement les nouveaux TEI ou les TEI sans extraction incrementale ;
+- ecrit des JSONL par papier dans `.kg/extracted/` ;
+- reconstruit `.kg/graph.sqlite` une seule fois ;
+- ajoute une entree dans `wiki/log.md`.
+
+`tools/kg/run_all.py` reste reserve aux reconstructions completes du KG.
+
+## Role du KG
+
+Le KG sert de memoire structuree pour eviter de relire tout le corpus ou tout le
+wiki a chaque question.
+
+Il encode notamment :
+
+- `Paper USES_DATASET Dataset`
+- `RPackage PROVIDES_DATASET Dataset`
+- `Dataset HAS_VARIABLE Variable`
+- `Dataset HAS_RESPONSE ResponseVariable`
+- `Dataset HAS_COVARIATE Covariate`
+- `Dataset SHOWS_FORMULA Formula`
+- `Dataset DOCUMENTED_BY DocumentationPage`
+- `Method IMPLEMENTED_BY Package`
+
+Le fichier final est `./.kg/graph.sqlite`. Il peut etre ouvert avec DB Browser
+for SQLite ou interroge par les scripts `tools/kg/`.
+
+## Role du wiki
+
+Le wiki est la couche editoriale : il stabilise ce qui est valide, lisible et
+utile pour le raisonnement humain/LLM.
+
+Le KG peut suggerer des relations ; le wiki les rend explicites. Inversement,
+les pages wiki validees peuvent reinjecter des concepts, methodes, datasets et
+formules dans le KG.
+
+## Evaluation
+
+`LLM-wiki-Assessment/` contient un controle qualite en trois niveaux :
+
+| Niveau | Role | Cout |
+|---|---|---|
+| Tier 1 | Structure, frontmatter, liens internes | 0 token |
+| Tier 2 | Evaluation semantique LLM-as-judge | tokens |
+| Tier 3 | File de revue manuelle | 0 token |
+
+Commandes utiles :
+
+```bash
 python LLM-wiki-Assessment/eval/run_eval.py wiki/datasets/zenodo/zenodo_xxx.md
-
-# Tout passer (pytest + Tier 1 + Tier 2)
 python LLM-wiki-Assessment/eval/run_eval.py --all
-
-# Tests unitaires seulement
 python -m pytest LLM-wiki-Assessment/tests/
 ```
 
-Le hook `pre-commit` évalue automatiquement toutes les fiches wiki modifiées avant chaque commit.
+## Regle de priorite
 
-## MCP
-
-Le serveur MCP permet au LLM d’interroger le catalogue local et les manifests sans relire manuellement tout le système.
-
-Dans ce projet, le MCP n’est pas un RAG complet. Il sert surtout de couche d’accès structurée aux informations locales : datasets, métadonnées, chemins, sources, papiers et estimateurs.
-
-## État actuel
-
-Le système contient actuellement :
-
-- des scrapers pour 11 entrepôts institutionnels et scientifiques ;
-- des scrapers de portails scientifiques (Zenodo, Dryad, Figshare, Dataverse) ;
-- des scripts de recherche de papiers (OpenAlex, Crossref) ;
-- des fiches conceptuelles, d’estimateurs et de datasets ;
-- des manifests de datasets logiciels R/Python ;
-- une cartographie des datasets disponibles dans plusieurs langages ;
-- un pipeline d’évaluation qualité des fiches wiki (Tier 1/2/3) ;
-- un hook pre-commit pour la validation automatique.
+Pour les questions scientifiques, commencer par le KG puis verifier dans le
+wiki/corpus si besoin. Pour les questions de code, commencer par le MCP
+`codebase_memory`, puis verifier dans les fichiers reels. Le fichier reel sur
+disque reste la source finale de verite.
 
 ## Origine
-Ce projet est basé initialement sur le modèle llm-wiki-karpathy, puis adapté pour un usage de recherche sur les données spatiales et spatio-temporelles.
 
+Ce projet est base initialement sur le modele `llm-wiki-karpathy`, puis adapte
+pour la constitution d'une banque de donnees spatiales et spatio-temporelles
+documentee, reliee a des papiers, des formules, des packages et des methodes.

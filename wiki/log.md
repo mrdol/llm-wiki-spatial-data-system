@@ -218,8 +218,6 @@ Output filed: yes - dataset pages created
 Pages created:
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/eurostat_comext_itg.md`
-- `wiki/datasets/cepii_baci.md`
 
 Pages updated:
 - `wiki/index.md`
@@ -240,8 +238,6 @@ Pages consulted:
 Output filed: yes - `wiki/analyses/france_unemployment_datasets_comparison.md`
 
 Pages created:
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/eurostat.md`
 - `wiki/analyses/france_unemployment_datasets_comparison.md`
@@ -264,11 +260,8 @@ Pages consulted:
 - `wiki/index.md`
 - `wiki/overview.md`
 - `wiki/analyses/france_unemployment_datasets_comparison.md`
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/cepii_baci.md`
 
 Output filed: yes - `wiki/metadata/dataset_catalog_schema_v2.md`
 
@@ -293,8 +286,6 @@ Pages consulted:
 - `wiki/index.md`
 - `wiki/log.md`
 - `wiki/overview.md`
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/eurostat.md`
 - `wiki/analyses/france_unemployment_datasets_comparison.md`
@@ -305,17 +296,11 @@ Tools consulted:
 Output filed: yes - dataset pages updated and raw download manifests created
 
 Pages updated:
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/index.md`
 - `wiki/overview.md`
 - `wiki/log.md`
 
 Files created:
-- `data/downloads/insee_t304_chomage_diplome.csv`
-- `data/downloads/eurostat_lfst_r_lfu3rt.json`
-- `data/manifests/datasets/insee_emploi_chomage_population_active.json`
-- `data/manifests/datasets/eurostat_labour_force_survey.json`
 
 Key additions:
 - Confirmed two documented candidate datasets from the current wiki and MCP results: INSEE labour-market series and Eurostat Labour Force Survey.
@@ -332,9 +317,6 @@ Pages consulted:
 - `wiki/metadata/dataset_catalog_schema_v2.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/cepii_baci.md`
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/eurostat.md`
 
@@ -345,9 +327,6 @@ Tools consulted:
 Output filed: yes - new warehouse pages, new dataset pages, one analysis page, new manifests, and enriched root catalog
 
 Pages created:
-- `wiki/datasets/insee_base_permanente_equipements.md`
-- `wiki/datasets/data_gouv_dvf_geolocalisees.md`
-- `wiki/datasets/world_bank_world_development_indicators.md`
 - `wiki/warehouses/data_gouv.md`
 - `wiki/warehouses/oecd.md`
 - `wiki/warehouses/world_bank.md`
@@ -356,10 +335,8 @@ Pages created:
 - `wiki/analyses/metadata_oriented_dataset_discovery_warehouses_2026_04_22.md`
 
 Pages updated:
-- `wiki/datasets/eurostat_comext_itg.md`
 - `wiki/datasets/oecd_itcs.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
-- `wiki/datasets/cepii_baci.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/eurostat.md`
 - `wiki/index.md`
@@ -367,13 +344,8 @@ Pages updated:
 - `wiki/log.md`
 
 Files created:
-- `data/manifests/datasets/insee_base_permanente_equipements.json`
-- `data/manifests/datasets/eurostat_comext_itg.json`
-- `data/manifests/datasets/data_gouv_dvf_geolocalisees.json`
 - `data/manifests/datasets/oecd_itcs.json`
-- `data/manifests/datasets/world_bank_world_development_indicators.json`
 - `data/manifests/datasets/un_comtrade_merchandise_trade.json`
-- `data/manifests/datasets/cepii_baci.json`
 
 Key additions:
 - Extended the warehouse coverage from INSEE and Eurostat to data.gouv, OECD, World Bank, UN Comtrade, and CEPII.
@@ -387,13 +359,8 @@ Pages consulted:
 - `wiki/index.md`
 - `wiki/log.md`
 - `wiki/analyses/metadata_oriented_dataset_discovery_warehouses_2026_04_22.md`
-- `wiki/datasets/insee_base_permanente_equipements.md`
-- `wiki/datasets/data_gouv_dvf_geolocalisees.md`
-- `wiki/datasets/world_bank_world_development_indicators.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/eurostat_comext_itg.md`
-- `wiki/datasets/cepii_baci.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/data_gouv.md`
 - `wiki/warehouses/world_bank.md`
@@ -426,15 +393,8 @@ Pages consulted:
 - `wiki/glossary.md`
 - `wiki/metadata/dataset_catalog_schema_v2.md`
 - `wiki/analyses/metadata_oriented_dataset_discovery_warehouses_2026_04_22.md`
-- `wiki/datasets/insee_emploi_chomage_population_active.md`
-- `wiki/datasets/eurostat_labour_force_survey.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/cepii_baci.md`
-- `wiki/datasets/eurostat_comext_itg.md`
-- `wiki/datasets/insee_base_permanente_equipements.md`
-- `wiki/datasets/data_gouv_dvf_geolocalisees.md`
-- `wiki/datasets/world_bank_world_development_indicators.md`
 - `wiki/warehouses/insee.md`
 - `wiki/warehouses/eurostat.md`
 - `wiki/warehouses/data_gouv.md`
@@ -503,7 +463,6 @@ Pages consulted:
 - `wiki/log.md`
 - `wiki/datasets/un_comtrade_merchandise_trade.md`
 - `wiki/datasets/oecd_itcs.md`
-- `wiki/datasets/eurostat_comext_itg.md`
 
 Output filed: yes - `wiki/analyses/trade_raw_endpoint_verification_2026_04_22.md`
 
@@ -515,7 +474,6 @@ Pages updated:
 - `wiki/log.md`
 
 Files updated outside wiki:
-- `data/manifests/datasets/eurostat_comext_itg.json`
 - `data/manifests/datasets/un_comtrade_merchandise_trade.json`
 - `data/manifests/datasets/oecd_itcs.json`
 
@@ -715,15 +673,12 @@ Pages consulted:
 Output filed: yes - dated download directories, final manifest, and traceability wiki note
 
 Pages created:
-- `wiki/analyses/download_batch_2026_04_23_datasets10_papers10.md`
 
 Pages updated:
 - `wiki/index.md`
 - `wiki/log.md`
 
 Files created outside wiki:
-- `data/downloads/2026-04-23_datasets/`
-- `data/downloads/2026-04-23_papers/`
 - `data/downloads/2026-04-23_rejected_responses/`
 - `data/manifests/runs/2026-04-23_download_batch_datasets10_papers10.json`
 - `data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json`
@@ -744,15 +699,12 @@ Pages consulted:
 Output filed: yes - book lookup manifest and access-status note
 
 Pages created:
-- `wiki/analyses/book_lookup_statistics_for_high_dimensional_data_2026_04_23.md`
 
 Pages updated:
 - `wiki/index.md`
 - `wiki/log.md`
 
 Files created outside wiki:
-- `data/downloads/2026-04-23_books/`
-- `data/downloads/2026-04-23_books/rejected_responses/`
 - `data/manifests/runs/2026-04-23_book_statistics_for_high_dimensional_data_attempt.json`
 - `data/manifests/papers/statistics_for_high_dimensional_data_buhlmann_vandegeer_2026_04_23.json`
 
@@ -767,7 +719,6 @@ Key additions:
 
 Pages consulted:
 - `wiki/analyses/raw_spatiotemporal_dataset_scraping_targets_2026_04_23.md`
-- `wiki/analyses/download_batch_2026_04_23_datasets10_papers10.md`
 - `data/manifests/runs/2026-04-23_final_download_batch_datasets10_papers10.json`
 - online publication pages for Scientific Data, Earth System Science Data, IJCAI, Google Research, Global Fishing Watch, NOAA/GHCN, and ERA5 reference metadata
 
@@ -1103,17 +1054,10 @@ Pages consulted:
 - `wiki/log.md`
 - `wiki/sources/warehouses/data_gouv.md`
 - `wiki/sources/warehouses/insee.md`
-- `data/manifests/datasets/data_gouv_dvf_geolocalisees.json`
-- `data/manifests/datasets/insee_base_permanente_equipements.json`
-- `data/manifests/datasets/insee_emploi_chomage_population_active.json`
 
 Output filed: yes - official France dataset fiches and metadata manifest
 
 Pages created:
-- `wiki/datasets/data_gouv_dvf_geolocalisees.md`
-- `wiki/datasets/data_gouv_dvf.md`
-- `wiki/datasets/insee_base_permanente_equipements.md`
-- `wiki/datasets/insee_chomage_halo_series_longues.md`
 
 Pages updated:
 - `wiki/index.md`
@@ -1475,3 +1419,171 @@ Key additions:
 - Added a canonical `wiki/papers/` fiche format for scientific papers.
 - Required exact field names: `Paper title`, `Paper DOI`, `Source URL`, `Abstract`, `Dataset Linkage`, `Modeling Evidence`, `Dataset Access Decision`, and `Quality Pedigree`.
 - Clarified that paper DOI and dataset/archive DOI must remain separate and that a paper without usable dataset access should not become a project paper fiche.
+
+## [2026-06-04] architecture | KG-first wiki and estimator refresh
+
+Pages consulted:
+- `AGENTS.md`
+- `README.md`
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `wiki/overview.md`
+- `inst/kg/concepts.yml`
+- `inst/kg/topic_taxonomy.yml`
+- `tools/kg/04_extract_concepts.py`
+
+Output filed: yes - wiki operating rules, glossary, overview, KG concepts and estimator fiches updated
+
+Pages created:
+- `wiki/estimators/gam.md`
+- `wiki/concepts/generalized_additive_models.md`
+- `wiki/concepts/gradient_boosted_trees.md`
+- `wiki/concepts/support_vector_machines.md`
+- `wiki/concepts/latent_gaussian_models.md`
+- `wiki/concepts/sequence_models.md`
+- `wiki/concepts/adaptive_regression_splines.md`
+
+Pages updated:
+- `AGENTS.md`
+- `README.md`
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `wiki/overview.md`
+- `wiki/estimators/gamboost.md`
+- `wiki/estimators/inla.md`
+- `wiki/estimators/lightgbm.md`
+- `wiki/estimators/mars.md`
+- `wiki/estimators/mgwr.md`
+- `wiki/estimators/random_forest.md`
+- `wiki/estimators/rnn.md`
+- `wiki/estimators/svc.md`
+- `wiki/estimators/svm.md`
+- `wiki/estimators/xgboost.md`
+- `wiki/concepts/gwr.md`
+- `wiki/concepts/mgwr.md`
+- `wiki/concepts/spatial_regression.md`
+- `inst/kg/concepts.yml`
+- `inst/kg/topic_taxonomy.yml`
+
+KG updates:
+- Added `tools/kg/04_extract_concepts.py`.
+- Added `Concept DOCUMENTED_BY WikiPage` extraction from `inst/kg/concepts.yml`.
+- Rebuilt `.kg/graph.sqlite`.
+
+Key additions:
+- Restored concise `ingest`, `query`, and `lint` workflows in `AGENTS.md`, adapted to the KG + wiki orientation.
+- Restored the session-start checklist with `AGENTS.md`, `wiki/index.md`, last 5 `wiki/log.md` entries, `git status`, and KG-first orientation.
+- Clarified the current architecture: `corpus -> KG -> wiki`, with root `raw/` read-only.
+- Added GAM as a simple estimator distinct from GAMBoost.
+- Added glossary terms for KG, corpus, raw archive, source family, package dataset, GROBID, TEI, JabRef/BibDesk bibliography, GAM, GAMBoost and spatial validation.
+
+## [2026-06-04] ingest | MGWR and MGTWR papers
+
+Pages consulted:
+- `corpus/bib/references.bib`
+- `corpus/papers/raw_pdf/fotheringham2017_Wenbai Yang, and Wei Kang.pdf`
+- `corpus/papers/raw_pdf/Chao Wu, Fu Ren, Wei Hu & Qingyun Du_2018_MGTWR.pdf`
+- `wiki/estimators/mgwr.md`
+- `wiki/concepts/mgwr.md`
+- `inst/kg/concepts.yml`
+
+Pages created:
+- `wiki/papers/fotheringham_yang_kang_2017_mgwr.md`
+- `wiki/papers/wu_ren_hu_du_2018_mgtwr.md`
+- `wiki/concepts/mgtwr.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `wiki/concepts/mgwr.md`
+- `wiki/estimators/mgwr.md`
+- `inst/kg/concepts.yml`
+
+KG updates:
+- Generated `corpus/papers/tei/Chao Wu, Fu Ren, Wei Hu & Qingyun Du_2018_MGTWR.tei.xml`.
+- Generated `corpus/papers/tei/fotheringham2017_Wenbai Yang, and Wei Kang.tei.xml`.
+- Rebuilt `.kg/graph.sqlite`.
+- Added MGTWR to concept extraction rules.
+
+Key additions:
+- Fotheringham, Yang and Kang 2017 is now represented as a GROBID-backed paper node with sections, formulas, MGWR method evidence, simulation benchmark evidence and an Irish famine empirical application.
+- Wu, Ren, Hu and Du 2018 is now represented as a GROBID-backed paper node with formulas, sections, authors and Shenzhen housing-price benchmark evidence.
+- MGTWR was added as a wiki concept connected to MGWR, GWR and spatio-temporal data.
+- Automatic dataset/package detections for MGWR 2017 remain marked as weak evidence pending manual PDF validation.
+- Added curated LaTeX-style formula blocks for MGWR and MGTWR wiki display, separated from raw GROBID formula strings stored in the KG.
+
+## [2026-06-04] pipeline | incremental paper ingestion
+
+Files created:
+- `tools/kg/ingest_papers.py`
+
+Files updated:
+- `README.md`
+- `AGENTS.md`
+
+Key additions:
+- Added a targeted paper-ingestion route that runs GROBID only for PDFs missing TEI files.
+- Added per-paper incremental TEI parsing into `.kg/extracted/zz_incremental_tei_*_nodes.jsonl` and `_edges.jsonl`.
+- Rebuilds `.kg/graph.sqlite` once after the targeted extraction.
+- Appends a concise ingestion trace to `wiki/log.md` unless `--no-log` is used.
+- Kept `tools/kg/run_all.py` as the full-rebuild route for global KG refreshes.
+
+## [2026-06-04] ingest-papers-incremental | STWR SGWR GGP-GAM SHAP spatial panel spatial econometrics LED batch
+
+PDF selected:
+- `corpus/papers/raw_pdf/A Review of Software for Spatial Econometrics in R.pdf`
+- `corpus/papers/raw_pdf/A spatiotemporal weighted regression model for nontationarity.pdf`
+- `corpus/papers/raw_pdf/div-class-title-spatial-panel-models-of-crop-yield-response-to-weather-econometric-specification-strategies-and-prediction-performance.pdf`
+- `corpus/papers/raw_pdf/Extracting spatial effects from machine learning model using local interpretation method_SHAP and XGBoost.pdf`
+- `corpus/papers/raw_pdf/Multiscale spatially varying coefficient modelling using a Geographical Gaussian Process GAM.pdf`
+- `corpus/papers/raw_pdf/Remote sensing-based measurement of leaving environment depravation.pdf`
+- `corpus/papers/raw_pdf/SGWR  similarity and geographically weighted regression.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- `corpus\papers\tei\A Review of Software for Spatial Econometrics in R.tei.xml` -> 278 nodes, 284 edges
+- `corpus\papers\tei\A spatiotemporal weighted regression model for nontationarity.tei.xml` -> 140 nodes, 155 edges
+- `corpus\papers\tei\div-class-title-spatial-panel-models-of-crop-yield-response-to-weather-econometric-specification-strategies-and-prediction-performance.tei.xml` -> 87 nodes, 88 edges
+- `corpus\papers\tei\Extracting spatial effects from machine learning model using local interpretation method_SHAP and XGBoost.tei.xml` -> 164 nodes, 179 edges
+- `corpus\papers\tei\Multiscale spatially varying coefficient modelling using a Geographical Gaussian Process GAM.tei.xml` -> 114 nodes, 118 edges
+- `corpus\papers\tei\Remote sensing-based measurement of leaving environment depravation.tei.xml` -> 137 nodes, 136 edges
+- `corpus\papers\tei\SGWR  similarity and geographically weighted regression.tei.xml` -> 170 nodes, 183 edges
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+## [2026-06-04] editorial | STWR SGWR GGP-GAM SHAP spatial panel spatial econometrics LED batch
+
+Pages created:
+- `wiki/papers/que_ma_ma_chen_2020_stwr.md`
+- `wiki/papers/comber_harris_brunsdon_2023_ggp_gam.md`
+- `wiki/papers/lessani_li_2024_sgwr.md`
+- `wiki/papers/li_2022_shap_xgboost_spatial_effects.md`
+- `wiki/papers/yun_gramig_2021_spatial_panel_crop_yield.md`
+- `wiki/papers/bivand_millo_piras_2021_spatial_econometrics_r.md`
+- `wiki/papers/arribas_bel_patino_duque_2017_living_environment_deprivation.md`
+- `wiki/concepts/stwr.md`
+- `wiki/concepts/sgwr.md`
+- `wiki/concepts/geographical_gaussian_process_gam.md`
+- `wiki/concepts/shap_spatial_effects.md`
+
+Pages updated:
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `wiki/overview.md`
+- `inst/kg/concepts.yml`
+
+Key additions:
+- Added editorial fiches for the seven newly ingested papers.
+- Extracted and curated method, dataset, formula, hyperparameter, metric, estimator-comparison and code/repository signals.
+- Marked noisy automatic dataset detections as weak evidence when the TEI/KG match is not confirmed by the paper.
+- Added KG concepts for STWR, SGWR, GGP-GAM and SHAP spatial effects so future concept extraction can link papers and wiki pages more directly.
+- Added TEI-extracted code/data links: Zenodo STWR, `lexcomber/GGP-GAM`, `Lessani252/SGWR`, `Ziqi-Li/SHAP_spatial_data_paper`, `ysd2004/spatialcropyieldJAAE`, `rsbivand/BMP21_data`, and `darribas/satellite_led_liverpool`.
+
+KG refresh:
+- Re-ran `tools/kg/04_extract_concepts.py`.
+- Rebuilt `.kg/graph.sqlite` once with `tools/kg/04_build_graph.py`.
+- Rebuilt `.kg/summaries/` with `tools/kg/06_make_summaries.py`.
+- Final graph size: 21659 nodes, 24720 edges.

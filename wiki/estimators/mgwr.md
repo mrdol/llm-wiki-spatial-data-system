@@ -2,15 +2,19 @@
 title: MGWR
 type: estimator
 created: 2026-04-23
-updated: 2026-04-30
+updated: 2026-06-04
 sources:
   - Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf
+  - Fotheringham, Yang and Kang 2017, Multiscale Geographically Weighted Regression, doi:10.1080/24694452.2017.1352480
+  - Wu, Ren, Hu and Du 2018, Multiscale geographically and temporally weighted regression, doi:10.1080/13658816.2018.1545158
+  - Oshan et al. 2019, mgwr: a Python implementation of multiscale geographically weighted regression, doi:10.3390/ijgi8060269
+  - Li and Fotheringham 2020, Computational improvements to multi-scale geographically weighted regression, doi:10.1080/13658816.2020.1720692
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/DESCRIPTION
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/multiscale_gwr.Rd
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/TDS_MGWR.Rd
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/kernel_matW.Rd
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/search_bandwidths.Rd
-tags: [estimator, spatial, gwr, mgwr, multiscale, hyperparameters, r-package]
+tags: [estimator, spatial, gwr, mgwr, multiscale, hyperparameters, r-package, paper-supported]
 ---
 
 MGWR is the project fiche for multiscale geographically weighted regression, where each explanatory variable may operate at a different spatial scale.
@@ -28,6 +32,11 @@ The local R source currently available in `raw/estimators/Mgwrsar` documents two
 
 - `multiscale_gwr()` for backfitting-based MGWR;
 - `TDS_MGWR()` for top-down scale MGWR and adaptive top-down variants.
+
+Reference papers establish MGWR as a response to single-bandwidth GWR: each
+coefficient can operate at its own spatial scale. The Python `mgwr` paper is
+useful for implementation comparison, while Li and Fotheringham (2020) should be
+used when runtime and scalability are central.
 
 ## Estimator Family
 
@@ -55,6 +64,17 @@ Each coefficient `beta_j` can have its own bandwidth `b_j`. A small bandwidth im
 | Variable metadata | `X_candidate`, `X_selected`, and variable types | Avoids fitting every available X without justification |
 
 MGWR is not appropriate for a dataset that only contains cartographic geometry without a modeling target.
+
+## Paper Ingest Notes
+
+- [[fotheringham_yang_kang_2017_mgwr]] is the canonical MGWR paper. Its current
+  KG ingest exposes model formulas, simulation benchmarks and an Irish famine
+  empirical application. Some automatically detected dataset/package relations
+  are weak and should be manually checked before being treated as validated.
+- [[wu_ren_hu_du_2018_mgtwr]] is the current corpus bridge from MGWR to
+  spatio-temporal multiscale modeling. It uses Shenzhen housing prices,
+  structural/locational/neighbourhood covariates, and compares HPM, MGWR, GTWR
+  and MGTWR.
 
 ## Core Hyperparameters
 
@@ -103,6 +123,14 @@ For project use, bandwidth selection should be documented explicitly. `search_ba
 - parallel execution with `ncore` and `parallel_method`.
 
 The selected bandwidths must be stored in metadata or modeling results, not only printed in the console.
+
+For KG and wiki traceability, each MGWR run should create explicit relations:
+
+- `Dataset SHOWS_FORMULA Formula`;
+- `Formula USES_RESPONSE ResponseVariable`;
+- `Formula USES_COVARIATE Covariate`;
+- `Estimator USES_HYPERPARAMETER Bandwidth`;
+- `Estimator IMPLEMENTED_BY Package`.
 
 ## Space-Time Extension
 

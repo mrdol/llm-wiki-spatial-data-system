@@ -2,106 +2,81 @@
 title: SVM
 type: estimator
 created: 2026-04-29
-updated: 2026-04-29
-sources: [ISLRv2_corrected_June_2023.pdf]
-tags: [estimator, svm, kernel, classification, regression, hyperparameters]
+updated: 2026-06-04
+sources:
+  - ISLRv2_corrected_June_2023.pdf
+  - Cortes and Vapnik 1995, Support-vector networks, doi:10.1007/BF00994018
+tags: [estimator, svm, kernel, classification, regression, hyperparameters, paper-supported]
 ---
 
-Support vector machine estimator family for margin-based classification and support vector regression.
+Support vector machines are margin-based estimators for classification and
+regression. In this project they are non-spatial baselines unless spatial or
+temporal information is encoded as features.
 
 ## Summary
 
-SVM is a standalone candidate estimator for classification or regression on feature matrices. It can use spatial or temporal variables as engineered predictors, but it is not inherently a spatial or spatio-temporal estimator.
+SVMs learn a decision or regression function using support vectors and a kernel.
+They can work well on moderate-size feature matrices, but they are sensitive to
+feature scaling and can be expensive on large dense datasets.
 
 ## Estimator Family
 
-- Family: support vector machines
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Evidence status: background support from [[islr2_statistical_learning]]
+- Family: kernel methods / margin-based learning.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: ISLR background plus Cortes and Vapnik reference.
 
 ## Model Equation
 
-Canonical classification decision function:
+Classification decision function:
 
-`f(x) = sign(sum_i alpha_i y_i K(x_i, x) + b)`
+```math
+f(x) = sign\left(\sum_i \alpha_i y_i K(x_i, x) + b\right)
+```
 
-Support vector regression uses an epsilon-insensitive loss around a regression function.
-
-Where:
-
-- `K(x_i, x)` is a kernel function
-- `alpha_i` are support-vector weights
-- `C` controls margin violation penalty
-- `epsilon` controls the insensitive tube for regression
-
-Evidence status: `background_supported`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| [[islr2_statistical_learning]] | background | General SVM reference for classification, kernels, margin, and tuning |
+Support vector regression uses an epsilon-insensitive loss around a regression
+function.
 
 ## Data Structures It May Fit
 
-- Tabular cross-sections
-- Engineered panel features
-- Spatial datasets with coordinates, distances, neighborhood summaries, or eigenvectors as predictors
-- Spatio-temporal datasets after lag/window feature engineering
-
-## Compatible Variable Typologies
-
-- Candidate `Y`: binary, categorical, continuous
-- Candidate `X`: continuous, categorical after encoding, spatial features, temporal features, lagged features
-- Not ideal for: raw geometry, raw timestamps, very large dense datasets without approximation
-
-## Main Use Cases
-
-- Binary classification
-- Multiclass classification through wrapper strategies
-- Support vector regression
-- Baseline comparison against tree-based, boosting, and spatial estimators
+- Binary or multiclass classification through wrappers.
+- Continuous response with support vector regression.
+- Spatial datasets after feature engineering.
+- Spatio-temporal datasets after lag/window construction.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `C` | Margin penalty | yes | background_supported | Core regularization parameter |
-| `kernel` | Feature-space transformation | yes | background_supported | Linear, polynomial, RBF, etc. |
-| `gamma` | RBF/poly kernel scale | yes | background_supported | Tune with `C` |
-| `degree` | Polynomial kernel degree | later | background_supported | Only for polynomial kernels |
-| `epsilon` | SVR insensitive tube | yes | background_supported | Regression only |
-| `class_weight` | Imbalance correction | later | implementation_supported | Classification only |
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `C` | Margin violation penalty | yes | Core regularization parameter. |
+| `kernel` | Feature-space mapping | yes | Linear, RBF, polynomial, etc. |
+| `gamma` | RBF/poly kernel scale | yes | Tune jointly with `C`. |
+| `degree` | Polynomial degree | later | Polynomial kernel only. |
+| `epsilon` | SVR insensitive tube | yes | Regression only. |
+| `class_weight` | Imbalance correction | later | Classification only. |
 
 ## Cross-validation Policy
 
-The cross-validation design is external to this fiche.
-
-SVM requires feature scaling inside each training fold to avoid leakage from validation/test data.
+Scaling must be fitted inside each training fold. For spatial/ST datasets, use
+blocked validation and avoid preprocessing leakage.
 
 ## Diagnostics To Inspect
 
-- Support-vector count
-- Margin behavior
-- Sensitivity to feature scaling
-- Calibration if probabilistic outputs are needed
-- Performance under spatial or temporal blocked validation
+- Number and proportion of support vectors.
+- Sensitivity to scaling.
+- Margin behavior.
+- Calibration if probabilities are needed.
+- Spatial or temporal residual patterns.
 
 ## Failure Modes
 
-- Leakage from scaling before splitting
-- Poor scalability on very large dense datasets
-- Kernel overfitting
-- Weak performance if spatial or temporal structure is not represented in features
-
-## Dataset Compatibility Notes
-
-SVM is plausible for tabular datasets after preprocessing. It becomes spatial or spatio-temporal only through engineered predictors and validation design.
+- Leakage from scaling before splitting.
+- Kernel overfitting with high `C` and high `gamma`.
+- Poor scalability on large datasets.
+- Weak spatial transfer if coordinates are used without blocked validation.
 
 ## Related Pages
 
+- [[data_leakage]]
 - [[rnn]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]
-- variable typology
-- [[data_leakage]]

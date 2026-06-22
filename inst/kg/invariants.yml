@@ -1,0 +1,32 @@
+# Regles stables du KG llm-wiki-karpathy.
+
+project: llm-wiki-karpathy
+version: 0.1
+
+invariants:
+  - id: root_raw_is_immutable
+    rule: "Le dossier raw/ a la racine est une archive d'entree: lire seulement, ne pas ajouter, renommer, deplacer ou supprimer."
+
+  - id: corpus_is_curated_source_layer
+    rule: "Les sources validees et modifiables vivent dans corpus/: PDF, TEI, web_md, references.bib et sources.yml."
+
+  - id: tei_is_extraction_not_truth
+    rule: "Les TEI GROBID sont des extractions automatiques; verifier les claims importants dans le PDF ou la source web canonique."
+
+  - id: bib_is_bibliographic_identity
+    rule: "corpus/bib/references.bib porte l'identite bibliographique et les liens fichiers; il ne remplace pas les relations du KG."
+
+  - id: wiki_is_validated_synthesis
+    rule: "Le wiki contient les syntheses validees; il ne doit pas recevoir directement des claims non verifies issus du TEI."
+
+  - id: paper_doi_dataset_doi_are_distinct
+    rule: "Toujours separer DOI de papier, DOI de dataset et DOI d'archive ou bundle."
+
+  - id: package_datasets_are_first_source_family
+    rule: "Les datasets de packages R/Python sont une premiere famille de sources, mais pas la seule: litterature open data et banques de donnees sont aussi des sources cibles."
+
+  - id: generated_kg_is_not_manually_edited
+    rule: "Les artefacts .kg/ sont generes par scripts; ne pas les modifier manuellement."
+
+  - id: citation_counts_not_default
+    rule: "Les compteurs de citation ne sont pas maintenus par defaut et ne doivent pas guider seuls les decisions de qualite."

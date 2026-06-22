@@ -2,118 +2,110 @@
 title: XGBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-04-23
-sources: [XGBoost.pdf]
-tags: [estimator, boosting, trees, hyperparameters, template]
+updated: 2026-06-04
+sources:
+  - XGBoost.pdf
+  - Chen and Guestrin 2016, XGBoost: A Scalable Tree Boosting System, doi:10.1145/2939672.2939785
+  - https://xgboost.readthedocs.io/en/stable/parameter.html
+tags: [estimator, boosting, trees, hyperparameters, paper-supported]
 ---
 
-Gradient-boosted tree estimator fiche template for later paper-supported tuning documentation.
+XGBoost is a regularized gradient-boosted tree estimator. In this project it is
+a strong non-spatial baseline for tabular prediction after spatial and temporal
+features have been engineered.
 
 ## Summary
 
-XGBoost is an allowed estimator in the project registry. This fiche is prepared for future extraction from `XGBoost.pdf`.
+XGBoost fits an additive ensemble of trees and optimizes a differentiable loss
+plus a regularization penalty on tree complexity. It is not inherently spatial:
+coordinates, distances, spatial lags, eigenvectors, neighborhood summaries or
+temporal windows must be provided as predictors if spatial or spatio-temporal
+structure should influence the fit.
 
 ## Estimator Family
 
-- Family: gradient boosting with tree learners
-- Project status: allowed by [[restricted_estimator_policy_v1]]
-- Current evidence status: template pending paper extraction
+- Family: regularized gradient boosting with tree learners.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Evidence status: reference paper and official documentation.
+- Core reference: Chen and Guestrin (2016).
 
 ## Model Equation
 
 Canonical additive tree ensemble:
 
-`y_hat_i = sum_{k=1}^{K} f_k(x_i)`, where `f_k` is a regression tree and `K` is the number of boosting rounds.
+```math
+\hat{y}_i = \sum_{k=1}^{K} f_k(x_i)
+```
 
-Training adds trees sequentially by minimizing a regularized objective:
+where each `f_k` is a regression tree. The training objective is:
 
-`Obj = sum_i l(y_i, y_hat_i) + sum_{k=1}^{K} Omega(f_k)`.
+```math
+Obj = \sum_i l(y_i, \hat{y}_i) + \sum_k \Omega(f_k)
+```
 
-Evidence status: `canonical_form_pending_paper_extraction`.
-
-## Paper Evidence Status
-
-| Source | Status | Notes |
-|---|---|---|
-| `XGBoost.pdf` | pending extraction | Use this paper to verify algorithm details and tuning fields |
+The regularization term controls tree complexity, usually through leaf weights
+and number of leaves.
 
 ## Data Structures It May Fit
 
-- Candidate use: tabular prediction after dataset bank construction
-- Candidate structure: cross-section, panel-derived features, spatial covariates after feature engineering
-- Evidence status: project_candidate
+- Cross-sectional tabular data.
+- Spatial datasets after feature engineering.
+- Spatial panels converted into covariates, lags or windows.
+- Regression, classification, count and ranking tasks depending on objective.
 
-## Main Use Cases
-
-- Nonlinear prediction with many covariates
-- Interaction-heavy tabular modeling
-- Benchmarking against Random Forest and LightGBM
+XGBoost should not be treated as a spatial model unless spatial validation and
+spatial residual diagnostics are applied.
 
 ## Hyperparameters To Optimize
 
-| Hyperparameter | Role | Tune? | Evidence status | Notes |
-|---|---|---|---|---|
-| `n_estimators` | Number of boosting rounds | yes | project_candidate | To verify from implementation and paper evidence |
-| `learning_rate` | Shrinkage per boosting round | yes | project_candidate | Usually interacts with `n_estimators` |
-| `max_depth` | Tree depth and interaction complexity | yes | project_candidate | Controls local complexity |
-| `min_child_weight` | Minimum child-node weight | yes | project_candidate | Regularization-like split control |
-| `subsample` | Row subsampling | yes | project_candidate | Candidate overfitting control |
-| `colsample_bytree` | Feature subsampling | yes | project_candidate | Candidate overfitting control |
-| `reg_alpha` | L1 regularization | later | project_candidate | Use after baseline complexity tuning |
-| `reg_lambda` | L2 regularization | later | project_candidate | Use after baseline complexity tuning |
-
-## Secondary Hyperparameters
-
-- `gamma`: split-gain threshold to verify
-- objective-specific settings: pending task definition
-- monotonic constraints: pending use-case need
-
-## Hyperparameter Interactions
-
-- `learning_rate` and `n_estimators` must be tuned together.
-- `max_depth`, `min_child_weight`, and regularization jointly control complexity.
-- `subsample` and `colsample_bytree` jointly control stochasticity.
+| Hyperparameter | Role | Tune? | Notes |
+|---|---|---|---|
+| `n_estimators` / boosting rounds | Number of trees | yes | Tune with `learning_rate`; use early stopping when possible. |
+| `learning_rate` / `eta` | Shrinkage per tree | yes | Smaller values usually require more trees. |
+| `max_depth` | Maximum tree depth | yes | Controls interaction order and local complexity. |
+| `min_child_weight` | Minimum Hessian weight in child node | yes | Prevents splits supported by too little information. |
+| `subsample` | Row subsampling | yes | Regularizes and reduces overfitting. |
+| `colsample_bytree` | Feature subsampling per tree | yes | Important when many correlated predictors exist. |
+| `gamma` | Minimum split loss reduction | later | Conservative split threshold. |
+| `reg_alpha` | L1 regularization | later | Useful for sparse effects. |
+| `reg_lambda` | L2 regularization | later | Default regularization path. |
+| `objective` | Loss/task definition | yes | Must match response type. |
 
 ## Cross-validation Policy
 
-The cross-validation design will be fixed by the project owner.
-
-This fiche only defines candidate hyperparameters to tune inside that future validation scheme.
+Use the project validation scheme. For spatial or spatio-temporal datasets,
+prefer spatial blocks, leave-location-out, temporal blocks, or blocked
+space-time validation. Random folds can overstate performance when neighboring
+observations leak information.
 
 ## Diagnostics To Inspect
 
-- Prediction error on validation folds
-- Overfitting gap between training and validation
-- Feature importance stability
-- Residual structure, including spatial or temporal residual patterns if relevant
+- Validation curve and early stopping iteration.
+- Train/validation gap.
+- Feature importance by gain, with caution under correlated predictors.
+- Residual spatial autocorrelation.
+- Error by spatial unit or time period.
 
 ## Failure Modes
 
-- Overfitting when depth and rounds are too high
-- Poor extrapolation outside observed covariate ranges
-- Interpretability loss when many interactions are learned
+- Excellent random-fold score but poor spatial transfer.
+- Overfitting from deep trees and too many rounds.
+- Misleading importance when predictors are correlated.
+- Poor extrapolation outside observed covariate ranges.
 
 ## Minimal Tuning Workflow
 
-1. Establish a simple baseline with conservative depth and learning rate.
-2. Tune `n_estimators`, `learning_rate`, and `max_depth`.
-3. Tune sampling and regularization only after the baseline is stable.
-4. Inspect residual structure before accepting the model.
-
-## Dataset Compatibility Notes
-
-- Plausible for rich tabular datasets after feature construction.
-- Spatial use requires explicit spatial features or residual diagnostics; the estimator is not inherently spatial.
-
-## Open Questions From Papers
-
-- Which hyperparameters are emphasized in `XGBoost.pdf`?
-- Which loss functions are discussed?
-- What regularization guidance is explicitly paper-supported?
+1. Set the objective from `Y` type.
+2. Start with conservative `max_depth`, moderate `eta`, and early stopping.
+3. Tune `max_depth`, `min_child_weight`, `subsample`, and `colsample_bytree`.
+4. Add `gamma`, `reg_alpha`, and `reg_lambda` only after the baseline is stable.
+5. Check residual spatial or temporal structure.
 
 ## Related Pages
 
-- [[restricted_estimator_policy_v1]]
-- [[estimator_fiche_schema_v1]]
+- [[gam]]
 - [[lightgbm]]
 - [[random_forest]]
+- [[data_leakage]]
+- [[restricted_estimator_policy_v1]]
+- [[estimator_fiche_schema_v1]]

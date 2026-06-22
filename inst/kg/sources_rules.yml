@@ -1,0 +1,17 @@
+# Regles de lecture des sources.
+
+rules:
+  - id: jabref_is_bibliographic_source
+    rule: "JabRef gere corpus/bib/references.bib; le KG lit ce fichier mais ne remplace pas JabRef."
+
+  - id: grobid_only_for_pdf
+    rule: "GROBID traite uniquement corpus/papers/raw_pdf/*.pdf et ecrit corpus/papers/tei/*.tei.xml."
+
+  - id: web_md_not_grobid
+    rule: "Les livres ou documentations deja disponibles en HTML/Markdown vont dans corpus/web_md, sans passer par GROBID."
+
+  - id: keep_raw_and_generated_separate
+    rule: "Les sources brutes restent dans corpus; les artefacts generes du graphe restent dans .kg."
+
+  - id: wiki_is_curated_layer
+    rule: "Le wiki contient les syntheses validees; il ne doit pas etre confondu avec les extractions brutes."

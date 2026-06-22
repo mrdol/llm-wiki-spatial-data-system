@@ -1,0 +1,139 @@
+Rdocumentation
+powered by
+
+Search all packages and functions
+spatstat.data (version 3.1.9)
+
+murchison: Murchison gold deposits
+
+Murchison gold deposits
+
+Description
+
+     Data recording the spatial locations of gold deposits and
+     associated geological features in the Murchison area of Western
+     Australia.  Extracted from a large scale (1:500,000) study of the
+     Murchison area by the Geological Survey of Western Australia
+     (Watkins and Hickman, 1990). The features recorded are
+
+        * the locations of gold deposits/occurrences;
+
+        * the locations of geological faults;
+
+        * the region that contains greenstone bedrock.
+
+     The study region is contained in a 330 * 400 kilometre rectangle.
+     At this scale, gold deposits are points, i.e. their spatial extent
+     is negligible.  Gold deposits in this region occur only in
+     greenstone bedrock.  Geological faults can be observed reliably
+     only within the same region. However, some faults have been
+     extrapolated (by geological ``interpretation'') outside the
+     greenstone boundary from information observed in the greenstone
+     region.
+
+     Deposit locations were extracted from the Minedex database
+     (Geological Survey of Western Australia, n.d.) and include gold
+     deposits and gold occurrences of all sizes.  The fault geometry
+     and greenstone boundaries were mapped and collated by Watkins and
+     Hickman (1990).
+
+     These data were analysed by Foxall and Baddeley (2002) and Brown
+     et al (2002); see also Groves et al (2000), Knox-Robinson and
+     Groves (1997), Baddeley, Rubak and Turner (2015) and Baddeley
+     (2019).  The main aim is to predict the intensity of the point
+     pattern of gold deposits from the more easily observable fault
+     pattern.
+
+Usage
+
+      data(murchison)
+
+Format
+
+     ‘murchison’ is a list with the following entries:
+
+     gold a point pattern (object of class ‘"ppp"’) representing the
+          point pattern of gold deposits.  See ‘ppp.object’ for details
+          of the format.
+
+     faults a line segment pattern (object of class ‘"psp"’)
+          representing the geological faults.  See ‘psp.object’ for
+          details of the format.
+
+     greenstone the greenstone bedrock region.  An object of class
+          ‘"owin"’. Consists of multiple irregular polygons with holes.
+          See ‘owin.object’ for details of the format.
+
+     All coordinates are given in *metres*.
+
+Source
+
+     Data were kindly provided by Dr Carl Knox-Robinson of the
+     Department of Geology and Geophysics, University of Western
+     Australia.  Permission to use the data is granted by Dr Tim
+     Griffin, Geological Survey of Western Australia and by Dr
+     Knox-Robinson.  _Please make appropriate acknowledgement_ to
+     Watkins and Hickman (1990) and the Geological Survey of Western
+     Australia.
+
+References
+
+     Baddeley, A. (2018) A statistical commentary on mineral
+     prospectivity analysis.  In Daya Sagar, B.S., Cheng, Q. and
+     Agterberg, F.P. (eds.)  _Handbook of Mathematical Geosciences:
+     Fifty Years of IAMG_.  International Association for Mathematical
+     Geosciences.  Chapter 2, pages 25-65.
+
+     Baddeley, A., Rubak, E. and Turner, R. (2015) _Spatial Point
+     Patterns: Methodology and Applications with R_. Chapman and
+     Hall/CRC Press.
+
+     Brown, W.M., Gedeon, T.D., Baddeley, A.J. and Groves, D.I. (2002)
+     Bivariate J-function and other graphical statistical methods help
+     select the best predictor variables as inputs for a neural network
+     method of mineral prospectivity mapping.  In U. Bayer, H. Burger
+     and W. Skala (eds.)  _IAMG 2002: 8th Annual Conference of the
+     International Association for Mathematical Geology_, Volume 1,
+     2002. International Association of Mathematical Geology.  Pages
+     257-268.
+
+     Foxall, R. and Baddeley, A. (2002) Nonparametric measures of
+     association between a spatial point process and a random set, with
+     geological applications. _Applied Statistics_ *51*, 165-182.
+
+     Geological Survey of Western Australia (n.d.)  MINEDEX database of
+     Mines and Mineral Deposits.
+     <https://www.wa.gov.au/service/natural-resources/mineral-resources/access-mines-and-mineral-deposits-minedex>
+
+     Groves, D.I., Goldfarb, R.J., Knox-Robinson, C.M., Ojala, J.,
+     Gardoll, S, Yun, G.Y. and Holyland, P. (2000) Late-kinematic
+     timing of orogenic gold deposits and significance for
+     computer-based exploration techniques with emphasis on the Yilgarn
+     Block, Western Australia.  _Ore Geology Reviews_, *17*, 1-38.
+
+     Knox-Robinson, C.M. and Groves, D.I. (1997) Gold prospectivity
+     mapping using a geographic information system (GIS), with examples
+     from the Yilgarn Block of Western Australia.  _Chronique de la
+     Recherche Miniere_ *529*, 127-138.
+
+     Watkins, K.P. and Hickman, A.H. (1990) _Geological evolution and
+     mineralization of the Murchison Province, Western Australia_.
+     Bulletin 137, Geological Survey of Western Australia. 267 pages.
+     Published by Department of Mines, Western Australia, 1990.
+     Available online from
+     <https://www.wa.gov.au/organisation/department-of-mines-petroleum-and-exploration/geological-survey-of-western-australia/dmpe-ebookshop>
+
+Examples
+Run this code
+
+       if(require(spatstat.geom)) {
+       if(interactive()) {
+       data(murchison)
+       plot(murchison$greenstone, main="Murchison data", col="lightgreen")
+       plot(murchison$gold, add=TRUE, pch="+",col="blue")
+       plot(murchison$faults, add=TRUE, col="red")
+       }
+       ## rescale to kilometres
+       Mur <- solapply(murchison, rescale, s=1000, unitname="km")
+       }
+

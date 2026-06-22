@@ -4,7 +4,7 @@ Machine-readable traces for source access and ingestion checks.
 
 This directory is intentionally small:
 
-- `datasets/`: dataset access manifests, scraper outputs, source descriptions, DOI/license/file metadata, and software-distributed dataset manifests.
+- `datasets/`: dataset access manifests and software-distributed dataset catalogs. Start with `datasets/README.md` to locate the primary workbook and exclusion registry.
 - `papers/`: paper and reference-book access manifests, including DOI, publisher/source URLs, abstract metadata, and download evidence when allowed.
 - `runs/`: execution traces, batch-download manifests, failed attempts, and machine registries that are not dataset or paper records.
 
