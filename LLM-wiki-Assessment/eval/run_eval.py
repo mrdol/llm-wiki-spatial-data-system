@@ -39,6 +39,13 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
 from urllib.request import Request, urlopen
 
+# Reports and LLM reasoning routinely contain non-cp1252 characters (→, é, …).
+# On Windows, stdout defaults to the console codepage even when redirected to
+# a file, which crashes mid-run on the first such character. Force UTF-8.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+
 PROJECT_ROOT = Path(__file__).parent.parent.parent  # LLM-wiki-Assessment/eval/ → llm-wiki-karpathy/
 EVAL_PACKAGE_ROOT = Path(__file__).parent.parent    # LLM-wiki-Assessment/
 TESTS_DIR = EVAL_PACKAGE_ROOT / "tests"

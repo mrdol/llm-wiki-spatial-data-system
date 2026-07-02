@@ -1,0 +1,87 @@
+=== Synthese ===
+                                                                                                                                    Feuille
+1                                                                                                                    Declasser_auxiliaire_R
+2                                                                                                               Declasser_auxiliaire_Python
+3                                                                                                                            Spatial_simple
+4                                                                                                                            ML_non_spatial
+5                                                                                                                    Bons_candidats_spatial
+6                                                                                                                                      <NA>
+7                                                                                                                                      Note
+8 Les doublons Python deja presents dans R ne sont pas inclus ici, car ils etaient isoles dans la feuille 'Deja dans R' du classeur Python.
+9                                                     Le CSV final est plat: la colonne final_sheet indique la feuille/categorie d'origine.
+  Nombre de lignes   R Python
+1               11  11      0
+2               14   0     14
+3               88  77     11
+4              459 451      8
+5              211 113     98
+6               NA  NA     NA
+7               NA  NA     NA
+8               NA  NA     NA
+9               NA  NA     NA
+
+=== Bons_candidats_spatial : keep x has_datetime ===
+      
+       No Yes
+  yes  74  24
+  <NA> 74  39
+
+=== Bons_candidats_spatial (keep=='yes') : has_datetime ===
+n rows kept: 98 
+
+ No Yes 
+ 74  24 
+
+ No Yes 
+ 38  60 
+
+  Point Polygon    <NA> 
+      3      44      51 
+
+=== Bons_candidats_spatial (keep=='yes') : source_language ===
+
+Python 
+    98 
+
+=== Bons_candidats_spatial (keep=='yes') : N size summary ===
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+     24      77     117   48162    1506 4251660 
+
+=== Bons_candidats_spatial (keep=='yes') : K size summary ===
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   2.00   24.00   35.00   44.65   60.00  140.00 
+
+=== Totals across all sheets in curated_final ===
+Bons_candidats_spatial: 211 rows, keep=yes: 98
+Declasser_auxiliaire_Python: 14 rows, keep=yes: 14
+Declasser_auxiliaire_R: 11 rows, keep=yes: 0
+ML_non_spatial: 459 rows, keep=yes: 8
+Spatial_simple: 88 rows, keep=yes: 11
+
+TOTAL rows across sheets: 783
+TOTAL keep=yes(*) across sheets: 131
+
+=== rdata_manifest ===
+                                              source_workbook
+1 data/manifests/datasets/software_catalog_curated_final.xlsx
+2 data/manifests/datasets/software_catalog_curated_final.xlsx
+3 data/manifests/datasets/software_catalog_curated_final.xlsx
+4 data/manifests/datasets/software_catalog_curated_final.xlsx
+5 data/manifests/datasets/software_catalog_curated_final.xlsx
+6 data/manifests/datasets/software_catalog_curated_final.xlsx
+                 source_sheet                 object_name n_rows n_columns
+1                    Synthese                    Synthese      9         4
+2      Declasser_auxiliaire_R      Declasser_auxiliaire_R     11        42
+3 Declasser_auxiliaire_Python Declasser_auxiliaire_Python     14        42
+4              Spatial_simple              Spatial_simple     88        42
+5              ML_non_spatial              ML_non_spatial    459        42
+6      Bons_candidats_spatial      Bons_candidats_spatial    211        42
+
+=== software_catalog_combined :: catalogue_combine_complet total ===
+nrow: 1178 
+                        
+                         Python   R
+  Bons candidats spatial     85  72
+  Declasser auxiliaire       75 125
+  ML non spatial              0 566
+  Spatial simple             72 183

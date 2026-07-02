@@ -36,6 +36,14 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 BACKLINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 SECTION_RE = re.compile(r"^## (.+)$", re.MULTILINE)
 DOI_RE = re.compile(r"\b10\.\d{4,9}/\S+", re.IGNORECASE)
+URL_RE = re.compile(r"https?://\S+|\b[a-z0-9.-]+\.(?:com|org|net|edu|gov|io)\b", re.IGNORECASE)
+
+REGRESSION_STATUS_VALUES = {
+    "bon candidat", "a verifier", "à vérifier", "mauvais candidat",
+    "mis de cote", "mis de côté", "candidat par analogie -- non verifie",
+    "candidat par analogie — non vérifié", "pending",
+}
+REGRESSION_EVIDENCE_VALUES = {"verbatim", "code", "article", "analogie", "n/a", "pending"}
 
 EXCLUDED_FILES = {"index.md", "log.md", "overview.md", "glossary.md", "eval_queue.md"}
 
@@ -336,6 +344,60 @@ def _check_typology_values(body: str, errors: list[str]) -> None:
         errors.append(f"Candidate X typology contains no allowed role: {', '.join(sorted(X_ROLE_TYPES))}")
 
 
+def _check_regression_status_block(body: str, errors: list[str], warnings: list[str]) -> None:
+    """Validate the '### Statut regression canonique' block (mission 2026-07).
+
+    Skipped entirely when the block is absent (older fiches, or non-package
+    dataset fiches that predate this convention) -- this is a progressive
+    enrichment, not a mandatory field for every dataset fiche.
+    """
+    statut = _field_value(body, "Statut")
+    evidence = _field_value(body, "Niveau de preuve")
+    if statut is None and evidence is None:
+        return
+
+    statut_clean = _clean_value(statut).lower()
+    evidence_clean = _clean_value(evidence).lower()
+
+    if statut_clean and statut_clean not in {v.lower() for v in REGRESSION_STATUS_VALUES}:
+        warnings.append(f"Statut regression canonique non reconnu: {statut!r}")
+    if evidence_clean and evidence_clean not in {v.lower() for v in REGRESSION_EVIDENCE_VALUES}:
+        warnings.append(f"Niveau de preuve non reconnu: {evidence!r}")
+
+    ref_pub = _field_value(body, "Reference publication")
+    formula_pub = _field_value(body, "formula_pub")
+
+    # Une formule "verbatim" doit pointer vers une source identifiable. Une
+    # reference bibliographique classique (auteur, annee, revue) sans DOI/URL
+    # resolvable reste acceptable (ex: citation d'ouvrage) -- seule l'absence
+    # totale de reference est bloquante ; l'absence de DOI/URL est un warning
+    # (traceabilite amelioree mais pas obligatoire).
+    if evidence_clean == "verbatim":
+        if _is_null_like(ref_pub) or _is_unknown_like(ref_pub):
+            errors.append(
+                "Niveau de preuve 'verbatim' declare mais Reference publication est vide/pending"
+            )
+        elif not (DOI_RE.search(_clean_value(ref_pub)) or URL_RE.search(_clean_value(ref_pub))):
+            warnings.append(
+                f"Niveau de preuve 'verbatim' sans URL/DOI resolvable dans Reference "
+                f"publication (citation bibliographique simple) : {ref_pub!r}"
+            )
+
+    # Un candidat par analogie doit etre etiquete comme tel de facon coherente
+    # entre le champ Statut et le champ Niveau de preuve (jamais l'un sans l'autre).
+    is_analogie_statut = "analogie" in statut_clean
+    is_analogie_evidence = evidence_clean == "analogie"
+    if is_analogie_statut != is_analogie_evidence:
+        errors.append(
+            "Incoherence 'candidat par analogie' : Statut et Niveau de preuve "
+            f"doivent tous deux indiquer l'analogie (Statut={statut!r}, Niveau de preuve={evidence!r})"
+        )
+
+    # Un "bon candidat" doit avoir une formule documentee (pas none/pending).
+    if statut_clean == "bon candidat" and (_is_null_like(formula_pub) or _is_unknown_like(formula_pub)):
+        errors.append("Statut 'bon candidat' mais formula_pub est vide/none/pending")
+
+
 def _check_quality_review_gate(body: str, warnings: list[str]) -> None:
     review_status = (_field_value(body, "review_status") or "").lower()
     proposed_by = (_field_value(body, "evaluator_proposed_by") or "").lower()
@@ -445,6 +507,7 @@ def run(fiche_path: Path) -> Tier1Result:
         _check_dataset_non_null_fields(body, errors, warnings)
         _check_typology_values(body, errors)
         _check_quality_review_gate(body, warnings)
+        _check_regression_status_block(body, errors, warnings)
         for label, pattern in DATASET_ENRICHED_PATTERNS:
             if not re.search(pattern, body):
                 warnings.append(f"Recommended enrichment missing: {label}")
