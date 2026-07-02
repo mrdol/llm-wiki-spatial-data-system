@@ -52,6 +52,14 @@ source_utf8_safely(file.path(
   "Inspection_of_each_dataset.R"
 ))
 
+# Filtre partage d'acceptation des formules (modele vs graphe).
+source_utf8_safely(file.path(
+  repo_root,
+  "Code_scrapping",
+  "r_catalog",
+  "formula_model_filter.R"
+))
+
 software_r_packages <- c(
   "spdep", "spatialreg", "spData", "spDataLarge", "sphet", "spse",
   "GWmodel", "mgwrsar", "spgwr", "gstat", "sp", "sf", "sfdep",
@@ -248,9 +256,25 @@ extract_formula_signals <- function(doc_text) {
 
   formulas <- regmatches(text, list(formula_matches))[[1]]
   formulas <- unique(trimws(formulas))
-  formulas <- formulas[
-    !grepl("#|windows|width|height|aspect.?ratio", formulas, ignore.case = TRUE)
-  ]
+  locations <- as.integer(formula_matches)
+  lengths <- attr(formula_matches, "match.length")
+  preceding_context <- vapply(seq_along(locations), function(i) {
+    start <- max(1L, locations[i] - 80L)
+    end <- max(1L, locations[i] - 1L)
+    substr(text, start, end)
+  }, character(1))
+  following_context <- vapply(seq_along(locations), function(i) {
+    start <- locations[i] + lengths[i]
+    end <- min(nchar(text), start + 80L)
+    substr(text, start, end)
+  }, character(1))
+
+  # Motifs et regle centralises dans formula_model_filter.R
+  # (contexte modele/assignation accepte, contexte graphe rejete).
+  keep <- formula_in_model_context(preceding_context) &
+    !grepl("#|windows|width|height|aspect.?ratio", formulas, ignore.case = TRUE) &
+    !grepl("^[-+*/]", trimws(following_context))
+  formulas <- formulas[keep]
   if (length(formulas) == 0L) {
     return(empty)
   }
@@ -329,6 +353,96 @@ collapse_evidence <- function(x, max_items = 6L) {
   paste(utils::head(x, max_items), collapse = " | ")
 }
 
+extract_dois_from_text <- function(text) {
+  text <- paste(as.character(text), collapse = " ")
+  if (is.na(text) || !nzchar(text)) {
+    return("")
+  }
+  matches <- gregexpr(
+    "10\\.[0-9]{4,9}/[-._;()/:A-Za-z0-9]+",
+    text,
+    perl = TRUE
+  )[[1]]
+  if (length(matches) == 1L && matches[1] < 0) {
+    return("")
+  }
+  dois <- regmatches(text, list(matches))[[1]]
+  dois <- gsub("[).,;]+$", "", dois)
+  collapse_evidence(dois)
+}
+
+known_reference_doi <- function(reference_text) {
+  reference_text <- paste(as.character(reference_text), collapse = " ")
+  if (is.na(reference_text) || !nzchar(reference_text)) {
+    return("")
+  }
+  normalised <- tolower(gsub("\\s+", " ", reference_text))
+
+  # DOI du livre cite dans plusieurs docs de l'ecosysteme spatial R
+  # (ex. spatialreg DESCRIPTION) et utilise par oldcol/Columbus.
+  if (grepl("anselin", normalised, fixed = TRUE) &&
+      grepl("1988", normalised, fixed = TRUE) &&
+      grepl("spatial econometrics", normalised, fixed = TRUE)) {
+    return("10.1007/978-94-015-7799-1")
+  }
+
+  if (grepl("dubin", normalised, fixed = TRUE) &&
+      grepl("1992", normalised, fixed = TRUE) &&
+      grepl("spatial autocorrelation", normalised, fixed = TRUE) &&
+      grepl("neighborhood quality", normalised, fixed = TRUE)) {
+    return("10.1016/0166-0462(92)90038-J")
+  }
+
+  ""
+}
+
+looks_like_bibliographic_reference <- function(text) {
+  text <- paste(as.character(text), collapse = " ")
+  if (is.na(text) || !nzchar(text)) {
+    return(FALSE)
+  }
+  grepl("10\\.[0-9]{4,9}/", text, perl = TRUE) ||
+    grepl("\\b(18|19|20)[0-9]{2}\\b", text, perl = TRUE) &&
+      grepl(
+        "Anselin|Bivand|Cressie|Cliff|Ord|Ripley|Venables|Waller|Diggle|Dubin|Kluwer|Springer|Wiley|Journal|Regional Science|Urban Economics|doi|ISBN",
+        text,
+        ignore.case = TRUE
+      )
+}
+
+extract_reference_title <- function(reference_text) {
+  reference_text <- trimws(gsub("\\s+", " ", as.character(reference_text)))
+  reference_text <- reference_text[!is.na(reference_text) & nzchar(reference_text)]
+  if (length(reference_text) == 0L) {
+    return("")
+  }
+  first_ref <- reference_text[1]
+  normalised <- tolower(first_ref)
+
+  if (grepl("anselin", normalised, fixed = TRUE) &&
+      grepl("1988", normalised, fixed = TRUE) &&
+      grepl("spatial econometrics", normalised, fixed = TRUE)) {
+    return("Spatial econometrics: methods and models")
+  }
+
+  if (grepl("dubin", normalised, fixed = TRUE) &&
+      grepl("1992", normalised, fixed = TRUE) &&
+      grepl("spatial autocorrelation", normalised, fixed = TRUE) &&
+      grepl("neighborhood quality", normalised, fixed = TRUE)) {
+    return("Spatial autocorrelation and neighborhood quality")
+  }
+
+  first_ref <- sub("^Source:\\s*", "", first_ref, ignore.case = TRUE)
+  first_ref <- sub("^References?:\\s*", "", first_ref, ignore.case = TRUE)
+  first_ref <- sub("^.*?\\b(18|19|20)[0-9]{2}\\.?\\s*", "", first_ref, perl = TRUE)
+  first_ref <- sub("\\.\\s*(Dordrecht|New York|London|Berlin|Philadelphia|Journal|In:).*$", "", first_ref, ignore.case = TRUE)
+  first_ref <- trimws(first_ref)
+  if (nchar(first_ref) > 180L) {
+    first_ref <- paste0(substr(first_ref, 1L, 177L), "...")
+  }
+  first_ref
+}
+
 extract_formula_variable_names <- function(formula_text) {
   if (!nzchar(formula_text)) {
     return("")
@@ -382,8 +496,31 @@ paper_evidence_for_dataset <- function(paper_audit, pkg, bundle, doc_profile) {
     related_datasets <- collapse_names(related)
   }
 
-  if (!nzchar(references) && !is.na(doc_profile$doc_references)) {
-    references <- doc_profile$doc_references
+  doc_reference_candidates <- c(
+    doc_profile$doc_references,
+    doc_profile$doc_source,
+    doc_profile$doc_details,
+    doc_profile$doc_description
+  )
+  doc_reference_candidates <- doc_reference_candidates[
+    !is.na(doc_reference_candidates) &
+      nzchar(trimws(doc_reference_candidates)) &
+      vapply(doc_reference_candidates, looks_like_bibliographic_reference, logical(1))
+  ]
+  if (!nzchar(references) && length(doc_reference_candidates) > 0L) {
+    references <- collapse_evidence(doc_reference_candidates, max_items = 2L)
+  }
+
+  doc_dois <- extract_dois_from_text(references)
+  if (!nzchar(doc_dois)) {
+    doc_dois <- known_reference_doi(references)
+  }
+  if (!nzchar(dois) && nzchar(doc_dois)) {
+    dois <- doc_dois
+  }
+
+  if (!nzchar(titles) && nzchar(references)) {
+    titles <- extract_reference_title(references)
   }
 
   use_summary <- audited_use
@@ -399,9 +536,17 @@ paper_evidence_for_dataset <- function(paper_audit, pkg, bundle, doc_profile) {
     )
   }
 
+  has_reference <- nrow(rows) > 0 || nzchar(references) || nzchar(titles)
+  doi_status <- ifelse(
+    nzchar(dois),
+    "doi_found",
+    ifelse(has_reference, "unknown_not_found", "")
+  )
+
   data.frame(
-    has_referenced_paper = yes_no(nrow(rows) > 0 || nzchar(references)),
-    paper_doi = dois,
+    has_referenced_paper = yes_no(has_reference),
+    paper_doi = ifelse(nzchar(dois), dois, ifelse(has_reference, "unknown_not_found", "")),
+    paper_doi_status = doi_status,
     paper_title = titles,
     paper_abstract = abstracts,
     paper_use_summary = trimws(use_summary),
@@ -1396,6 +1541,7 @@ build_bundle_profile_rows <- function(pkg,
       formula_text = doc_profile$formula_text,
       has_referenced_paper = paper_evidence$has_referenced_paper,
       paper_doi = paper_evidence$paper_doi,
+      paper_doi_status = paper_evidence$paper_doi_status,
       paper_title = paper_evidence$paper_title,
       paper_abstract = paper_evidence$paper_abstract,
       paper_use_summary = paper_evidence$paper_use_summary,
@@ -3125,30 +3271,107 @@ prepare_main_catalog_output <- function(catalog) {
   catalog[, setdiff(names(catalog), drop_columns), drop = FALSE]
 }
 
+looks_like_simulation_benchmark_dataset <- function(catalog) {
+  text <- tolower(paste(
+    catalog$package,
+    catalog$bundle,
+    catalog$main_object,
+    catalog$description_bundle,
+    catalog$variables,
+    catalog$paper_title,
+    catalog$paper_reference_evidence,
+    sep = " "
+  ))
+  explicit_simulation <- grepl(
+    paste0(
+      "simulated data|simulation data|simulated dataset|",
+      "simulated data set|benchmark|toy data|artificial data|",
+      "generated data|model output"
+    ),
+    text,
+    ignore.case = TRUE
+  )
+  model_output_columns <- grepl(
+    paste0(
+      "(^|,\\s*)(Y_ols|Y_sar|Y_gwr|Y_mgwr|Y_mgwrsar|",
+      "Beta0|Beta1|Beta2|Beta3|lambda)(\\s*,|$)"
+    ),
+    catalog$variables,
+    ignore.case = TRUE
+  )
+  explicit_simulation | model_output_columns
+}
+
 classer_catalogue_analytique <- function(catalog) {
   # Applique une regle commune aux catalogues R et Python. `k` designe ici le
   # nombre de variables analytiques apres retrait des identifiants, dates,
   # coordonnees et geometries.
   if (nrow(catalog) == 0L) {
     catalog$final_category <- character(0)
+    catalog$usage_role <- character(0)
+    catalog$classification_reason <- character(0)
     return(catalog)
   }
 
   k <- suppressWarnings(as.integer(catalog$k))
   k[is.na(k)] <- 0L
-  spatial <- catalog$has_geometry == "Yes" |
-    catalog$has_coordinates == "Yes" |
+  direct_spatial <- catalog$has_geometry == "Yes" |
+    catalog$has_coordinates == "Yes"
+  join_spatial <- !direct_spatial &
     catalog$has_place_name_if_no_geometry == "Yes"
+  simulation_benchmark <- looks_like_simulation_benchmark_dataset(catalog)
 
-  catalog$final_category <- ifelse(
-    spatial & k >= 5L,
-    "Bons candidats spatial",
-    ifelse(
-      spatial & k >= 1L,
-      "Spatial simple",
-      ifelse(!spatial & k >= 3L, "ML non spatial", "Declasser auxiliaire")
+  n_values <- suppressWarnings(as.numeric(catalog$n))
+  has_direct_spatial_sibling <- rep(FALSE, nrow(catalog))
+  for (i in seq_len(nrow(catalog))) {
+    if (!join_spatial[i] || is.na(n_values[i])) {
+      next
+    }
+    has_direct_spatial_sibling[i] <- any(
+      catalog$package == catalog$package[i] &
+        direct_spatial &
+        !is.na(n_values) &
+        n_values == n_values[i]
     )
-  )
+  }
+
+  category <- rep("Declasser auxiliaire", nrow(catalog))
+  usage_role <- rep("auxiliary_or_incomplete", nrow(catalog))
+  reason <- rep("preuves analytiques insuffisantes", nrow(catalog))
+
+  idx <- direct_spatial & k >= 5L
+  category[idx] <- "Bons candidats spatial"
+  usage_role[idx] <- "spatial_model_candidate"
+  reason[idx] <- "geometrie ou coordonnees directes et variables analytiques suffisantes"
+
+  idx <- direct_spatial & k >= 1L & category != "Bons candidats spatial"
+  category[idx] <- "Spatial simple"
+  usage_role[idx] <- "spatial_exploration"
+  reason[idx] <- "geometrie ou coordonnees directes mais preuves de modelisation incompletes"
+
+  idx <- join_spatial & !has_direct_spatial_sibling & k >= 1L
+  category[idx] <- "Spatial simple"
+  usage_role[idx] <- "spatial_join_candidate"
+  reason[idx] <- "noms de lieux uniquement; jointure geometrique necessaire avant modelisation spatiale"
+
+  idx <- join_spatial & has_direct_spatial_sibling
+  category[idx] <- "Declasser auxiliaire"
+  usage_role[idx] <- "attribute_table_shadowed_by_geometry"
+  reason[idx] <- "table attributaire sans geometrie/coordonnees; version geometrique equivalente disponible dans le meme package"
+
+  idx <- !direct_spatial & !join_spatial & k >= 3L
+  category[idx] <- "ML non spatial"
+  usage_role[idx] <- "nonspatial_model_candidate"
+  reason[idx] <- "variables analytiques suffisantes mais aucune preuve spatiale directe"
+
+  idx <- simulation_benchmark
+  category[idx] <- "Declasser auxiliaire"
+  usage_role[idx] <- "simulation_benchmark_dataset"
+  reason[idx] <- "jeu simule ou sortie de benchmark/modele; non retenu comme donnees spatiales observees"
+
+  catalog$final_category <- category
+  catalog$usage_role <- usage_role
+  catalog$classification_reason <- reason
   catalog
 }
 
@@ -3410,6 +3633,7 @@ catalog_main_datasets_from_packages <- function(packages = software_r_packages,
           formula_text = metadata_signals$formula_text,
           has_referenced_paper = paper_evidence$has_referenced_paper,
           paper_doi = paper_evidence$paper_doi,
+          paper_doi_status = paper_evidence$paper_doi_status,
           paper_title = paper_evidence$paper_title,
           paper_abstract = paper_evidence$paper_abstract,
           paper_use_summary = paper_evidence$paper_use_summary,

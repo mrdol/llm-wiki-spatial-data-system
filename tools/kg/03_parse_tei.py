@@ -367,16 +367,89 @@ def detect_dataset_labels_in_section(
     return hits
 
 
+# Fonctions de graphe : une formule precedee d'un de ces appels est une
+# formule d'affichage (axes), pas une formule de modele. Regle commune au
+# pipeline (cf. Code_scrapping/r_catalog/formula_model_filter.R).
+VISUAL_FUNCTION_RE = re.compile(
+    r"(?:plot|points|lines|boxplot|hist|barplot|dotchart|xyplot|bwplot|"
+    r"levelplot|wireframe|contourplot|spplot|desplot|ggplot|qplot|coplot|"
+    r"stripplot|densityplot|histogram|interaction2wt|con_view|"
+    r"aggregate|reshape|acast|dcast)\s*\([^)]*$",
+    re.IGNORECASE,
+)
+
+
+def balance_parens(formula: str) -> str:
+    """Repare une formule tronquee : equilibre les parentheses.
+
+    GROBID coupe souvent a la premiere virgule/parenthese, laissant des termes
+    comme ``I(income^2`` non fermes. On ferme ce qui manque, ou on retire un
+    exces de parentheses fermantes.
+    """
+    opened = formula.count("(")
+    closed = formula.count(")")
+    if opened > closed:
+        formula = formula + (")" * (opened - closed))
+    elif closed > opened:
+        # retire les ) en trop a partir de la fin
+        excess = closed - opened
+        chars = list(formula)
+        for i in range(len(chars) - 1, -1, -1):
+            if excess == 0:
+                break
+            if chars[i] == ")":
+                chars[i] = ""
+                excess -= 1
+        formula = "".join(chars)
+    return formula
+
+
+def clean_formula_text(raw: str) -> str:
+    """Nettoie une formule capturee : coupe le code happe, equilibre, valide.
+
+    Retourne "" si la formule est inexploitable (texte casse).
+    """
+    formula = norm_space(raw).strip("` ")
+    # Coupe au demarrage d'une nouvelle instruction (assignation) ou separateur.
+    formula = re.split(r"<-|<\s*\u2190|;|\bscannf\b|\bdata\s*=", formula)[0]
+    # Coupe un nouveau "nom <-" colle a droite ("... nBedrooms m1 <-lm" -> on a
+    # deja coupe le <- ; on retire le token orphelin final s'il n'a pas de +).
+    formula = re.sub(r"\s+[A-Za-z.][A-Za-z0-9_.]*\s*$", "", formula) if " ~ " in formula.replace("~", " ~ ") else formula
+    # Accesseurs data.frame "X$champ" -> "champ".
+    formula = re.sub(r"[A-Za-z_][A-Za-z0-9_.]*\$", "", formula)
+    formula = re.sub(r"\s*~\s*", " ~ ", formula)
+    formula = re.sub(r"\s*\+\s*", " + ", formula)
+    formula = norm_space(balance_parens(formula))
+    if "~" not in formula:
+        return ""
+    lhs, rhs = formula.split("~", 1)
+    lhs = norm_space(lhs).lower()
+    rhs = norm_space(rhs)
+    if not lhs or lhs in MODEL_MARKERS or re.fullmatch(r"[\d.\s]*", lhs):
+        return ""
+    if re.search(r"[=$;]|\bFALSE\b|\bTRUE\b", formula):
+        return ""
+    if not rhs or not re.search(r"[A-Za-z]", rhs):
+        return ""
+    return formula
+
+
 def explicit_formula_candidates(text: str) -> list[str]:
-    """Extrait des formules R conservees explicitement avec le symbole ~."""
+    """Extrait des formules R conservees explicitement avec le symbole ~.
+
+    Rejette les formules de graphe (plot, xyplot, ...) et nettoie le texte
+    (code happe, parentheses tronquees) pour ne garder que des formules saines.
+    """
     if not has_model_marker(text):
         return []
     candidates: list[str] = []
-    for match in re.finditer(r"\b[A-Za-z_][A-Za-z0-9_.]*\s*~\s*[^,;()]{3,180}", text):
-        formula = norm_space(match.group(0)).strip("` ")
-        formula = re.sub(r"\s*~\s*", " ~ ", formula)
-        formula = re.sub(r"\s*\+\s*", " + ", formula)
-        formula = norm_space(formula)
+    for match in re.finditer(r"\b[A-Za-z_][A-Za-z0-9_.]*\s*~\s*[^;\n]{3,200}", text):
+        preceding = text[max(0, match.start() - 80):match.start()]
+        if VISUAL_FUNCTION_RE.search(preceding):
+            continue
+        formula = clean_formula_text(match.group(0))
+        if not formula:
+            continue
         lhs = norm_space(formula.split("~", 1)[0]).lower()
         if lhs in MODEL_MARKERS or re.search(r"~\s*\+", formula):
             continue
@@ -435,7 +508,20 @@ def section_formula_candidates(text: str, labels: list[str], dataset_variables: 
     out: list[tuple[str, str]] = []
     explicit = explicit_formula_candidates(text)
     for label in labels:
+        known = {v.lower() for v in dataset_variables.get(label, [])}
         for formula in explicit:
+            # Garde-fou anti-pulverisation : n'attacher une formule explicite a
+            # un jeu QUE si l'on connait ses variables ET qu'au moins une
+            # variable de la formule y figure. Sinon on ne peut pas verifier
+            # l'appartenance -> on n'attribue pas (precision avant rappel).
+            lhs_part, _, rhs_part = formula.partition("~")
+            lhs_tokens = {t.lower() for t in re.findall(r"[A-Za-z_][A-Za-z0-9_.]*", lhs_part)}
+            rhs_tokens = {t.lower() for t in re.findall(r"[A-Za-z_][A-Za-z0-9_.]*", rhs_part)}
+            # Exiger que la REPONSE (LHS) soit une variable connue du jeu ET
+            # qu'au moins un predicteur (RHS) le soit aussi. Bloque la
+            # pulverisation sur noms generiques (income, population...).
+            if not (known and (lhs_tokens & known) and (rhs_tokens & known)):
+                continue
             out.append((label, formula))
         inferred = infer_formula_from_variables(text, dataset_variables.get(label, []))
         if inferred:

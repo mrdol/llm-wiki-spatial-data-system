@@ -617,7 +617,74 @@ print_main_object_details <- function(obj, obj_name, role, keep) {
 
 ### Fonction principale d'inspection d'un jeu de données
 
-inspect_dataset <- function(pkg, dataset, bundle = NULL) {
+find_inspection_repo_root <- function(start = getwd()) {
+  current <- normalizePath(start, winslash = "/", mustWork = TRUE)
+  repeat {
+    if (basename(current) == "llm-wiki-karpathy") return(current)
+    parent <- dirname(current)
+    if (identical(parent, current)) break
+    current <- parent
+  }
+  stop("Racine llm-wiki-karpathy introuvable.", call. = FALSE)
+}
+
+find_sf_index_rows <- function(pkg, dataset, repo_root = find_inspection_repo_root()) {
+  index_path <- file.path(
+    repo_root, "data", "Final_datasets", "sf", "catalogue_sf_index.RData"
+  )
+  if (!file.exists(index_path)) return(data.frame())
+  env <- new.env(parent = emptyenv())
+  load(index_path, envir = env)
+  if (!exists("index_sf", envir = env, inherits = FALSE)) return(data.frame())
+  index_sf <- env$index_sf
+  index_sf[
+    tolower(as.character(index_sf$package)) == tolower(pkg) &
+      tolower(as.character(index_sf$dataset)) == tolower(dataset),
+    , drop = FALSE
+  ]
+}
+
+inspect_sf_index_row <- function(row, repo_root = find_inspection_repo_root()) {
+  if (nrow(row) != 1L) stop("Une seule ligne d'index sf est requise.", call. = FALSE)
+  usable <- identical(toupper(as.character(row$utilisable)), "TRUE")
+  if (!usable || is.na(row$sf_path) || !nzchar(row$sf_path)) {
+    cat("Le jeu figure dans l'index sf mais sa conversion n'est pas utilisable.\n")
+    cat("Raison :", as.character(row$raison), "\n")
+    return(invisible(list(index = row, object = NULL)))
+  }
+  path <- file.path(repo_root, gsub("\\\\", "/", as.character(row$sf_path)))
+  if (!file.exists(path)) stop("Fichier RDS absent : ", path, call. = FALSE)
+  obj <- readRDS(path)
+
+  cat("\n====================\n")
+  cat("Inspection du catalogue sf normalise\n")
+  cat("====================\n")
+  cat("Langage source :", as.character(row$source_language), "\n")
+  cat("Package :", as.character(row$package), "\n")
+  cat("Dataset :", as.character(row$dataset), "\n")
+  cat("Record ID :", as.character(row$record_id), "\n")
+  cat("Fichier RDS :", as.character(row$sf_path), "\n")
+  cat("Famille cataloguée :", as.character(row$famille_geometrie), "\n")
+  cat("Statut :", as.character(row$raison), "\n")
+
+  if (inherits(obj, "sf")) {
+    geom_cols <- names(obj)[vapply(obj, inherits, logical(1), what = "sfc")]
+    cat("Géométrie active :", attr(obj, "sf_column"), "\n")
+    cat("Colonnes géométriques :", paste(geom_cols, collapse = ", "), "\n")
+    for (nm in geom_cols) {
+      types <- unique(as.character(sf::st_geometry_type(obj[[nm]])))
+      crs <- sf::st_crs(obj[[nm]])
+      crs_label <- if (is.na(crs)) "NA" else crs$input
+      cat(" -", nm, ":", paste(types, collapse = "/"), "| CRS :", crs_label, "\n")
+    }
+  }
+
+  print_main_object_details(obj, as.character(row$dataset), "spatial_observations", "yes")
+  invisible(list(index = row, object = obj))
+}
+
+inspect_dataset <- function(pkg, dataset, bundle = NULL,
+                            source = c("auto", "package", "sf")) {
   # Inspecte un objet affiché par data(package = ...).
   # Si l'objet demandé est principal, affiche les détails complets.
   # Si l'objet demandé est auxiliaire, affiche seulement son résumé
@@ -625,6 +692,29 @@ inspect_dataset <- function(pkg, dataset, bundle = NULL) {
   
   pkg <- as_single_character(pkg, "pkg")
   parsed <- parse_dataset_label(dataset)
+  source <- match.arg(source)
+
+  # Les packages Python ne sont pas des packages CRAN. S'ils ont deja ete
+  # normalises, on inspecte le RDS sf sans appeler install.packages().
+  sf_rows <- find_sf_index_rows(pkg, parsed$bundle)
+  if (nrow(sf_rows) == 0L && !identical(parsed$object, parsed$bundle)) {
+    sf_rows <- find_sf_index_rows(pkg, parsed$object)
+  }
+  python_sf <- nrow(sf_rows) > 0L &&
+    any(tolower(as.character(sf_rows$source_language)) == "python")
+  if (identical(source, "sf") || (identical(source, "auto") && python_sf)) {
+    if (nrow(sf_rows) == 0L) {
+      stop("Dataset absent de catalogue_sf_index.RData : ", pkg, "::", dataset,
+           call. = FALSE)
+    }
+    if (nrow(sf_rows) > 1L) {
+      cat("Plusieurs objets sf correspondent a", pkg, "::", dataset, ":\n")
+      print(sf_rows[, intersect(c("record_id", "dataset", "n", "sf_path", "utilisable"),
+                                names(sf_rows)), drop = FALSE], row.names = FALSE)
+      return(invisible(list(index = sf_rows, object = NULL)))
+    }
+    return(inspect_sf_index_row(sf_rows))
+  }
   
   if (is.null(bundle)) {
     bundle <- parsed$bundle
@@ -766,6 +856,8 @@ inspect_dataset <- function(pkg, dataset, bundle = NULL) {
 # data(package = "spData")
 # inspect_dataset("spData", "alaska")
 # inspect_dataset("plm", "Produc")
+# inspect_dataset("geodatasets", "australia") # source Python -> RDS sf
+# inspect_dataset("spData", "house", source = "sf") # forcer le RDS normalise
 #
 # Pour creer le catalogue R complet, utiliser :
 # Rscript Code_scrapping/r_catalog/create_r_software_catalog.R

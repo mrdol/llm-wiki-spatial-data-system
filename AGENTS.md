@@ -1,5 +1,8 @@
 # LLM Wiki - Agent Operating Manual
 
+Read `CONTEXT.md` first — it defines all project terms (fiche, sf, N/T,
+typologies Y/X, bandwidth, pipeline, eval scores, estimateurs, agents).
+
 This file defines how agents should work inside `llm-wiki-karpathy`.
 Read it before making durable changes.
 

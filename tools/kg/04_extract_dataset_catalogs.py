@@ -27,7 +27,10 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 import re
+import shutil
+import subprocess
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -43,6 +46,9 @@ EDGE_PATH = OUT_DIR / "catalog_edges.jsonl"
 RDATA_CATALOGS = [
     ("software_catalog_combined.RData", "catalogue_combine_complet"),
 ]
+SF_INDEX_PATH = ROOT / "data" / "Final_datasets" / "sf" / "catalogue_sf_index.RData"
+SF_INDEX_OBJECT = "index_sf"
+SF_AUDIT_PATH = ROOT / "data" / "Final_datasets" / "sf" / "catalogue_sf_metadata_audit.RData"
 # Catalogues a plat encore lus s'ils existent (retro-compatibilite). Les anciens
 # fichiers software_r_*/software_python_* obsoletes ont ete retires de cette liste.
 CATALOG_PATTERNS = [
@@ -69,6 +75,14 @@ def slug(value: Any) -> str:
     text = norm_space(value).lower()
     text = re.sub(r"[^a-z0-9]+", "_", text)
     return text.strip("_") or "unknown"
+
+
+def clean_doi(value: Any) -> str:
+    """Normalise un DOI et ignore les sentinelles de DOI absent."""
+    doi = norm_space(value).replace("https://doi.org/", "").replace("http://doi.org/", "")
+    if doi.lower() in {"unknown", "unknown_not_found", "na", "n/a", "none", "null"}:
+        return ""
+    return doi
 
 
 def add_node(nodes: dict[str, dict[str, Any]], node_id: str, node_type: str, label: str, **props: Any) -> None:
@@ -145,15 +159,14 @@ def read_rdata_table(path: Path, object_name: str) -> Iterable[dict[str, Any]]:
     try:
         import rdata as _rdata  # import tolerant: dependance optionnelle
     except ImportError:
-        print(f"[WARN] paquet 'rdata' absent: {path.name} ignore (pip install rdata)")
-        return []
+        return read_rdata_table_with_r(path, object_name)
     try:
         converted = _rdata.conversion.convert(
             _rdata.parser.parse_file(path), default_encoding="latin1"
         )
     except Exception as exc:  # noqa: BLE001 - on degrade proprement
-        print(f"[WARN] lecture RData echouee {path.name}: {exc}")
-        return []
+        print(f"[WARN] lecture Python de {path.name} echouee: {exc}; essai via Rscript")
+        return read_rdata_table_with_r(path, object_name)
 
     frame = converted.get(object_name)
     if frame is None or not hasattr(frame, "to_dict"):
@@ -169,6 +182,53 @@ def read_rdata_table(path: Path, object_name: str) -> Iterable[dict[str, Any]]:
     for record in frame.to_dict(orient="records"):
         rows.append({str(key): clean_cell(val) for key, val in record.items()})
     return rows
+
+
+def find_rscript() -> str | None:
+    """Trouve Rscript dans PATH ou dans l'installation R utilisateur Windows."""
+    executable = shutil.which("Rscript")
+    if executable:
+        return executable
+    local_app_data = os.environ.get("LOCALAPPDATA")
+    if local_app_data:
+        candidates = sorted(
+            (Path(local_app_data) / "Programs" / "R").glob("R-* /bin/Rscript.exe".replace(" ", "")),
+            reverse=True,
+        )
+        if candidates:
+            return str(candidates[0])
+    return None
+
+
+def read_rdata_table_with_r(path: Path, object_name: str) -> list[dict[str, Any]]:
+    """Fallback sans fichier intermediaire: RData -> JSON sur stdout via Rscript."""
+    rscript = find_rscript()
+    if not rscript:
+        print(f"[WARN] ni paquet 'rdata' ni Rscript: {path.name} ignore")
+        return []
+    expression = (
+        "args <- commandArgs(TRUE); e <- new.env(parent=emptyenv()); "
+        "load(args[1], envir=e); n <- args[2]; "
+        "x <- if (exists(n, envir=e, inherits=FALSE)) get(n, envir=e) else "
+        "Filter(is.data.frame, as.list(e))[[1]]; "
+        "cat(jsonlite::toJSON(x, dataframe='rows', na='null', null='null', "
+        "auto_unbox=TRUE, digits=NA))"
+    )
+    try:
+        result = subprocess.run(
+            [rscript, "--vanilla", "-e", expression, str(path), object_name],
+            check=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        records = json.loads(result.stdout)
+        print(f"[RData] {path.name}:{object_name} -> {len(records)} lignes (Rscript)")
+        return [{str(key): clean_cell(value) for key, value in row.items()} for row in records]
+    except Exception as exc:  # noqa: BLE001 - le pipeline peut continuer sans cette source
+        print(f"[WARN] lecture RData via Rscript echouee {path.name}: {exc}")
+        return []
 
 
 def row_value(row: dict[str, Any], *keys: str) -> str:
@@ -228,6 +288,13 @@ def package_node_type(language: str) -> str:
     return "PythonPackage" if language.lower().startswith("python") else "RPackage"
 
 
+def as_bool(value: Any) -> bool:
+    """Interprete les booleens R/JSON sans transformer 'FALSE' en vrai."""
+    if isinstance(value, bool):
+        return value
+    return norm_space(value).lower() in {"true", "t", "1", "yes", "oui"}
+
+
 def add_source_family(nodes: dict[str, dict[str, Any]], edges: dict[str, dict[str, Any]], source: str, family: str) -> None:
     """Ajoute le noeud famille de source et sa relation."""
     if not family:
@@ -266,6 +333,8 @@ def process_dataset_row(
         package=package,
         dataset=dataset,
         role=row_value(row, "role"),
+        usage_role=row_value(row, "usage_role"),
+        classification_reason=row_value(row, "classification_reason"),
         description=row_value(row, "description", "description_bundle"),
         family=row_value(row, "family"),
         theme=row_value(row, "theme"),
@@ -343,7 +412,7 @@ def process_dataset_row(
         add_edge(edges, did, "DOCUMENTED_BY", uid, extraction_source=source_file)
 
     paper_title = row_value(row, "paper_title")
-    paper_doi = row_value(row, "paper_doi").replace("https://doi.org/", "")
+    paper_doi = clean_doi(row_value(row, "paper_doi"))
     paper_id = None
     if paper_title or paper_doi:
         paper_id = f"paper:doi:{paper_doi.lower()}" if paper_doi else f"paper:catalog:{slug(label)}:{slug(paper_title)}"
@@ -354,6 +423,8 @@ def process_dataset_row(
             paper_title or paper_doi,
             source="software_catalog",
             doi=paper_doi,
+            doi_status=row_value(row, "paper_doi_status"),
+            reference_evidence=row_value(row, "paper_reference_evidence"),
             evidence_status=row_value(row, "paper_evidence_status"),
             use_summary=row_value(row, "paper_use_summary"),
             model_keywords=row_value(row, "paper_model_keywords"),
@@ -362,6 +433,10 @@ def process_dataset_row(
 
     formula_text = row_value(row, "formula_text", "paper_formula_or_equation")
     if formula_text and formula_text.upper() != "NA":
+        formula_text = clean_catalog_formula(formula_text)
+    else:
+        formula_text = ""
+    if formula_text:
         fid = f"formula:catalog:{slug(label)}:{slug(formula_text)[:96]}"
         add_node(
             nodes,
@@ -376,6 +451,162 @@ def process_dataset_row(
         add_edge(edges, did, "SHOWS_FORMULA", fid, extraction_source=source_file)
         if paper_id:
             add_edge(edges, paper_id, "SHOWS_FORMULA", fid, extraction_source=source_file)
+
+
+def process_sf_index_row(
+    row: dict[str, Any],
+    source_file: str,
+    nodes: dict[str, dict[str, Any]],
+    edges: dict[str, dict[str, Any]],
+    duplicate_keys: set[tuple[str, str, str]],
+) -> str | None:
+    """Enrichit un Dataset avec le resultat reel de sa conversion en objet sf."""
+    language = row_value(row, "source_language") or "R"
+    package = row_value(row, "package")
+    dataset = row_value(row, "dataset")
+    if not package or not dataset:
+        return None
+
+    base_did = dataset_id(language, package, dataset)
+    key = (language.lower(), package.lower(), dataset.lower())
+    record_id = row_value(row, "record_id")
+    # Certains libelles de catalogue regroupent plusieurs objets reels (par
+    # exemple les quatre tables de gstat::jura). Le record_id evite d'ecraser
+    # leurs fichiers sf, tailles et reponses dans un seul noeud.
+    did = (
+        f"{base_did}:record:{slug(record_id)}"
+        if key in duplicate_keys and record_id
+        else base_did
+    )
+    child_suffix = f":record:{slug(record_id)}" if key in duplicate_keys and record_id else ""
+    label = f"{package}::{dataset}"
+    usable = as_bool(row.get("utilisable"))
+    sf_path = row_value(row, "sf_path")
+    geometry_family = row_value(row, "famille_geometrie")
+    add_node(
+        nodes,
+        did,
+        "Dataset",
+        label,
+        language=language,
+        package=package,
+        dataset=dataset,
+        sf_ready=usable,
+        sf_path=sf_path if usable else "",
+        sf_format="RDS" if usable else "",
+        sf_geometry_family=geometry_family,
+        sf_original_geometry_type=row_value(row, "geom_type_origine"),
+        sf_crs_input=row_value(row, "crs_input"),
+        sf_projected=as_bool(row.get("est_projete")),
+        sf_has_time=as_bool(row.get("a_variable_T")),
+        sf_conversion_reason=row_value(row, "raison"),
+        n=row.get("n"),
+        k=row.get("k"),
+        response_variable=row_value(row, "variable_reponse"),
+        response_type=row_value(row, "type_reponse"),
+        response_continuous=as_bool(row.get("reponse_continue")),
+        response_source=row_value(row, "reponse_source"),
+        has_formula=as_bool(row.get("has_formule")),
+        sf_index_source=source_file,
+        record_id=record_id,
+    )
+
+    if package:
+        ptype = package_node_type(language)
+        pid = f"{ptype.lower()}:{slug(package)}"
+        add_node(nodes, pid, ptype, package, source="sf_conversion_index", language=language)
+        add_edge(edges, pid, "PROVIDES_DATASET", did, extraction_source=source_file)
+    add_source_family(nodes, edges, did, "software")
+
+    if not usable:
+        return did
+
+    if geometry_family:
+        gid = f"geometrycolumn:{slug(label)}:{slug(geometry_family)}{child_suffix}"
+        add_node(
+            nodes,
+            gid,
+            "GeometryColumn",
+            geometry_family,
+            source="sf_conversion_index",
+            dataset=label,
+            original_type=row_value(row, "geom_type_origine"),
+            crs=row_value(row, "crs_input"),
+        )
+        add_edge(edges, did, "HAS_GEOMETRY", gid, extraction_source=source_file)
+
+    if as_bool(row.get("a_variable_T")):
+        tid = f"timevariable:{slug(label)}:t{child_suffix}"
+        add_node(nodes, tid, "TimeVariable", "T", source="sf_conversion_index", dataset=label)
+        add_edge(edges, did, "HAS_TIME", tid, extraction_source=source_file)
+
+    response = row_value(row, "variable_reponse")
+    if response:
+        rid = f"responsevariable:{slug(label)}:{slug(response)}{child_suffix}"
+        add_node(
+            nodes,
+            rid,
+            "ResponseVariable",
+            response,
+            source="sf_conversion_index",
+            dataset=label,
+            response_type=row_value(row, "type_reponse"),
+            continuous=as_bool(row.get("reponse_continue")),
+        )
+        add_edge(edges, did, "HAS_RESPONSE", rid, extraction_source=source_file)
+
+    if sf_path:
+        aid = f"auxiliaryfile:{slug(label)}:sf_rds{child_suffix}"
+        add_node(
+            nodes,
+            aid,
+            "AuxiliaryFile",
+            sf_path,
+            source="sf_conversion_index",
+            dataset=label,
+            file=sf_path,
+            format="RDS",
+        )
+        add_edge(edges, did, "HAS_AUXILIARY_FILE", aid, extraction_source=source_file)
+    return did
+
+
+def process_sf_audit_row(
+    row: dict[str, Any],
+    sf_node_by_record: dict[str, str],
+    nodes: dict[str, dict[str, Any]],
+) -> None:
+    """Ajoute les verdicts controles sans modifier le CRS des fichiers RDS."""
+    record_id = row_value(row, "record_id")
+    did = sf_node_by_record.get(record_id)
+    if not did:
+        return
+    if "verdict_temporel" in row:
+        verdict = row_value(row, "verdict_temporel")
+        add_node(
+            nodes,
+            did,
+            "Dataset",
+            "",
+            sf_has_time=verdict in {"confirme", "confirme_T_a_reconstruire"},
+            temporal_audit_verdict=verdict,
+            temporal_source_columns=row_value(row, "datetime_columns_catalogue"),
+            temporal_T_matches=row_value(row, "T_identique_a"),
+        )
+    if "crs_candidat" in row:
+        confidence = row_value(row, "confiance")
+        candidate = row_value(row, "crs_candidat")
+        add_node(
+            nodes,
+            did,
+            "Dataset",
+            "",
+            crs_audit_candidate=candidate,
+            crs_audit_confidence=confidence,
+            crs_audit_provenance=row_value(row, "provenance"),
+            crs_audit_verified=confidence == "eleve" and as_bool(row.get("transformation_4326_plausible")),
+            crs_audit_evidence=row_value(row, "preuve"),
+        )
 
 
 def dedupe_cross_package(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -437,7 +668,7 @@ def process_literature_link(
     """Ajoute les liens papier-dataset issus du catalogue de litterature."""
     dataset = row_value(row, "dataset")
     title = row_value(row, "paper_title", "title")
-    doi = row_value(row, "paper_doi", "doi").replace("https://doi.org/", "")
+    doi = clean_doi(row_value(row, "paper_doi", "doi"))
     if not dataset or not title:
         return
 
@@ -462,17 +693,49 @@ def process_literature_link(
     add_edge(edges, pid, "USES_DATASET", did, extraction_source=source_file, query=row_value(row, "query"))
 
 
+def balance_parens(formula: str) -> str:
+    """Equilibre les parentheses d'une formule tronquee par l'extraction."""
+    opened, closed = formula.count("("), formula.count(")")
+    if opened > closed:
+        formula = formula + (")" * (opened - closed))
+    elif closed > opened:
+        excess = closed - opened
+        chars = list(formula)
+        for i in range(len(chars) - 1, -1, -1):
+            if excess == 0:
+                break
+            if chars[i] == ")":
+                chars[i] = ""
+                excess -= 1
+        formula = "".join(chars)
+    return formula
+
+
+def clean_catalog_formula(formula: str) -> str:
+    """Nettoie une formule de catalogue : equilibre les parentheses et rejette
+    le texte casse (assignation <-, accesseur $, separateur ;). Renvoie "" si
+    inexploitable."""
+    formula = norm_space(formula)
+    if not formula or "~" not in formula:
+        return ""
+    formula = re.sub(r"\s*~\s*", " ~ ", formula)
+    formula = re.sub(r"\s*\+\s*", " + ", formula)
+    formula = norm_space(balance_parens(formula))
+    if re.search(r"<-|[$;]", formula):
+        return ""
+    rhs = formula.split("~", 1)[1]
+    if not re.search(r"[A-Za-z]", rhs):
+        return ""
+    return formula
+
+
 def repair_formula_text(formula: str) -> str:
     """Nettoie une formule issue d'un champ d'audit manuel."""
     formula = norm_space(formula)
     formula = re.sub(r"\s*~\s*", " ~ ", formula)
     formula = re.sub(r"\s*\+\s*", " + ", formula)
     formula = re.sub(r"\(\s*1\s*\|\s*", "(1|", formula)
-    if formula.startswith("lmer("):
-        missing = formula.count("(") - formula.count(")")
-        if missing > 0:
-            formula += ")" * missing
-    return norm_space(formula)
+    return norm_space(balance_parens(formula))
 
 
 def split_audit_formulas(value: str) -> list[str]:
@@ -593,6 +856,34 @@ def main() -> None:
     for name, row in catalog_rows:
         if id(row) in kept_ids:
             process_dataset_row(row, name, nodes, edges)
+
+    # L'index de conversion est la source de verite sur les objets sf reellement
+    # construits. Il enrichit les memes noeuds Dataset apres le catalogue general.
+    sf_rows = list(read_rdata_table(SF_INDEX_PATH, SF_INDEX_OBJECT))
+    sf_key_counts: dict[tuple[str, str, str], int] = {}
+    for row in sf_rows:
+        key = (
+            row_value(row, "source_language").lower(),
+            row_value(row, "package").lower(),
+            row_value(row, "dataset").lower(),
+        )
+        sf_key_counts[key] = sf_key_counts.get(key, 0) + 1
+    duplicate_sf_keys = {key for key, count in sf_key_counts.items() if count > 1}
+    sf_node_by_record: dict[str, str] = {}
+    for row in sf_rows:
+        did = process_sf_index_row(row, SF_INDEX_PATH.name, nodes, edges, duplicate_sf_keys)
+        if did:
+            sf_node_by_record[row_value(row, "record_id")] = did
+    if sf_rows:
+        ready_count = sum(as_bool(row.get("utilisable")) for row in sf_rows)
+        print(f"[sf] index={len(sf_rows)}; prets={ready_count}; rejetes={len(sf_rows) - ready_count}")
+
+    for object_name in ("audit_crs", "audit_time"):
+        audit_rows = list(read_rdata_table(SF_AUDIT_PATH, object_name))
+        for row in audit_rows:
+            process_sf_audit_row(row, sf_node_by_record, nodes)
+        if audit_rows:
+            print(f"[sf-audit] {object_name}={len(audit_rows)}")
 
     links_path = DATASET_DIR / LITERATURE_LINKS
     for row in read_jsonl(links_path):

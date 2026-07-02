@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-06-04
+updated: 2026-06-24
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -197,6 +197,7 @@ Each entry follows this format:
 
 - [[software_r_priority_datasets_metadata]] - Discovery catalogue for priority R software dataset candidates with Y/X, temporal status, and download paths | analysis | 2026-05-12
 - [[software_python_priority_datasets_metadata]] - Discovery catalogue for priority Python software dataset candidates with Y/X, temporal status, and exported CSV/GeoJSON paths | analysis | 2026-05-12
+- [[software_sf_catalog_audit_2026_06_23]] - Synthèse du catalogue spatial R/Python, de la reclassification Python, des objets sf, de l'audit CRS et temporel, du KG et du benchmark pol_pres15 | analysis | 2026-06-24
 - [[france_unemployment_datasets_comparison]] - Short note comparing INSEE and Eurostat options for unemployment work on France | analysis | 2026-04-21
 - [[metadata_oriented_dataset_discovery_warehouses_2026_04_22]] - Cross-warehouse note on datasets with strong spatial, temporal, and classificatory metadata structure | analysis | 2026-04-22
 - [[dataset_ranking_metadata_spatial_download_priority_2026_04_22]] - Ranked review of newly documented datasets by metadata richness, spatial utility, and raw-download priority | analysis | 2026-04-22

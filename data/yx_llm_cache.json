@@ -1,0 +1,3405 @@
+{
+  "R_spdep_oldcol_COL.OLD::7db79d35e3dd929b": {
+    "y_candidates": [
+      "CRIME",
+      "HOVAL"
+    ],
+    "x_candidates": [
+      "INC",
+      "OPEN",
+      "PLUMB",
+      "DISCBD",
+      "AREA_PL",
+      "PERIMETER",
+      "NSA",
+      "NSB",
+      "EW",
+      "CP"
+    ],
+    "rationale": "CRIME (taux de criminalité) et HOVAL (valeur des logements) sont les deux variables réponses classiques du dataset Columbus, largement utilisées comme cibles dans la littérature de spatial ML. INC, OPEN, PLUMB, DISCBD, AREA_PL, PERIMETER et les indicatrices binaires (NSA, NSB, EW, CP) constituent des covariables socio-économiques et géographiques pertinentes ; COLUMBUS./COLUMBUS.I/NEIG/NEIGNO sont des identifiants redondants, THOUS est une constante (1000 partout), et PERIM est un doublon exact de PERIMETER — tous ignorés."
+  },
+  "R_spData_house_house::bf2ad604522b2568": {
+    "y_candidates": [
+      "price",
+      "avalue"
+    ],
+    "x_candidates": [
+      "yrbuilt",
+      "stories",
+      "TLA",
+      "wall",
+      "beds",
+      "baths",
+      "halfbaths",
+      "frontage",
+      "depth",
+      "garage",
+      "garagesqft",
+      "rooms",
+      "lotsize",
+      "s1993",
+      "s1994",
+      "s1995",
+      "s1996",
+      "s1997",
+      "s1998",
+      "syear",
+      "age"
+    ],
+    "rationale": "Le prix de vente (price) est la cible naturelle d'un modèle hédonique immobilier ; la valeur cadastrale (avalue) peut aussi servir de variable réponse alternative. Les caractéristiques structurelles du logement (surface, chambres, salles de bain, garage, etc.), du terrain (frontage, depth, lotsize), de l'âge et de l'année de vente constituent les covariables explicatives classiques. Les colonnes sdate et T sont exclues car redondantes avec syear/s199x."
+  },
+  "R_spData_depmunic_depmunic::7e9b534fe0a7b262": {
+    "y_candidates": [
+      "airbnb",
+      "pop_rest"
+    ],
+    "x_candidates": [
+      "museums",
+      "population",
+      "greensp",
+      "area"
+    ],
+    "rationale": "airbnb (densité de locations touristiques) et pop_rest (population résidente restante ou flottante) sont des variables-réponses plausibles reflétant des phénomènes socio-économiques à expliquer. museums, population, greensp et area constituent des covariables explicatives caractérisant l'attractivité, la démographie et la morphologie des départements athéniens. num_dep est un identifiant ordinal sans valeur explicative."
+  },
+  "R_spData_nz_nz::932126fa8a4c461c": {
+    "y_candidates": [
+      "Population",
+      "Median_income",
+      "Sex_ratio"
+    ],
+    "x_candidates": [
+      "Land_area",
+      "Island"
+    ],
+    "rationale": "Population, Median_income et Sex_ratio sont des indicateurs socio-économiques ou démographiques plausibles comme variables réponse à modéliser spatialement. Land_area et Island (Nord/Sud) sont des covariables explicatives naturelles capturant la taille et la localisation géographique des régions ; Name est ignoré car purement administratif."
+  },
+  "R_spData_properties_properties::c84b1c8a88e550c2": {
+    "y_candidates": [
+      "price",
+      "prpsqm"
+    ],
+    "x_candidates": [
+      "size",
+      "age",
+      "dist_metro"
+    ],
+    "rationale": "Le prix total (price) et le prix au m² (prpsqm) sont les variables réponses naturelles d'un modèle hédonique immobilier. La taille, l'âge du bien et la distance au métro sont des covariables explicatives classiques de la valeur immobilière ; noter que price et prpsqm ne doivent pas être utilisés simultanément comme Y car ils sont redondants (l'un est dérivé de l'autre et de size)."
+  },
+  "R_spData_world_world::ae0d31944ce97d53": {
+    "y_candidates": [
+      "lifeExp",
+      "gdpPercap",
+      "pop"
+    ],
+    "x_candidates": [
+      "area_km2",
+      "continent",
+      "region_un",
+      "subregion",
+      "type"
+    ],
+    "rationale": "lifeExp, gdpPercap et pop sont des variables quantitatives de résultat classiquement modélisées en économie et démographie spatiale. area_km2, continent, region_un, subregion et type sont des caractéristiques structurelles des pays utilisables comme covariables explicatives ; iso_a2 et name_long sont des identifiants/libellés ignorés."
+  },
+  "R_spDataLarge_lsl_lsl::bc63a9f147ac746b": {
+    "y_candidates": [
+      "lslpts"
+    ],
+    "x_candidates": [
+      "slope",
+      "cplan",
+      "cprof",
+      "elev",
+      "log10_carea"
+    ],
+    "rationale": "lslpts est la variable réponse binaire/catégorielle indiquant la présence/absence de glissements de terrain (landslide points), typique d'un problème de classification spatiale. Les cinq autres colonnes sont des variables topographiques continues (pente, courbures planaire et profilée, altitude, aire de contribution drainée) qui constituent les covariables explicatives classiques pour modéliser la susceptibilité aux glissements de terrain."
+  },
+  "R_spDataLarge_pol_pres15_pol_pres15::7a2636482a7b26d6": {
+    "y_candidates": [
+      "I_turnout",
+      "II_turnout",
+      "I_Duda_share",
+      "II_Duda_share",
+      "I_Komorowski_share",
+      "II_Komorowski_share"
+    ],
+    "x_candidates": [
+      "types",
+      "I_entitled_to_vote",
+      "II_entitled_to_vote",
+      "I_voters_voting_by_proxy",
+      "I_voters_voting_by_declaration",
+      "I_postal_voting_envelopes_received",
+      "I_invalid_votes",
+      "II_voters_voting_by_proxy",
+      "II_voters_voting_by_declaration",
+      "II_postal_voting_envelopes_received",
+      "II_invalid_votes",
+      "I_Grzegorz.Michal.Braun",
+      "I_Adam.Sebastian.Jarubas",
+      "I_Janusz.Ryszard.Korwin.Mikke",
+      "I_Marian.Janusz.Kowalski",
+      "I_Pawel.Piotr.Kukiz",
+      "I_Magdalena.Agnieszka.Ogorek",
+      "I_Janusz.Marian.Palikot",
+      "I_Pawel.Jan.Tanajno",
+      "I_Jacek.Wilk"
+    ],
+    "rationale": "Les taux de participation (I/II_turnout) et les parts de vote des candidats principaux (Duda, Komorowski) aux deux tours constituent les variables réponse naturelles pour modéliser les comportements électoraux spatiaux. Le type de commune (types), la taille de l'électorat (entitled_to_vote), les modalités de vote alternatif (proxy, declaration, postal), les votes invalides et les scores des candidats mineurs au 1er tour servent de covariables explicatives ; les colonnes administratives (TERYT, noms) sont ignorées."
+  },
+  "R_GWmodel_DubVoter_Dub.voter::788f192da930d153": {
+    "y_candidates": [
+      "GenEl2004"
+    ],
+    "x_candidates": [
+      "DiffAdd",
+      "LARent",
+      "SC1",
+      "Unempl",
+      "LowEduc",
+      "Age18_24",
+      "Age25_44",
+      "Age45_64"
+    ],
+    "rationale": "GenEl2004 représente le taux de participation (ou résultat) aux élections générales de 2004, variable de sortie typique des études de comportement électoral spatial. Les autres colonnes (mobilité résidentielle, location sociale, statut socio-économique, chômage, faible niveau d'éducation, tranches d'âge) sont des covariables socio-démographiques classiquement utilisées pour expliquer les variations spatiales du vote."
+  },
+  "R_GWmodel_GeorgiaCounties_Gedu.counties::ac3958381a67f356": {
+    "y_candidates": [
+      "AREA",
+      "PERIMETER"
+    ],
+    "x_candidates": [
+      "G_UTM_"
+    ],
+    "rationale": "AREA et PERIMETER sont des mesures géométriques continues des comtés géorgiens pouvant servir de variables réponse (ex. modéliser la taille/forme des unités spatiales). G_UTM_ est un identifiant numérique de zone UTM qui peut agir comme covariable spatiale proxy. AREANAME est un libellé géographique ignoré car purement administratif."
+  },
+  "R_GWmodel_USelect_USelect2004::3cbcec3c5e5a56a5": {
+    "y_candidates": [
+      "winner"
+    ],
+    "x_candidates": [
+      "unemploy",
+      "pctcoled",
+      "PEROVER65",
+      "pcturban",
+      "WHITE"
+    ],
+    "rationale": "Dans ce dataset sur les élections américaines, `winner` (parti/candidat vainqueur par comté) est la variable réponse naturelle à modéliser. Les cinq variables socio-démographiques (taux de chômage, niveau d'éducation, part des +65 ans, urbanisation, proportion de blancs) sont des covariables explicatives classiques des comportements électoraux."
+  },
+  "R_GWmodel_EWHP_ewhp::7a42146d7303175d": {
+    "y_candidates": [
+      "PurPrice"
+    ],
+    "x_candidates": [
+      "BldIntWr",
+      "BldPostW",
+      "Bld60s",
+      "Bld70s",
+      "Bld80s",
+      "TypDetch",
+      "TypFlat",
+      "FlrArea"
+    ],
+    "rationale": "PurPrice (purchase price) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Les 8 autres colonnes sont des caractéristiques du logement (période de construction, type de bien, surface habitable) constituant les covariables explicatives classiques d'un modèle hédonique."
+  },
+  "R_GWmodel_LondonBorough_londonborough::ed9e1d40422a0662": {
+    "y_candidates": [
+      "HECTARES",
+      "AREA"
+    ],
+    "x_candidates": [
+      "NUMBER",
+      "NUMBER0"
+    ],
+    "rationale": "HECTARES et AREA sont des mesures continues de superficie, candidates naturelles comme variable réponse (ex: prédire la taille d'un borough). NUMBER et NUMBER0 sont des comptages numériques pouvant servir de covariables explicatives. Les colonnes catégorielles (NAME, DESCRIPTIO, FILE_NAME, DESCRIPT0, B_Name) sont des libellés/identifiants géographiques administratifs à ignorer, et TYPE_COD0 est entièrement manquante (100% NA)."
+  },
+  "R_GWmodel_LondonHP_londonhp::cd712ad69df3e0c9": {
+    "y_candidates": [
+      "PURCHASE"
+    ],
+    "x_candidates": [
+      "FLOORSZ",
+      "TYPEDETCH",
+      "TPSEMIDTCH",
+      "TYPETRRD",
+      "TYPEBNGLW",
+      "TYPEFLAT",
+      "BLDPWW1",
+      "BLDPOSTW",
+      "BLD60S",
+      "BLD70S",
+      "BLD80S",
+      "BLD90S",
+      "BLDINTW",
+      "BATH2",
+      "BEDS2",
+      "GARAGE1",
+      "CENTHEAT",
+      "UNEMPLOY",
+      "PROF"
+    ],
+    "rationale": "PURCHASE (prix d'achat) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Toutes les autres colonnes sont des attributs hédoniques du logement (surface, type, époque de construction, équipements) ou des indicateurs socio-économiques du voisinage (chômage, proportion de professions libérales), qui constituent des covariables explicatives classiques dans ce type de modèle."
+  },
+  "R_gstat_DE_RB_2005_DE_RB_2005::570ba81c6182eac0": {
+    "y_candidates": [
+      "PM10",
+      "annual_mean_PM10"
+    ],
+    "x_candidates": [
+      "station_altitude",
+      "type_of_station",
+      "station_type_of_area",
+      "street_type"
+    ],
+    "rationale": "PM10 (mesure instantanée/journalière) et annual_mean_PM10 (agrégat annuel) sont les variables réponse naturelles pour modéliser la concentration en particules fines ; station_altitude, type_of_station, station_type_of_area et street_type sont des covariables explicatives classiques capturant le contexte géographique et environnemental des stations. Les colonnes temporelles (time, endTime, station_start_date, station_end_date), l'index ..1 et T (facteur ambigu/redondant) sont ignorés."
+  },
+  "R_gstat_jura_jura.pred::6843dde24a50157d": {
+    "y_candidates": [
+      "Cd",
+      "Pb",
+      "Zn",
+      "Cu",
+      "Ni",
+      "Co",
+      "Cr"
+    ],
+    "x_candidates": [
+      "Landuse",
+      "Rock"
+    ],
+    "rationale": "Les concentrations en métaux lourds (Cd, Pb, Zn, Cu, Ni, Co, Cr) sont des variables réponses classiques dans ce jeu de données géochimique du Jura, chacune pouvant être modélisée spatialement. Landuse et Rock sont des covariables catégorielles explicatives naturelles reflétant le contexte environnemental et géologique influençant la distribution des métaux."
+  },
+  "R_gstat_jura_jura.val::6843dde24a50157d": {
+    "y_candidates": [
+      "Cd",
+      "Pb",
+      "Zn",
+      "Cu",
+      "Ni",
+      "Co",
+      "Cr"
+    ],
+    "x_candidates": [
+      "Landuse",
+      "Rock"
+    ],
+    "rationale": "Les concentrations en métaux lourds (Cd, Pb, Zn, Cu, Ni, Co, Cr) sont des variables réponses classiques en géostatistique environnementale, chacune pouvant être la cible d'une modélisation spatiale. Landuse et Rock sont des covariables catégorielles explicatives naturelles (facteurs contrôlant la distribution des métaux dans le sol), et ne constituent pas des cibles de prédiction pertinentes."
+  },
+  "R_gstat_meuse.all_meuse.all::1f71fae9e22d52d1": {
+    "y_candidates": [
+      "cadmium",
+      "copper",
+      "lead",
+      "zinc"
+    ],
+    "x_candidates": [
+      "elev",
+      "dist.m",
+      "om",
+      "ffreq",
+      "soil",
+      "lime",
+      "landuse"
+    ],
+    "rationale": "Les concentrations en métaux lourds (cadmium, copper, lead, zinc) sont les variables cibles naturelles de ce dataset de contamination des sols. Les variables environnementales et pédologiques (élévation, distance à la rivière, matière organique, fréquence d'inondation, type de sol, présence de calcaire, usage des terres) sont des covariables explicatives classiques pour modéliser la dispersion des métaux. Les colonnes 'sample', 'in.pit', 'in.meuse155' et 'in.BMcD' sont des identifiants ou indicateurs d'appartenance à des sous-ensembles (flags techniques) sans valeur explicative directe."
+  },
+  "R_gstat_oxford_oxford::5f289f7f82759b1b": {
+    "y_candidates": [
+      "PROFCLASS",
+      "MAPCLASS",
+      "DEPTHCM",
+      "DEP2LIME",
+      "PCLAY1",
+      "PCLAY2",
+      "OM1",
+      "CEC1",
+      "PH1",
+      "PHOS1",
+      "POT1",
+      "MG1"
+    ],
+    "x_candidates": [
+      "ELEV",
+      "VAL1",
+      "CHR1",
+      "LIME1",
+      "VAL2",
+      "CHR2",
+      "LIME2"
+    ],
+    "rationale": "L'élévation (ELEV) et les attributs de terrain/horizon (VAL, CHR, LIME pour les couches 1 et 2) sont des covariables explicatives naturelles dans un contexte de cartographie pédologique. Les propriétés chimiques et physiques du sol mesurées (pH, matière organique, CEC, phosphore, potassium, magnésium, argile, profondeur, profondeur à la limite calcaire) ainsi que les classes de profil/carte constituent des cibles typiques pour la prédiction spatiale ; PROFILE est ignoré car c'est un simple identifiant de sondage."
+  },
+  "R_sp_meuse_meuse::2281a2046cdd3618": {
+    "y_candidates": [
+      "cadmium",
+      "copper",
+      "lead",
+      "zinc"
+    ],
+    "x_candidates": [
+      "elev",
+      "dist",
+      "om",
+      "ffreq",
+      "soil",
+      "lime",
+      "landuse",
+      "dist.m"
+    ],
+    "rationale": "Les concentrations en métaux lourds (cadmium, copper, lead, zinc) sont les variables réponses naturelles de ce dataset de pollution des sols, classiquement modélisées en géostatistique et spatial ML. Les variables topographiques (elev, dist, dist.m), pédologiques (soil, om, lime) et d'occupation du sol (landuse, ffreq) sont des covariables explicatives reflétant les processus de dépôt alluvial et d'accumulation des métaux."
+  },
+  "R_sp_meuse.grid_meuse.grid::610c47e9cd49dc6f": {
+    "y_candidates": [
+      "dist"
+    ],
+    "x_candidates": [
+      "part.a",
+      "part.b",
+      "soil",
+      "ffreq"
+    ],
+    "rationale": "dist (distance normalisée à la rivière Meuse) est une variable continue naturellement modélisable comme réponse spatiale. part.a, part.b (indicatrices de partition spatiale), soil (type de sol) et ffreq (fréquence d'inondation) sont des covariables explicatives classiques du contexte fluvial de Meuse."
+  },
+  "R_sp_meuse.grid_ll_meuse.grid_ll::610c47e9cd49dc6f": {
+    "y_candidates": [
+      "dist"
+    ],
+    "x_candidates": [
+      "part.a",
+      "part.b",
+      "soil",
+      "ffreq"
+    ],
+    "rationale": "dist (distance normalisée à la Meuse) est une variable continue graduée naturellement modélisable comme réponse spatiale. Les variables part.a, part.b (partitions binaires de zone), soil (type de sol) et ffreq (fréquence d'inondation) sont des covariables catégorielles ou binaires typiquement utilisées comme prédicteurs dans les modèles spatiaux sur meuse.grid."
+  },
+  "R_sfdep_guerry_nb_guerry_nb::34843cb72dbd413e": {
+    "y_candidates": [
+      "crime_pers",
+      "crime_prop",
+      "literacy",
+      "suicides",
+      "infanticide",
+      "lottery",
+      "desertion",
+      "donations"
+    ],
+    "x_candidates": [
+      "wealth",
+      "commerce",
+      "clergy",
+      "crime_parents",
+      "donation_clergy",
+      "instruction",
+      "prostitutes",
+      "distance",
+      "area",
+      "pop1831",
+      "infants",
+      "main_city",
+      "region"
+    ],
+    "rationale": "Les variables Y candidates sont des phénomènes sociaux mesurés (criminalité, suicides, infanticide, loterie, désertion, donations, alphabétisation) typiquement modélisés comme variables réponse dans la littérature Guerry/Quetelet. Les variables X candidates regroupent des indicateurs structurels départementaux (richesse, commerce, clergé, instruction, population, superficie, distance à Paris) et contextuels (région, taille de ville) servant de covariables explicatives ; `count`, `ave_id_geo`, `dept`, `department`, `nb` et `wt` sont ignorés car purement administratifs, techniques (listes de voisinage) ou redondants."
+  },
+  "R_surveillance_hagelloch_hagelloch::aa8af8ff034e020c": {
+    "y_candidates": [
+      "event",
+      "Revent"
+    ],
+    "x_candidates": [
+      "start",
+      "stop",
+      "atRiskY",
+      "AGE",
+      "SEX",
+      "CL",
+      "household",
+      "nothousehold",
+      "c1",
+      "c2"
+    ],
+    "rationale": "Dans un modèle twinSIR d'épidémie, 'event' (nouvelle infection) et 'Revent' (rétablissement) sont les variables réponse naturelles de l'analyse de survie/point process ; les covariables explicatives incluent l'âge, le sexe, la classe scolaire (CL), le nombre de contacts intra- et extra-ménage (household, nothousehold), les compteurs spatiaux de voisinage (c1, c2), ainsi que les variables de fenêtre temporelle (start, stop) et l'indicateur de risque (atRiskY) typiques du format counting-process. BLOCK, x.loc et y.loc sont des identifiants/coordonnées déjà exclus en amont ou redondants."
+  },
+  "R_surveillance_hagelloch_hagelloch.df::892235ff40852937": {
+    "y_candidates": [
+      "tPRO",
+      "tERU",
+      "tDEAD",
+      "SI",
+      "PR",
+      "TD",
+      "TM"
+    ],
+    "x_candidates": [
+      "AGE",
+      "SEX",
+      "CL",
+      "C",
+      "CA",
+      "NI",
+      "GE",
+      "x.loc",
+      "y.loc",
+      "tI",
+      "tR"
+    ],
+    "rationale": "Les variables temporelles d'événements épidémiques (dates/temps de prodrome, éruption, décès) et les indicateurs de sévérité (SI, PR, TD, TM) sont des cibles naturelles pour modéliser la dynamique de l'épidémie. Les caractéristiques individuelles (âge, sexe, classe scolaire, complication, quartier, génération) et spatiales (x.loc, y.loc) ainsi que les temps d'entrée en phase infectieuse (tI, tR) constituent des covariables explicatives plausibles ; PN, FN, HN, IFTO, NAME sont ignorés car purement identificateurs/administratifs."
+  },
+  "R_SpatialEpi_pennLC_sf_pennLC_sf::a2674a10ea7ee5a3": {
+    "y_candidates": [
+      "cases"
+    ],
+    "x_candidates": [
+      "population",
+      "race",
+      "gender",
+      "age",
+      "smoking"
+    ],
+    "rationale": "cases (nombre de cas de cancer du poumon) est la variable réponse naturelle à modéliser (en tant que count, typiquement via un modèle de Poisson avec offset sur population). population sert d'offset ou de covariable d'exposition, tandis que race, gender, age et smoking sont des facteurs explicatifs classiques de l'incidence du cancer du poumon. county est un libellé administratif ignoré (l'information spatiale est portée par les coordonnées)."
+  },
+  "R_spatstat.data_nbfires_nbfires::e5795e220fb65901": {
+    "y_candidates": [
+      "fnl.size"
+    ],
+    "x_candidates": [
+      "year",
+      "fire.type",
+      "dis.julian",
+      "out.julian",
+      "cause",
+      "ign.src"
+    ],
+    "rationale": "La taille finale du feu (fnl.size) est la variable réponse naturelle pour modéliser l'intensité/étendue des incendies. Les covariables explicatives incluent l'année, le type de feu, les dates julienne de découverte et d'extinction (proxy de durée), la cause et la source d'ignition ; la colonne T est ignorée car trop peu informative sans contexte clair."
+  },
+  "R_spaMM_Leuca_Leuca::32580ecbc38283ca": {
+    "y_candidates": [
+      "fec",
+      "fec_div",
+      "area",
+      "diam"
+    ],
+    "x_candidates": [
+      "sex",
+      "diamZ",
+      "areaZ",
+      "male",
+      "female"
+    ],
+    "rationale": "Les variables phénotypiques comme la fécondité (fec, fec_div) et les mesures de taille (area, diam) sont des réponses biologiques plausibles dans un contexte d'écologie des plantes. Le sexe (sex, male, female) est une covariable explicative clé pour des modèles avec effets spatiaux sex-spécifiques, tandis que diamZ et areaZ sont des versions standardisées des traits morphologiques utilisables comme covariables ; name est ignoré car purement administratif, et on évite de placer simultanément diam/area et leurs versions standardisées du même côté."
+  },
+  "R_spaMM_Loaloa_Loaloa::68809cbdb7f55d02": {
+    "y_candidates": [
+      "npos"
+    ],
+    "x_candidates": [
+      "ntot",
+      "maxNDVI",
+      "seNDVI",
+      "elev1",
+      "elev2",
+      "elev3",
+      "elev4",
+      "maxNDVI1"
+    ],
+    "rationale": "npos (nombre de cas positifs à Loa loa) est la variable réponse naturelle pour modéliser la prévalence de l'infection, éventuellement avec ntot comme offset (taille de l'échantillon). Les variables d'altitude (elev1–elev4) et de végétation (maxNDVI, seNDVI, maxNDVI1) sont les covariables explicatives conformément à l'objectif déclaré de l'étude."
+  },
+  "R_spaMM_arabidopsis_arabidopsis::561c7ca92223d05f": {
+    "y_candidates": [
+      "pos1046738",
+      "pos5510910",
+      "pos6235221",
+      "pos8132698"
+    ],
+    "x_candidates": [
+      "seasonal",
+      "tempWarmest",
+      "tempColdest",
+      "preciWettest",
+      "preciDriest",
+      "preciCV",
+      "PAR_SPRING",
+      "growingL",
+      "conseqCold",
+      "conseqFrFree",
+      "RelHumidSp",
+      "dayLSp",
+      "aridity"
+    ],
+    "rationale": "Les quatre SNPs binaires (pos*) sont les variables réponses naturelles dans un contexte d'association génotype-environnement (landscape genomics), où l'on cherche à expliquer la variation allélique par des pressions de sélection climatiques. Les 13 variables climatiques (température, précipitations, PAR, humidité, aridité, etc.) constituent les covariables explicatives; la colonne T est exclue car sa plage est identique à dayLSp, suggérant une redondance ou une erreur de données."
+  },
+  "R_ade4_elec88_elec88::098a108872e8992b": {
+    "y_candidates": [
+      "Mitterand",
+      "Le.Pen"
+    ],
+    "x_candidates": [
+      "Chirac",
+      "Barre",
+      "Lajoinie",
+      "Waechter",
+      "Juquin",
+      "Laguillier",
+      "Boussel"
+    ],
+    "rationale": "Dans un contexte de spatial ML sur des résultats électoraux, les scores de Mitterand (vainqueur, 1er tour) et Le.Pen (candidat à forte dimension spatiale bien documentée) sont les cibles les plus pertinentes à modéliser. Les scores des autres candidats servent de covariables explicatives capturant la structure politique locale de chaque département."
+  },
+  "R_ade4_irishdata_irishdata::b7b03e522659d631": {
+    "y_candidates": [
+      "sales",
+      "car",
+      "radio"
+    ],
+    "x_candidates": [
+      "T0.10",
+      "T10.50",
+      "Tup50",
+      "cow",
+      "other",
+      "pig",
+      "sheep",
+      "town.pop",
+      "single.man"
+    ],
+    "rationale": "Les variables 'sales', 'car' et 'radio' représentent des indicateurs socio-économiques de résultat (ventes, taux de possession de voitures, d'équipements radio) typiquement modélisés comme variables réponses dans des analyses spatiales irlandaises. Les variables de structure foncière/agricole (T0.10, T10.50, Tup50 = tailles de fermes, cow, pig, sheep, other = cheptels), démographiques (town.pop, single.man) constituent des covariables explicatives naturelles du contexte territorial des comtés."
+  },
+  "R_ade4_julliot_julliot::fc49776c72fcf614": {
+    "y_candidates": [
+      "Pouteria_torta",
+      "Minquartia_guianensis",
+      "Quiina_obovata",
+      "Chrysophyllum_lucentifolium",
+      "Parahancornia_fasciculata",
+      "Virola_michelii",
+      "Pourouma_spp"
+    ],
+    "x_candidates": [],
+    "rationale": "Toutes les colonnes représentent des comptages (ou présence/absence) de graines d'espèces végétales dans des quadrats, ce qui en fait des variables réponse naturelles pour modéliser la distribution spatiale de chaque espèce. Dans un cadre multi-espèces, chaque espèce peut alternativement servir de covariable explicative pour prédire une autre espèce (co-occurrences, interactions), donc toutes sont candidates à la fois en Y et en X selon l'espèce cible choisie."
+  },
+  "R_ade4_kcponds_kcponds::b53465a698becde5": {
+    "y_candidates": [
+      "chla",
+      "divMI",
+      "denMI",
+      "O2",
+      "secchi"
+    ],
+    "x_candidates": [
+      "depth",
+      "area",
+      "cond",
+      "pH",
+      "Fe",
+      "N",
+      "TP",
+      "EM",
+      "FM",
+      "SM"
+    ],
+    "rationale": "Les variables biologiques et écologiques intégratrices (chlorophylle a, diversité et densité des macroinvertébrés, oxygène dissous, transparence Secchi) sont des réponses typiques de l'état trophique ou écologique des étangs. Les variables physico-chimiques (profondeur, superficie, conductivité, pH, fer, azote, phosphore total) ainsi que les métriques de végétation (EM, FM, SM) constituent des covariables explicatives de ces réponses."
+  },
+  "R_ade4_macon_macon::c142cef37287b63b": {
+    "y_candidates": [
+      "a"
+    ],
+    "x_candidates": [
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w"
+    ],
+    "rationale": "Ce dataset de dégustation contient les classements de 8 vins par 23 dégustateurs (colonnes a–w), toutes symétriques et de même nature. En l'absence de variable cible évidente, on peut modéliser le classement d'un dégustateur (ex: 'a') en fonction des classements des autres dégustateurs (b–w), par exemple pour prédire le consensus ou détecter des profils de goût similaires via spatial/agreement modeling."
+  },
+  "R_ade4_sarcelles_sarcelles::8b54b4488e13c823": {
+    "y_candidates": [
+      "Fev",
+      "Jan",
+      "Mar",
+      "Dec",
+      "Nov",
+      "Aou"
+    ],
+    "x_candidates": [
+      "Sep",
+      "Oct",
+      "Avr",
+      "Mai",
+      "Jun",
+      "Jui"
+    ],
+    "rationale": "Chaque colonne mensuelle représente un compte de sarcelles récupérées, toutes sont candidates Y selon le mois cible modélisé (les mois de pic hivernal Jan/Fev/Mar/Dec/Nov étant les plus naturels comme variable réponse). Les mois de transition migratoire (Sep/Oct automne, Avr/Mai/Jun printemps, Jui été) peuvent servir de covariables temporelles pour expliquer les effectifs hivernaux, capturant la dynamique de migration et la disponibilité saisonnière des oiseaux."
+  },
+  "R_ade4_tintoodiel_tintoodiel::08b98e08b9f99f49": {
+    "y_candidates": [
+      "Cu",
+      "Zn",
+      "Pb",
+      "Fe2O3"
+    ],
+    "x_candidates": [
+      "SiO2",
+      "Al2O3",
+      "CaO",
+      "MgO",
+      "Na2",
+      "K2O",
+      "MnO",
+      "TiO2",
+      "P2O5",
+      "LOI",
+      "mud",
+      "Ba"
+    ],
+    "rationale": "Les métaux lourds Cu, Zn, Pb (et Fe2O3 comme proxy de contamination ferreuse) sont les variables cibles naturelles d'une étude de pollution géochimique en sédiments estuariens. Les oxydes majeurs (SiO2, Al2O3, CaO, etc.), LOI, mud (granulométrie) et Ba (élément trace naturel/fond géochimique) constituent des covariables explicatives reflétant la composition minéralogique, la texture sédimentaire et le contexte géochimique de fond."
+  },
+  "R_agridat_gartner.corn_gartner.corn::2545ab275ad9ef51": {
+    "y_candidates": [
+      "mass",
+      "moist"
+    ],
+    "x_candidates": [
+      "dist",
+      "elev"
+    ],
+    "rationale": "Dans un yield monitor de maïs, 'mass' (masse récoltée) est la variable réponse principale (rendement), et 'moist' (humidité du grain) est une seconde cible agronomique d'intérêt. 'elev' (élévation topographique) et 'dist' (distance parcourue) sont des covariables spatiales explicatives pertinentes ; 'time' et 'T' semblent redondants (même plage), et 'seconds' a une variance quasi nulle (3-4s), rendant ces trois colonnes inutiles comme features."
+  },
+  "R_agridat_lasrosas.corn_lasrosas.corn::599321d7fbb8a47b": {
+    "y_candidates": [
+      "yield"
+    ],
+    "x_candidates": [
+      "nitro",
+      "topo",
+      "bv",
+      "nf",
+      "year"
+    ],
+    "rationale": "yield (rendement en maïs) est la variable réponse naturelle d'un moniteur de rendement. nitro (dose d'azote variable), topo (position topographique), bv (valeur liée au sol/bassin versant), nf (facteur azote) et year (année de campagne) sont des covariables explicatives agronomiques et environnementales pertinentes. La colonne T est ignorée car elle semble redondante avec year (même plage [1999,2001]), et rep est un identifiant de répétition expérimentale de nature purement administrative."
+  },
+  "R_agridat_ortiz.tomato.covs_ortiz.tomato.covs::9a4a52628b89d175": {
+    "y_candidates": [
+      "Day",
+      "T"
+    ],
+    "x_candidates": [
+      "Dha",
+      "Driv",
+      "ExK",
+      "ExN",
+      "ExP",
+      "Irr",
+      "K",
+      "MeT",
+      "MnT",
+      "MxT",
+      "OM",
+      "P",
+      "pH",
+      "Prec",
+      "Trim"
+    ],
+    "rationale": "Dans un contexte agro-environnemental tomate, Day (durée en jours, e.g. jours à maturité) et T (température cumulée/somme thermique, plage identique à Day ce qui suggère une variable phénologique cible) sont les réponses plausibles ; les variables pédologiques (K, P, pH, OM, ExK, ExN, ExP), climatiques (MeT, MnT, MxT, Prec) et de gestion culturale (Irr, Trim, Driv, Dha) constituent les covariables explicatives naturelles. La colonne env (factor environnement) est ignorée car c'est un identifiant de site."
+  },
+  "R_agridat_usgs.herbicides_usgs.herbicides::4d7665c05f829c0c": {
+    "y_candidates": [
+      "atrazine",
+      "acetochlor",
+      "alachlor",
+      "cyanazine",
+      "flufenacet",
+      "CIAT",
+      "CEAT",
+      "CAM"
+    ],
+    "x_candidates": [
+      "sampletype",
+      "date",
+      "hour",
+      "ametryn",
+      "T"
+    ],
+    "rationale": "Les concentrations d'herbicides et de leurs produits de dégradation (atrazine, acetochlor, alachlor, cyanazine, flufenacet, CIAT, CEAT, CAM) sont les variables réponses naturelles dans un contexte de surveillance de qualité des eaux. Les modalités d'échantillonnage (sampletype, date, hour) ainsi que d'autres mesures chimiques (ametryn, T) constituent des covariables explicatives plausibles ; les colonnes identifiantes ou géographiques (mapnum, site, city) sont ignorées."
+  },
+  "R_agridat_wallace.iowaland_wallace.iowaland::18d0258b172954fb": {
+    "y_candidates": [
+      "fedval",
+      "stval"
+    ],
+    "x_candidates": [
+      "yield",
+      "corn",
+      "grain",
+      "untillable"
+    ],
+    "rationale": "fedval (valeur fédérale) et stval (valeur d'état) sont les estimations de la valeur des terres agricoles, naturelles cibles de modélisation. yield (rendement), corn (part en maïs), grain (part en céréales) et untillable (part non cultivable) sont des caractéristiques agronomiques du comté utilisables comme covariables explicatives. county et fips sont des identifiants administratifs à ignorer."
+  },
+  "Python_geodatasets_geoda.airbnb::7b92ccb24342a64f": {
+    "y_candidates": [
+      "price_pp",
+      "rev_rating",
+      "response_r",
+      "accept_r",
+      "num_spots"
+    ],
+    "x_candidates": [
+      "poverty",
+      "crowded",
+      "dependency",
+      "without_hs",
+      "unemployed",
+      "income_pc",
+      "harship_in",
+      "num_crimes",
+      "num_theft",
+      "population",
+      "room_type"
+    ],
+    "rationale": "Les variables Airbnb (prix par personne, note, taux de réponse/acceptation, nombre d'annonces) constituent des cibles naturelles pour modéliser l'offre et la qualité des logements. Les indicateurs socio-économiques (pauvreté, chômage, revenu, criminalité, population, etc.) sont des covariables explicatives classiques reflétant le contexte territorial. Les colonnes community, shape_area et shape_len sont purement administratives/géométriques et sont ignorées."
+  },
+  "Python_geodatasets_geoda.charleston1::52e90be0a809b055": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MULTI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur médiane des logements) et POV_TOT (nombre de personnes en pauvreté) sont des cibles socio-économiques classiques en spatial ML. Les variables démographiques (population, race, sexe, âge) et d'emploi/occupation constituent des covariables explicatives naturelles ; FIPS et MSA sont des codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.charleston2::595c7ee3771d98e8": {
+    "y_candidates": [
+      "PCTCSE",
+      "PCTGRO",
+      "PCTIME",
+      "EMP01",
+      "PAY01",
+      "EST01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "PAY98",
+      "MAN98",
+      "MAN01",
+      "OFF98",
+      "OFF01",
+      "INFO98",
+      "INFO01",
+      "NUMSEC",
+      "EST98_0",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01_12",
+      "MAN01_39",
+      "OFF98_12",
+      "OFF98_39",
+      "OFF01_12",
+      "OFF01_39",
+      "INFO98_12",
+      "INFO98_39",
+      "INFO01_12",
+      "INFO01_39"
+    ],
+    "rationale": "Les variables de croissance/changement entre 1998 et 2001 (PCTCSE=croissance de l'emploi CSE, PCTGRO=croissance globale, PCTIME=variation intermédiaire) sont les cibles naturelles pour modéliser la dynamique économique locale, complétées par les niveaux 2001 d'emploi, rémunération et établissements. Les stocks de 1998 (emploi, établissements, rémunération) et les décompositions sectorielles (MAN, OFF, INFO par sous-catégories) servent de covariables explicatives, ainsi que POP2001 et NUMSEC ; les colonnes US à valeur constante (MAN98US, OFF98US, etc.) et les flags catégoriels (EFLAG) sont ignorés car non informatifs spatialement."
+  },
+  "Python_geodatasets_geoda.chicago_commpop::2f603340df489153": {
+    "y_candidates": [
+      "POP2010",
+      "POPCH",
+      "POPPERCH",
+      "popplus",
+      "popneg"
+    ],
+    "x_candidates": [
+      "POP2000"
+    ],
+    "rationale": "POP2010, POPCH, POPPERCH, popplus et popneg sont des variables réponses naturelles (population récente, variation absolue/relative, indicateurs binaires de croissance/déclin) que l'on cherche typiquement à expliquer ou prédire. POP2000 constitue la covariable explicative la plus logique, servant de baseline temporelle pour expliquer l'évolution démographique ; 'community' est un libellé géographique ignoré."
+  },
+  "Python_geodatasets_geoda.chicago_health::8fcb8ffd8a7a6105": {
+    "y_candidates": [
+      "BirthRate",
+      "LoBirthR",
+      "PretBrth",
+      "TeenBirth",
+      "InfntMR",
+      "Assault",
+      "FirearmM",
+      "CancerAll",
+      "LungCancer",
+      "DiabetM",
+      "Stroke",
+      "BrstCancr",
+      "Colorect",
+      "ProstateC",
+      "ChlBLLS",
+      "GonorrF",
+      "GonorrM",
+      "Tuberc",
+      "VlntCrRt",
+      "PropCrRt",
+      "COIave",
+      "HISave",
+      "SESave"
+    ],
+    "x_candidates": [
+      "Pop2014",
+      "PopChng",
+      "PopMP",
+      "PopFP",
+      "Under5P",
+      "Under18P",
+      "Over65P",
+      "Wht14P",
+      "Blk14P",
+      "AS14P",
+      "Hisp14P",
+      "Oth14P",
+      "AI14P",
+      "NHP14P",
+      "PerCInc14",
+      "Pov14",
+      "field_37",
+      "ChldPov14",
+      "Pov50P",
+      "Pov125P",
+      "Pov150P",
+      "Pov185P",
+      "Pov200P",
+      "NoHS14",
+      "HSGrad14",
+      "SmClg14",
+      "ClgGrad14",
+      "Unemp14",
+      "LaborFrc",
+      "Hlitave",
+      "FertRate",
+      "PrenScrn",
+      "shape_area",
+      "TRACTCnt"
+    ],
+    "rationale": "Les colonnes Y candidates regroupent les indicateurs de santé publique (mortalité, morbidité, taux de naissance, maladies, crimes violents) qui sont des résultats à expliquer/prédire dans un contexte de santé communautaire. Les colonnes X candidates couvrent les déterminants sociaux, démographiques, économiques et éducatifs qui servent classiquement de covariables explicatives ; les colonnes de comptages bruts redondants avec leurs équivalents en pourcentage/taux ont été prioritairement remplacés par ces derniers, et les libellés géographiques purement administratifs (community) ont été ignorés."
+  },
+  "Python_geodatasets_geoda.cincinnati::ce264a2a2c0ea3fd": {
+    "y_candidates": [
+      "BURGLARY",
+      "ASSAULT",
+      "THEFT",
+      "BURG_D",
+      "ASSALT_D",
+      "THEFT_D",
+      "DENSITY"
+    ],
+    "x_candidates": [
+      "AREA",
+      "POPULATION",
+      "MEDIAN_AGE",
+      "AGE_0_5",
+      "AGE_15_19",
+      "AGE_20_24",
+      "AGE_25_34",
+      "AGE_35_44",
+      "AGE_65",
+      "WHITE",
+      "BLACK",
+      "ASIAN",
+      "AP_HISPANI",
+      "HOUSEHOLDS",
+      "HH_FAMILY",
+      "HH_NONFAMI",
+      "AVG_HHSIZE",
+      "AVG_FAMSIZ",
+      "HSNG_UNITS",
+      "HU_VACANT",
+      "OCCHU_OWNE",
+      "OCCHU_RENT",
+      "GROUP_QUAR"
+    ],
+    "rationale": "Les variables criminelles (BURGLARY, ASSAULT, THEFT et leurs formes binaires) ainsi que DENSITY sont les cibles naturelles d'une modélisation spatiale dans ce contexte urbain de Cincinnati. Les covariables retenues couvrent les dimensions démographiques (population, structure d'âge, composition raciale/ethnique), sociales (structure des ménages, taille moyenne) et résidentielles (logements vacants, propriétaires vs locataires, logements collectifs) classiquement associées à la criminalité et à la densité urbaine ; DENSITY peut jouer alternativement le rôle de Y (modélisation de la densité) ou de X (prédicteur de la criminalité), d'où sa présence dans les deux listes."
+  },
+  "Python_geodatasets_geoda.guerry::8b64cfe118d334d7": {
+    "y_candidates": [
+      "Crm_prs",
+      "Crm_prp",
+      "Litercy",
+      "Suicids",
+      "Lottery",
+      "Infants"
+    ],
+    "x_candidates": [
+      "Wealth",
+      "Commerc",
+      "Clergy",
+      "Donatns",
+      "Prsttts",
+      "Distanc",
+      "Area",
+      "Pop1831",
+      "Desertn",
+      "Instrct",
+      "MainCty"
+    ],
+    "rationale": "Les variables Y candidates sont des outcomes sociaux mesurés (criminalité, suicide, illettrisme, infanticide, jeux de loterie) typiquement modélisés dans la littérature Guerry comme variables réponse. Les variables X candidates sont des indicateurs structurels, économiques ou démographiques (richesse, commerce, clergé, dons, prostitution, distance, superficie, population, désertion, instruction, type de ville) servant de covariables explicatives ; les colonnes purement administratives ou géographiques (dept, Region, Dprtmnt) et les doublons en rang (Crm_prn, Infntcd, Dntn_cl) sont ignorés."
+  },
+  "Python_geodatasets_geoda.health::07ff523d67b21032": {
+    "y_candidates": [
+      "le_agg_q1",
+      "le_raceadj",
+      "le_agg_q2",
+      "le_racea_1",
+      "le_agg_q3",
+      "le_racea_2",
+      "le_agg_q4",
+      "le_racea_3",
+      "le_agg_q11",
+      "le_racea_4",
+      "le_agg_q21",
+      "le_racea_5",
+      "le_agg_q31",
+      "le_racea_6",
+      "le_agg_q41",
+      "le_racea_7",
+      "ratio"
+    ],
+    "x_candidates": [
+      "statemhir",
+      "tractmhir",
+      "cty_pop200",
+      "cz_pop2000",
+      "Diversity",
+      "BlackorA",
+      "AmericanI",
+      "Asianalon",
+      "NativeHaw",
+      "TwoorMor",
+      "Hispanico",
+      "Whitealon"
+    ],
+    "rationale": "Les variables `le_*` (espérance de vie agrégée ou ajustée par race, par quartile de revenu et par sexe) et `ratio` (rapport revenu local/état) constituent des cibles naturelles pour modéliser les inégalités de santé spatiales. Les covariables retenues capturent le contexte socio-économique (revenus médians au niveau tract et état, populations), la composition raciale/ethnique et la diversité, qui sont des déterminants bien établis des outcomes de santé ; les colonnes administratives (codes FIPS, noms géographiques) et les effectifs de comptage (count_q*) ainsi que les écarts-types (sd_le_*) sont écartés car redondants ou non pertinents comme predicteurs directs."
+  },
+  "Python_geodatasets_geoda.health_indicators::5a55f958f584c087": {
+    "y_candidates": [
+      "Infan_Rate",
+      "TeenB_Rate",
+      "BirthRate",
+      "Cance_ites",
+      "Diabe_ated",
+      "LungCancer",
+      "Strok_ease",
+      "Assau_cide",
+      "Tuber_osis",
+      "Child_ning"
+    ],
+    "x_candidates": [
+      "Below_evel",
+      "Unemp_ment",
+      "NoHig_loma",
+      "PerCa_come",
+      "Dependency",
+      "Crowd_sing",
+      "Prena_ster",
+      "Prete_rths",
+      "LowBi_ight",
+      "Gener_Rate",
+      "shape_area"
+    ],
+    "rationale": "Les variables Y candidates sont des taux de mortalité, morbidité ou comportements de santé (mortalité infantile, cancer, diabète, violence, etc.) typiquement modélisés comme outcomes dans les études d'épidémiologie spatiale. Les variables X candidates sont des déterminants socio-économiques (pauvreté, chômage, revenu, éducation, dépendance, surpeuplement) et des indicateurs de santé maternelle/périnatale qui servent classiquement de covariables explicatives ; les colonnes purement administratives (area_num, comm_area) et les doublons apparents (Gonor_ales/Gono_les_1, Chil_ing_1, Firea_ated, Breas_ales, Color_ncer, Prost_ales) sont écartés ou relégués selon le contexte."
+  },
+  "Python_geodatasets_geoda.hickory1::f07ab50b0311e347": {
+    "y_candidates": [
+      "hh_inc",
+      "hsg_val",
+      "pov_tot"
+    ],
+    "x_candidates": [
+      "tot_pop",
+      "pop_16",
+      "pop_65",
+      "white",
+      "black",
+      "asian",
+      "hisp",
+      "multi_ra",
+      "males",
+      "females",
+      "male1664",
+      "fem1664",
+      "empl16",
+      "emp_away",
+      "emp_home",
+      "emp_29",
+      "emp_30",
+      "emp_male",
+      "emp_fem",
+      "occ_man",
+      "occ_off1",
+      "occ_info",
+      "pov_pop"
+    ],
+    "rationale": "Les variables hh_inc (revenu médian du ménage), hsg_val (valeur médiane des logements) et pov_tot (population en dessous du seuil de pauvreté) sont des cibles socio-économiques classiques en spatial ML. Les variables démographiques, raciales, d'emploi et d'occupation constituent des covariables explicatives naturelles de ces outcomes ; FIPS et msa sont des codes/identifiants administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.hickory2::43ad19e3243fb3ea": {
+    "y_candidates": [
+      "PCTCSE",
+      "PCTGRO",
+      "PCTIME",
+      "EMP01",
+      "PAY01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "PAY98",
+      "EST01",
+      "MAN98",
+      "MAN01",
+      "OFF98",
+      "OFF01",
+      "INFO98",
+      "INFO01",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01_12",
+      "MAN01_39",
+      "OFF98_12",
+      "OFF98_39",
+      "OFF01_12",
+      "OFF01_39",
+      "INFO98_12",
+      "INFO01_12",
+      "NUMSEC"
+    ],
+    "rationale": "Les colonnes PCTCSE, PCTGRO, PCTIME (taux de variation en %) et EMP01/PAY01 (niveau d'emploi/salaires en 2001) sont des cibles naturelles pour modéliser la dynamique économique locale par ZIP. Les counts sectoriels (établissements, emplois, masse salariale par secteur en 1998/2001) ainsi que la population, le nombre de secteurs et les sous-catégories industrielles servent de covariables explicatives ; les colonnes US (totaux nationaux constants) sont exclues car non discriminantes."
+  },
+  "Python_geodatasets_geoda.home_sales::c46d7f4c77b2afb8": {
+    "y_candidates": [
+      "price"
+    ],
+    "x_candidates": [
+      "bedrooms",
+      "bathrooms",
+      "sqft_liv",
+      "sqft_lot",
+      "floors",
+      "waterfront",
+      "view",
+      "condition",
+      "grade",
+      "sqft_above",
+      "sqft_basmt",
+      "yr_built",
+      "yr_renov",
+      "sqft_liv15",
+      "sqft_lot15"
+    ],
+    "rationale": "Le prix de vente (`price`) est la variable réponse naturelle pour un dataset de transactions immobilières. Les caractéristiques physiques, structurelles et de qualité du bien (surface, pièces, étages, vue, condition, grade, ancienneté, rénovation, surfaces voisinage) constituent des covariables explicatives classiques pour modéliser ce prix. Les colonnes `date` et `T` sont ignorées car trop ambiguës ou purement administratives sans information exploitable directe."
+  },
+  "Python_geodatasets_geoda.lansing1::77acc7e1adf27003": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE",
+      "BLACK",
+      "ASIAN",
+      "HISP",
+      "MUTLI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur des logements) et POV_TOT (population en pauvreté) sont des cibles socio-économiques classiques en spatial ML. Les variables démographiques (population totale, âge, race/ethnie, genre), d'emploi (EMPL16, EMP_AWAY, EMP_HOME, EMP_29/30, EMP_MALE/FEM) et d'occupation (OCC_*) constituent des covariables explicatives pertinentes ; FIPS et MSA sont ignorés comme identifiants administratifs ; EMP16_2 est ignoré car redondant avec EMPL16."
+  },
+  "Python_geodatasets_geoda.lansing2::b7c29d251d441788": {
+    "y_candidates": [
+      "PCTGRO",
+      "PCTCSE",
+      "PCTIME",
+      "EMP01",
+      "EST01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "MAN98",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01",
+      "MAN01_12",
+      "MAN01_39",
+      "OFF98",
+      "OFF98_12",
+      "OFF98_39",
+      "OFF01",
+      "OFF01_12",
+      "OFF01_39",
+      "INFO98",
+      "INFO98_12",
+      "INFO98_39",
+      "INFO01",
+      "INFO01_12",
+      "INFO01_39",
+      "NUMSEC",
+      "PCTNGE"
+    ],
+    "rationale": "Les variables de croissance/changement (PCTGRO, PCTCSE, PCTIME) et les niveaux d'emploi/établissements en 2001 (EMP01, EST01) sont des cibles naturelles pour modéliser la dynamique économique locale. Les comptages sectoriels de 1998 (emploi, établissements, sous-secteurs manufacturing/office/info), la population et le nombre de secteurs (NUMSEC) constituent des covariables explicatives pertinentes ; les colonnes US (constantes sur tout le dataset) sont ignorées car non discriminantes."
+  },
+  "Python_geodatasets_geoda.lasrosas::94ae45ccce8ed54d": {
+    "y_candidates": [
+      "YIELD"
+    ],
+    "x_candidates": [
+      "N",
+      "N2",
+      "TOPO",
+      "BV",
+      "BV2",
+      "NXBV",
+      "SAT",
+      "SAT2",
+      "NXSAT",
+      "BVXT2",
+      "BVXT3",
+      "BVXT4",
+      "BV2XT2",
+      "BV2XT3",
+      "BV2XT4",
+      "SATXT2",
+      "SATXT3",
+      "SATXT4",
+      "SAT2XT2",
+      "SAT2XT3",
+      "SAT2XT4",
+      "NXTOP2",
+      "NXTOP3",
+      "NXTOP4",
+      "N2XTOP2",
+      "N2XTOP3",
+      "N2XTOP4",
+      "TOP2",
+      "TOP3",
+      "TOP4"
+    ],
+    "rationale": "YIELD (rendement agricole en continu) est la variable réponse naturelle de ce dataset d'expérimentation agronomique issu de Las Rosas. Les autres colonnes représentent des covariables explicatives : dose d'azote (N, N2), topographie (TOPO, TOP2-4 indicatrices de classe), interactions azote×topographie (NXTOP*, N2XTOP*), et variables pédologiques/spectrales (BV, SAT) avec leurs termes quadratiques et interactions croisées, formant typiquement la structure d'un modèle de réponse à l'azote spatialement hétérogène. OBS est un simple index d'observation, ignoré."
+  },
+  "Python_geodatasets_geoda.milwaukee1::c813968f852e8a1d": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT",
+      "PCTBLACK"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "Les variables HH_INC (revenu médian des ménages), HSG_VAL (valeur des logements), POV_TOT (population en pauvreté) et PCTBLACK (taux de population noire) sont des indicateurs socio-économiques ou démographiques synthétiques classiquement modélisés comme variables réponse en spatial ML. Les variables de population, composition démographique, emploi et occupation constituent des covariables explicatives naturelles ; BLACK1 et BLACK_R sont exclus car redondants avec BLACK_ et PCTBLACK, et PCTBLCK est exclu car doublon exact de PCTBLACK."
+  },
+  "Python_geodatasets_geoda.ndvi::869eaeeb0f303ede": {
+    "y_candidates": [
+      "GREEN"
+    ],
+    "x_candidates": [
+      "TEMP",
+      "ELEV",
+      "PREC"
+    ],
+    "rationale": "GREEN (réflectance verte / proxy NDVI) est la variable réponse naturelle à modéliser dans un contexte de végétation. TEMP, ELEV et PREC sont des covariables environnementales classiques (température, altitude, précipitations) qui expliquent la distribution spatiale de la végétation. AREA et PERIMETER sont constants (plage [49,49] et [28,28]) donc sans variance utile et sont ignorés."
+  },
+  "Python_geodatasets_geoda.nepal::106c64de14083c5d": {
+    "y_candidates": [
+      "pcinc",
+      "pcincppp",
+      "pcincmp",
+      "ad_illit",
+      "ad_ilgt50",
+      "nosafh20",
+      "lif40",
+      "malkids",
+      "depecprov"
+    ],
+    "x_candidates": [
+      "population",
+      "schlppop",
+      "schoolcnt",
+      "kids1_5",
+      "boyg1_5",
+      "girlg1_5",
+      "TOTCAMT",
+      "TOTDAMT",
+      "AGCAMT",
+      "AGDAMT",
+      "HEALTCAMT",
+      "HEALTDAMT",
+      "EDUCAMT",
+      "EDUDAMT",
+      "WATCAMT",
+      "WATDAMT",
+      "ENGYCAMT",
+      "ENGYDAMT",
+      "TRANCAMT",
+      "TRANDAMT",
+      "SOCCAMT",
+      "SOCDAMT",
+      "MULTCAMT",
+      "MULTDAMT",
+      "BUDGCAMT",
+      "BUDGDAMT"
+    ],
+    "rationale": "Les variables socio-économiques et de bien-être (revenu par habitant, analphabétisme, mortalité, accès à l'eau) sont des cibles naturelles pour la modélisation spatiale au niveau district au Népal. Les montants de financement par secteur (CAMT = commitments, DAMT = disbursements), la population et les indicateurs scolaires constituent des covariables explicatives pertinentes reflétant les investissements publics et la structure démographique ; les colonnes purement nominales (name_1, name_2, district) sont ignorées comme identifiants géographiques."
+  },
+  "Python_geodatasets_geoda.nyc::d45245eedc0546f6": {
+    "y_candidates": [
+      "rent2008",
+      "rentpct08",
+      "kids2009",
+      "pubast00",
+      "hhsiz08"
+    ],
+    "x_candidates": [
+      "forhis06",
+      "forhis07",
+      "forhis08",
+      "forhis09",
+      "forwh06",
+      "forwh07",
+      "forwh08",
+      "forwh09",
+      "hhsiz1990",
+      "hhsiz00",
+      "hhsiz02",
+      "hhsiz05",
+      "kids2000",
+      "kids2005",
+      "kids2006",
+      "kids2007",
+      "kids2008",
+      "rent2002",
+      "rent2005",
+      "rentpct02",
+      "rentpct05",
+      "pubast90",
+      "yrhom02",
+      "yrhom05",
+      "yrhom08"
+    ],
+    "rationale": "Les variables les plus récentes (rent2008, rentpct08, kids2009, pubast00, hhsiz08) sont retenues comme cibles plausibles car elles représentent des outcomes socio-économiques d'intérêt (loyer, part d'enfants, aide publique, taille du ménage) à la date la plus récente du dataset. Les séries temporelles antérieures et les variables structurelles (composition ethnique, durée de résidence) constituent des covariables explicatives naturelles ; name, subborough et bor_subb sont ignorés car purement administratifs/géographiques."
+  },
+  "Python_geodatasets_geoda.nyc_education::38db7f6d8ef47d12": {
+    "y_candidates": [
+      "YOUTH_DROP",
+      "HS_DROP",
+      "COL_DEGREE",
+      "dropout",
+      "GENDER_PAR"
+    ],
+    "x_candidates": [
+      "PER_MNRTY",
+      "PER_ASIAN",
+      "PER_WHITE",
+      "PER_BLACK",
+      "mean_inc",
+      "pop1619",
+      "enrollhs",
+      "PER_PRV_SC",
+      "PER_PUB_SC",
+      "over3",
+      "notenroll",
+      "over3enr",
+      "pubsch",
+      "privsch",
+      "over25",
+      "subhs",
+      "somecol",
+      "college",
+      "master",
+      "prof",
+      "phd",
+      "sub18",
+      "SCHOOL_CT",
+      "popdens",
+      "population",
+      "NP_CT"
+    ],
+    "rationale": "Les variables Y candidates sont des taux ou mesures de résultats éducatifs (décrochage scolaire, diplomation, parité de genre) qui constituent des cibles naturelles pour la modélisation spatiale. Les variables X regroupent les caractéristiques socio-démographiques (composition raciale, revenus, densité, population) et les indicateurs structurels du système éducatif (effectifs scolaires public/privé, niveaux d'éducation des adultes) qui jouent un rôle explicatif ; les colonnes purement administratives ou géographiques (CTLabel, BoroName, CT2000, BoroCT2000, NTANAme, PUMA, Shape_Leng, Shape_Area) sont ignorées."
+  },
+  "Python_geodatasets_geoda.nyc_neighborhoods::f1c2637ad97759f2": {
+    "y_candidates": [
+      "UEMPRATE",
+      "struggling",
+      "poor",
+      "poororstru",
+      "gini"
+    ],
+    "x_candidates": [
+      "poptot",
+      "popover18",
+      "popinlabou",
+      "households",
+      "hispanic",
+      "african",
+      "asian",
+      "european",
+      "otherethni",
+      "mixed",
+      "onlybachel",
+      "onlycolleg",
+      "onlyhighsc",
+      "onlymaster",
+      "onlydoctor",
+      "onlylessth",
+      "onlyprofes",
+      "lessthanhi",
+      "withssi",
+      "withsocial",
+      "withpubass",
+      "comm_15_29",
+      "comm_30_44",
+      "comm_45_59",
+      "comm_60_89",
+      "comm90plus",
+      "medianinco",
+      "medianage",
+      "HHsize",
+      "male",
+      "female",
+      "boroname"
+    ],
+    "rationale": "Les variables Y candidates sont des indicateurs socio-économiques synthétiques de vulnérabilité ou d'inégalité à expliquer spatialement (taux de chômage, pauvreté, précarité, indice de Gini). Les variables X candidates couvrent la structure démographique (population, âge, genre), la composition ethnique, le niveau d'éducation, les transferts sociaux, les temps de trajet domicile-travail, le revenu médian et la taille des ménages — toutes covariables explicatives classiques en spatial ML ; les colonnes purement nominatives (ntaname, field_1) et les sous-totaux redondants (popunemplo, maleunempl, etc. déjà résumés dans UEMPRATE) sont ignorés."
+  },
+  "Python_geodatasets_geoda.orlando1::be8f377a076066ec": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MUTLI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur médiane des logements) et POV_TOT (nombre de personnes en dessous du seuil de pauvreté) sont des variables socio-économiques synthétiques classiquement utilisées comme variables réponse dans les modèles spatiaux. Les variables démographiques (population totale, structure par âge, composition raciale/ethnique), d'emploi (EMPL16, EMP_AWAY, EMP_HOME, catégories professionnelles) et POV_POP constituent des covariables explicatives naturelles ; FIPS et MSA sont des codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.phoenix_acs::1532117cb754e7f4": {
+    "y_candidates": [
+      "inc",
+      "pop_dens",
+      "renter_rt",
+      "vac_hsu_rt"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "pop",
+      "white_rt",
+      "black_rt",
+      "hisp_rt",
+      "fem_nh_rt",
+      "hsu"
+    ],
+    "rationale": "Les variables socio-économiques et de marché du logement (revenu médian, densité de population, taux de locataires, taux de vacance) constituent des cibles naturelles pour des modèles prédictifs spatiaux. Les caractéristiques physiques du territoire (surfaces), démographiques (population totale, composition ethnique/raciale, part des femmes hors hispanique) et le stock de logements servent de covariables explicatives ; les colonnes d'erreur de mesure (inc_error, pct_error, l_pct_err) et les identifiants/libellés géographiques (GEOID10, NAMELSAD10) sont écartés."
+  },
+  "Python_geodatasets_geoda.police::320fce4cbfe3c773": {
+    "y_candidates": [
+      "CRIME",
+      "POLICE"
+    ],
+    "x_candidates": [
+      "POP",
+      "INC",
+      "UNEMP",
+      "OWN",
+      "COLLEGE",
+      "WHITE",
+      "COMMUTE",
+      "TAX",
+      "TRANSFER",
+      "AREA",
+      "PERIMETER"
+    ],
+    "rationale": "CRIME (nombre de crimes) et POLICE (effectifs policiers) sont les variables réponses naturelles dans un dataset 'police' à vocation criminologique/sécuritaire. Les variables socio-économiques (INC, UNEMP, OWN, COLLEGE, WHITE, COMMUTE, TAX, TRANSFER), démographiques (POP) et morphologiques (AREA, PERIMETER) constituent des covariables explicatives pertinentes ; les codes FIPS, noms et identifiants administratifs sont ignorés."
+  },
+  "Python_geodatasets_geoda.sacramento1::8a0c2e3b9156297f": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MULTI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur médiane des logements) et POV_TOT (population en dessous du seuil de pauvreté) sont les cibles socio-économiques les plus naturelles pour un benchmark de ML spatial. Les variables démographiques, d'emploi, de composition raciale et de structure par âge constituent des covariables explicatives classiques ; FIPS, MSA et FIPSNO sont purement administratifs/géographiques et sont ignorés."
+  },
+  "Python_geodatasets_geoda.savannah1::be8f377a076066ec": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MUTLI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur médiane des logements) et POV_TOT (nombre de personnes en dessous du seuil de pauvreté) sont des cibles socio-économiques classiques en spatial ML ; les variables démographiques (population totale, âge, race/ethnie, genre), d'emploi (EMPL16, EMP_AWAY/HOME, EMP_29/30, EMP_MALE/FEM) et d'occupation (OCC_*) ainsi que POV_POP (population couverte par l'enquête pauvreté) constituent des covariables explicatives pertinentes. FIPS et MSA sont des identifiants/codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.seattle1::52e90be0a809b055": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MULTI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP16_2",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "Les variables HH_INC (revenu médian du ménage), HSG_VAL (valeur du logement) et POV_TOT (population en dessous du seuil de pauvreté) sont des cibles socio-économiques classiques en spatial ML. Les variables démographiques (population, composition raciale, âge, genre) et d'emploi/occupation servent de covariables explicatives ; FIPS et MSA sont des identifiants/codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.tampa1::52e90be0a809b055": {
+    "y_candidates": [
+      "HH_INC",
+      "HSG_VAL",
+      "POV_TOT"
+    ],
+    "x_candidates": [
+      "TOT_POP",
+      "POP_16",
+      "POP_65",
+      "WHITE_",
+      "BLACK_",
+      "ASIAN_",
+      "HISP_",
+      "MULTI_RA",
+      "MALES",
+      "FEMALES",
+      "MALE1664",
+      "FEM1664",
+      "EMPL16",
+      "EMP_AWAY",
+      "EMP_HOME",
+      "EMP_29",
+      "EMP_30",
+      "EMP_MALE",
+      "EMP_FEM",
+      "OCC_MAN",
+      "OCC_OFF1",
+      "OCC_INFO",
+      "POV_POP"
+    ],
+    "rationale": "HH_INC (revenu médian des ménages), HSG_VAL (valeur médiane du logement) et POV_TOT (nombre de personnes en situation de pauvreté) sont des cibles socio-économiques classiques en spatial ML. Les variables démographiques (population totale, structure par âge, race/ethnie, sexe) et d'emploi/occupation constituent des covariables explicatives naturelles pour ces outcomes ; FIPS et MSA sont des identifiants administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.us_sdoh::6a3433e3f0c3c2f6": {
+    "y_candidates": [
+      "SDOH_CL",
+      "ep_pov",
+      "ep_unin",
+      "ep_unem"
+    ],
+    "x_candidates": [
+      "ep_pci",
+      "ep_nohs",
+      "ep_sngp",
+      "ep_lime",
+      "ep_crow",
+      "ep_nove",
+      "rntov30p_1",
+      "ep_minrty",
+      "ep_age65",
+      "ep_age17",
+      "ep_disabl",
+      "X1_SES",
+      "X2_MOB",
+      "X3_URB",
+      "X4_MICA"
+    ],
+    "rationale": "SDOH_CL (cluster de déterminants sociaux de santé) est la cible synthétique naturelle du dataset ; ep_pov, ep_unem et ep_unin sont des indicateurs de vulnérabilité sociale fréquemment modélisés comme variables réponse. Les variables ep_* restantes (capital humain, démographie, logement) ainsi que les composantes factorielles X1–X4 constituent des covariables explicatives pertinentes ; les colonnes FIPS/codes géographiques sont ignorées car purement administratives."
+  },
+  "Python_geodatasets_naturalearth.cities::2ad8243128cc9da5": {
+    "y_candidates": [
+      "pop_max",
+      "pop_min",
+      "megacity",
+      "worldcity"
+    ],
+    "x_candidates": [
+      "scalerank",
+      "natscale",
+      "labelrank",
+      "adm0cap",
+      "capalt",
+      "rank_max",
+      "rank_min",
+      "min_zoom",
+      "pop_other"
+    ],
+    "rationale": "Les variables de population (pop_max, pop_min) et les indicateurs de statut urbain (megacity, worldcity) sont des cibles naturelles pour modéliser l'importance ou la taille des villes. Les variables de rang, d'échelle cartographique, de statut de capitale et de population complémentaire servent de covariables explicatives ; les colonnes de noms, codes pays/région et libellés géographiques sont ignorées car purement administratives."
+  },
+  "Python_geodatasets_spdata.boston::659cc0c040355af3": {
+    "y_candidates": [
+      "MEDV",
+      "CMEDV",
+      "median",
+      "CRIM"
+    ],
+    "x_candidates": [
+      "ZN",
+      "INDUS",
+      "CHAS",
+      "NOX",
+      "RM",
+      "AGE",
+      "DIS",
+      "RAD",
+      "TAX",
+      "PTRATIO",
+      "B",
+      "LSTAT",
+      "POP",
+      "BB",
+      "units"
+    ],
+    "rationale": "MEDV et CMEDV (valeur médiane des logements) sont les cibles classiques de ce benchmark immobilier, median en est une version alternative (en dollars absolus) ; CRIM (taux de criminalité) peut aussi être une variable réponse dans des études de sécurité urbaine. Les colonnes ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, POP, BB et units sont des caractéristiques socio-économiques, environnementales et d'accessibilité typiquement utilisées comme covariables explicatives ; les colonnes de comptage de logements par tranche de prix (cu5k, c5_7_5, C7_5_10, etc.) et censored sont ignorées car redondantes avec MEDV/CMEDV ou purement descriptives de la distribution cible."
+  },
+  "Python_geodatasets_spdata.columbus::74417839e4e0caaa": {
+    "y_candidates": [
+      "CRIME",
+      "HOVAL"
+    ],
+    "x_candidates": [
+      "INC",
+      "OPEN",
+      "PLUMB",
+      "DISCBD",
+      "NSA",
+      "NSB",
+      "EW",
+      "CP",
+      "AREA",
+      "PERIMETER"
+    ],
+    "rationale": "CRIME (taux de criminalité) et HOVAL (valeur des logements) sont les deux variables réponses classiques du dataset Columbus, utilisées comme cibles dans la littérature de spatiale. INC (revenu), OPEN (espaces ouverts), PLUMB (plomberie défectueuse), DISCBD (distance au CBD), les indicateurs binaires de zone (NSA, NSB, EW, CP) ainsi que AREA et PERIMETER constituent des covariables explicatives plausibles ; COLUMBUS_, COLUMBUS_I, NEIG, THOUS et NEIGNO sont des identifiants/codes redondants ignorés."
+  },
+  "Python_geodatasets_spdata.eire::49c4d16a6fe0b981": {
+    "y_candidates": [
+      "INCOME",
+      "POPCHG",
+      "RETSALE"
+    ],
+    "x_candidates": [
+      "A",
+      "towns",
+      "pale",
+      "size",
+      "ROADACC",
+      "OWNCONS"
+    ],
+    "rationale": "INCOME, POPCHG et RETSALE sont des variables socio-économiques classiquement utilisées comme cibles dans des modèles spatiaux (revenus, croissance démographique, ventes au détail). Les autres variables numériques (superficie A, taux d'urbanisation towns, indicateur historique pale, taille size, accessibilité routière ROADACC, occupation des logements OWNCONS) constituent des covariables explicatives plausibles ; la colonne names est ignorée car purement administrative."
+  },
+  "Python_geodatasets_spdata.nydata::a390d441180b2c86": {
+    "y_candidates": [
+      "TRACTCAS",
+      "PROPCAS",
+      "Z"
+    ],
+    "x_candidates": [
+      "POP8",
+      "PCTOWNHOME",
+      "PCTAGE65P",
+      "AVGIDIST",
+      "PEXPOSURE"
+    ],
+    "rationale": "TRACTCAS (nombre de cas par tract), PROPCAS (proportion de cas) et Z (vraisemblablement un score standardisé de cas, typique du dataset NY leukemia) sont des cibles épidémiologiques naturelles. POP8, PCTOWNHOME, PCTAGE65P, AVGIDIST et PEXPOSURE sont des covariables explicatives classiques (démographie, statut résidentiel, structure d'âge, distance inverse moyenne à une source, exposition estimée). AREANAME est un libellé géographique ignoré."
+  },
+  "Python_geodatasets_spdata.wheat::21c961994c9801a5": {
+    "y_candidates": [
+      "yield"
+    ],
+    "x_candidates": [
+      "lat1"
+    ],
+    "rationale": "yield (rendement en blé) est la variable réponse naturelle pour un dataset agricole spatial. lat1 est une covariable spatiale continue exploitable (position/gradient spatial). SP_ID_1, r et c sont des identifiants ou codes de grille (ligne/colonne) purement administratifs, sans valeur explicative directe."
+  },
+  "Python_libpysal_Baltimore::1cbf694331f1cb19": {
+    "y_candidates": [
+      "PRICE"
+    ],
+    "x_candidates": [
+      "NROOM",
+      "DWELL",
+      "NBATH",
+      "PATIO",
+      "FIREPL",
+      "AC",
+      "BMENT",
+      "NSTOR",
+      "GAR",
+      "AGE",
+      "CITCOU",
+      "LOTSZ",
+      "SQFT"
+    ],
+    "rationale": "PRICE (prix immobilier, variable continue) est la cible naturelle d'un modèle hédonique de prix de logement. Toutes les autres colonnes décrivent des caractéristiques structurelles ou locatives du bien (surface, nombre de pièces, équipements, âge, etc.) et constituent des covariables explicatives classiques. STATION est ignoré car il s'agit vraisemblablement d'un identifiant de station/observation sans valeur explicative intrinsèque."
+  },
+  "Python_libpysal_Elections::4925bc22df0856d3": {
+    "y_candidates": [
+      "pct_dem_16",
+      "pct_gop_16",
+      "pct_pt_16",
+      "pct_dem_12",
+      "pct_gop_12",
+      "pct_pt_12"
+    ],
+    "x_candidates": [
+      "ALAND",
+      "AWATER",
+      "PST045214",
+      "PST120214",
+      "POP010210",
+      "AGE135214",
+      "AGE295214",
+      "AGE775214",
+      "SEX255214",
+      "RHI125214",
+      "RHI225214",
+      "RHI325214",
+      "RHI425214",
+      "RHI625214",
+      "RHI725214",
+      "RHI825214",
+      "POP715213",
+      "POP645213",
+      "POP815213",
+      "EDU635213",
+      "EDU685213",
+      "VET605213",
+      "LFE305213",
+      "HSG445213",
+      "HSG096213",
+      "HSG495213",
+      "HSD310213",
+      "INC910213",
+      "INC110213",
+      "PVY020213",
+      "BZA115213",
+      "SBO315207",
+      "SBO115207",
+      "SBO215207",
+      "SBO415207",
+      "SBO015207",
+      "LND110210",
+      "POP060210"
+    ],
+    "rationale": "Les variables cibles (Y) sont les parts de votes démocrate/républicain et les scores de point en 2016 et 2012, qui sont les résultats électoraux à expliquer/prédire. Les covariables (X) regroupent les caractéristiques socio-démographiques, économiques, éducatives, raciales, immobilières et géographiques des comtés susceptibles d'expliquer le comportement électoral ; les colonnes de votes bruts (Demvotes, GOPvotes, total, diff) sont exclues car redondantes avec les taux cibles, et les codes FIPS/noms de lieux sont ignorés comme identifiants administratifs."
+  },
+  "Python_libpysal_NYC_Socio-Demographics::0809f6656f0729a6": {
+    "y_candidates": [
+      "UNEMP_RATE",
+      "poor",
+      "struggling",
+      "poororstru",
+      "gini",
+      "medianinco",
+      "popdty"
+    ],
+    "x_candidates": [
+      "poptot",
+      "popover18",
+      "popinlabou",
+      "households",
+      "african",
+      "hispanic",
+      "asian",
+      "european",
+      "mixed",
+      "american",
+      "pacific",
+      "otherethni",
+      "onlylessth",
+      "onlyhighsc",
+      "onlycolleg",
+      "onlybachel",
+      "onlymaster",
+      "onlyprofes",
+      "onlydoctor",
+      "lessthanhi",
+      "highschool",
+      "college",
+      "bachelor",
+      "master",
+      "doctorate",
+      "male",
+      "female",
+      "withssi",
+      "withsocial",
+      "withpubass",
+      "comm_5less",
+      "comm_5_14",
+      "comm_15_29",
+      "comm_30_44",
+      "comm_45_59",
+      "comm_60_89",
+      "com_90plus",
+      "medianage",
+      "medianagem",
+      "medianagef",
+      "shape_area"
+    ],
+    "rationale": "UNEMP_RATE est la cible naturelle en tant que taux normalisé [0,1], mais poor, struggling, poororstru, gini et medianinco sont aussi des réponses socio-économiques plausibles ; popdty (densité de population) peut servir de variable dépendante spatiale. Les covariables X couvrent la structure démographique (population totale, âge, sexe), la composition ethnique, le niveau d'éducation, les aides sociales et les temps de trajet domicile-travail, qui sont des déterminants classiques des inégalités et du chômage. Les colonnes purement administratives (codes géographiques, noms de lieux, identifiants géométriques) sont ignorées."
+  },
+  "Python_libpysal_Ohiolung::0448cfd93b065af6": {
+    "y_candidates": [
+      "LM68",
+      "LF68",
+      "LM78",
+      "LF78",
+      "LM88",
+      "LF88"
+    ],
+    "x_candidates": [
+      "AREA",
+      "POPM68",
+      "POPF68",
+      "POPM78",
+      "POPF78",
+      "POPM88",
+      "POPF88",
+      "LMW68",
+      "LMB68",
+      "LFW68",
+      "LFB68",
+      "LMW78",
+      "LMB78",
+      "LFW78",
+      "LFB78",
+      "LMW88",
+      "LMB88",
+      "LFW88",
+      "LFB88"
+    ],
+    "rationale": "Ce dataset porte sur la mortalité pulmonaire (lung cancer) par comté de l'Ohio : les colonnes LM*/LF* représentent les décès (males/females) pour 1968, 1978, 1988 et sont les cibles naturelles, tandis que les populations de référence (POPM*, POPF*, POPMW*, etc.), la superficie (AREA) et les sous-groupes de décès par race/sexe constituent des covariables explicatives pertinentes. FIPSNO, NAME et PERIMETER sont ignorés car purement administratifs ou géométriques."
+  },
+  "Python_libpysal_Snow::c0146d77ce3134b8": {
+    "y_candidates": [
+      "deaths",
+      "deaths_r",
+      "deaths_nr"
+    ],
+    "x_candidates": [
+      "pestfield",
+      "dis_pestf",
+      "dis_sewers",
+      "dis_bspump"
+    ],
+    "rationale": "Ce dataset correspond aux données historiques de choléra de John Snow (Londres 1854) : les variables de décès (totaux, résidents, non-résidents) sont les réponses naturelles à modéliser. Les distances à la pompe Broad Street (dis_bspump), aux égouts (dis_sewers), au champ de pestilence (dis_pestf) et la présence du champ (pestfield) sont des covariables spatiales explicatives classiques pour ce benchmark. Note : deaths étant la somme de deaths_r et deaths_nr, il faudra éviter de les utiliser simultanément comme Y."
+  },
+  "Python_libpysal_chicagoSDOH::b57f6e19dc5d2684": {
+    "y_candidates": [
+      "YPLL_rate",
+      "YEARS_LOST",
+      "PCRIMERT15",
+      "VCRIMERT15",
+      "COI_ct",
+      "HIS_ct",
+      "ForclRt",
+      "FORCLRISK",
+      "HealthLit",
+      "CmTm14",
+      "MEANMI_14"
+    ],
+    "x_candidates": [
+      "PDENS14",
+      "CarC14P",
+      "CTA14P",
+      "Undr514P",
+      "Wht14P",
+      "Blk14P",
+      "Hisp14P",
+      "Pop2014",
+      "FACHANGE",
+      "EP_PCI",
+      "EP_MUNIT",
+      "EP_GROUPQ",
+      "SSWS2USE",
+      "SchHP_Mi",
+      "BrownF_Mi",
+      "MEANMI_07",
+      "MEANMI_11",
+      "EP_MINRTY",
+      "Ovr6514P",
+      "EP_AGE17",
+      "EP_DISABL",
+      "EP_NOHSDP",
+      "EP_LIMENG",
+      "EP_SNGPNT",
+      "Pov14",
+      "PerCap14",
+      "Unemp14",
+      "EP_UNINSUR",
+      "EP_CROWD",
+      "EP_NOVEH",
+      "ChldPvt14"
+    ],
+    "rationale": "Les variables Y candidates regroupent des indicateurs de santé publique (YPLL_rate, YEARS_LOST), de criminalité (PCRIMERT15, VCRIMERT15), d'opportunité/stress socioéconomique (COI_ct, HIS_ct), de saisie immobilière (ForclRt, FORCLRISK), de mobilité (CmTm14, MEANMI_14) et de littératie en santé (HealthLit), qui sont des outcomes typiques dans les analyses SDOH. Les variables X candidates couvrent les déterminants sociaux classiques : démographie, pauvreté, chômage, éducation, logement, accessibilité et composition raciale/ethnique ; les colonnes purement administratives (TRACTCE10, geoid10, commarea, district, region, regionno, districtno), géométriques (Shape_Leng, Shape_Area) et les indicateurs binaires redondants avec leurs versions continues (CAR, NOCAR, CTA, WHT50PCT, BLCK50PCT, HISP50PCT, Wht, Blk, Hisp) sont exclus."
+  },
+  "Python_libpysal_georgia::617eb6c949981d5f": {
+    "y_candidates": [
+      "PctPov",
+      "PctBach",
+      "PctBlack"
+    ],
+    "x_candidates": [
+      "AREA",
+      "PERIMETER",
+      "TotPop90",
+      "PctRural",
+      "PctEld",
+      "PctFB"
+    ],
+    "rationale": "PctPov (taux de pauvreté), PctBach (niveau d'éducation) et PctBlack (composition démographique) sont des variables socio-économiques classiquement modélisées comme réponses dans des études de géographie humaine. Les covariables retenues capturent la taille (AREA, PERIMETER), la population (TotPop90), le caractère rural (PctRural), la structure par âge (PctEld) et l'immigration (PctFB) ; G_UTM_ semble être un identifiant interne et Longitud une coordonnée redondante, tous deux exclus."
+  },
+  "Python_geodatasets_geoda.chile_labor::f526bf935fb7dd92": {
+    "y_candidates": [
+      "lfs2__1982",
+      "lfs2__1992",
+      "lfs2__2002"
+    ],
+    "x_candidates": [
+      "pop_1982",
+      "pop_1992",
+      "pop_2002",
+      "area_km2",
+      "sex1__1982",
+      "sex2__1982",
+      "sex1__1992",
+      "sex2__1992",
+      "sex1__2002",
+      "sex2__2002",
+      "lfs1__1982",
+      "lfs3__1982",
+      "lfs1__1992",
+      "lfs3__1992",
+      "lfs1__2002",
+      "lfs3__2002",
+      "age1__1982",
+      "age2__1982",
+      "age3__1982",
+      "age4__1982",
+      "age5__1982",
+      "age6__1982",
+      "age7__1982",
+      "age8__1982",
+      "age9__1982",
+      "age10_1982",
+      "age11_1982",
+      "age12_1982",
+      "age13_1982",
+      "age14_1982",
+      "age15_1982",
+      "age16_1982",
+      "age17_1982",
+      "age18_1982",
+      "age1__1992",
+      "age2__1992",
+      "age3__1992",
+      "age4__1992",
+      "age5__1992",
+      "age6__1992",
+      "age7__1992",
+      "age8__1992",
+      "age9__1992",
+      "age10_1992",
+      "age11_1992",
+      "age12_1992",
+      "age13_1992",
+      "age14_1992",
+      "age15_1992",
+      "age16_1992",
+      "age17_1992",
+      "age18_1992",
+      "age1__2002",
+      "age2__2002",
+      "age3__2002",
+      "age4__2002",
+      "age5__2002",
+      "age6__2002",
+      "age7__2002",
+      "age8__2002",
+      "age9__2002",
+      "age10_2002",
+      "age11_2002",
+      "age12_2002",
+      "age13_2002",
+      "age14_2002",
+      "age15_2002",
+      "age16_2002",
+      "age17_2002",
+      "age18_2002",
+      "is1_r_1982",
+      "is2_r_1982",
+      "is3_r_1982",
+      "is4_r_1982",
+      "is5_r_1982",
+      "is6_r_1982",
+      "is7_r_1982",
+      "is8_r_1982",
+      "is9_r_1982",
+      "is10__1982",
+      "is11__1982",
+      "is1_r_1992",
+      "is2_r_1992",
+      "is3_r_1992",
+      "is4_r_1992",
+      "is5_r_1992",
+      "is6_r_1992",
+      "is7_r_1992",
+      "is8_r_1992",
+      "is9_r_1992",
+      "is10__1992",
+      "is11__1992",
+      "is1_r_2002",
+      "is2_r_2002",
+      "is3_r_2002",
+      "is4_r_2002",
+      "is5_r_2002",
+      "is6_r_2002",
+      "is7_r_2002",
+      "is8_r_2002",
+      "is9_r_2002",
+      "is10__2002",
+      "is11__2002",
+      "oc0_r_1982",
+      "oc1_r_1982",
+      "oc2_r_1982",
+      "oc3_r_1982",
+      "oc4_r_1982",
+      "oc5_r_1982",
+      "oc6_r_1982",
+      "oc7_r_1982",
+      "oc8_r_1982",
+      "oc9_r_1982",
+      "oc0_r_1992",
+      "oc1_r_1992",
+      "oc2_r_1992",
+      "oc3_r_1992",
+      "oc4_r_1992",
+      "oc5_r_1992",
+      "oc6_r_1992",
+      "oc7_r_1992",
+      "oc8_r_1992",
+      "oc9_r_1992",
+      "oc0_r_2002",
+      "oc1_r_2002",
+      "oc2_r_2002",
+      "oc3_r_2002",
+      "oc4_r_2002",
+      "oc5_r_2002",
+      "oc6_r_2002",
+      "oc7_r_2002",
+      "oc8_r_2002",
+      "oc9_r_2002"
+    ],
+    "rationale": "Les variables `lfs2__YYYY` (chômage, labor force status = unemployed) constituent les cibles naturelles d'un dataset sur le marché du travail chilien, représentant le volume de chômeurs par région et par année de recensement. Les covariables incluent la population totale, la superficie, la structure par âge et par sexe, la répartition sectorielle (is = industry sector) et par catégorie socioprofessionnelle (oc = occupation), ainsi que les actifs occupés (lfs1) et les inactifs (lfs3), qui sont tous des prédicteurs classiques du chômage ; `mun` et `dummy` sont ignorés car purement administratifs/indicateurs non informatifs."
+  },
+  "package_metadata": {
+    "r::spdep": {
+      "license": "GPL (>= 2)",
+      "year": "2002",
+      "source": "https://crandb.r-pkg.org/spdep/all"
+    },
+    "r::spData": {
+      "license": "CC0",
+      "year": "2017",
+      "source": "https://crandb.r-pkg.org/spData/all"
+    },
+    "r::spDataLarge": {
+      "license": "CC0",
+      "year": "2017",
+      "source": "https://raw.githubusercontent.com/Nowosad/spDataLarge/master/DESCRIPTION"
+    },
+    "r::GWmodel": {
+      "license": "GPL (>= 2)",
+      "year": "2013",
+      "source": "https://crandb.r-pkg.org/GWmodel/all"
+    },
+    "r::gstat": {
+      "license": "GPL (>= 2.0)",
+      "year": "2003",
+      "source": "https://crandb.r-pkg.org/gstat/all"
+    },
+    "r::sp": {
+      "license": "GPL (>= 2)",
+      "year": "2005",
+      "source": "https://crandb.r-pkg.org/sp/all"
+    },
+    "r::sfdep": {
+      "license": "GPL-3",
+      "year": "2022",
+      "source": "https://crandb.r-pkg.org/sfdep/all"
+    },
+    "r::surveillance": {
+      "license": "GPL-2",
+      "year": "2005",
+      "source": "https://crandb.r-pkg.org/surveillance/all"
+    },
+    "r::SpatialEpi": {
+      "license": "GPL-2",
+      "year": "2012",
+      "source": "https://crandb.r-pkg.org/SpatialEpi/all"
+    },
+    "r::spatstat.data": {
+      "license": "GPL (>= 2)",
+      "year": "2017",
+      "source": "https://crandb.r-pkg.org/spatstat.data/all"
+    },
+    "r::spaMM": {
+      "license": "CeCILL-2",
+      "year": "2013",
+      "source": "https://crandb.r-pkg.org/spaMM/all"
+    },
+    "r::ade4": {
+      "license": "GPL (>= 2)",
+      "year": "2002",
+      "source": "https://crandb.r-pkg.org/ade4/all"
+    },
+    "r::agridat": {
+      "license": "GPL-2",
+      "year": "2011",
+      "source": "https://crandb.r-pkg.org/agridat/all"
+    },
+    "python::geodatasets": {
+      "license": "BSD 3-Clause",
+      "year": "2023",
+      "source": "https://pypi.org/pypi/geodatasets/json"
+    },
+    "python::libpysal": {
+      "license": "BSD 3-Clause",
+      "year": "2017",
+      "source": "https://pypi.org/pypi/libpysal/json"
+    }
+  },
+  "web_enrichment": {
+    "R_spDataLarge_pol_pres15_pol_pres15": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://jakubnowosad.com/spDataLarge/reference/pol_pres15.html",
+      "formula_evidence_url": null
+    },
+    "R_surveillance_hagelloch_hagelloch": {
+      "publication_doi": "10.1093/biostatistics/5.2.249",
+      "reference_publication": "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic",
+      "formula_pub": "~ household + cox(AGE)",
+      "x_terms_pub": [
+        "household",
+        "cox(AGE)"
+      ],
+      "y_term_pub": null,
+      "evidence_url": "https://academic.oup.com/biostatistics/article/5/2/249/237371",
+      "formula_evidence_url": "https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html"
+    },
+    "R_gstat_jura_jura.pred": {
+      "publication_doi": null,
+      "reference_publication": "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, New-York, 483 p. (Appendix C describes the Jura data set)",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://r-spatial.github.io/gstat/reference/jura.html",
+      "formula_evidence_url": null
+    },
+    "R_spData_nz_nz": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "formula_evidence_url": null
+    },
+    "R_spData_house_house": {
+      "publication_doi": null,
+      "reference_publication": "Pace, R. Kelley and Barry, Ronald (1997) Quick Computation of Spatial Autoregressive Estimators. Geographical Analysis",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://cloud.r-project.org/web/packages/spData/spData.pdf",
+      "formula_evidence_url": null
+    },
+    "R_spData_world_world": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "formula_evidence_url": null
+    },
+    "R_spData_depmunic_depmunic": {
+      "publication_doi": "10.1111/gean.12049",
+      "reference_publication": "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis.",
+      "formula_pub": "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j",
+      "x_terms_pub": [
+        "x_{i,j} (lower-level covariates)",
+        "z_j (higher-level covariates)",
+        "W_i (lower-level spatial weights matrix)",
+        "M_j (higher-level spatial weights matrix)"
+      ],
+      "y_term_pub": "y_{i,j} (outcome for lower-level unit i in higher-level unit j)",
+      "evidence_url": "https://rdrr.io/cran/HSAR/"
+    },
+    "R_spdep_oldcol_COL.OLD": {
+      "publication_doi": null,
+      "reference_publication": "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189.",
+      "formula_pub": "CRIME ~ HOVAL + INC",
+      "x_terms_pub": [
+        "HOVAL",
+        "INC"
+      ],
+      "y_term_pub": "CRIME",
+      "evidence_url": "https://www.rdocumentation.org/packages/spdep/versions/1.1-3/topics/oldcol",
+      "formula_evidence_url": "https://r-spatial.github.io/spdep/reference/lm.morantest.html"
+    },
+    "R_spData_properties_properties": {
+      "publication_doi": "10.1111/gean.12049",
+      "reference_publication": "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://cran.r-universe.dev/HSAR",
+      "formula_evidence_url": null
+    },
+    "R_spDataLarge_lsl_lsl": {
+      "publication_doi": "10.1016/j.geomorph.2011.10.029",
+      "reference_publication": "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284.",
+      "formula_pub": "lslpts ~ slope + cplan + cprof + elev + log10_carea",
+      "x_terms_pub": [
+        "slope",
+        "cplan",
+        "cprof",
+        "elev",
+        "log10_carea"
+      ],
+      "y_term_pub": "lslpts",
+      "evidence_url": "https://jakubnowosad.com/spDataLarge/reference/lsl.html",
+      "formula_evidence_url": "https://r.geocompx.org/spatial-cv.html"
+    },
+    "R_GWmodel_EWHP_ewhp": {
+      "publication_doi": null,
+      "reference_publication": "Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/GWmodel/man/EWHP.html",
+      "formula_evidence_url": null
+    },
+    "R_GWmodel_GeorgiaCounties_Gedu.counties": {
+      "publication_doi": null,
+      "reference_publication": "Fotheringham S, Brunsdon C, Charlton M (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/GWmodel/man/Georgia.html",
+      "formula_evidence_url": null
+    },
+    "R_GWmodel_LondonBorough_londonborough": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "formula_evidence_url": null
+    },
+    "R_GWmodel_USelect_USelect2004": {
+      "publication_doi": null,
+      "reference_publication": "Robinson, A. C. (2013) Geovisualization of the 2004 Presidential Election. Penn State / National Institutes of Health (web resource)",
+      "formula_pub": "winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE",
+      "x_terms_pub": [
+        "unemploy",
+        "pctcoled",
+        "PEROVER65",
+        "pcturban",
+        "WHITE"
+      ],
+      "y_term_pub": "winner",
+      "evidence_url": "https://www.rdocumentation.org/packages/GWmodel/versions/2.2-4/topics/USelect"
+    },
+    "R_GWmodel_LondonHP_londonhp": {
+      "publication_doi": "10.1080/13658816.2013.865739",
+      "reference_publication": "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681",
+      "formula_pub": "PURCHASE ~ FLOORSZ",
+      "x_terms_pub": [
+        "FLOORSZ"
+      ],
+      "y_term_pub": "PURCHASE",
+      "evidence_url": "https://rdrr.io/cran/GWmodel/man/LondonHP.html",
+      "formula_evidence_url": "https://rdrr.io/cran/GWmodel/man/gwr.basic.html"
+    },
+    "R_GWmodel_DubVoter_Dub.voter": {
+      "publication_doi": null,
+      "reference_publication": "Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24",
+      "formula_pub": "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64",
+      "x_terms_pub": [
+        "DiffAdd",
+        "LARent",
+        "SC1",
+        "Unempl",
+        "LowEduc",
+        "Age18_24",
+        "Age25_44",
+        "Age45_64"
+      ],
+      "y_term_pub": "GenEl2004",
+      "evidence_url": "https://rdrr.io/cran/GWmodel/man/DubVoter.html",
+      "formula_evidence_url": "https://www.rdocumentation.org/packages/GWmodel/versions/2.2-6/topics/gwr.robust"
+    },
+    "R_gstat_jura_jura.val": {
+      "publication_doi": null,
+      "reference_publication": "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p. [Appendix C describes and provides the Jura data set]",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "http://r-spatial.github.io/gstat/reference/jura.html",
+      "formula_evidence_url": null
+    },
+    "R_gstat_meuse.all_meuse.all": {
+      "publication_doi": null,
+      "reference_publication": "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://search.r-project.org/CRAN/refmans/gstat/html/meuse.all.html",
+      "formula_evidence_url": null
+    },
+    "R_gstat_oxford_oxford": {
+      "publication_doi": null,
+      "reference_publication": "Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "http://r-spatial.github.io/gstat/reference/oxford.html",
+      "formula_evidence_url": null
+    },
+    "R_gstat_DE_RB_2005_DE_RB_2005": {
+      "publication_doi": null,
+      "reference_publication": "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218",
+      "formula_pub": "PM10 ~ 1",
+      "x_terms_pub": [],
+      "y_term_pub": "PM10",
+      "evidence_url": "https://journal.r-project.org/articles/RJ-2016-014/index.html",
+      "formula_evidence_url": "https://r-spatial.github.io/gstat/reference/krigeST.html"
+    },
+    "R_sp_meuse.grid_meuse.grid": {
+      "publication_doi": null,
+      "reference_publication": "M G J Rikken and R P G Van Rijn (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/sp/man/meuse.grid.html",
+      "formula_evidence_url": null
+    },
+    "R_sp_meuse_meuse": {
+      "publication_doi": null,
+      "reference_publication": "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University",
+      "formula_pub": "log(zinc) ~ sqrt(dist)",
+      "x_terms_pub": [
+        "sqrt(dist)"
+      ],
+      "y_term_pub": "log(zinc)",
+      "evidence_url": "https://rsbivand.github.io/sp/reference/meuse.html",
+      "formula_evidence_url": "http://statweb.lsu.edu/faculty/li/IIT/spatial.html"
+    },
+    "R_sp_meuse.grid_ll_meuse.grid_ll": {
+      "publication_doi": null,
+      "reference_publication": "M G J Rikken and R P G Van Rijn (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/sp/man/meuse.html",
+      "formula_evidence_url": null
+    },
+    "R_sfdep_guerry_nb_guerry_nb": {
+      "publication_doi": "10.1214/10-AOAS356",
+      "reference_publication": "Dray, S. and Jombart, T. (2011) Revisiting Guerry's Data: Introducing Spatial Constraints in Multivariate Analysis. The Annals of Applied Statistics, Vol. 5, No. 4, 2278-2299",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://vincentarelbundock.github.io/Rdatasets/doc/HistData/Guerry.html",
+      "formula_evidence_url": null
+    },
+    "R_surveillance_hagelloch_hagelloch.df": {
+      "publication_doi": "10.1093/biostatistics/5.2.249",
+      "reference_publication": "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249–261",
+      "formula_pub": "~ household + cox(AGE)",
+      "x_terms_pub": [
+        "household",
+        "cox(AGE)"
+      ],
+      "y_term_pub": null,
+      "evidence_url": "https://academic.oup.com/biostatistics/article/5/2/249/237371",
+      "formula_evidence_url": "https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html"
+    },
+    "R_spatstat.data_nbfires_nbfires": {
+      "publication_doi": "10.1007/s10651-007-0085-1",
+      "reference_publication": "Turner, Rolf (2009) Point patterns of forest fire locations. Environmental and Ecological Statistics, 16, 197–223.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/spatstat.data/man/nbfires.html",
+      "formula_evidence_url": null
+    },
+    "R_spaMM_Leuca_Leuca": {
+      "publication_doi": "10.1111/mec.15833",
+      "reference_publication": "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735.",
+      "formula_pub": "fec_div ~ sex + Matern(1|x+y %in% sex)",
+      "x_terms_pub": [
+        "sex",
+        "Matern(1|x+y %in% sex)"
+      ],
+      "y_term_pub": "fec_div",
+      "evidence_url": "https://cran.r-project.org/web/packages/spaMM/refman/spaMM.html",
+      "formula_evidence_url": "https://cran.r-project.org/web/packages/spaMM/refman/spaMM.html"
+    },
+    "R_SpatialEpi_pennLC_sf_pennLC_sf": {
+      "publication_doi": null,
+      "reference_publication": "Kim A.Y., Wakefield J., Moise M. (2023) SpatialEpi: Methods and Data for Spatial Epidemiology. R package version 1.2.8. https://github.com/rudeboybert/SpatialEpi",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://github.com/rudeboybert/SpatialEpi",
+      "formula_evidence_url": null
+    },
+    "R_ade4_atlas_atlas": {
+      "publication_doi": null,
+      "reference_publication": "Lebreton, Ph. (1977) Les oiseaux nicheurs rhonalpins. Atlas ornithologique Rhone-Alpes. Centre Ornithologique Rhone-Alpes, Universite Lyon 1, 69621 Villeurbanne. Direction de la Protection de la Nature, Ministere de la Qualite de la Vie. pp. 1-354.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://pbil.univ-lyon1.fr/ADE-4/ade4-html/atlas.html",
+      "formula_evidence_url": null
+    },
+    "R_ade4_atya_atya": {
+      "publication_doi": null,
+      "reference_publication": "Fievet E., Eppe F. and Dolédec S. (2001) Etude de la variabilité morphométrique et génétique des populations de Cacadors (Atya innocous et Atya scabra) de l'île de Basse-Terre. Direction Régionale de L'Environnement Guadeloupe, Laboratoire des hydrosystèmes fluviaux, Université Lyon 1.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://cran.r-project.org/web/packages/ade4/ade4.pdf",
+      "formula_evidence_url": null
+    },
+    "R_spaMM_arabidopsis_arabidopsis": {
+      "publication_doi": "10.1126/science.1209271",
+      "reference_publication": "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89.",
+      "formula_pub": "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)",
+      "x_terms_pub": [
+        "seasonal",
+        "Matern(1|LAT+LONG)"
+      ],
+      "y_term_pub": "cbind(pos1046738, 1-pos1046738)",
+      "evidence_url": "https://cran.r-project.org/web/packages/spaMM/spaMM.pdf"
+    },
+    "R_ade4_elec88_elec88": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmfv337i7doBF77rpk'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_irishdata_irishdata": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmgvK1MGp3mV4pnGwz'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_julliot_julliot": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmhmASuS37bksvP7c7'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_jv73_jv73": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmihUCVqgHkA3koWQ4'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_kcponds_kcponds": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmkzdohqiTJMWHhuq5'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_macon_macon": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmmxBHoMbPehKSZcqH'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_buech_buech": {
+      "publication_doi": null,
+      "reference_publication": "Vespini, F., Légier, P. and Champeau, A. (1987) Ecologie d'une rivière non aménagée des Alpes du Sud : Le Buëch (France) I. Evolution longitudinale des descripteurs physiques et chimiques. Annales de Limnologie, 23, 151–164.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://cran.r-project.org/web/packages/ade4/refman/ade4.html",
+      "formula_evidence_url": null
+    },
+    "R_ade4_mafragh_mafragh": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmoPk8FNaoQW36X1mq'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_oribatid_oribatid": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmoNkfTVmdMyEyxUpT'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_sarcelles_sarcelles": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmpE6cCYGn78i6szdw'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_t3012_t3012": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmq6grZWYfnLUcgRpa'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_pcw_pcw": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmpEqwXhwZJQP2em3Y'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_tintoodiel_tintoodiel": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmqvnzMqEVHsjuN6hu'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_vegtf_vegtf": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmrCRFyAEmYFk7tQGJ'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_zealand_zealand": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmrrMqpFm6J6jknTop'}",
+      "formula_evidence_url": null
+    },
+    "R_agridat_gartner.corn_gartner.corn": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSms7UsqxVhdbj1yEfm'}",
+      "formula_evidence_url": null
+    },
+    "R_agridat_lasrosas.corn_lasrosas.corn": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": "yield ~ 1 + nitro + I(nitro^2)",
+      "x_terms_pub": [
+        "1",
+        "nitro",
+        "I(nitro^2)"
+      ],
+      "y_term_pub": "yield",
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmsgU1LxkVUkhYQC63'}",
+      "formula_evidence_url": "https://rdrr.io/cran/agridat/man/lasrosas.corn.html"
+    },
+    "R_agridat_ortiz.tomato.covs_ortiz.tomato.covs": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmsx69TP6dNtrxgoPf'}",
+      "formula_evidence_url": null
+    },
+    "R_agridat_usgs.herbicides_usgs.herbicides": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmtWKYCncB7af6HnHC'}",
+      "formula_evidence_url": null
+    },
+    "R_agridat_wallace.iowaland_wallace.iowaland": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmu4ZEXi1okYMk4TvN'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.charleston1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmutRMfVASac8g5SVB'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.charleston2": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmvBHJommPLCUJfnzY'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.chicago_commpop": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmvk1k8mt2A9QPyFj5'}",
+      "formula_evidence_url": null
+    },
+    "R_spaMM_Loaloa_Loaloa": {
+      "publication_doi": "10.1179/136485907X229121",
+      "reference_publication": "Diggle P.J., Thomson M.C., Christensen O.F., Rowlingson B., Obsomer V., Gardon J., Wanji S., Takougang I., Enyong P., Kamgno J., Remme J.H., Boussinesq M., Molyneux D.H. (2007) Spatial modelling and the prediction of Loa loa risk: decision making under uncertainty. Annals of Tropical Medicine and Parasitology, 101(6), 499–509",
+      "formula_pub": "cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)",
+      "x_terms_pub": [
+        "elev1",
+        "elev2",
+        "elev3",
+        "elev4",
+        "maxNDVI1",
+        "seNDVI",
+        "Matern(1|longitude+latitude)"
+      ],
+      "y_term_pub": "cbind(npos, ntot-npos)",
+      "evidence_url": "https://pure.johnshopkins.edu/en/publications/spatial-modelling-and-the-prediction-of-loa-loa-risk-decision-mak-3/",
+      "formula_evidence_url": "https://cran.r-project.org/web/packages/spaMM/refman/spaMM.html"
+    },
+    "Python_geodatasets_geoda.chicago_health": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmwDnoCbUCTfPQy2Gq'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_butterfly_butterfly": {
+      "publication_doi": null,
+      "reference_publication": "Manly, B.F. (1994) Multivariate Statistical Methods: A Primer. Second edition. Chapman & Hall, London. pp. 1–215.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://www.rdocumentation.org/packages/ade4/versions/1.7-10/topics/butterfly",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.guerry": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmx8rUYypfSVwKfPEY'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.health": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmxm4PfEGtdw9jP9Cs'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.chile_labor": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmwgpR44THyiPzXy1a'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.health_indicators": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmxxTofDZkJwEsdfQG'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.cincinnati": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmxxxaZxDrnjevzQNU'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_avijons_avijons": {
+      "publication_doi": null,
+      "reference_publication": "Thioulouse, J., Chessel, D. and Champely, S. (1995) Multivariate analysis of spatial patterns: a unified approach to local and global structures. Environmental and Ecological Statistics, 2, 1-14. // Source primaire des données : Bournaud, M., Amoros, C., Chessel, D., Coulet, M., Doledec, S., Michelot, J.L., Pautou, G., Rostan, J.C., Tachet, H. and Thioulouse, J. (1990) Peuplements d'oiseaux et propriétés des écocomplexes de la plaine du Rhône : descripteurs de fonctionnement global et gestion des berges. Rapport programme S.R.E.T.I.E., Ministère de l'Environnement CORA et URA CNRS 367, Univ. Lyon 1.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/rforge/ade4/man/avijons.html",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.hickory2": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmygcoPPNTLGfVBG9C'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.hickory1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmynKnfJBCp4C4nUSY'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.home_sales": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmyqJMsN1dipNeaNQy'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.lansing1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmywzVeNxHfZZh3Q1V'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.lansing2": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmzVjTdhd7PrP7wsV8'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.lasrosas": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmzWUcch3taimeb8ux'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.ndvi": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmzh9H7s6xDbtjVpsN'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.milwaukee1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmzt49t4M13uogFs37'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.nepal": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn1SJ2DCvQgYADDzkC'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.nyc_education": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn1P4fgnL5LB9YAcQg'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.nyc": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn1NKVFb2cN5Kitpuo'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.nyc_neighborhoods": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn1YVBU3KLhGrfEnkM'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.orlando1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn1y3MfpWueGge53HR'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.phoenix_acs": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn2Cvf841EMNkK8R5p'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.police": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn2EAjUsmThDWHwX6s'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.sacramento1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn2EuYi5QC3piVBVe2'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.savannah1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn2P6W8XMkdQC6gybk'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.seattle1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn2pdt1tZkRGf7feiy'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.us_sdoh": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn34X1PVL1fyyrmUTN'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.tampa1": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn33mrmvNs3vFuxS26'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_naturalearth.cities": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn38yy7Cqir39U1UWP'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_spdata.boston": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn3Fvi7bv6CgzPnb8E'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_spdata.columbus": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn3cksZoCDZ6AtX3tz'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_spdata.nydata": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn41aAukmRTrKXbu9Y'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_spdata.wheat": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn424n2AHf5kLho4kC'}",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_spdata.eire": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn3zq6waUnezXjSVvz'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_Baltimore": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn4CEM7sQHovnwFWb3'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_Elections": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn4UboueQdNVqEZcxy'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_NYC_Socio-Demographics": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn4v9J1M4jZcpHmaMK'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_Snow": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn4uQ4i42685716psD'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_chicagoSDOH": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn55KG2YLkeEHuZj4u'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_georgia": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn5HUGFY95FRr6ToaN'}",
+      "formula_evidence_url": null
+    },
+    "Python_libpysal_Ohiolung": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn5T93GUAmwnqN37GD'}",
+      "formula_evidence_url": null
+    },
+    "R_ade4_doubs_doubs": {
+      "publication_doi": null,
+      "reference_publication": "Verneaux, J. (1973) Cours d'eau de Franche-Comté (Massif du Jura). Recherches écologiques sur le réseau hydrographique du Doubs. Essai de biotypologie. Thèse d'état, Université de Besançon, Besançon. 1–257.",
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rdrr.io/cran/ade4/man/doubs.html",
+      "formula_evidence_url": null
+    },
+    "Python_geodatasets_geoda.airbnb": {
+      "publication_doi": null,
+      "reference_publication": null,
+      "formula_pub": null,
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null,
+      "formula_evidence_url": null
+    }
+  },
+  "Python_geodatasets_geoda.charleston2::b2f4cca2060c3b81": {
+    "y_candidates": [
+      "INDEX",
+      "PCTGRO",
+      "PCTCSE",
+      "PCTIME",
+      "EMP01",
+      "PAY01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "PAY98",
+      "EST01",
+      "MAN98",
+      "MAN01",
+      "OFF98",
+      "OFF01",
+      "INFO98",
+      "INFO01",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01_12",
+      "MAN01_39",
+      "OFF98_12",
+      "OFF98_39",
+      "OFF01_12",
+      "OFF01_39",
+      "INFO98_12",
+      "INFO98_39",
+      "INFO01_12",
+      "INFO01_39",
+      "NUMSEC"
+    ],
+    "rationale": "INDEX (indice composite, plage 32-75) et les variables de croissance/changement (PCTGRO, PCTCSE, PCTIME) sont des cibles naturelles pour modéliser la dynamique économique locale ; EMP01 et PAY01 peuvent aussi servir de variables réponses pour l'emploi et la masse salariale. Les variables de structure économique par secteur (manufacturing, office, info) en 1998 et 2001, ainsi que la population et le nombre d'établissements, constituent des covariables explicatives pertinentes ; les colonnes à valeur constante (MAN98US, OFF98US, etc.) et les flags catégoriels sont ignorés comme non informatifs."
+  },
+  "Python_geodatasets_geoda.hickory2::922c26c577cead45": {
+    "y_candidates": [
+      "INDEX",
+      "PCTCSE",
+      "PCTGRO",
+      "PCTIME",
+      "EMP01",
+      "PAY01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "PAY98",
+      "EST01",
+      "MAN98",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01",
+      "MAN01_12",
+      "MAN01_39",
+      "OFF98",
+      "OFF98_12",
+      "OFF98_39",
+      "OFF01",
+      "OFF01_12",
+      "OFF01_39",
+      "INFO98",
+      "INFO98_12",
+      "INFO98_39",
+      "INFO01",
+      "INFO01_12",
+      "INFO01_39",
+      "NUMSEC"
+    ],
+    "rationale": "Les variables Y candidates sont les indicateurs synthétiques de dynamique économique locale (INDEX, PCTCSE=variation établissements, PCTGRO=croissance emploi, PCTIME, EMP01, PAY01) qui sont des mesures de résultats à expliquer. Les X candidates sont les counts sectoriels (manufacturing, office, info) par zone et période, la population, le nombre d'établissements et d'emplois de base (1998), et le nombre de secteurs (NUMSEC), qui sont des caractéristiques structurelles explicatives ; les colonnes US-level à variance nulle (MAN98US, etc.) sont ignorées car constantes et non informatives."
+  },
+  "Python_geodatasets_geoda.lansing2::c83c1d39f46148cf": {
+    "y_candidates": [
+      "PCTGRO",
+      "PCTCSE",
+      "EMP01",
+      "EST01"
+    ],
+    "x_candidates": [
+      "POP2001",
+      "EST98",
+      "EMP98",
+      "MAN98",
+      "MAN98_12",
+      "MAN98_39",
+      "MAN01",
+      "OFF98",
+      "OFF98_12",
+      "OFF98_39",
+      "INFO98",
+      "INFO98_12",
+      "INFO98_39",
+      "NUMSEC",
+      "PCTIME",
+      "INDEX"
+    ],
+    "rationale": "Les variables de croissance/changement (PCTGRO, PCTCSE) et les niveaux d'emploi/établissements en 2001 (EMP01, EST01) sont des cibles naturelles pour modéliser la dynamique économique locale. Les données de 1998 (emplois, établissements, secteurs manufacturier, bureaux, information), la population, le nombre de secteurs et l'indice composite servent de covariables explicatives ; les colonnes US-level à valeur constante (MAN98US, OFF98US, etc.) et PAY98/PAY01 (character non exploitable) sont écartées car redondantes ou inutilisables."
+  },
+  "Python_geodatasets_geoda.nepal::8c30b09d0e5ac9f8": {
+    "y_candidates": [
+      "povindex",
+      "depecprov",
+      "pcinc",
+      "pcincppp",
+      "ad_illit",
+      "ad_ilgt50",
+      "nosafh20",
+      "lif40",
+      "malkids"
+    ],
+    "x_candidates": [
+      "population",
+      "schlppop",
+      "schoolcnt",
+      "kids1_5",
+      "pcincmp",
+      "TOTCAMT",
+      "TOTDAMT",
+      "EDUCAMT",
+      "HEALTCAMT",
+      "WATCAMT",
+      "TRANCAMT",
+      "ENGYCAMT",
+      "AGCAMT",
+      "SOCCAMT",
+      "EDUDAMT",
+      "HEALTDAMT",
+      "WATDAMT",
+      "TRANDAMT",
+      "ENGYDAMT",
+      "AGDAMT"
+    ],
+    "rationale": "Les variables socio-économiques et de bien-être (pauvreté, revenu par tête, illettrisme, malnutrition, accès à l'eau) constituent des cibles naturelles pour des modèles spatiaux d'estimation du développement humain au Népal. Les montants de commitments et disbursements par secteur (santé, éducation, eau, transport, énergie, agriculture, etc.), ainsi que la population et la densité scolaire, forment des covariables explicatives plausibles reflétant l'investissement public et la structure démographique locale ; les colonnes purement administratives (name_1, name_2, district) sont ignorées."
+  },
+  "Zenodo_18421412_mountainfire::12f0f962aa44ed7e": {
+    "y_candidates": [
+      "dNBR",
+      "burn_severity_class",
+      "burned_binary",
+      "nbr_anomaly_zscore"
+    ],
+    "x_candidates": [
+      "year",
+      "temp_mean_C",
+      "temp_max_C",
+      "temp_range_C",
+      "precip_season_mm",
+      "pet_season_mm",
+      "water_balance_mm",
+      "precip_antecedent_mm",
+      "swe_preseason_mm",
+      "elevation_m",
+      "slope_deg",
+      "northness",
+      "eastness",
+      "tpi_500m",
+      "heat_load_index",
+      "landcover_class"
+    ],
+    "rationale": "Les variables Y candidates sont les mesures directes de sévérité/occurrence des feux dérivées de Landsat (dNBR, burn_severity_class, burned_binary, nbr_anomaly_zscore), qui constituent les cibles naturelles de l'étude ; NBR_observed et NBR_predicted sont écartés car redondants avec dNBR. Les X candidates regroupent les forçages climatiques saisonniers et antécédents (température, précipitations, PET, bilan hydrique, enneigement) ainsi que les descripteurs topographiques statiques (élévation, pente, exposition, TPI, HLI) et le couvert terrestre, conformément à l'objectif d'expliquer la sévérité des feux ; year est inclus pour capturer la tendance temporelle du panel. Les colonnes region, fire_season_start, harmonic_rmse, total_observations et modis_burned_reference sont ignorées car administratives, méthodologiques ou redondantes."
+  }
+}

@@ -209,11 +209,12 @@ When the injecting agent or the user corrects an amber or blocked fiche:
 
 At the start of every session:
 
-1. Read this file (`CLAUDE.md`)
-2. Read `AGENTS.md` — understand the rules the injecting agent must follow
-3. Read `wiki/log.md` (last 5–10 entries) — identify recently injected fiches
-4. Read `wiki/eval_queue.md` — check pending amber fiches
-5. Ask the user:
+1. Read `CONTEXT.md` — shared vocabulary for the project (terms, pipeline, scores, agents)
+2. Read this file (`CLAUDE.md`)
+3. Read `AGENTS.md` — understand the rules the injecting agent must follow
+4. Read `wiki/log.md` (last 5–10 entries) — identify recently injected fiches
+5. Read `wiki/eval_queue.md` — check pending amber fiches
+6. Ask the user:
    - Evaluate a new batch?
    - Re-evaluate corrected fiches?
    - Report on queue status?

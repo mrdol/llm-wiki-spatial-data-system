@@ -162,6 +162,13 @@ def main() -> int:
         default=0,
         help="limiter le nombre de PDF traites, 0 signifie aucune limite",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="nombre de PDF envoyes a GROBID en parallele (defaut 1 = sequentiel). "
+             "Mettre 8-10 pour saturer un GROBID multi-coeurs.",
+    )
     args = parser.parse_args()
 
     TEI_DIR.mkdir(parents=True, exist_ok=True)
@@ -198,19 +205,40 @@ def main() -> int:
     skipped = 0
     failed = 0
 
-    for pdf in pdfs:
-        try:
-            result = process_pdf(pdf, args.url, args.timeout, args.force)
-        except Exception as exc:  # noqa: BLE001 - on veut continuer avec les autres PDF.
-            failed += 1
-            print(f"FAILED: {pdf.name}: {exc}", file=sys.stderr)
-            continue
-
+    def _record(result, pdf):
+        nonlocal written, skipped
         if result == "written":
             written += 1
             print(f"WRITTEN: {tei_path_for(pdf).name}")
         else:
             skipped += 1
+
+    if args.workers and args.workers > 1:
+        # Envoi concurrent : GROBID traite plusieurs PDF en parallele et sature
+        # les coeurs disponibles. Le serveur a sa propre limite de concurrence.
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        print(f"Parallelisme client: {args.workers} workers")
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = {
+                pool.submit(process_pdf, pdf, args.url, args.timeout, args.force): pdf
+                for pdf in pdfs
+            }
+            for fut in as_completed(futures):
+                pdf = futures[fut]
+                try:
+                    _record(fut.result(), pdf)
+                except Exception as exc:  # noqa: BLE001
+                    failed += 1
+                    print(f"FAILED: {pdf.name}: {exc}", file=sys.stderr)
+    else:
+        for pdf in pdfs:
+            try:
+                result = process_pdf(pdf, args.url, args.timeout, args.force)
+            except Exception as exc:  # noqa: BLE001 - on veut continuer avec les autres PDF.
+                failed += 1
+                print(f"FAILED: {pdf.name}: {exc}", file=sys.stderr)
+                continue
+            _record(result, pdf)
 
     print("")
     print(f"TEI written: {written}")
