@@ -2,7 +2,7 @@
 title: R_GWmodel_EWHP_ewhp
 type: dataset
 created: 2026-06-30
-updated: 2026-07-01
+updated: 2026-07-02
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -110,12 +110,20 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [224000, 654600], y [47800, 574000] (CRS unknown)
+- Spatial extent: x [224000, 654600], y [47800, 574000] (EPSG:27700, resolu 2026-07-02)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 27700
+- CRS nom: OSGB36 / British National Grid
+- CRS analyse recommande: 27700 (OSGB36 / British National Grid) — deja projete, adapte a l'analyse
+
+> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds ni
+> documente dans `wiki/datasets/r_package_docs/GWmodel/topics/EWHP.md`. Resolu par
+> analogie avec `LondonHP` (meme package GWmodel), dont la documentation
+> (`wiki/datasets/r_package_docs/GWmodel/topics/LondonHP.md`) precise explicitement
+> `+init=epsg:27700 +datum=OSGB36`. L'emprise observee (x:[224000,654600],
+> y:[47800,574000]) correspond exactement a la plage attendue du British National
+> Grid (eastings 0-700000, northings 0-1300000).
 
 ## Bloc 6 — Reproductibilite
 
@@ -129,7 +137,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+CRS resolu le 2026-07-02 (EPSG:27700, voir note Bloc 5).
 
 ## Related Pages
 

@@ -2,7 +2,7 @@
 title: R_agridat_lasrosas.corn_lasrosas.corn
 type: dataset
 created: 2026-06-30
-updated: 2026-07-01
+updated: 2026-07-02
 sources:
   - data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds
 tags: [dataset, r-package, spatial, point]
@@ -105,12 +105,18 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: pending inspection
-- Spatial extent: x [-63.8489, -63.8417], y [-33.0523, -33.0488] (CRS unknown)
+- Spatial extent: x [-63.8489, -63.8417], y [-33.0523, -33.0488] (EPSG:4326, resolu 2026-07-02)
 - Time range: pending inspection
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 4326
+- CRS nom: WGS 84
+- CRS analyse recommande: 32720 (WGS 84 / UTM zone 20S) — reprojection recommandee pour analyse metrique (distances/W)
+
+> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds. Resolu
+> directement : les coordonnees `long`/`lat` sont sans ambiguite en degres WGS84
+> (plage x/y cent lieues du site La Rosas, Cordoba, Argentine). Pour la
+> construction de matrices de poids spatiaux (distances metriques), une
+> reprojection en EPSG:32720 (UTM zone 20S, couvrant -66° a -60°) est recommandee.
 
 ## Bloc 6 — Reproductibilite
 
@@ -124,7 +130,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+CRS resolu le 2026-07-02 (EPSG:4326, reprojection EPSG:32720 recommandee pour W, voir note Bloc 5).
 
 ## Related Pages
 

@@ -2,7 +2,7 @@
 title: SpBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-05-05
+updated: 2026-07-04
 sources:
   - raw/paper/spbbost_article.pdf
   - raw/estimators/spboost_0.6.3/spboost/DESCRIPTION
@@ -373,6 +373,59 @@ fit <- fit_spboost(
   )
 )
 ```
+
+## Moteur `parsnip` Du Projet (ajoute le 2026-07-04)
+
+En plus du wrapper bas niveau `fit_spboost.R` ci-dessus, le pipeline de test
+manuel `tidymodels` (`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`)
+utilise un moteur `parsnip` complet:
+
+`Code_scrapping/R/estimators/parsnip_spboost.R`
+
+Il enregistre un modele `spboost_reg()` aupres de `parsnip` (`set_new_model()`,
+`set_fit()`, `set_pred()`, `update.spboost_reg()` pour `tune::tune_grid()`), ce
+qui permet d'utiliser SpBoost dans `workflows::workflow()` et
+`tune::tune_grid()` comme n'importe quel modele `parsnip` natif.
+
+```r
+spboost_reg(
+  coords = c("coord_x", "coord_y"),
+  DGP = "SAR",
+  mstop = 200,
+  nu = 0.1,
+  k_neighbors = 8
+) |>
+  parsnip::set_engine("spboost") |>
+  parsnip::set_mode("regression")
+```
+
+| Argument `spboost_reg()` | Traduit vers | Notes |
+|---|---|---|
+| `coords` | colonnes de coordonnees | retirees de la formule backend, utilisees uniquement pour construire `W` |
+| `DGP` | `spbgam(DGP=...)` | `method` est deduit automatiquement (`SAR`->`BSPA_SAR_ML`, etc.) si non fourni |
+| `mstop`, `nu` | `mboost::boost_control(mstop=, nu=)` | tunables via `tune::tune()` |
+| `k_neighbors` | `k` dans la construction kNN de `W` | voir `spb_build_knn_W()` ci-dessous |
+
+Points d'implementation a connaitre:
+
+- `W` n'est pas precalculee: elle est reconstruite a chaque fit/predict a
+  partir des coordonnees presentes dans le jeu courant (`spb_build_knn_W()`,
+  kNN + `mgwrsar::normW()` + `Matrix::Matrix()` pour forcer une classe S4
+  `dgCMatrix`, seule forme acceptee par le solveur interne). Cout a surveiller
+  sur les gros datasets (`lasrosas`, N~3443).
+- La formule brute `y ~ x1 + x2 + ...` n'est PAS utilisee telle quelle:
+  `spb_build_boosting_formula()` route chaque predicteur vers `bbs()` (lissage
+  P-spline) ou `bols()` (terme lineaire) selon qu'il est continu ou binaire --
+  un `bbs()` sur un predicteur 0/1 produit une base rank-deficiente qui fait
+  planter le solveur Lapack interne (confirme sur `ewhp`, predicteurs de type
+  de logement).
+- `library(mboost)` est necessaire (pas seulement `requireNamespace()`):
+  `gamboost()` ne resout pas `bbs()`/`bols()` via l'environnement de la
+  formule seul.
+- Ce moteur est utilise dans le benchmark comme estimateur "spboost" (voir
+  `build_specs()` dans `benchmark_manual_test_2026-07.R`); les baselines
+  "OLS simple" (`glm`), "GWR simple" et "SAR simple" y sont evaluees en
+  parallele -- voir [[mgwrsar]] pour ces deux dernieres.
 
 ## Diagnostics A Lire
 

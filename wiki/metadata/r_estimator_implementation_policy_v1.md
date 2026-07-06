@@ -2,7 +2,7 @@
 title: R Estimator Implementation Policy v1
 type: metadata
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-07-02
 sources: []
 tags: [metadata, estimators, r, reticulate, implementation]
 ---
@@ -19,6 +19,8 @@ The modeling layer should prefer R-native implementations for estimators availab
 
 This policy applies only to estimators allowed by [[restricted_estimator_policy_v1]]:
 
+- `GLM`
+- `GAM`
 - `XGBoost`
 - `LightGBM`
 - `GAMBoost`

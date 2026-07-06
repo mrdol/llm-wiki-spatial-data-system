@@ -2,7 +2,7 @@
 title: Restricted Estimator Policy v1
 type: metadata
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-07-02
 sources: []
 tags: [metadata, estimators, policy, allowlist]
 ---
@@ -13,6 +13,8 @@ Project-wide estimator allowlist used by catalog records and discovery logic.
 
 Only the following estimators are allowed in this project:
 
+- `GLM`
+- `GAM`
 - `XGBoost`
 - `LightGBM`
 - `GAMBoost`
@@ -26,6 +28,14 @@ Only the following estimators are allowed in this project:
 - `SpBoost`
 - `RNN`
 - `SVM`
+
+> **Note (2026-07-02)** — `GLM` and `GAM` (`mgcv::gam`, optionally with a spatial
+> smooth term such as `s(lon, lat)`) were added to close a gap with
+> `raw/docs_methodology/plan_stage_INRAE_2026.md` ("Modélisation et
+> benchmarking", Niveau 1 — Baselines non spatiales), which already listed them
+> as required baseline models. They serve as non-spatial (GLM) and
+> minimally-spatial (GAM with one spatial trend term) reference points against
+> which the spatial estimators (SpBoost, MGWR, MGWRSAR, ...) are benchmarked.
 
 ## Enforcement Rules
 

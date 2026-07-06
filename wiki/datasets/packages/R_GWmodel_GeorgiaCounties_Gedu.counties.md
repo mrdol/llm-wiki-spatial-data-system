@@ -2,7 +2,7 @@
 title: R_GWmodel_GeorgiaCounties_Gedu.counties
 type: dataset
 created: 2026-06-30
-updated: 2026-07-01
+updated: 2026-07-02
 sources:
   - data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds
 tags: [dataset, r-package, spatial, point]
@@ -102,12 +102,22 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [636298.2136, 1058883.0273], y [3407273.375, 3865995] (CRS unknown)
+- Spatial extent: x [636298.2136, 1058883.0273], y [3407273.375, 3865995] (EPSG:26916, resolu 2026-07-02)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 26916
+- CRS nom: NAD83 / UTM zone 16N
+- CRS analyse recommande: 26916 (NAD83 / UTM zone 16N) — deja projete, adapte a l'analyse
+
+> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds ni
+> documente dans `wiki/datasets/r_package_docs/GWmodel/topics/Georgia.md`. Resolu
+> par inference : les colonnes `G_UTM_`/`G_UTM_ID` du shapefile source indiquent
+> explicitement une projection UTM ; l'easting max observe (1058883m) correspond
+> a la distance attendue (~1085km) entre le meridien central de la zone UTM 16N
+> (-87°) et l'extremite est de la Georgie (~-80.8°, cote atlantique), a la
+> latitude ~32°N — calcul : 6.2° x 111.3km x cos(32°) + 500000m (fausse easting)
+> ≈ 1085000m. Datum NAD83 suppose (NAD27 alternative possible mais materiellement
+> equivalent a cette echelle pour la construction d'une matrice de poids spatiaux).
 
 ## Bloc 6 — Reproductibilite
 
@@ -121,7 +131,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+CRS resolu le 2026-07-02 (EPSG:26916, voir note Bloc 5).
 
 ## Related Pages
 

@@ -2,7 +2,7 @@
 title: MGWR
 type: estimator
 created: 2026-04-23
-updated: 2026-06-04
+updated: 2026-07-04
 sources:
   - Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf
   - Fotheringham, Yang and Kang 2017, Multiscale Geographically Weighted Regression, doi:10.1080/24694452.2017.1352480
@@ -139,6 +139,55 @@ MGWR is primarily spatial, but the local package exposes space-time kernels thro
 - use MGWR for spatial cross-sections;
 - use GDT or TDS/GTWR-style settings only when the dataset has a real temporal index;
 - prefer blocked space-time validation when time is used in the kernel.
+
+## Project `parsnip` Engine (added 2026-07-04)
+
+The manual `tidymodels` benchmark pipeline
+(`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`) exposes true
+multiscale MGWR through the same `mgwrsar_reg()` engine documented in
+[[mgwrsar]] (`Code_scrapping/R/estimators/parsnip_mgwrsar.R`), via two special
+`model_type` values that route to `mgwrsar::TDS_MGWR()` instead of
+`mgwrsar::MGWRSAR()`:
+
+```r
+mgwrsar_reg(
+  coords = c("coord_x", "coord_y"),
+  model_type = "tds_mgwr",   # or "atds_mgwr"
+  kernels = "gauss"
+) |>
+  parsnip::set_engine("mgwrsar") |>
+  parsnip::set_mode("regression")
+```
+
+Why this distinction matters: `mgwrsar_reg(model_type = "GWR")` (the engine's
+default, see [[mgwrsar]]) is plain single-bandwidth GWR, not multiscale MGWR
+-- `MGWRSAR()`'s own `Model="MGWR"` path expects a pre-computed bandwidth
+*vector* (one value per covariate, confirmed in `man/MGWR.Rd`: `H: A vector of
+bandwidths`) that the engine does not compute. `TDS_MGWR()` is self-contained:
+it finds that per-covariate bandwidth vector itself through the top-down-scale
+backfitting algorithm, so no external `bandwidth`/`kernels` grid search is
+needed for these two `model_type` values (they are ignored/unused, unlike
+`"GWR"` where `bandwidth` is required).
+
+Implementation notes:
+
+- Prediction requires `method_pred="shepard"` for `tds_mgwr`/`atds_mgwr` fits
+  -- `predict_mgwrsar()` itself documents that `method_pred="TP"` (the
+  engine's implicit default reasoning) is not implemented for these models and
+  auto-switches to `"shepard"`; the engine requests it directly rather than
+  relying on the auto-switch.
+- `control_tds$nns` (number of bandwidth steps in the decreasing sequence) is
+  hardcoded to `20L` in the engine, the paper's recommended default (M=20-30).
+  It gets auto-truncated by the package for small N (observed: truncated to
+  16 on Georgia, N=159) -- worth checking the truncation message on larger
+  datasets.
+- On Georgia (N=159), `mgwrsar_multiscale` (`tds_mgwr`) beat plain
+  `mgwrsar` (`GWR`) on all three CV schemes used in the benchmark: holdout
+  RMSE 2.766 vs 2.811, near-prediction RMSE 3.045 vs 3.140, block-spatial
+  RMSE 3.293 vs 3.526. The fitted per-covariate bandwidth vector was
+  genuinely heterogeneous (e.g. `PctFB` converged to a much smaller bandwidth
+  than the other covariates), consistent with the MGWR hypothesis that
+  different covariates operate at different spatial scales.
 
 ## Diagnostics To Inspect
 

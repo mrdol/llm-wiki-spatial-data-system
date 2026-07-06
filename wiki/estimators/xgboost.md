@@ -2,7 +2,7 @@
 title: XGBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-06-04
+updated: 2026-07-04
 sources:
   - XGBoost.pdf
   - Chen and Guestrin 2016, XGBoost: A Scalable Tree Boosting System, doi:10.1145/2939672.2939785
@@ -101,11 +101,31 @@ observations leak information.
 4. Add `gamma`, `reg_alpha`, and `reg_lambda` only after the baseline is stable.
 5. Check residual spatial or temporal structure.
 
+## Project Use As A Non-Spatial Baseline (added 2026-07-04)
+
+Added to the manual `tidymodels` benchmark
+(`Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`,
+`build_specs()`) as a strict "no spatial information" baseline alongside
+plain OLS (`glm`) and plain GWR/SAR (see [[mgwrsar]]). No custom engine is
+needed: `parsnip::boost_tree()` already ships a native `xgboost` engine.
+
+```r
+parsnip::boost_tree(mode = "regression") |> parsnip::set_engine("xgboost")
+```
+
+The benchmark fits it on `X` only (no coordinates as predictors), which is
+the strictest baseline; a coordinate-augmented variant (`X` + `coord_x` +
+`coord_y` as raw features) is what `spbbost_article.pdf` calls
+`XGBoost_xy` -- not currently wired in, but a one-line change to the formula
+if needed later.
+
 ## Related Pages
 
 - [[gam]]
 - [[lightgbm]]
 - [[random_forest]]
 - [[data_leakage]]
+- [[mgwrsar]]
+- [[spboost]]
 - [[restricted_estimator_policy_v1]]
 - [[estimator_fiche_schema_v1]]

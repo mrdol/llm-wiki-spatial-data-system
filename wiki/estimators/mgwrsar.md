@@ -2,7 +2,7 @@
 title: MGWRSAR
 type: estimator
 created: 2026-04-23
-updated: 2026-04-30
+updated: 2026-07-04
 sources:
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/DESCRIPTION
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/MGWRSAR.Rd
@@ -137,6 +137,60 @@ This is important because the same estimator family can be used on spatial cross
 | `beta_proj` | whether to project coefficient estimates |
 | `k_extra` | neighbor count for local parameter extrapolation |
 | `exposant` | weighting-shape parameter for some prediction routes |
+
+## Project `parsnip` Engine (added 2026-07-04)
+
+Beyond the raw `mgwrsar` package API documented above, the manual `tidymodels`
+benchmark pipeline (`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`)
+registers a full `parsnip` engine:
+
+`Code_scrapping/R/estimators/parsnip_mgwrsar.R`
+
+It declares a `mgwrsar_reg()` model with `parsnip::set_new_model()` /
+`set_fit()` / `set_pred()` / `update.mgwrsar_reg()` (the latter required for
+`tune::tune_grid()`'s `finalize_model()` step), so `mgwrsar` can be used
+inside `workflows::workflow()` and `tune::tune_grid()` like a native model.
+
+```r
+mgwrsar_reg(
+  coords = c("coord_x", "coord_y"),
+  model_type = "GWR",       # "GWR" | "SAR" | "tds_mgwr" | "atds_mgwr"
+  kernels = "bisq",
+  bandwidth = 20
+) |>
+  parsnip::set_engine("mgwrsar") |>
+  parsnip::set_mode("regression")
+```
+
+| `model_type` | Backend call | `bandwidth`/`kernels` | Notes |
+|---|---|---|---|
+| `"GWR"` (default) | `mgwrsar::MGWRSAR(Model="GWR")` | required, tunable | single global bandwidth for all covariates -- this is plain GWR, not true multiscale MGWR |
+| `"SAR"` | `mgwrsar::MGWRSAR(Model="SAR", control=list(W=...))` | ignored | added as a "SAR simple" benchmark baseline; see gotchas below |
+| `"tds_mgwr"` / `"atds_mgwr"` | `mgwrsar::TDS_MGWR()` | ignored | true multiscale MGWR, see [[mgwr]] for the top-down-scale backfitting details |
+
+Implementation gotchas found while wiring `Model="SAR"` (2026-07-04):
+
+- `MGWRSAR()` never builds `W` itself for `Model="SAR"` (unlike `"GWR"`, which
+  derives everything from `kernels`+`H`); the engine builds one via
+  `mgwrsar_build_knn_W()` (kNN, k=8, `mgwrsar::normW()`, wrapped in
+  `Matrix::Matrix()` to force an S4 `dgCMatrix` -- the internal `Rcpp::mod()`
+  solver errors with `"Not an S4 object"` on a plain dense matrix).
+- `Model="SAR"` calls `Rcpp::mod()`, which calls back into R for
+  `int_prems()`. Even though `int_prems()` is exported by `mgwrsar`,
+  `requireNamespace("mgwrsar")` alone does not put it on the search path, and
+  the call fails with `"impossible de trouver la fonction 'int_prems'"`. The
+  engine attaches the package with `library(mgwrsar)` explicitly (same class
+  of fix as `library(mboost)` in [[spboost]]'s engine).
+- `predict_mgwrsar()`'s own W-autobuild fallback for non-GWR/MGWR models
+  reads `model@h_w`/`model@kernel_w`, but `MGWRSAR()` never populates those
+  S4 slots (they stay `numeric(0)`/`character(0)`, and `is.null(numeric(0))`
+  is `FALSE`, so the fallback silently runs with a garbage bandwidth instead
+  of erring). The engine's prediction step builds and passes its own
+  train+test `W` explicitly for `Model="SAR"` to sidestep this.
+- On Georgia (N=159), `mgwrsar_sar` scored holdout RMSE=3.11, between plain
+  GWR (2.81) and the non-spatial baselines -- consistent with SAR being a
+  global model (constant lambda, constant beta) with no spatial heterogeneity
+  in coefficients.
 
 ## Diagnostics To Inspect
 
