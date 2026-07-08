@@ -1,4 +1,4 @@
----
+﻿---
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 A house price data set with 18 hedonic variables for London in 2001.
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `PURCHASE`
 - Candidate Y typology: continuous
 - Candidate X variables: `FLOORSZ`, `TYPEDETCH`, `TPSEMIDTCH`, `TYPETRRD`, `TYPEBNGLW`, `TYPEFLAT`, `BLDPWW1`, `BLDPOSTW`, `BLD60S`, `BLD70S`, `BLD80S`, `BLD90S`, `BLDINTW`, `BATH2`, `BEDS2`, `GARAGE1`, `CENTHEAT`, `UNEMPLOY`, `PROF`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -32,7 +32,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 
 > Note doc : y is detached (i
 
-> Selection Y/X (claude-sonnet-4-6) : PURCHASE (prix d'achat) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Toutes les autres colonnes sont des attributs hédoniques du logement (surface, type, époque de construction, équipements) ou des indicateurs socio-économiques du voisinage (chômage, proportion de professions libérales), qui constituent des covariables explicatives classiques dans ce type de modèle.
+> Selection Y/X (claude-sonnet-4-6) : PURCHASE (prix d'achat) est la variable rÃ©ponse naturelle d'un modÃ¨le hÃ©donique de prix immobiliers. Toutes les autres colonnes sont des attributs hÃ©doniques du logement (surface, type, Ã©poque de construction, Ã©quipements) ou des indicateurs socio-Ã©conomiques du voisinage (chÃ´mage, proportion de professions libÃ©rales), qui constituent des covariables explicatives classiques dans ce type de modÃ¨le.
 
 #### Detail X
 
@@ -59,7 +59,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 | `PROF` | `numeric` | rate | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: Prix immobilier ~ 18 variables hedoniques
 - x_terms_pub: 18 variables hedoniques
@@ -74,13 +74,12 @@ A house price data set with 18 hedonic variables for London in 2001.
 - Correspondance Python/R: R_GWmodel_LondonBorough_londonborough
 - Note: Dataset ponctuel portant les observations hedoniques ; londonborough (meme package) fournit les polygones d'arrondissement associes.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: Prix immobilier ~ 18 variables hedoniques
+- x_terms_used: 18 variables hedoniques
+- y_term_used: Prix immobilier
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_GWmodel_LondonHP_londonhp`
 - Dataset name: GWmodel::LondonHP
@@ -91,7 +90,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 - Publication DOI: 10.1080/13658816.2013.865739
 - Year: 2013
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -108,7 +107,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -117,7 +116,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -126,9 +125,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 27700 (source: documentation du package, .rds sans CRS embarque)
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: GPL (>= 2)
@@ -140,7 +139,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

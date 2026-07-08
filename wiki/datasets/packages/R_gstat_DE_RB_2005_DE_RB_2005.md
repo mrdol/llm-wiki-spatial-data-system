@@ -1,4 +1,4 @@
----
+﻿---
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `PM10`, `annual_mean_PM10`
 - Candidate Y typology: continuous
 - Candidate X variables: `station_altitude`, `type_of_station`, `station_type_of_area`, `street_type`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `coords.x1`, `coords.x2`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `coords.x1`, `coords.x2`, `X`, `Y`
 - Identifier columns (excluded from X candidates): `sp.ID`, `station_european_code`, `country_iso_code`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 | `annual_mean_PM10` | `numeric` | continuous | [9.8073, 27.7456] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : PM10 (mesure instantanée/journalière) et annual_mean_PM10 (agrégat annuel) sont les variables réponse naturelles pour modéliser la concentration en particules fines ; station_altitude, type_of_station, station_type_of_area et street_type sont des covariables explicatives classiques capturant le contexte géographique et environnemental des stations. Les colonnes temporelles (time, endTime, station_start_date, station_end_date), l'index ..1 et T (facteur ambigu/redondant) sont ignorés.
+> Selection Y/X (claude-sonnet-4-6) : PM10 (mesure instantanÃ©e/journaliÃ¨re) et annual_mean_PM10 (agrÃ©gat annuel) sont les variables rÃ©ponse naturelles pour modÃ©liser la concentration en particules fines ; station_altitude, type_of_station, station_type_of_area et street_type sont des covariables explicatives classiques capturant le contexte gÃ©ographique et environnemental des stations. Les colonnes temporelles (time, endTime, station_start_date, station_end_date), l'index ..1 et T (facteur ambigu/redondant) sont ignorÃ©s.
 
 #### Detail X
 
@@ -43,7 +43,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 | `street_type` | `factor` | categorical | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: PM10 ~ 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
 - x_terms_pub: 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
@@ -56,15 +56,14 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 - Niveau de preuve: verbatim
 - Methode d'estimation: Krigeage spatio-temporel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur) : modele intercept-only utilise comme tendance de base avant krigeage spatio-temporel des residus dans le tutoriel gstat officiel — pas une regression multi-covariables classique.
+- Note: Formule deja presente (enrichissement anterieur) : modele intercept-only utilise comme tendance de base avant krigeage spatio-temporel des residus dans le tutoriel gstat officiel â€” pas une regression multi-covariables classique.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: PM10 ~ 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
+- x_terms_used: 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
+- y_term_used: PM10
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_gstat_DE_RB_2005_DE_RB_2005`
 - Dataset name: gstat::DE_RB_2005
@@ -75,7 +74,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 - Publication DOI: pending
 - Year: 2003
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -92,7 +91,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel
@@ -101,7 +100,7 @@ modeling_evidence:
 - Variable temporelle: time
 - N/T profile: N_grand_T_grand
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: pending inspection
@@ -110,9 +109,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 32632 (source: documentation du package, .rds sans CRS embarque)
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: GPL (>= 2.0)
@@ -124,7 +123,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

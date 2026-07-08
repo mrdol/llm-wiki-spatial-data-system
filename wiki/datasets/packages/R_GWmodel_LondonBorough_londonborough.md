@@ -1,4 +1,4 @@
----
+﻿---
 title: R_GWmodel_LondonBorough_londonborough
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `HECTARES`, `AREA`
 - Candidate Y typology: continuous
 - Candidate X variables: `NUMBER`, `NUMBER0`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `AREA_CODE`, `POLYGON_ID`, `UNIT_ID`, `CODE`, `TYPE_CODE`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 | `AREA` | `numeric` | continuous | [0, 2094.43] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : HECTARES et AREA sont des mesures continues de superficie, candidates naturelles comme variable réponse (ex: prédire la taille d'un borough). NUMBER et NUMBER0 sont des comptages numériques pouvant servir de covariables explicatives. Les colonnes catégorielles (NAME, DESCRIPTIO, FILE_NAME, DESCRIPT0, B_Name) sont des libellés/identifiants géographiques administratifs à ignorer, et TYPE_COD0 est entièrement manquante (100% NA).
+> Selection Y/X (claude-sonnet-4-6) : HECTARES et AREA sont des mesures continues de superficie, candidates naturelles comme variable rÃ©ponse (ex: prÃ©dire la taille d'un borough). NUMBER et NUMBER0 sont des comptages numÃ©riques pouvant servir de covariables explicatives. Les colonnes catÃ©gorielles (NAME, DESCRIPTIO, FILE_NAME, DESCRIPT0, B_Name) sont des libellÃ©s/identifiants gÃ©ographiques administratifs Ã  ignorer, et TYPE_COD0 est entiÃ¨rement manquante (100% NA).
 
 #### Detail X
 
@@ -41,7 +41,7 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 | `NUMBER0` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: Prix immobilier ~ 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
 - x_terms_pub: 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
@@ -56,13 +56,12 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 - Correspondance Python/R: R_GWmodel_LondonHP_londonhp
 - Note: La formule et les variables hedoniques sont portees par le dataset ponctuel associe LondonHP (meme package GWmodel) ; londonborough fournit les polygones d'arrondissement utilises comme reference spatiale/jointure.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: Prix immobilier ~ 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
+- x_terms_used: 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
+- y_term_used: Prix immobilier
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_GWmodel_LondonBorough_londonborough`
 - Dataset name: GWmodel::LondonBorough
@@ -73,7 +72,7 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 - Publication DOI: pending
 - Year: 2013
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -90,7 +89,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -99,7 +98,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -108,9 +107,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: GPL (>= 2)
@@ -123,7 +122,7 @@ modeling_evidence:
 ## Quality Control
 
 WARN: Variables avec NA > 20% : T, Y, P, E, _, C, O, D, 0,  , (, N, A, =, 1, 0, 0, %, )
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

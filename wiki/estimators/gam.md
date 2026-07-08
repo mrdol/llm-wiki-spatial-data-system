@@ -2,7 +2,7 @@
 title: GAM
 type: estimator
 created: 2026-06-04
-updated: 2026-06-04
+updated: 2026-07-06
 sources:
   - Hastie and Tibshirani 1990, Generalized Additive Models
   - Wood 2017, Generalized Additive Models: An Introduction with R, doi:10.1201/9781315370279
@@ -64,7 +64,21 @@ spatial dependence models.
 - Spatial panels after explicit temporal or unit effects.
 - Moderate-size datasets where smooth terms remain interpretable.
 
-## Hyperparameters To Optimize Or Record
+## Paper Evidence Status
+
+| Source | Status | Use in fiche |
+|---|---|---|
+| Hastie and Tibshirani (1990) | paper_supported | canonical GAM definition |
+| Wood (2017) | paper_supported | modern GAM smoothing and `mgcv` framing |
+| `mgcv` documentation | implementation_supported | current R backend |
+
+## Main Use Cases
+
+- Interpretable nonlinear baseline.
+- Spatial trend baseline through `s(coord_x, coord_y)`.
+- Comparison point between GLM and more flexible ML/spatial estimators.
+
+## Hyperparameters To Optimize
 
 | Hyperparameter | Role | Tune? | Notes |
 |---|---|---|---|
@@ -76,6 +90,20 @@ spatial dependence models.
 | smooth basis type | Spline/basis family | later | Implementation-dependent, e.g. thin plate, cubic, tensor product. |
 | interaction smooths | Multivariate smooth structure | yes if needed | Use for spatial or space-time surfaces. |
 | method | REML, ML, GCV, etc. | yes | Prefer stable, reproducible choice. |
+
+## Secondary Hyperparameters
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| `select` | extra shrinkage for smooth terms | later | implementation_supported | useful for term selection |
+| `gamma` | smoothness penalty inflation | later | implementation_supported | conservative smoothing control |
+| optimizer controls | numerical fitting controls | no/later | implementation_supported | operational unless convergence fails |
+
+## Hyperparameter Interactions
+
+- `k` sets the maximum possible wiggliness; smoothing parameters decide the effective wiggliness.
+- Spatial smooths can absorb broad spatial trend and should be compared with residual Moran diagnostics.
+- Smooth selection should happen inside the project validation scheme, not before splitting.
 
 ## Cross-validation Policy
 
@@ -101,7 +129,7 @@ spatial trend look more predictive than it is.
 - Concurvity between smooths and spatial features.
 - Leakage if smooths are tuned or interpreted only under random folds.
 
-## Minimal Workflow
+## Minimal Tuning Workflow
 
 1. Identify `Y`, response family and link.
 2. Fit GLM or linear baseline.
@@ -110,6 +138,19 @@ spatial trend look more predictive than it is.
 5. Check effective degrees of freedom, residuals and blocked validation.
 6. Compare against [[gamboost]], [[mars]], [[random_forest]], [[xgboost]] and
    [[lightgbm]] when prediction is the target.
+
+## Dataset Compatibility Notes
+
+- Compatible `Y`: continuous, binary, count or proportion responses depending on family.
+- Compatible `X`: numeric or encoded predictors.
+- Spatial support: optional; `gam_spatial` uses `s(coord_x, coord_y)`.
+- Missing data: handled before fitting in the current benchmark.
+- Current benchmark note: `gam_spatial` is fitted with `parsnip::fit()` direct, not a full `workflow()` route, because the `mgcv::s()` formula path is fragile through `workflows`.
+
+## Open Questions From Papers
+
+- Whether the spatial smooth should be isotropic `s(coord_x, coord_y)` or tensor-product based for projected coordinates.
+- Whether `k` should be tuned explicitly or kept as a conservative fixed choice.
 
 ## Related Pages
 

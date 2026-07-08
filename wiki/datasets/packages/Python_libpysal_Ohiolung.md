@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_libpysal_Ohiolung
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `LM68`, `LF68`, `LM78`, `LF78`, `LM88`, `LF88`
 - Candidate Y typology: count
 - Candidate X variables: `AREA`, `POPM68`, `POPF68`, `POPM78`, `POPF78`, `POPM88`, `POPF88`, `LMW68`, `LMB68`, `LFW68`, `LFB68`, `LMW78`, `LMB78`, `LFW78`, `LFB78`, `LMW88`, `LMB88`, `LFW88`, `LFB88`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `RECORD_ID`, `COUNTYID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -35,7 +35,7 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 | `LF88` | `integer` | count | [1, 352] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Ce dataset porte sur la mortalité pulmonaire (lung cancer) par comté de l'Ohio : les colonnes LM*/LF* représentent les décès (males/females) pour 1968, 1978, 1988 et sont les cibles naturelles, tandis que les populations de référence (POPM*, POPF*, POPMW*, etc.), la superficie (AREA) et les sous-groupes de décès par race/sexe constituent des covariables explicatives pertinentes. FIPSNO, NAME et PERIMETER sont ignorés car purement administratifs ou géométriques.
+> Selection Y/X (claude-sonnet-4-6) : Ce dataset porte sur la mortalitÃ© pulmonaire (lung cancer) par comtÃ© de l'Ohio : les colonnes LM*/LF* reprÃ©sentent les dÃ©cÃ¨s (males/females) pour 1968, 1978, 1988 et sont les cibles naturelles, tandis que les populations de rÃ©fÃ©rence (POPM*, POPF*, POPMW*, etc.), la superficie (AREA) et les sous-groupes de dÃ©cÃ¨s par race/sexe constituent des covariables explicatives pertinentes. FIPSNO, NAME et PERIMETER sont ignorÃ©s car purement administratifs ou gÃ©omÃ©triques.
 
 #### Detail X
 
@@ -62,7 +62,7 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 | `LFB88` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: kappa_ijkt = mu + s_j*alpha + r_k*beta + s_j*r_k*gamma + p_i*rho + c_t + phi_it (Poisson)
 - x_terms_pub: pending
@@ -77,13 +77,12 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
+- formula_used: kappa_ijkt = mu + s_j*alpha + r_k*beta + s_j*r_k*gamma + p_i*rho + c_t + phi_it (Poisson)
 - x_terms_used: pending
 - y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_libpysal_Ohiolung`
 - Dataset name: libpysal::Ohiolung
@@ -94,7 +93,7 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Publication DOI: pending
 - Year: 2017
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -111,7 +110,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -120,7 +119,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -129,9 +128,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

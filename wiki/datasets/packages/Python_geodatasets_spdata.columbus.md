@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_spdata.columbus
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `CRIME`, `HOVAL`
 - Candidate Y typology: continuous
 - Candidate X variables: `INC`, `OPEN`, `PLUMB`, `DISCBD`, `NSA`, `NSB`, `EW`, `CP`, `AREA`, `PERIMETER`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `POLYID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 | `HOVAL` | `numeric` | continuous | [17.9, 96.4] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : CRIME (taux de criminalité) et HOVAL (valeur des logements) sont les deux variables réponses classiques du dataset Columbus, utilisées comme cibles dans la littérature de spatiale. INC (revenu), OPEN (espaces ouverts), PLUMB (plomberie défectueuse), DISCBD (distance au CBD), les indicateurs binaires de zone (NSA, NSB, EW, CP) ainsi que AREA et PERIMETER constituent des covariables explicatives plausibles ; COLUMBUS_, COLUMBUS_I, NEIG, THOUS et NEIGNO sont des identifiants/codes redondants ignorés.
+> Selection Y/X (claude-sonnet-4-6) : CRIME (taux de criminalitÃ©) et HOVAL (valeur des logements) sont les deux variables rÃ©ponses classiques du dataset Columbus, utilisÃ©es comme cibles dans la littÃ©rature de spatiale. INC (revenu), OPEN (espaces ouverts), PLUMB (plomberie dÃ©fectueuse), DISCBD (distance au CBD), les indicateurs binaires de zone (NSA, NSB, EW, CP) ainsi que AREA et PERIMETER constituent des covariables explicatives plausibles ; COLUMBUS_, COLUMBUS_I, NEIG, THOUS et NEIGNO sont des identifiants/codes redondants ignorÃ©s.
 
 #### Detail X
 
@@ -49,7 +49,7 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 | `PERIMETER` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: CRIME~HOVAL+INC
 - x_terms_pub: HOVAL+INC
@@ -64,13 +64,12 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 - Correspondance Python/R: R_spdep_oldcol_COL.OLD
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: CRIME~HOVAL+INC
+- x_terms_used: HOVAL+INC
+- y_term_used: CRIME
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.columbus`
 - Dataset name: geodatasets::columbus
@@ -81,7 +80,7 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -98,7 +97,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -107,7 +106,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -116,9 +115,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

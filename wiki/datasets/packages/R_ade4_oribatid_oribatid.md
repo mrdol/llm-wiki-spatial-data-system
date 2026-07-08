@@ -1,4 +1,4 @@
----
+﻿---
 title: R_ade4_oribatid_oribatid
 type: dataset
 created: 2026-06-30
@@ -10,24 +10,24 @@ tags: [dataset, r-package, spatial, point]
 
 This data set contains informations about environmental control and spatial structure in ecological communities of Oribatid mites.
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
-- Candidate Y variables: not identified by LLM classification — manual review required
+- Candidate Y variables: not identified by LLM classification â€” manual review required
 - Candidate Y typology: unknown
-- Candidate X variables: not identified by LLM classification — manual review required
+- Candidate X variables: not identified by LLM classification â€” manual review required
 - Candidate X typology: unknown
-- Coordinates (x, y — excluded from X candidates): `x`, `y`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `x`, `y`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| — | — | aucun candidat detecte | — | — |
+| â€” | â€” | aucun candidat detecte | â€” | â€” |
 
 
 > **ade4** - Donnees ecologiques multivariees. La variable reponse Y et la formule sont a definir manuellement selon l'etude ciblee (ordination, RDA, etc.).
@@ -38,10 +38,10 @@ This data set contains informations about environmental control and spatial stru
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| — | — | aucun candidat | — |
+| â€” | â€” | aucun candidat | â€” |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: RDA/CCA contrainte (pcaiv)
 - x_terms_pub: pending
@@ -56,13 +56,12 @@ This data set contains informations about environmental control and spatial stru
 - Correspondance Python/R: aucune identifiee
 - Note: Documentee par Borcard & Legendre (1994) mais format ordination multivariee, pas regression classique a variable dependante unique.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
+- formula_used: RDA/CCA contrainte (pcaiv)
 - x_terms_used: pending
 - y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_ade4_oribatid_oribatid`
 - Dataset name: ade4::oribatid
@@ -73,7 +72,7 @@ This data set contains informations about environmental control and spatial stru
 - Publication DOI: pending
 - Year: 2002
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -90,7 +89,7 @@ modeling_evidence:
   confidence: medium
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -99,7 +98,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -108,9 +107,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: GPL (>= 2)
@@ -122,7 +121,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

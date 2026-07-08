@@ -2,9 +2,9 @@
 title: SpBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-07-04
+updated: 2026-07-06
 sources:
-  - raw/paper/spbbost_article.pdf
+  - corpus/papers/raw_pdf/spbbost_article.pdf
   - raw/estimators/spboost_0.6.3/spboost/DESCRIPTION
   - raw/estimators/spboost_0.6.3/spboost/NAMESPACE
   - raw/estimators/spboost_0.6.3/spboost/man/spb_make_boost_control.Rd
@@ -23,6 +23,91 @@ SpBoost est un estimateur de regression spatiale non lineaire. Il combine:
 - une estimation du parametre spatial par maximum de vraisemblance ou par CFE, c'est-a-dire closed-form estimator.
 
 Dans le systeme, SpBoost est un estimateur prioritaire pour les jeux de donnees spatiaux avec une variable continue `Y`, des variables explicatives `X_candidate`, une matrice de voisinage `W`, et un objectif de regression ou prediction spatiale.
+
+## Summary
+
+SpBoost est l'estimateur autorise du projet pour combiner boosting additif et
+dependance spatiale explicite. Il sert surtout quand la relation `Y ~ X` est
+non lineaire et que les residus ou la reponse gardent une autocorrelation
+spatiale.
+
+## Estimator Family
+
+- Family: boosting additif avec structure SAR, SEM ou SARAR.
+- Project status: allowed by [[restricted_estimator_policy_v1]].
+- Implementation route: R-first through package `spboost`.
+- Current benchmark route: custom `parsnip` engine `spboost_reg()`.
+
+## Model Equation
+
+Canonical SAR SpBoost form:
+
+`y = rho W y + f(X) + epsilon`
+
+For SEM:
+
+`y = f(X) + u`, with `u = lambda W u + epsilon`.
+
+`f(X)` is estimated by boosting base learners. In the current benchmark, the
+main route is a SAR boosting model with `W` built from k-nearest neighbors.
+
+## Paper Evidence Status
+
+| Source | Status | Use in fiche |
+|---|---|---|
+| `spbbost_article.pdf` | paper_supported | conceptual SpBoost equations and benchmark framing |
+| `spboost` package documentation | implementation_supported | software API and method names |
+| Project `parsnip_spboost.R` wrapper | implementation_supported | current tidymodels integration |
+
+## Data Structures It May Fit
+
+| Requirement | Expected form | Why it matters |
+|---|---|---|
+| Response `Y` | continuous numeric response | current implementation targets regression |
+| Predictors `X` | numeric, binary or encoded variables | boosting terms are built from predictors |
+| Coordinates | two projected coordinate columns | used to build `W` |
+| Spatial weights `W` | row-standardized kNN matrix | required by SAR/SEM/SARAR routes |
+
+## Main Use Cases
+
+- Nonlinear spatial regression with SAR/SEM structure.
+- Benchmark against GLM, GAM, XGBoost, GWR, MGWR and MGWRSAR.
+- Testing whether nonlinear covariate effects reduce residual spatial autocorrelation.
+- Spatial prediction under near-prediction or block-spatial validation.
+
+## Hyperparameters To Optimize
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| `mstop` | number of boosting iterations | yes | implementation_supported | current grid: `50,100,200,300,400,600,800,1000` |
+| `nu` | learning rate | later | implementation_supported | currently fixed at `0.1` |
+| `DGP` | spatial structure SAR/SEM/SARAR | later | implementation_supported | current benchmark uses SAR |
+| `k_neighbors` | kNN size for `W` | later | project_candidate | currently fixed at `8` |
+
+## Secondary Hyperparameters
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| `method` | backend route such as `BSPA_SAR_ML` | later | implementation_supported | currently derived from `DGP` |
+| base learner type | `bbs()` vs `bols()` | no/later | implementation_supported | current wrapper chooses by variable type |
+| `ncore` | parallel execution | no | implementation_supported | operational |
+
+## Hyperparameter Interactions
+
+- `mstop` and `nu` jointly control regularization.
+- `W` and `DGP` define the spatial signal being estimated.
+- Binary predictors should use `bols()`, not `bbs()`, to avoid rank-deficient spline bases.
+- A large `mstop` can improve RMSE while absorbing spatial structure that should be checked through residual Moran diagnostics.
+
+## Cross-validation Policy
+
+The estimator fiche does not define folds itself. The project owner defines
+external resampling schemes, and SpBoost only receives the training data for
+each split.
+
+For spatial datasets, use near-prediction and block-spatial validation rather
+than relying on random folds. `W` must be rebuilt or explicitly documented for
+each train/test split so that predictions are interpretable and reproducible.
 
 ## Ce Que L'estimateur Fait
 
@@ -374,6 +459,88 @@ fit <- fit_spboost(
 )
 ```
 
+## Diagnostics A Lire
+
+- valeur estimee de `rho` pour SAR;
+- valeur estimee de `lambda` pour SEM;
+- `rmse`;
+- `mstop` selectionne;
+- variables selectionnees par le boosting;
+- sensibilite a la construction de `W`;
+- autocorrelation spatiale des residus;
+- performance sur validation spatiale bloquee;
+- difference entre `BSPA_*_CFE` et `BSPA_*_ML`.
+
+## Diagnostics To Inspect
+
+- Estimated `rho` for SAR or `lambda` for SEM.
+- RMSE/MAE under holdout, near-prediction and block-spatial validation.
+- Selected `mstop`.
+- Residual Moran I after fitting.
+- Sensitivity to `W` construction.
+- Warnings about rank deficiency or spline extrapolation.
+
+## Failure Modes
+
+- Overfitting when `mstop` is too large.
+- Rank-deficient spline bases for binary predictors if not routed to `bols()`.
+- Misleading random-fold performance under spatial dependence.
+- Results that depend strongly on an undocumented `W`.
+- Runtime growth on large datasets.
+
+## Minimal Tuning Workflow
+
+1. Prepare complete cases and metric coordinates.
+2. Build spatial folds outside the estimator.
+3. Tune `mstop` on near-prediction folds.
+4. Keep `nu` and `k_neighbors` fixed in the first pass.
+5. Evaluate final scores on holdout, near-prediction and block-spatial folds.
+6. Inspect residual Moran I and warnings before interpreting gains.
+
+## Dataset Compatibility Notes
+
+- Compatible `Y`: continuous numeric response.
+- Compatible `X`: numeric, binary or encoded predictors.
+- Spatial requirement: coordinates sufficient to build `W`.
+- Missing data: complete-case preprocessing before W construction.
+- Plausible current datasets: `georgia`, `ewhp`, `nyc_education`; larger datasets can be slow.
+
+## Open Questions From Papers
+
+- Whether SEM and SARAR routes should be exposed as separate benchmark names.
+- Whether `nu` should be tuned jointly with `mstop`.
+- Whether a dataset-provided official `W` should replace project kNN `W` when available.
+
+## Points De Prudence
+
+- `W` doit etre normalisee par ligne et documentee.
+- `mstop` trop grand peut sur-apprendre.
+- `nu` trop grand peut rendre le boosting instable.
+- `bspatial(longitude, latitude)` peut masquer le signal SAR/SEM.
+- Les methodes XGBoost du package sont a traiter comme experimentales tant qu'elles ne sont pas validees dans le systeme.
+- Les predictions avec `predict_spboost` demandent une matrice `W` compatible avec les donnees d'apprentissage et les nouvelles observations.
+
+## Metadata A Stocker
+
+Pour chaque usage de SpBoost, enregistrer:
+
+- `Y`;
+- typologie de `Y`;
+- `X_candidate`;
+- `X_selected`;
+- formule R;
+- `DGP`;
+- `method`;
+- construction de `W`;
+- `mstop`;
+- `nu`;
+- `mstop_criterion`;
+- `rho` ou `lambda`;
+- validation croisee;
+- validation spatiale externe;
+- presence ou absence de `bspatial`;
+- raison scientifique de l'utilisation de SpBoost.
+
 ## Moteur `parsnip` Du Projet (ajoute le 2026-07-04)
 
 En plus du wrapper bas niveau `fit_spboost.R` ci-dessus, le pipeline de test
@@ -427,47 +594,12 @@ Points d'implementation a connaitre:
   "OLS simple" (`glm`), "GWR simple" et "SAR simple" y sont evaluees en
   parallele -- voir [[mgwrsar]] pour ces deux dernieres.
 
-## Diagnostics A Lire
+Project update (2026-07-06):
 
-- valeur estimee de `rho` pour SAR;
-- valeur estimee de `lambda` pour SEM;
-- `rmse`;
-- `mstop` selectionne;
-- variables selectionnees par le boosting;
-- sensibilite a la construction de `W`;
-- autocorrelation spatiale des residus;
-- performance sur validation spatiale bloquee;
-- difference entre `BSPA_*_CFE` et `BSPA_*_ML`.
-
-## Points De Prudence
-
-- `W` doit etre normalisee par ligne et documentee.
-- `mstop` trop grand peut sur-apprendre.
-- `nu` trop grand peut rendre le boosting instable.
-- `bspatial(longitude, latitude)` peut masquer le signal SAR/SEM.
-- Les methodes XGBoost du package sont a traiter comme experimentales tant qu'elles ne sont pas validees dans le systeme.
-- Les predictions avec `predict_spboost` demandent une matrice `W` compatible avec les donnees d'apprentissage et les nouvelles observations.
-
-## Metadata A Stocker
-
-Pour chaque usage de SpBoost, enregistrer:
-
-- `Y`;
-- typologie de `Y`;
-- `X_candidate`;
-- `X_selected`;
-- formule R;
-- `DGP`;
-- `method`;
-- construction de `W`;
-- `mstop`;
-- `nu`;
-- `mstop_criterion`;
-- `rho` ou `lambda`;
-- validation croisee;
-- validation spatiale externe;
-- presence ou absence de `bspatial`;
-- raison scientifique de l'utilisation de SpBoost.
+- `W` is now built through `Code_scrapping/R/utils/spatial_weights.R`, shared
+  with MGWRSAR, spatialreg baselines and Moran diagnostics.
+- The current tuning grid for `mstop` is expanded up to `1000`.
+- Tuning outputs are written as `.rds` objects, not CSV files.
 
 ## Related Pages
 

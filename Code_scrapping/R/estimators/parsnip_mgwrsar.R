@@ -1,4 +1,5 @@
 source("R/utils/estimator_common.R")
+source("R/utils/spatial_weights.R")
 
 # Moteur parsnip custom pour mgwrsar::MGWRSAR() ("tidification" de
 # MGWR/MGWRSAR, selon wiki/metadata/r_estimator_implementation_policy_v1.md et
@@ -14,7 +15,6 @@ source("R/utils/estimator_common.R")
 
 require_package("parsnip", "custom mgwrsar_reg() parsnip engine")
 require_package("mgwrsar", "MGWRSAR")
-require_package("nabor", "kNN spatial weight matrix construction (Model=\"SAR\")")
 
 # Model="SAR" appelle en interne Rcpp::mod(), qui rappelle la fonction R
 # int_prems() par son nom -- alors qu'elle est bien exportee par mgwrsar,
@@ -29,26 +29,10 @@ library(mgwrsar)
 # aucune matrice de poids spatiaux pour ce chemin (contrairement a "GWR", qui
 # derive tout du couple kernels/H) -- W doit etre fourni via control$W, sinon
 # le SAR global (lambda constant, beta constant) n'a rien a regresser sur
-# W%*%Y. Meme patron que spb_build_knn_W() dans parsnip_spboost.R (kNN +
-# normW ligne-standardise), duplique ici pour eviter une dependance a l'ordre
-# de source() entre les deux fichiers de moteurs.
-mgwrsar_build_knn_W <- function(coords, k = 8) {
-  n <- nrow(coords)
-  k_use <- min(k, n - 1)
-  knn <- nabor::knn(coords, coords, k = k_use + 1)  # La colonne 1 est le point lui-meme (distance 0).
-  idx <- knn$nn.idx[, -1, drop = FALSE]
-  W <- matrix(0, n, n)
-  for (i in seq_len(n)) W[i, idx[i, ]] <- 1
-  W <- mgwrsar::normW(W)
-  # normW() renvoie une matrice base R "de meme classe que l'entree" -- ici
-  # dense, class "matrix"/"array". Le solveur SAR interne (Rcpp::mod(), route
-  # Model="SAR") exige un objet S4 (dgCMatrix), sinon il echoue avec "Not an
-  # S4 object" (confirme le 2026-07-04 sur Georgia). Meme correctif que
-  # spb_build_knn_W() dans parsnip_spboost.R: un wrap Matrix::Matrix()
-  # convertit automatiquement vers dgCMatrix (matrice tres creuse, k=8
-  # voisins/ligne).
-  Matrix::Matrix(W)
-}
+# W%*%Y. La construction kNN + normW ligne-standardise est factorisee dans
+# R/utils/spatial_weights.R pour partager exactement la meme definition de W
+# entre mgwrsar, spboost, spatialreg et les diagnostics.
+mgwrsar_build_knn_W <- function(coords, k = 8) build_knn_W(coords, k = k, sparse = TRUE)
 
 #' Constructeur utilisateur, aligne sur le style des specs parsnip::linear_reg().
 #'
@@ -173,6 +157,26 @@ mgwrsar_fit_impl <- function(formula, data, coords, Model = "GWR",
     ))
   }
 
+  # Branche MGWRSAR avec autocorrelation spatiale explicite. Elle repond a la
+  # demande "Model = MGWRSAR_1_0_kv + control(W = W)": contrairement au GWR
+  # simple, le modele utilise une matrice W fournie dans control pour estimer
+  # une dependance spatiale en plus des coefficients locaux.
+  if (Model == "MGWRSAR_1_0_kv") {
+    ctl <- control
+    if (is.null(ctl$adaptive)) ctl$adaptive <- TRUE
+    if (is.null(ctl$W)) ctl$W <- mgwrsar_build_knn_W(coords_mat, k = 8)
+    if (is.null(H)) H <- 20
+    return(mgwrsar::MGWRSAR(
+      formula = model_formula,
+      data = data,
+      coords = coords_mat,
+      kernels = kernels,
+      H = H,
+      Model = Model,
+      control = ctl
+    ))
+  }
+
   if (is.null(H)) {
     stop(
       "mgwrsar_reg() requires `bandwidth` (mgwrsar's `H`) - no default bandwidth ",
@@ -229,7 +233,7 @@ mgwrsar_pred_impl <- function(object, new_data, coords) {
   method_pred <- if (fit_obj@Model %in% c("tds_mgwr", "atds_mgwr")) "shepard" else "kernel"
 
   extra_args <- list()
-  if (fit_obj@Model == "SAR") {
+  if (fit_obj@Model %in% c("SAR", "MGWRSAR_1_0_kv")) {
     # predict_mgwrsar()'s SAR branch (BP_pred_SAR()) needs an explicit
     # train+test W for out-of-sample extrapolation. Its own auto-build
     # fallback (triggered when W=NULL) reads model@h_w/@kernel_w, but

@@ -1,4 +1,4 @@
----
+﻿---
 title: R_GWmodel_DubVoter_Dub.voter
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `GenEl2004`
 - Candidate Y typology: continuous
 - Candidate X variables: `DiffAdd`, `LARent`, `SC1`, `Unempl`, `LowEduc`, `Age18_24`, `Age25_44`, `Age45_64`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `DED_ID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -30,7 +30,7 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 | `GenEl2004` | `numeric` | continuous | [27.9846, 72.9142] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : GenEl2004 représente le taux de participation (ou résultat) aux élections générales de 2004, variable de sortie typique des études de comportement électoral spatial. Les autres colonnes (mobilité résidentielle, location sociale, statut socio-économique, chômage, faible niveau d'éducation, tranches d'âge) sont des covariables socio-démographiques classiquement utilisées pour expliquer les variations spatiales du vote.
+> Selection Y/X (claude-sonnet-4-6) : GenEl2004 reprÃ©sente le taux de participation (ou rÃ©sultat) aux Ã©lections gÃ©nÃ©rales de 2004, variable de sortie typique des Ã©tudes de comportement Ã©lectoral spatial. Les autres colonnes (mobilitÃ© rÃ©sidentielle, location sociale, statut socio-Ã©conomique, chÃ´mage, faible niveau d'Ã©ducation, tranches d'Ã¢ge) sont des covariables socio-dÃ©mographiques classiquement utilisÃ©es pour expliquer les variations spatiales du vote.
 
 #### Detail X
 
@@ -46,7 +46,7 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 | `Age45_64` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
 - x_terms_pub: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
@@ -61,13 +61,12 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 - Correspondance Python/R: aucune identifiee
 - Note: Formule deja presente (enrichissement anterieur enrich_web.py) et confirmee coherente avec les colonnes reelles du dataset ; jeu de donnees GWmodel classique (turnout electoral Dublin).
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- x_terms_used: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- y_term_used: GenEl2004
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_GWmodel_DubVoter_Dub.voter`
 - Dataset name: GWmodel::DubVoter
@@ -78,7 +77,7 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 - Publication DOI: pending
 - Year: 2013
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -95,7 +94,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -104,7 +103,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -113,9 +112,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: GPL (>= 2)
@@ -127,7 +126,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

@@ -2,7 +2,7 @@
 #
 # Objectif: reproduire les types de figures habituels des papiers d'econometrie
 # spatiale consultes (spbbost_article.pdf, top-down-scale MGWR, MGWR-SAR
-# Geniaux & Martinetti) a partir des CSV deja produits par
+# Geniaux & Martinetti) a partir des objets R deja produits par
 # benchmark_manual_test_2026-07.R et hyperparam_tuning.R -- aucune
 # reexecution de modele n'est necessaire, ces fonctions ne font que lire et
 # tracer des resultats existants.
@@ -42,8 +42,8 @@ require_package("patchwork", "cartes de coefficients locaux (echelles de couleur
 
 #' Trace RMSE (ou MAE) en fonction d'un hyperparametre, a partir d'une grille
 #' de tuning (le data.frame `grid` retourne par tune_spboost_mstop()/
-#' tune_mgwrsar_bandwidth(), ou lu directement depuis un CSV
-#' hyperparam_tuning_<dataset>_*.csv).
+#' tune_mgwrsar_bandwidth(), ou lu directement depuis un objet RDS
+#' hyperparam_tuning_<dataset>_*.rds).
 #'
 #' @param tuning_grid data.frame avec au moins les colonnes `x` et `metric`.
 #' @param x nom de la colonne hyperparametre (ex. "mstop", "bandwidth").
@@ -88,7 +88,7 @@ plot_tuning_curve <- function(tuning_grid, x, metric = "rmse", color = NULL, tit
 # ---------------------------------------------------------------------------
 
 #' Barres groupees RMSE/MAE, une facette par schema de CV, pour un dataset
-#' donne. Attend le meme format que le CSV ecrit par run_manual_test()
+#' donne. Attend le meme format que l'objet RDS ecrit par run_manual_test()
 #' (colonnes dataset, estimator, cv_scheme, rmse, mae).
 plot_cv_comparison <- function(benchmark_df, dataset_name, metric = "rmse") {
   stopifnot(is.data.frame(benchmark_df), metric %in% c("rmse", "mae"))
@@ -133,7 +133,7 @@ plot_cv_comparison <- function(benchmark_df, dataset_name, metric = "rmse") {
 #' et nuage de points colore (geom_sf+color).
 #'
 #' Contrairement a generate_dataset_figures(), cette fonction REFIT les
-#' modeles (les CSV du benchmark ne contiennent pas les coefficients locaux)
+#' modeles (les sorties benchmark ne contiennent pas les coefficients locaux)
 #' -- necessite que DATASETS et mgwrsar_reg() soient deja charges (source()
 #' benchmark_manual_test_2026-07.R au prealable).
 #'
@@ -142,7 +142,7 @@ plot_cv_comparison <- function(benchmark_df, dataset_name, metric = "rmse") {
 #'   (hors Intercept).
 #' @param bandwidth,kernels parametres GWR; si bandwidth=NULL (defaut), la
 #'   fonction essaie de lire le meilleur candidat dans
-#'   hyperparam_tuning_<dataset>_mgwrsar_H_kernel_2026-07.csv (produit par
+#'   hyperparam_tuning_<dataset>_mgwrsar_H_kernel_2026-07.rds (produit par
 #'   run_manual_test()), sinon retombe sur H=20/kernel="bisq".
 plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
                                          bandwidth = NULL, kernels = NULL,
@@ -159,9 +159,9 @@ plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
     runs_dir <- file.path(root, "data/manifests/runs")
   }
   if (is.null(bandwidth) || is.null(kernels)) {
-    tuned_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.csv", dataset_name))
+    tuned_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
     if (file.exists(tuned_path)) {
-      grid <- utils::read.csv(tuned_path)
+      grid <- readRDS(tuned_path)
       best <- grid[which.min(grid$rmse), ]
       if (is.null(bandwidth)) bandwidth <- best$bandwidth
       if (is.null(kernels)) kernels <- best$kernels
@@ -258,15 +258,15 @@ plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
 # Orchestrateur: genere et sauvegarde toutes les figures d'un dataset
 # ---------------------------------------------------------------------------
 
-#' Lit les CSV de tuning et de benchmark deja ecrits par
+#' Lit les objets R de tuning et de benchmark deja ecrits par
 #' benchmark_manual_test_2026-07.R pour `dataset_name`, produit les figures
 #' de calibration (spboost mstop, mgwrsar bandwidth/kernel) et de comparaison
 #' RMSE/MAE, et les enregistre dans data/manifests/runs/figures/.
 #'
 #' @param dataset_name nom du dataset (ex. "georgia"), doit correspondre aux
-#'   fichiers hyperparam_tuning_<dataset_name>_*.csv et aux lignes
-#'   `dataset == dataset_name` du benchmark_manual_test_2026-07.csv.
-#' @param runs_dir dossier contenant les CSV (par defaut data/manifests/runs
+#'   fichiers hyperparam_tuning_<dataset_name>_*.rds et aux lignes
+#'   `dataset == dataset_name` du benchmark_manual_test_2026-07.rds.
+#' @param runs_dir dossier contenant les objets RDS (par defaut data/manifests/runs
 #'   relatif a REPO_ROOT si defini, sinon au repertoire courant).
 #' Chaque dataset ecrit ses PNG dans son propre sous-dossier
 #' data/manifests/runs/figures/<dataset_name>/ (2026-07-04), pour ne pas
@@ -281,9 +281,9 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
 
   saved <- character(0)
 
-  spboost_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_spboost_mstop_2026-07.csv", dataset_name))
+  spboost_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_spboost_mstop_2026-07.rds", dataset_name))
   if (file.exists(spboost_path)) {
-    grid <- utils::read.csv(spboost_path)
+    grid <- readRDS(spboost_path)
     p <- plot_tuning_curve(grid, x = "mstop", metric = "rmse",
                             title = sprintf("SpBoost -- calibration de mstop (%s)", dataset_name))
     out <- file.path(fig_dir, sprintf("%s_tuning_spboost_mstop.png", dataset_name))
@@ -291,9 +291,9 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
     saved <- c(saved, out)
   }
 
-  mgwrsar_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.csv", dataset_name))
+  mgwrsar_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
   if (file.exists(mgwrsar_path)) {
-    grid <- utils::read.csv(mgwrsar_path)
+    grid <- readRDS(mgwrsar_path)
     p <- plot_tuning_curve(grid, x = "bandwidth", metric = "rmse", color = "kernels",
                             title = sprintf("MGWRSAR/GWR -- calibration de H et kernel (%s)", dataset_name))
     out <- file.path(fig_dir, sprintf("%s_tuning_mgwrsar_bandwidth.png", dataset_name))
@@ -301,9 +301,9 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
     saved <- c(saved, out)
   }
 
-  bench_path <- file.path(runs_dir, "benchmark_manual_test_2026-07.csv")
+  bench_path <- file.path(runs_dir, "benchmark_manual_test_2026-07.rds")
   if (file.exists(bench_path)) {
-    bench <- utils::read.csv(bench_path)
+    bench <- readRDS(bench_path)
     if (dataset_name %in% bench$dataset) {
       for (metric in c("rmse", "mae")) {
         p <- plot_cv_comparison(bench, dataset_name, metric = metric)
@@ -315,7 +315,7 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
   }
 
   if (length(saved) == 0) {
-    warning(sprintf("generate_dataset_figures('%s'): aucun CSV trouve dans %s.", dataset_name, runs_dir), call. = FALSE)
+    warning(sprintf("generate_dataset_figures('%s'): aucun objet RDS trouve dans %s.", dataset_name, runs_dir), call. = FALSE)
   } else {
     cat(sprintf("Figures ecrites pour '%s':\n", dataset_name))
     for (f in saved) cat("  -", f, "\n")
@@ -328,7 +328,7 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
 #' coefficients locaux dans le meme sous-dossier data/manifests/runs/figures/<dataset_name>/.
 #' Appel separe et explicite car plus couteux (refit de deux modeles sur
 #' l'ensemble du dataset), contrairement au reste de ce fichier qui ne
-#' relit que des CSV deja ecrits.
+#' relit que des objets RDS deja ecrits.
 save_local_coefficient_maps <- function(dataset_name, runs_dir = NULL, ...) {
   if (is.null(runs_dir)) {
     root <- if (exists("REPO_ROOT", envir = .GlobalEnv)) get("REPO_ROOT", envir = .GlobalEnv) else "."

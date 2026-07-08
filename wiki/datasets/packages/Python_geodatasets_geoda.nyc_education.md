@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.nyc_education
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `YOUTH_DROP`, `HS_DROP`, `COL_DEGREE`, `dropout`, `GENDER_PAR`
 - Candidate Y typology: rate, continuous
 - Candidate X variables: `PER_MNRTY`, `PER_ASIAN`, `PER_WHITE`, `PER_BLACK`, `mean_inc`, `pop1619`, `enrollhs`, `PER_PRV_SC`, `PER_PUB_SC`, `over3`, `notenroll`, `over3enr`, `pubsch`, `privsch`, `over25`, `subhs`, `somecol`, `college`, `master`, `prof`, `phd`, `sub18`, `SCHOOL_CT`, `popdens`, `population`, `NP_CT`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `POLY_ID`, `BoroCode`, `NTACode`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -34,7 +34,7 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 | `GENDER_PAR` | `numeric` | continuous | [0, 75.875] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Les variables Y candidates sont des taux ou mesures de résultats éducatifs (décrochage scolaire, diplomation, parité de genre) qui constituent des cibles naturelles pour la modélisation spatiale. Les variables X regroupent les caractéristiques socio-démographiques (composition raciale, revenus, densité, population) et les indicateurs structurels du système éducatif (effectifs scolaires public/privé, niveaux d'éducation des adultes) qui jouent un rôle explicatif ; les colonnes purement administratives ou géographiques (CTLabel, BoroName, CT2000, BoroCT2000, NTANAme, PUMA, Shape_Leng, Shape_Area) sont ignorées.
+> Selection Y/X (claude-sonnet-4-6) : Les variables Y candidates sont des taux ou mesures de rÃ©sultats Ã©ducatifs (dÃ©crochage scolaire, diplomation, paritÃ© de genre) qui constituent des cibles naturelles pour la modÃ©lisation spatiale. Les variables X regroupent les caractÃ©ristiques socio-dÃ©mographiques (composition raciale, revenus, densitÃ©, population) et les indicateurs structurels du systÃ¨me Ã©ducatif (effectifs scolaires public/privÃ©, niveaux d'Ã©ducation des adultes) qui jouent un rÃ´le explicatif ; les colonnes purement administratives ou gÃ©ographiques (CTLabel, BoroName, CT2000, BoroCT2000, NTANAme, PUMA, Shape_Leng, Shape_Area) sont ignorÃ©es.
 
 #### Detail X
 
@@ -68,7 +68,7 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 | `NP_CT` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: mean_inc~sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
 - x_terms_pub: sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
@@ -83,13 +83,12 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: mean_inc~sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
+- x_terms_used: sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
+- y_term_used: mean_inc
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.nyc_education`
 - Dataset name: geodatasets::nyc_education
@@ -100,7 +99,7 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -117,7 +116,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -126,7 +125,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -135,9 +134,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32618 (UTM Zone 18N (EPSG:32618)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32618 (UTM Zone 18N (EPSG:32618)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

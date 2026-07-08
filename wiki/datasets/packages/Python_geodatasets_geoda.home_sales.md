@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.home_sales
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `price`
 - Candidate Y typology: continuous
 - Candidate X variables: `bedrooms`, `bathrooms`, `sqft_liv`, `sqft_lot`, `floors`, `waterfront`, `view`, `condition`, `grade`, `sqft_above`, `sqft_basmt`, `yr_built`, `yr_renov`, `sqft_liv15`, `sqft_lot15`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `lat`, `long`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `lat`, `long`, `X`, `Y`
 - Identifier columns (excluded from X candidates): `id`, `zipcode`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -30,7 +30,7 @@ Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 | `price` | `numeric` | continuous | [75000, 7700000] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Le prix de vente (`price`) est la variable réponse naturelle pour un dataset de transactions immobilières. Les caractéristiques physiques, structurelles et de qualité du bien (surface, pièces, étages, vue, condition, grade, ancienneté, rénovation, surfaces voisinage) constituent des covariables explicatives classiques pour modéliser ce prix. Les colonnes `date` et `T` sont ignorées car trop ambiguës ou purement administratives sans information exploitable directe.
+> Selection Y/X (claude-sonnet-4-6) : Le prix de vente (`price`) est la variable rÃ©ponse naturelle pour un dataset de transactions immobiliÃ¨res. Les caractÃ©ristiques physiques, structurelles et de qualitÃ© du bien (surface, piÃ¨ces, Ã©tages, vue, condition, grade, anciennetÃ©, rÃ©novation, surfaces voisinage) constituent des covariables explicatives classiques pour modÃ©liser ce prix. Les colonnes `date` et `T` sont ignorÃ©es car trop ambiguÃ«s ou purement administratives sans information exploitable directe.
 
 #### Detail X
 
@@ -53,7 +53,7 @@ Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 | `sqft_lot15` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: price~bs(x1)+bs(x2)+bs(x3)+bs(x4)+bs(x5)+fact_date (splines) et price~sqft_liv (SEM)
 - x_terms_pub: bs(x1)+bs(x2)+bs(x3)+bs(x4)+bs(x5)+fact_date (splines) et price~sqft_liv (SEM)
@@ -68,13 +68,12 @@ Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: price~bs(x1)+bs(x2)+bs(x3)+bs(x4)+bs(x5)+fact_date (splines) et price~sqft_liv (SEM)
+- x_terms_used: bs(x1)+bs(x2)+bs(x3)+bs(x4)+bs(x5)+fact_date (splines) et price~sqft_liv (SEM)
+- y_term_used: price
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.home_sales`
 - Dataset name: geodatasets::home_sales
@@ -85,7 +84,7 @@ Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -102,7 +101,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -111,8 +110,8 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — `date` est la date de vente propre a chaque transaction individuelle (King County house sales) — chaque ligne est une vente distincte, pas une unite spatiale suivie repetee dans le temps ; ce n'est pas un panel au sens N unites x T periodes. `date`/`fact_date` reste une covariable pertinente (utilisee comme terme dans la formule publiee) mais ne definit pas un axe T.
-## Bloc 5 — Resolution et etendue
+> **Correction metadonnees (Tache 2, juillet 2026)** â€” `date` est la date de vente propre a chaque transaction individuelle (King County house sales) â€” chaque ligne est une vente distincte, pas une unite spatiale suivie repetee dans le temps ; ce n'est pas un panel au sens N unites x T periodes. `date`/`fact_date` reste une covariable pertinente (utilisee comme terme dans la formule publiee) mais ne definit pas un axe T.
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -121,9 +120,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32610 (UTM Zone 10N (EPSG:32610)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32610 (UTM Zone 10N (EPSG:32610)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

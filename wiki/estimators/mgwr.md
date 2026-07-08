@@ -2,7 +2,7 @@
 title: MGWR
 type: estimator
 created: 2026-04-23
-updated: 2026-07-04
+updated: 2026-07-06
 sources:
   - Multiscale Geographically Weighted Regression_Stewart et al__previewpdf.pdf
   - Fotheringham, Yang and Kang 2017, Multiscale Geographically Weighted Regression, doi:10.1080/24694452.2017.1352480
@@ -76,6 +76,21 @@ MGWR is not appropriate for a dataset that only contains cartographic geometry w
   structural/locational/neighbourhood covariates, and compares HPM, MGWR, GTWR
   and MGTWR.
 
+## Paper Evidence Status
+
+| Source | Status | Use in fiche |
+|---|---|---|
+| Fotheringham, Yang and Kang (2017) | paper_supported | canonical MGWR motivation and multiscale coefficient interpretation |
+| Oshan et al. (2019) | paper_supported | Python implementation reference and computational framing |
+| `mgwrsar` package docs | implementation_supported | R backend route through `TDS_MGWR()` |
+
+## Main Use Cases
+
+- Interpret spatially varying covariate effects at different scales.
+- Compare single-bandwidth GWR against true multiscale MGWR.
+- Diagnose which covariates behave locally and which are closer to global.
+- Produce local coefficient maps for spatial interpretation.
+
 ## Core Hyperparameters
 
 | Hyperparameter | Package argument | Tune? | Notes |
@@ -92,6 +107,30 @@ MGWR is not appropriate for a dataset that only contains cartographic geometry w
 | Neighbor truncation | `control$NN` | yes for large data | Controls sparse local computation |
 | CPU cores | `control$ncore` | operational | Runtime control |
 | LOOCV/GCV flag | `control$isgcv` | diagnostic | Leave-one-out style criterion |
+
+## Hyperparameters To Optimize
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| covariate-specific bandwidths | local scale per coefficient | yes | paper_supported | central MGWR quantity |
+| `kernels` | local weighting function | yes/later | implementation_supported | current benchmark uses `gauss` for `tds_mgwr` |
+| `fixed_vars` | variables held global in mixed variants | later | implementation_supported | not yet tuned in the benchmark |
+| `control_tds$nns` | top-down scale grid size | later | implementation_supported | currently fixed in wrapper |
+
+## Secondary Hyperparameters
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| `control_tds$tol` | convergence tolerance | no/later | implementation_supported | numerical stability |
+| `control_tds$maxit` | maximum backfitting iterations | no/later | implementation_supported | runtime cap |
+| `control$ncore` | parallel execution | no | implementation_supported | operational |
+| `control$NN` | neighborhood truncation | later | implementation_supported | useful for large datasets |
+
+## Hyperparameter Interactions
+
+- Bandwidths cannot be interpreted independently of kernel type.
+- Very small bandwidths can create unstable coefficient maps and local collinearity.
+- `fixed_vars` changes the target model: a mixed MGWR is not only a faster MGWR.
 
 ## Top-Down Scale MGWR
 
@@ -140,54 +179,22 @@ MGWR is primarily spatial, but the local package exposes space-time kernels thro
 - use GDT or TDS/GTWR-style settings only when the dataset has a real temporal index;
 - prefer blocked space-time validation when time is used in the kernel.
 
-## Project `parsnip` Engine (added 2026-07-04)
+## Prediction Controls
 
-The manual `tidymodels` benchmark pipeline
-(`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`) exposes true
-multiscale MGWR through the same `mgwrsar_reg()` engine documented in
-[[mgwrsar]] (`Code_scrapping/R/estimators/parsnip_mgwrsar.R`), via two special
-`model_type` values that route to `mgwrsar::TDS_MGWR()` instead of
-`mgwrsar::MGWRSAR()`:
+For `mgwrsar::TDS_MGWR()` fits, prediction is not the same route as plain
+GWR. The project wrapper uses the prediction method that the backend supports
+for top-down multiscale models.
 
-```r
-mgwrsar_reg(
-  coords = c("coord_x", "coord_y"),
-  model_type = "tds_mgwr",   # or "atds_mgwr"
-  kernels = "gauss"
-) |>
-  parsnip::set_engine("mgwrsar") |>
-  parsnip::set_mode("regression")
-```
+| Control | Role |
+|---|---|
+| `method_pred = "shepard"` | required project route for `tds_mgwr` / `atds_mgwr` prediction |
+| automatic `TP` -> `shepard` switch | documented backend behavior when `TP` is not implemented |
+| `h_w` / `kernel_w` | spatial-weight prediction controls for backends that need W-style extrapolation |
+| `beta_proj` | controls projection of local coefficients when available |
+| `k_extra` | neighbor count for local extrapolation in prediction |
 
-Why this distinction matters: `mgwrsar_reg(model_type = "GWR")` (the engine's
-default, see [[mgwrsar]]) is plain single-bandwidth GWR, not multiscale MGWR
--- `MGWRSAR()`'s own `Model="MGWR"` path expects a pre-computed bandwidth
-*vector* (one value per covariate, confirmed in `man/MGWR.Rd`: `H: A vector of
-bandwidths`) that the engine does not compute. `TDS_MGWR()` is self-contained:
-it finds that per-covariate bandwidth vector itself through the top-down-scale
-backfitting algorithm, so no external `bandwidth`/`kernels` grid search is
-needed for these two `model_type` values (they are ignored/unused, unlike
-`"GWR"` where `bandwidth` is required).
-
-Implementation notes:
-
-- Prediction requires `method_pred="shepard"` for `tds_mgwr`/`atds_mgwr` fits
-  -- `predict_mgwrsar()` itself documents that `method_pred="TP"` (the
-  engine's implicit default reasoning) is not implemented for these models and
-  auto-switches to `"shepard"`; the engine requests it directly rather than
-  relying on the auto-switch.
-- `control_tds$nns` (number of bandwidth steps in the decreasing sequence) is
-  hardcoded to `20L` in the engine, the paper's recommended default (M=20-30).
-  It gets auto-truncated by the package for small N (observed: truncated to
-  16 on Georgia, N=159) -- worth checking the truncation message on larger
-  datasets.
-- On Georgia (N=159), `mgwrsar_multiscale` (`tds_mgwr`) beat plain
-  `mgwrsar` (`GWR`) on all three CV schemes used in the benchmark: holdout
-  RMSE 2.766 vs 2.811, near-prediction RMSE 3.045 vs 3.140, block-spatial
-  RMSE 3.293 vs 3.526. The fitted per-covariate bandwidth vector was
-  genuinely heterogeneous (e.g. `PctFB` converged to a much smaller bandwidth
-  than the other covariates), consistent with the MGWR hypothesis that
-  different covariates operate at different spatial scales.
+In the current benchmark, `mgwrsar_multiscale` requests `method_pred =
+"shepard"` explicitly instead of relying on the backend's automatic fallback.
 
 ## Diagnostics To Inspect
 
@@ -240,6 +247,74 @@ For every MGWR modeling run, record:
 - selected bandwidth per variable;
 - validation protocol;
 - residual spatial autocorrelation diagnostics.
+
+## Dataset Compatibility Notes
+
+- Compatible `Y`: continuous numeric response.
+- Compatible `X`: numeric or encoded predictors with enough local variation.
+- Spatial requirement: coordinates in a metric CRS or defensible centroids.
+- Temporal support: possible only when a real time index is available and a space-time kernel is selected.
+- Missing data: complete-case filtering should be finished before bandwidth search.
+
+## Open Questions From Papers
+
+- Whether `atds_mgwr` should be benchmarked despite higher runtime.
+- Whether bandwidth interpretation remains stable on the larger catalog datasets.
+- Whether local collinearity diagnostics should become mandatory before reporting coefficient maps.
+
+## Project `parsnip` Engine (added 2026-07-04)
+
+The manual `tidymodels` benchmark pipeline
+(`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`) exposes true
+multiscale MGWR through the same `mgwrsar_reg()` engine documented in
+[[mgwrsar]] (`Code_scrapping/R/estimators/parsnip_mgwrsar.R`), via two special
+`model_type` values that route to `mgwrsar::TDS_MGWR()` instead of
+`mgwrsar::MGWRSAR()`:
+
+```r
+mgwrsar_reg(
+  coords = c("coord_x", "coord_y"),
+  model_type = "tds_mgwr",   # or "atds_mgwr"
+  kernels = "gauss"
+) |>
+  parsnip::set_engine("mgwrsar") |>
+  parsnip::set_mode("regression")
+```
+
+Why this distinction matters: `mgwrsar_reg(model_type = "GWR")` (the engine's
+default, see [[mgwrsar]]) is plain single-bandwidth GWR, not multiscale MGWR
+-- `MGWRSAR()`'s own `Model="MGWR"` path expects a pre-computed bandwidth
+*vector* (one value per covariate, confirmed in `man/MGWR.Rd`: `H: A vector of
+bandwidths`) that the engine does not compute. `TDS_MGWR()` is self-contained:
+it finds that per-covariate bandwidth vector itself through the top-down-scale
+backfitting algorithm, so no external `bandwidth`/`kernels` grid search is
+needed for these two `model_type` values (they are ignored/unused, unlike
+`"GWR"` where `bandwidth` is required).
+
+Implementation notes:
+
+- Prediction requires `method_pred="shepard"` for `tds_mgwr`/`atds_mgwr` fits
+  -- `predict_mgwrsar()` itself documents that `method_pred="TP"` (the
+  engine's implicit default reasoning) is not implemented for these models and
+  auto-switches to `"shepard"`; the engine requests it directly rather than
+  relying on the auto-switch.
+- `control_tds$nns` (number of bandwidth steps in the decreasing sequence) is
+  hardcoded to `20L` in the engine, the paper's recommended default (M=20-30).
+  It gets auto-truncated by the package for small N (observed: truncated to
+  16 on Georgia, N=159) -- worth checking the truncation message on larger
+  datasets.
+- On Georgia (N=159), `mgwrsar_multiscale` (`tds_mgwr`) beat plain
+  `mgwrsar` (`GWR`) on all three CV schemes used in the benchmark: holdout
+  RMSE 2.766 vs 2.811, near-prediction RMSE 3.045 vs 3.140, block-spatial
+  RMSE 3.293 vs 3.526. The fitted per-covariate bandwidth vector was
+  genuinely heterogeneous (e.g. `PctFB` converged to a much smaller bandwidth
+  than the other covariates), consistent with the MGWR hypothesis that
+  different covariates operate at different spatial scales.
+
+Project update (2026-07-06): `mgwrsar_multiscale` remains the benchmark name
+for true MGWR through `TDS_MGWR()`. The new `mgwrsar_autocorr` route belongs
+to [[mgwrsar]], not to pure MGWR, because it adds an explicit spatial lag
+component through `W`.
 
 ## Related Pages
 

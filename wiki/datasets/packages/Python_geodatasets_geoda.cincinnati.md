@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.cincinnati
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `BURGLARY`, `ASSAULT`, `THEFT`, `BURG_D`, `ASSALT_D`, `THEFT_D`, `DENSITY`
 - Candidate Y typology: count, binary, continuous
 - Candidate X variables: `AREA`, `POPULATION`, `MEDIAN_AGE`, `AGE_0_5`, `AGE_15_19`, `AGE_20_24`, `AGE_25_34`, `AGE_35_44`, `AGE_65`, `WHITE`, `BLACK`, `ASIAN`, `AP_HISPANI`, `HOUSEHOLDS`, `HH_FAMILY`, `HH_NONFAMI`, `AVG_HHSIZE`, `AVG_FAMSIZ`, `HSNG_UNITS`, `HU_VACANT`, `OCCHU_OWNE`, `OCCHU_RENT`, `GROUP_QUAR`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `ID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -36,7 +36,7 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 | `DENSITY` | `numeric` | continuous | [0, 55229.6771] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Les variables criminelles (BURGLARY, ASSAULT, THEFT et leurs formes binaires) ainsi que DENSITY sont les cibles naturelles d'une modélisation spatiale dans ce contexte urbain de Cincinnati. Les covariables retenues couvrent les dimensions démographiques (population, structure d'âge, composition raciale/ethnique), sociales (structure des ménages, taille moyenne) et résidentielles (logements vacants, propriétaires vs locataires, logements collectifs) classiquement associées à la criminalité et à la densité urbaine ; DENSITY peut jouer alternativement le rôle de Y (modélisation de la densité) ou de X (prédicteur de la criminalité), d'où sa présence dans les deux listes.
+> Selection Y/X (claude-sonnet-4-6) : Les variables criminelles (BURGLARY, ASSAULT, THEFT et leurs formes binaires) ainsi que DENSITY sont les cibles naturelles d'une modÃ©lisation spatiale dans ce contexte urbain de Cincinnati. Les covariables retenues couvrent les dimensions dÃ©mographiques (population, structure d'Ã¢ge, composition raciale/ethnique), sociales (structure des mÃ©nages, taille moyenne) et rÃ©sidentielles (logements vacants, propriÃ©taires vs locataires, logements collectifs) classiquement associÃ©es Ã  la criminalitÃ© et Ã  la densitÃ© urbaine ; DENSITY peut jouer alternativement le rÃ´le de Y (modÃ©lisation de la densitÃ©) ou de X (prÃ©dicteur de la criminalitÃ©), d'oÃ¹ sa prÃ©sence dans les deux listes.
 
 #### Detail X
 
@@ -67,7 +67,7 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 | `GROUP_QUAR` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: WHITE~AGE_0_5+...+AGE_85
 - x_terms_pub: AGE_0_5+...+AGE_85
@@ -82,13 +82,12 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 - Correspondance Python/R: aucune identifiee
 - Note: Formule GWR trouvee mais lien source (pysal.org/gwlearn/dev) confirme 404 ; pas de lien stable retrouve. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Formule GWR deja documentee (WHITE~AGE_0_5+...) -- probleme de preuve (URL 404), pas d'absence de formule ; pas de nouvelle analogie necessaire.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: WHITE~AGE_0_5+...+AGE_85
+- x_terms_used: AGE_0_5+...+AGE_85
+- y_term_used: WHITE
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.cincinnati`
 - Dataset name: geodatasets::cincinnati
@@ -99,7 +98,7 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -116,7 +115,7 @@ modeling_evidence:
   confidence: medium
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -125,7 +124,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -134,9 +133,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

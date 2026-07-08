@@ -1,4 +1,4 @@
----
+﻿---
 title: R_agridat_ortiz.tomato.covs_ortiz.tomato.covs
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `Day`, `T`
 - Candidate Y typology: count
 - Candidate X variables: `Dha`, `Driv`, `ExK`, `ExN`, `ExP`, `Irr`, `K`, `MeT`, `MnT`, `MxT`, `OM`, `P`, `pH`, `Prec`, `Trim`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `Lat`, `Long`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `Lat`, `Long`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 | `T` | `integer` | count | [264, 1463] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Dans un contexte agro-environnemental tomate, Day (durée en jours, e.g. jours à maturité) et T (température cumulée/somme thermique, plage identique à Day ce qui suggère une variable phénologique cible) sont les réponses plausibles ; les variables pédologiques (K, P, pH, OM, ExK, ExN, ExP), climatiques (MeT, MnT, MxT, Prec) et de gestion culturale (Irr, Trim, Driv, Dha) constituent les covariables explicatives naturelles. La colonne env (factor environnement) est ignorée car c'est un identifiant de site.
+> Selection Y/X (claude-sonnet-4-6) : Dans un contexte agro-environnemental tomate, Day (durÃ©e en jours, e.g. jours Ã  maturitÃ©) et T (tempÃ©rature cumulÃ©e/somme thermique, plage identique Ã  Day ce qui suggÃ¨re une variable phÃ©nologique cible) sont les rÃ©ponses plausibles ; les variables pÃ©dologiques (K, P, pH, OM, ExK, ExN, ExP), climatiques (MeT, MnT, MxT, Prec) et de gestion culturale (Irr, Trim, Driv, Dha) constituent les covariables explicatives naturelles. La colonne env (factor environnement) est ignorÃ©e car c'est un identifiant de site.
 
 #### Detail X
 
@@ -54,7 +54,7 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 | `Trim` | `integer` | binary | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: env*gen~env*cov
 - x_terms_pub: env*cov
@@ -69,13 +69,12 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: env*gen~env*cov
+- x_terms_used: env*cov
+- y_term_used: env*gen
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_agridat_ortiz.tomato.covs_ortiz.tomato.covs`
 - Dataset name: agridat::ortiz.tomato.covs
@@ -86,7 +85,7 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - Publication DOI: pending
 - Year: 2011
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -103,7 +102,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -112,7 +111,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -121,9 +120,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: MIT + file LICENSE
@@ -135,7 +134,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.lasrosas
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `YIELD`
 - Candidate Y typology: continuous
 - Candidate X variables: `N`, `N2`, `TOPO`, `BV`, `BV2`, `NXBV`, `SAT`, `SAT2`, `NXSAT`, `BVXT2`, `BVXT3`, `BVXT4`, `BV2XT2`, `BV2XT3`, `BV2XT4`, `SATXT2`, `SATXT3`, `SATXT4`, `SAT2XT2`, `SAT2XT3`, `SAT2XT4`, `NXTOP2`, `NXTOP3`, `NXTOP4`, `N2XTOP2`, `N2XTOP3`, `N2XTOP4`, `TOP2`, `TOP3`, `TOP4`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `LONGITUDE`, `LATITUDE`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `LONGITUDE`, `LATITUDE`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -30,7 +30,7 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 | `YIELD` | `numeric` | continuous | [31.23, 90.38] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : YIELD (rendement agricole en continu) est la variable réponse naturelle de ce dataset d'expérimentation agronomique issu de Las Rosas. Les autres colonnes représentent des covariables explicatives : dose d'azote (N, N2), topographie (TOPO, TOP2-4 indicatrices de classe), interactions azote×topographie (NXTOP*, N2XTOP*), et variables pédologiques/spectrales (BV, SAT) avec leurs termes quadratiques et interactions croisées, formant typiquement la structure d'un modèle de réponse à l'azote spatialement hétérogène. OBS est un simple index d'observation, ignoré.
+> Selection Y/X (claude-sonnet-4-6) : YIELD (rendement agricole en continu) est la variable rÃ©ponse naturelle de ce dataset d'expÃ©rimentation agronomique issu de Las Rosas. Les autres colonnes reprÃ©sentent des covariables explicatives : dose d'azote (N, N2), topographie (TOPO, TOP2-4 indicatrices de classe), interactions azoteÃ—topographie (NXTOP*, N2XTOP*), et variables pÃ©dologiques/spectrales (BV, SAT) avec leurs termes quadratiques et interactions croisÃ©es, formant typiquement la structure d'un modÃ¨le de rÃ©ponse Ã  l'azote spatialement hÃ©tÃ©rogÃ¨ne. OBS est un simple index d'observation, ignorÃ©.
 
 #### Detail X
 
@@ -68,7 +68,7 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 | `TOP4` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: YIELD~N+N2+TOPO/TOP2-4+NXTOPz
 - x_terms_pub: N+N2+TOPO/TOP2-4+NXTOPz
@@ -83,13 +83,12 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 - Correspondance Python/R: R_agridat_lasrosas.corn_lasrosas.corn
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: YIELD~N+N2+TOPO/TOP2-4+NXTOPz
+- x_terms_used: N+N2+TOPO/TOP2-4+NXTOPz
+- y_term_used: YIELD
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.lasrosas`
 - Dataset name: geodatasets::lasrosas
@@ -100,7 +99,7 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -117,7 +116,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -126,7 +125,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -135,9 +134,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32720 (UTM Zone 20S (EPSG:32720)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32720 (UTM Zone 20S (EPSG:32720)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

@@ -1,4 +1,4 @@
----
+﻿---
 title: R_spaMM_Leuca_Leuca
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific spatial random effects. Leucadrendron rubrum is a dioecious shrub from South Africa. Various phenotypes were recorded on individuals from a small patch of habitat.
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `fec`, `fec_div`, `area`, `diam`
 - Candidate Y typology: continuous, count
 - Candidate X variables: `sex`, `diamZ`, `areaZ`, `male`, `female`
 - Candidate X typology: categorical, continuous
-- Coordinates (x, y — excluded from X candidates): `x`, `y`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `x`, `y`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -33,7 +33,7 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 | `diam` | `integer` | count | [18, 198] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Les variables phénotypiques comme la fécondité (fec, fec_div) et les mesures de taille (area, diam) sont des réponses biologiques plausibles dans un contexte d'écologie des plantes. Le sexe (sex, male, female) est une covariable explicative clé pour des modèles avec effets spatiaux sex-spécifiques, tandis que diamZ et areaZ sont des versions standardisées des traits morphologiques utilisables comme covariables ; name est ignoré car purement administratif, et on évite de placer simultanément diam/area et leurs versions standardisées du même côté.
+> Selection Y/X (claude-sonnet-4-6) : Les variables phÃ©notypiques comme la fÃ©conditÃ© (fec, fec_div) et les mesures de taille (area, diam) sont des rÃ©ponses biologiques plausibles dans un contexte d'Ã©cologie des plantes. Le sexe (sex, male, female) est une covariable explicative clÃ© pour des modÃ¨les avec effets spatiaux sex-spÃ©cifiques, tandis que diamZ et areaZ sont des versions standardisÃ©es des traits morphologiques utilisables comme covariables ; name est ignorÃ© car purement administratif, et on Ã©vite de placer simultanÃ©ment diam/area et leurs versions standardisÃ©es du mÃªme cÃ´tÃ©.
 
 #### Detail X
 
@@ -46,7 +46,7 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 | `female` | `logical` | binary | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: fec_div ~ sex + Matern(1|x+y %in% sex)
 - x_terms_pub: sex + Matern(1|x+y %in% sex)
@@ -61,13 +61,12 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 - Correspondance Python/R: aucune identifiee
 - Note: Formule deja presente (enrichissement anterieur), coherente avec le DOI Bloc 2 et les colonnes reelles.
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
+- x_terms_used: sex + Matern(1|x+y %in% sex)
+- y_term_used: fec_div
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_spaMM_Leuca_Leuca`
 - Dataset name: spaMM::Leuca
@@ -78,7 +77,7 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 - Publication DOI: 10.1111/mec.15833
 - Year: 2013
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -95,7 +94,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -104,7 +103,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -113,9 +112,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: CeCILL-2
@@ -127,7 +126,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.guerry
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `Crm_prs`, `Crm_prp`, `Litercy`, `Suicids`, `Lottery`, `Infants`
 - Candidate Y typology: continuous
 - Candidate X variables: `Wealth`, `Commerc`, `Clergy`, `Donatns`, `Prsttts`, `Distanc`, `Area`, `Pop1831`, `Desertn`, `Instrct`, `MainCty`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -35,7 +35,7 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 | `Infants` | `numeric` | continuous | [2660, 62486] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Les variables Y candidates sont des outcomes sociaux mesurés (criminalité, suicide, illettrisme, infanticide, jeux de loterie) typiquement modélisés dans la littérature Guerry comme variables réponse. Les variables X candidates sont des indicateurs structurels, économiques ou démographiques (richesse, commerce, clergé, dons, prostitution, distance, superficie, population, désertion, instruction, type de ville) servant de covariables explicatives ; les colonnes purement administratives ou géographiques (dept, Region, Dprtmnt) et les doublons en rang (Crm_prn, Infntcd, Dntn_cl) sont ignorés.
+> Selection Y/X (claude-sonnet-4-6) : Les variables Y candidates sont des outcomes sociaux mesurÃ©s (criminalitÃ©, suicide, illettrisme, infanticide, jeux de loterie) typiquement modÃ©lisÃ©s dans la littÃ©rature Guerry comme variables rÃ©ponse. Les variables X candidates sont des indicateurs structurels, Ã©conomiques ou dÃ©mographiques (richesse, commerce, clergÃ©, dons, prostitution, distance, superficie, population, dÃ©sertion, instruction, type de ville) servant de covariables explicatives ; les colonnes purement administratives ou gÃ©ographiques (dept, Region, Dprtmnt) et les doublons en rang (Crm_prn, Infntcd, Dntn_cl) sont ignorÃ©s.
 
 #### Detail X
 
@@ -54,7 +54,7 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 | `MainCty` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: Crime_pers ~ Region+Literacy+Donations+Infants+Suicides
 - x_terms_pub: Region+Literacy+Donations+Infants+Suicides
@@ -69,13 +69,12 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: Crime_pers ~ Region+Literacy+Donations+Infants+Suicides
+- x_terms_used: Region+Literacy+Donations+Infants+Suicides
+- y_term_used: Crime_pers
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.guerry`
 - Dataset name: geodatasets::guerry
@@ -86,7 +85,7 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -103,7 +102,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -112,7 +111,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -121,9 +120,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

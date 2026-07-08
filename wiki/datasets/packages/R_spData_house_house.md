@@ -1,4 +1,4 @@
----
+﻿---
 title: R_spData_house_house
 type: dataset
 created: 2026-06-30
@@ -8,19 +8,19 @@ sources:
 tags: [dataset, r-package, spatial, point]
 ---
 
-Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from the county auditor, together with an ‘nb’ neighbour object constructed as a sphere of influence graph from projected coordinates.
+Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from the county auditor, together with an â€˜nbâ€™ neighbour object constructed as a sphere of influence graph from projected coordinates.
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `price`, `avalue`
 - Candidate Y typology: count
 - Candidate X variables: `yrbuilt`, `stories`, `TLA`, `wall`, `beds`, `baths`, `halfbaths`, `frontage`, `depth`, `garage`, `garagesqft`, `rooms`, `lotsize`, `s1993`, `s1994`, `s1995`, `s1996`, `s1997`, `s1998`, `syear`, `age`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 | `avalue` | `integer` | count | [1714, 788114] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : Le prix de vente (price) est la cible naturelle d'un modèle hédonique immobilier ; la valeur cadastrale (avalue) peut aussi servir de variable réponse alternative. Les caractéristiques structurelles du logement (surface, chambres, salles de bain, garage, etc.), du terrain (frontage, depth, lotsize), de l'âge et de l'année de vente constituent les covariables explicatives classiques. Les colonnes sdate et T sont exclues car redondantes avec syear/s199x.
+> Selection Y/X (claude-sonnet-4-6) : Le prix de vente (price) est la cible naturelle d'un modÃ¨le hÃ©donique immobilier ; la valeur cadastrale (avalue) peut aussi servir de variable rÃ©ponse alternative. Les caractÃ©ristiques structurelles du logement (surface, chambres, salles de bain, garage, etc.), du terrain (frontage, depth, lotsize), de l'Ã¢ge et de l'annÃ©e de vente constituent les covariables explicatives classiques. Les colonnes sdate et T sont exclues car redondantes avec syear/s199x.
 
 #### Detail X
 
@@ -60,7 +60,7 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 | `age` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: log(price)~TLA+Frontage+Depth+age+beds+baths+... (24 variables)
 - x_terms_pub: TLA+Frontage+Depth+age+beds+baths+... (24 variables)
@@ -75,13 +75,12 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: log(price)~TLA+Frontage+Depth+age+beds+baths+... (24 variables)
+- x_terms_used: TLA+Frontage+Depth+age+beds+baths+... (24 variables)
+- y_term_used: log(price)
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_spData_house_house`
 - Dataset name: spData::house
@@ -92,7 +91,7 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 - Publication DOI: pending
 - Year: 2017
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -109,7 +108,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -118,8 +117,8 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — `sdate` est la date de vente individuelle de chaque maison (25 357 ventes distinctes, comte de Lucas OH, 1993-1998) — chaque ligne est une transaction unique, pas une unite spatiale suivie repetee. Confirme par wiki/datasets/r_package_docs/spData/topics/house.md ('25,357 single family homes sold ... 1993-1998'). T=1444 (nombre de dates de vente distinctes) ne constitue pas un axe panel.
-## Bloc 5 — Resolution et etendue
+> **Correction metadonnees (Tache 2, juillet 2026)** â€” `sdate` est la date de vente individuelle de chaque maison (25 357 ventes distinctes, comte de Lucas OH, 1993-1998) â€” chaque ligne est une transaction unique, pas une unite spatiale suivie repetee. Confirme par wiki/datasets/r_package_docs/spData/topics/house.md ('25,357 single family homes sold ... 1993-1998'). T=1444 (nombre de dates de vente distinctes) ne constitue pas un axe panel.
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -128,9 +127,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: CC0

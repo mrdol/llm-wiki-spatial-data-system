@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_spdata.eire
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`eire`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `INCOME`, `POPCHG`, `RETSALE`
 - Candidate Y typology: continuous
 - Candidate X variables: `A`, `towns`, `pale`, `size`, `ROADACC`, `OWNCONS`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -32,7 +32,7 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 | `RETSALE` | `numeric` | continuous | [1885, 89424] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : INCOME, POPCHG et RETSALE sont des variables socio-économiques classiquement utilisées comme cibles dans des modèles spatiaux (revenus, croissance démographique, ventes au détail). Les autres variables numériques (superficie A, taux d'urbanisation towns, indicateur historique pale, taille size, accessibilité routière ROADACC, occupation des logements OWNCONS) constituent des covariables explicatives plausibles ; la colonne names est ignorée car purement administrative.
+> Selection Y/X (claude-sonnet-4-6) : INCOME, POPCHG et RETSALE sont des variables socio-Ã©conomiques classiquement utilisÃ©es comme cibles dans des modÃ¨les spatiaux (revenus, croissance dÃ©mographique, ventes au dÃ©tail). Les autres variables numÃ©riques (superficie A, taux d'urbanisation towns, indicateur historique pale, taille size, accessibilitÃ© routiÃ¨re ROADACC, occupation des logements OWNCONS) constituent des covariables explicatives plausibles ; la colonne names est ignorÃ©e car purement administrative.
 
 #### Detail X
 
@@ -46,7 +46,7 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 | `OWNCONS` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: A~towns+pale
 - x_terms_pub: towns+pale
@@ -61,13 +61,12 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: A~towns+pale
+- x_terms_used: towns+pale
+- y_term_used: A
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.eire`
 - Dataset name: geodatasets::eire
@@ -78,7 +77,7 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -95,7 +94,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -104,7 +103,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -113,9 +112,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=227.1deg) -- projection nationale recommandee
+- CRS analyse recommande: pending â€” multi-zones (span=227.1deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

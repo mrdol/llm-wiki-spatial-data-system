@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_libpysal_georgia
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `libpysal` (`georgia`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `PctPov`, `PctBach`, `PctBlack`
 - Candidate Y typology: continuous
 - Candidate X variables: `AREA`, `PERIMETER`, `TotPop90`, `PctRural`, `PctEld`, `PctFB`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `Latitude`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `Latitude`, `X`, `Y`
 - Identifier columns (excluded from X candidates): `G_UTM_ID`, `AreaKey`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -32,7 +32,7 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 | `PctBlack` | `numeric` | continuous | [0, 79.64] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : PctPov (taux de pauvreté), PctBach (niveau d'éducation) et PctBlack (composition démographique) sont des variables socio-économiques classiquement modélisées comme réponses dans des études de géographie humaine. Les covariables retenues capturent la taille (AREA, PERIMETER), la population (TotPop90), le caractère rural (PctRural), la structure par âge (PctEld) et l'immigration (PctFB) ; G_UTM_ semble être un identifiant interne et Longitud une coordonnée redondante, tous deux exclus.
+> Selection Y/X (claude-sonnet-4-6) : PctPov (taux de pauvretÃ©), PctBach (niveau d'Ã©ducation) et PctBlack (composition dÃ©mographique) sont des variables socio-Ã©conomiques classiquement modÃ©lisÃ©es comme rÃ©ponses dans des Ã©tudes de gÃ©ographie humaine. Les covariables retenues capturent la taille (AREA, PERIMETER), la population (TotPop90), le caractÃ¨re rural (PctRural), la structure par Ã¢ge (PctEld) et l'immigration (PctFB) ; G_UTM_ semble Ãªtre un identifiant interne et Longitud une coordonnÃ©e redondante, tous deux exclus.
 
 #### Detail X
 
@@ -46,7 +46,7 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 | `PctFB` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: PctBach~PctRural+PctFB+PctBlack+PctEld
 - x_terms_pub: PctRural+PctFB+PctBlack+PctEld
@@ -59,15 +59,14 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 - Niveau de preuve: verbatim
 - Methode d'estimation: GWR
 - Correspondance Python/R: R_GWmodel_GeorgiaCounties_Gedu.counties
-- Note: Formule identifiee via la documentation du package R equivalent GWmodel::Gedu.counties — meme jeu de donnees sous-jacent (Georgia, Fotheringham et al. 2002).
+- Note: Formule identifiee via la documentation du package R equivalent GWmodel::Gedu.counties â€” meme jeu de donnees sous-jacent (Georgia, Fotheringham et al. 2002).
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
+- x_terms_used: PctRural+PctFB+PctBlack+PctEld
+- y_term_used: PctBach
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_libpysal_georgia`
 - Dataset name: libpysal::georgia
@@ -78,7 +77,7 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 - Publication DOI: pending
 - Year: 2017
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -95,7 +94,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -104,7 +103,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -113,9 +112,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32615 (UTM Zone 15N (EPSG:32615)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32615 (UTM Zone 15N (EPSG:32615)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

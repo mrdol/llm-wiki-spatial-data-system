@@ -2,7 +2,7 @@
 title: SVM
 type: estimator
 created: 2026-04-29
-updated: 2026-06-04
+updated: 2026-07-06
 sources:
   - ISLRv2_corrected_June_2023.pdf
   - Cortes and Vapnik 1995, Support-vector networks, doi:10.1007/BF00994018
@@ -43,6 +43,20 @@ function.
 - Spatial datasets after feature engineering.
 - Spatio-temporal datasets after lag/window construction.
 
+## Paper Evidence Status
+
+| Source | Status | Use in fiche |
+|---|---|---|
+| Cortes and Vapnik (1995) | paper_supported | canonical support-vector classifier |
+| ISLR reference | paper_supported | pedagogical SVM/SVR framing |
+| R implementation route | project_candidate | not currently wired in the spatial benchmark |
+
+## Main Use Cases
+
+- Non-spatial baseline for moderate-size feature matrices.
+- Support vector regression when response is continuous.
+- Classification baseline outside the current regression-only spatial benchmark.
+
 ## Hyperparameters To Optimize
 
 | Hyperparameter | Role | Tune? | Notes |
@@ -53,6 +67,20 @@ function.
 | `degree` | Polynomial degree | later | Polynomial kernel only. |
 | `epsilon` | SVR insensitive tube | yes | Regression only. |
 | `class_weight` | Imbalance correction | later | Classification only. |
+
+## Secondary Hyperparameters
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| scaling parameters | feature normalization | no/later | implementation_supported | must be learned inside folds |
+| probability calibration | calibrated probabilities | later | implementation_supported | classification only |
+| cache / tolerance controls | solver runtime and convergence | no | implementation_supported | operational |
+
+## Hyperparameter Interactions
+
+- `C` and `gamma` jointly control margin flexibility for RBF kernels.
+- Scaling interacts with every distance-based kernel.
+- High-dimensional coordinate or lag features can make kernel tuning unstable.
 
 ## Cross-validation Policy
 
@@ -73,6 +101,26 @@ blocked validation and avoid preprocessing leakage.
 - Kernel overfitting with high `C` and high `gamma`.
 - Poor scalability on large datasets.
 - Weak spatial transfer if coordinates are used without blocked validation.
+
+## Minimal Tuning Workflow
+
+1. Scale predictors inside each resampling split.
+2. Start with linear or conservative RBF kernel.
+3. Tune `C` and `gamma` jointly for RBF.
+4. Use blocked validation for spatial datasets.
+5. Inspect support-vector count and residual/spatial error patterns.
+
+## Dataset Compatibility Notes
+
+- Compatible `Y`: continuous for SVR, categorical for SVC.
+- Compatible `X`: scaled numeric features.
+- Spatial requirement: none; coordinates are just engineered features if used.
+- Current benchmark note: SVM is allowed by policy but not currently wired into `benchmark_manual_test_2026-07.R`.
+
+## Open Questions From Papers
+
+- Whether SVM remains useful compared with tree baselines on the current spatial regression catalog.
+- Which R backend should be standardized if SVM is added to the benchmark.
 
 ## Related Pages
 

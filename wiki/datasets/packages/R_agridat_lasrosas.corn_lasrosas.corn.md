@@ -60,9 +60,9 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: YIELD~N+N2+TOPO/TOP2-4+NXTOPz
+- x_terms_used: N+N2+TOPO/TOP2-4+NXTOPz
+- y_term_used: YIELD
 
 ## Bloc 2 — Identification et DOI
 

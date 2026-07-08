@@ -1,4 +1,4 @@
----
+﻿---
 title: R_spaMM_Loaloa_Loaloa
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 This data set describes prevalence of infection by the nematode _Loa loa_ in North Cameroon, 1991-2001. This is a superset of the data discussed by Diggle and Ribeiro (2007) and Diggle et al. (2007). The study investigated the relationship between altitude, vegetation indices, and prevalence of the parasite.
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `npos`
 - Candidate Y typology: continuous
 - Candidate X variables: `ntot`, `maxNDVI`, `seNDVI`, `elev1`, `elev2`, `elev3`, `elev4`, `maxNDVI1`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `longitude`, `latitude`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `longitude`, `latitude`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -30,7 +30,7 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 | `npos` | `numeric` | continuous | [0, 162] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : npos (nombre de cas positifs à Loa loa) est la variable réponse naturelle pour modéliser la prévalence de l'infection, éventuellement avec ntot comme offset (taille de l'échantillon). Les variables d'altitude (elev1–elev4) et de végétation (maxNDVI, seNDVI, maxNDVI1) sont les covariables explicatives conformément à l'objectif déclaré de l'étude.
+> Selection Y/X (claude-sonnet-4-6) : npos (nombre de cas positifs Ã  Loa loa) est la variable rÃ©ponse naturelle pour modÃ©liser la prÃ©valence de l'infection, Ã©ventuellement avec ntot comme offset (taille de l'Ã©chantillon). Les variables d'altitude (elev1â€“elev4) et de vÃ©gÃ©tation (maxNDVI, seNDVI, maxNDVI1) sont les covariables explicatives conformÃ©ment Ã  l'objectif dÃ©clarÃ© de l'Ã©tude.
 
 #### Detail X
 
@@ -46,7 +46,7 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 | `maxNDVI1` | `numeric` | rate | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: cbind(npos, ntot-npos) ~ elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
 - x_terms_pub: elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
@@ -61,13 +61,12 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 - Correspondance Python/R: aucune identifiee
 - Note: Formule deja presente (enrichissement anterieur) ; dataset canonique de la litterature de geostatistique pour donnees binomiales (Diggle & Ribeiro).
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: cbind(npos, ntot-npos) ~ elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
+- x_terms_used: elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
+- y_term_used: cbind(npos, ntot-npos)
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_spaMM_Loaloa_Loaloa`
 - Dataset name: spaMM::Loaloa
@@ -78,7 +77,7 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 - Publication DOI: 10.1179/136485907X229121
 - Year: 2013
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -95,7 +94,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -104,7 +103,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -113,9 +112,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: CeCILL-2
@@ -127,7 +126,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

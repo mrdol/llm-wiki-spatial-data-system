@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.us_sdoh
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `SDOH_CL`, `ep_pov`, `ep_unin`, `ep_unem`
 - Candidate Y typology: count, continuous
 - Candidate X variables: `ep_pci`, `ep_nohs`, `ep_sngp`, `ep_lime`, `ep_crow`, `ep_nove`, `rntov30p_1`, `ep_minrty`, `ep_age65`, `ep_age17`, `ep_disabl`, `X1_SES`, `X2_MOB`, `X3_URB`, `X4_MICA`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -33,7 +33,7 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 | `ep_unem` | `numeric` | continuous | [0, 100] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : SDOH_CL (cluster de déterminants sociaux de santé) est la cible synthétique naturelle du dataset ; ep_pov, ep_unem et ep_unin sont des indicateurs de vulnérabilité sociale fréquemment modélisés comme variables réponse. Les variables ep_* restantes (capital humain, démographie, logement) ainsi que les composantes factorielles X1–X4 constituent des covariables explicatives pertinentes ; les colonnes FIPS/codes géographiques sont ignorées car purement administratives.
+> Selection Y/X (claude-sonnet-4-6) : SDOH_CL (cluster de dÃ©terminants sociaux de santÃ©) est la cible synthÃ©tique naturelle du dataset ; ep_pov, ep_unem et ep_unin sont des indicateurs de vulnÃ©rabilitÃ© sociale frÃ©quemment modÃ©lisÃ©s comme variables rÃ©ponse. Les variables ep_* restantes (capital humain, dÃ©mographie, logement) ainsi que les composantes factorielles X1â€“X4 constituent des covariables explicatives pertinentes ; les colonnes FIPS/codes gÃ©ographiques sont ignorÃ©es car purement administratives.
 
 #### Detail X
 
@@ -56,7 +56,7 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 | `X4_MICA` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: YPLL~Advantage+Mobility+Opportunity+MICA+Violent_crime(+W*YPLL)
 - x_terms_pub: Advantage+Mobility+Opportunity+MICA+Violent_crime(+W*YPLL)
@@ -71,13 +71,12 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: YPLL~Advantage+Mobility+Opportunity+MICA+Violent_crime(+W*YPLL)
+- x_terms_used: Advantage+Mobility+Opportunity+MICA+Violent_crime(+W*YPLL)
+- y_term_used: YPLL
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.us_sdoh`
 - Dataset name: geodatasets::us_sdoh
@@ -88,7 +87,7 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -105,7 +104,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -114,7 +113,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -123,9 +122,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=57.6deg) -- projection nationale recommandee
+- CRS analyse recommande: pending â€” multi-zones (span=57.6deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

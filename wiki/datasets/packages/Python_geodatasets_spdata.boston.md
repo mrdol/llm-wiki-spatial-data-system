@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_spdata.boston
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`boston`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `MEDV`, `CMEDV`, `median`, `CRIM`
 - Candidate Y typology: continuous
 - Candidate X variables: `ZN`, `INDUS`, `CHAS`, `NOX`, `RM`, `AGE`, `DIS`, `RAD`, `TAX`, `PTRATIO`, `B`, `LSTAT`, `POP`, `BB`, `units`
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `LON`, `LAT`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `LON`, `LAT`, `X`, `Y`
 - Identifier columns (excluded from X candidates): `NOX_ID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -33,7 +33,7 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 | `CRIM` | `numeric` | continuous | [0.0063, 88.9762] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : MEDV et CMEDV (valeur médiane des logements) sont les cibles classiques de ce benchmark immobilier, median en est une version alternative (en dollars absolus) ; CRIM (taux de criminalité) peut aussi être une variable réponse dans des études de sécurité urbaine. Les colonnes ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, POP, BB et units sont des caractéristiques socio-économiques, environnementales et d'accessibilité typiquement utilisées comme covariables explicatives ; les colonnes de comptage de logements par tranche de prix (cu5k, c5_7_5, C7_5_10, etc.) et censored sont ignorées car redondantes avec MEDV/CMEDV ou purement descriptives de la distribution cible.
+> Selection Y/X (claude-sonnet-4-6) : MEDV et CMEDV (valeur mÃ©diane des logements) sont les cibles classiques de ce benchmark immobilier, median en est une version alternative (en dollars absolus) ; CRIM (taux de criminalitÃ©) peut aussi Ãªtre une variable rÃ©ponse dans des Ã©tudes de sÃ©curitÃ© urbaine. Les colonnes ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, POP, BB et units sont des caractÃ©ristiques socio-Ã©conomiques, environnementales et d'accessibilitÃ© typiquement utilisÃ©es comme covariables explicatives ; les colonnes de comptage de logements par tranche de prix (cu5k, c5_7_5, C7_5_10, etc.) et censored sont ignorÃ©es car redondantes avec MEDV/CMEDV ou purement descriptives de la distribution cible.
 
 #### Detail X
 
@@ -56,7 +56,7 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 | `units` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: log(CMEDV)~CRIM+ZN+INDUS+CHAS+I(NOX^2)+I(RM^2)+AGE+log(DIS)+log(RAD)+TAX+PTRATIO+B+log(LSTAT)
 - x_terms_pub: CRIM+ZN+INDUS+CHAS+I(NOX^2)+I(RM^2)+AGE+log(DIS)+log(RAD)+TAX+PTRATIO+B+log(LSTAT)
@@ -71,13 +71,12 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: log(CMEDV)~CRIM+ZN+INDUS+CHAS+I(NOX^2)+I(RM^2)+AGE+log(DIS)+log(RAD)+TAX+PTRATIO+B+log(LSTAT)
+- x_terms_used: CRIM+ZN+INDUS+CHAS+I(NOX^2)+I(RM^2)+AGE+log(DIS)+log(RAD)+TAX+PTRATIO+B+log(LSTAT)
+- y_term_used: log(CMEDV)
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.boston`
 - Dataset name: geodatasets::boston
@@ -88,7 +87,7 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -105,7 +104,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -114,7 +113,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -123,9 +122,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4267
 - CRS nom: NAD27
-- CRS analyse recommande: 32619 (UTM Zone 19N (EPSG:32619)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32619 (UTM Zone 19N (EPSG:32619)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

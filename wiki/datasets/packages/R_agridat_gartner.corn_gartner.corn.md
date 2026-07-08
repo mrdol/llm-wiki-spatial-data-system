@@ -58,9 +58,9 @@ Yield monitor data from a corn field in Minnesota
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: yield~elevation
+- x_terms_used: elevation
+- y_term_used: yield
 
 ## Bloc 2 — Identification et DOI
 

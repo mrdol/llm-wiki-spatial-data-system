@@ -2,7 +2,7 @@
 title: LightGBM
 type: estimator
 created: 2026-04-23
-updated: 2026-06-04
+updated: 2026-07-06
 sources:
   - LightGBM.pdf
   - Ke et al. 2017, LightGBM: A Highly Efficient Gradient Boosting Decision Tree
@@ -51,6 +51,19 @@ histograms and leaf-wise growth, so leaf complexity is central.
 - Spatial datasets after feature engineering.
 - Spatial panels after lag/window construction.
 
+## Paper Evidence Status
+
+| Source | Status | Use in fiche |
+|---|---|---|
+| Ke et al. (2017) | paper_supported | LightGBM algorithm and efficiency claims |
+| LightGBM official documentation | implementation_supported | software parameter names and tuning notes |
+
+## Main Use Cases
+
+- Fast gradient-boosted tree baseline on large tabular datasets.
+- Non-spatial comparison point against XGBoost and Random Forest.
+- Feature-engineered spatial prediction when spatial variables are explicitly included.
+
 ## Hyperparameters To Optimize
 
 | Hyperparameter | Role | Tune? | Notes |
@@ -65,6 +78,20 @@ histograms and leaf-wise growth, so leaf complexity is central.
 | `lambda_l1` / `reg_alpha` | L1 regularization | later | Secondary regularization. |
 | `lambda_l2` / `reg_lambda` | L2 regularization | later | Secondary regularization. |
 | `max_bin` | Histogram granularity | later | Accuracy-speed tradeoff. |
+
+## Secondary Hyperparameters
+
+| Hyperparameter | Role | Tune? | Evidence status | Notes |
+|---|---|---|---|---|
+| `min_gain_to_split` | minimum split gain | later | implementation_supported | conservative tree growth |
+| `bagging_freq` | row sampling frequency | later | implementation_supported | interacts with `bagging_fraction` |
+| categorical handling | categorical split behavior | later | implementation_supported | depends on backend and encoded data |
+
+## Hyperparameter Interactions
+
+- `num_leaves`, `max_depth` and `min_data_in_leaf` jointly control complexity.
+- `learning_rate` and `num_iterations` must be tuned together.
+- Spatially engineered features can inflate importance unless blocked validation is used.
 
 ## Cross-validation Policy
 
@@ -94,6 +121,18 @@ hide leakage.
 3. Tune `learning_rate` and `n_estimators` with early stopping.
 4. Tune `num_leaves`, `max_depth`, and sampling fractions.
 5. Check blocked validation and residual maps.
+
+## Dataset Compatibility Notes
+
+- Compatible `Y`: continuous, binary or count depending on objective.
+- Compatible `X`: numeric or encoded categorical predictors.
+- Spatial requirement: none; spatial information must be engineered as features.
+- Current benchmark note: LightGBM is allowed by policy but not currently wired in `benchmark_manual_test_2026-07.R`.
+
+## Open Questions From Papers
+
+- Whether LightGBM adds value over XGBoost for the current dataset sizes.
+- Which R backend route should be standardized before adding it to the benchmark.
 
 ## Related Pages
 

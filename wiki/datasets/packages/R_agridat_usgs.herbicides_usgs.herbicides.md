@@ -71,13 +71,14 @@ Concentrations of selected herbicides and degradation products determined by lab
   acetochlor, alachlor, etc.). La formule est fidele a la source (niveau publication) mais n'est
   pas directement calculable sur ce fichier brut sans agregation prealable non documentee ici --
   c'est attendu et coherent avec le niveau de preuve 'article' (formule tiree d'une source
-  tierce), a ne pas confondre avec 'formula_used' (niveau systeme, qui reste pending).
+  tierce). Par convention transitoire 2026-07-06, 'formula_used' recopie
+  'formula_pub' lorsqu'une source a fourni la formule.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: log(DetectFreq)~log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
+- x_terms_used: log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
+- y_term_used: log(DetectFreq)
 
 ## Bloc 2 — Identification et DOI
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.ndvi
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `GREEN`
 - Candidate Y typology: count
 - Candidate X variables: `TEMP`, `ELEV`, `PREC`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `POLYID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -30,7 +30,7 @@ Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 | `GREEN` | `integer` | count | [107, 155] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : GREEN (réflectance verte / proxy NDVI) est la variable réponse naturelle à modéliser dans un contexte de végétation. TEMP, ELEV et PREC sont des covariables environnementales classiques (température, altitude, précipitations) qui expliquent la distribution spatiale de la végétation. AREA et PERIMETER sont constants (plage [49,49] et [28,28]) donc sans variance utile et sont ignorés.
+> Selection Y/X (claude-sonnet-4-6) : GREEN (rÃ©flectance verte / proxy NDVI) est la variable rÃ©ponse naturelle Ã  modÃ©liser dans un contexte de vÃ©gÃ©tation. TEMP, ELEV et PREC sont des covariables environnementales classiques (tempÃ©rature, altitude, prÃ©cipitations) qui expliquent la distribution spatiale de la vÃ©gÃ©tation. AREA et PERIMETER sont constants (plage [49,49] et [28,28]) donc sans variance utile et sont ignorÃ©s.
 
 #### Detail X
 
@@ -41,7 +41,7 @@ Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 | `PREC` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: GREEN~TEMP+PREC
 - x_terms_pub: TEMP+PREC
@@ -56,13 +56,12 @@ Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: GREEN~TEMP+PREC
+- x_terms_used: TEMP+PREC
+- y_term_used: GREEN
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.ndvi`
 - Dataset name: geodatasets::ndvi
@@ -73,7 +72,7 @@ Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -90,7 +89,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -99,7 +98,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -108,9 +107,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=42deg) -- projection nationale recommandee
+- CRS analyse recommande: pending â€” multi-zones (span=42deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

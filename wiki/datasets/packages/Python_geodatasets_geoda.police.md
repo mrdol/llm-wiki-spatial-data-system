@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.police
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, python-package, spatial, point]
 
 Dataset spatial issu du package Python `geodatasets` (`police`).
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `CRIME`, `POLICE`
 - Candidate Y typology: count
 - Candidate X variables: `POP`, `INC`, `UNEMP`, `OWN`, `COLLEGE`, `WHITE`, `COMMUTE`, `TAX`, `TRANSFER`, `AREA`, `PERIMETER`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `CNTY_ID`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 | `POLICE` | `integer` | count | [49, 10971] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : CRIME (nombre de crimes) et POLICE (effectifs policiers) sont les variables réponses naturelles dans un dataset 'police' à vocation criminologique/sécuritaire. Les variables socio-économiques (INC, UNEMP, OWN, COLLEGE, WHITE, COMMUTE, TAX, TRANSFER), démographiques (POP) et morphologiques (AREA, PERIMETER) constituent des covariables explicatives pertinentes ; les codes FIPS, noms et identifiants administratifs sont ignorés.
+> Selection Y/X (claude-sonnet-4-6) : CRIME (nombre de crimes) et POLICE (effectifs policiers) sont les variables rÃ©ponses naturelles dans un dataset 'police' Ã  vocation criminologique/sÃ©curitaire. Les variables socio-Ã©conomiques (INC, UNEMP, OWN, COLLEGE, WHITE, COMMUTE, TAX, TRANSFER), dÃ©mographiques (POP) et morphologiques (AREA, PERIMETER) constituent des covariables explicatives pertinentes ; les codes FIPS, noms et identifiants administratifs sont ignorÃ©s.
 
 #### Detail X
 
@@ -50,7 +50,7 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 | `PERIMETER` | `numeric` | continuous | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: POL~TAX+TRANS+INC+CRIME+UNEMP+OWNER+COLLEGE+WHITE+OUT
 - x_terms_pub: TAX+TRANS+INC+CRIME+UNEMP+OWNER+COLLEGE+WHITE+OUT
@@ -65,13 +65,12 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: POL~TAX+TRANS+INC+CRIME+UNEMP+OWNER+COLLEGE+WHITE+OUT
+- x_terms_used: TAX+TRANS+INC+CRIME+UNEMP+OWNER+COLLEGE+WHITE+OUT
+- y_term_used: POL
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.police`
 - Dataset name: geodatasets::police
@@ -82,7 +81,7 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 - Publication DOI: pending
 - Year: 2023
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -99,7 +98,7 @@ modeling_evidence:
   confidence: high
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -108,7 +107,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -117,9 +116,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) â€” calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: BSD 3-Clause

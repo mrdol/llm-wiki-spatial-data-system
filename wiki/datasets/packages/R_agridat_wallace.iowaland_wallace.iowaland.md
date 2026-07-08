@@ -1,4 +1,4 @@
----
+﻿---
 title: R_agridat_wallace.iowaland_wallace.iowaland
 type: dataset
 created: 2026-06-30
@@ -10,17 +10,17 @@ tags: [dataset, r-package, spatial, point]
 
 Iowa farmland values by county in 1925
 
-## Bloc 1 — Formule et variables
+## Bloc 1 â€” Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme â€” inspection directe du sf)
 
 - Candidate Y variables: `fedval`, `stval`
 - Candidate Y typology: count
 - Candidate X variables: `yield`, `corn`, `grain`, `untillable`
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `lat`, `long`, `X`, `Y`
+- Coordinates (x, y â€” excluded from X candidates): `lat`, `long`, `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Variables inspected: yes (auto â€” export_sf_metadata.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -31,7 +31,7 @@ Iowa farmland values by county in 1925
 | `stval` | `integer` | count | [49, 161] | 0% |
 
 
-> Selection Y/X (claude-sonnet-4-6) : fedval (valeur fédérale) et stval (valeur d'état) sont les estimations de la valeur des terres agricoles, naturelles cibles de modélisation. yield (rendement), corn (part en maïs), grain (part en céréales) et untillable (part non cultivable) sont des caractéristiques agronomiques du comté utilisables comme covariables explicatives. county et fips sont des identifiants administratifs à ignorer.
+> Selection Y/X (claude-sonnet-4-6) : fedval (valeur fÃ©dÃ©rale) et stval (valeur d'Ã©tat) sont les estimations de la valeur des terres agricoles, naturelles cibles de modÃ©lisation. yield (rendement), corn (part en maÃ¯s), grain (part en cÃ©rÃ©ales) et untillable (part non cultivable) sont des caractÃ©ristiques agronomiques du comtÃ© utilisables comme covariables explicatives. county et fips sont des identifiants administratifs Ã  ignorer.
 
 #### Detail X
 
@@ -43,7 +43,7 @@ Iowa farmland values by county in 1925
 | `untillable` | `integer` | count | 0% |
 
 
-### Formule — niveau publication
+### Formule â€” niveau publication
 
 - formula_pub: fedval~yield+corn+grain+untillable
 - x_terms_pub: yield+corn+grain+untillable
@@ -58,13 +58,12 @@ Iowa farmland values by county in 1925
 - Correspondance Python/R: aucune identifiee
 - Note: Aucune equation ajustee explicite retrouvee dans la source ; formule reconstruite a partir de la liste de variables reelle du dataset (Y=fedval/stval valeur des terres, X=yield/corn/grain/untillable caracteristiques agronomiques du comte).
 
-### Formule — niveau systeme
+### Formule â€” niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
-
-## Bloc 2 — Identification et DOI
+- formula_used: fedval~yield+corn+grain+untillable
+- x_terms_used: yield+corn+grain+untillable
+- y_term_used: fedval
+## Bloc 2 â€” Identification et DOI
 
 - Dataset ID: `R_agridat_wallace.iowaland_wallace.iowaland`
 - Dataset name: agridat::wallace.iowaland
@@ -75,7 +74,7 @@ Iowa farmland values by county in 1925
 - Publication DOI: pending
 - Year: 2011
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 â€” Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -92,7 +91,7 @@ modeling_evidence:
   confidence: medium
 ```
 
-## Bloc 4 — Typologie des donnees
+## Bloc 4 â€” Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -101,7 +100,7 @@ modeling_evidence:
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 â€” Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
@@ -110,9 +109,9 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending â€” CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 â€” Reproductibilite
 
 - License present: yes
 - License name: MIT + file LICENSE
@@ -124,7 +123,7 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+WARN: CRS absent â€” lookup EPSG necessaire.
 
 ## Related Pages
 

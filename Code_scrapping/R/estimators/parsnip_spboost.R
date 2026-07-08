@@ -1,4 +1,5 @@
 source("R/utils/estimator_common.R")
+source("R/utils/spatial_weights.R")
 
 # Moteur parsnip custom pour spboost::spbgam() ("tidification" de SpBoost,
 # selon wiki/metadata/r_estimator_implementation_policy_v1.md et le test
@@ -16,7 +17,6 @@ source("R/utils/estimator_common.R")
 require_package("parsnip", "custom spboost_reg() parsnip engine")
 require_package("spboost", "SpBoost spatial boosting models")
 require_package("mboost", "SpBoost boost_control objects")
-require_package("nabor", "kNN spatial weight matrix construction")
 
 # mboost::gamboost() (appele en interne par spboost::spbgam()) doit pouvoir
 # resoudre bbs()/bols() au moment ou il evalue les termes de la formule.
@@ -37,20 +37,7 @@ library(mboost)
 # pour tout n >= k+1.
 # ---------------------------------------------------------------------------
 
-spb_build_knn_W <- function(coords, k = 8) {
-  n <- nrow(coords)
-  k_use <- min(k, n - 1)
-  knn <- nabor::knn(coords, coords, k = k_use + 1)  # La colonne 1 est le point lui-meme (distance 0).
-  idx <- knn$nn.idx[, -1, drop = FALSE]
-  W <- matrix(0, n, n)
-  for (i in seq_len(n)) W[i, idx[i, ]] <- 1
-  W <- mgwrsar::normW(W)
-  # Le test interne `if (class(W) != "list")` de spboost plante avec une
-  # matrice R de base (class(W) == c("matrix","array"), longueur 2). Un objet
-  # Matrix S4 a classe unique contourne ce point, confirme le 2026-07-02 avec
-  # BSPA_SAR_ML dans spboost 0.6.3.
-  Matrix::Matrix(W)
-}
+spb_build_knn_W <- function(coords, k = 8) build_knn_W(coords, k = k, sparse = TRUE)
 
 # ---------------------------------------------------------------------------
 # Construction de la formule de boosting: bbs() pour les predicteurs continus,

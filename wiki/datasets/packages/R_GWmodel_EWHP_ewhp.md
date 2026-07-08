@@ -65,9 +65,9 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PurPrice~BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
+- x_terms_used: BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
+- y_term_used: PurPrice
 
 ## Bloc 2 — Identification et DOI
 
