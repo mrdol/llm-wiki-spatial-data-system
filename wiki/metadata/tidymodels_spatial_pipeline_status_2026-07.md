@@ -2,8 +2,15 @@
 title: Etat du pipeline tidymodels spatial - juillet 2026
 type: metadata
 created: 2026-07-03
-updated: 2026-07-06
-sources: []
+updated: 2026-07-08
+sources:
+  - Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R
+  - Code_scrapping/R/estimators/spatial_model_specs.R
+  - Code_scrapping/R/estimators/parsnip_mgwrsar.R
+  - Code_scrapping/R/estimators/parsnip_spboost.R
+  - Code_scrapping/R/utils/hyperparam_tuning.R
+  - Code_scrapping/R/utils/spatial_weights.R
+  - Code_scrapping/R/utils/spatial_viz.R
 tags: [metadata, tidymodels, spatial, benchmark, r]
 status: spatial-estimators-expansion
 ---
@@ -37,7 +44,7 @@ fold quand ils ne rentrent pas encore proprement dans `parsnip`.
 ## Mise a jour courte au 2026-07-06
 
 Le niveau actuel n'est plus seulement "faire marcher `workflow()` /
-`tune_grid()`". Cette partie est acquise pour `spboost` et `mgwrsar`. Le
+`tune_grid()`". Cette partie est acquise pour `spboost` et `mgwrsar_gwr`. Le
 travail est maintenant dans une phase d'elargissement du benchmark spatial :
 ajout de baselines ML, factorisation de la matrice de voisinage `W`, et
 integration progressive d'estimateurs spatiaux qui ne sont pas encore tous
@@ -46,20 +53,29 @@ des moteurs `parsnip` complets.
 Ce qui est en place :
 
 - `glm`, `earth`, `earth_xy`, `random_forest`, `random_forest_xy`, `xgboost`,
-  `xgboost_xy`, `gam_spatial`, `spboost`, `mgwrsar`, `mgwrsar_sar`,
-  `mgwrsar_multiscale` ;
+  `xgboost_xy`, `gam_spatial`, `spboost`, `mgwrsar_gwr`, `mgwrsar_sar`,
+  `mgwrsar_mgwr` ;
 - `sar_lag` via `spatialreg::lagsarlm()` ;
 - `sem_error` via `spatialreg::errorsarlm()` ;
 - `sdm_mixed` via `spatialreg::lagsarlm(type = "mixed")` ;
-- `mgwrsar_autocorr` via `mgwrsar::MGWRSAR(Model = "MGWRSAR_1_0_kv")` avec
+- `mgwrsar_mgwrsar` via `mgwrsar::MGWRSAR(Model = "MGWRSAR_1_0_kv")` avec
   `control(W = W)` ;
 - `spmoran_esf` via `spmoran::meigen()`/`meigen_f()` + `spmoran::esf()` ;
 - `spmoran_resf` via `spmoran::resf()`, mais avec des predictions `NA` sur
   certains folds, donc statut experimental.
 
+Depuis le 2026-07-08, les variantes basees sur le package R `mgwrsar` sont
+nommees selon la convention `moteur_modele` pour eviter l'ambiguite :
+`mgwrsar_gwr` = GWR simple, `mgwrsar_mgwr` = MGWR multiscale via `TDS_MGWR()`,
+`mgwrsar_sar` = SAR global via le moteur MGWRSAR, et `mgwrsar_mgwrsar` =
+MGWRSAR avec autocorrelation spatiale explicite. Les anciens noms
+`mgwrsar`, `mgwrsar_multiscale` et `mgwrsar_autocorr` restent acceptes comme
+alias dans `run_manual_test(..., estimators = ...)`, mais les sorties
+nouvelles utilisent les noms explicites.
+
 La matrice de voisinage `W` est maintenant factorisee dans
 `Code_scrapping/R/utils/spatial_weights.R`. Le meme point de construction
-sert a `spboost`, `mgwrsar`, `spatialreg` et au diagnostic Moran. Cela evite
+sert a `spboost`, aux variantes `mgwrsar_*`, `spatialreg` et au diagnostic Moran. Cela evite
 que chaque wrapper construise une version legerement differente du voisinage.
 
 L'indice de Moran est integre comme **diagnostic**, pas comme filtre
@@ -111,6 +127,7 @@ a part et injectes dans `tune_grid()`/`fit_resamples()`.
 ## Fichiers concernes
 
 - `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R` -- script pilote
+- `Code_scrapping/R/estimators/spatial_model_specs.R` -- registre central des specifications de modeles
 - `Code_scrapping/R/estimators/parsnip_spboost.R` -- moteur parsnip custom SpBoost
 - `Code_scrapping/R/estimators/parsnip_mgwrsar.R` -- moteur parsnip custom MGWRSAR/GWR
 - `Code_scrapping/R/utils/hyperparam_tuning.R` -- tuning via `tune_grid()` + fallback
@@ -120,6 +137,55 @@ a part et injectes dans `tune_grid()`/`fit_resamples()`.
 
 Tous les commentaires ajoutes dans ces scripts sont en francais.
 
+## API tidymodels propre
+
+Dans cette mission, une API tidymodels propre signifie que l'utilisateur peut
+declarer, entrainer, tuner et scorer un estimateur spatial avec les memes
+briques que les modeles natifs tidymodels :
+
+1. une specification `parsnip` (`*_reg()` + `set_engine()` + `set_mode()`) ;
+2. une formule ou une recette injectee dans `workflows::workflow()` ;
+3. des folds `rsample` externes ;
+4. un tuning par `tune::tune_grid()` quand il existe des hyperparametres ;
+5. des metriques `yardstick` et des sorties `.rds`.
+
+Le benchmark manuel reste utile pour orchestrer plusieurs datasets et
+plusieurs schemas de validation. Mais il ne doit pas etre la seule API. La
+cible est que la logique d'un estimateur soit reutilisable hors du benchmark,
+comme un modele tidymodels normal.
+
+## Matrice d'integration des estimateurs
+
+Cette matrice sert de feuille de route. Elle separe le **nom expose dans les
+sorties**, le **backend R**, le **niveau d'integration tidymodels** et le
+travail restant.
+
+| Estimateur pipeline | Backend R | Niveau actuel | Hyperparametres pilotes | Prochaine action |
+|---|---|---|---|---|
+| `glm` | `stats::glm()` via `parsnip::linear_reg(engine="glm")` | natif tidymodels | aucun | conserver comme baseline OLS |
+| `earth` | `earth` via `parsnip::mars()` | natif tidymodels | aucun dans cette passe | optionnel: ajouter grille `num_terms`/`prod_degree` si besoin scientifique |
+| `earth_xy` | `earth` via `parsnip::mars()` | natif tidymodels avec coordonnees en covariables | aucun dans cette passe | conserver pour comparer X seules vs X+coordonnees |
+| `random_forest` | `ranger` via `parsnip::rand_forest()` | natif tidymodels | aucun dans cette passe | optionnel: ajouter grille `mtry`/`trees`/`min_n` |
+| `random_forest_xy` | `ranger` via `parsnip::rand_forest()` | natif tidymodels avec coordonnees en covariables | aucun dans cette passe | conserver pour comparer X seules vs X+coordonnees |
+| `xgboost` | `xgboost` via `parsnip::boost_tree()` | natif tidymodels | aucun dans cette passe | optionnel: ajouter grille ML separee |
+| `xgboost_xy` | `xgboost` via `parsnip::boost_tree()` | natif tidymodels avec coordonnees en covariables | aucun dans cette passe | conserver pour comparer X seules vs X+coordonnees |
+| `gam_spatial` | `mgcv` via `parsnip::gen_additive_mod()` | parsnip direct, hors `workflow()` | lissage interne mgcv | investiguer une formule/recette compatible `workflow()` |
+| `spboost` | `spboost::spbgam()` via wrapper custom | wrapper `parsnip` + `workflow()` + `tune_grid()` | `mstop`; `nu` et `W` fixes | passer `nu`/`k_neighbors` dans la feuille de route de tuning si necessaire |
+| `mgwrsar_gwr` | `mgwrsar::MGWRSAR(Model="GWR")` | wrapper `parsnip` + `workflow()` + `tune_grid()` | `bandwidth`/`H`, `kernel` | clarifier grille `H` par taille de dataset et documenter interpretation adaptive |
+| `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")` | wrapper `parsnip`, evaluation standard | `W` fixe par kNN | verifier prediction hors-echantillon et comparer a `spatialreg::lagsarlm()` |
+| `mgwrsar_mgwrsar` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control(W=W))` | wrapper `parsnip`, tuning `H`/`kernel` possible | `bandwidth`/`H`, `kernel`, `W` fixe | stabiliser choix theorique `kc/kv` et documenter l'autocorrelation |
+| `mgwrsar_mgwr` | `mgwrsar::TDS_MGWR()` | wrapper `parsnip`, pas de tuning externe | bandwidths internes par covariable | tester cout/robustesse sur grands datasets et documenter les sorties locales |
+| `sar_lag` | `spatialreg::lagsarlm()` | scoring direct fold par fold | `W/listw` fixe par kNN | creer eventuellement un wrapper `parsnip` apres stabilisation de `predict.Sarlm()` |
+| `sem_error` | `spatialreg::errorsarlm()` | scoring direct fold par fold | `W/listw` fixe par kNN | meme chantier que SAR: wrapper seulement si la prediction est fiable |
+| `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` | scoring direct fold par fold | `W/listw` fixe par kNN | meme chantier que SAR/SEM |
+| `spmoran_esf` | `spmoran::meigen()`/`esf()` | scoring direct fold par fold | `enum`, seuil `meigen_f` | stabiliser projection train/test, puis decider wrapper ou scorer dedie |
+| `spmoran_resf` | `spmoran::resf()` | experimental, scoring direct | `enum`, effet aleatoire spatial | corriger les predictions `NA` avant toute integration tidymodels |
+
+Le fichier `Code_scrapping/R/estimators/spatial_model_specs.R` porte desormais
+la partie executable de cette matrice via `build_specs()`. Le script
+`benchmark_manual_test_2026-07.R` l'utilise comme registre unique des
+estimateurs disponibles.
+
 ## Jeux de donnees integres et valides
 
 | Dataset | N (apres `complete.cases()`) | Y | X | Statut |
@@ -127,7 +193,7 @@ Tous les commentaires ajoutes dans ces scripts sont en francais.
 | `georgia` | 159 | `PctBach` | `PctRural+PctFB+PctBlack+PctEld` | valide, conforme a la fiche wiki |
 | `ewhp` | 519 | `PurPrice` | `BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea` | valide, formule corrigee le 2026-07-04 (voir plus bas) |
 | `nyc_education` | 2216 | `mean_inc` | `sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT` | valide, formule corrigee le 2026-07-04 |
-| `lasrosas` | -- | `yield` | `nitro+bv` (formule simplifiee, ecart documente) | integre au registre, relance complete tres lente sur `mgwrsar_multiscale` |
+| `lasrosas` | -- | `yield` | `nitro+bv` (formule simplifiee, ecart documente) | integre au registre, relance complete tres lente sur `mgwrsar_mgwr` |
 
 ### Correction des formules (2026-07-04)
 
@@ -178,18 +244,18 @@ covariables ordinaires.
 | `xgboost_xy` | meme modele que `xgboost`, avec `coord_x`/`coord_y` comme covariables brutes | oui (modele natif parsnip) |
 | `gam_spatial` | `mgcv` via `parsnip::gen_additive_mod()` | non -- exception volontaire, voir ci-dessous |
 | `spboost` | `spboost::spbgam()` via wrapper custom | **oui, depuis le 2026-07-04** |
-| `mgwrsar` | `mgwrsar::MGWRSAR(Model="GWR")` -- une seule bande passante pour toutes les covariables -- **c'est le baseline "GWR simple"** | **oui, depuis le 2026-07-04** |
-| `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")`, ajoute le 2026-07-04, baseline SAR global (lambda constant, beta constant, W construite par kNN k=8) | oui (memes rouages que `mgwrsar`) |
-| `mgwrsar_multiscale` | `mgwrsar::TDS_MGWR(Model="tds_mgwr")` -- **une bande passante par covariable**, trouvee par backfitting | non applicable (pas d'hyperparametre externe a tuner, l'algorithme est auto-suffisant) |
+| `mgwrsar_gwr` | `mgwrsar::MGWRSAR(Model="GWR")` -- une seule bande passante pour toutes les covariables -- **c'est le baseline "GWR simple"** | **oui, depuis le 2026-07-04** |
+| `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")`, ajoute le 2026-07-04, baseline SAR global (lambda constant, beta constant, W construite par kNN k=8) | oui (memes rouages que `mgwrsar_gwr`) |
+| `mgwrsar_mgwr` | `mgwrsar::TDS_MGWR(Model="tds_mgwr")` -- **une bande passante par covariable**, trouvee par backfitting | non applicable (pas d'hyperparametre externe a tuner, l'algorithme est auto-suffisant) |
 | `sar_lag` | `spatialreg::lagsarlm()` | non -- score direct fold par fold |
 | `sem_error` | `spatialreg::errorsarlm()` | non -- score direct fold par fold |
 | `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` | non -- score direct fold par fold |
-| `mgwrsar_autocorr` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control=list(W=W))` | oui pour `H`/`kernel` via la route MGWRSAR existante |
+| `mgwrsar_mgwrsar` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control=list(W=W))` | oui pour `H`/`kernel` via la route MGWRSAR existante |
 | `spmoran_esf` | `spmoran::esf()` avec vecteurs propres de Moran | non -- score direct fold par fold |
 | `spmoran_resf` | `spmoran::resf()` avec effet spatial aleatoire | non -- experimental, predictions parfois `NA` |
 
 Les baselines "OLS simple"/"GWR simple" demandees par l'utilisateur (2026-07-04)
-etaient donc deja couvertes par `glm`/`mgwrsar` -- seuls `mgwrsar_sar` et
+etaient donc deja couvertes par `glm`/`mgwrsar_gwr` -- seuls `mgwrsar_sar` et
 `xgboost` sont de vrais ajouts. Details d'implementation (construction de W,
 attachement `library(mgwrsar)` requis pour le solveur SAR interne) dans
 [[mgwrsar]].
@@ -201,9 +267,9 @@ chemin `workflow()` dans ce cas precis. Ce n'est pas lie au probleme
 tuner dans cette passe (le lissage `s()` est choisi automatiquement par
 `mgcv`).
 
-### `mgwrsar` vs `mgwrsar_multiscale` -- "vrai" MGWR (ajoute le 2026-07-04)
+### `mgwrsar_gwr` vs `mgwrsar_mgwr` -- "vrai" MGWR (ajoute le 2026-07-04)
 
-Jusqu'ici, le seul mode `mgwrsar` du pipeline utilisait `Model="GWR"`, c'est-a-dire
+Jusqu'ici, le mode `mgwrsar_gwr` du pipeline utilisait `Model="GWR"`, c'est-a-dire
 **une seule bande passante `H` pour toutes les covariables**. Ce n'est pas le
 MGWR multiscale au sens de Fotheringham et al. (2017) ni le MGWR-SAR de
 Geniaux & Martinetti (2018, *Regional Science and Urban Economics*), qui
@@ -213,7 +279,7 @@ Le papier montre que le GWR simple est particulierement fragile des qu'une
 covariable est elle-meme spatialement correlee (biais severe sur l'intercept
 et cette covariable, par concurvite) -- un cas frequent en pratique.
 
-`mgwrsar_multiscale` appelle `mgwrsar::TDS_MGWR(Model="tds_mgwr")`, qui
+`mgwrsar_mgwr` appelle `mgwrsar::TDS_MGWR(Model="tds_mgwr")`, qui
 implemente l'algorithme du papier "Top-down scale approaches for multiscale
 GWR" (Geniaux, *Journal of Geographical Systems*, 2026) : une sequence de
 bandes passantes decroissantes testee par backfitting, convergeant vers une
@@ -222,12 +288,12 @@ bandes passantes retenues different fortement d'une covariable a l'autre
 (ex. `PctFB` obtient H=14 quand les autres covariables restent quasi
 globales, H≈127≈n) -- confirmant que le modele detecte reellement une
 heterogeneite locale sur certaines variables et pas d'autres. Sur ce meme
-dataset, `mgwrsar_multiscale` bat `mgwrsar` (GWR simple) sur les 3 schemas de
+dataset, `mgwrsar_mgwr` bat `mgwrsar_gwr` (GWR simple) sur les 3 schemas de
 CV (RMSE holdout 2.766 vs 2.811, near-prediction 3.045 vs 3.140, bloc
 spatial 3.293 vs 3.526).
 
 Depuis le 2026-07-06, une premiere variante avec autocorrelation spatiale est
-cablee : `mgwrsar_autocorr`, basee sur
+cablee : `mgwrsar_mgwrsar`, basee sur
 `Model = "MGWRSAR_1_0_kv" + control(W = W)`. Cela ne ferme pas toute la
 famille MGWR-SAR : il reste a documenter et tester plus proprement les choix
 `kc/kv` selon les covariables fixes ou variables, mais le point bloquant
@@ -250,7 +316,8 @@ injectables directement dans `fit_resamples()` ou `tune_grid()`.
 La construction de `W` est maintenant factorisee dans
 `Code_scrapping/R/utils/spatial_weights.R`.
 
-Pour `spboost` et `mgwrsar`, une matrice de poids spatiaux `W` est construite
+Pour `spboost` et les variantes MGWRSAR qui en ont besoin, une matrice de
+poids spatiaux `W` est construite
 ainsi :
 
 1. matrice k-plus-proches-voisins a partir de `coord_x`/`coord_y` ;
@@ -262,9 +329,9 @@ Pour `spatialreg`, la meme logique kNN est convertie en objet `listw` via
 `lagsarlm()`/`errorsarlm()` attendent un voisinage `spdep` et pas une matrice
 dense brute.
 
-Pour `mgwrsar` (`Model = "GWR"`), aucune matrice `W` explicite n'est
+Pour `mgwrsar_gwr` (`Model = "GWR"`), aucune matrice `W` explicite n'est
 construite ; le modele utilise coordonnees, bande passante `H` et noyau
-`kernels` directement. Pour `mgwrsar_sar` et `mgwrsar_autocorr`, `W` est
+`kernels` directement. Pour `mgwrsar_sar` et `mgwrsar_mgwrsar`, `W` est
 construite explicitement et passee au backend.
 
 Deux niveaux de `W` existent pendant les predictions spatiales :
@@ -388,7 +455,7 @@ ce type n'a ete observe sur les trois datasets valides.
 Pipeline execute sans erreur sur les trois datasets, RMSE holdout (10 %) par
 modele :
 
-| Dataset | glm | gam_spatial | spboost | mgwrsar |
+| Dataset | glm | gam_spatial | spboost | mgwrsar_gwr |
 |---|---:|---:|---:|---:|
 | `georgia` (N=159) | 2.960 | 2.847 | 3.225 | **2.811** |
 | `ewhp` (N=519) | 27 724 | 20 634 | **19 605** | 26 499 |
@@ -415,8 +482,8 @@ Fichiers de sortie :
 - `data/manifests/runs/resamples_<dataset>_2026-07.rds`
 - `data/manifests/runs/hyperparam_tuning_<dataset>_spboost_mstop_2026-07.rds`
 - `data/manifests/runs/hyperparam_tuning_<dataset>_spboost_mstop_2026-07_full.rds`
-- `data/manifests/runs/hyperparam_tuning_<dataset>_mgwrsar_H_kernel_2026-07.rds`
-- `data/manifests/runs/hyperparam_tuning_<dataset>_mgwrsar_H_kernel_2026-07_full.rds`
+- `data/manifests/runs/hyperparam_tuning_<dataset>_mgwrsar_gwr_H_kernel_2026-07.rds`
+- `data/manifests/runs/hyperparam_tuning_<dataset>_mgwrsar_gwr_H_kernel_2026-07_full.rds`
 
 Chaque ligne de grille porte une colonne `tuning_method` indiquant
 `"tune_grid"` (route native, cas actuel sur les trois datasets) ou
@@ -438,7 +505,7 @@ n'indiquent pas un probleme bloquant.
    recents~~ -- relance le 2026-07-04 avec l'ensemble complet des 7
    estimateurs (`run_manual_test(c("georgia","ewhp","lasrosas","nyc_education"))`),
    premier passage complet de ce dataset dans le pipeline. Tres lent sur
-   `mgwrsar_multiscale` (backfitting `TDS_MGWR()` sur n~3443).
+   `mgwrsar_mgwr` (backfitting `TDS_MGWR()` sur n~3443).
 2. `nu` (SpBoost) et `k_neighbors` (construction de `W`) restent fixes ;
    seuls `mstop` et `bandwidth`/`kernels` sont tunes dans cette passe.
 3. Pas de vraie recherche `dials` (bornes/echelles de parametres) : les
@@ -451,12 +518,12 @@ n'indiquent pas un probleme bloquant.
    [[mgwr]], [[mgwrsar]], [[xgboost]].
 7. Les variantes MGWR-SAR *mixtes* plus fines restent a stabiliser. Ce qui
    EST cable depuis le 2026-07-06 : une premiere route
-   `mgwrsar_autocorr` (`MGWRSAR_1_0_kv + control(W=W)`). Il reste a clarifier
+   `mgwrsar_mgwrsar` (`MGWRSAR_1_0_kv + control(W=W)`). Il reste a clarifier
    le choix theorique des covariables fixes/variables et a valider sur les
    grands datasets.
 8. `atds_mgwr` (variante "boosting" de `tds_mgwr`, plus couteuse mais plus
    precise selon le papier top-down scale) n'a pas encore ete testee, seul
-   `tds_mgwr` (stage 1 seul) est utilise dans `mgwrsar_multiscale`.
+   `tds_mgwr` (stage 1 seul) est utilise dans `mgwrsar_mgwr`.
 9. `spmoran_resf` est experimental : il s'ajuste et score certains folds, mais
    produit encore des predictions `NA` sur quelques splits. `spmoran_esf` est
    plus stable dans les tests rapides.
@@ -524,7 +591,7 @@ source("R/estimators/benchmark_manual_test_2026-07.R")
 out <- run_manual_test(
   c("georgia"),
   estimators = c("sar_lag", "sem_error", "sdm_mixed",
-                 "mgwrsar_autocorr", "spmoran_esf", "spmoran_resf")
+                 "mgwrsar_mgwrsar", "spmoran_esf", "spmoran_resf")
 )
 ```
 

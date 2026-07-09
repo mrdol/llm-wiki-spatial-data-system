@@ -1587,3 +1587,145 @@ KG refresh:
 - Rebuilt `.kg/graph.sqlite` once with `tools/kg/04_build_graph.py`.
 - Rebuilt `.kg/summaries/` with `tools/kg/06_make_summaries.py`.
 - Final graph size: 21659 nodes, 24720 edges.
+
+## [2026-07-08] maintenance | tidymodels spatial pipeline documentation sync
+
+Pages updated:
+- `AGENTS.md`
+- `wiki/overview.md`
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
+
+Code updated:
+- `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`
+- `Code_scrapping/R/utils/spatial_viz.R`
+
+Key additions:
+- Repaired the truncated ending of `AGENTS.md` and added a durable maintenance
+  checklist for keeping `wiki/log.md`, `wiki/index.md`, `wiki/overview.md`,
+  `wiki/glossary.md` and status pages synchronized after meaningful changes.
+- Updated the overview to reflect the active tidymodels spatial-estimator
+  mission: `workflow()`/`tune_grid()` route, RDS outputs, shared W construction,
+  fold-level scoring and remaining experimental estimators.
+- Updated the index so the tidymodels status page and refreshed estimator
+  fiches are discoverable from the master catalog.
+- Added glossary entries and avoid-list rules for the new benchmark naming
+  convention: `mgwrsar_gwr`, `mgwrsar_mgwr`, `mgwrsar_sar`,
+  `mgwrsar_mgwrsar`.
+- Renamed benchmark result labels to separate the R package/engine `mgwrsar`
+  from the statistical model actually fitted.
+
+Verification:
+- R parsing passed with
+  `C:/Users/jdoliveira/AppData/Local/Programs/R/R-4.5.3/bin/Rscript.exe`.
+- `build_specs()` exposes the new estimator names and maps legacy aliases:
+  `mgwrsar -> mgwrsar_gwr`,
+  `mgwrsar_multiscale -> mgwrsar_mgwr`,
+  `mgwrsar_autocorr -> mgwrsar_mgwrsar`.
+
+Open points:
+- Existing RDS outputs created before the rename still contain the old labels;
+  new runs will write the explicit names.
+- `spatial_viz.R` keeps fallback reads for old tuning RDS filenames.
+
+## [2026-07-08] kg | dataset node semantics refactor
+
+Files updated:
+- `inst/kg/schema.yml`
+- `inst/kg/invariants.yml`
+- `tools/kg/04_extract_dataset_catalogs.py`
+- `tools/kg/06_make_summaries.py`
+- `tools/kg/07_export_agent_index.py`
+- `wiki/overview.md`
+- `wiki/glossary.md`
+- `wiki/index.md`
+
+Generated KG artifacts rebuilt:
+- `.kg/extracted/catalog_nodes.jsonl`
+- `.kg/extracted/catalog_edges.jsonl`
+- `.kg/graph.sqlite`
+- `.kg/summaries/*.md`
+
+Reason:
+- The previous KG counted broad software catalogue rows as `Dataset` nodes,
+  which made the dataset count look larger and less meaningful than the actual
+  number of validated or locally usable datasets.
+
+New dataset layers:
+- `DatasetCatalogRecord`: 1108
+- `DatasetCandidate`: 9
+- `Dataset`: 197
+- `DatasetArtifact`: 111
+- `Dataset with local artifact`: 111
+- `Catalog/candidate promotion links`: 120
+
+Graph after rebuild:
+- nodes: 34871
+- edges: 37121
+
+Key changes:
+- Catalogue rows are now `DatasetCatalogRecord`, not final `Dataset` nodes.
+- `sf` conversion rows that are usable become `Dataset`; rejected conversions
+  become `DatasetCandidate`.
+- Final local RDS files are represented as `DatasetArtifact` via
+  `HAS_LOCAL_ARTIFACT`.
+- `07_export_agent_index.py stats` now reports dataset layers separately.
+- `datasets.md` summary now lists `DatasetCatalogRecord`, `DatasetCandidate`
+  and `DatasetArtifact` in addition to `Dataset`.
+
+Open points:
+- `data/final_datasets/` contains more `.rds` files than the current
+  `sf` conversion index used by the KG, so a later pass should align the
+  final-dataset inventory with KG artifacts.
+- `BenchmarkDataset` is defined in the schema but not populated yet.
+
+## [2026-07-08] tidymodels | estimator integration matrix and spec extraction
+
+Files updated:
+- `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`
+- `Code_scrapping/R/estimators/spatial_model_specs.R`
+- `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
+- `wiki/overview.md`
+
+Reason:
+- The tidymodels mission needed a clearer separation between the benchmark
+  orchestration script and the estimator registry.
+
+Key changes:
+- Extracted `build_specs()` into `spatial_model_specs.R`.
+- Kept `benchmark_manual_test_2026-07.R` focused on datasets, resampling,
+  tuning, scoring and output persistence.
+- Added an estimator integration matrix to the status page, separating native
+  tidymodels models, custom parsnip wrappers and direct fold-by-fold scorers.
+- Documented what "API tidymodels propre" means for this mission:
+  `parsnip` spec, `workflow()`, `rsample`, `tune_grid()`, `yardstick` metrics
+  and R-native `.rds` outputs.
+
+Verification:
+- R source check passed: sourcing `benchmark_manual_test_2026-07.R` exposes
+  all estimator names through `build_specs()`.
+
+## [2026-07-08] maintenance | shared context vocabulary repaired
+
+Files updated:
+- `CONTEXT.md`
+- `AGENTS.md`
+- `wiki/log.md`
+
+Reason:
+- `CONTEXT.md` had visible encoding corruption and did not yet capture the
+  shared vocabulary needed for the tidymodels spatial-estimator mission.
+
+Key changes:
+- Rewrote `CONTEXT.md` in a clean ASCII-compatible form.
+- Added canonical distinctions for `W`, `listw`, SAR family, SAR baseline,
+  SpBoost with `DGP = "SAR"`, SEM, SDM, SARAR, `H`/bandwidth, kernel,
+  lissage/spline/base learner, baseline, workflow tidymodels and direct
+  fold-by-fold scoring.
+- Updated `AGENTS.md` so agents update `CONTEXT.md` as often as possible when
+  shared project vocabulary changes.
+
+Verification:
+- Checked that `CONTEXT.md` no longer contains obvious mojibake markers
+  (`Ã`, `â`, `Â`).

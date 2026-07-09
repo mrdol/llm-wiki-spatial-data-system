@@ -2,12 +2,13 @@
 title: Overview
 type: overview
 created: 2026-04-21
-updated: 2026-06-04
+updated: 2026-07-08
 sources:
   - AGENTS.md
   - README.md
   - inst/kg/concepts.yml
   - wiki/index.md
+  - wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md
 tags: [overview, synthesis, kg, corpus, wiki]
 ---
 
@@ -36,6 +37,47 @@ Current durable layers:
 - `.kg/graph.sqlite` for the local graph;
 - `wiki/` for validated synthesis;
 - `Code_scrapping/` for discovery, scraping, catalog and audit scripts.
+
+---
+
+## Current Tidymodels Mission State
+
+The active modeling mission is the integration of spatial estimators into a
+tidymodels-compatible R benchmark. The durable status page is
+[[tidymodels_spatial_pipeline_status_2026-07]].
+
+Current implementation state:
+
+- `workflows::workflow()` and `tune::tune_grid()` are working for the custom
+  `spboost` and `mgwrsar_gwr` routes, with a static workflow fallback retained
+  for fragile custom engines.
+- Benchmark outputs, tuning grids and resample manifests are saved as `.rds`
+  objects under `data/manifests/runs/`.
+- `spatial_viz.R` reads RDS outputs and generates PNG figures from the R-native
+  artifacts.
+- `Code_scrapping/R/estimators/spatial_model_specs.R` now centralizes
+  `build_specs()`, so the estimator registry is separate from the benchmark
+  orchestration script.
+- The benchmark includes native tidymodels baselines (`glm`, `earth`,
+  `random_forest`, `xgboost`, plus `_xy` variants with coordinates), custom
+  parsnip wrappers (`spboost`, `mgwrsar_*`) and direct fold-by-fold spatial
+  estimators (`spatialreg`, `spmoran`).
+- Spatial weights `W` are factorized in `Code_scrapping/R/utils/spatial_weights.R`
+  and reused by SpBoost, MGWRSAR variants, spatialreg baselines and Moran
+  diagnostics.
+
+The naming convention now separates the R engine from the statistical model:
+
+| Pipeline name | Meaning |
+|---|---|
+| `mgwrsar_gwr` | GWR model fitted through the R package/engine `mgwrsar` |
+| `mgwrsar_mgwr` | MGWR multiscale route via `mgwrsar::TDS_MGWR()` |
+| `mgwrsar_sar` | SAR baseline via `mgwrsar::MGWRSAR(Model = "SAR")` |
+| `mgwrsar_mgwrsar` | MGWRSAR variant with explicit `W` and spatial autocorrelation |
+
+The old names `mgwrsar`, `mgwrsar_multiscale` and `mgwrsar_autocorr` remain
+accepted as aliases in manual calls, but new outputs should use the explicit
+names above.
 
 ---
 
@@ -100,6 +142,23 @@ The KG currently supports relations such as:
 The KG should answer first-level questions before the agent reads long wiki,
 TEI or corpus files.
 
+### Dataset Node Semantics
+
+As of 2026-07-08, the KG no longer treats every catalogue line as a final
+dataset. Dataset-related nodes are split into layers:
+
+| KG type | Meaning | Current count |
+|---|---|---:|
+| `DatasetCatalogRecord` | raw package/catalogue/inventory line | 1108 |
+| `DatasetCandidate` | candidate discovered but not validated as final | 9 |
+| `Dataset` | promoted dataset entity with stronger evidence or local conversion | 197 |
+| `DatasetArtifact` | local file artifact such as final RDS | 111 |
+
+This change fixes the previous ambiguity where the KG reported more than one
+thousand `Dataset` nodes even though many were only broad software catalogue
+records. The current `Dataset` count should still be read carefully: it is a
+promoted KG entity count, not yet a final "validated data bank" count.
+
 ---
 
 ## What The Wiki Stabilizes
@@ -126,6 +185,9 @@ Recent durable additions include:
   deprivation modeling;
 - a KG concept extraction script that creates `Concept DOCUMENTED_BY WikiPage`
   relations.
+- a tidymodels spatial benchmark status page documenting workflows, tuning,
+  RDS outputs, estimator names, W construction, fold logging and remaining
+  implementation gaps.
 
 ---
 
@@ -138,6 +200,10 @@ Recent durable additions include:
 - How should formula extraction distinguish robust source evidence from noisy TEI inference?
 - Which validation protocols should be standardized for spatial and
   spatio-temporal estimator comparisons?
+- Which spatial estimators should be promoted from direct fold-by-fold scoring
+  into full parsnip model specs after the current benchmark stabilizes?
+- Which official neighbor matrices, if any, can be recovered from dataset
+  bundles and aligned with post-`complete.cases()` rows?
 
 ---
 
@@ -148,6 +214,12 @@ Recent durable additions include:
 - Source pages for several software packages and corpus web documents still need synthesis.
 - `wiki/log.md`, `wiki/glossary.md` and `wiki/overview.md` must be kept in sync after durable changes.
 - The KG has concept nodes, but richer concept-method-estimator relations can still be added.
+- Several estimator fiches now pass structural review, but Tier 2 semantic
+  review still flags source-fidelity gaps when local PDFs or TEI evidence are
+  not extractable.
+- `spmoran_resf` and some SAR/SEM/SDM prediction paths remain experimental in
+  the benchmark because out-of-sample prediction requires careful train/test
+  neighborhood handling.
 
 ---
 
@@ -162,3 +234,6 @@ Recent durable additions include:
 - [[gradient_boosted_trees]]
 - [[latent_gaussian_models]]
 - [[data_leakage]]
+- [[tidymodels_spatial_pipeline_status_2026-07]]
+- [[spboost]]
+- [[mgwrsar]]

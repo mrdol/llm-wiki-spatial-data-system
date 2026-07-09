@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-06-24
+updated: 2026-07-08
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -26,8 +26,8 @@ Each entry follows this format:
 
 | Page | Summary | Updated |
 |---|---|---|
-| [[overview]] | High-level synthesis of the entire knowledge base | 2026-04-22 |
-| [[glossary]] | Terminology and definitions | 2026-04-21 |
+| [[overview]] | High-level synthesis of the knowledge base, KG/wiki layers, and current tidymodels spatial-estimator mission | 2026-07-08 |
+| [[glossary]] | Terminology, naming conventions and avoid-list terms | 2026-07-08 |
 
 ---
 
@@ -159,6 +159,12 @@ Each entry follows this format:
 - [[quality_pedigree_schema_v1]] - Human-LLM quality control matrix with score evidence, Delta1 risk, and review status | metadata | 2026-05-05
 - [[feature_selection_block_template]] - Reusable block for documenting X candidates and X selected for estimation | metadata | 2026-05-12
 - [[cross_language_software_dataset_access]] - Convention for software datasets available in both R and Python, with both local access routes preserved | metadata | 2026-05-12
+- [[tidymodels_spatial_pipeline_status_2026-07]] - Current status of the R tidymodels spatial-estimator benchmark, workflow/tune_grid integration, RDS outputs, W construction and estimator naming | metadata | 2026-07-08
+
+### KG Schema Files
+
+- `inst/kg/schema.yml` - KG node and edge schema; updated to separate `DatasetCatalogRecord`, `DatasetCandidate`, `Dataset`, and `DatasetArtifact` | metadata | 2026-07-08
+- `inst/kg/invariants.yml` - Stable KG invariants; now states that catalogue rows must not be counted as final datasets | metadata | 2026-07-08
 
 ---
 
@@ -166,20 +172,20 @@ Each entry follows this format:
 
 *Reference fiches for statistical and machine learning models. Estimation results belong under `wiki/analyses/modeling/estimations/`.*
 
-- [[xgboost]] - Regularized gradient-boosted tree baseline with paper-supported objective and tuning fields | estimator | 2026-06-04
-- [[lightgbm]] - Efficient gradient boosting decision tree baseline with leaf-wise complexity controls | estimator | 2026-06-04
-- [[gam]] - Generalized additive model baseline with smooth effects, spatial smooth option, and mgcv route | estimator | 2026-06-04
+- [[xgboost]] - Regularized gradient-boosted tree baseline with paper-supported objective, tuning fields, and benchmark role including coordinate variants | estimator | 2026-07-08
+- [[lightgbm]] - Efficient gradient boosting decision tree baseline with leaf-wise complexity controls and pending benchmark integration note | estimator | 2026-07-08
+- [[gam]] - Generalized additive model baseline with smooth effects, spatial smooth option, and mgcv route | estimator | 2026-07-08
 - [[gamboost]] - GAMBoost fiche enriched from PDF formulas and model-based boosting references | estimator | 2026-06-04
-- [[random_forest]] - Random Forest baseline with Breiman reference, OOB diagnostics, and blocked-validation cautions | estimator | 2026-06-04
-- [[mars]] - MARS adaptive regression spline baseline with hinge functions, pruning, and interaction controls | estimator | 2026-06-04
-- [[inla]] - INLA fiche for latent Gaussian, GMRF, SPDE and spatial Bayesian modeling | estimator | 2026-06-04
+- [[random_forest]] - Random Forest baseline with Breiman reference, OOB diagnostics, blocked-validation cautions and coordinate baseline role | estimator | 2026-07-08
+- [[mars]] - MARS/earth adaptive regression spline baseline with hinge functions, pruning, interaction controls and coordinate baseline role | estimator | 2026-07-08
+- [[inla]] - INLA fiche for latent Gaussian, GMRF, SPDE and spatial Bayesian modeling | estimator | 2026-07-08
 - [[stvc]] - STVC estimator fiche template for spatio-temporally varying coefficient modeling | estimator | 2026-04-23
-- [[svc]] - Spatially varying coefficient fiche with smoothing, regularization and coefficient-map diagnostics | estimator | 2026-06-04
-- [[mgwr]] - Multiscale geographically weighted regression fiche with reference papers, bandwidth search, TDS variants, and validation notes | estimator | 2026-06-04
-- [[mgwrsar]] - GWR/MGWR-SAR fiche with model variants, spatial weights, kernels, bandwidth search, prediction controls, and diagnostics | estimator | 2026-04-30
-- [[spboost]] - Nonlinear spatial autoregressive boosting fiche with local package API, SAR/SEM/SARAR methods, CFE rules, and manual R workflow | estimator | 2026-05-05
-- [[rnn]] - RNN/LSTM sequence estimator fiche for leakage-safe temporal or event windows | estimator | 2026-06-04
-- [[svm]] - Support vector machine fiche for margin-based classification and regression with fold-local scaling | estimator | 2026-06-04
+- [[svc]] - Spatially varying coefficient fiche with smoothing, regularization and coefficient-map diagnostics | estimator | 2026-07-08
+- [[mgwr]] - Multiscale geographically weighted regression fiche with reference papers, bandwidth search, TDS variants, parsnip engine notes and validation notes | estimator | 2026-07-08
+- [[mgwrsar]] - GWR/MGWR-SAR fiche with model variants, spatial weights, kernels, bandwidth search, prediction controls, parsnip engine notes and diagnostics | estimator | 2026-07-08
+- [[spboost]] - Nonlinear spatial autoregressive boosting fiche with local package API, SAR/SEM/SARAR methods, CFE rules, W construction and parsnip/tune_grid workflow | estimator | 2026-07-08
+- [[rnn]] - RNN/LSTM sequence estimator fiche for leakage-safe temporal or event windows | estimator | 2026-07-08
+- [[svm]] - Support vector machine fiche for margin-based classification and regression with fold-local scaling | estimator | 2026-07-08
 
 ---
 

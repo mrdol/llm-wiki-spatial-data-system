@@ -283,6 +283,19 @@ def dataset_id(language: str, package: str, dataset: str) -> str:
     return f"{prefix}:{slug(language)}:{slug(dataset or package)}"
 
 
+def dataset_catalog_record_id(language: str, package: str, dataset: str) -> str:
+    """Construit l'identifiant d'une ligne de catalogue non encore validee."""
+    if package and dataset:
+        return f"dataset_catalog_record:{slug(language)}:{slug(package)}:{slug(dataset)}"
+    return f"dataset_catalog_record:{slug(language)}:{slug(dataset or package)}"
+
+
+def dataset_candidate_id(source: str, dataset: str, package: str = "") -> str:
+    """Construit l'identifiant d'un candidat dataset non encore promu."""
+    base = f"{slug(source)}:{slug(package)}:{slug(dataset)}" if package else f"{slug(source)}:{slug(dataset)}"
+    return f"dataset_candidate:{base}"
+
+
 def package_node_type(language: str) -> str:
     """Choisit RPackage ou PythonPackage."""
     return "PythonPackage" if language.lower().startswith("python") else "RPackage"
@@ -319,12 +332,12 @@ def process_dataset_row(
     if not language:
         language = "Python" if row_value(row, "pip_name", "import_name", "dataset_key") else "R"
 
-    did = dataset_id(language, package, dataset)
+    did = dataset_catalog_record_id(language, package, dataset)
     label = f"{package}::{dataset}" if package and dataset else dataset or package
     add_node(
         nodes,
         did,
-        "Dataset",
+        "DatasetCatalogRecord",
         label,
         source="software_catalog",
         source_file=source_file,
@@ -353,7 +366,7 @@ def process_dataset_row(
         ptype = package_node_type(language)
         pid = f"{ptype.lower()}:{slug(package)}"
         add_node(nodes, pid, ptype, package, source="software_catalog", language=language)
-        add_edge(edges, pid, "PROVIDES_DATASET", did, extraction_source=source_file)
+        add_edge(edges, pid, "CATALOGS_DATASET_RECORD", did, extraction_source=source_file)
 
     for raw_var in parse_listish(row.get("columns_preview")) + parse_listish(row.get("variables")):
         vtype = variable_type(raw_var)
@@ -429,7 +442,7 @@ def process_dataset_row(
             use_summary=row_value(row, "paper_use_summary"),
             model_keywords=row_value(row, "paper_model_keywords"),
         )
-        add_edge(edges, paper_id, "USES_DATASET", did, extraction_source=source_file)
+        add_edge(edges, paper_id, "MENTIONS_DATASET_RECORD", did, extraction_source=source_file)
 
     formula_text = row_value(row, "formula_text", "paper_formula_or_equation")
     if formula_text and formula_text.upper() != "NA":
@@ -468,25 +481,43 @@ def process_sf_index_row(
         return None
 
     base_did = dataset_id(language, package, dataset)
+    base_catalog_id = dataset_catalog_record_id(language, package, dataset)
     key = (language.lower(), package.lower(), dataset.lower())
     record_id = row_value(row, "record_id")
+    usable = as_bool(row.get("utilisable"))
     # Certains libelles de catalogue regroupent plusieurs objets reels (par
     # exemple les quatre tables de gstat::jura). Le record_id evite d'ecraser
     # leurs fichiers sf, tailles et reponses dans un seul noeud.
-    did = (
-        f"{base_did}:record:{slug(record_id)}"
-        if key in duplicate_keys and record_id
-        else base_did
-    )
+    if usable:
+        did = (
+            f"{base_did}:record:{slug(record_id)}"
+            if key in duplicate_keys and record_id
+            else base_did
+        )
+        node_type = "Dataset"
+    else:
+        did = dataset_candidate_id("sf_conversion_index", f"{package}_{dataset}_{record_id or 'candidate'}", language)
+        node_type = "DatasetCandidate"
+    catalog_id = base_catalog_id
     child_suffix = f":record:{slug(record_id)}" if key in duplicate_keys and record_id else ""
     label = f"{package}::{dataset}"
-    usable = as_bool(row.get("utilisable"))
     sf_path = row_value(row, "sf_path")
     geometry_family = row_value(row, "famille_geometrie")
     add_node(
         nodes,
+        catalog_id,
+        "DatasetCatalogRecord",
+        label,
+        source="sf_conversion_index",
+        language=language,
+        package=package,
+        dataset=dataset,
+        record_id=record_id,
+    )
+    add_node(
+        nodes,
         did,
-        "Dataset",
+        node_type,
         label,
         language=language,
         package=package,
@@ -515,8 +546,12 @@ def process_sf_index_row(
         ptype = package_node_type(language)
         pid = f"{ptype.lower()}:{slug(package)}"
         add_node(nodes, pid, ptype, package, source="sf_conversion_index", language=language)
-        add_edge(edges, pid, "PROVIDES_DATASET", did, extraction_source=source_file)
+        if usable:
+            add_edge(edges, pid, "PROVIDES_DATASET", did, extraction_source=source_file)
+        else:
+            add_edge(edges, pid, "HAS_DATASET_CANDIDATE", did, extraction_source=source_file)
     add_source_family(nodes, edges, did, "software")
+    add_edge(edges, catalog_id, "PROMOTES_TO_DATASET", did, extraction_source=source_file)
 
     if not usable:
         return did
@@ -556,18 +591,18 @@ def process_sf_index_row(
         add_edge(edges, did, "HAS_RESPONSE", rid, extraction_source=source_file)
 
     if sf_path:
-        aid = f"auxiliaryfile:{slug(label)}:sf_rds{child_suffix}"
+        aid = f"datasetartifact:{slug(label)}:sf_rds{child_suffix}"
         add_node(
             nodes,
             aid,
-            "AuxiliaryFile",
+            "DatasetArtifact",
             sf_path,
             source="sf_conversion_index",
             dataset=label,
             file=sf_path,
             format="RDS",
         )
-        add_edge(edges, did, "HAS_AUXILIARY_FILE", aid, extraction_source=source_file)
+        add_edge(edges, did, "HAS_LOCAL_ARTIFACT", aid, extraction_source=source_file)
     return did
 
 
@@ -672,8 +707,8 @@ def process_literature_link(
     if not dataset or not title:
         return
 
-    did = f"dataset:literature:{slug(dataset)}"
-    add_node(nodes, did, "Dataset", dataset, source="literature_link_catalog")
+    did = dataset_candidate_id("literature_link_catalog", dataset)
+    add_node(nodes, did, "DatasetCandidate", dataset, source="literature_link_catalog")
     add_source_family(nodes, edges, did, "scientific_literature")
 
     pid = f"paper:doi:{doi.lower()}" if doi else f"paper:literature:{slug(title)}"
@@ -690,7 +725,7 @@ def process_literature_link(
         is_oa=row.get("is_oa"),
         oa_url=row_value(row, "oa_url"),
     )
-    add_edge(edges, pid, "USES_DATASET", did, extraction_source=source_file, query=row_value(row, "query"))
+    add_edge(edges, pid, "HAS_DATASET_CANDIDATE", did, extraction_source=source_file, query=row_value(row, "query"))
 
 
 def balance_parens(formula: str) -> str:
@@ -766,9 +801,9 @@ def process_audit_link(
     if not dataset:
         return
 
-    did = dataset_id("R", package, dataset)
+    did = dataset_candidate_id("dataset_paper_formula_audit", dataset, package)
     label = f"{package}::{dataset}" if package else dataset
-    add_node(nodes, did, "Dataset", label, source="dataset_paper_formula_audit", package=package, dataset=dataset)
+    add_node(nodes, did, "DatasetCandidate", label, source="dataset_paper_formula_audit", package=package, dataset=dataset)
     add_source_family(nodes, edges, did, "software")
 
     doc_path = row_value(row, "doc_path")
@@ -802,7 +837,7 @@ def process_audit_link(
             publisher=row_value(row, "publisher"),
             local_raw_match=row_value(row, "local_raw_match"),
         )
-        add_edge(edges, pid, "USES_DATASET", did, extraction_source=source_file)
+        add_edge(edges, pid, "HAS_DATASET_CANDIDATE", did, extraction_source=source_file)
 
         formula_text = row_value(row, "model_or_equation_found_locally")
         if formula_text:

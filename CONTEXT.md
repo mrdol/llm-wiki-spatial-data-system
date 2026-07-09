@@ -1,107 +1,177 @@
-# CONTEXT.md — Vocabulaire partagé du projet
+# CONTEXT.md - Vocabulaire partage du projet
 
-Lire ce fichier en premier à chaque session. Il définit les termes utilisés
-partout dans le projet (wiki, CLAUDE.md, AGENTS.md, scripts, fiches).
+Lire ce fichier en premier a chaque session. Il definit les termes utilises
+partout dans le projet: wiki, CLAUDE.md, AGENTS.md, scripts et fiches.
 
 ---
 
 ## Projet en une phrase
 
-Constitution d'une banque de datasets spatiaux (objets sf R) pour benchmarker
-des estimateurs de spatial ML sous tidymodels.
+Constitution d'une banque de datasets spatiaux, principalement sous forme
+d'objets `sf` R, pour benchmarker des estimateurs de spatial ML et
+d'econometrie spatiale sous tidymodels.
 
 ---
 
 ## Termes fondamentaux
 
-**Fiche** = **page wiki** — synonymes. Fichier `.md` dans `wiki/`.
-Types : `dataset`, `estimator`, `analysis`, `source`, `concept`, `metadata`.
+**Fiche** = **page wiki** -- synonymes. Fichier `.md` dans `wiki/`.
+Types: `dataset`, `estimator`, `analysis`, `source`, `concept`, `metadata`.
 
-**sf** — Simple Features (package R). Format canonique final de tous les
-datasets, y compris ceux d'origine Python.
+**sf** -- Simple Features, package R. Format canonique final des datasets
+spatiaux tabulaires, y compris ceux d'origine Python.
 
-**N** — Nombre d'unités spatiales (logements, communes, points, polygones…).
-**T** — Nombre de périodes temporelles. T=1 → dataset cross-sectionnel.
-**Profil N/T** — Caractérisation de la structure spatio-temporelle d'un dataset.
+**N** -- Nombre d'unites spatiales: logements, communes, points, polygones.
 
-**Y** — Variable cible (réponse), notation majuscule.
-**X** — Variables explicatives / covariables, notation majuscule.
-**x, y** — Coordonnées spatiales (longitude, latitude), notation minuscule.
-Convention : toutes les coordonnées spatiales doivent être unifiées en `x` (longitude)
-et `y` (latitude) dans l'objet sf final.
-**Application stricte** : les colonnes `x`/`y` (coordonnées) et les colonnes
-identifiant (`id`, `fid`, `gid`, `code`, `key`, `index`…) ne sont **jamais** des
-covariables X candidates. Elles sont exclues du tableau `Candidate X variables`
-des fiches et reportées séparément (`Coordinates`, `Identifier columns`).
-Appliqué dans `export_sf_metadata.R` (`classify_x` → buckets `coordinate_columns`
-/ `identifier_columns`, distincts de `x_candidates`) et `generate_fiches.py`.
-**Typologie Y** : `continuous` · `count` · `binary` · `rate` · `compositional` · `ordinal` · `unknown`.
-**Typologie X** : `spatial` · `temporal` · `socio-economic` · `environmental` ·
-`categorical` · `identifier` · `continuous` · `lagged` · `imputed` · `unknown`.
+**T** -- Nombre de periodes temporelles. `T = 1` signifie dataset
+cross-sectionnel.
 
-**Bandwidth** — Paramètre de fenêtre spatiale. Sens principal : GWR/MGWR
-(pondération géographique locale). Sens élargi : tout kernel spatial selon
-l'estimateur.
+**Profil N/T** -- Caracterisation de la structure spatio-temporelle d'un
+dataset.
 
-**Entrepôt / warehouse** — Dépôt de recherche généraliste ou curé : Zenodo, Dryad, Figshare, Dataverse…
-**Package** — Dataset distribué via un package R ou Python (ex : `spdep`, `geodaData`, `geodatasets`).
-**Portail institutionnel** — Portail thématique ou public : INSEE, Copernicus, GBIF, NOAA, Eurostat…
+**Y** -- Variable cible ou reponse, notation majuscule.
+
+**X** -- Variables explicatives ou covariables, notation majuscule.
+
+**x, y** -- Coordonnees spatiales, notation minuscule. Convention du projet:
+les coordonnees spatiales doivent etre unifiees en `x` et `y` dans l'objet
+final quand c'est possible. Dans les scripts tidymodels actuels, elles sont
+standardisees en `coord_x` et `coord_y` apres reprojection metrique.
+
+**Colonnes de coordonnees et identifiants** -- Les colonnes `x`/`y`,
+`coord_x`/`coord_y` et les colonnes identifiantes (`id`, `fid`, `gid`, `code`,
+`key`, `index`, etc.) ne sont pas des covariables X candidates. Elles doivent
+etre documentees separement.
+
+**Typologie Y** -- `continuous`, `count`, `binary`, `rate`, `compositional`,
+`ordinal`, `unknown`.
+
+**Typologie X** -- `spatial`, `temporal`, `socio-economic`, `environmental`,
+`categorical`, `identifier`, `continuous`, `lagged`, `imputed`, `unknown`.
+
+---
+
+## Vocabulaire spatial et tidymodels
+
+**W** -- Matrice de voisinage ou de poids spatiaux. Dans le benchmark actuel,
+elle est reconstruite par k plus proches voisins, puis normalisee par ligne.
+Toute interpretation scientifique doit preciser comment `W` est construite.
+
+**listw** -- Objet de voisinage attendu par `spdep`/`spatialreg`. Il represente
+la meme idee que `W`, mais dans le format R de ces packages.
+
+**SAR comme famille spatiale** -- Structure avec lag spatial de la variable
+cible, typiquement `y = rho W y + ...`. Le mot SAR decrit ici la forme de
+dependance spatiale, pas un estimateur unique.
+
+**SAR baseline lineaire** -- Modele econometrique classique estime par
+`spatialreg::lagsarlm()` ou par une route SAR globale equivalente. Les effets
+des covariables sont lineaires et globaux: `X beta`.
+
+**SpBoost avec DGP = SAR** -- Modele booste non lineaire qui utilise une
+structure SAR pour la dependance spatiale, mais estime `f(X)` par boosting
+additif avec `bbs()` et `bols()`. Ce n'est pas le meme estimateur qu'un SAR
+lineaire baseline.
+
+**SEM** -- Spatial Error Model. L'autocorrelation spatiale est dans les
+erreurs: `u = lambda W u + epsilon`.
+
+**SDM** -- Spatial Durbin Model. Modele SAR enrichi par des lags spatiaux de
+covariables, par exemple `W X`.
+
+**SARAR** -- Modele combinant un lag spatial de `Y` et une autocorrelation
+spatiale des erreurs.
+
+**DGP** -- Data Generating Process. Dans `spboost`, `DGP = "SAR"` signifie que
+la route logicielle utilise une structure SAR. Cela ne signifie pas que le
+modele est identique a `spatialreg::lagsarlm()`.
+
+**H / bandwidth adaptatif** -- Dans les routes GWR, MGWR et MGWRSAR du projet,
+`H` designe en pratique une taille de voisinage ou de fenetre locale. Son
+interpretation depend du backend, du kernel et de l'echelle spatiale.
+
+**Kernel spatial** -- Fonction de ponderation spatiale utilisee par GWR/MGWR,
+par exemple `gauss` ou `bisq`.
+
+**Lissage / spline / base learner** -- Dans SpBoost, `bbs()` est un base
+learner spline pour une covariable continue; `bols()` est un base learner
+lineaire, utilise notamment pour les variables binaires. Dans GAM, "lissage"
+renvoie plutot aux termes `mgcv::s()`. Toujours preciser le backend.
+
+**Baseline** -- Modele de comparaison. Un baseline peut etre simple (`glm`) ou
+techniquement avance (`xgboost_xy`, `sar_lag`), tant qu'il sert de reference
+comparative stable.
+
+**Workflow tidymodels propre** -- Route ou un estimateur est expose sous forme
+de specification `parsnip`, injecte dans `workflows::workflow()`, evalue sur
+des folds `rsample`, tune par `tune::tune_grid()` quand c'est applicable, puis
+score avec des metriques `yardstick`.
+
+**Scoring direct fold par fold** -- Route provisoire pour les estimateurs qui
+ne sont pas encore de vrais moteurs `parsnip`. Le benchmark appelle une
+fonction `score = function(split, y_resp) ...` pour chaque fold.
 
 ---
 
 ## Trois familles de sources
 
-1. **Packages R/Python** (priorité actuelle)
-2. **Datasets liés à des papers scientifiques**
-3. **Entrepôts et portails institutionnels** (Zenodo, Dryad, GBIF, Copernicus…)
+1. **Packages R/Python** -- priorite actuelle.
+2. **Datasets lies a des papers scientifiques**.
+3. **Entrepots et portails institutionnels** -- Zenodo, Dryad, GBIF,
+   Copernicus, INSEE, Eurostat, etc.
 
 ---
 
-## Pipeline
+## Pipeline de connaissance
 
+```text
+raw/ -> KG (.kg/graph.sqlite) -> wiki/ -> eval -> data/final_datasets/
 ```
-raw/  →  KG (.kg/graph.sqlite)  →  wiki/  →  eval  →  data/final_datasets/
-```
 
-**KG** — Knowledge graph SQLite. Première couche d'accès structuré.
-Toujours consulter le KG avant de lire le wiki complet.
+**KG** -- Knowledge graph SQLite. Premiere couche d'acces structure. Toujours
+consulter le KG avant de lire le wiki complet quand la question porte sur les
+noeuds, edges, datasets ou sources.
 
-**raw/** — Sources brutes, immuables, lecture seule pour tous les agents.
+**raw/** -- Sources brutes, immuables, lecture seule pour tous les agents.
 
 ---
 
-## Évaluation des fiches (pipeline Tier 1 → 2 → 3)
+## Evaluation des fiches
 
-| Score      | Label    | Action automatique                     |
-|------------|----------|----------------------------------------|
-| ≥ 0.75     | PASS     | Fiche approuvée                        |
-| 0.50–0.74  | AMBER    | Ajoutée à `wiki/eval_queue.md`         |
-| < 0.50     | REJECTED | Rapport dans `.eval/rejected/`         |
-| Tier 1 FAIL| BLOCKED  | Commit bloqué, erreurs à corriger      |
+| Score | Label | Action automatique |
+|---|---|---|
+| >= 0.75 | PASS | Fiche approuvee |
+| 0.50-0.74 | AMBER | Ajoutee a `wiki/eval_queue.md` |
+| < 0.50 | REJECTED | Rapport dans `.eval/rejected/` |
+| Tier 1 FAIL | BLOCKED | Commit bloque, erreurs a corriger |
 
-**Tier 1** — Contrôle structurel automatique (0 token, < 1 s).
-**Tier 2** — Contrôle sémantique LLM-as-judge (~1 appel Claude Haiku).
-**Tier 3** — Gestionnaire de file amber.
-**Cap 0.74** — Si `sources: []` ou fichier raw absent → score plafonné à 0.74
-quel que soit la qualité interne du contenu.
-**Critère null** — Un critère `null` n'est jamais un pass implicite.
+**Tier 1** -- Controle structurel automatique.
+
+**Tier 2** -- Controle semantique LLM-as-judge.
+
+**Tier 3** -- Gestionnaire de file AMBER.
+
+**Cap 0.74** -- Si `sources: []` ou fichier raw absent, le score est plafonne
+a 0.74 quelle que soit la qualite interne du contenu.
+
+**Critere null** -- Un critere `null` n'est jamais un pass implicite.
 
 ---
 
 ## Estimateurs du projet
 
-GAM · GAMBoost · INLA · LightGBM · MARS · MGWR · MGWRSAR ·
-RandomForest · RNN · SPBoost · STVC · SVC · SVM · XGBoost
+GAM, GAMBoost, INLA, LightGBM, MARS, MGWR, MGWRSAR, RandomForest, RNN,
+SPBoost, STVC, SVC, SVM, XGBoost, SAR, SEM, SDM, ESF, RE-ESF.
 
 ---
 
 ## Agents
 
-**Quality gate** (Claude / Cowork) — évalue les fiches, maintient
-`wiki/eval_queue.md`. Manuel complet : `CLAUDE.md`.
+**Quality gate** (Claude / Cowork) -- evalue les fiches, maintient
+`wiki/eval_queue.md`. Manuel complet: `CLAUDE.md`.
 
-**Injecting agent** (Codex) — crée et injecte les fiches dans `wiki/`.
-Manuel complet : `AGENTS.md`.
+**Injecting agent** (Codex) -- cree et injecte les fiches dans `wiki/`.
+Manuel complet: `AGENTS.md`.
 
-Règle inter-agents : le quality gate ne modifie jamais une fiche.
-L'injecting agent ne valide jamais sa propre évaluation.
+Regle inter-agents: le quality gate ne modifie jamais une fiche. L'injecting
+agent ne valide jamais sa propre evaluation.

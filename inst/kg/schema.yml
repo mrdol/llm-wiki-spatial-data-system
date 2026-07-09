@@ -14,7 +14,15 @@ node_types:
   DocumentationPage:
     description: Page de documentation ou URL source liee a un dataset, package ou papier.
   Dataset:
-    description: Jeu de donnees, notamment package::dataset.
+    description: Jeu de donnees retenu comme entite exploitable, typiquement avec artefact local, preuve source forte ou usage benchmark.
+  DatasetCatalogRecord:
+    description: Ligne de catalogue ou signal d'inventaire. Peut devenir un Dataset apres validation, conversion ou documentation.
+  DatasetCandidate:
+    description: Candidat dataset repere par une source, mais pas encore valide comme Dataset exploitable.
+  DatasetArtifact:
+    description: Artefact local lie a un dataset, par exemple un RDS final, un CSV exporte, un GeoJSON ou un bundle auxiliaire.
+  BenchmarkDataset:
+    description: Dataset utilise explicitement dans un benchmark ou pipeline de modelisation.
   DatasetBundle:
     description: Ensemble de fichiers ou objets auxiliaires associes a un jeu de donnees.
   AuxiliaryFile:
@@ -60,35 +68,53 @@ edge_types:
   PROVIDES_DATASET:
     from: RPackage | PythonPackage
     to: Dataset
-  HAS_VARIABLE:
+  CATALOGS_DATASET_RECORD:
+    from: RPackage | PythonPackage | SourceFamily
+    to: DatasetCatalogRecord
+  HAS_DATASET_CANDIDATE:
+    from: RPackage | PythonPackage | Paper | SourceFamily
+    to: DatasetCandidate
+  MENTIONS_DATASET_RECORD:
+    from: Paper
+    to: DatasetCatalogRecord
+  PROMOTES_TO_DATASET:
+    from: DatasetCatalogRecord | DatasetCandidate
+    to: Dataset
+  HAS_LOCAL_ARTIFACT:
     from: Dataset
+    to: DatasetArtifact
+  USED_IN_BENCHMARK:
+    from: BenchmarkDataset | Method
+    to: Dataset
+  HAS_VARIABLE:
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: Variable
   HAS_RESPONSE:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: ResponseVariable
   HAS_COVARIATE:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: Covariate
   HAS_COORDINATE:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: CoordinateVariable
   HAS_GEOMETRY:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: GeometryColumn
   HAS_TIME:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: TimeVariable
   HAS_IDENTIFIER:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: IdentifierVariable
   HAS_AUXILIARY_FILE:
-    from: Dataset
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate
     to: AuxiliaryFile
   DOCUMENTED_BY:
-    from: Dataset | RPackage | PythonPackage | Method
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate | RPackage | PythonPackage | Method
     to: DocumentationPage | WebSource
   BELONGS_TO_SOURCE_FAMILY:
-    from: Dataset | Paper | WebSource | DocumentationPage
+    from: Dataset | DatasetCatalogRecord | DatasetCandidate | Paper | WebSource | DocumentationPage
     to: SourceFamily
   IMPLEMENTS:
     from: RPackage | PythonPackage

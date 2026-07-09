@@ -142,8 +142,9 @@ plot_cv_comparison <- function(benchmark_df, dataset_name, metric = "rmse") {
 #'   (hors Intercept).
 #' @param bandwidth,kernels parametres GWR; si bandwidth=NULL (defaut), la
 #'   fonction essaie de lire le meilleur candidat dans
-#'   hyperparam_tuning_<dataset>_mgwrsar_H_kernel_2026-07.rds (produit par
-#'   run_manual_test()), sinon retombe sur H=20/kernel="bisq".
+#'   hyperparam_tuning_<dataset>_mgwrsar_gwr_H_kernel_2026-07.rds (produit par
+#'   run_manual_test()). L'ancien nom sans suffixe _gwr reste accepte en repli,
+#'   sinon la fonction retombe sur H=20/kernel="bisq".
 plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
                                          bandwidth = NULL, kernels = NULL,
                                          runs_dir = NULL) {
@@ -159,7 +160,9 @@ plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
     runs_dir <- file.path(root, "data/manifests/runs")
   }
   if (is.null(bandwidth) || is.null(kernels)) {
-    tuned_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
+    tuned_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_gwr_H_kernel_2026-07.rds", dataset_name))
+    old_tuned_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
+    if (!file.exists(tuned_path) && file.exists(old_tuned_path)) tuned_path <- old_tuned_path
     if (file.exists(tuned_path)) {
       grid <- readRDS(tuned_path)
       best <- grid[which.min(grid$rmse), ]
@@ -260,7 +263,7 @@ plot_local_coefficient_maps <- function(dataset_name, covariates = NULL,
 
 #' Lit les objets R de tuning et de benchmark deja ecrits par
 #' benchmark_manual_test_2026-07.R pour `dataset_name`, produit les figures
-#' de calibration (spboost mstop, mgwrsar bandwidth/kernel) et de comparaison
+#' de calibration (spboost mstop, mgwrsar_gwr bandwidth/kernel) et de comparaison
 #' RMSE/MAE, et les enregistre dans data/manifests/runs/figures/.
 #'
 #' @param dataset_name nom du dataset (ex. "georgia"), doit correspondre aux
@@ -291,12 +294,14 @@ generate_dataset_figures <- function(dataset_name, runs_dir = NULL) {
     saved <- c(saved, out)
   }
 
-  mgwrsar_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
+  mgwrsar_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_gwr_H_kernel_2026-07.rds", dataset_name))
+  old_mgwrsar_path <- file.path(runs_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07.rds", dataset_name))
+  if (!file.exists(mgwrsar_path) && file.exists(old_mgwrsar_path)) mgwrsar_path <- old_mgwrsar_path
   if (file.exists(mgwrsar_path)) {
     grid <- readRDS(mgwrsar_path)
     p <- plot_tuning_curve(grid, x = "bandwidth", metric = "rmse", color = "kernels",
-                            title = sprintf("MGWRSAR/GWR -- calibration de H et kernel (%s)", dataset_name))
-    out <- file.path(fig_dir, sprintf("%s_tuning_mgwrsar_bandwidth.png", dataset_name))
+                            title = sprintf("MGWRSAR engine / GWR model -- calibration de H et kernel (%s)", dataset_name))
+    out <- file.path(fig_dir, sprintf("%s_tuning_mgwrsar_gwr_bandwidth.png", dataset_name))
     ggplot2::ggsave(out, p, width = 7, height = 5, dpi = 130)
     saved <- c(saved, out)
   }

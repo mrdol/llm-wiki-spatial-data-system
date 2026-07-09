@@ -743,4 +743,40 @@ Use this reasoning order:
 KG first -> source evidence -> metadata -> variable roles -> model evidence -> wiki synthesis
 ```
 
-For dat
+For dataset and estimator work, distinguish source evidence, implementation
+status, benchmark output and wiki interpretation. A working script is not
+automatically a validated wiki claim; a wiki claim should point back to the
+script, corpus source, KG relation or benchmark artifact that supports it.
+
+---
+
+## Durable Maintenance Checklist
+
+After meaningful durable changes, update the navigation and synthesis layer in
+the same change set:
+
+1. Append `wiki/log.md` with what changed, what was verified and what remains
+   open.
+2. Update `wiki/index.md` when a durable page is created, renamed or materially
+   changed.
+3. Update `wiki/overview.md` when the project state, architecture, source
+   families, benchmark scope or mission priorities shift.
+4. Update `wiki/glossary.md` when a new term, renamed estimator, pipeline
+   convention or avoid-list item is introduced.
+5. Update `CONTEXT.md` as often as possible when a shared project term,
+   overloaded synonym or domain distinction is clarified. `CONTEXT.md` is the
+   cross-agent vocabulary contract; keep it shorter and more canonical than
+   `wiki/glossary.md`.
+6. Update the relevant status or policy page under `wiki/metadata/` when the
+   change affects repeatable workflows.
+
+For the tidymodels spatial-estimator mission, the durable status page is:
+
+```text
+wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md
+```
+
+Keep estimator result names separate from backend/package names. Example:
+`mgwrsar_gwr` is the GWR model run through the R package/engine `mgwrsar`;
+`mgwrsar_mgwrsar` is the MGWRSAR model variant with explicit spatial
+autocorrelation.

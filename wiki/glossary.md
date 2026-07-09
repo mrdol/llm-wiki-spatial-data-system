@@ -2,7 +2,7 @@
 title: Glossary
 type: glossary
 created: 2026-04-07
-updated: 2026-06-04
+updated: 2026-07-08
 sources: []
 tags: [terminology, style, glossary]
 ---
@@ -103,6 +103,26 @@ Each entry follows this format:
 - Preferred: `package dataset` / Avoid: `software dataset` if the package source is unclear
 - See also: `wiki/datasets/r_package_docs/`
 
+**DatasetCatalogRecord** *(canonical form)*
+: KG node for a raw catalogue or inventory line. It records that a package, portal or manifest mentions a dataset-like object, but it is not yet a validated dataset entity.
+- Preferred: `DatasetCatalogRecord` / Avoid: counting catalogue records as final datasets
+- See also: `inst/kg/schema.yml`, [[overview]]
+
+**DatasetCandidate** *(canonical form)*
+: KG node for a dataset candidate with some evidence or discovery signal, but without enough validation to become a final `Dataset`.
+- Preferred: `DatasetCandidate` / Avoid: presenting candidates as benchmark-ready datasets
+- See also: `inst/kg/schema.yml`, [[overview]]
+
+**DatasetArtifact** *(canonical form)*
+: KG node for a local data artifact such as a final `.rds`, CSV, GeoJSON or bundle file linked to a dataset.
+- Preferred: `DatasetArtifact` / Avoid: treating local files as the same thing as the dataset concept
+- See also: `data/final_datasets/`, `inst/kg/schema.yml`
+
+**Dataset** *(KG validated form)*
+: KG node for a dataset entity promoted beyond a raw catalogue signal, usually because it has a local artifact, validated conversion, strong source evidence or benchmark usage.
+- Preferred: `Dataset` only for promoted entities / Avoid: using `Dataset` for every discovered catalogue row
+- See also: `DatasetCatalogRecord`, `DatasetCandidate`, `DatasetArtifact`
+
 **GROBID** *(canonical form)*
 : PDF parsing service used to convert scientific PDFs into TEI XML for downstream KG extraction.
 - Preferred: `GROBID` / Avoid: treating it as a paper search or download tool
@@ -158,6 +178,51 @@ Each entry follows this format:
 - Preferred: `spatial validation` / Avoid: random folds as default for spatial transfer claims
 - See also: [[data_leakage]], [[spatial_regression]]
 
+**Tidymodels workflow** *(canonical form)*
+: R modeling object created by `workflows::workflow()` that combines a model specification and a preprocessing/formula route before fitting or tuning.
+- Preferred: `workflow` or `tidymodels workflow` / Avoid: using it to mean the whole research pipeline
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]]
+
+**Tune grid** *(canonical form)*
+: Hyperparameter search run with `tune::tune_grid()` over externally supplied resamples and an explicit candidate grid.
+- Preferred: `tune_grid()` / Avoid: implying it creates spatial folds by itself
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]]
+
+**Parsnip engine** *(canonical form)*
+: R package/backend registered under a parsnip model specification, for example engine `mgwrsar` for custom spatial model specs.
+- Preferred: `engine` for the backend package / Avoid: using engine name as the statistical model name when they differ
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]]
+
+**RDS output** *(canonical form)*
+: Native R serialized object saved with `saveRDS()` and read with `readRDS()`, used for benchmark results, tuning grids and resample manifests.
+- Preferred: `.rds` or `RDS output` / Avoid: CSV as the default durable output for R-native benchmark artifacts
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]]
+
+**Spatial weights matrix W** *(canonical form)*
+: Row-standardized neighbor matrix used to represent spatial interaction or autocorrelation in spatial estimators.
+- Preferred: `W` or `spatial weights matrix W` / Avoid: assuming W is official unless it comes from a dataset bundle and row alignment is verified
+- See also: [[spatial_autocorrelation]], [[mgwrsar]], [[spboost]]
+
+**mgwrsar_gwr** *(canonical form)*
+: Pipeline estimator name for a GWR model fitted with the R package/engine `mgwrsar` using `MGWRSAR(Model = "GWR")`.
+- Preferred: `mgwrsar_gwr` / Avoid: plain `mgwrsar` when the result is specifically GWR
+- See also: [[mgwr]], [[mgwrsar]]
+
+**mgwrsar_mgwr** *(canonical form)*
+: Pipeline estimator name for the multiscale MGWR route fitted with `mgwrsar::TDS_MGWR(Model = "tds_mgwr")`.
+- Preferred: `mgwrsar_mgwr` / Avoid: `mgwrsar_multiscale` in new outputs
+- See also: [[mgwr]], [[mgwrsar]]
+
+**mgwrsar_sar** *(canonical form)*
+: Pipeline estimator name for a global SAR baseline fitted through the `mgwrsar` engine with `Model = "SAR"` and explicit `W`.
+- Preferred: `mgwrsar_sar` / Avoid: confusing it with `spatialreg::lagsarlm()` results
+- See also: [[mgwrsar]], [[spatial_regression]]
+
+**mgwrsar_mgwrsar** *(canonical form)*
+: Pipeline estimator name for the MGWRSAR variant with explicit spatial autocorrelation, currently `Model = "MGWRSAR_1_0_kv"` plus `control(W = W)`.
+- Preferred: `mgwrsar_mgwrsar` / Avoid: `mgwrsar_autocorr` in new outputs
+- See also: [[mgwrsar]], [[spatial_autocorrelation]]
+
 ---
 
 ## Style Conventions
@@ -176,7 +241,11 @@ Terms that have been replaced, renamed, or should not be used:
 
 | Avoid | Use Instead | Reason |
 |---|---|---|
-| *(none yet)* | | |
+| `mgwrsar` as a benchmark result name | `mgwrsar_gwr` when the model is `Model = "GWR"` | Plain `mgwrsar` is the package/engine name and is ambiguous as a statistical model label |
+| `mgwrsar_multiscale` | `mgwrsar_mgwr` | New convention separates engine prefix from model suffix |
+| `mgwrsar_autocorr` | `mgwrsar_mgwrsar` | New convention names the actual MGWRSAR model family explicitly |
+| CSV as default benchmark output | `.rds` | The current R pipeline stores benchmark/tuning/resample outputs as native R objects |
+| raw catalogue line as `Dataset` | `DatasetCatalogRecord` | A catalogue row is discovery evidence, not a validated dataset entity |
 
 ---
 

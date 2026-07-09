@@ -77,6 +77,25 @@ def cmd_stats(args: argparse.Namespace) -> None:
     print("# KG Stats")
     for table in ("nodes", "edges"):
         print(f"- {table}: {con.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0]}")
+    print("\n## Dataset layers")
+    dataset_layers = (
+        "Dataset",
+        "DatasetCatalogRecord",
+        "DatasetCandidate",
+        "DatasetArtifact",
+        "BenchmarkDataset",
+    )
+    for node_type in dataset_layers:
+        n = con.execute("SELECT COUNT(*) FROM nodes WHERE type = ?", (node_type,)).fetchone()[0]
+        print(f"- {node_type}: {n}")
+    local_artifacts = con.execute(
+        "SELECT COUNT(DISTINCT source) FROM edges WHERE relation = 'HAS_LOCAL_ARTIFACT'"
+    ).fetchone()[0]
+    promoted = con.execute(
+        "SELECT COUNT(*) FROM edges WHERE relation = 'PROMOTES_TO_DATASET'"
+    ).fetchone()[0]
+    print(f"- Dataset with local artifact: {local_artifacts}")
+    print(f"- Catalog/candidate promotion links: {promoted}")
     print("\n## Node types")
     for row in con.execute("SELECT type, COUNT(*) AS n FROM nodes GROUP BY type ORDER BY n DESC"):
         print(f"- {row['type']}: {row['n']}")
@@ -97,10 +116,13 @@ def cmd_search(args: argparse.Namespace) -> None:
         ORDER BY
           CASE type
             WHEN 'Dataset' THEN 1
-            WHEN 'Paper' THEN 2
-            WHEN 'Method' THEN 3
-            WHEN 'Formula' THEN 4
-            ELSE 5
+            WHEN 'DatasetCandidate' THEN 2
+            WHEN 'DatasetCatalogRecord' THEN 3
+            WHEN 'DatasetArtifact' THEN 4
+            WHEN 'Paper' THEN 5
+            WHEN 'Method' THEN 6
+            WHEN 'Formula' THEN 7
+            ELSE 99
           END,
           label
         LIMIT ?

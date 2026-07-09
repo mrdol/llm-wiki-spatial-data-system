@@ -116,7 +116,22 @@ def main() -> None:
     con.row_factory = sqlite3.Row
     make_corpus(con)
     make_type_summary(con, "papers.md", "Papers", ["Paper"])
-    make_type_summary(con, "datasets.md", "Datasets And Variables", ["Dataset", "ResponseVariable", "Covariate", "CoordinateVariable", "GeometryColumn", "AuxiliaryFile"])
+    make_type_summary(
+        con,
+        "datasets.md",
+        "Datasets And Variables",
+        [
+            "Dataset",
+            "DatasetCatalogRecord",
+            "DatasetCandidate",
+            "DatasetArtifact",
+            "ResponseVariable",
+            "Covariate",
+            "CoordinateVariable",
+            "GeometryColumn",
+            "AuxiliaryFile",
+        ],
+    )
     make_type_summary(con, "packages.md", "Packages", ["RPackage", "PythonPackage"])
     make_type_summary(con, "methods.md", "Methods", ["Method", "Concept"])
     make_type_summary(con, "formulas.md", "Formulas", ["Formula"])

@@ -1,6 +1,7 @@
 # Test manuel de benchmark (2026-07).
 #
-# Objectif: comparer GLM, GAM spatial, SpBoost et MGWRSAR/GWR sur des datasets
+# Objectif: comparer GLM, GAM spatial, SpBoost et les variantes du moteur
+# MGWRSAR sur des datasets
 # spatiaux a variable reponse continue, avec:
 # - un holdout pur de 10 %;
 # - une validation "near-prediction";
@@ -16,6 +17,7 @@ source("R/utils/spatial_cv.R")
 source("R/utils/spatial_weights.R")
 source("R/estimators/parsnip_spboost.R")
 source("R/estimators/parsnip_mgwrsar.R")
+source("R/estimators/spatial_model_specs.R")
 source("R/utils/hyperparam_tuning.R")
 source("R/utils/spatial_viz.R")
 
@@ -310,134 +312,18 @@ score_spmoran_split <- function(split, y, x, coords, random_effect = FALSE,
   score_predictions(preds, test[[y]], nrow(test))
 }
 
-# ---------------------------------------------------------------------------
-# Specifications des modeles
-# ---------------------------------------------------------------------------
-build_specs <- function(y, x, coords = c("coord_x", "coord_y"),
-                         spboost_mstop = 200, mgwrsar_bandwidth = 20, mgwrsar_kernel = "bisq") {
-  # Chaque entree contient:
-  # - spec: la specification parsnip du modele;
-  # - formula: la formule transmise au workflow ou au fit direct.
-  # - score: optionnel, pour les estimateurs hors parsnip scores directement.
-  # Pour les modeles spatiaux custom, la formule inclut coord_x/coord_y afin
-  # que workflows conserve ces colonnes. Les wrappers les retirent ensuite de
-  # la formule backend: elles servent aux distances/W, pas comme covariables.
-  list(
-    # OLS simple: parsnip::linear_reg(engine="glm") EST l'OLS simple (famille
-    # gaussienne par defaut, lien identite, aucun terme spatial) -- pas de
-    # doublon a ajouter, seulement documente ici pour clarifier (2026-07-04)
-    # que ce baseline "OLS simple" demande par l'utilisateur est deja couvert.
-    glm = list(
-      spec = parsnip::linear_reg(mode = "regression") |> parsnip::set_engine("glm"),
-      formula = build_estimator_formula(y, x)
-    ),
-    # Baselines ML natives tidymodels: on garde une version stricte X seules
-    # et une version "_xy" qui ajoute les coordonnees comme covariables brutes.
-    # Les versions "_xy" ne modelisent pas une structure spatiale explicite:
-    # elles testent seulement si un modele ML standard exploite la position.
-    earth = list(
-      spec = parsnip::mars(mode = "regression") |> parsnip::set_engine("earth"),
-      formula = build_estimator_formula(y, x)
-    ),
-    earth_xy = list(
-      spec = parsnip::mars(mode = "regression") |> parsnip::set_engine("earth"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    random_forest = list(
-      spec = parsnip::rand_forest(mode = "regression") |> parsnip::set_engine("ranger"),
-      formula = build_estimator_formula(y, x)
-    ),
-    random_forest_xy = list(
-      spec = parsnip::rand_forest(mode = "regression") |> parsnip::set_engine("ranger"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    xgboost = list(
-      spec = parsnip::boost_tree(mode = "regression") |> parsnip::set_engine("xgboost"),
-      formula = build_estimator_formula(y, x)
-    ),
-    xgboost_xy = list(
-      spec = parsnip::boost_tree(mode = "regression") |> parsnip::set_engine("xgboost"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    gam_spatial = list(
-      spec = parsnip::gen_additive_mod(mode = "regression") |> parsnip::set_engine("mgcv"),
-      formula = build_gam_spatial_formula(y, x, coords),
-      # Exception volontaire: workflow() prepare mal le terme mgcv::s() dans
-      # notre usage formule. On garde donc parsnip::fit() direct pour ce GAM.
-      use_workflow = FALSE
-    ),
-    spboost = list(
-      spec = spboost_reg(coords = coords, DGP = "SAR", mstop = spboost_mstop, nu = 0.1, k_neighbors = 8) |>
-        parsnip::set_engine("spboost") |> parsnip::set_mode("regression"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    # GWR simple: model_type="GWR" EST le GWR simple (une seule bande
-    # passante, tous les coefficients varient spatialement) -- pas de doublon
-    # a ajouter, documente ici pour la meme raison que "glm" ci-dessus.
-    mgwrsar = list(
-      spec = mgwrsar_reg(coords = coords, model_type = "GWR", kernels = mgwrsar_kernel, bandwidth = mgwrsar_bandwidth) |>
-        parsnip::set_engine("mgwrsar") |> parsnip::set_mode("regression"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    # SAR simple pour baseline (2026-07-04, demande utilisateur): lambda
-    # constant, beta constant -- aucune variation spatiale des coefficients,
-    # a l'oppose de GWR/MGWR. mgwrsar::MGWRSAR(Model="SAR") ne construit pas
-    # W elle-meme: mgwrsar_fit_impl() en batit une par kNN (k=8, voir
-    # mgwrsar_build_knn_W() dans parsnip_mgwrsar.R). Pas de bandwidth/kernel
-    # a tuner ici (Model="SAR" ignore H/kernels pour le calcul).
-    mgwrsar_sar = list(
-      spec = mgwrsar_reg(coords = coords, model_type = "SAR") |>
-        parsnip::set_engine("mgwrsar") |> parsnip::set_mode("regression"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    # SAR/SEM/SDM natifs spatialreg. Ces modeles ne sont pas encore des
-    # wrappers parsnip: ils passent par une fonction score directe car leurs
-    # predictions hors-echantillon demandent un objet listw explicite.
-    sar_lag = list(
-      score = function(split, y_resp) score_spatialreg_split(split, y_resp, x, coords, model_type = "SAR")
-    ),
-    sem_error = list(
-      score = function(split, y_resp) score_spatialreg_split(split, y_resp, x, coords, model_type = "SEM")
-    ),
-    sdm_mixed = list(
-      score = function(split, y_resp) score_spatialreg_split(split, y_resp, x, coords, model_type = "SDM")
-    ),
-    # MGWRSAR avec autocorrelation spatiale: Model="MGWRSAR_1_0_kv" ajoute
-    # le terme W*y via control(W = W). W est construit une fois dans le
-    # wrapper a partir des k plus proches voisins et reste fixe pendant le fit.
-    mgwrsar_autocorr = list(
-      spec = mgwrsar_reg(coords = coords, model_type = "MGWRSAR_1_0_kv",
-                         kernels = mgwrsar_kernel, bandwidth = mgwrsar_bandwidth) |>
-        parsnip::set_engine("mgwrsar") |> parsnip::set_mode("regression"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    # Vrai MGWR multiscale (2026-07-04): contrairement a "mgwrsar" ci-dessus
-    # (Model="GWR", une seule bande passante pour toutes les covariables),
-    # celui-ci utilise mgwrsar::TDS_MGWR() (algorithme du papier top-down
-    # scale de Geniaux) qui trouve une bande passante DIFFERENTE par
-    # covariable via backfitting. Pas de bandwidth/kernel a tuner ici --
-    # l'algorithme est auto-suffisant, voir mgwrsar_fit_impl().
-    mgwrsar_multiscale = list(
-      spec = mgwrsar_reg(coords = coords, model_type = "tds_mgwr", kernels = "gauss") |>
-        parsnip::set_engine("mgwrsar") |> parsnip::set_mode("regression"),
-      formula = build_estimator_formula(y, c(x, coords))
-    ),
-    # spmoran: ESF ajoute des filtres spatiaux selectionnes; RE-ESF traite
-    # l'effet spatial comme un effet aleatoire. Les deux sont scores hors
-    # parsnip pour garder le controle sur meigen/meigen_f et la projection test.
-    spmoran_esf = list(
-      score = function(split, y_resp) score_spmoran_split(split, y_resp, x, coords, random_effect = FALSE)
-    ),
-    spmoran_resf = list(
-      score = function(split, y_resp) score_spmoran_split(split, y_resp, x, coords, random_effect = TRUE)
-    )
-  )
-}
-
 validate_estimators <- function(estimators, available) {
   # Valide la selection avant les etapes couteuses (construction des folds,
   # tuning, fit), pour qu'une faute de nom echoue immediatement.
   if (is.null(estimators)) return(NULL)
+  # Compatibilite temporaire avec les anciens noms utilises dans les premiers
+  # runs 2026-07. Les sorties nouvelles utilisent les noms explicites.
+  aliases <- c(
+    mgwrsar = "mgwrsar_gwr",
+    mgwrsar_multiscale = "mgwrsar_mgwr",
+    mgwrsar_autocorr = "mgwrsar_mgwrsar"
+  )
+  estimators <- unname(ifelse(estimators %in% names(aliases), aliases[estimators], estimators))
   missing <- setdiff(estimators, available)
   if (length(missing) > 0) {
     stop(sprintf(
@@ -578,7 +464,7 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
   spatial_formula_full <- build_estimator_formula(spec$y, c(spec$x, "coord_x", "coord_y"))
 
   needs_spboost_tuning <- is.null(estimators) || "spboost" %in% estimators
-  needs_mgwrsar_tuning <- is.null(estimators) || any(c("mgwrsar", "mgwrsar_autocorr") %in% estimators)
+  needs_mgwrsar_tuning <- is.null(estimators) || any(c("mgwrsar_gwr", "mgwrsar_mgwrsar") %in% estimators)
   tuned_spboost <- NULL
   tuned_mgwrsar <- NULL
 
@@ -605,7 +491,7 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
   }
 
   if (needs_mgwrsar_tuning) {
-    cat("  -- tuning mgwrsar bandwidth/kernel (near-prediction grid search)...\n")
+    cat("  -- tuning mgwrsar_gwr bandwidth/kernel (near-prediction grid search)...\n")
     tuned_mgwrsar <- tune_mgwrsar_bandwidth(
       TUNING_GRIDS$bandwidth, TUNING_GRIDS$kernels, coords = c("coord_x", "coord_y"),
       formula = spatial_formula_full, y = spec$y, rset = near
@@ -613,7 +499,7 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
     cat(sprintf("     best H = %.3g, kernel = %s (mean near-prediction RMSE = %.3f)\n",
                 tuned_mgwrsar$best$bandwidth, tuned_mgwrsar$best$kernels, tuned_mgwrsar$best$rmse))
   } else {
-    cat("  -- tuning mgwrsar bandwidth/kernel ignore (mgwrsar non selectionne)\n")
+    cat("  -- tuning mgwrsar_gwr bandwidth/kernel ignore (mgwrsar_gwr/mgwrsar_mgwrsar non selectionnes)\n")
   }
 
   tuning_dir <- runs_dir
@@ -628,7 +514,7 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
   }
   if (!is.null(tuned_mgwrsar)) {
     mgwrsar_grid_out <- cbind(dataset = name, tuned_mgwrsar$grid)
-    mgwrsar_base <- file.path(tuning_dir, sprintf("hyperparam_tuning_%s_mgwrsar_H_kernel_2026-07", name))
+    mgwrsar_base <- file.path(tuning_dir, sprintf("hyperparam_tuning_%s_mgwrsar_gwr_H_kernel_2026-07", name))
     saveRDS(mgwrsar_grid_out, paste0(mgwrsar_base, ".rds"))
     saveRDS(tuned_mgwrsar, paste0(mgwrsar_base, "_full.rds"))
   }

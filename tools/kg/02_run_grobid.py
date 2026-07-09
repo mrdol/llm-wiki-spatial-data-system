@@ -2,6 +2,7 @@
 
 Entrees possibles:
 - corpus/papers/raw_pdf/*.pdf
+- corpus/raw/pdf/*.pdf
 - corpus/bib/references.bib si l'option --from-bib est utilisee
 
 Sortie:
@@ -29,10 +30,16 @@ from pathlib import Path
 
 import requests
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 
 ROOT = Path(__file__).resolve().parents[2]
 BIB_PATH = ROOT / "corpus" / "bib" / "references.bib"
 RAW_PDF_DIR = ROOT / "corpus" / "papers" / "raw_pdf"
+LEGACY_RAW_PDF_DIR = ROOT / "corpus" / "raw" / "pdf"
+RAW_PDF_DIRS = (RAW_PDF_DIR, LEGACY_RAW_PDF_DIR)
 TEI_DIR = ROOT / "corpus" / "papers" / "tei"
 
 
@@ -47,10 +54,12 @@ def normalize_text_path(value: str) -> str:
 
 
 def all_pdf_files() -> list[Path]:
-    """Retourne tous les PDF presents dans corpus/papers/raw_pdf."""
-    if not RAW_PDF_DIR.exists():
-        return []
-    return sorted(RAW_PDF_DIR.glob("*.pdf"))
+    """Retourne tous les PDF presents dans les dossiers corpus PDF connus."""
+    pdfs: list[Path] = []
+    for directory in RAW_PDF_DIRS:
+        if directory.exists():
+            pdfs.extend(directory.glob("*.pdf"))
+    return sorted(pdfs)
 
 
 def bib_linked_pdf_files() -> list[Path]:
@@ -112,10 +121,8 @@ def process_pdf(pdf_path: Path, base_url: str, timeout: int, force: bool) -> str
 def select_pdfs(from_bib: bool, pdf_name: str | None) -> list[Path]:
     """Choisit les PDF a traiter selon le mode demande."""
     if pdf_name:
-        candidates = [
-            Path(pdf_name),
-            RAW_PDF_DIR / pdf_name,
-        ]
+        candidates = [Path(pdf_name)]
+        candidates.extend(directory / pdf_name for directory in RAW_PDF_DIRS)
         for candidate in candidates:
             if candidate.exists():
                 return [candidate.resolve()]
