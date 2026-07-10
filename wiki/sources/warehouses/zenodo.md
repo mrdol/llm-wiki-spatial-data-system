@@ -15,12 +15,12 @@ Research repository and data warehouse used to discover DOI-backed datasets, fil
 - Research datasets with DOI records
 - Files exposed through the Zenodo InvenioRDM API
 - Licenses and related publication DOI metadata when present
-- Spatial and spatio-temporal candidates selected by `Code_scrapping/pipeline_portals/python/scrape_zenodo.py`
+- Spatial and spatio-temporal candidates selected by `code/pipeline_portals/python/scrape_zenodo.py`
 
 ## Local Pipeline
 
-- Scraper: `Code_scrapping/pipeline_portals/python/scrape_zenodo.py`
-- Common download helper: `Code_scrapping/pipeline_portals/python/portal_common.py`
+- Scraper: `code/pipeline_portals/python/scrape_zenodo.py`
+- Common download helper: `code/pipeline_portals/python/portal_common.py`
 - Candidate manifests: `data/manifests/datasets/`
 - Download target: `data/candidates/datasets/zenodo/`
 

@@ -370,7 +370,7 @@ def architecture_summary() -> dict[str, Any]:
         "entrypoints": entrypoints,
         "notable_areas": [
             "mcp_servers/: serveurs MCP locaux du projet",
-            "Code_scrapping/: scripts Python/R de scraping et d'inventaire",
+            "code/: scripts Python/R de scraping et d'inventaire",
             "LLM-wiki-Assessment/: évaluations et tests",
             "wiki/: fiches Markdown du système LLM Wiki",
             "data/: catalogue et manifestes",

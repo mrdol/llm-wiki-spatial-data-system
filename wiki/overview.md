@@ -36,7 +36,7 @@ Current durable layers:
 - `inst/kg/` for KG schema, concepts, source rules and topic taxonomy;
 - `.kg/graph.sqlite` for the local graph;
 - `wiki/` for validated synthesis;
-- `Code_scrapping/` for discovery, scraping, catalog and audit scripts.
+- `code/` for discovery, scraping, catalog and audit scripts.
 
 ---
 
@@ -55,14 +55,14 @@ Current implementation state:
   objects under `data/manifests/runs/`.
 - `spatial_viz.R` reads RDS outputs and generates PNG figures from the R-native
   artifacts.
-- `Code_scrapping/R/estimators/spatial_model_specs.R` now centralizes
+- `code/R/estimators/spatial_model_specs.R` now centralizes
   `build_specs()`, so the estimator registry is separate from the benchmark
   orchestration script.
 - The benchmark includes native tidymodels baselines (`glm`, `earth`,
   `random_forest`, `xgboost`, plus `_xy` variants with coordinates), custom
   parsnip wrappers (`spboost`, `mgwrsar_*`) and direct fold-by-fold spatial
   estimators (`spatialreg`, `spmoran`).
-- Spatial weights `W` are factorized in `Code_scrapping/R/utils/spatial_weights.R`
+- Spatial weights `W` are factorized in `code/R/utils/spatial_weights.R`
   and reused by SpBoost, MGWRSAR variants, spatialreg baselines and Moran
   diagnostics.
 

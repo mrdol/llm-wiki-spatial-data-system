@@ -45,7 +45,7 @@ Source : `software_catalog_curated_final.RData::Synthese` (783 lignes réparties
 
 ### Étape 3 — Banque de fiches wiki effectivement générée
 
-Les **98 datasets `keep = yes` de la feuille `Bons_candidats_spatial`** sont exactement les 98 fiches actuellement présentes dans `wiki/datasets/packages/` (vérifié par correspondance 1:1 avec `tools/regression_formulas_2026-07/check_files.py`). C'est le périmètre sur lequel porte tout le reste de ce tableau de bord.
+Les **98 datasets `keep = yes` de la feuille `Bons_candidats_spatial`** sont exactement les 98 fiches actuellement présentes dans `wiki/datasets/fiches_datasets/` (vérifié par correspondance 1:1 avec `tools/regression_formulas_2026-07/check_files.py`). C'est le périmètre sur lequel porte tout le reste de ce tableau de bord.
 
 ### Statique vs. dimension temporelle (parmi les 98 fiches retenues)
 
@@ -70,7 +70,7 @@ Source : colonne `has_datetime` de `Bons_candidats_spatial` (catalogue amont, av
 
 ## Nouvelles dimensions (mission formules de régression, 2026-07)
 
-Périmètre : les 98 fiches de `wiki/datasets/packages/`. Source : `tools/regression_formulas_2026-07/regression_findings.py` (table `FINDINGS`, croisée avec chaque fiche).
+Périmètre : les 98 fiches de `wiki/datasets/fiches_datasets/`. Source : `tools/regression_formulas_2026-07/regression_findings.py` (table `FINDINGS`, croisée avec chaque fiche).
 
 ### Statut régression canonique
 

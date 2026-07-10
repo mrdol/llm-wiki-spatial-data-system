@@ -267,7 +267,7 @@ For every MGWR modeling run, record:
 The manual `tidymodels` benchmark pipeline
 (`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`) exposes true
 multiscale MGWR through the same `mgwrsar_reg()` engine documented in
-[[mgwrsar]] (`Code_scrapping/R/estimators/parsnip_mgwrsar.R`), via two special
+[[mgwrsar]] (`code/R/estimators/parsnip_mgwrsar.R`), via two special
 `model_type` values that route to `mgwrsar::TDS_MGWR()` instead of
 `mgwrsar::MGWRSAR()`:
 

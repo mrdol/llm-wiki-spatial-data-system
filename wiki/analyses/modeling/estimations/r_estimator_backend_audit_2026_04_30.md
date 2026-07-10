@@ -5,8 +5,8 @@ created: 2026-04-30
 updated: 2026-05-12
 sources:
   - data/manifests/runs/estimator_software_registry.jsonl
-  - Code_scrapping/R/estimators/load_estimators.R
-  - Code_scrapping/R/utils/estimator_common.R
+  - code/R/estimators/load_estimators.R
+  - code/R/utils/estimator_common.R
 tags: [analysis, modeling, estimators, r, reticulate]
 ---
 
@@ -24,7 +24,7 @@ The canonical machine-readable registry is `data/manifests/runs/estimator_softwa
 - Location rationale: this page is a backend implementation audit, not a stable estimator reference fiche and not a metadata schema.
 - Canonical location: `wiki/analyses/modeling/estimations/`
 - Stable estimator definitions remain in `wiki/estimators/`.
-- Implementation code has been moved under `Code_scrapping/R/`; old `R/...` paths should be treated as historical paths only.
+- Implementation code has been moved under `code/R/`; old `R/...` paths should be treated as historical paths only.
 
 ## Backend Decisions
 
@@ -46,25 +46,25 @@ The canonical machine-readable registry is `data/manifests/runs/estimator_softwa
 
 ## Wrapper Files
 
-- `Code_scrapping/R/estimators/fit_xgboost.R`
-- `Code_scrapping/R/estimators/fit_lightgbm.R`
-- `Code_scrapping/R/estimators/fit_gamboost.R`
-- `Code_scrapping/R/estimators/fit_random_forest.R`
-- `Code_scrapping/R/estimators/fit_mars.R`
-- `Code_scrapping/R/estimators/fit_inla.R`
-- `Code_scrapping/R/estimators/fit_svc.R`
-- `Code_scrapping/R/estimators/fit_stvc.R`
-- `Code_scrapping/R/estimators/fit_mgwr.R`
-- `Code_scrapping/R/estimators/fit_mgwrsar.R`
-- `Code_scrapping/R/estimators/fit_spboost.R`
-- `Code_scrapping/R/estimators/fit_rnn_reticulate.R`
-- `Code_scrapping/R/estimators/fit_svm.R`
+- `code/R/estimators/fit_xgboost.R`
+- `code/R/estimators/fit_lightgbm.R`
+- `code/R/estimators/fit_gamboost.R`
+- `code/R/estimators/fit_random_forest.R`
+- `code/R/estimators/fit_mars.R`
+- `code/R/estimators/fit_inla.R`
+- `code/R/estimators/fit_svc.R`
+- `code/R/estimators/fit_stvc.R`
+- `code/R/estimators/fit_mgwr.R`
+- `code/R/estimators/fit_mgwrsar.R`
+- `code/R/estimators/fit_spboost.R`
+- `code/R/estimators/fit_rnn_reticulate.R`
+- `code/R/estimators/fit_svm.R`
 
 ## Source Traceability
 
 - Registry source: `data/manifests/runs/estimator_software_registry.jsonl`
-- Loader source: `Code_scrapping/R/estimators/load_estimators.R`
-- Common wrapper utilities: `Code_scrapping/R/utils/estimator_common.R`
+- Loader source: `code/R/estimators/load_estimators.R`
+- Common wrapper utilities: `code/R/utils/estimator_common.R`
 - Local package/material evidence: `raw/estimators/`
 - Traceability conclusion: this page summarizes local implementation routing decisions anchored in the registry and wrapper files. It should be evaluated as an analysis page, not as an estimator fiche.
 
@@ -82,7 +82,7 @@ The canonical machine-readable registry is `data/manifests/runs/estimator_softwa
 quality_pedigree:
   provenance: local_code_and_registry_analysis
   provenance_score: 4
-  provenance_evidence: "The audit is anchored in the estimator software registry and local R wrapper files under Code_scrapping/R."
+  provenance_evidence: "The audit is anchored in the estimator software registry and local R wrapper files under code/R."
   rigour_score: 3
   rigour_evidence: "Backend choices are explicit, but several open validation points remain before production fitting."
   evidence_score: 4

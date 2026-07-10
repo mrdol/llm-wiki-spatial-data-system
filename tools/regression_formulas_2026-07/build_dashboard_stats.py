@@ -1,7 +1,7 @@
 \
 # -*- coding: utf-8 -*-
 """Compute the Tache 5 dashboard statistics from regression_findings.FINDINGS
-and the current wiki/datasets/packages/*.md fiches. Writes CSV + JSON outputs.
+and the current wiki/datasets/fiches_datasets/*.md fiches. Writes CSV + JSON outputs.
 """
 import csv
 import json
@@ -100,7 +100,7 @@ nt_fixed_n = len(NT_FIXED)
 license_fixed_n = len(LICENSE_FIXED)
 
 summary = {
-    "generated_for": "wiki/datasets/packages (98 fiches, couche 'Bons candidats spatial' retenus)",
+    "generated_for": "wiki/datasets/fiches_datasets (98 fiches, couche 'Bons candidats spatial' retenus)",
     "total_fiches": total,
     "regression_status": {
         STATUS_LABEL[k]: v for k, v in status_counter.items()

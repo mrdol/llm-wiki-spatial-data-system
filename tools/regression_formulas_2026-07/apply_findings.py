@@ -1,6 +1,6 @@
 \
 # -*- coding: utf-8 -*-
-"""Apply regression-formula findings to wiki/datasets/packages/*.md fiches.
+"""Apply regression-formula findings to wiki/datasets/fiches_datasets/*.md fiches.
 
 Idempotent-ish: re-running replaces the same blocks with the same content.
 Only touches: '### Formule - niveau publication' field values, adds a new

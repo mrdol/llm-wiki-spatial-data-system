@@ -336,8 +336,8 @@ Il contient notamment :
 |---|---|
 | Index des conversions | `data/Final_datasets/sf/catalogue_sf_index.RData` |
 | Audit CRS et temps | `data/Final_datasets/sf/catalogue_sf_metadata_audit.RData` |
-| Script de conversion | `Code_scrapping/r_catalog/build_sf_datasets.R` |
-| Script d'audit | `Code_scrapping/r_catalog/audit_sf_crs_time.R` |
+| Script de conversion | `code/r_catalog/build_sf_datasets.R` |
+| Script d'audit | `code/r_catalog/audit_sf_crs_time.R` |
 | Extracteur KG | `tools/kg/04_extract_dataset_catalogs.py` |
 | Vérification du KG | `tools/kg/verify_sf_kg.py` |
 | Graphe SQLite | `.kg/graph.sqlite` |

@@ -19,8 +19,8 @@ Research data repository used to discover DOI-backed datasets, licenses, abstrac
 
 ## Local Pipeline
 
-- Scraper: `Code_scrapping/pipeline_portals/python/scrape_dryad.py`
-- Common download helper: `Code_scrapping/pipeline_portals/python/portal_common.py`
+- Scraper: `code/pipeline_portals/python/scrape_dryad.py`
+- Common download helper: `code/pipeline_portals/python/portal_common.py`
 - Candidate manifests: `data/manifests/datasets/`
 - Download target: `data/candidates/datasets/dryad/`
 

@@ -145,7 +145,7 @@ observations leak information.
 ## Project Use As A Non-Spatial Baseline (added 2026-07-04)
 
 Added to the manual `tidymodels` benchmark
-(`Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`,
+(`code/R/estimators/benchmark_manual_test_2026-07.R`,
 `build_specs()`) as a strict "no spatial information" baseline alongside
 plain OLS (`glm`) and plain GWR/SAR (see [[mgwrsar]]). No custom engine is
 needed: `parsnip::boost_tree()` already ships a native `xgboost` engine.

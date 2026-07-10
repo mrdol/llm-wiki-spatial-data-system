@@ -19,5 +19,5 @@ llm-wiki-karpathy/                         # Racine du projet LLM Wiki.
 
   data/                                    # Catalogue dataset, manifestes et données structurées.
   wiki/                                    # Fiches Markdown du LLM Wiki.
-  Code_scrapping/                          # Scripts Python/R de scraping, extraction et préparation.
+  code/                          # Scripts Python/R de scraping, extraction et préparation.
 ```

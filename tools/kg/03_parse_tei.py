@@ -369,7 +369,7 @@ def detect_dataset_labels_in_section(
 
 # Fonctions de graphe : une formule precedee d'un de ces appels est une
 # formule d'affichage (axes), pas une formule de modele. Regle commune au
-# pipeline (cf. Code_scrapping/r_catalog/formula_model_filter.R).
+# pipeline (cf. code/r_catalog/formula_model_filter.R).
 VISUAL_FUNCTION_RE = re.compile(
     r"(?:plot|points|lines|boxplot|hist|barplot|dotchart|xyplot|bwplot|"
     r"levelplot|wireframe|contourplot|spplot|desplot|ggplot|qplot|coplot|"

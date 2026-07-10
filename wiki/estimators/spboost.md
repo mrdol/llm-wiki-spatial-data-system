@@ -547,7 +547,7 @@ En plus du wrapper bas niveau `fit_spboost.R` ci-dessus, le pipeline de test
 manuel `tidymodels` (`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`)
 utilise un moteur `parsnip` complet:
 
-`Code_scrapping/R/estimators/parsnip_spboost.R`
+`code/R/estimators/parsnip_spboost.R`
 
 Il enregistre un modele `spboost_reg()` aupres de `parsnip` (`set_new_model()`,
 `set_fit()`, `set_pred()`, `update.spboost_reg()` pour `tune::tune_grid()`), ce
@@ -596,7 +596,7 @@ Points d'implementation a connaitre:
 
 Project update (2026-07-06):
 
-- `W` is now built through `Code_scrapping/R/utils/spatial_weights.R`, shared
+- `W` is now built through `code/R/utils/spatial_weights.R`, shared
   with MGWRSAR, spatialreg baselines and Moran diagnostics.
 - The current tuning grid for `mstop` is expanded up to `1000`.
 - Tuning outputs are written as `.rds` objects, not CSV files.

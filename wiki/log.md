@@ -1257,7 +1257,7 @@ Pages consulted:
 - `AGENTS.md`
 - `data/catalogue_datasets.json`
 - `LLM-wiki-Assessment/tests/`
-- `Code_scrapping/`
+- `code/`
 
 Output filed: yes - catalogue path updated
 
@@ -1268,9 +1268,9 @@ Files updated:
 - `AGENTS.md`
 - `data/manifests/README.md`
 - `mcp_datasets_server.py`
-- `Code_scrapping/pipeline_lit/lit_common.py`
-- `Code_scrapping/pipeline_portals/python/portal_common.py`
-- `Code_scrapping/pipeline_portals/python/scrape_zenodo.py`
+- `code/pipeline_lit/lit_common.py`
+- `code/pipeline_portals/python/portal_common.py`
+- `code/pipeline_portals/python/scrape_zenodo.py`
 - `LLM-wiki-Assessment/tests/`
 
 Key additions:
@@ -1281,8 +1281,8 @@ Key additions:
 
 Pages consulted:
 - `AGENTS.md`
-- `Code_scrapping/pipeline_lit/discover_spatiotemporal_papers.py`
-- `Code_scrapping/pipeline_lit/extract_dataset_links_from_papers.py`
+- `code/pipeline_lit/discover_spatiotemporal_papers.py`
+- `code/pipeline_lit/extract_dataset_links_from_papers.py`
 - `data/catalogue_datasets.json`
 
 Output filed: yes - one paper-linked dataset candidate documented
@@ -1312,8 +1312,8 @@ Key additions:
 Pages consulted:
 - `AGENTS.md`
 - `wiki/index.md`
-- `Code_scrapping/pipeline_lit/discover_spatiotemporal_papers.py`
-- `Code_scrapping/pipeline_lit/extract_dataset_links_from_papers.py`
+- `code/pipeline_lit/discover_spatiotemporal_papers.py`
+- `code/pipeline_lit/extract_dataset_links_from_papers.py`
 
 Output filed: yes - candidate batch only, no dataset fiches generated
 
@@ -1370,7 +1370,7 @@ Key additions:
 - Filled verified linked-paper DOI fields where found: Dryad habitat suitability, STEHME/HOLSEA Norway, IMF By, and cranial modifications.
 - Marked the Linear Pottery linked publication DOI as `unknown_not_found` after lookup rather than leaving a vague unknown.
 - Added local data-inspection facts for NetCDF dimensions, CSV headers, row counts, and GraphML node/edge counts where available.
-- Updated the R estimator backend audit to reflect the `Code_scrapping/R/` relocation and added source traceability plus quality pedigree.
+- Updated the R estimator backend audit to reflect the `code/R/` relocation and added source traceability plus quality pedigree.
 
 ## [2026-05-12] policy | scientific paper ingestion scope
 
@@ -1598,8 +1598,8 @@ Pages updated:
 - `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
 
 Code updated:
-- `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`
-- `Code_scrapping/R/utils/spatial_viz.R`
+- `code/R/estimators/benchmark_manual_test_2026-07.R`
+- `code/R/utils/spatial_viz.R`
 
 Key additions:
 - Repaired the truncated ending of `AGENTS.md` and added a durable maintenance
@@ -1683,8 +1683,8 @@ Open points:
 ## [2026-07-08] tidymodels | estimator integration matrix and spec extraction
 
 Files updated:
-- `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`
-- `Code_scrapping/R/estimators/spatial_model_specs.R`
+- `code/R/estimators/benchmark_manual_test_2026-07.R`
+- `code/R/estimators/spatial_model_specs.R`
 - `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
 - `wiki/overview.md`
 

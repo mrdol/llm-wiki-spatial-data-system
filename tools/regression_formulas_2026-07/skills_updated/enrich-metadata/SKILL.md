@@ -3,14 +3,14 @@ name: enrich-metadata
 description: >
   Genere des fiches wiki completes (6 blocs de metadonnees enrichies) pour les
   datasets spatiaux retenus dans catalogue_sf_index, via le script
-  Code_scrapping/r_catalog/generate_fiches.py. Le catalogue sert de filtre
+  code/r_catalog/generate_fiches.py. Le catalogue sert de filtre
   uniquement. Y, X, N, T, CRS, bbox sont extraits directement des objets sf ;
   la selection des candidats Y/X est faite par un LLM (Claude Sonnet 4.6),
   pas par heuristique de script. Invoquer quand l'utilisateur dit :
   "enrichis les metadonnees", "genere les fiches sf", "cree les fiches du
   catalogue", "batch r_package", "traite les .rds". Necessite
   data/sf_catalog_metadata.json -- si absent, demander d'executer
-  Code_scrapping/r_catalog/export_sf_metadata.R dans RStudio (ou Rscript).
+  code/r_catalog/export_sf_metadata.R dans RStudio (ou Rscript).
 ---
 
 # enrich-metadata
@@ -20,7 +20,7 @@ Vocabulaire : CONTEXT.md. Schema valide par : LLM-wiki-Assessment/eval/tier1_str
 (les libelles de champs y sont en anglais et litteraux -- voir plus bas).
 
 **Ce skill n'est plus un template a suivre manuellement.** La generation reelle
-se fait par le script `Code_scrapping/r_catalog/generate_fiches.py`, qui :
+se fait par le script `code/r_catalog/generate_fiches.py`, qui :
 
 1. lit `data/sf_catalog_metadata.json` (produit par `export_sf_metadata.R`,
    lequel ne fait QUE de la typologie statistique par colonne -- continuous/
@@ -31,7 +31,7 @@ se fait par le script `Code_scrapping/r_catalog/generate_fiches.py`, qui :
    colonnes typees -- le LLM peut ignorer des colonnes (ex : codes
    administratifs FIPS/MSA) si elles ne sont ni une cible ni une covariable
    utile ;
-3. rend la fiche au format Bloc 1-6 ci-dessous dans `wiki/datasets/packages/<dataset_id>.md`.
+3. rend la fiche au format Bloc 1-6 ci-dessous dans `wiki/datasets/fiches_datasets/<dataset_id>.md`.
 
 Ce skill sert maintenant de **documentation du flux reel**, pas de template
 concurrent. Si tu dois generer des fiches, execute le script -- ne genere pas
@@ -50,13 +50,13 @@ Verifier que `data/sf_catalog_metadata.json` existe et est recent.
 Si absent ou perime : demander a l'utilisateur de lancer (RStudio ou Rscript) :
 
 ```r
-source("Code_scrapping/r_catalog/export_sf_metadata.R")
+source("code/r_catalog/export_sf_metadata.R")
 ```
 
 ou en ligne de commande :
 
 ```bash
-Rscript Code_scrapping/r_catalog/export_sf_metadata.R
+Rscript code/r_catalog/export_sf_metadata.R
 ```
 
 Lire les compteurs en tete du JSON :
@@ -91,7 +91,7 @@ Les autres versions seront marquees `duplicate_of`. Confirmes-tu ?"
 Attendre confirmation avant de marquer quoi que ce soit.
 
 Une fois confirme : encoder le choix dans `CONFIRMED_KEEP` /
-`CONFIRMED_DISCARD` en tete de `Code_scrapping/r_catalog/generate_fiches.py`
+`CONFIRMED_DISCARD` en tete de `code/r_catalog/generate_fiches.py`
 (ce sont les ensembles qui pilotent `should_keep()`).
 
 ---
@@ -103,7 +103,7 @@ et l'ecriture des fiches :
 
 ```bash
 PYTHON="C:/Users/jdoliveira/SynologyDrive/johnny D'OLIVEIRA/Travaux stages/.venv/Scripts/python.exe"
-"$PYTHON" Code_scrapping/r_catalog/generate_fiches.py --overwrite
+"$PYTHON" code/r_catalog/generate_fiches.py --overwrite
 ```
 
 Options utiles :
@@ -114,7 +114,7 @@ Options utiles :
 
 Necessite `ANTHROPIC_API_KEY` dans `.env` a la racine du repo pour l'etape Y/X.
 
-Apres batch -> lancer `eval-fiche` sur toutes les fiches creees (`wiki/datasets/packages/*.md`).
+Apres batch -> lancer `eval-fiche` sur toutes les fiches creees (`wiki/datasets/fiches_datasets/*.md`).
 
 ---
 
@@ -292,7 +292,7 @@ doivent indiquer l'analogie ensemble, jamais l'un sans l'autre) et qu'un
 
 ## Apres le batch
 
-Lancer `eval-fiche` sur toutes les fiches generees (`wiki/datasets/packages/*.md`).
+Lancer `eval-fiche` sur toutes les fiches generees (`wiki/datasets/fiches_datasets/*.md`).
 Reporter : N fiches creees, N PASS, N AMBER, N doublons suspects resolus.
 
 Ne jamais modifier les `.rds` ni les fiches doc brutes (`topics/<dataset>.md`).

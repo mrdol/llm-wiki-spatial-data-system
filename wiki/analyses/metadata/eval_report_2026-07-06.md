@@ -16,7 +16,7 @@ les executer.
 ## Methode
 
 - **Cohorte A (6 fiches, 2026-07-06)** : verifiees individuellement contre le
-  code R (`Code_scrapping/R/estimators/`) et les `.rds` sources
+  code R (`code/R/estimators/`) et les `.rds` sources
   (`data/final_datasets/sf/`). Constats factuels confirmes, pas de reprise
   brute du texte de la queue.
 - **Cohorte B (117 fiches, 2026-05-12 / 2026-07-02)** : reformatees a partir

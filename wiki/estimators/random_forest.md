@@ -129,7 +129,7 @@ only interpolates nearby observations.
 ## Project Use As A Baseline (added 2026-07-06)
 
 The manual `tidymodels` benchmark registers two native `parsnip` variants in
-`Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R`:
+`code/R/estimators/benchmark_manual_test_2026-07.R`:
 
 - `random_forest`: `X` only;
 - `random_forest_xy`: `X + coord_x + coord_y`.

@@ -22,7 +22,7 @@ Pipeline :
     export_sf_metadata.R
         → data/sf_catalog_metadata.json
     generate_fiches.py
-        → wiki/datasets/packages/*.md
+        → wiki/datasets/fiches_datasets/*.md
 
 Décisions CRS (sources documentées dans tools/source_crs_results.json) :
 --------------------------------------------------------------------

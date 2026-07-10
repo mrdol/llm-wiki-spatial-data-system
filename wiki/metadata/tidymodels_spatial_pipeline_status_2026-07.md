@@ -4,13 +4,15 @@ type: metadata
 created: 2026-07-03
 updated: 2026-07-08
 sources:
-  - Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R
-  - Code_scrapping/R/estimators/spatial_model_specs.R
-  - Code_scrapping/R/estimators/parsnip_mgwrsar.R
-  - Code_scrapping/R/estimators/parsnip_spboost.R
-  - Code_scrapping/R/utils/hyperparam_tuning.R
-  - Code_scrapping/R/utils/spatial_weights.R
-  - Code_scrapping/R/utils/spatial_viz.R
+  - code/R/estimators/benchmark_manual_test_2026-07.R
+  - code/R/estimators/spatial_tidymodels_api.R
+  - code/R/estimators/spatial_model_specs.R
+  - code/R/estimators/parsnip_mgwrsar.R
+  - code/R/estimators/parsnip_spboost.R
+  - code/R/estimators/parsnip_spatialreg.R
+  - code/R/utils/hyperparam_tuning.R
+  - code/R/utils/spatial_weights.R
+  - code/R/utils/spatial_viz.R
 tags: [metadata, tidymodels, spatial, benchmark, r]
 status: spatial-estimators-expansion
 ---
@@ -74,7 +76,7 @@ alias dans `run_manual_test(..., estimators = ...)`, mais les sorties
 nouvelles utilisent les noms explicites.
 
 La matrice de voisinage `W` est maintenant factorisee dans
-`Code_scrapping/R/utils/spatial_weights.R`. Le meme point de construction
+`code/R/utils/spatial_weights.R`. Le meme point de construction
 sert a `spboost`, aux variantes `mgwrsar_*`, `spatialreg` et au diagnostic Moran. Cela evite
 que chaque wrapper construise une version legerement differente du voisinage.
 
@@ -90,6 +92,73 @@ benchmark, les resumes agreges, les grilles de tuning et les manifestes de
 resampling sont sauvegardes en `.rds`, c'est-a-dire en objets R natifs. Les
 figures continuent d'etre generees par `spatial_viz.R`, qui doit lire les
 sorties `.rds`.
+
+## Mise a jour courte au 2026-07-09
+
+Un point d'entree non manuel a ete ajoute :
+`code/R/estimators/spatial_tidymodels_api.R`.
+
+Il expose trois fonctions utilisateur :
+
+- `list_available_datasets()` pour lister les jeux de donnees declares ;
+- `list_available_estimators()` pour lister les estimateurs utilisables et
+  leur route d'integration (`workflow`, `parsnip_fit_direct` ou
+  `scoring_direct`) ;
+- `run_spatial_benchmark()` pour lancer le pipeline sans appeler directement
+  `benchmark_manual_test_2026-07.R`.
+
+Le script historique reste le moteur interne, mais l'interface recommandee
+pour la suite de la mission est maintenant :
+
+```r
+setwd("C:/Users/jdoliveira/SynologyDrive/johnny D'OLIVEIRA/Travaux stages/llm-wiki-karpathy/code")
+source("R/estimators/spatial_tidymodels_api.R")
+
+list_available_datasets()
+list_available_estimators()
+
+run_spatial_benchmark(
+  datasets = "georgia",
+  estimators = c("glm", "spboost", "mgwrsar_gwr")
+)
+```
+
+Le registre `DATASETS` a aussi ete elargi avec onze jeux de donnees `sf`
+supplementaires, choisis parce qu'ils ont une formule documentee dans les
+fiches datasets, un manuel/papier derriere, ou une tradition d'usage claire
+en econometrie/geostatistique spatiale :
+
+- `lsl` : glissements de terrain, `spDataLarge::lsl`, source Geocomputation
+  with R / Muenchow et al. ; cible binaire encodee en `lsl_numeric` pour le
+  benchmark de regression actuel ;
+- `boston_housing` : prix immobiliers de Boston, modele hedonique classique ;
+- `columbus_crime` : criminalite a Columbus, baseline SAR/SEM classique ;
+- `dub_voter` : vote a Dublin, exemple GWR dans `GWmodel` ;
+- `london_hp` : prix immobiliers londoniens, exemple GWR/non-euclidien ;
+- `airbnb_chicago` : prix Airbnb et variables socio-economiques urbaines ;
+- `police_expenditures` : depenses de police, Kelejian & Robinson ;
+- `guerry_crime` : donnees historiques Guerry, criminalite et variables
+  sociales ;
+- `meuse_zinc` : pollution des sols de la Meuse, exemple `gstat` ;
+- `jura_zinc` : geochimie du Jura, exemple `gstat` ;
+- `gartner_corn` : rendement/masse recoltee en agriculture de precision.
+
+La contrainte importante est que `lsl` est scientifiquement une tache de
+classification logistique. Il est inclus dans le benchmark actuel via une
+conversion 0/1 uniquement pour tester les estimateurs de regression spatiale.
+La vraie integration tidymodels de `lsl` demandera une branche classification
+(`mode = "classification"`, metriques ROC/log-loss/accuracy, et wrappers
+compatibles).
+
+Le 2026-07-09, les trois estimateurs `spatialreg` historiques
+(`sar_lag`, `sem_error`, `sdm_mixed`) ont ete transformes en moteur parsnip
+custom via `spatialreg_reg()`. Ils ne passent donc plus par une route
+`score = function(...)` dans `spatial_model_specs.R`; ils sont maintenant
+declares comme specs avec `set_engine("spatialreg")`, ajoutes a un
+`workflow()`, puis evalues par `score_split()` comme les autres modeles
+compatibles workflow. Le wrapper reconstruit un objet `listw` kNN au fit et
+au predict, et conserve un repli tendance `X * beta` si `predict.Sarlm()`
+echoue sur un fold hors echantillon.
 
 ## Objectif vise
 
@@ -126,13 +195,13 @@ a part et injectes dans `tune_grid()`/`fit_resamples()`.
 
 ## Fichiers concernes
 
-- `Code_scrapping/R/estimators/benchmark_manual_test_2026-07.R` -- script pilote
-- `Code_scrapping/R/estimators/spatial_model_specs.R` -- registre central des specifications de modeles
-- `Code_scrapping/R/estimators/parsnip_spboost.R` -- moteur parsnip custom SpBoost
-- `Code_scrapping/R/estimators/parsnip_mgwrsar.R` -- moteur parsnip custom MGWRSAR/GWR
-- `Code_scrapping/R/utils/hyperparam_tuning.R` -- tuning via `tune_grid()` + fallback
-- `Code_scrapping/R/utils/spatial_cv.R` -- folds near-prediction et bloc spatial
-- `Code_scrapping/R/utils/spatial_weights.R` -- construction factorisee de `W`,
+- `code/R/estimators/benchmark_manual_test_2026-07.R` -- script pilote
+- `code/R/estimators/spatial_model_specs.R` -- registre central des specifications de modeles
+- `code/R/estimators/parsnip_spboost.R` -- moteur parsnip custom SpBoost
+- `code/R/estimators/parsnip_mgwrsar.R` -- moteur parsnip custom MGWRSAR/GWR
+- `code/R/utils/hyperparam_tuning.R` -- tuning via `tune_grid()` + fallback
+- `code/R/utils/spatial_cv.R` -- folds near-prediction et bloc spatial
+- `code/R/utils/spatial_weights.R` -- construction factorisee de `W`,
   objets `listw` pour `spatialreg` et diagnostic Moran
 
 Tous les commentaires ajoutes dans ces scripts sont en francais.
@@ -175,13 +244,13 @@ travail restant.
 | `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")` | wrapper `parsnip`, evaluation standard | `W` fixe par kNN | verifier prediction hors-echantillon et comparer a `spatialreg::lagsarlm()` |
 | `mgwrsar_mgwrsar` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control(W=W))` | wrapper `parsnip`, tuning `H`/`kernel` possible | `bandwidth`/`H`, `kernel`, `W` fixe | stabiliser choix theorique `kc/kv` et documenter l'autocorrelation |
 | `mgwrsar_mgwr` | `mgwrsar::TDS_MGWR()` | wrapper `parsnip`, pas de tuning externe | bandwidths internes par covariable | tester cout/robustesse sur grands datasets et documenter les sorties locales |
-| `sar_lag` | `spatialreg::lagsarlm()` | scoring direct fold par fold | `W/listw` fixe par kNN | creer eventuellement un wrapper `parsnip` apres stabilisation de `predict.Sarlm()` |
-| `sem_error` | `spatialreg::errorsarlm()` | scoring direct fold par fold | `W/listw` fixe par kNN | meme chantier que SAR: wrapper seulement si la prediction est fiable |
-| `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` | scoring direct fold par fold | `W/listw` fixe par kNN | meme chantier que SAR/SEM |
+| `sar_lag` | `spatialreg::lagsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | tester sur plus de datasets et envisager tuning de `k_neighbors` |
+| `sem_error` | `spatialreg::errorsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | tester sur plus de datasets et comparer aux residus Moran |
+| `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | surveiller les folds instables et le nombre de covariables laggees |
 | `spmoran_esf` | `spmoran::meigen()`/`esf()` | scoring direct fold par fold | `enum`, seuil `meigen_f` | stabiliser projection train/test, puis decider wrapper ou scorer dedie |
 | `spmoran_resf` | `spmoran::resf()` | experimental, scoring direct | `enum`, effet aleatoire spatial | corriger les predictions `NA` avant toute integration tidymodels |
 
-Le fichier `Code_scrapping/R/estimators/spatial_model_specs.R` porte desormais
+Le fichier `code/R/estimators/spatial_model_specs.R` porte desormais
 la partie executable de cette matrice via `build_specs()`. Le script
 `benchmark_manual_test_2026-07.R` l'utilise comme registre unique des
 estimateurs disponibles.
@@ -198,7 +267,7 @@ estimateurs disponibles.
 ### Correction des formules (2026-07-04)
 
 En comparant le registre `DATASETS` du script pilote avec les fiches wiki de
-reference (`wiki/datasets/packages/*.md`, champ `formula_pub` -- la formule
+reference (`wiki/datasets/fiches_datasets/*.md`, champ `formula_pub` -- la formule
 issue de la publication source verifiee pour chaque dataset), deux ecarts non
 documentes ont ete trouves et corriges :
 
@@ -314,7 +383,7 @@ injectables directement dans `fit_resamples()` ou `tune_grid()`.
 ## Matrice de voisinage W
 
 La construction de `W` est maintenant factorisee dans
-`Code_scrapping/R/utils/spatial_weights.R`.
+`code/R/utils/spatial_weights.R`.
 
 Pour `spboost` et les variantes MGWRSAR qui en ont besoin, une matrice de
 poids spatiaux `W` est construite
@@ -536,7 +605,7 @@ n'indiquent pas un probleme bloquant.
 
 ## Visualisations (ajoute le 2026-07-04, etendu le 2026-07-04)
 
-Le script `Code_scrapping/R/utils/spatial_viz.R` genere les figures
+Le script `code/R/utils/spatial_viz.R` genere les figures
 habituelles des papiers d'econometrie spatiale consultes. Chaque dataset
 ecrit desormais dans son propre sous-dossier
 `data/manifests/runs/figures/<dataset_name>/`.
@@ -578,7 +647,7 @@ de CV (Fig. 2 du papier spboost).
 Depuis la racine du repo :
 
 ```r
-setwd("Code_scrapping")
+setwd("code")
 source("R/estimators/benchmark_manual_test_2026-07.R")
 out <- run_manual_test(c("georgia", "ewhp", "nyc_education"))
 ```
@@ -586,7 +655,7 @@ out <- run_manual_test(c("georgia", "ewhp", "nyc_education"))
 Pour lancer seulement quelques estimateurs et eviter un benchmark complet :
 
 ```r
-setwd("Code_scrapping")
+setwd("code")
 source("R/estimators/benchmark_manual_test_2026-07.R")
 out <- run_manual_test(
   c("georgia"),
@@ -598,7 +667,7 @@ out <- run_manual_test(
 Pour calculer un diagnostic Moran sur un dataset prepare :
 
 ```r
-setwd("Code_scrapping")
+setwd("code")
 source("R/estimators/benchmark_manual_test_2026-07.R")
 df <- prep_dataset(DATASETS[["nyc_education"]])
 moran_i_knn(
@@ -610,7 +679,7 @@ moran_i_knn(
 Pour tester seulement le chargement et la preparation d'un dataset :
 
 ```r
-setwd("Code_scrapping")
+setwd("code")
 source("R/estimators/benchmark_manual_test_2026-07.R")
 df <- prep_dataset(DATASETS[["nyc_education"]])
 nrow(df)   # 2216

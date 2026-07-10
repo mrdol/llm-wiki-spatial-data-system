@@ -252,7 +252,7 @@ Beyond the raw `mgwrsar` package API documented above, the manual `tidymodels`
 benchmark pipeline (`wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`)
 registers a full `parsnip` engine:
 
-`Code_scrapping/R/estimators/parsnip_mgwrsar.R`
+`code/R/estimators/parsnip_mgwrsar.R`
 
 It declares a `mgwrsar_reg()` model with `parsnip::set_new_model()` /
 `set_fit()` / `set_pred()` / `update.mgwrsar_reg()` (the latter required for
@@ -307,7 +307,7 @@ Additional project update (2026-07-06):
   incoming `control` list is copied to `ctl`, then `ctl$W` is filled with the
   project kNN matrix before calling `mgwrsar::MGWRSAR(..., control = ctl)`.
 - `W` is no longer duplicated in the MGWRSAR wrapper. It is built through
-  `Code_scrapping/R/utils/spatial_weights.R`, shared with SpBoost,
+  `code/R/utils/spatial_weights.R`, shared with SpBoost,
   `spatialreg` baselines and Moran diagnostics.
 - Moran I is used as a diagnostic of spatial autocorrelation, not as an
   automatic rule deciding whether MGWRSAR should be launched.

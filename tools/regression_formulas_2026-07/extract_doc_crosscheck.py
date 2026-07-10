@@ -1,6 +1,6 @@
 \
 # -*- coding: utf-8 -*-
-"""For each fiche in wiki/datasets/packages, locate its r_package_docs topic
+"""For each fiche in wiki/datasets/fiches_datasets, locate its r_package_docs topic
 file and dump: current fiche N/T/Structure/License fields + raw doc excerpts
 (Format section, any License/@source-like lines) for manual cross-check.
 """

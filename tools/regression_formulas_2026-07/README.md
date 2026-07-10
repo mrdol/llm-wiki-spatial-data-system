@@ -3,13 +3,13 @@
 Scripts et données utilisés pour la mission "mise à jour des fiches datasets
 avec les formules de régression canoniques identifiées" (Tâches 1-6, sessions
 du 2026-07-01 et 2026-07-02). Sauvegardés ici pour pouvoir rejouer/auditer les
-modifications appliquées à `wiki/datasets/packages/*.md` et aux scripts/skills
+modifications appliquées à `wiki/datasets/fiches_datasets/*.md` et aux scripts/skills
 du pipeline.
 
 ## Contenu — Tâches 1-4 (fiches)
 
 - `regression_findings.py` — table de référence `FINDINGS` : pour chacune
-  des 98 fiches de `wiki/datasets/packages/`, statut régression (bon
+  des 98 fiches de `wiki/datasets/fiches_datasets/`, statut régression (bon
   candidat / à vérifier / mauvais candidat / mis de côté / candidat par
   analogie), formule, méthode, source exacte, niveau de preuve
   (verbatim/code/article/analogie), correspondance Python/R le cas échéant.
@@ -20,7 +20,7 @@ du pipeline.
   `### Statut regression canonique` et un bloc `modeling_evidence:` en
   Bloc 3. Idempotent (peut être relancé sans dupliquer les blocs).
 - `check_files.py` — vérifie que chaque clé de `FINDINGS` correspond à un
-  fichier existant dans `wiki/datasets/packages/` (et inversement).
+  fichier existant dans `wiki/datasets/fiches_datasets/` (et inversement).
 - `extract_doc_crosscheck.py` — pour chaque fiche, retrouve le fichier de
   documentation correspondant sous `wiki/datasets/r_package_docs/<package>/
   topics/` et extrait les sections Format/Source/License pour comparaison
@@ -34,7 +34,7 @@ du pipeline.
   `<package>.md`) ; a permis de détecter l'erreur systématique sur les 5
   fiches `agridat` (GPL-2 déclaré à tort au lieu de `MIT + file LICENSE`).
 - `packages_backup_pre_2026-07-01/` — snapshot des 98 fiches **avant**
-  application de cette mission (les fiches de `wiki/datasets/packages/`
+  application de cette mission (les fiches de `wiki/datasets/fiches_datasets/`
   n'étaient pas encore suivies par git à ce moment, donc pas de diff git
   possible autrement).
 
@@ -69,7 +69,7 @@ du pipeline.
 
 ## Contenu — Tâche 6 (scripts et skills)
 
-- `Code_scrapping/r_catalog/generate_fiches.py` (dans le repo, pas ici) a été
+- `code/r_catalog/generate_fiches.py` (dans le repo, pas ici) a été
   modifié pour générer nativement les nouveaux champs : table
   `PYTHON_R_HOMOLOGS` (correspondance Python/R, à enrichir au fil des
   découvertes), fonction `find_homolog_formula()` qui propage automatiquement

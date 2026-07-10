@@ -86,7 +86,7 @@ tools/kg/
   graph.sqlite            Graphe local consultable avec SQLite
   summaries/              Resumes de parsing et controles
 
-Code_scrapping/
+code/
   r_catalog/              Pipeline datasets software R
   python_catalog/         Pipeline datasets software Python
   paper_links/            Liens dataset-package-papier-formule
@@ -113,13 +113,13 @@ packages R/Python
 
 Scripts principaux :
 
-- `Code_scrapping/r_catalog/extract_r_software_datasets.R`
-- `Code_scrapping/r_catalog/Inspection_of_each_dataset.R`
-- `Code_scrapping/r_catalog/create_r_software_catalog.R`
-- `Code_scrapping/r_catalog/render_r_dataset_rd_docs.R`
-- `Code_scrapping/r_catalog/llm_curate_r_datasets.R`
-- `Code_scrapping/python_catalog/extract_python_software_datasets.py`
-- `Code_scrapping/paper_links/build_dataset_paper_audit.py`
+- `code/r_catalog/extract_r_software_datasets.R`
+- `code/r_catalog/Inspection_of_each_dataset.R`
+- `code/r_catalog/create_r_software_catalog.R`
+- `code/r_catalog/render_r_dataset_rd_docs.R`
+- `code/r_catalog/llm_curate_r_datasets.R`
+- `code/python_catalog/extract_python_software_datasets.py`
+- `code/paper_links/build_dataset_paper_audit.py`
 
 Sorties principales :
 
