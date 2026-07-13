@@ -1,5 +1,3 @@
-source("R/utils/estimator_common.R")
-source("R/utils/spatial_weights.R")
 
 # Moteur parsnip custom pour les modeles spatialreg classiques.
 #
@@ -7,9 +5,18 @@ source("R/utils/spatial_weights.R")
 # workflows::workflow(), comme les autres estimateurs du pipeline. La
 # validation croisee reste externe: ce fichier enregistre seulement fit/predict.
 
-require_package("parsnip", "custom spatialreg_reg() parsnip engine")
-require_package("spatialreg", "modeles SAR/SEM/SDM")
-
+#' Specification parsnip pour SAR, SEM et SDM
+#'
+#' Cree une specification `parsnip` experimentale pour les modeles spatiaux
+#' classiques ajustes par `spatialreg`: SAR lag, SEM error et SDM mixed.
+#'
+#' @param mode Mode parsnip. Seul `"regression"` est supporte.
+#' @param coords Colonnes de coordonnees disponibles dans le workflow.
+#' @param model_type Type de modele: `"SAR"`, `"SEM"` ou `"SDM"`.
+#' @param k_neighbors Nombre de voisins utilise pour construire W.
+#'
+#' @return Une specification de modele `parsnip`.
+#' @export
 spatialreg_reg <- function(mode = "regression", coords = NULL,
                            model_type = NULL, k_neighbors = NULL) {
   # Constructeur utilisateur. model_type vaut "SAR", "SEM" ou "SDM".
@@ -30,6 +37,8 @@ spatialreg_reg <- function(mode = "regression", coords = NULL,
   )
 }
 
+#' @export
+#' @method update spatialreg_reg
 update.spatialreg_reg <- function(object, parameters = NULL, coords = NULL,
                                   model_type = NULL, k_neighbors = NULL,
                                   fresh = FALSE, ...) {
@@ -46,6 +55,10 @@ update.spatialreg_reg <- function(object, parameters = NULL, coords = NULL,
   )
 }
 
+#' Fonction interne de fit spatialreg pour parsnip
+#'
+#' @keywords internal
+#' @export
 spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
                                 k_neighbors = 8) {
   # Normalisation standard pour workflow/parsnip: data.frame classique,
@@ -53,11 +66,13 @@ spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
   sanitized <- sanitize_formula_response(formula, data)
   formula <- sanitized$formula
   data <- as.data.frame(sanitized$data)
+  coords <- check_spatial_coords(coords, data = data)
+  k_neighbors <- check_k_neighbors(k_neighbors, n = nrow(data))
   model_formula <- drop_formula_terms(formula, coords, data = data)
   x_vars <- attr(stats::terms(model_formula, data = data), "term.labels")
   # Pour SDM, `type = "mixed"` lagge implicitement aussi l'intercept dans
   # certaines versions de spatialreg. On passe une formule Durbin explicite
-  # limitee aux covariables pour eviter `lag.(Intercept)` et l'alias associé.
+  # limitee aux covariables pour eviter `lag.(Intercept)` et l'alias associe.
   sdm_durbin_formula <- if (length(x_vars) > 0) stats::reformulate(x_vars) else FALSE
 
   coords_mat <- as.matrix(data[, coords, drop = FALSE])
@@ -95,19 +110,24 @@ spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
   fit_obj
 }
 
-# SDM (type="mixed") a besoin de W*X pour les nouvelles observations en plus
-# de W*y. predict.Sarlm(all.data=FALSE) ne sait pas la construire hors
-# echantillon pour ce type -- confirme le 2026-07-06 sur london_hp:
-# "Input data and neighbourhood list have different dimensions", que ce soit
-# newdata=test seul (listw train+test) ou newdata=train+test complet
-# (listw incoherente avec les row.names internes du fit). API documentee
-# comme fragile dans tidymodels_parsnip_extension_procedure.md. On calcule
-# donc la forme reduite nous-memes sur un systeme ferme limite au fold de
-# test: W_test (kNN parmi les points de test uniquement), X_test avec ses
-# lags W_test %*% X_test, puis y_hat = (I - rho*W_test)^-1 %*% (design %*% beta).
-# C'est une approximation (le systeme "vrai" inclurait aussi les voisins
-# d'entrainement), mais elle produit un resultat defendable plutot qu'un
-# plantage ou -- pire -- un nombre faux silencieux.
+#' Forme reduite manuelle pour SDM (type="mixed") hors echantillon
+#'
+#' SDM a besoin de W*X pour les nouvelles observations en plus de W*y.
+#' `predict.Sarlm(all.data=FALSE)` ne sait pas la construire hors echantillon
+#' pour ce type -- confirme le 2026-07-06 sur london_hp: "Input data and
+#' neighbourhood list have different dimensions", que ce soit newdata=test
+#' seul (listw train+test) ou newdata=train+test complet (listw incoherente
+#' avec les row.names internes du fit). API documentee comme fragile dans
+#' `wiki/metadata/tidymodels_parsnip_extension_procedure.md`. On calcule donc
+#' la forme reduite nous-memes sur un systeme ferme limite au fold de test:
+#' W_test (kNN parmi les points de test uniquement), X_test avec ses lags
+#' W_test %*% X_test, puis y_hat = (I - rho*W_test)^-1 %*% (design %*% beta).
+#' C'est une approximation (le systeme "vrai" inclurait aussi les voisins
+#' d'entrainement), mais elle produit un resultat defendable plutot qu'un
+#' plantage ou -- pire -- un nombre faux silencieux.
+#'
+#' @keywords internal
+#' @export
 spatialreg_predict_sdm_reduced_form <- function(fit_obj, test_data, x_vars, coords, k_neighbors) {
   Xd <- stats::model.matrix(stats::reformulate(x_vars), data = test_data)
   k_use <- min(k_neighbors, nrow(test_data) - 1)
@@ -124,6 +144,10 @@ spatialreg_predict_sdm_reduced_form <- function(fit_obj, test_data, x_vars, coor
   as.numeric(solve(diag(nrow(W_test)) - rho * W_test, trend))
 }
 
+#' Fonction interne de prediction spatialreg pour parsnip
+#'
+#' @keywords internal
+#' @export
 spatialreg_pred_impl <- function(object, new_data) {
   fit_obj <- parsnip::extract_fit_engine(object)
   train <- attr(fit_obj, "spatialreg_train_data")
@@ -131,6 +155,7 @@ spatialreg_pred_impl <- function(object, new_data) {
   k_neighbors <- attr(fit_obj, "spatialreg_k_neighbors")
   x_vars <- attr(fit_obj, "spatialreg_x_vars")
   test <- as.data.frame(new_data)
+  coords <- check_spatial_coords(coords, data = test)
 
   if (isTRUE(fit_obj$type == "mixed")) {
     common_cols <- intersect(names(train), names(test))
@@ -182,65 +207,4 @@ spatialreg_pred_impl <- function(object, new_data) {
   }
 
   as.numeric(preds)
-}
-
-if (!"spatialreg_reg" %in% parsnip::get_model_env()$models) {
-  parsnip::set_new_model("spatialreg_reg")
-  parsnip::set_model_mode(model = "spatialreg_reg", mode = "regression")
-  parsnip::set_model_engine("spatialreg_reg", mode = "regression", eng = "spatialreg")
-  parsnip::set_dependency("spatialreg_reg", eng = "spatialreg", pkg = "spatialreg")
-
-  for (arg in c("coords", "model_type", "k_neighbors")) {
-    parsnip::set_model_arg(
-      model = "spatialreg_reg",
-      eng = "spatialreg",
-      parsnip = arg,
-      original = arg,
-      func = list(pkg = "dials", fun = "neighbors"),
-      has_submodel = FALSE
-    )
-  }
-
-  parsnip::set_fit(
-    model = "spatialreg_reg",
-    eng = "spatialreg",
-    mode = "regression",
-    value = list(
-      interface = "formula",
-      protect = c("formula", "data"),
-      func = c(fun = "spatialreg_fit_impl"),
-      defaults = list()
-    )
-  )
-
-  parsnip::set_encoding(
-    model = "spatialreg_reg",
-    eng = "spatialreg",
-    mode = "regression",
-    options = list(
-      predictor_indicators = "traditional",
-      # spatialreg construit deja l'intercept depuis la formule. Si workflows
-      # ajoute aussi une colonne `(Intercept)`, SDM la lagge et produit un
-      # alias `(Intercept)` / `lag.(Intercept)`.
-      compute_intercept = FALSE,
-      remove_intercept = FALSE,
-      allow_sparse_x = FALSE
-    )
-  )
-
-  parsnip::set_pred(
-    model = "spatialreg_reg",
-    eng = "spatialreg",
-    mode = "regression",
-    type = "numeric",
-    value = list(
-      pre = NULL,
-      post = function(results, object) as.numeric(results),
-      func = c(fun = "spatialreg_pred_impl"),
-      args = list(
-        object = quote(object),
-        new_data = quote(new_data)
-      )
-    )
-  )
 }

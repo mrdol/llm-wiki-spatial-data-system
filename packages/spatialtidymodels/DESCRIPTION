@@ -1,0 +1,39 @@
+Package: spatialtidymodels
+Title: Tidymodels Extensions for Spatial Regression Estimators
+Version: 0.0.0.9000
+Authors@R:
+    person("Johnny", "D'Oliveira", role = c("aut", "cre"),
+           email = "johnny@example.com")
+Author: Johnny D'Oliveira
+Maintainer: Johnny D'Oliveira <johnny@example.com>
+Description: Experimental parsnip engines for spatial regression estimators
+    used in the llm-wiki-karpathy benchmark, including spatialreg, spboost,
+    and mgwrsar backends.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 4.3)
+Imports:
+    Matrix,
+    dials,
+    mgcv,
+    mboost,
+    mgwrsar,
+    nabor,
+    parsnip,
+    reticulate,
+    rlang,
+    spdep,
+    spatialreg,
+    spboost,
+    stats,
+    utils
+Suggests:
+    testthat (>= 3.0.0),
+    workflows,
+    tune,
+    rsample,
+    yardstick
+Config/testthat/edition: 3

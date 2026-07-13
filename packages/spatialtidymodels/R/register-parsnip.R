@@ -1,0 +1,217 @@
+# Enregistrement parsnip au chargement du package.
+#
+# Les appels parsnip::set_*() modifient un registre vivant dans le namespace de
+# parsnip. Les executer seulement au niveau haut des fichiers R n'est pas assez
+# fiable dans un package installe, car la compilation lazy-load peut faire ces
+# effets de bord dans une session differente de la session utilisateur. .onLoad()
+# garantit que le registre est rempli quand library(spatialtidymodels) est appele.
+
+.onLoad <- function(libname, pkgname) {
+  register_spatialreg_reg()
+  register_spboost_reg()
+  register_mgwrsar_reg()
+}
+
+register_spatialreg_reg <- function() {
+  if ("spatialreg_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("spatialreg_reg")
+  parsnip::set_model_mode(model = "spatialreg_reg", mode = "regression")
+  parsnip::set_model_engine("spatialreg_reg", mode = "regression", eng = "spatialreg")
+  parsnip::set_dependency("spatialreg_reg", eng = "spatialreg", pkg = "spatialreg")
+
+  for (arg in c("coords", "model_type", "k_neighbors")) {
+    parsnip::set_model_arg(
+      model = "spatialreg_reg",
+      eng = "spatialreg",
+      parsnip = arg,
+      original = arg,
+      func = switch(arg,
+        k_neighbors = list(pkg = "spatialtidymodels", fun = "k_neighbors"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "spatialreg_reg",
+    eng = "spatialreg",
+    mode = "regression",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "spatialreg_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "spatialreg_reg",
+    eng = "spatialreg",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "traditional",
+      # spatialreg construit deja l'intercept depuis la formule. Si workflows
+      # ajoute aussi une colonne `(Intercept)`, SDM la lagge et produit un
+      # alias `(Intercept)` / `lag.(Intercept)`.
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "spatialreg_reg",
+    eng = "spatialreg",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = function(results, object) as.numeric(results),
+      func = c(pkg = "spatialtidymodels", fun = "spatialreg_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
+register_spboost_reg <- function() {
+  if ("spboost_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("spboost_reg")
+  parsnip::set_model_mode(model = "spboost_reg", mode = "regression")
+  parsnip::set_model_engine("spboost_reg", mode = "regression", eng = "spboost")
+  parsnip::set_dependency("spboost_reg", eng = "spboost", pkg = "spboost")
+
+  for (arg in c("coords", "DGP", "method", "mstop", "nu", "k_neighbors")) {
+    parsnip::set_model_arg(
+      model = "spboost_reg",
+      eng = "spboost",
+      parsnip = arg,
+      original = arg,
+      func = switch(arg,
+        mstop = list(pkg = "spatialtidymodels", fun = "mstop"),
+        nu = list(pkg = "dials", fun = "learn_rate"),
+        k_neighbors = list(pkg = "spatialtidymodels", fun = "k_neighbors"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "spboost_reg",
+    eng = "spboost",
+    mode = "regression",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "spboost_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "spboost_reg",
+    eng = "spboost",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "spboost_reg",
+    eng = "spboost",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = function(results, object) as.numeric(results),
+      func = c(pkg = "spatialtidymodels", fun = "spboost_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
+register_mgwrsar_reg <- function() {
+  if ("mgwrsar_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("mgwrsar_reg")
+  parsnip::set_model_mode(model = "mgwrsar_reg", mode = "regression")
+  parsnip::set_model_engine("mgwrsar_reg", mode = "regression", eng = "mgwrsar")
+  parsnip::set_dependency("mgwrsar_reg", eng = "mgwrsar", pkg = "mgwrsar")
+
+  for (arg in c("coords", "model_type", "kernel", "bandwidth")) {
+    parsnip::set_model_arg(
+      model = "mgwrsar_reg",
+      eng = "mgwrsar",
+      parsnip = arg,
+      original = switch(arg,
+        coords = "coords", model_type = "Model", kernel = "kernels", bandwidth = "H"
+      ),
+      func = switch(arg,
+        bandwidth = list(pkg = "spatialtidymodels", fun = "bandwidth"),
+        kernel = list(pkg = "spatialtidymodels", fun = "kernel"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "mgwrsar_reg",
+    eng = "mgwrsar",
+    mode = "regression",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "mgwrsar_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "mgwrsar_reg",
+    eng = "mgwrsar",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "mgwrsar_reg",
+    eng = "mgwrsar",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = function(results, object) as.numeric(results),
+      func = c(pkg = "spatialtidymodels", fun = "mgwrsar_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data),
+        coords = quote(object$spec$args$coords)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}

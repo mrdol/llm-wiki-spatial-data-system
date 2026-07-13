@@ -453,6 +453,12 @@ def make_fiche(
             f"`{homolog_result['homolog_id']}` -- meme jeu de donnees sous-jacent "
             f"(propagation automatique Tache 3, a confirmer par revue manuelle)."
         )
+    elif pub_formula != "pending":
+        regression_status = "resolu"
+        regression_evidence = "publication"
+        regression_method = "formule publication confirmee et utilisee"
+        regression_homolog = PYTHON_R_HOMOLOGS.get(did, "aucune identifiee")
+        regression_note = "Formule issue de la publication ou documentation scientifique et retenue comme formule systeme."
     else:
         regression_status = "pending"
         regression_evidence = "n/a"
@@ -521,15 +527,87 @@ def make_fiche(
     else:
         crs_analyse = f"pending — {ca_note_str}" if ca_note_str else "pending"
 
-    # QC block
-    qc_lines = []
-    if qc.get("vars_high_na"):
-        qc_lines.append(f"WARN: Variables avec NA > 20% : {', '.join(qc['vars_high_na'])}")
-    if qc.get("crs_missing"):
-        qc_lines.append("WARN: CRS absent — lookup EPSG necessaire.")
+    # Quality Control: checklist stable, pas zone de metadonnees principales.
+    # Les valeurs metier restent dans les Blocs 1-6 ; ce bloc ne fait que
+    # confirmer les controles automatiques ou signaler les points a revoir.
+    def qc_items(value: Any) -> list[str]:
+        if not value:
+            return []
+        if isinstance(value, list):
+            return [str(v) for v in value if str(v).strip()]
+        return [str(value)]
+
+    high_na = qc_items(qc.get("vars_high_na"))
+    duplicate_of = entry.get("duplicate_of")
+    duplicate_status = entry.get("status")
+
+    schema_status = "OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`."
+
+    if y_vars and x_vars:
+        variables_status = "OK - Y, X, coordonnees et identifiants sont separes."
+    elif y_vars:
+        variables_status = "WARN - Y identifiee, mais X non identifiees automatiquement."
+    elif x_vars:
+        variables_status = "WARN - X identifiees, mais Y non identifiee automatiquement."
+    else:
+        variables_status = "WARN - Y/X non identifiees automatiquement ; revue manuelle requise."
+
+    if pub_formula != "pending":
+        formula_status = "OK - formule publication renseignee."
+    else:
+        formula_status = "PENDING - formule publication non encore etablie."
+
+    if qc.get("crs_missing") and doc.get("epsg"):
+        crs_status = (
+            f"WARN - CRS absent du `.rds` source ; EPSG:{doc['epsg']} extrait "
+            "de la documentation et reporte dans le Bloc 5."
+        )
+    elif qc.get("crs_missing"):
+        crs_status = "WARN - CRS absent du `.rds` source et non resolu automatiquement."
+    else:
+        crs_status = f"OK - CRS renseigne dans le Bloc 5 ({crs_display})."
+
     if qc.get("geom_complex"):
-        qc_lines.append("WARN: Geometrie heterogene (GEOMETRYCOLLECTION) — a homogeneiser.")
-    qc_block = "\n".join(qc_lines) if qc_lines else "Aucune anomalie detectee."
+        geometry_status = "WARN - geometrie heterogene (GEOMETRYCOLLECTION) ; homogeneisation a prevoir."
+    else:
+        geometry_status = f"OK - type geometrique controle ({geom_type or 'unknown'})."
+
+    if high_na:
+        missing_status = f"WARN - variables avec NA > 20% : {', '.join(high_na)}."
+    else:
+        missing_status = "OK - aucune variable avec NA > 20% detectee."
+
+    if duplicate_of:
+        duplicates_status = f"WARN - fiche marquee comme doublon de `{duplicate_of}`."
+    elif duplicate_status and str(duplicate_status).startswith("duplicate"):
+        duplicates_status = f"WARN - statut doublon dans le catalogue : {duplicate_status}."
+    else:
+        duplicates_status = "OK - aucun doublon exact retenu pour cette fiche."
+
+    if license_name:
+        reproducibility_status = f"OK - source package et licence renseignes ({license_name})."
+    else:
+        reproducibility_status = "WARN - licence non renseignee automatiquement."
+
+    qc_block = "\n".join([
+        f"- Schema: {schema_status}",
+        f"- Variables: {variables_status}",
+        f"- Formula: {formula_status}",
+        f"- CRS: {crs_status}",
+        f"- Geometry: {geometry_status}",
+        f"- Missing values: {missing_status}",
+        f"- Duplicates: {duplicates_status}",
+        f"- Reproducibility: {reproducibility_status}",
+    ])
+
+    if pub_formula != "pending":
+        used_formula = pub_formula
+        used_x_terms = pub_x_terms
+        used_y_term = pub_y_term
+    else:
+        used_formula = "pending"
+        used_x_terms = "pending"
+        used_y_term = "pending"
 
     return f"""\
 ---
@@ -586,9 +664,9 @@ tags: {tags}
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: {used_formula}
+- x_terms_used: {used_x_terms}
+- y_term_used: {used_y_term}
 
 ## Bloc 2 — Identification et DOI
 
@@ -672,7 +750,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--json-in", type=Path, default=root / "data" / "sf_catalog_metadata.json")
     parser.add_argument("--wiki-doc", type=Path, default=root / "wiki" / "datasets" / "r_package_docs")
-    parser.add_argument("--wiki-out", type=Path, default=root / "wiki" / "datasets" / "packages")
+    parser.add_argument("--wiki-out", type=Path, default=root / "wiki" / "datasets" / "fiches_datasets")
     parser.add_argument("--overwrite", action="store_true", help="regenerer les fiches existantes")
     parser.add_argument("--dry-run", action="store_true", help="afficher le bilan sans ecrire")
     parser.add_argument("--llm-cache", type=Path, default=root / "data" / "yx_llm_cache.json")

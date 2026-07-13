@@ -143,16 +143,18 @@ DATASETS <- list(
 
   # Prix immobiliers a Londres (GWmodel::LondonHP): donnees hedoniques avec
   # variables de type logement, epoque de construction et quartier.
+  # Formule alignee sur wiki/datasets/fiches_datasets/R_GWmodel_LondonHP_londonhp.md
+  # (formula_pub, 2026-07-10): Lu, Charlton, Harris & Fotheringham (2014),
+  # IJGIS 28(4):660-681, doi:10.1080/13658816.2013.865739 -- PURCHASE ~
+  # FLOORSZ + PROF + BATH2. Une version anterieure de ce registre utilisait
+  # les 17-19 variables hedoniques completes (jamais la formule publiee),
+  # ce qui declenchait au passage le piege classique des variables
+  # indicatrices (5 dummies de type de logement + intercept) et des echecs
+  # de fold sur TYPEBNGLW (categorie rare, 4/316 obs.) -- aucun des deux
+  # problemes ne se pose avec la formule canonique a 3 variables.
   london_hp = list(
     rds = "data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds",
-    y = "PURCHASE",
-    # TYPEFLAT sert de categorie de reference implicite: les cinq dummies de
-    # type de logement somment a 1 avec l'intercept, donc les garder toutes
-    # cree le piege classique des variables indicatrices.
-    x = c("FLOORSZ", "TYPEDETCH", "TPSEMIDTCH", "TYPETRRD", "TYPEBNGLW",
-          "BLDPWW1", "BLDPOSTW", "BLD60S", "BLD70S",
-          "BLD80S", "BLD90S", "BATH2", "BEDS2", "GARAGE1", "CENTHEAT",
-          "UNEMPLOY", "PROF"),
+    y = "PURCHASE", x = c("FLOORSZ", "PROF", "BATH2"),
     coords_raw = c("X", "Y"), raw_crs = 27700, target_crs = 27700,
     drop_cols = "geom_origine",
     near_n_reps = 5L, near_test_size = 30L
@@ -301,7 +303,13 @@ extract_model_aicc <- function(fit_obj, n_train) {
   ll <- tryCatch(stats::logLik(engine), error = function(e) e)
   if (inherits(ll, "error")) return(NA_real_)
   k <- attr(ll, "df")
-  if (!is.finite(k) || !is.finite(n_train) || n_train <= k + 1) return(NA_real_)
+  # k vaut NULL pour spboost: logLik.mboost() ne pose pas d'attribut df.
+  # is.finite(NULL) renvoie logical(0), et chainer plusieurs || avec des
+  # operandes de longueur zero fait planter cette version de R (segfault
+  # reproduit le 2026-07-10, pas juste une erreur R normale) -- is.null(k)
+  # doit etre verifie EN PREMIER pour court-circuiter avant is.finite(k).
+  if (is.null(k) || length(k) != 1L || !is.finite(k) ||
+      !is.finite(n_train) || n_train <= k + 1) return(NA_real_)
   aic <- tryCatch(stats::AIC(engine), error = function(e) NA_real_)
   if (!is.finite(aic)) return(NA_real_)
   as.numeric(aic + (2 * k * (k + 1)) / (n_train - k - 1))
@@ -336,6 +344,30 @@ score_metric_frame <- function(preds, truth, n_test, error = NA_character_,
 score_predictions <- function(preds, truth, n_test, error = NA_character_) {
   # Normalise la sortie des estimateurs qui ne passent pas par workflow().
   score_metric_frame(preds, truth, n_test, error)
+}
+
+prediction_detail_frame <- function(test, y, preds, error = NA_character_) {
+  # Conserve les predictions au niveau ligne pour les tests de parite
+  # numerique. Le benchmark historique comparait surtout les RMSE/MAE; cette
+  # table permet maintenant de verifier que le futur package reproduit les
+  # memes predictions sur les memes lignes test.
+  if (inherits(preds, "error")) {
+    pred_values <- rep(NA_real_, nrow(test))
+    error <- conditionMessage(preds)
+  } else {
+    pred_values <- as.numeric(preds)
+    if (length(pred_values) != nrow(test)) {
+      pred_values <- rep(NA_real_, nrow(test))
+      error <- "longueur de prediction incompatible"
+    }
+  }
+  data.frame(
+    row_id = test$.row_id,
+    truth = test[[y]],
+    .pred = pred_values,
+    error = error,
+    stringsAsFactors = FALSE
+  )
 }
 
 spmoran_subset_meig <- function(meig, rows) {
@@ -458,11 +490,15 @@ TUNING_GRIDS <- list(
 # ---------------------------------------------------------------------------
 # Ajuster et scorer une paire (estimateur, split)
 # ---------------------------------------------------------------------------
-score_split <- function(model_entry, split, y) {
+score_split <- function(model_entry, split, y, return_predictions = FALSE) {
   # Prend un split rsample, ajuste le modele sur analysis(split), predit sur
   # assessment(split), puis retourne RMSE/MAE dans un data.frame simple.
   if (!is.null(model_entry$score)) {
-    return(model_entry$score(split, y))
+    metrics <- model_entry$score(split, y)
+    if (isTRUE(return_predictions)) {
+      return(list(metrics = metrics, predictions = NULL))
+    }
+    return(metrics)
   }
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
@@ -479,17 +515,32 @@ score_split <- function(model_entry, split, y) {
     )
   }
   if (inherits(fit_obj, "error")) {
-    return(data.frame(rmse = NA_real_, mae = NA_real_, aicc = NA_real_,
-                      n_test = nrow(test), error = conditionMessage(fit_obj)))
+    metrics <- data.frame(rmse = NA_real_, mae = NA_real_, aicc = NA_real_,
+                          n_test = nrow(test), error = conditionMessage(fit_obj))
+    if (isTRUE(return_predictions)) {
+      return(list(metrics = metrics,
+                  predictions = prediction_detail_frame(test, y, fit_obj)))
+    }
+    return(metrics)
   }
   aicc <- extract_model_aicc(fit_obj, nrow(train))
   preds <- tryCatch(predict(fit_obj, new_data = test)$.pred, error = function(e) e)
   if (inherits(preds, "error") || anyNA(preds)) {
-    return(data.frame(rmse = NA_real_, mae = NA_real_, aicc = aicc, n_test = nrow(test),
-                       error = if (inherits(preds, "error")) conditionMessage(preds) else "NA predictions"))
+    metrics <- data.frame(rmse = NA_real_, mae = NA_real_, aicc = aicc, n_test = nrow(test),
+                          error = if (inherits(preds, "error")) conditionMessage(preds) else "NA predictions")
+    if (isTRUE(return_predictions)) {
+      return(list(metrics = metrics,
+                  predictions = prediction_detail_frame(test, y, preds, metrics$error)))
+    }
+    return(metrics)
   }
   truth <- test[[y]]
-  score_metric_frame(preds, truth, nrow(test), NA_character_, aicc = aicc)
+  metrics <- score_metric_frame(preds, truth, nrow(test), NA_character_, aicc = aicc)
+  if (isTRUE(return_predictions)) {
+    return(list(metrics = metrics,
+                predictions = prediction_detail_frame(test, y, preds)))
+  }
+  metrics
 }
 
 # ---------------------------------------------------------------------------
@@ -631,11 +682,40 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
     cat(sprintf("  -- estimateurs selectionnes: %s\n", paste(names(specs), collapse = ", ")))
   }
   rows <- list()
+  prediction_rows <- list()
+
+  append_prediction_rows <- function(predictions, estimator, cv_scheme, fold, model_entry) {
+    # Ajoute le contexte necessaire pour rejouer et comparer les predictions:
+    # dataset, estimateur, schema CV, fold, formule et configuration du modele.
+    if (is.null(predictions)) return(invisible(NULL))
+    spec_args <- if (!is.null(model_entry$spec$args)) {
+      paste(names(model_entry$spec$args), vapply(model_entry$spec$args, rlang::quo_text, character(1)), sep = "=", collapse = "; ")
+    } else {
+      NA_character_
+    }
+    prediction_rows[[length(prediction_rows) + 1L]] <<- cbind(
+      dataset = name,
+      estimator = estimator,
+      cv_scheme = cv_scheme,
+      fold = fold,
+      # deparse() renvoie un vecteur de plusieurs chaines (une par ligne) des
+      # qu'une formule depasse ~60 caracteres -- confirme sur london_hp (19
+      # termes, deparse() en 3 lignes), ce qui cassait ce cbind() (longueurs
+      # 1/3/32 incompatibles). paste(collapse=" ") force une seule chaine.
+      formula = paste(deparse(model_entry$formula), collapse = " "),
+      model_args = spec_args,
+      predictions,
+      stringsAsFactors = FALSE
+    )
+    invisible(NULL)
+  }
 
   for (est_name in names(specs)) {
     cat(sprintf("  -- %s : holdout ", est_name))
     t0 <- proc.time()[["elapsed"]]
-    r <- score_split(specs[[est_name]], holdout_split, spec$y)
+    scored <- score_split(specs[[est_name]], holdout_split, spec$y, return_predictions = TRUE)
+    r <- scored$metrics
+    append_prediction_rows(scored$predictions, est_name, "holdout_10pct", "holdout", specs[[est_name]])
     elapsed <- proc.time()[["elapsed"]] - t0
     cat(sprintf("RMSE=%.3f MAE=%.3f AICc=%.3f (%.1fs)%s\n", r$rmse, r$mae, r$aicc, elapsed,
                 if (!is.na(r$error)) paste0(" [", r$error, "]") else ""))
@@ -652,7 +732,9 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
         cat(sprintf("     fold %s/%s: train=%d test=%d ... ",
                     i, nrow(rset), n_train, n_test))
         t0 <- proc.time()[["elapsed"]]
-        r <- score_split(specs[[est_name]], split, spec$y)
+        scored <- score_split(specs[[est_name]], split, spec$y, return_predictions = TRUE)
+        r <- scored$metrics
+        append_prediction_rows(scored$predictions, est_name, cv_name, fold_id, specs[[est_name]])
         elapsed <- proc.time()[["elapsed"]] - t0
         cat(sprintf("RMSE=%.3f MAE=%.3f AICc=%.3f (%.1fs)%s\n", r$rmse, r$mae, r$aicc, elapsed,
                     if (!is.na(r$error)) paste0(" [", r$error, "]") else ""))
@@ -660,6 +742,13 @@ run_dataset <- function(name, spec, v_block = 5, seed = 1, estimators = NULL) {
                                            fold = fold_id, r)
       }
     }
+  }
+
+  if (length(prediction_rows) > 0L) {
+    predictions_out <- do.call(rbind, prediction_rows)
+    predictions_path <- file.path(runs_dir, sprintf("benchmark_manual_predictions_%s_2026-07.rds", name))
+    saveRDS(predictions_out, predictions_path)
+    cat(sprintf("  -- predictions fold par fold sauvegardees: %s\n", predictions_path))
   }
 
   do.call(rbind, rows)
