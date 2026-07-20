@@ -116,6 +116,45 @@ est installee. Les objets retournes par `benchmark_spatial()` et
 l'objet suffit pour voir la formule, les estimateurs lances, les fits reussis
 ou echoues et la table de resultats principale.
 
+## Tuning dans le benchmark automatique
+
+`benchmark_spatial()` peut lancer `tune::tune_grid()` avant le fit final pour
+les routes supportees. Les autres estimateurs restent ajustes avec leurs
+valeurs fixes.
+
+```r
+bench <- benchmark_spatial(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  estimators = c("sar_lag", "spboost", "mgwrsar_gwr"),
+  tune = TRUE,
+  tuning_grids = list(
+    sar_lag = data.frame(k_neighbors = c(4L, 8L)),
+    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    mgwrsar_gwr = data.frame(
+      bandwidth = c(20L, 40L),
+      kernel = c("bisq", "gauss")
+    )
+  )
+)
+
+bench$tuning$sar_lag$best
+bench$tuning$spboost$best
+bench$tuning$mgwrsar_gwr$best
+bench$results
+```
+
+Parametres actuellement tunes par cette couche:
+
+- `sar_lag`, `sem_error`, `sdm_mixed`: `k_neighbors`;
+- `spboost`: `mstop`;
+- `mgwrsar_gwr`, `mgwrsar_mgwrsar`: `bandwidth` et `kernel`.
+
+Si `resamples` est absent, le package cree un `rsample::vfold_cv()` classique.
+Pour une validation spatiale plus stricte, construire les folds en amont et les
+passer avec `resamples = ...`.
+
 ## Parite package / benchmark manuel
 
 Les routes `spatialreg` ont ete comparees ligne par ligne au benchmark manuel

@@ -356,6 +356,28 @@ etape ne modifie pas les algorithmes; elle rend l'API plus lisible et plus
 guidante pour l'utilisateur. Verification locale actualisee: `testthat` passe
 avec 98 tests; `R CMD check` passe avec les deux NOTES connues.
 
+Mise a jour tuning package du 2026-07-20: la priorite 2 est engagee.
+`benchmark_spatial()` accepte maintenant `tune = TRUE`, `resamples`,
+`tuning_grids` et `tuning_folds`. Quand `tune = TRUE`, le package lance une
+phase `tune::tune_grid()` avant le fit final pour les routes supportees, puis
+remplace les valeurs fixes par les meilleurs hyperparametres trouves selon la
+RMSE moyenne. Les resultats de tuning sont conserves dans `bench$tuning`.
+
+Parametres couverts dans cette premiere couche:
+
+- `sar_lag`, `sem_error`, `sdm_mixed`: tuning de `k_neighbors`;
+- `spboost`: tuning de `mstop`;
+- `mgwrsar_gwr`, `mgwrsar_mgwrsar`: tuning de `bandwidth` et `kernel`.
+
+Les estimateurs sans route de tuning package restent ajustes avec leurs
+valeurs fixes. Si `resamples` est absent, le package cree un
+`rsample::vfold_cv()` classique; pour une validation spatiale stricte, les
+folds doivent etre construits en amont et transmis via `resamples`. Cette
+etape ne remplace donc pas encore les schemas spatiaux avances du benchmark
+manuel; elle branche le mecanisme standard tidymodels dans l'API package.
+Verification locale actualisee: `testthat` passe avec 113 tests; `R CMD check`
+passe avec les deux NOTES connues.
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

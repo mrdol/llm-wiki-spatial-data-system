@@ -146,6 +146,35 @@ cible scientifique est binaire. Les routes `spmoran_esf` et `spmoran_resf`
 restent connues dans le registre, mais ne sont pas encore automatisees dans le
 package.
 
+### Tuning integre au benchmark
+
+```r
+bench <- benchmark_spatial(
+  y ~ x1 + x2,
+  data = train,
+  coords = c("x_coord", "y_coord"),
+  estimators = c("sar_lag", "spboost", "mgwrsar_gwr"),
+  tune = TRUE,
+  tuning_grids = list(
+    sar_lag = data.frame(k_neighbors = c(4L, 8L)),
+    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    mgwrsar_gwr = data.frame(
+      bandwidth = c(20L, 40L),
+      kernel = c("bisq", "gauss")
+    )
+  )
+)
+
+bench$tuning
+bench$results
+```
+
+Cette couche tune actuellement `k_neighbors` pour `sar_lag`, `sem_error` et
+`sdm_mixed`, `mstop` pour `spboost`, puis `bandwidth`/`kernel` pour
+`mgwrsar_gwr` et `mgwrsar_mgwrsar`. Si aucun `resamples` n'est fourni, un
+`rsample::vfold_cv()` classique est cree. Pour un protocole spatial strict,
+les folds doivent etre construits en amont et passes via `resamples`.
+
 ## Parite avec le benchmark manuel
 
 La verification de parite numerique compare, a split identique:

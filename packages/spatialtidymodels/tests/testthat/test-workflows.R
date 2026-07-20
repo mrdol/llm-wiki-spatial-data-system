@@ -312,6 +312,95 @@ test_that("benchmark_spatial signale les noms inconnus avec le registre", {
   )
 })
 
+test_that("benchmark_spatial tune k_neighbors pour SAR", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("yardstick")
+  skip_if_not_installed("spatialreg")
+  skip_if_not_installed("spdep")
+
+  dat <- load_columbus_crime_for_tests()
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = "sar_lag",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(sar_lag = data.frame(k_neighbors = c(4L, 8L)))
+  ))
+
+  expect_true(isTRUE(bench$tune))
+  expect_true("sar_lag" %in% names(bench$tuning))
+  expect_true(bench$tuning$sar_lag$params$k_neighbors %in% c(4L, 8L))
+  expect_true(all(is.finite(bench$tuning$sar_lag$grid$rmse)))
+  expect_true(all(is.na(bench$results$fit_error)))
+  expect_output(print(bench), "Tuning")
+})
+
+test_that("benchmark_spatial tune mstop pour spboost", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("yardstick")
+  skip_if_not_installed("spboost")
+  skip_if_not_installed("mboost")
+
+  dat <- make_tiny_spatial_data(n = 18L)
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    y ~ x1 + x2,
+    data = dat,
+    coords = c("x_coord", "y_coord"),
+    estimators = "spboost",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(spboost = data.frame(mstop = c(10L, 20L)))
+  ))
+
+  expect_true("spboost" %in% names(bench$tuning))
+  expect_true(bench$tuning$spboost$params$spboost_mstop %in% c(10L, 20L))
+  expect_true(all(is.finite(bench$tuning$spboost$grid$rmse)))
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
+test_that("benchmark_spatial tune bandwidth et kernel pour mgwrsar_gwr", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("yardstick")
+  skip_if_not_installed("mgwrsar")
+
+  dat <- make_tiny_spatial_data(n = 18L)
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    y ~ x1 + x2,
+    data = dat,
+    coords = c("x_coord", "y_coord"),
+    estimators = "mgwrsar_gwr",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(mgwrsar_gwr = data.frame(
+      bandwidth = c(4L, 5L),
+      kernel = c("gauss", "gauss")
+    ))
+  ))
+
+  expect_true("mgwrsar_gwr" %in% names(bench$tuning))
+  expect_true(bench$tuning$mgwrsar_gwr$params$mgwrsar_bandwidth %in% c(4L, 5L))
+  expect_equal(bench$tuning$mgwrsar_gwr$params$mgwrsar_kernel, "gauss")
+  expect_true(all(is.finite(bench$tuning$mgwrsar_gwr$grid$rmse)))
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
 test_that("spatialreg_reg passe dans tune_grid() sur k_neighbors", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")

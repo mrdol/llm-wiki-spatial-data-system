@@ -103,6 +103,18 @@ Sixth follow-up same day:
 - Updated verification: 98 testthat assertions pass; `R CMD check` passes with
   only the same 2 known NOTEs.
 
+Seventh follow-up same day:
+- Started priority 2 for integrated package tuning.
+- Added `tune = TRUE`, `resamples`, `tuning_grids` and `tuning_folds` to
+  `benchmark_spatial()`.
+- Added tune-grid routes for `k_neighbors` on `sar_lag`/`sem_error`/`sdm_mixed`,
+  `mstop` on `spboost`, and `bandwidth`/`kernel` on `mgwrsar_gwr` and
+  `mgwrsar_mgwrsar`.
+- Stored tuning outputs under `bench$tuning` and used the selected parameters
+  for the final fit.
+- Updated verification: 113 testthat assertions pass; `R CMD check` passes with
+  only the same 2 known NOTEs.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

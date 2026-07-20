@@ -13,7 +13,11 @@ benchmark_spatial_datasets(
   spboost_mstop = 100L,
   spboost_nu = 0.1,
   mgwrsar_bandwidth = 20,
-  mgwrsar_kernel = "bisq"
+  mgwrsar_kernel = "bisq",
+  tune = FALSE,
+  resamples = NULL,
+  tuning_grids = NULL,
+  tuning_folds = 3L
 )
 }
 \arguments{
@@ -34,6 +38,16 @@ benchmark_spatial_datasets(
 \item{mgwrsar_bandwidth}{Bande passante \code{H} pour les variantes \code{mgwrsar}.}
 
 \item{mgwrsar_kernel}{Noyau spatial pour les variantes \code{mgwrsar}.}
+
+\item{tune}{Si \code{TRUE}, lance un tuning \code{tune::tune_grid()} avant le fit
+final pour les estimateurs supportes.}
+
+\item{resamples}{Resamples \code{rsample} utilises pour le tuning. Si \code{NULL} et
+\code{tune = TRUE}, un \code{vfold_cv()} classique est cree.}
+
+\item{tuning_grids}{Liste optionnelle de grilles nommees par estimateur.}
+
+\item{tuning_folds}{Nombre de folds pour le \code{vfold_cv()} par defaut.}
 }
 \value{
 Une liste de classe \code{spatial_benchmark_set} avec \code{results} et
