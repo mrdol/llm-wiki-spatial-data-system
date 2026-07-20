@@ -313,6 +313,35 @@ estimateurs deja automatises (`ols`, `gam_spatial`, `sar_lag`, `sem_error`,
 `mgwrsar_*`, `spmoran_*`). Verification locale actualisee: `testthat` passe
 avec 76 tests; `R CMD check` passe avec les deux NOTES connues.
 
+Mise a jour benchmark automatique elargi du 2026-07-20: la couche package
+`benchmark_spatial()` ne se limite plus a la premiere tranche. Elle sait
+maintenant ajuster automatiquement:
+
+- `ols` et `gam_spatial`;
+- `sar_lag`, `sem_error`, `sdm_mixed` via les specs `spatialreg`;
+- `spboost` via `spboost_reg()`;
+- `mgwrsar_gwr`, `mgwrsar_sar`, `mgwrsar_mgwr` et `mgwrsar_mgwrsar` via
+  `mgwrsar_reg()`.
+
+La fonction `benchmark_spatial_datasets()` ajoute le niveau multi-dataset:
+chaque jeu est declare par `spatial_dataset_spec(name, data, formula, coords)`,
+puis la meme liste d'estimateurs est lancee sur chaque spec. Les tests package
+utilisent `columbus_crime` et `london_hp`. `lsl` a ete retire de cette couche
+de test de regression continue parce que sa cible naturelle est binaire; il
+devra revenir dans une future branche classification. `spmoran_esf` et
+`spmoran_resf` restent dans le registre comme routes connues mais non
+automatisees.
+
+Correction technique associee: `diagnose_spatial()` lit maintenant les
+parametres spatiaux avec un extracteur defensif compatible S3/S4. Cela evite
+que les objets `mgwrsar` cassent le benchmark commun. La route
+`mgwrsar_sar` attache aussi `mgwrsar` au moment du fit, car le backend SAR
+appelle encore `int_prems()` par nom nu dans le package source. Verification
+locale actualisee: `testthat` passe avec 88 tests; `R CMD check
+--no-manual --no-build-vignettes packages/spatialtidymodels` passe avec les
+deux NOTES connues (`R CMD build` non lance avant check, et
+`parsnip:::update_spec`).
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

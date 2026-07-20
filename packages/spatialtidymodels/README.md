@@ -77,7 +77,13 @@ bench <- benchmark_spatial(
   CRIME ~ HOVAL + INC,
   data = columbus,
   coords = c("X", "Y"),
-  estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed")
+  estimators = c(
+    "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
+    "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr",
+    "mgwrsar_mgwrsar"
+  ),
+  spboost_mstop = 100,
+  mgwrsar_bandwidth = 20
 )
 
 bench$results
@@ -85,6 +91,17 @@ bench$results
 
 `available_benchmark_estimators()` liste les estimateurs deja automatises et
 ceux qui sont connus mais encore a brancher dans le benchmark package.
+`benchmark_spatial_datasets()` permet aussi de lancer la meme liste
+d'estimateurs sur plusieurs jeux de donnees declares par
+`spatial_dataset_spec()`. Les tests package utilisent `columbus_crime` et
+`london_hp`; `lsl` est volontairement laisse hors de ces tests de regression
+car sa cible scientifique est binaire.
+
+Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
+`sar_lag`, `sem_error`, `sdm_mixed`, `spboost`, `mgwrsar_gwr`,
+`mgwrsar_sar`, `mgwrsar_mgwr` et `mgwrsar_mgwrsar`. Les routes
+`spmoran_esf` et `spmoran_resf` restent connues mais non automatisees dans le
+package.
 
 ## Parite package / benchmark manuel
 

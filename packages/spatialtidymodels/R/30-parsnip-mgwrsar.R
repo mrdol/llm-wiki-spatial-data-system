@@ -14,13 +14,20 @@
 require_package("parsnip", "custom mgwrsar_reg() parsnip engine")
 require_package("mgwrsar", "MGWRSAR")
 
-# Model="SAR" appelle en interne Rcpp::mod(), qui rappelle la fonction R
-# int_prems() par son nom -- alors qu'elle est bien exportee par mgwrsar,
-# requireNamespace() (via require_package() ci-dessus) ne l'attache PAS au
-# search path/globalenv, et l'appel echoue avec "impossible de trouver la
-# fonction 'int_prems'" (confirme le 2026-07-04 sur Georgia). Meme classe de
-# bug, meme correctif que pour library(mboost) dans parsnip_spboost.R.
-library(mgwrsar)
+# Model="SAR" appelle en interne une routine qui rappelle int_prems() par nom
+# nu. Dans un package installe, Imports charge le namespace mgwrsar mais ne
+# l'attache pas au search path; on attache donc mgwrsar uniquement quand cette
+# branche fragile est appelee.
+ensure_mgwrsar_attached <- function() {
+  # Necessaire pour mgwrsar::MGWRSAR(Model = "SAR") dans le backend actuel de
+  # mgwrsar; sans attachement, l'appel interne echoue sur int_prems().
+  if (!"package:mgwrsar" %in% search()) {
+    suppressPackageStartupMessages(
+      base::library("mgwrsar", character.only = TRUE)
+    )
+  }
+  invisible(TRUE)
+}
 
 # ---------------------------------------------------------------------------
 # Construction de W pour Model="SAR" (2026-07-04): MGWRSAR() ne construit
@@ -164,6 +171,7 @@ mgwrsar_fit_impl <- function(formula, data, coords, Model = "GWR",
   # `mymodel@H <- H[1]` inconditionnellement en fin de fonction -- un H=NULL
   # y casserait l'assignation du slot S4; on passe donc H=1 en valeur factice.
   if (Model == "SAR") {
+    ensure_mgwrsar_attached()
     W <- mgwrsar_build_knn_W(coords_mat, k = 8)
     ctl <- control
     ctl$W <- W

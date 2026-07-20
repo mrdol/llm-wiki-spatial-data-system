@@ -88,13 +88,31 @@ residual_values_for_diagnostics <- function(object, engine, data, formula = NULL
   as.numeric(data[[response]]) - as.numeric(pred)
 }
 
+engine_component <- function(engine, name) {
+  # Les backends n'ont pas tous la meme structure: spatialreg est surtout S3,
+  # mgwrsar peut etre S4, et certains objets ne supportent pas `$`. On centralise
+  # donc l'extraction defensive des champs utiles aux diagnostics.
+  out <- tryCatch({
+    if (isS4(engine) && name %in% methods::slotNames(engine)) {
+      return(methods::slot(engine, name))
+    }
+    if (!isS4(engine) && !is.null(engine[[name]])) {
+      return(engine[[name]])
+    }
+    NULL
+  }, error = function(e) NULL)
+  out
+}
+
 spatial_parameter_for_diagnostics <- function(engine) {
   # SAR/SDM exposent rho, SEM expose lambda. Les autres modeles retournent NA.
-  if (!is.null(engine$rho)) {
-    return(list(name = "rho", value = as.numeric(engine$rho[[1]])))
+  rho <- engine_component(engine, "rho")
+  if (!is.null(rho)) {
+    return(list(name = "rho", value = as.numeric(rho[[1]])))
   }
-  if (!is.null(engine$lambda)) {
-    return(list(name = "lambda", value = as.numeric(engine$lambda[[1]])))
+  lambda <- engine_component(engine, "lambda")
+  if (!is.null(lambda)) {
+    return(list(name = "lambda", value = as.numeric(lambda[[1]])))
   }
   list(name = NA_character_, value = NA_real_)
 }
@@ -103,9 +121,10 @@ model_label_for_diagnostics <- function(object, engine) {
   # Etiquette courte pour la table benchmark.
   if (inherits(engine, "glm")) return("ols_glm")
   if (inherits(engine, "Sarlm")) {
-    if (!is.null(engine$type) && identical(engine$type, "mixed")) return("sdm_mixed")
-    if (!is.null(engine$type) && identical(engine$type, "error")) return("sem_error")
-    if (!is.null(engine$rho)) return("sar_lag")
+    type <- engine_component(engine, "type")
+    if (!is.null(type) && identical(type, "mixed")) return("sdm_mixed")
+    if (!is.null(type) && identical(type, "error")) return("sem_error")
+    if (!is.null(engine_component(engine, "rho"))) return("sar_lag")
     return("spatialreg")
   }
   class(engine)[[1]]

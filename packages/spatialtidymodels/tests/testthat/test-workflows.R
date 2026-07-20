@@ -42,6 +42,21 @@ load_columbus_crime_for_tests <- function() {
   dat[stats::complete.cases(dat[, cols]), cols]
 }
 
+load_london_hp_for_tests <- function(n = 80L) {
+  # LondonHP a une formule hedonique confirmee dans la fiche metadata:
+  # PURCHASE ~ FLOORSZ + PROF + BATH2. On l'utilise ici comme deuxieme dataset
+  # de regression continue, contrairement a lsl dont la cible est binaire.
+  repo_root <- find_repo_root_for_tests()
+  if (is.na(repo_root)) {
+    testthat::skip("LondonHP introuvable hors du repo llm-wiki-karpathy")
+  }
+  path <- file.path(repo_root, "data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds")
+  dat <- as.data.frame(readRDS(path))
+  cols <- c("PURCHASE", "FLOORSZ", "PROF", "BATH2", "X", "Y")
+  dat <- dat[stats::complete.cases(dat[, cols]), cols]
+  dat[seq_len(min(n, nrow(dat))), , drop = FALSE]
+}
+
 test_that("spatialreg_reg predit via workflow()", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
@@ -218,6 +233,53 @@ test_that("benchmark_spatial lance plusieurs estimateurs sur columbus_crime", {
   expect_true(all(c("ols", "gam_spatial", "sar_lag") %in% names(bench$fits)))
 })
 
+test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus_crime", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spboost")
+  skip_if_not_installed("mboost")
+  skip_if_not_installed("mgwrsar")
+
+  dat <- load_columbus_crime_for_tests()
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = c("spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar"),
+    spboost_mstop = 20,
+    mgwrsar_bandwidth = 20
+  ))
+
+  expect_equal(bench$results$estimator, c("spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar"))
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(is.na(bench$results$fit_error)))
+})
+
+test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spatialreg")
+  skip_if_not_installed("spdep")
+
+  columbus <- load_columbus_crime_for_tests()
+  london_hp <- load_london_hp_for_tests(n = 80L)
+
+  bench <- suppressWarnings(benchmark_spatial_datasets(
+    datasets = list(
+      spatial_dataset_spec("columbus_crime", columbus, CRIME ~ HOVAL + INC, c("X", "Y")),
+      spatial_dataset_spec("london_hp", london_hp, PURCHASE ~ FLOORSZ + PROF + BATH2, c("X", "Y"))
+    ),
+    estimators = c("ols", "sar_lag"),
+    k_neighbors = 6
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark_set")
+  expect_true(all(c("columbus_crime", "london_hp") %in% bench$results$dataset))
+  expect_true(all(c("ols", "sar_lag") %in% bench$results$estimator))
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
 test_that("benchmark_spatial signale les estimateurs connus mais non automatises", {
   dat <- load_columbus_crime_for_tests()
 
@@ -226,7 +288,7 @@ test_that("benchmark_spatial signale les estimateurs connus mais non automatises
       CRIME ~ HOVAL + INC,
       data = dat,
       coords = c("X", "Y"),
-      estimators = "spboost"
+      estimators = "spmoran_esf"
     ),
     "pas encore automatises"
   )

@@ -77,6 +77,20 @@ Fourth follow-up same day:
 - Updated verification: 76 testthat assertions pass; `R CMD check` passes with
   only the same 2 known NOTEs.
 
+Fifth follow-up same day:
+- Extended `benchmark_spatial()` to automate `spboost`, `mgwrsar_gwr`,
+  `mgwrsar_sar`, `mgwrsar_mgwr` and `mgwrsar_mgwrsar`.
+- Added `spatial_dataset_spec()` and `benchmark_spatial_datasets()` for
+  multi-dataset package benchmarks.
+- Switched the second package regression dataset test from `lsl` to
+  `london_hp`, because `lsl` has a binary target and belongs in a future
+  classification branch.
+- Kept `spmoran_esf` and `spmoran_resf` as known but non-automated routes.
+- Fixed diagnostics for S4 engine objects and the installed-package
+  `mgwrsar_sar` path requiring `int_prems()`.
+- Updated verification: 88 testthat assertions pass; `R CMD check` passes with
+  only the same 2 known NOTEs.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

@@ -20,7 +20,12 @@ test_that("le registre benchmark distingue routes automatiques et routes a branc
 
   expect_true(all(c("estimator", "backend", "automatic", "notes") %in% names(registry)))
   expect_true(all(c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
-  expect_false(registry$automatic[registry$estimator == "spboost"])
+  expect_true(registry$automatic[registry$estimator == "spboost"])
+  expect_true(registry$automatic[registry$estimator == "mgwrsar_gwr"])
+  expect_true(registry$automatic[registry$estimator == "mgwrsar_sar"])
+  expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwr"])
+  expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwrsar"])
+  expect_false(registry$automatic[registry$estimator == "spmoran_esf"])
 })
 
 test_that("les constructeurs SAR/SEM/SDM fixent le type de modele", {

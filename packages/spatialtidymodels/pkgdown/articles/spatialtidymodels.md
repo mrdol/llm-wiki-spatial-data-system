@@ -93,6 +93,45 @@ tune_grid(
 )
 ```
 
+## Benchmark automatique
+
+```r
+bench <- benchmark_spatial(
+  y ~ x1 + x2,
+  data = train,
+  coords = c("x_coord", "y_coord"),
+  estimators = c(
+    "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
+    "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr",
+    "mgwrsar_mgwrsar"
+  ),
+  spboost_mstop = 100,
+  mgwrsar_bandwidth = 20
+)
+
+bench$results
+```
+
+Pour plusieurs datasets, on declare chaque jeu avec sa formule et ses
+coordonnees:
+
+```r
+bench_set <- benchmark_spatial_datasets(
+  datasets = list(
+    spatial_dataset_spec("columbus_crime", columbus, CRIME ~ HOVAL + INC, c("X", "Y")),
+    spatial_dataset_spec("london_hp", london_hp, PURCHASE ~ FLOORSZ + PROF + BATH2, c("X", "Y"))
+  ),
+  estimators = c("ols", "sar_lag")
+)
+
+bench_set$results
+```
+
+`lsl` n'est pas utilise dans ces tests de regression continue parce que sa
+cible scientifique est binaire. Les routes `spmoran_esf` et `spmoran_resf`
+restent connues dans le registre, mais ne sont pas encore automatisees dans le
+package.
+
 ## Parite avec le benchmark manuel
 
 La verification de parite numerique compare, a split identique:
