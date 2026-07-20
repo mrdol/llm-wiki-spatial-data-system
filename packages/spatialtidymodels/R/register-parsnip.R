@@ -165,7 +165,7 @@ register_mgwrsar_reg <- function() {
       ),
       func = switch(arg,
         bandwidth = list(pkg = "spatialtidymodels", fun = "bandwidth"),
-        kernel = list(pkg = "spatialtidymodels", fun = "kernel"),
+        kernel = list(pkg = "spatialtidymodels", fun = "spatial_kernel"),
         list(pkg = "dials", fun = "unknown")
       ),
       has_submodel = FALSE

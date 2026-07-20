@@ -13,6 +13,8 @@ test_that("les constructeurs parsnip exposent des specs", {
   expect_true(is.function(available_benchmark_estimators))
   expect_true(is.function(available_benchmark_datasets))
   expect_true(is.function(benchmark_spatial_dataset))
+  expect_true(is.function(make_spatial_resamples))
+  expect_true(is.function(plot_near_prediction_fold))
   expect_s3_class(spboost_reg(coords = c("x", "y"), DGP = "SAR", mstop = 50), "spboost_reg")
   expect_s3_class(mgwrsar_reg(coords = c("x", "y"), model_type = "GWR", kernel = "gauss", bandwidth = 20), "mgwrsar_reg")
 })
@@ -35,7 +37,8 @@ test_that("le registre benchmark distingue routes automatiques et routes a branc
   expect_true(registry$automatic[registry$estimator == "mgwrsar_sar"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwr"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwrsar"])
-  expect_false(registry$automatic[registry$estimator == "spmoran_esf"])
+  expect_true(registry$automatic[registry$estimator == "spmoran_esf"])
+  expect_true(registry$automatic[registry$estimator == "spmoran_resf"])
 })
 
 test_that("available_benchmark_estimators peut omettre la verification d'installation", {
@@ -48,6 +51,7 @@ test_that("le registre dataset expose les formules confirmees", {
   datasets <- available_benchmark_datasets()
 
   expect_true(all(c("dataset", "rds", "formula", "response", "predictors", "coords") %in% names(datasets)))
+  expect_true(all(c("coords_crs", "formula_status", "source_ref", "recommended_cv") %in% names(datasets)))
   expect_true(all(c("columbus_crime", "london_hp") %in% datasets$dataset))
   expect_equal(
     datasets$formula[datasets$dataset == "columbus_crime"],
@@ -100,5 +104,5 @@ test_that("les parametres dials du package sont disponibles", {
   expect_s3_class(mstop(), "quant_param")
   expect_s3_class(bandwidth(), "quant_param")
   expect_s3_class(k_neighbors(), "quant_param")
-  expect_s3_class(kernel(), "qual_param")
+  expect_s3_class(spatial_kernel(), "qual_param")
 })

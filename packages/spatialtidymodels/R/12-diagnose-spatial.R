@@ -63,15 +63,28 @@ make_metric_values <- function(truth, pred) {
 
 predict_values_for_diagnostics <- function(object, engine, data) {
   # Pour un workflow, predict() renvoie un tibble .pred. Pour un modele lm/glm,
-  # predict() renvoie directement un vecteur.
+  # predict() utilise `newdata` et renvoie directement un vecteur.
   if (is.null(data)) return(NULL)
-  preds <- tryCatch(stats::predict(object, new_data = data), error = function(e) e)
+  if (inherits(object, "workflow")) {
+    preds <- tryCatch(stats::predict(object, new_data = data), error = function(e) e)
+    if (!inherits(preds, "error")) {
+      if (is.data.frame(preds) && ".pred" %in% names(preds)) return(preds$.pred)
+      return(as.numeric(preds))
+    }
+  }
+  preds <- tryCatch(stats::predict(object, newdata = data), error = function(e) e)
   if (!inherits(preds, "error")) {
-    if (is.data.frame(preds) && ".pred" %in% names(preds)) return(preds$.pred)
-    return(as.numeric(preds))
+    if (is.data.frame(preds) && ".pred" %in% names(preds) && nrow(preds) == nrow(data)) {
+      return(preds$.pred)
+    }
+    if (!is.data.frame(preds) && length(preds) == nrow(data)) return(as.numeric(preds))
   }
   preds <- tryCatch(stats::predict(engine, newdata = data), error = function(e) e)
   if (inherits(preds, "error")) return(NULL)
+  if (is.data.frame(preds) && ".pred" %in% names(preds) && nrow(preds) == nrow(data)) {
+    return(preds$.pred)
+  }
+  if (length(preds) != nrow(data)) return(NULL)
   as.numeric(preds)
 }
 

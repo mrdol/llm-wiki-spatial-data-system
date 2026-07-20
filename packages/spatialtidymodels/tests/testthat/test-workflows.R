@@ -235,6 +235,39 @@ test_that("benchmark_spatial lance plusieurs estimateurs sur columbus_crime", {
   expect_output(print(bench), "Fits reussis")
 })
 
+test_that("benchmark_spatial lance les baselines ML natives et leurs versions xy", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("earth")
+  skip_if_not_installed("ranger")
+  skip_if_not_installed("xgboost")
+
+  dat <- load_columbus_crime_for_tests()
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = c(
+      "earth", "earth_xy",
+      "random_forest", "random_forest_xy",
+      "xgboost", "xgboost_xy"
+    )
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark")
+  expect_equal(
+    bench$results$estimator,
+    c("earth", "earth_xy", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
+  )
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(is.finite(bench$results$mae)))
+  expect_true(all(is.na(bench$results$fit_error)))
+  expect_true(all(c(
+    "earth", "earth_xy", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"
+  ) %in% names(bench$fits)))
+})
+
 test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus_crime", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
@@ -256,6 +289,46 @@ test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus
   expect_equal(bench$results$estimator, c("spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar"))
   expect_true(all(is.finite(bench$results$rmse)))
   expect_true(all(is.na(bench$results$fit_error)))
+})
+
+test_that("benchmark_spatial lance spmoran ESF et RESF sur columbus_crime", {
+  skip_if_not_installed("spmoran")
+
+  dat <- load_columbus_crime_for_tests()
+
+  bench <- suppressMessages(suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = c("spmoran_esf", "spmoran_resf")
+  )))
+
+  expect_equal(bench$results$estimator, c("spmoran_esf", "spmoran_resf"))
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(is.finite(bench$results$mae)))
+  expect_true(all(is.na(bench$results$fit_error)))
+
+  preds <- stats::predict(bench$fits$spmoran_esf, new_data = dat[1:5, , drop = FALSE])
+  expect_equal(nrow(preds), 5L)
+  expect_true(all(is.finite(preds$.pred)))
+})
+
+test_that("benchmark_spatial score spmoran ESF en holdout", {
+  skip_if_not_installed("spmoran")
+  skip_if_not_installed("rsample")
+
+  bench <- suppressMessages(suppressWarnings(benchmark_spatial_dataset(
+    "columbus_crime",
+    estimators = "spmoran_esf",
+    cv_scheme = "holdout_10pct",
+    seed = 42
+  )))
+
+  expect_equal(bench$results$estimator, "spmoran_esf")
+  expect_equal(bench$results$n_resamples, 1L)
+  expect_true(is.finite(bench$results$rmse))
+  expect_true(is.finite(bench$results$mae))
+  expect_true(is.na(bench$results$fit_error))
 })
 
 test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
@@ -304,6 +377,125 @@ test_that("benchmark_spatial_dataset recupere formule et coordonnees du registre
   expect_true(all(is.finite(bench$results$rmse)))
 })
 
+test_that("benchmark_spatial_dataset score les estimateurs en vfold_cv", {
+  skip_if_not_installed("rsample")
+
+  bench <- suppressWarnings(benchmark_spatial_dataset(
+    "columbus_crime",
+    estimators = "ols",
+    cv_scheme = "vfold_cv",
+    eval_folds = 3
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark")
+  expect_equal(bench$cv_scheme, "vfold_cv")
+  expect_equal(bench$results$estimator, "ols")
+  expect_equal(bench$results$n_resamples, 3)
+  expect_true(is.finite(bench$results$rmse))
+  expect_true(is.finite(bench$results$mae))
+  expect_equal(nrow(bench$resample_results), 3)
+  expect_true(all(c("id", "n_train", "n_test", "rmse", "mae") %in% names(bench$resample_results)))
+  expect_true(all(is.finite(bench$resample_results$rmse)))
+})
+
+test_that("make_spatial_resamples construit un holdout de 10 pourcent", {
+  skip_if_not_installed("rsample")
+
+  dat <- load_columbus_crime_for_tests()
+  rset <- make_spatial_resamples(
+    data = dat,
+    coords = c("X", "Y"),
+    cv_scheme = "holdout_10pct",
+    seed = 42
+  )
+
+  expect_equal(nrow(rset), 1L)
+  expect_equal(rset$id, "holdout")
+  expect_equal(nrow(rsample::assessment(rset$splits[[1]])), 5L)
+})
+
+test_that("benchmark_spatial_dataset score un holdout de 10 pourcent", {
+  skip_if_not_installed("rsample")
+
+  bench <- suppressWarnings(benchmark_spatial_dataset(
+    "columbus_crime",
+    estimators = c("ols", "random_forest"),
+    cv_scheme = "holdout_10pct",
+    seed = 42
+  ))
+
+  expect_equal(bench$cv_scheme, "holdout_10pct")
+  expect_equal(nrow(bench$resample_results), 2L)
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(bench$results$n_resamples == 1L))
+})
+
+test_that("benchmark_spatial_dataset score la near-prediction", {
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("mgwrsar")
+
+  bench <- suppressWarnings(benchmark_spatial_dataset(
+    "columbus_crime",
+    estimators = "ols",
+    cv_scheme = "near_prediction",
+    near_n_reps = 2,
+    near_test_size = 10,
+    seed = 42
+  ))
+
+  expect_equal(bench$cv_scheme, "near_prediction")
+  expect_equal(bench$results$n_resamples, 2L)
+  expect_equal(nrow(bench$resample_results), 2L)
+  expect_true(all(is.finite(bench$resample_results$rmse)))
+
+  meta <- attr(bench$eval_resamples, "near_cv_meta")
+  expect_true(all(c("test_indices", "cell_id", "k_leaf", "requested_test_size") %in% names(meta)))
+  expect_equal(meta$requested_test_size, 10L)
+
+  all_test <- unlist(meta$test_indices, use.names = FALSE)
+  expect_equal(anyDuplicated(all_test), 0L)
+  expect_true(all(vapply(meta$test_indices, function(test) {
+    identical(sort(meta$cell_id[test]), seq_len(attr(bench$eval_resamples, "near_cv")$n_cells))
+  }, logical(1L))))
+})
+
+test_that("plot_near_prediction_fold visualise un rset near-prediction", {
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("mgwrsar")
+  skip_if_not_installed("ggplot2")
+
+  dat <- load_columbus_crime_for_tests()
+  rset <- make_spatial_resamples(
+    data = dat,
+    coords = c("X", "Y"),
+    cv_scheme = "near_prediction",
+    near_n_reps = 2,
+    near_test_size = 10,
+    seed = 42
+  )
+
+  p <- plot_near_prediction_fold(rset, data = dat, coords = c("X", "Y"), fold = "rep_1")
+  expect_s3_class(p, "ggplot")
+})
+
+test_that("make_spatial_resamples construit des blocs spatiaux si blockCV est disponible", {
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("blockCV")
+  skip_if_not_installed("sf")
+
+  dat <- load_columbus_crime_for_tests()
+  rset <- suppressWarnings(make_spatial_resamples(
+    data = dat,
+    coords = c("X", "Y"),
+    cv_scheme = "block_spatial",
+    block_folds = 3,
+    seed = 42
+  ))
+
+  expect_equal(nrow(rset), 3L)
+  expect_true(all(grepl("^block", rset$id)))
+})
+
 test_that("benchmark_spatial_registered_datasets lance plusieurs datasets par nom", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
@@ -321,18 +513,11 @@ test_that("benchmark_spatial_registered_datasets lance plusieurs datasets par no
   expect_true(all(is.finite(bench$results$rmse)))
 })
 
-test_that("benchmark_spatial signale les estimateurs connus mais non automatises", {
-  dat <- load_columbus_crime_for_tests()
+test_that("spmoran n'est plus classe comme route non automatisee", {
+  registry <- available_benchmark_estimators()
 
-  expect_error(
-    benchmark_spatial(
-      CRIME ~ HOVAL + INC,
-      data = dat,
-      coords = c("X", "Y"),
-      estimators = "spmoran_esf"
-    ),
-    "available_benchmark_estimators"
-  )
+  expect_true(registry$automatic[registry$estimator == "spmoran_esf"])
+  expect_true(registry$automatic[registry$estimator == "spmoran_resf"])
 })
 
 test_that("benchmark_spatial signale les noms inconnus avec le registre", {

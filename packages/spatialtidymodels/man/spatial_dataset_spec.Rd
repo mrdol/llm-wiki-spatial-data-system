@@ -2,22 +2,22 @@
 % Please edit documentation in R/13-benchmark-spatial.R
 \name{spatial_dataset_spec}
 \alias{spatial_dataset_spec}
-\title{Definir un jeu de donnees pour \code{benchmark_spatial_datasets()}}
+\title{Define a dataset for \code{benchmark_spatial_datasets()}}
 \usage{
 spatial_dataset_spec(name, data, formula, coords)
 }
 \arguments{
-\item{name}{Nom court du dataset.}
+\item{name}{Short dataset name.}
 
-\item{data}{Donnees.}
+\item{data}{Data frame.}
 
-\item{formula}{Formule econometrique.}
+\item{formula}{Model formula.}
 
-\item{coords}{Colonnes de coordonnees.}
+\item{coords}{Coordinate column names.}
 }
 \value{
-Une liste de classe \code{spatial_dataset_spec}.
+A \code{spatial_dataset_spec} object.
 }
 \description{
-Definir un jeu de donnees pour \code{benchmark_spatial_datasets()}
+Define a dataset for \code{benchmark_spatial_datasets()}
 }

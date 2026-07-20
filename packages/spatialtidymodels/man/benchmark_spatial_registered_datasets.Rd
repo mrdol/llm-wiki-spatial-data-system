@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark-datasets.R
 \name{benchmark_spatial_registered_datasets}
 \alias{benchmark_spatial_registered_datasets}
-\title{Lancer un benchmark sur plusieurs datasets enregistres}
+\title{Run benchmarks on several registered datasets}
 \usage{
 benchmark_spatial_registered_datasets(
   datasets,
@@ -12,18 +12,19 @@ benchmark_spatial_registered_datasets(
 )
 }
 \arguments{
-\item{datasets}{Noms des datasets enregistres.}
+\item{datasets}{Registered dataset names.}
 
-\item{estimators}{Estimateurs a lancer.}
+\item{estimators}{Estimators to run.}
 
-\item{data_dir}{Dossier optionnel du repo ou du dossier contenant les \code{.rds}.}
+\item{data_dir}{Optional repository directory, or directory containing the
+prepared \code{.rds} files.}
 
-\item{...}{Arguments transmis a \code{benchmark_spatial()}, par exemple
-\code{tune = TRUE} ou \code{tuning_grids = ...}.}
+\item{...}{Arguments passed to \code{benchmark_spatial()}, such as
+\code{cv_scheme = "near_prediction"}, \code{tune = TRUE}, or \code{tuning_grids = ...}.}
 }
 \value{
-Une liste de classe \code{spatial_benchmark_set}.
+A \code{spatial_benchmark_set} object.
 }
 \description{
-Lancer un benchmark sur plusieurs datasets enregistres
+Run benchmarks on several registered datasets
 }

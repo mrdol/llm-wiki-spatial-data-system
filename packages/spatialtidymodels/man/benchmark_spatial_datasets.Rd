@@ -2,7 +2,7 @@
 % Please edit documentation in R/13-benchmark-spatial.R
 \name{benchmark_spatial_datasets}
 \alias{benchmark_spatial_datasets}
-\title{Lancer un benchmark spatial sur plusieurs jeux de donnees}
+\title{Run spatial benchmarks on several datasets}
 \usage{
 benchmark_spatial_datasets(
   datasets,
@@ -17,42 +17,71 @@ benchmark_spatial_datasets(
   tune = FALSE,
   resamples = NULL,
   tuning_grids = NULL,
-  tuning_folds = 3L
+  tuning_folds = 3L,
+  cv_scheme = c("in_sample", "holdout_10pct", "near_prediction", "block_spatial",
+    "vfold_cv", "custom"),
+  eval_resamples = NULL,
+  eval_folds = 5L,
+  holdout_prop = 0.9,
+  near_n_reps = 3L,
+  near_test_size = NULL,
+  block_folds = 5L,
+  seed = 123L
 )
 }
 \arguments{
-\item{datasets}{Une \code{spatial_dataset_spec} ou une liste de specs.}
+\item{datasets}{A \code{spatial_dataset_spec} object, or a list of specs.}
 
-\item{estimators}{Estimateurs a lancer.}
+\item{estimators}{Estimators to run.}
 
-\item{k_neighbors}{Nombre de voisins pour les estimateurs a voisinage kNN.}
+\item{k_neighbors}{Number of nearest neighbours used to build kNN weights.}
 
-\item{style}{Style de standardisation \code{spdep::nb2listw()}.}
+\item{style}{Row-standardization style passed to \code{spdep::nb2listw()}.}
 
-\item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
+\item{zero_policy}{Zero-neighbour policy passed to \code{spdep}.}
 
-\item{spboost_mstop}{Nombre d'iterations pour \code{spboost}.}
+\item{spboost_mstop}{Number of boosting iterations for \code{spboost}.}
 
-\item{spboost_nu}{Taux d'apprentissage pour \code{spboost}.}
+\item{spboost_nu}{Learning rate for \code{spboost}.}
 
-\item{mgwrsar_bandwidth}{Bande passante \code{H} pour les variantes \code{mgwrsar}.}
+\item{mgwrsar_bandwidth}{Spatial bandwidth \code{H} for \code{mgwrsar} variants.}
 
-\item{mgwrsar_kernel}{Noyau spatial pour les variantes \code{mgwrsar}.}
+\item{mgwrsar_kernel}{Spatial kernel for \code{mgwrsar} variants.}
 
-\item{tune}{Si \code{TRUE}, lance un tuning \code{tune::tune_grid()} avant le fit
-final pour les estimateurs supportes.}
+\item{tune}{If \code{TRUE}, run \code{tune::tune_grid()} before the final fit for
+estimators with a supported tuning route.}
 
-\item{resamples}{Resamples \code{rsample} utilises pour le tuning. Si \code{NULL} et
-\code{tune = TRUE}, un \code{vfold_cv()} classique est cree.}
+\item{resamples}{\code{rsample} object used for tuning. If \code{NULL} and
+\code{tune = TRUE}, a classic \code{vfold_cv()} is created.}
 
-\item{tuning_grids}{Liste optionnelle de grilles nommees par estimateur.}
+\item{tuning_grids}{Optional named list of tuning grids, one per estimator.}
 
-\item{tuning_folds}{Nombre de folds pour le \code{vfold_cv()} par defaut.}
+\item{tuning_folds}{Number of folds for the default tuning \code{vfold_cv()}.}
+
+\item{cv_scheme}{Evaluation scheme. \code{"in_sample"} keeps the diagnostic on
+the full data; \code{"holdout_10pct"}, \code{"near_prediction"}, \code{"block_spatial"}
+and \code{"vfold_cv"} score models out-of-sample; \code{"custom"} uses
+\code{eval_resamples}.}
+
+\item{eval_resamples}{Custom \code{rsample} object for out-of-sample evaluation.}
+
+\item{eval_folds}{Number of folds for \code{cv_scheme = "vfold_cv"}.}
+
+\item{holdout_prop}{Proportion kept in the training set for
+\code{cv_scheme = "holdout_10pct"}.}
+
+\item{near_n_reps}{Number of near-prediction repetitions.}
+
+\item{near_test_size}{Target number of near-prediction test cells.}
+
+\item{block_folds}{Number of spatial block folds.}
+
+\item{seed}{Random seed used for resampling.}
 }
 \value{
-Une liste de classe \code{spatial_benchmark_set} avec \code{results} et
-\code{benchmarks}.
+A \code{spatial_benchmark_set} object with combined \code{results} and the
+individual \code{benchmarks}.
 }
 \description{
-Lancer un benchmark spatial sur plusieurs jeux de donnees
+Run spatial benchmarks on several datasets
 }

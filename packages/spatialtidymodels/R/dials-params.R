@@ -51,7 +51,7 @@ bandwidth <- function(range = c(10L, 300L), trans = NULL) {
 #'
 #' @return Un parametre qualitatif `dials`.
 #' @export
-kernel <- function(values = c("gauss", "bisq", "rectangle", "exponential")) {
+spatial_kernel <- function(values = c("gauss", "bisq", "rectangle", "exponential")) {
   dials::new_qual_param(
     type = "character",
     values = values,

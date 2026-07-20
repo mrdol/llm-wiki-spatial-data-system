@@ -2,19 +2,19 @@
 % Please edit documentation in R/13-benchmark-spatial.R
 \name{available_benchmark_estimators}
 \alias{available_benchmark_estimators}
-\title{Lister les estimateurs benchmarkables par le package}
+\title{List benchmark estimators}
 \usage{
 available_benchmark_estimators(include_installed = TRUE)
 }
 \arguments{
-\item{include_installed}{Si \code{TRUE}, ajoute une colonne indiquant si le
-package R requis est disponible dans la session.}
+\item{include_installed}{If \code{TRUE}, add a column indicating whether the
+required R package is available in the current session.}
 }
 \value{
-Un data frame.
+A data frame.
 }
 \description{
-Retourne le registre des estimateurs connus par \code{spatialtidymodels}, en
-distinguant ceux qui sont deja automatises dans \code{benchmark_spatial()} et
-ceux qui sont encore a brancher.
+Returns the estimator registry known by \code{spatialtidymodels}, including the
+backend package, automation status, spatial arguments, tuning parameters, and
+whether the required R package is installed.
 }

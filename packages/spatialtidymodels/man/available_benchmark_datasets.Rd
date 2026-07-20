@@ -2,14 +2,15 @@
 % Please edit documentation in R/benchmark-datasets.R
 \name{available_benchmark_datasets}
 \alias{available_benchmark_datasets}
-\title{Lister les datasets connus du benchmark package}
+\title{List registered benchmark datasets}
 \usage{
 available_benchmark_datasets()
 }
 \value{
-Un data frame.
+A data frame.
 }
 \description{
-Retourne les jeux de donnees de regression continue pour lesquels le package
-connait deja le chemin \code{.rds}, la formule et les colonnes de coordonnees.
+Returns continuous-regression datasets for which the package knows the
+prepared \code{.rds} path, formula, coordinate columns, coordinate CRS, formula
+status, scientific source, and recommended evaluation schemes.
 }

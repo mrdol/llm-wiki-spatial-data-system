@@ -2,7 +2,7 @@
 % Please edit documentation in R/benchmark-datasets.R
 \name{benchmark_spatial_dataset}
 \alias{benchmark_spatial_dataset}
-\title{Lancer un benchmark a partir d'un dataset enregistre}
+\title{Run a benchmark from a registered dataset}
 \usage{
 benchmark_spatial_dataset(
   dataset,
@@ -12,20 +12,21 @@ benchmark_spatial_dataset(
 )
 }
 \arguments{
-\item{dataset}{Nom du dataset enregistre.}
+\item{dataset}{Registered dataset name.}
 
-\item{estimators}{Estimateurs a lancer.}
+\item{estimators}{Estimators to run.}
 
-\item{data_dir}{Dossier optionnel du repo ou du dossier contenant les \code{.rds}.}
+\item{data_dir}{Optional repository directory, or directory containing the
+prepared \code{.rds} files.}
 
-\item{...}{Arguments transmis a \code{benchmark_spatial()}, par exemple
-\code{tune = TRUE} ou \code{tuning_grids = ...}.}
+\item{...}{Arguments passed to \code{benchmark_spatial()}, such as
+\code{cv_scheme = "near_prediction"}, \code{tune = TRUE}, or \code{tuning_grids = ...}.}
 }
 \value{
-Une liste de classe \code{spatial_benchmark}.
+A \code{spatial_benchmark} object.
 }
 \description{
-Charge un dataset connu par \code{available_benchmark_datasets()}, recupere sa
-formule et ses coordonnees, applique \code{complete.cases()} sur les colonnes
-utiles, puis appelle \code{benchmark_spatial()}.
+Loads a dataset registered in \code{available_benchmark_datasets()}, retrieves its
+formula and coordinate columns, applies \code{complete.cases()} on the required
+model columns, then calls \code{benchmark_spatial()}.
 }

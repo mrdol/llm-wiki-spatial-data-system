@@ -78,7 +78,9 @@ bench <- benchmark_spatial(
   data = columbus,
   coords = c("X", "Y"),
   estimators = c(
-    "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
+    "ols", "gam_spatial", "earth", "earth_xy",
+    "random_forest", "random_forest_xy", "xgboost", "xgboost_xy",
+    "sar_lag", "sem_error", "sdm_mixed",
     "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr",
     "mgwrsar_mgwrsar"
   ),
@@ -98,10 +100,11 @@ d'estimateurs sur plusieurs jeux de donnees declares par
 car sa cible scientifique est binaire.
 
 Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
-`sar_lag`, `sem_error`, `sdm_mixed`, `spboost`, `mgwrsar_gwr`,
-`mgwrsar_sar`, `mgwrsar_mgwr` et `mgwrsar_mgwrsar`. Les routes
-`spmoran_esf` et `spmoran_resf` restent connues mais non automatisees dans le
-package.
+`earth`, `earth_xy`, `random_forest`, `random_forest_xy`, `xgboost`,
+`xgboost_xy`, `sar_lag`, `sem_error`, `sdm_mixed`, `spboost`,
+`mgwrsar_gwr`, `mgwrsar_sar`, `mgwrsar_mgwr`, `mgwrsar_mgwrsar`,
+`spmoran_esf` et `spmoran_resf`. Les suffixes `_xy` ajoutent les coordonnees
+comme covariables brutes; ils ne construisent pas de matrice `W`.
 
 Pour les datasets deja enregistres dans le package, il n'est plus necessaire
 de recopier la formule:
@@ -129,6 +132,34 @@ bench$results
 `benchmark_spatial_dataset()` charge le `.rds`, recupere la formule et les
 coordonnees depuis `R/benchmark-datasets.R`, applique `complete.cases()` sur
 les colonnes utiles, puis appelle `benchmark_spatial()`.
+
+Par defaut, `bench$results` contient un diagnostic in-sample. Pour comparer la
+generalisation des estimateurs, utiliser un schema hors-echantillon:
+
+```r
+bench <- benchmark_spatial_dataset(
+  "columbus_crime",
+  estimators = c("ols", "random_forest", "sar_lag"),
+  cv_scheme = "holdout_10pct"
+)
+
+bench$results
+bench$resample_results
+```
+
+Les schemas disponibles sont:
+
+```r
+cv_scheme = "holdout_10pct"   # train/test simple, 90/10
+cv_scheme = "near_prediction" # un point test par cellule quadtree
+cv_scheme = "block_spatial"   # blocs spatiaux contigus via blockCV
+cv_scheme = "vfold_cv"        # v-fold classique rsample
+cv_scheme = "custom"          # folds prepares par l'utilisateur
+cv_scheme = "in_sample"       # diagnostic sur toutes les donnees
+```
+
+Dans ces modes hors-echantillon, `bench$results` contient les moyennes par
+estimateur et `bench$resample_results` contient les scores fold par fold.
 
 Le registre utilisateur est maintenant plus explicite:
 

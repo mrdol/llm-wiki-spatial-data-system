@@ -50,6 +50,28 @@ benchmark_dataset_registry <- function() {
       c("nitro", "bv")
     )),
     coords = I(rep(list(c("X", "Y")), 7L)),
+    coords_crs = c(
+      "EPSG:26916", "EPSG:32617", "EPSG:27700", "EPSG:32619",
+      "EPSG:2157", "EPSG:27700", "EPSG:32720"
+    ),
+    coords_source = c(
+      "prepared projected coordinates",
+      "prepared projected coordinates",
+      "native projected coordinates",
+      "prepared projected coordinates",
+      "native projected coordinates",
+      "native projected coordinates",
+      "prepared projected coordinates"
+    ),
+    recommended_cv = I(list(
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial"),
+      c("holdout_10pct", "near_prediction", "block_spatial")
+    )),
     mode = rep("regression", 7L),
     formula_status = c("pub", "pub", "used", "pub", "pub", "used", "used"),
     source_ref = c(
@@ -107,12 +129,13 @@ resolve_benchmark_data_path <- function(path, data_dir = NULL) {
   stop(sprintf("Fichier dataset introuvable: %s. Fournissez `data_dir` si vous n'etes pas dans le repo.", path), call. = FALSE)
 }
 
-#' Lister les datasets connus du benchmark package
+#' List registered benchmark datasets
 #'
-#' Retourne les jeux de donnees de regression continue pour lesquels le package
-#' connait deja le chemin `.rds`, la formule et les colonnes de coordonnees.
+#' Returns continuous-regression datasets for which the package knows the
+#' prepared `.rds` path, formula, coordinate columns, coordinate CRS, formula
+#' status, scientific source, and recommended evaluation schemes.
 #'
-#' @return Un data frame.
+#' @return A data frame.
 #' @export
 available_benchmark_datasets <- function() {
   benchmark_dataset_registry()
@@ -123,7 +146,7 @@ get_benchmark_dataset_spec <- function(dataset) {
   if (length(dataset) != 1L || !dataset %in% registry$dataset) {
     stop(
       sprintf(
-        "Dataset inconnu: %s. Utilisez available_benchmark_datasets() pour voir les noms valides.",
+        "Unknown dataset: %s. Use available_benchmark_datasets() to list valid names.",
         paste(dataset, collapse = ", ")
       ),
       call. = FALSE
@@ -156,19 +179,20 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
   )
 }
 
-#' Lancer un benchmark a partir d'un dataset enregistre
+#' Run a benchmark from a registered dataset
 #'
-#' Charge un dataset connu par `available_benchmark_datasets()`, recupere sa
-#' formule et ses coordonnees, applique `complete.cases()` sur les colonnes
-#' utiles, puis appelle `benchmark_spatial()`.
+#' Loads a dataset registered in `available_benchmark_datasets()`, retrieves its
+#' formula and coordinate columns, applies `complete.cases()` on the required
+#' model columns, then calls `benchmark_spatial()`.
 #'
-#' @param dataset Nom du dataset enregistre.
-#' @param estimators Estimateurs a lancer.
-#' @param data_dir Dossier optionnel du repo ou du dossier contenant les `.rds`.
-#' @param ... Arguments transmis a `benchmark_spatial()`, par exemple
-#'   `tune = TRUE` ou `tuning_grids = ...`.
+#' @param dataset Registered dataset name.
+#' @param estimators Estimators to run.
+#' @param data_dir Optional repository directory, or directory containing the
+#'   prepared `.rds` files.
+#' @param ... Arguments passed to `benchmark_spatial()`, such as
+#'   `cv_scheme = "near_prediction"`, `tune = TRUE`, or `tuning_grids = ...`.
 #'
-#' @return Une liste de classe `spatial_benchmark`.
+#' @return A `spatial_benchmark` object.
 #' @export
 benchmark_spatial_dataset <- function(dataset,
                                       estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
@@ -188,12 +212,12 @@ benchmark_spatial_dataset <- function(dataset,
   bench
 }
 
-#' Lancer un benchmark sur plusieurs datasets enregistres
+#' Run benchmarks on several registered datasets
 #'
-#' @param datasets Noms des datasets enregistres.
+#' @param datasets Registered dataset names.
 #' @inheritParams benchmark_spatial_dataset
 #'
-#' @return Une liste de classe `spatial_benchmark_set`.
+#' @return A `spatial_benchmark_set` object.
 #' @export
 benchmark_spatial_registered_datasets <- function(datasets,
                                                   estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
