@@ -1,8 +1,8 @@
 ---
 title: R_ade4_irishdata_irishdata
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_ade4_irishdata_irishdata.rds
 tags: [dataset, r-package, spatial, point]
@@ -53,18 +53,18 @@ This data set contains geographical informations about 25 counties of Ireland.
 
 ### Formule — niveau publication
 
-- formula_pub: sales~cow+other+pig+sheep+T0.10+T10.50+Tup50+town.pop
-- x_terms_pub: cow+other+pig+sheep+T0.10+T10.50+Tup50+town.pop
-- y_term_pub: sales
-- Reference publication: Analogie structurelle avec R_agridat_wallace.iowaland_wallace.iowaland (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Contrairement aux autres jeux ade4 (ordination multivariee sans cible unique), irishdata a une cible Y claire (ventes/consommation par comte) et des covariables socioeconomiques/agricoles explicites (tranches de revenu, cheptel, population urbaine) -- structure comparable a wallace.iowaland (bon candidat, valeur economique rurale ~ composition agricole).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -91,12 +91,12 @@ This data set contains geographical informations about 25 counties of Ireland.
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "sales~cow+other+pig+sheep+T0.10+T10.50+Tup50+town.pop"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec R_agridat_wallace.iowaland_wallace.iowaland (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -132,7 +132,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

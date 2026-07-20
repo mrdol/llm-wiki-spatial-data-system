@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_GWmodel_LondonBorough_londonborough
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonBorough_londonborough.rds
 tags: [dataset, r-package, spatial, point]
@@ -43,24 +43,25 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 
 ### Formule — niveau publication
 
-- formula_pub: Prix immobilier ~ 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
-- x_terms_pub: 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
-- y_term_pub: Prix immobilier
-- Reference publication: rdrr.io/cran/GWmodel/man/LondonHP.html ; Lu et al. (2014)
+- formula_pub: `PURCHASE ~ FLOORSZ + PROF + BATH2`
+- x_terms_pub: FLOORSZ + PROF + BATH2`
+- y_term_pub: `PURCHASE
+- Reference publication: Lu, Charlton, Harris & Fotheringham (2014), DOI `10.1080/13658816.2013.865739`; documentation `GWmodel::LondonHP`
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
 - Statut: bon candidat
 - Niveau de preuve: verbatim
 - Methode d'estimation: GWR non-euclidienne
 - Correspondance Python/R: R_GWmodel_LondonHP_londonhp
-- Note: La formule et les variables hedoniques sont portees par le dataset ponctuel associe LondonHP (meme package GWmodel) ; londonborough fournit les polygones d'arrondissement utilises comme reference spatiale/jointure.
+- Note: Formule identifiee via la documentation du package equivalent `R_GWmodel_LondonHP_londonhp` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: Prix immobilier ~ 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
-- x_terms_used: 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)
-- y_term_used: Prix immobilier
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_GWmodel_LondonBorough_londonborough`
@@ -81,12 +82,12 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "Prix immobilier ~ 18 variables hedoniques (dataset associe LondonHP porte les observations ponctuelles ; londonborough = polygones d'arrondissements de reference spatiale)"
-  equation_family: geographically_weighted
+  equation_text: "`PURCHASE ~ FLOORSZ + PROF + BATH2`"
+  equation_family: unknown
   model_family: "GWR non-euclidienne"
-  source_type: software_documentation
-  source_ref: "rdrr.io/cran/GWmodel/man/LondonHP.html ; Lu et al. (2014)"
-  confidence: high
+  source_type: unknown
+  source_ref: "Lu, Charlton, Harris & Fotheringham (2014), DOI `10.1080/13658816.2013.865739`; documentation `GWmodel::LondonHP`"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -121,8 +122,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: Variables avec NA > 20% : T, Y, P, E, _, C, O, D, 0,  , (, N, A, =, 1, 0, 0, %, )
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: WARN - variables avec NA > 20% : TYPE_COD0 (NA=100%).
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

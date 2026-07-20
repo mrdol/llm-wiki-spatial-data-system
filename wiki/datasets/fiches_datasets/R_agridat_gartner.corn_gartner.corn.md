@@ -1,8 +1,8 @@
 ---
 title: R_agridat_gartner.corn_gartner.corn
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_agridat_gartner.corn_gartner.corn.rds
 tags: [dataset, r-package, spatial, point]
@@ -43,24 +43,24 @@ Yield monitor data from a corn field in Minnesota
 
 ### Formule — niveau publication
 
-- formula_pub: yield~elevation
-- x_terms_pub: elevation
-- y_term_pub: yield
-- Reference publication: Rakshit et al. (2020), Field Crops Research 255:107783
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Suman Rakshit, Adrian Baddeley, Katia Stefanova, Karyn Reeves, Kefei Chen, Zhanglong Cao, Fiona Evans, Mark Gibberd (2020). Novel approach to the analysis of spatially-varying treatment effects in on-farm experiments. Field Crops Research, 255, 15 September 2020, 107783. https://doi.org/10.1016/j.fcr.2020.107783
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: article
-- Methode d'estimation: GWR
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: yield~elevation
-- x_terms_used: elevation
-- y_term_used: yield
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -81,31 +81,30 @@ Yield monitor data from a corn field in Minnesota
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "yield~elevation"
-  equation_family: geographically_weighted
-  model_family: "GWR"
-  source_type: full_paper
-  source_ref: "Rakshit et al. (2020), Field Crops Research 255:107783"
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Suman Rakshit, Adrian Baddeley, Katia Stefanova, Karyn Reeves, Kefei Chen, Zhanglong Cao, Fiona Evans, Mark Gibberd (2020). Novel approach to the analysis of spatially-varying treatment effects in on-farm experiments. Field Crops Research, 255, 15 September 2020, 107783. https://doi.org/10.1016/j.fcr.2020.107783"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel
 - N observations: 4949
-- T periods: 1
-- Variable temporelle: none
-- N/T profile: N_grand_T_1
+- T periods: 4949
+- Variable temporelle: time
+- N/T profile: N_grand_T_grand
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — `time` est un horodatage GPS par point de mesure du moniteur de rendement (yield monitor), pas un axe temporel repete (confirme par wiki/datasets/r_package_docs/agridat/topics/gartner.corn.md : 'GPS time, in seconds', une seule campagne de recolte le 5 nov. 2011). T=N=4949 etait le signal de la meme erreur de profilage que sur home_sales/chicagoSDOH.
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: pending inspection
 - Spatial extent: x [-93.9784, -93.9735], y [43.921, 43.9273] (CRS unknown)
-- Time range: not applicable (cross-sectional dataset)
+- Time range: pending inspection
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
@@ -114,18 +113,23 @@ modeling_evidence:
 ## Bloc 6 — Reproductibilite
 
 - License present: yes
-- License name: MIT + file LICENSE
+- License name: GPL-2
 - License URL: https://CRAN.R-project.org/package=agridat
 - License open: yes
 - Reproducibility status: available via package R `agridat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
-> **Licence des donnees vs. licence du package (Tache 2)** — La licence ci-dessus (MIT + file LICENSE) couvre le code du package `agridat`. Les donnees elles-memes sont distribuees sous une licence distincte : "Used via license: Creative Commons BY-SA 3.0." (source: University of Minnesota Precision Agriculture Center, cf. wiki/datasets/r_package_docs/agridat/topics/gartner.corn.md).
-
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 

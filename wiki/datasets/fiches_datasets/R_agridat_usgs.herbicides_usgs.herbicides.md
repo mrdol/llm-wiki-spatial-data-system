@@ -1,8 +1,8 @@
 ---
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_agridat_usgs.herbicides_usgs.herbicides.rds
 tags: [dataset, r-package, spatial, point]
@@ -52,33 +52,24 @@ Concentrations of selected herbicides and degradation products determined by lab
 
 ### Formule — niveau publication
 
-- formula_pub: log(DetectFreq)~log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
-- x_terms_pub: log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
-- y_term_pub: log(DetectFreq)
-- Reference publication: USGS WRIR 98-4245, water.usgs.gov/nawqa/pnsp/pubs/wrir984245/
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: None.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: article
-- Methode d'estimation: Regression multiple log-log
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: ATTENTION (correction 2026-07-02, suite REJECTED Tier 2 score 0.42) -- formula_pub decrit
-  le modele agrege publie dans le rapport source (USGS WRIR 98-4245), construit sur des
-  variables derivees/agregees (frequence de detection, usage agricole, demi-vie sol, Koc,
-  profondeur de puits) qui NE SONT PAS des colonnes de ce fichier brut agridat::usgs.herbicides
-  (celui-ci contient des concentrations individuelles par herbicide et par echantillon : atrazine,
-  acetochlor, alachlor, etc.). La formule est fidele a la source (niveau publication) mais n'est
-  pas directement calculable sur ce fichier brut sans agregation prealable non documentee ici --
-  c'est attendu et coherent avec le niveau de preuve 'article' (formule tiree d'une source
-  tierce). Par convention transitoire 2026-07-06, 'formula_used' recopie
-  'formula_pub' lorsqu'une source a fourni la formule.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: log(DetectFreq)~log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
-- x_terms_used: log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)
-- y_term_used: log(DetectFreq)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -99,13 +90,13 @@ Concentrations of selected herbicides and degradation products determined by lab
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(DetectFreq)~log(UsageAgricole)+log(DemiVieSol)+log(Koc)+log(ProfondeurPuits)"
+  existing_model_found: false
+  equation_text: "null"
   equation_family: unknown
-  model_family: "Regression multiple log-log"
-  source_type: full_paper
-  source_ref: "USGS WRIR 98-4245, water.usgs.gov/nawqa/pnsp/pubs/wrir984245/"
-  confidence: medium
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "None."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -131,7 +122,7 @@ modeling_evidence:
 ## Bloc 6 — Reproductibilite
 
 - License present: yes
-- License name: MIT + file LICENSE
+- License name: GPL-2
 - License URL: https://CRAN.R-project.org/package=agridat
 - License open: yes
 - Reproducibility status: available via package R `agridat`
@@ -140,7 +131,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 

@@ -1,8 +1,8 @@
 ---
 title: R_sp_meuse.grid_ll_meuse.grid_ll
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_sp_meuse.grid_ll_meuse.grid_ll.rds
 tags: [dataset, r-package, spatial, point]
@@ -44,18 +44,18 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: M G J Rikken and R P G Van Rijn (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mauvais candidat
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Grille de prediction (covariables uniquement, pas d'observations de la variable reponse) utilisee pour le krigeage universel de `meuse`/`meuse.all` — pas un jeu de regression autonome. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Grille de prediction (covariables uniquement, pas de Y observe) -- pas un jeu de regression autonome par construction.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -85,9 +85,9 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "null"
+  source_ref: "M G J Rikken and R P G Van Rijn (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
   confidence: low
 ```
 
@@ -123,7 +123,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_GWmodel_DubVoter_Dub.voter
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_GWmodel_DubVoter_Dub.voter.rds
 tags: [dataset, r-package, spatial, point]
@@ -49,23 +49,24 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 ### Formule — niveau publication
 
 - formula_pub: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
-- x_terms_pub: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- x_terms_pub: DiffAdd, LARent, SC1, Unempl, LowEduc, Age18_24, Age25_44, Age45_64
 - y_term_pub: GenEl2004
 - Reference publication: Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GWR
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur enrich_web.py) et confirmee coherente avec les colonnes reelles du dataset ; jeu de donnees GWmodel classique (turnout electoral Dublin).
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
-- x_terms_used: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
-- y_term_used: GenEl2004
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_GWmodel_DubVoter_Dub.voter`
@@ -85,13 +86,13 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
+  existing_model_found: false
   equation_text: "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64"
-  equation_family: geographically_weighted
-  model_family: "GWR"
-  source_type: software_documentation
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
   source_ref: "Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +127,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

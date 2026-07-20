@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.chile_labor
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.chile_labor.rds
 tags: [dataset, python-package, spatial, point]
@@ -175,18 +175,18 @@ Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: DOI:10.1007/978-981-10-0230-4_6
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: a verifier
-- Niveau de preuve: article
+- Statut: pending
+- Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Piste reelle (Rowe & Bell 2020, DOI:10.1007/978-981-10-0230-4_6) mais micro-donnees individuelles != fichier FLMA agrege distribue par GeoDa.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -216,45 +216,27 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
-  source_type: full_paper
-  source_ref: "DOI:10.1007/978-981-10-0230-4_6"
-  confidence: medium
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel
+- Data type: spatial
+- Structure: coupe_transversale
 - N observations: 64
-- T periods: 3
-- Variable temporelle: 1982, 1992, 2002 (suffixe d'annee de recensement present sur quasiment toutes les variables substantielles)
-- N/T profile: N_moyen_T_moyen
-
-> **Correction metadonnees (2026-07-02)** — Cette fiche etait etiquetee a tort
-> `Data type: spatial` / `Structure: coupe_transversale` / `T periods: 1`. En
-> realite, la quasi-totalite des variables (`pop_`, `sex1_`/`sex2_`, `lfs1_`/
-> `lfs2_`/`lfs3_`, `age1_`a`age18_`, `is1_r_`a`is11_`, `oc0_r_`a`oc9_r_`) sont
-> enregistrees trois fois, une fois par annee de recensement chilien (1982,
-> 1992, 2002), sous forme de colonnes distinctes suffixees par annee (format
-> large / wide) plutot que de lignes repetees par periode. Seule `area_km2`
-> (superficie, invariante dans le temps) echappe a ce pattern. Il s'agit donc
-> d'un veritable panel spatio-temporel N=64 (regions/comunas chiliennes) x
-> T=3 (1982/1992/2002), pas d'une coupe transversale.
->
-> **Le fichier de donnees sous-jacent n'a pas ete modifie** : les colonnes
-> restent en format large (`pop_1982`, `pop_1992`, `pop_2002`, etc.), avec
-> une entree par variable Y/X ci-dessus par annee plutot qu'une seule entree
-> generique. Seuls les champs de metadonnees du Bloc 4 (et cette note) ont
-> ete corriges ici ; une eventuelle reforme en format long (une ligne par
-> region x annee) reste a faire separement si un estimateur panel l'exige.
+- T periods: 1
+- Variable temporelle: none
+- N/T profile: N_moyen_T_1
 
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection (recensements 1982, 1992, 2002 -- voir correction Bloc 4)
+- Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-109.3433, -68.5229], y [-53.6889, -18.3884] (EPSG:4326)
-- Time range: pending inspection (recensements 1982, 1992, 2002 -- voir correction Bloc 4)
+- Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -272,7 +254,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

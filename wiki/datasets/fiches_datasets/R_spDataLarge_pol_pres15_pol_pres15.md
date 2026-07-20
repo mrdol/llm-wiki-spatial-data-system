@@ -1,8 +1,8 @@
 ---
 title: R_spDataLarge_pol_pres15_pol_pres15
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spDataLarge_pol_pres15_pol_pres15.rds
 tags: [dataset, r-package, spatial, point]
@@ -65,18 +65,18 @@ Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mauvais candidat
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Elections POLONAISES (et non espagnoles malgre le nom) de 2015 ; usage confirme = clustering SKATER (regionalisation), pas de regression. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Aucune covariable demographique independante disponible -- seules d'autres tallies electorales administratives (entitled_to_vote, voting_papers) sont presentes, regression circulaire.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -106,7 +106,7 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
   source_ref: "null"
   confidence: low
@@ -114,20 +114,19 @@ modeling_evidence:
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel
 - N observations: 2495
-- T periods: 1
-- Variable temporelle: none
-- N/T profile: N_grand_T_1
+- T periods: 2069
+- Variable temporelle: I_candidates_total
+- N/T profile: N_grand_T_grand
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — Erreur de generation confirmee (voir mission) : ce dataset est un objet sf de polygones electoraux polonais (2495 unites administratives, elections 2015), sans structure panel — les tours 1 et 2 de l'election sont des paires de colonnes (I_*/II_*) dans la meme ligne, pas des periodes repetees. Confirme par wiki/datasets/r_package_docs/spDataLarge/topics/pol_pres15.md ('sf data frame object with 2495 areal units and 65 variables').
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: pending inspection
 - Spatial extent: x [14.2222, 24.0176], y [49.1565, 54.7922] (EPSG:4326)
-- Time range: not applicable (cross-sectional dataset)
+- Time range: pending inspection
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -145,7 +144,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

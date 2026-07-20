@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_spData_depmunic_depmunic
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spData_depmunic_depmunic.rds
 tags: [dataset, r-package, spatial, point]
@@ -45,24 +45,25 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ### Formule — niveau publication
 
-- formula_pub: y_ij = rho*W_i*y + x'_ij*beta + z'_j*gamma + theta_j (modele hierarchique spatial general, Dong & Harris 2014) — NON instancie sur les colonnes reelles
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis. DOI:10.1111/gean.12049
+- formula_pub: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
+- x_terms_pub: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
+- y_term_pub: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
+- Reference publication: Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: a verifier
-- Niveau de preuve: article
-- Methode d'estimation: Modele autoregressif spatial hierarchique (SAR multi-niveaux)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: La formule presente (enrichissement anterieur) est l'equation generique de la classe de modeles du papier Dong & Harris (notation y_ij/x_ij/z_j), pas une instanciation sur les colonnes reelles (airbnb, pop_rest, museums, population, greensp, area). Candidat par analogie propose : airbnb~museums+population+greensp+area (OLS), coherent avec la structure hedonique/attractivite du departement, mais NON verifie dans une source explicitement chiffree sur ce jeu precis (N=7, tres petit echantillon).
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: y_ij = rho*W_i*y + x'_ij*beta + z'_j*gamma + theta_j (modele hierarchique spatial general, Dong & Harris 2014) — NON instancie sur les colonnes reelles
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spData_depmunic_depmunic`
@@ -82,13 +83,13 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "y_ij = rho*W_i*y + x'_ij*beta + z'_j*gamma + theta_j (modele hierarchique spatial general, Dong & Harris 2014) — NON instancie sur les colonnes reelles"
-  equation_family: spatial_lag
-  model_family: "Modele autoregressif spatial hierarchique (SAR multi-niveaux)"
-  source_type: full_paper
-  source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis. DOI:10.1111/gean.12049"
-  confidence: medium
+  existing_model_found: false
+  equation_text: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +124,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

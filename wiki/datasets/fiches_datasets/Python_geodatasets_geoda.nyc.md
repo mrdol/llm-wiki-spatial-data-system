@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.nyc
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.nyc.rds
 tags: [dataset, python-package, spatial, point]
@@ -69,18 +69,18 @@ Dataset spatial issu du package Python `geodatasets` (`nyc`).
 
 ### Formule — niveau publication
 
-- formula_pub: rent2008~forhis08+forwh08+hhsiz08+pubast90+kids2008
-- x_terms_pub: forhis08+forwh08+hhsiz08+pubast90+kids2008
-- y_term_pub: rent2008
-- Reference publication: Analogie structurelle avec spdata.boston / geoda.us_sdoh (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Loyer de secteur explique par composition demographique -- structure hedonique/SDOH comparable a Boston/us_sdoh. NOTE ADDITIONNELLE (hors perimetre formule) : ce dataset presente le meme pattern de colonnes suffixees par annee (rent2002/2005/2008, kids2000..2008, hhsiz1990..08) que Python_geodatasets_geoda.chile_labor -- possible structure spatio-temporelle en format large non detectee, a verifier separement (Tache 2).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -107,12 +107,12 @@ Dataset spatial issu du package Python `geodatasets` (`nyc`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "rent2008~forhis08+forwh08+hhsiz08+pubast90+kids2008"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec spdata.boston / geoda.us_sdoh (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -148,7 +148,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

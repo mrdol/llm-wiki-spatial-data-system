@@ -1,8 +1,8 @@
-﻿---
+---
 title: Python_geodatasets_geoda.nyc_education
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.nyc_education.rds
 tags: [dataset, python-package, spatial, point]
@@ -70,24 +70,25 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 
 ### Formule — niveau publication
 
-- formula_pub: mean_inc~sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
-- x_terms_pub: sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
-- y_term_pub: mean_inc
-- Reference publication: arxiv.org/pdf/2212.05814
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: OLS/GWR/GWRBoost
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: mean_inc~sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
-- x_terms_used: sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT
-- y_term_used: mean_inc
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.nyc_education`
@@ -107,13 +108,13 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "mean_inc~sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT"
-  equation_family: geographically_weighted
-  model_family: "OLS/GWR/GWRBoost"
-  source_type: software_documentation
-  source_ref: "arxiv.org/pdf/2212.05814"
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -148,7 +149,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

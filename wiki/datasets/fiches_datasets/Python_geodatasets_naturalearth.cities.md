@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_naturalearth.cities
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_naturalearth.cities.rds
 tags: [dataset, python-package, spatial, point]
@@ -52,18 +52,18 @@ Dataset spatial issu du package Python `geodatasets` (`cities`).
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mauvais candidat
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Jeu de points de villes (coordonnees + noms) sans variable de reponse — pas de regression par nature. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Les X disponibles (scalerank, labelrank, min_zoom) sont des metadonnees de rendu cartographique, pas des covariables substantielles.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -93,7 +93,7 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
   source_ref: "null"
   confidence: low
@@ -131,7 +131,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: Variables avec NA > 20% : namepar (NA=93.8%), namealt (NA=82.3%), capin (NA=86.4%), note (NA=99.2%), meganame (NA=40.3%)
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: WARN - variables avec NA > 20% : namepar (NA=93.8%), namealt (NA=82.3%), capin (NA=86.4%), note (NA=99.2%), meganame (NA=40.3%).
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_spaMM_arabidopsis_arabidopsis
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spaMM_arabidopsis_arabidopsis.rds
 tags: [dataset, r-package, spatial, point]
@@ -59,23 +59,24 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 ### Formule — niveau publication
 
 - formula_pub: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
-- x_terms_pub: seasonal + Matern(1|LAT+LONG)
+- x_terms_pub: seasonal, Matern(1|LAT+LONG)
 - y_term_pub: cbind(pos1046738, 1-pos1046738)
-- Reference publication: Fournier-Level A. et al. (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89. DOI:10.1126/science.1209271
+- Reference publication: Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GLMM binomial geostatistique (Matern), genomique du paysage
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur), coherente avec le DOI Bloc 2 ; meme structure applicable aux 3 autres SNP binaires du dataset.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
-- x_terms_used: seasonal + Matern(1|LAT+LONG)
-- y_term_used: cbind(pos1046738, 1-pos1046738)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spaMM_arabidopsis_arabidopsis`
@@ -95,13 +96,13 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
+  existing_model_found: false
   equation_text: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
-  equation_family: generalized_linear
-  model_family: "GLMM binomial geostatistique (Matern), genomique du paysage"
-  source_type: software_documentation
-  source_ref: "Fournier-Level A. et al. (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89. DOI:10.1126/science.1209271"
-  confidence: high
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -136,7 +137,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CeCILL-2).
 
 ## Related Pages
 

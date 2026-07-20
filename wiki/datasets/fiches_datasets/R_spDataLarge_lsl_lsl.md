@@ -1,8 +1,8 @@
 ---
 title: R_spDataLarge_lsl_lsl
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spDataLarge_lsl_lsl.rds
 tags: [dataset, r-package, spatial, point]
@@ -46,23 +46,23 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 ### Formule — niveau publication
 
 - formula_pub: lslpts ~ slope + cplan + cprof + elev + log10_carea
-- x_terms_pub: slope + cplan + cprof + elev + log10_carea
+- x_terms_pub: slope, cplan, cprof, elev, log10_carea
 - y_term_pub: lslpts
-- Reference publication: Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284. DOI:10.1016/j.geomorph.2011.10.029
+- Reference publication: Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GLM logistique (classification binaire glissements de terrain)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur), coherente avec les colonnes reelles et le DOI Bloc 2 ; dataset canonique du chapitre 'Statistical learning' de Geocomputation with R.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: lslpts ~ slope + cplan + cprof + elev + log10_carea
-- x_terms_used: slope + cplan + cprof + elev + log10_carea
-- y_term_used: lslpts
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -83,13 +83,13 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
+  existing_model_found: false
   equation_text: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
-  equation_family: spatial_error
-  model_family: "GLM logistique (classification binaire glissements de terrain)"
-  source_type: software_documentation
-  source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284. DOI:10.1016/j.geomorph.2011.10.029"
-  confidence: high
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -124,7 +124,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source ; EPSG:32717 extrait de la documentation et reporte dans le Bloc 5.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_chicagoSDOH
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_libpysal_chicagoSDOH.rds
 tags: [dataset, python-package, spatial, point]
@@ -81,18 +81,18 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 
 ### Formule — niveau publication
 
-- formula_pub: YPLL_rate ~ EP_MINRTY + EP_NOHSDP + Pov14 + Unemp14 + VCRIMERT15
-- x_terms_pub: EP_MINRTY + EP_NOHSDP + Pov14 + Unemp14 + VCRIMERT15
-- y_term_pub: YPLL_rate
-- Reference publication: Kolak et al. (2020), DOI:10.1001/jamanetworkopen.2019.19928 (etude source de l'analogie)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS/GWR (analogie avec geoda.us_sdoh)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE — non verifie, mais analogie forte a confirmer comme possible homologue Tache 3. Le dataset partage l'indicateur exact YPLL avec geoda.us_sdoh (bon candidat, formule YPLL~Advantage+Mobility+Opportunity+MICA+Violent_crime, source Kolak et al. 2020, DOI:10.1001/jamanetworkopen.2019.19928, etude realisee precisement sur Chicago). Il est possible que chicagoSDOH soit la microdonnee source de cette meme etude plutot qu'un simple analogue structurel — a verifier explicitement (mapping Advantage/Mobility/Opportunity/MICA vers EP_MINRTY/EP_NOHSDP/Pov14/Unemp14/VCRIMERT15 propose ici par correspondance de role, non par nom de colonne).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -119,31 +119,30 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "YPLL_rate ~ EP_MINRTY + EP_NOHSDP + Pov14 + Unemp14 + VCRIMERT15"
-  equation_family: geographically_weighted
-  model_family: "OLS/GWR (analogie avec geoda.us_sdoh)"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Kolak et al. (2020), DOI:10.1001/jamanetworkopen.2019.19928 (etude source de l'analogie)"
+  source_ref: "null"
   confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel
 - N observations: 791
-- T periods: 1
-- Variable temporelle: none
-- N/T profile: N_grand_T_1
+- T periods: 617
+- Variable temporelle: YEARS_LOST
+- N/T profile: N_grand_T_grand
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — YEARS_LOST est un indicateur de sante (annees de vie perdues), pas une variable temporelle : sa cardinalite (617 valeurs uniques sur 791 lignes) a ete prise a tort pour un axe temporel repete. Dataset census-tract-level en coupe transversale (Chicago Social Determinants of Health).
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: pending inspection
 - Spatial extent: x [-87.8468, -87.5299], y [41.6509, 42.021] (EPSG:4326)
-- Time range: not applicable (cross-sectional dataset)
+- Time range: pending inspection
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -161,7 +160,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

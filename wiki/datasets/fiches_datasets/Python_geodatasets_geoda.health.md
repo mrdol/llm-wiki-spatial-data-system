@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.health
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.health.rds
 tags: [dataset, python-package, spatial, point]
@@ -68,18 +68,18 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 
 ### Formule — niveau publication
 
-- formula_pub: ratio~tractmhir+Diversity+Whitealon+BlackorA
-- x_terms_pub: tractmhir+Diversity+Whitealon+BlackorA
-- y_term_pub: ratio
-- Reference publication: Analogie structurelle avec geoda.us_sdoh (SDOH) (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Analogie structurelle avec geoda.us_sdoh (bon candidat, YPLL~Advantage+Mobility+Opportunity+MICA+Violent_crime) : indicateur de sante publique au niveau secteur explique par des determinants sociaux (pauvrete, education, chomage, revenu), domaine substantiellement identique (sante publique et determinants sociaux). Confiance plus faible : semantique exacte de 'ratio' et des variables le_agg_q*/le_racea_* (esperance de vie par quartile/race) reste ambigue sans documentation source -- a confirmer avant usage.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -106,12 +106,12 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "ratio~tractmhir+Diversity+Whitealon+BlackorA"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec geoda.us_sdoh (SDOH) (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -147,7 +147,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: Variables avec NA > 20% : c, z, _, n, a, m, e,  , (, N, A, =, 4, 2, ., 6, %, )
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: WARN - variables avec NA > 20% : cz_name (NA=42.6%).
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

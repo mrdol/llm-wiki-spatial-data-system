@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.hickory2
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.hickory2.rds
 tags: [dataset, python-package, spatial, point]
@@ -69,18 +69,18 @@ Dataset spatial issu du package Python `geodatasets` (`hickory2`).
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mauvais candidat
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune regression canonique documentee retrouvee dans la litterature ou la documentation du package pour ce jeu de donnees lors de la recherche manuelle exhaustive (web + sources primaires). [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : PCTIME/etablissements d'entreprise par secteur -- aucun bon candidat de la banque ne couvre ce domaine.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -110,7 +110,7 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
   source_ref: "null"
   confidence: low
@@ -118,20 +118,19 @@ modeling_evidence:
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel
 - N observations: 29
-- T periods: 1
-- Variable temporelle: none
-- N/T profile: N_petit_T_1
+- T periods: 29
+- Variable temporelle: PCTIME
+- N/T profile: N_petit_T_grand
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — PCTIME comptait autant de valeurs uniques que de lignes (T=N=29) — signature typique d'une variable continue prise a tort pour un axe temporel repete ; coupe transversale de census tracts.
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: pending inspection
 - Spatial extent: x [-81.9791, -80.9651], y [35.4773, 36.0738] (EPSG:4326)
-- Time range: not applicable (cross-sectional dataset)
+- Time range: pending inspection
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -149,7 +148,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

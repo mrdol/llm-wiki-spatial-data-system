@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.sacramento1
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.sacramento1.rds
 tags: [dataset, python-package, spatial, point]
@@ -65,18 +65,18 @@ Dataset spatial issu du package Python `geodatasets` (`sacramento1`).
 
 ### Formule — niveau publication
 
-- formula_pub: HSG_VAL~TOT_POP+POV_POP+WHITE_+BLACK_+EMPL16+OCC_MAN+OCC_OFF1
-- x_terms_pub: TOT_POP+POV_POP+WHITE_+BLACK_+EMPL16+OCC_MAN+OCC_OFF1
-- y_term_pub: HSG_VAL
-- Reference publication: Analogie structurelle avec spdata.boston (hedonique census-tract) (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Schema identique a 8 autres jeux 'small area' GeoDa (memes colonnes TOT_POP/POV_POP/WHITE/BLACK/EMPL16/OCC_MAN/OCC_OFF1). Analogie structurelle avec spdata.boston (bon candidat, log(CMEDV)~CRIM+...+B+LSTAT : valeur immobiliere/socioeconomique de secteur de recensement expliquee par la composition raciale et socioeconomique) : meme role de variables (Y = indicateur de valeur/richesse au niveau tract, X = composition demographique/raciale/emploi), domaine substantiellement identique (hedonique/socioeconomique a l'echelle du census tract).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -103,12 +103,12 @@ Dataset spatial issu du package Python `geodatasets` (`sacramento1`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "HSG_VAL~TOT_POP+POV_POP+WHITE_+BLACK_+EMPL16+OCC_MAN+OCC_OFF1"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec spdata.boston (hedonique census-tract) (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -144,7 +144,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

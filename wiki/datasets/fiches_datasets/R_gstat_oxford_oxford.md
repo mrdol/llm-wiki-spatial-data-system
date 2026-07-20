@@ -1,8 +1,8 @@
 ---
 title: R_gstat_oxford_oxford
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_gstat_oxford_oxford.rds
 tags: [dataset, r-package, spatial, point]
@@ -58,18 +58,18 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ### Formule — niveau publication
 
-- formula_pub: PH1~ELEV+LIME1
-- x_terms_pub: ELEV+LIME1
-- y_term_pub: PH1
-- Reference publication: Analogie structurelle avec R_agridat_gartner.corn_gartner.corn (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: GWR/OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Propriete de profil de sol expliquee par l'elevation et le chaulage -- meme logique geomorphologique que gartner.corn (bon candidat, yield~elevation, GWR) ou l'elevation est la covariable geomorphologique primaire d'une propriete agro-pedologique.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -96,12 +96,12 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "PH1~ELEV+LIME1"
-  equation_family: geographically_weighted
-  model_family: "GWR/OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec R_agridat_gartner.corn_gartner.corn (banque interne, mission 2026-07)"
+  source_ref: "Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press."
   confidence: low
 ```
 
@@ -137,7 +137,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 

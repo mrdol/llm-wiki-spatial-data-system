@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_gstat_meuse.all_meuse.all
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds
 tags: [dataset, r-package, spatial, point]
@@ -55,19 +55,20 @@ This data set gives locations and top soil heavy metal concentrations (ppm), alo
 - y_term_pub: log(zinc)
 - Reference publication: Tutoriel officiel gstat (Pebesma)
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
 - Statut: bon candidat
 - Niveau de preuve: verbatim
 - Methode d'estimation: OLS + krigeage universel
 - Correspondance Python/R: R_sp_meuse_meuse
-- Note: n/a
+- Note: Formule identifiee via la documentation du package equivalent `R_sp_meuse_meuse` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
-- x_terms_used: sqrt(dist) (idem cadmium/lead/copper)
-- y_term_used: log(zinc)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_gstat_meuse.all_meuse.all`
@@ -91,9 +92,9 @@ modeling_evidence:
   equation_text: "log(zinc)~sqrt(dist) (idem cadmium/lead/copper)"
   equation_family: unknown
   model_family: "OLS + krigeage universel"
-  source_type: software_documentation
+  source_type: unknown
   source_ref: "Tutoriel officiel gstat (Pebesma)"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -128,7 +129,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 

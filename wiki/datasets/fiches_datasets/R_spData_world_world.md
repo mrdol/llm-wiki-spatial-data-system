@@ -1,8 +1,8 @@
 ---
 title: R_spData_world_world
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spData_world_world.rds
 tags: [dataset, r-package, spatial, point]
@@ -47,18 +47,18 @@ The object loaded is a ‘sf’ object containing a world map data from Natural 
 
 ### Formule — niveau publication
 
-- formula_pub: lifeExp~log(gdpPercap)
-- x_terms_pub: log(gdpPercap)
-- y_term_pub: lifeExp
-- Reference publication: Preston S.H. (1975), The changing relation between mortality and level of economic development, Population Studies 29(2):231-248
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS (courbe de Preston)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie sur ce jeu precis. Il ne s'agit pas d'une analogie avec un autre dataset de la banque, mais d'une relation canonique tres documentee dans la litterature demographique/econometrique (courbe de Preston, esperance de vie ~ log(PIB par habitant)) directement applicable a ce type de donnees pays (memes variables : lifeExp, gdpPercap). Non confirme specifiquement pour la version rnaturalearth/spData::world de ces variables.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -85,12 +85,12 @@ The object loaded is a ‘sf’ object containing a world map data from Natural 
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "lifeExp~log(gdpPercap)"
-  equation_family: linear
-  model_family: "OLS (courbe de Preston)"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Preston S.H. (1975), The changing relation between mortality and level of economic development, Population Studies 29(2):231-248"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -126,7 +126,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

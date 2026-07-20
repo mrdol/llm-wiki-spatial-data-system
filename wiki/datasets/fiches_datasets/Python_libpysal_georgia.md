@@ -1,8 +1,8 @@
-﻿---
+---
 title: Python_libpysal_georgia
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
 tags: [dataset, python-package, spatial, point]
@@ -53,19 +53,20 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 - y_term_pub: PctBach
 - Reference publication: Fotheringham, Brunsdon & Charlton (2002), Wiley
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
 - Statut: bon candidat
 - Niveau de preuve: verbatim
 - Methode d'estimation: GWR
 - Correspondance Python/R: R_GWmodel_GeorgiaCounties_Gedu.counties
-- Note: Formule identifiee via la documentation du package R equivalent GWmodel::Gedu.counties — meme jeu de donnees sous-jacent (Georgia, Fotheringham et al. 2002).
+- Note: Formule identifiee via la documentation du package equivalent `R_GWmodel_GeorgiaCounties_Gedu.counties` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
-- x_terms_used: PctRural+PctFB+PctBlack+PctEld
-- y_term_used: PctBach
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_libpysal_georgia`
@@ -87,11 +88,11 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: geographically_weighted
+  equation_family: unknown
   model_family: "GWR"
-  source_type: software_documentation
+  source_type: unknown
   source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +127,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

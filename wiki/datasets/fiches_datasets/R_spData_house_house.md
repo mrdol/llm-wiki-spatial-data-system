@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_spData_house_house
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spData_house_house.rds
 tags: [dataset, r-package, spatial, point]
@@ -62,24 +62,25 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 
 ### Formule — niveau publication
 
-- formula_pub: log(price)~TLA+Frontage+Depth+age+beds+baths+... (24 variables)
-- x_terms_pub: TLA+Frontage+Depth+age+beds+baths+... (24 variables)
-- y_term_pub: log(price)
-- Reference publication: github.com/Nowosad/spData/blob/master/R/house.R ; LeSage & Pace (2004)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Pace, R. Kelley and Barry, Ronald (1997) Quick Computation of Spatial Autoregressive Estimators. Geographical Analysis
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: OLS/SAR/krigeage
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: log(price)~TLA+Frontage+Depth+age+beds+baths+... (24 variables)
-- x_terms_used: TLA+Frontage+Depth+age+beds+baths+... (24 variables)
-- y_term_used: log(price)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spData_house_house`
@@ -99,31 +100,30 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(price)~TLA+Frontage+Depth+age+beds+baths+... (24 variables)"
-  equation_family: spatial_lag
-  model_family: "OLS/SAR/krigeage"
-  source_type: software_documentation
-  source_ref: "github.com/Nowosad/spData/blob/master/R/house.R ; LeSage & Pace (2004)"
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Pace, R. Kelley and Barry, Ronald (1997) Quick Computation of Spatial Autoregressive Estimators. Geographical Analysis"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel
 - N observations: 25357
-- T periods: 1
-- Variable temporelle: none
-- N/T profile: N_grand_T_1
+- T periods: 1444
+- Variable temporelle: sdate
+- N/T profile: N_grand_T_grand
 
-> **Correction metadonnees (Tache 2, juillet 2026)** — `sdate` est la date de vente individuelle de chaque maison (25 357 ventes distinctes, comte de Lucas OH, 1993-1998) — chaque ligne est une transaction unique, pas une unite spatiale suivie repetee. Confirme par wiki/datasets/r_package_docs/spData/topics/house.md ('25,357 single family homes sold ... 1993-1998'). T=1444 (nombre de dates de vente distinctes) ne constitue pas un axe panel.
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: pending inspection
 - Spatial extent: x [-83.8824, -83.2399], y [41.4169, 41.7323] (EPSG:4326)
-- Time range: not applicable (cross-sectional dataset)
+- Time range: pending inspection
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -141,7 +141,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

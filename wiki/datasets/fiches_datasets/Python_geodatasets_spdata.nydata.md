@@ -1,8 +1,8 @@
-﻿---
+---
 title: Python_geodatasets_spdata.nydata
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.nydata.rds
 tags: [dataset, python-package, spatial, point]
@@ -47,24 +47,25 @@ Dataset spatial issu du package Python `geodatasets` (`nydata`).
 
 ### Formule — niveau publication
 
-- formula_pub: CASES~PEXPOSURE+PCTOWNHOME+PCTAGE65P+offset(log(POP8))
-- x_terms_pub: PEXPOSURE+PCTOWNHOME+PCTAGE65P+offset(log(POP8))
-- y_term_pub: CASES
-- Reference publication: hughst.github.io/week-7/ ; SISMID 2022 (L. Waller)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GLM Poisson
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: CASES~PEXPOSURE+PCTOWNHOME+PCTAGE65P+offset(log(POP8))
-- x_terms_used: PEXPOSURE+PCTOWNHOME+PCTAGE65P+offset(log(POP8))
-- y_term_used: CASES
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.nydata`
@@ -84,13 +85,13 @@ Dataset spatial issu du package Python `geodatasets` (`nydata`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "CASES~PEXPOSURE+PCTOWNHOME+PCTAGE65P+offset(log(POP8))"
-  equation_family: generalized_linear
-  model_family: "GLM Poisson"
-  source_type: software_documentation
-  source_ref: "hughst.github.io/week-7/ ; SISMID 2022 (L. Waller)"
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -125,7 +126,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: Variables avec NA > 20% : A, R, E, A, N, A, M, E,  , (, N, A, =, 2, 9, ., 5, %, )
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: WARN - variables avec NA > 20% : AREANAME (NA=29.5%).
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

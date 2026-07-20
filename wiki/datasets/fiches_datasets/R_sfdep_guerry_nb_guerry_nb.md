@@ -1,8 +1,8 @@
 ---
 title: R_sfdep_guerry_nb_guerry_nb
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_sfdep_guerry_nb_guerry_nb.rds
 tags: [dataset, r-package, spatial, point]
@@ -60,18 +60,18 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Dray, S. and Jombart, T. (2011) Revisiting Guerry's Data: Introducing Spatial Constraints in Multivariate Analysis. The Annals of Applied Statistics, Vol. 5, No. 4, 2278-2299
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mis de cote
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Tres probablement la matrice/liste de voisinage (`nb`) associee au dataset Guerry, pas un dataset autonome. A ecarter automatiquement de toute recherche de formule de regression : voir la fiche `guerry` (Python_geodatasets_geoda.guerry et tout homologue R) dont `guerry_nb` est l'objet de voisinage derive.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -101,9 +101,9 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "null"
+  source_ref: "Dray, S. and Jombart, T. (2011) Revisiting Guerry's Data: Introducing Spatial Constraints in Multivariate Analysis. The Annals of Applied Statistics, Vol. 5, No. 4, 2278-2299"
   confidence: low
 ```
 
@@ -139,7 +139,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL-3).
 
 ## Related Pages
 

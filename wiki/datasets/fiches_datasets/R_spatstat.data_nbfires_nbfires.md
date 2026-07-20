@@ -1,8 +1,8 @@
 ---
 title: R_spatstat.data_nbfires_nbfires
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spatstat.data_nbfires_nbfires.rds
 tags: [dataset, r-package, spatial, point]
@@ -46,18 +46,18 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Turner, Rolf (2009) Point patterns of forest fire locations. Environmental and Ecological Statistics, 16, 197–223.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: a verifier
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Processus ponctuel (feux Nouveau-Brunswick) ; modeles d'intensite/logistique spatiale possibles mais aucune formule nommee confirmee. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Taille de feu (continue, pas un comptage) expliquee par cause/type/origine -- aucun bon candidat de la banque ne couvre le risque incendie ; analogie aux modeles de comptage de maladies jugee trop superficielle (domaines non comparables).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -87,9 +87,9 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "null"
+  source_ref: "Turner, Rolf (2009) Point patterns of forest fire locations. Environmental and Ecological Statistics, 16, 197–223."
   confidence: low
 ```
 
@@ -125,7 +125,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

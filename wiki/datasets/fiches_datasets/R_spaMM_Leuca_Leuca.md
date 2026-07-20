@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_spaMM_Leuca_Leuca
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spaMM_Leuca_Leuca.rds
 tags: [dataset, r-package, spatial, point]
@@ -49,23 +49,24 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 ### Formule — niveau publication
 
 - formula_pub: fec_div ~ sex + Matern(1|x+y %in% sex)
-- x_terms_pub: sex + Matern(1|x+y %in% sex)
+- x_terms_pub: sex, Matern(1|x+y %in% sex)
 - y_term_pub: fec_div
-- Reference publication: Tonnabel J. et al. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30:1721-1735. DOI:10.1111/mec.15833
+- Reference publication: Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GLMM geostatistique (effet spatial Matern sexe-specifique)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur), coherente avec le DOI Bloc 2 et les colonnes reelles.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
-- x_terms_used: sex + Matern(1|x+y %in% sex)
-- y_term_used: fec_div
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spaMM_Leuca_Leuca`
@@ -85,13 +86,13 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
+  existing_model_found: false
   equation_text: "fec_div ~ sex + Matern(1|x+y %in% sex)"
-  equation_family: generalized_linear
-  model_family: "GLMM geostatistique (effet spatial Matern sexe-specifique)"
-  source_type: software_documentation
-  source_ref: "Tonnabel J. et al. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30:1721-1735. DOI:10.1111/mec.15833"
-  confidence: high
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +127,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CeCILL-2).
 
 ## Related Pages
 

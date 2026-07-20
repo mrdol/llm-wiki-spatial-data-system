@@ -1,8 +1,8 @@
 ---
 title: R_spData_properties_properties
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spData_properties_properties.rds
 tags: [dataset, r-package, spatial, point]
@@ -44,18 +44,18 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 
 ### Formule — niveau publication
 
-- formula_pub: price~size+age+dist_metro
-- x_terms_pub: size+age+dist_metro
-- y_term_pub: price
-- Reference publication: Analogie structurelle avec Python_libpysal_Baltimore / spdata.boston / R_spData_house_house (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Structure hedonique directe (prix ~ surface, age, distance au metro) analogue a Baltimore/Boston/house (bons candidats hedoniques) -- ici les covariables sont deja les propres colonnes du jeu, pas besoin de les deviner, seule la mise en forme canonique manquait.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -82,12 +82,12 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "price~size+age+dist_metro"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec Python_libpysal_Baltimore / spdata.boston / R_spData_house_house (banque interne, mission 2026-07)"
+  source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
   confidence: low
 ```
 
@@ -123,7 +123,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CC0).
 
 ## Related Pages
 

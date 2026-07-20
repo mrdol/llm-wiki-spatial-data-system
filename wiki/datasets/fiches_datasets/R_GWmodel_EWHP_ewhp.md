@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_EWHP_ewhp
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -50,24 +50,24 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Formule — niveau publication
 
-- formula_pub: PurPrice~BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
-- x_terms_pub: BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
-- y_term_pub: PurPrice
-- Reference publication: Gollini et al. (2015), JSS 63, arxiv.org/pdf/1306.0413
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GWR/OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: PurPrice~BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
-- x_terms_used: BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea
-- y_term_used: PurPrice
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -88,13 +88,13 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "PurPrice~BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea"
-  equation_family: geographically_weighted
-  model_family: "GWR/OLS"
-  source_type: software_documentation
-  source_ref: "Gollini et al. (2015), JSS 63, arxiv.org/pdf/1306.0413"
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,20 +110,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [224000, 654600], y [47800, 574000] (EPSG:27700, resolu 2026-07-02)
+- Spatial extent: x [224000, 654600], y [47800, 574000] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: 27700
-- CRS nom: OSGB36 / British National Grid
-- CRS analyse recommande: 27700 (OSGB36 / British National Grid) — deja projete, adapte a l'analyse
-
-> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds ni
-> documente dans `wiki/datasets/r_package_docs/GWmodel/topics/EWHP.md`. Resolu par
-> analogie avec `LondonHP` (meme package GWmodel), dont la documentation
-> (`wiki/datasets/r_package_docs/GWmodel/topics/LondonHP.md`) precise explicitement
-> `+init=epsg:27700 +datum=OSGB36`. L'emprise observee (x:[224000,654600],
-> y:[47800,574000]) correspond exactement a la plage attendue du British National
-> Grid (eastings 0-700000, northings 0-1300000).
+- CRS EPSG: unknown [lookup required]
+- CRS nom: unknown
+- CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
 
@@ -137,7 +129,14 @@ modeling_evidence:
 
 ## Quality Control
 
-CRS resolu le 2026-07-02 (EPSG:27700, voir note Bloc 5).
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

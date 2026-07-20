@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_spaMM_Loaloa_Loaloa
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_spaMM_Loaloa_Loaloa.rds
 tags: [dataset, r-package, spatial, point]
@@ -48,24 +48,25 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 
 ### Formule — niveau publication
 
-- formula_pub: cbind(npos, ntot-npos) ~ elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
-- x_terms_pub: elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
+- formula_pub: cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)
+- x_terms_pub: elev1, elev2, elev3, elev4, maxNDVI1, seNDVI, Matern(1|longitude+latitude)
 - y_term_pub: cbind(npos, ntot-npos)
-- Reference publication: Diggle P.J. et al. (2007) Spatial modelling and the prediction of Loa loa risk. Annals of Tropical Medicine and Parasitology, 101(6), 499-509. DOI:10.1179/136485907X229121
+- Reference publication: Diggle P.J., Thomson M.C., Christensen O.F., Rowlingson B., Obsomer V., Gardon J., Wanji S., Takougang I., Enyong P., Kamgno J., Remme J.H., Boussinesq M., Molyneux D.H. (2007) Spatial modelling and the prediction of Loa loa risk: decision making under uncertainty. Annals of Tropical Medicine and Parasitology, 101(6), 499–509
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GLMM binomial geostatistique (Matern)
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur) ; dataset canonique de la litterature de geostatistique pour donnees binomiales (Diggle & Ribeiro).
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: cbind(npos, ntot-npos) ~ elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
-- x_terms_used: elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)
-- y_term_used: cbind(npos, ntot-npos)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spaMM_Loaloa_Loaloa`
@@ -85,13 +86,13 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "cbind(npos, ntot-npos) ~ elev1+elev2+elev3+elev4+maxNDVI1+seNDVI+Matern(1|longitude+latitude)"
-  equation_family: generalized_linear
-  model_family: "GLMM binomial geostatistique (Matern)"
-  source_type: software_documentation
-  source_ref: "Diggle P.J. et al. (2007) Spatial modelling and the prediction of Loa loa risk. Annals of Tropical Medicine and Parasitology, 101(6), 499-509. DOI:10.1179/136485907X229121"
-  confidence: high
+  existing_model_found: false
+  equation_text: "cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Diggle P.J., Thomson M.C., Christensen O.F., Rowlingson B., Obsomer V., Gardon J., Wanji S., Takougang I., Enyong P., Kamgno J., Remme J.H., Boussinesq M., Molyneux D.H. (2007) Spatial modelling and the prediction of Loa loa risk: decision making under uncertainty. Annals of Tropical Medicine and Parasitology, 101(6), 499–509"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +127,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (CeCILL-2).
 
 ## Related Pages
 

@@ -1,8 +1,8 @@
 ---
 title: R_ade4_julliot_julliot
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_ade4_julliot_julliot.rds
 tags: [dataset, r-package, spatial, point]
@@ -49,18 +49,18 @@ This data set gives the spatial distribution of seeds (quadrats counts) of seven
 
 ### Formule — niveau publication
 
-- formula_pub: none (aucune regression canonique documentee -- recherche manuelle exhaustive menee)
-- x_terms_pub: none
-- y_term_pub: none
-- Reference publication: none (aucune source verifiable retrouvee)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Julliot, C. (1992). Utilisation des ressources alimentaires par le singe hurleur roux, _Alouatta seniculus_ (Atelidae, Primates), en Guyane : impact de la dissémination des graines sur la régénération forestière. Thèse de troisième cycle, Université de Tours.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: mauvais candidat
+- Statut: pending
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Package ade4 = ordination multivariee (ACP/RDA/CCA) ; structure de donnees confirmee a 5 reprises independantes (doubs/avijons/oribatid/mafragh/jv73) comme non adaptee a une regression canonique a variable dependante unique. [Revue Tache 4 (2026-07-02) : aucune analogie structurelle pertinente identifiee avec un bon candidat existant -- statut inchange plutot que forcer un rapprochement faible.] Raison : Y = abondances de 7 especes d'arbres, aucune covariable environnementale identifiee -- table d'abondance ecologique typique ade4, pas de regression a cible unique exploitable.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -90,9 +90,9 @@ modeling_evidence:
   existing_model_found: false
   equation_text: "null"
   equation_family: unknown
-  model_family: "unknown"
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "null"
+  source_ref: "Julliot, C. (1992). Utilisation des ressources alimentaires par le singe hurleur roux, _Alouatta seniculus_ (Atelidae, Primates), en Guyane : impact de la dissémination des graines sur la régénération forestière. Thèse de troisième cycle, Université de Tours."
   confidence: low
 ```
 
@@ -128,7 +128,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: WARN - Y identifiee, mais X non identifiees automatiquement.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

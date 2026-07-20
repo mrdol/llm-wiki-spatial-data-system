@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_ade4_oribatid_oribatid
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_ade4_oribatid_oribatid.rds
 tags: [dataset, r-package, spatial, point]
@@ -43,24 +43,25 @@ This data set contains informations about environmental control and spatial stru
 
 ### Formule — niveau publication
 
-- formula_pub: RDA/CCA contrainte (pcaiv)
+- formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Borcard & Legendre (1994)
+- Reference publication: Borcard, D., and Legendre, P. (1994) Environmental control and spatial structure in ecological communities: an example using Oribatid mites (_Acari Oribatei_). _Environmental and Ecological Statistics_, *1*, 37-61.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: a verifier
-- Niveau de preuve: article
-- Methode d'estimation: Ordination sous contrainte
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Documentee par Borcard & Legendre (1994) mais format ordination multivariee, pas regression classique a variable dependante unique.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: RDA/CCA contrainte (pcaiv)
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_ade4_oribatid_oribatid`
@@ -80,13 +81,13 @@ This data set contains informations about environmental control and spatial stru
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "RDA/CCA contrainte (pcaiv)"
+  existing_model_found: false
+  equation_text: "null"
   equation_family: unknown
-  model_family: "Ordination sous contrainte"
-  source_type: full_paper
-  source_ref: "Borcard & Legendre (1994)"
-  confidence: medium
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Borcard, D., and Legendre, P. (1994) Environmental control and spatial structure in ecological communities: an example using Oribatid mites (_Acari Oribatei_). _Environmental and Ecological Statistics_, *1*, 37-61."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -121,7 +122,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: WARN - Y/X non identifiees automatiquement ; revue manuelle requise.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

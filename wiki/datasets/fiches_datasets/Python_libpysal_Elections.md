@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_Elections
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_libpysal_Elections.rds
 tags: [dataset, python-package, spatial, point]
@@ -83,18 +83,18 @@ Dataset spatial issu du package Python `libpysal` (`Elections`).
 
 ### Formule — niveau publication
 
-- formula_pub: pct_gop_16~AGE775214+SEX255214+RHI125214+EDU685213+INC110213+PVY020213
-- x_terms_pub: AGE775214+SEX255214+RHI125214+EDU685213+INC110213+PVY020213
-- y_term_pub: pct_gop_16
-- Reference publication: Analogie structurelle avec R_GWmodel_USelect_USelect2004 (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: GWR/OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Meme domaine que USelect2004 (bon candidat, winner~unemploy+pctcoled+PEROVER65+pcturban+WHITE, GWR) : resultat electoral par comte US explique par des variables demographiques du recensement (age, sexe, race, education, revenu, pauvrete) -- ici les variables sont les codes US Census QuickFacts (RHI=race/hispanic, EDU=education, INC=revenu, PVY=pauvrete).
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -121,12 +121,12 @@ Dataset spatial issu du package Python `libpysal` (`Elections`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "pct_gop_16~AGE775214+SEX255214+RHI125214+EDU685213+INC110213+PVY020213"
-  equation_family: geographically_weighted
-  model_family: "GWR/OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec R_GWmodel_USelect_USelect2004 (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -162,7 +162,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

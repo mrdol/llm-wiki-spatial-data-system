@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_sp_meuse_meuse
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
 tags: [dataset, r-package, spatial, point]
@@ -51,24 +51,25 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 
 ### Formule — niveau publication
 
-- formula_pub: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
-- x_terms_pub: sqrt(dist) (idem cadmium/lead/copper)
+- formula_pub: log(zinc) ~ sqrt(dist)
+- x_terms_pub: sqrt(dist)
 - y_term_pub: log(zinc)
-- Reference publication: Tutoriel officiel gstat (Pebesma)
+- Reference publication: Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: OLS + krigeage universel
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: R_gstat_meuse.all_meuse.all
-- Note: Formule identifiee via l'homologue R_gstat_meuse.all — meme jeu de donnees sous-jacent (metaux lourds riviere Meuse), distribue ici via le package sp (objet SpatialPointsDataFrame) plutot que gstat.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
-- x_terms_used: sqrt(dist) (idem cadmium/lead/copper)
-- y_term_used: log(zinc)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_sp_meuse_meuse`
@@ -88,13 +89,13 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(zinc)~sqrt(dist) (idem cadmium/lead/copper)"
+  existing_model_found: false
+  equation_text: "log(zinc) ~ sqrt(dist)"
   equation_family: unknown
-  model_family: "OLS + krigeage universel"
-  source_type: software_documentation
-  source_ref: "Tutoriel officiel gstat (Pebesma)"
-  confidence: high
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -129,7 +130,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source ; EPSG:28992 extrait de la documentation et reporte dans le Bloc 5.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

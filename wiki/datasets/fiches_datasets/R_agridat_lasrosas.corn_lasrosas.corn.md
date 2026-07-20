@@ -1,8 +1,8 @@
 ---
 title: R_agridat_lasrosas.corn_lasrosas.corn
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds
 tags: [dataset, r-package, spatial, point]
@@ -45,24 +45,24 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau publication
 
-- formula_pub: YIELD~N+N2+TOPO/TOP2-4+NXTOPz
-- x_terms_pub: N+N2+TOPO/TOP2-4+NXTOPz
-- y_term_pub: YIELD
-- Reference publication: geodacenter.github.io/data-and-lab/lasrosas/ ; DOI:10.1111/j.0002-9092.2004.00610.x
+- formula_pub: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- x_terms_pub: 1, nitro, I(nitro^2)
+- y_term_pub: yield
+- Reference publication: Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture.
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: SEM heteroskedastique
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: Python_geodatasets_geoda.lasrosas
-- Note: Formule identifiee via l'homologue Python geodatasets::geoda.lasrosas — meme jeu de donnees sous-jacent (essai agronomique La Rosas, Cordoba, Argentine).
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: YIELD~N+N2+TOPO/TOP2-4+NXTOPz
-- x_terms_used: N+N2+TOPO/TOP2-4+NXTOPz
-- y_term_used: YIELD
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -83,13 +83,13 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "YIELD~N+N2+TOPO/TOP2-4+NXTOPz"
-  equation_family: spatial_error
-  model_family: "SEM heteroskedastique"
-  source_type: software_documentation
-  source_ref: "geodacenter.github.io/data-and-lab/lasrosas/ ; DOI:10.1111/j.0002-9092.2004.00610.x"
-  confidence: high
+  existing_model_found: false
+  equation_text: "yield ~ 1 + nitro + I(nitro^2)"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -105,23 +105,17 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: pending inspection
-- Spatial extent: x [-63.8489, -63.8417], y [-33.0523, -33.0488] (EPSG:4326, resolu 2026-07-02)
+- Spatial extent: x [-63.8489, -63.8417], y [-33.0523, -33.0488] (CRS unknown)
 - Time range: pending inspection
 - Type de geometrie: POINT
-- CRS EPSG: 4326
-- CRS nom: WGS 84
-- CRS analyse recommande: 32720 (WGS 84 / UTM zone 20S) — reprojection recommandee pour analyse metrique (distances/W)
-
-> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds. Resolu
-> directement : les coordonnees `long`/`lat` sont sans ambiguite en degres WGS84
-> (plage x/y cent lieues du site La Rosas, Cordoba, Argentine). Pour la
-> construction de matrices de poids spatiaux (distances metriques), une
-> reprojection en EPSG:32720 (UTM zone 20S, couvrant -66° a -60°) est recommandee.
+- CRS EPSG: unknown [lookup required]
+- CRS nom: unknown
+- CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
 
 - License present: yes
-- License name: MIT + file LICENSE
+- License name: GPL-2
 - License URL: https://CRAN.R-project.org/package=agridat
 - License open: yes
 - Reproducibility status: available via package R `agridat`
@@ -130,7 +124,14 @@ modeling_evidence:
 
 ## Quality Control
 
-CRS resolu le 2026-07-02 (EPSG:4326, reprojection EPSG:32720 recommandee pour W, voir note Bloc 5).
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 

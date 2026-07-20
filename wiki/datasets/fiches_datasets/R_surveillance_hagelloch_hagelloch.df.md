@@ -1,8 +1,8 @@
 ---
 title: R_surveillance_hagelloch_hagelloch.df
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds
 tags: [dataset, r-package, spatial, point]
@@ -62,17 +62,17 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 ### Formule — niveau publication
 
 - formula_pub: ~ household + cox(AGE)
-- x_terms_pub: household + cox(AGE)
-- y_term_pub: 
-- Reference publication: Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249-261. DOI:10.1093/biostatistics/5.2.249
+- x_terms_pub: household, cox(AGE)
+- y_term_pub: pending
+- Reference publication: Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249–261
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: twinSIR (modele de survie / processus de comptage pour epidemie)
-- Correspondance Python/R: R_surveillance_hagelloch_hagelloch
-- Note: Formule deja presente (enrichissement anterieur) ; version spatiale pure (N=188) complementaire de hagelloch.
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
+- Correspondance Python/R: aucune identifiee
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -99,13 +99,13 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
+  existing_model_found: false
   equation_text: "~ household + cox(AGE)"
-  equation_family: simulation_model
-  model_family: "twinSIR (modele de survie / processus de comptage pour epidemie)"
-  source_type: software_documentation
-  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249-261. DOI:10.1093/biostatistics/5.2.249"
-  confidence: high
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249–261"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -140,8 +140,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: Variables avec NA > 20% : DEAD (NA=93.6%), TD (NA=58%), TM (NA=58%), tDEAD (NA=93.6%)
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: WARN - variables avec NA > 20% : DEAD (NA=93.6%), TD (NA=58%), TM (NA=58%), tDEAD (NA=93.6%).
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 

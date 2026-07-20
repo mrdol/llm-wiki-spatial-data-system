@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_GeorgiaCounties_Gedu.counties
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds
 tags: [dataset, r-package, spatial, point]
@@ -47,19 +47,19 @@ Dataset spatial issu du package R `GWmodel` (`GeorgiaCounties`).
 - y_term_pub: PctBach
 - Reference publication: Fotheringham, Brunsdon & Charlton (2002), Wiley
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
 - Statut: bon candidat
 - Niveau de preuve: verbatim
 - Methode d'estimation: GWR
 - Correspondance Python/R: Python_libpysal_georgia
-- Note: n/a
+- Note: Formule identifiee via la documentation du package equivalent `Python_libpysal_georgia` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
-- x_terms_used: PctRural+PctFB+PctBlack+PctEld
-- y_term_used: PctBach
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -82,11 +82,11 @@ Dataset spatial issu du package R `GWmodel` (`GeorgiaCounties`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: geographically_weighted
+  equation_family: unknown
   model_family: "GWR"
-  source_type: software_documentation
+  source_type: unknown
   source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -102,22 +102,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [636298.2136, 1058883.0273], y [3407273.375, 3865995] (EPSG:26916, resolu 2026-07-02)
+- Spatial extent: x [636298.2136, 1058883.0273], y [3407273.375, 3865995] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: 26916
-- CRS nom: NAD83 / UTM zone 16N
-- CRS analyse recommande: 26916 (NAD83 / UTM zone 16N) — deja projete, adapte a l'analyse
-
-> **Correction CRS (2026-07-02)** — Aucun CRS n'etait embarque dans le .rds ni
-> documente dans `wiki/datasets/r_package_docs/GWmodel/topics/Georgia.md`. Resolu
-> par inference : les colonnes `G_UTM_`/`G_UTM_ID` du shapefile source indiquent
-> explicitement une projection UTM ; l'easting max observe (1058883m) correspond
-> a la distance attendue (~1085km) entre le meridien central de la zone UTM 16N
-> (-87°) et l'extremite est de la Georgie (~-80.8°, cote atlantique), a la
-> latitude ~32°N — calcul : 6.2° x 111.3km x cos(32°) + 500000m (fausse easting)
-> ≈ 1085000m. Datum NAD83 suppose (NAD27 alternative possible mais materiellement
-> equivalent a cette echelle pour la construction d'une matrice de poids spatiaux).
+- CRS EPSG: unknown [lookup required]
+- CRS nom: unknown
+- CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
 
@@ -131,7 +121,14 @@ modeling_evidence:
 
 ## Quality Control
 
-CRS resolu le 2026-07-02 (EPSG:26916, voir note Bloc 5).
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

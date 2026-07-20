@@ -1,8 +1,8 @@
 ---
 title: R_gstat_jura_jura.pred
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.pred.rds
 tags: [dataset, r-package, spatial, point]
@@ -48,18 +48,18 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 
 ### Formule — niveau publication
 
-- formula_pub: log(Zn)~Landuse+Rock
-- x_terms_pub: Landuse+Rock
-- y_term_pub: log(Zn)
-- Reference publication: Analogie structurelle avec R_gstat_meuse.all_meuse.all (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, New-York, 483 p. (Appendix C describes the Jura data set)
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie (n'annule pas le statut principal : la methode publiee documentee reste le krigeage/cokrigeage, Goovaerts 1997). Meme domaine que meuse.all (bon candidat, log(zinc)~sqrt(dist)) : concentration en metal lourd expliquee par des covariables categorielles reelles du jeu (occupation du sol, geologie), disponible en complement de l'approche kriging officielle.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -86,12 +86,12 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(Zn)~Landuse+Rock"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec R_gstat_meuse.all_meuse.all (banque interne, mission 2026-07)"
+  source_ref: "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, New-York, 483 p. (Appendix C describes the Jura data set)"
   confidence: low
 ```
 
@@ -127,7 +127,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 

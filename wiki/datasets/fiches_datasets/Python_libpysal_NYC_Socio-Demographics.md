@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_NYC_Socio-Demographics
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/Python_libpysal_NYC_Socio-Demographics.rds
 tags: [dataset, python-package, spatial, point]
@@ -87,18 +87,18 @@ Dataset spatial issu du package Python `libpysal` (`NYC Socio-Demographics`).
 
 ### Formule — niveau publication
 
-- formula_pub: UNEMP_RATE~poptot+hispanic+african+onlyhighsc+onlybachel+withpubass+medianage
-- x_terms_pub: poptot+hispanic+african+onlyhighsc+onlybachel+withpubass+medianage
-- y_term_pub: UNEMP_RATE
-- Reference publication: Analogie structurelle avec geoda.police / geoda.us_sdoh (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Analogie structurelle avec geoda.police (POL~TAX+TRANS+INC+CRIME+UNEMP+OWNER+COLLEGE+WHITE+OUT) et geoda.us_sdoh : taux de chomage/pauvrete au niveau secteur explique par la composition demographique, educative et raciale -- domaine substantiellement identique (indicateur socioeconomique explique par composition de quartier). NOTE ADDITIONNELLE : ce dataset partage un schema quasi identique (memes noms de colonnes Y et X) avec Python_geodatasets_geoda.nyc_neighborhoods -- probable quasi-doublon intra-Python (memes donnees NYC sous deux packages), a verifier separement de la question d'analogie.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -125,12 +125,12 @@ Dataset spatial issu du package Python `libpysal` (`NYC Socio-Demographics`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "UNEMP_RATE~poptot+hispanic+african+onlyhighsc+onlybachel+withpubass+medianage"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec geoda.police / geoda.us_sdoh (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -166,7 +166,14 @@ modeling_evidence:
 
 ## Quality Control
 
-Aucune anomalie detectee.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 

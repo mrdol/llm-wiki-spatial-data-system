@@ -1,8 +1,8 @@
 ---
 title: R_ade4_tintoodiel_tintoodiel
 type: dataset
-created: 2026-06-30
-updated: 2026-07-02
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_ade4_tintoodiel_tintoodiel.rds
 tags: [dataset, r-package, spatial, point]
@@ -57,18 +57,18 @@ This data set contains informations about geochemical characteristics of heavy m
 
 ### Formule — niveau publication
 
-- formula_pub: log(Zn)~SiO2+Al2O3+CaO+MgO+mud
-- x_terms_pub: SiO2+Al2O3+CaO+MgO+mud
-- y_term_pub: log(Zn)
-- Reference publication: Analogie structurelle avec R_gstat_meuse.all_meuse.all (banque interne, mission 2026-07)
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: candidat par analogie -- non verifie
-- Niveau de preuve: analogie
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: CANDIDAT PAR ANALOGIE -- non verifie. Meme domaine substantiel que meuse.all (bon candidat) : pollution en metaux lourds de sediments (estuaire Tinto-Odiel, Espagne) expliquee par la composition geochimique -- contrairement aux 17 autres jeux ade4 (ordination multivariee sans cible unique), celui-ci a une cible Y claire (metaux lourds) et des covariables geochimiques explicites, structure compatible avec une regression classique plutot qu'une ordination.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -95,12 +95,12 @@ This data set contains informations about geochemical characteristics of heavy m
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(Zn)~SiO2+Al2O3+CaO+MgO+mud"
-  equation_family: linear
-  model_family: "OLS"
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Analogie structurelle avec R_gstat_meuse.all_meuse.all (banque interne, mission 2026-07)"
+  source_ref: "null"
   confidence: low
 ```
 
@@ -136,7 +136,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: PENDING - formule publication non encore etablie.
+- CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages
 

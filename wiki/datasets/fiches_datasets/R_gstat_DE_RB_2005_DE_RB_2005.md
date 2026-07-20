@@ -1,8 +1,8 @@
-﻿---
+---
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
-created: 2026-06-30
-updated: 2026-07-01
+created: 2026-07-10
+updated: 2026-07-10
 sources:
   - data/final_datasets/sf/R_gstat_DE_RB_2005_DE_RB_2005.rds
 tags: [dataset, r-package, spatial, point]
@@ -45,24 +45,25 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 ### Formule — niveau publication
 
-- formula_pub: PM10 ~ 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
-- x_terms_pub: 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
+- formula_pub: PM10 ~ 1
+- x_terms_pub: pending
 - y_term_pub: PM10
-- Reference publication: Graler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204-218
+- Reference publication: Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218
 
-### Statut regression canonique (mission recherche manuelle, juillet 2026)
+### Statut regression canonique
 
-- Statut: a verifier
-- Niveau de preuve: verbatim
-- Methode d'estimation: Krigeage spatio-temporel
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule deja presente (enrichissement anterieur) : modele intercept-only utilise comme tendance de base avant krigeage spatio-temporel des residus dans le tutoriel gstat officiel — pas une regression multi-covariables classique.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: PM10 ~ 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
-- x_terms_used: 1 (modele de tendance spatio-temporelle, puis krigeage des residus)
-- y_term_used: PM10
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_gstat_DE_RB_2005_DE_RB_2005`
@@ -82,13 +83,13 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "PM10 ~ 1 (modele de tendance spatio-temporelle, puis krigeage des residus)"
+  existing_model_found: false
+  equation_text: "PM10 ~ 1"
   equation_family: unknown
-  model_family: "Krigeage spatio-temporel"
-  source_type: software_documentation
-  source_ref: "Graler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204-218"
-  confidence: high
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +124,14 @@ modeling_evidence:
 
 ## Quality Control
 
-WARN: CRS absent — lookup EPSG necessaire.
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
+- Variables: OK - Y, X, coordonnees et identifiants sont separes.
+- Formula: OK - formule publication renseignee.
+- CRS: WARN - CRS absent du `.rds` source ; EPSG:32632 extrait de la documentation et reporte dans le Bloc 5.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 
