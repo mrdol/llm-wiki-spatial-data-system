@@ -284,6 +284,43 @@ test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
   expect_output(print(bench), "columbus_crime")
 })
 
+test_that("benchmark_spatial_dataset recupere formule et coordonnees du registre", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spatialreg")
+  skip_if_not_installed("spdep")
+
+  bench <- suppressWarnings(benchmark_spatial_dataset(
+    "columbus_crime",
+    estimators = c("ols", "sar_lag"),
+    k_neighbors = 6
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark")
+  expect_equal(bench$dataset, "columbus_crime")
+  expect_equal(deparse(bench$formula), "CRIME ~ HOVAL + INC")
+  expect_equal(bench$coords, c("X", "Y"))
+  expect_true(all(c("ols", "sar_lag") %in% bench$results$estimator))
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
+test_that("benchmark_spatial_registered_datasets lance plusieurs datasets par nom", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spatialreg")
+  skip_if_not_installed("spdep")
+
+  bench <- suppressWarnings(benchmark_spatial_registered_datasets(
+    datasets = c("columbus_crime", "london_hp"),
+    estimators = "ols"
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark_set")
+  expect_true(all(c("columbus_crime", "london_hp") %in% bench$results$dataset))
+  expect_equal(unique(bench$results$estimator), "ols")
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
 test_that("benchmark_spatial signale les estimateurs connus mais non automatises", {
   dat <- load_columbus_crime_for_tests()
 

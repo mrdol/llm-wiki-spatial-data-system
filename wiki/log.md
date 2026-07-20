@@ -115,6 +115,18 @@ Seventh follow-up same day:
 - Updated verification: 113 testthat assertions pass; `R CMD check` passes with
   only the same 2 known NOTEs.
 
+Eighth follow-up same day:
+- Added `packages/spatialtidymodels/R/benchmark-datasets.R` as the package
+  dataset registry.
+- Added `available_benchmark_datasets()`, `benchmark_spatial_dataset()` and
+  `benchmark_spatial_registered_datasets()`.
+- Registered the first regression datasets with formulas and coordinates:
+  `georgia`, `columbus_crime`, `london_hp`, `boston_housing`, `dub_voter`,
+  `ewhp` and `lasrosas`.
+- Kept `lsl` out of the regression registry because its response is binary.
+- Updated verification: 129 testthat assertions pass; `R CMD check` passes with
+  only the same 2 known NOTEs.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

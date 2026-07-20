@@ -378,6 +378,27 @@ manuel; elle branche le mecanisme standard tidymodels dans l'API package.
 Verification locale actualisee: `testthat` passe avec 113 tests; `R CMD check`
 passe avec les deux NOTES connues.
 
+Mise a jour registre datasets du 2026-07-20: le package contient maintenant un
+registre R explicite dans `packages/spatialtidymodels/R/benchmark-datasets.R`.
+Cela evite de recopier manuellement les formules depuis les fiches dataset
+dans la console. Les nouvelles fonctions sont:
+
+- `available_benchmark_datasets()` pour lister les datasets enregistres, leur
+  chemin `.rds`, leur formule, leur reponse, leurs predicteurs et leurs
+  coordonnees;
+- `benchmark_spatial_dataset()` pour charger un dataset par nom, appliquer
+  `complete.cases()` sur les colonnes utiles et appeler `benchmark_spatial()`;
+- `benchmark_spatial_registered_datasets()` pour lancer plusieurs datasets
+  enregistres par nom.
+
+Premier lot de datasets de regression continue inclus: `georgia`,
+`columbus_crime`, `london_hp`, `boston_housing`, `dub_voter`, `ewhp` et
+`lasrosas`. `lsl` reste exclu de ce registre package regression car sa cible
+scientifique est binaire. Cette couche utilise un registre R maintenu dans le
+package, pas un parsing Markdown a l'execution. Verification locale
+actualisee: `testthat` passe avec 129 tests; `R CMD check` passe avec les deux
+NOTES connues.
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

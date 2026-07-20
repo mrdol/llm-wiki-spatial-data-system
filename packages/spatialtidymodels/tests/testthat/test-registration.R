@@ -11,6 +11,8 @@ test_that("les constructeurs parsnip exposent des specs", {
   expect_true(is.function(diagnose_spatial))
   expect_true(is.function(benchmark_spatial))
   expect_true(is.function(available_benchmark_estimators))
+  expect_true(is.function(available_benchmark_datasets))
+  expect_true(is.function(benchmark_spatial_dataset))
   expect_s3_class(spboost_reg(coords = c("x", "y"), DGP = "SAR", mstop = 50), "spboost_reg")
   expect_s3_class(mgwrsar_reg(coords = c("x", "y"), model_type = "GWR", kernel = "gauss", bandwidth = 20), "mgwrsar_reg")
 })
@@ -40,6 +42,21 @@ test_that("available_benchmark_estimators peut omettre la verification d'install
   registry <- available_benchmark_estimators(include_installed = FALSE)
 
   expect_false("installed" %in% names(registry))
+})
+
+test_that("le registre dataset expose les formules confirmees", {
+  datasets <- available_benchmark_datasets()
+
+  expect_true(all(c("dataset", "rds", "formula", "response", "predictors", "coords") %in% names(datasets)))
+  expect_true(all(c("columbus_crime", "london_hp") %in% datasets$dataset))
+  expect_equal(
+    datasets$formula[datasets$dataset == "columbus_crime"],
+    "CRIME ~ HOVAL + INC"
+  )
+  expect_equal(
+    datasets$formula[datasets$dataset == "london_hp"],
+    "PURCHASE ~ FLOORSZ + PROF + BATH2"
+  )
 })
 
 test_that("les constructeurs SAR/SEM/SDM fixent le type de modele", {

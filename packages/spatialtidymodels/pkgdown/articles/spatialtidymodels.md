@@ -105,6 +105,28 @@ La table indique le statut de chaque route, le package R requis, les arguments
 spatiaux attendus, les parametres tunables et si la dependance est installee
 dans la session courante.
 
+Pour savoir quels datasets ont deja une formule enregistree:
+
+```r
+available_benchmark_datasets()
+```
+
+On peut ensuite lancer un benchmark sans recopier la formule:
+
+```r
+bench <- benchmark_spatial_dataset(
+  "columbus_crime",
+  estimators = c("sar_lag", "spboost"),
+  tune = TRUE,
+  tuning_grids = list(
+    sar_lag = data.frame(k_neighbors = c(4L, 8L)),
+    spboost = data.frame(mstop = c(50L, 100L, 200L))
+  )
+)
+
+bench$results
+```
+
 ```r
 bench <- benchmark_spatial(
   y ~ x1 + x2,

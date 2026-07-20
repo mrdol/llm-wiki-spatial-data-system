@@ -103,6 +103,33 @@ Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
 `spmoran_esf` et `spmoran_resf` restent connues mais non automatisees dans le
 package.
 
+Pour les datasets deja enregistres dans le package, il n'est plus necessaire
+de recopier la formule:
+
+```r
+available_benchmark_datasets()
+
+bench <- benchmark_spatial_dataset(
+  "columbus_crime",
+  estimators = c("sar_lag", "spboost", "mgwrsar_gwr"),
+  tune = TRUE,
+  tuning_grids = list(
+    sar_lag = data.frame(k_neighbors = c(4L, 8L)),
+    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    mgwrsar_gwr = data.frame(
+      bandwidth = c(20L, 40L),
+      kernel = c("bisq", "gauss")
+    )
+  )
+)
+
+bench$results
+```
+
+`benchmark_spatial_dataset()` charge le `.rds`, recupere la formule et les
+coordonnees depuis `R/benchmark-datasets.R`, applique `complete.cases()` sur
+les colonnes utiles, puis appelle `benchmark_spatial()`.
+
 Le registre utilisateur est maintenant plus explicite:
 
 ```r
