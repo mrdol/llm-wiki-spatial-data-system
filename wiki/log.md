@@ -91,6 +91,18 @@ Fifth follow-up same day:
 - Updated verification: 88 testthat assertions pass; `R CMD check` passes with
   only the same 2 known NOTEs.
 
+Sixth follow-up same day:
+- Started priority 1 for package API stabilization.
+- Enriched `available_benchmark_estimators()` with status, backend package,
+  spatial argument requirements, tunable parameters and installed-package
+  availability.
+- Added guided validation errors in `benchmark_spatial()` for unknown
+  estimators and known-but-not-automated routes.
+- Added console `print()` methods for `spatial_benchmark` and
+  `spatial_benchmark_set`.
+- Updated verification: 98 testthat assertions pass; `R CMD check` passes with
+  only the same 2 known NOTEs.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

@@ -6,14 +6,22 @@
 # un estimateur pas a pas.
 
 spatial_benchmark_registry <- function() {
-  # Registre utilisateur des estimateurs. Les lignes "planned" documentent les
-  # routes prevues sans pretendre qu'elles sont deja automatisees dans le
-  # package.
+  # Registre utilisateur des estimateurs. Il sert a la fois de documentation
+  # console et de garde-fou pour benchmark_spatial().
+  estimators <- c(
+    "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
+    "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar",
+    "spmoran_esf", "spmoran_resf"
+  )
+  automatic <- c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE)
   data.frame(
-    estimator = c(
-      "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
-      "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar",
-      "spmoran_esf", "spmoran_resf"
+    estimator = estimators,
+    status = ifelse(automatic, "automatic", "known_not_automated"),
+    mode = rep("regression", length(estimators)),
+    package = c(
+      "stats", "mgcv", "spatialreg", "spatialreg", "spatialreg",
+      "spboost", "mgwrsar", "mgwrsar", "mgwrsar", "mgwrsar",
+      "spmoran", "spmoran"
     ),
     backend = c(
       "stats::glm", "mgcv::gam", "spatialreg::lagsarlm",
@@ -23,7 +31,20 @@ spatial_benchmark_registry <- function() {
       "mgwrsar::TDS_MGWR", "mgwrsar::MGWRSAR(MGWRSAR_1_0_kv)",
       "spmoran::esf", "spmoran::resf"
     ),
-    automatic = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+    automatic = automatic,
+    requires_coords = c(FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+    requires_W = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
+    spatial_args = c(
+      "", "coords", "coords/W/k_neighbors/style/zero_policy",
+      "coords/W/k_neighbors/style/zero_policy", "coords/W/k_neighbors/style/zero_policy",
+      "coords/k_neighbors", "coords/bandwidth/kernel", "coords/W",
+      "coords", "coords/W/bandwidth/kernel", "coords", "coords"
+    ),
+    tunable_parameters = c(
+      "", "", "k_neighbors", "k_neighbors", "k_neighbors",
+      "mstop, nu, k_neighbors", "bandwidth, kernel", "",
+      "", "bandwidth, kernel", "enum", "enum"
+    ),
     notes = c(
       "Baseline lineaire.",
       "Baseline GAM avec lisseur spatial s(x, y).",
@@ -42,16 +63,29 @@ spatial_benchmark_registry <- function() {
   )
 }
 
+package_available <- function(package) {
+  # stats est fourni par R; les autres packages sont verifies sans les attacher.
+  if (identical(package, "stats")) return(TRUE)
+  requireNamespace(package, quietly = TRUE)
+}
+
 #' Lister les estimateurs benchmarkables par le package
 #'
 #' Retourne le registre des estimateurs connus par `spatialtidymodels`, en
 #' distinguant ceux qui sont deja automatises dans `benchmark_spatial()` et
 #' ceux qui sont encore a brancher.
 #'
+#' @param include_installed Si `TRUE`, ajoute une colonne indiquant si le
+#'   package R requis est disponible dans la session.
+#'
 #' @return Un data frame.
 #' @export
-available_benchmark_estimators <- function() {
-  spatial_benchmark_registry()
+available_benchmark_estimators <- function(include_installed = TRUE) {
+  out <- spatial_benchmark_registry()
+  if (isTRUE(include_installed)) {
+    out$installed <- vapply(out$package, package_available, logical(1))
+  }
+  out
 }
 
 add_spatial_smooth_to_formula <- function(formula, coords, data) {
@@ -188,6 +222,42 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
   row
 }
 
+validate_benchmark_estimators <- function(estimators, registry) {
+  # Messages d'erreur orientes utilisateur: on indique quoi lister ensuite.
+  unknown <- setdiff(estimators, registry$estimator)
+  if (length(unknown) > 0L) {
+    stop(
+      sprintf(
+        "Estimateur(s) inconnu(s): %s. Utilisez available_benchmark_estimators() pour voir les noms valides.",
+        paste(unknown, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  selected <- registry[match(estimators, registry$estimator), , drop = FALSE]
+  not_automatic <- selected$estimator[!selected$automatic]
+  if (length(not_automatic) > 0L) {
+    stop(
+      sprintf(
+        "Estimateur(s) connu(s) mais pas encore automatises dans benchmark_spatial(): %s. Consultez available_benchmark_estimators()$status.",
+        paste(not_automatic, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  missing_packages <- unique(selected$package[!vapply(selected$package, package_available, logical(1))])
+  if (length(missing_packages) > 0L) {
+    stop(
+      sprintf(
+        "Package(s) R manquant(s) pour ces estimateurs: %s.",
+        paste(missing_packages, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  invisible(selected)
+}
+
 #' Lancer un benchmark spatial automatique
 #'
 #' Ajuste les estimateurs demandes sur un meme jeu de donnees et retourne une
@@ -217,21 +287,7 @@ benchmark_spatial <- function(formula, data, coords,
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
   registry <- spatial_benchmark_registry()
-  unknown <- setdiff(estimators, registry$estimator)
-  if (length(unknown) > 0L) {
-    stop(sprintf("Estimateur(s) inconnu(s): %s", paste(unknown, collapse = ", ")), call. = FALSE)
-  }
-  not_automatic <- registry$estimator[match(estimators, registry$estimator)]
-  not_automatic <- not_automatic[!registry$automatic[match(not_automatic, registry$estimator)]]
-  if (length(not_automatic) > 0L) {
-    stop(
-      sprintf(
-        "Estimateur(s) connu(s) mais pas encore automatises dans benchmark_spatial(): %s",
-        paste(not_automatic, collapse = ", ")
-      ),
-      call. = FALSE
-    )
-  }
+  validate_benchmark_estimators(estimators, registry)
 
   fits <- list()
   rows <- list()
@@ -282,6 +338,34 @@ benchmark_spatial <- function(formula, data, coords,
     ),
     class = "spatial_benchmark"
   )
+}
+
+benchmark_print_columns <- function(results) {
+  # Colonnes utiles a l'affichage console; l'objet complet garde toutes les
+  # colonnes dans $results.
+  cols <- c("dataset", "estimator", "n", "response", "rmse", "mae",
+            "aic", "spatial_param", "spatial_value", "moran_p_value", "fit_error")
+  cols[cols %in% names(results)]
+}
+
+#' @export
+print.spatial_benchmark <- function(x, ...) {
+  cat("Benchmark spatial\n")
+  cat("Formule: ", deparse(x$formula), "\n", sep = "")
+  cat("Coordonnees: ", paste(x$coords, collapse = ", "), "\n", sep = "")
+  cat("Estimateurs demandes: ", paste(x$estimators, collapse = ", "), "\n", sep = "")
+  if (length(x$fits) > 0L) {
+    cat("Fits reussis: ", paste(names(x$fits), collapse = ", "), "\n", sep = "")
+  } else {
+    cat("Fits reussis: aucun\n")
+  }
+  failed <- x$results$estimator[!is.na(x$results$fit_error)]
+  if (length(failed) > 0L) {
+    cat("Fits echoues: ", paste(failed, collapse = ", "), "\n", sep = "")
+  }
+  cat("\nResultats:\n")
+  print(x$results[, benchmark_print_columns(x$results), drop = FALSE], row.names = FALSE)
+  invisible(x)
 }
 
 #' Definir un jeu de donnees pour `benchmark_spatial_datasets()`
@@ -358,4 +442,19 @@ benchmark_spatial_datasets <- function(datasets,
     list(results = results, benchmarks = benchmarks),
     class = "spatial_benchmark_set"
   )
+}
+
+#' @export
+print.spatial_benchmark_set <- function(x, ...) {
+  datasets <- names(x$benchmarks)
+  cat("Benchmark spatial multi-dataset\n")
+  cat("Datasets: ", paste(datasets, collapse = ", "), "\n", sep = "")
+  cat("Nombre de lignes resultat: ", nrow(x$results), "\n", sep = "")
+  failed <- x$results$estimator[!is.na(x$results$fit_error)]
+  if (length(failed) > 0L) {
+    cat("Fits echoues: ", paste(unique(failed), collapse = ", "), "\n", sep = "")
+  }
+  cat("\nResultats:\n")
+  print(x$results[, benchmark_print_columns(x$results), drop = FALSE], row.names = FALSE)
+  invisible(x)
 }

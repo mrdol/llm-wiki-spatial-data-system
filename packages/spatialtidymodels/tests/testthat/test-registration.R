@@ -18,14 +18,28 @@ test_that("les constructeurs parsnip exposent des specs", {
 test_that("le registre benchmark distingue routes automatiques et routes a brancher", {
   registry <- available_benchmark_estimators()
 
-  expect_true(all(c("estimator", "backend", "automatic", "notes") %in% names(registry)))
+  expect_true(all(c(
+    "estimator", "status", "mode", "package", "backend", "automatic",
+    "requires_coords", "requires_W", "spatial_args", "tunable_parameters",
+    "notes", "installed"
+  ) %in% names(registry)))
   expect_true(all(c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
+  expect_equal(registry$status[registry$estimator == "spboost"], "automatic")
+  expect_equal(registry$package[registry$estimator == "spboost"], "spboost")
+  expect_match(registry$tunable_parameters[registry$estimator == "spboost"], "mstop")
+  expect_true(registry$requires_coords[registry$estimator == "sar_lag"])
   expect_true(registry$automatic[registry$estimator == "spboost"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_gwr"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_sar"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwr"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwrsar"])
   expect_false(registry$automatic[registry$estimator == "spmoran_esf"])
+})
+
+test_that("available_benchmark_estimators peut omettre la verification d'installation", {
+  registry <- available_benchmark_estimators(include_installed = FALSE)
+
+  expect_false("installed" %in% names(registry))
 })
 
 test_that("les constructeurs SAR/SEM/SDM fixent le type de modele", {

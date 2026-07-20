@@ -231,6 +231,8 @@ test_that("benchmark_spatial lance plusieurs estimateurs sur columbus_crime", {
   expect_true(all(is.finite(bench$results$rmse)))
   expect_true(all(is.na(bench$results$fit_error)))
   expect_true(all(c("ols", "gam_spatial", "sar_lag") %in% names(bench$fits)))
+  expect_output(print(bench), "Benchmark spatial")
+  expect_output(print(bench), "Fits reussis")
 })
 
 test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus_crime", {
@@ -278,6 +280,8 @@ test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
   expect_true(all(c("columbus_crime", "london_hp") %in% bench$results$dataset))
   expect_true(all(c("ols", "sar_lag") %in% bench$results$estimator))
   expect_true(all(is.finite(bench$results$rmse)))
+  expect_output(print(bench), "Benchmark spatial multi-dataset")
+  expect_output(print(bench), "columbus_crime")
 })
 
 test_that("benchmark_spatial signale les estimateurs connus mais non automatises", {
@@ -290,7 +294,21 @@ test_that("benchmark_spatial signale les estimateurs connus mais non automatises
       coords = c("X", "Y"),
       estimators = "spmoran_esf"
     ),
-    "pas encore automatises"
+    "available_benchmark_estimators"
+  )
+})
+
+test_that("benchmark_spatial signale les noms inconnus avec le registre", {
+  dat <- load_columbus_crime_for_tests()
+
+  expect_error(
+    benchmark_spatial(
+      CRIME ~ HOVAL + INC,
+      data = dat,
+      coords = c("X", "Y"),
+      estimators = "modele_inexistant"
+    ),
+    "available_benchmark_estimators"
   )
 })
 

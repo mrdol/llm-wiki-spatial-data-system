@@ -103,6 +103,19 @@ Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
 `spmoran_esf` et `spmoran_resf` restent connues mais non automatisees dans le
 package.
 
+Le registre utilisateur est maintenant plus explicite:
+
+```r
+available_benchmark_estimators()
+```
+
+Il indique pour chaque estimateur son statut, son backend, le package R requis,
+les arguments spatiaux attendus, les parametres tunables et si la dependance
+est installee. Les objets retournes par `benchmark_spatial()` et
+`benchmark_spatial_datasets()` ont aussi une methode `print()` courte: afficher
+l'objet suffit pour voir la formule, les estimateurs lances, les fits reussis
+ou echoues et la table de resultats principale.
+
 ## Parite package / benchmark manuel
 
 Les routes `spatialreg` ont ete comparees ligne par ligne au benchmark manuel

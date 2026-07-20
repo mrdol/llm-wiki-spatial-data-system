@@ -342,6 +342,20 @@ locale actualisee: `testthat` passe avec 88 tests; `R CMD check
 deux NOTES connues (`R CMD build` non lance avant check, et
 `parsnip:::update_spec`).
 
+Mise a jour API utilisateur du 2026-07-20: la priorite 1 de stabilisation du
+package a ete engagee. `available_benchmark_estimators()` retourne maintenant
+un registre plus riche avec `status`, `mode`, `package`, `backend`,
+`automatic`, `requires_coords`, `requires_W`, `spatial_args`,
+`tunable_parameters`, `notes` et `installed`. Les erreurs de
+`benchmark_spatial()` renvoient explicitement vers ce registre quand un nom est
+inconnu ou quand une route est connue mais non automatisee. Les objets
+`spatial_benchmark` et `spatial_benchmark_set` disposent aussi d'une methode
+`print()` courte pour afficher directement la formule, les coordonnees, les
+estimateurs demandes, les fits reussis/echoues et la table principale. Cette
+etape ne modifie pas les algorithmes; elle rend l'API plus lisible et plus
+guidante pour l'utilisateur. Verification locale actualisee: `testthat` passe
+avec 98 tests; `R CMD check` passe avec les deux NOTES connues.
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

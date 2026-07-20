@@ -4,7 +4,11 @@
 \alias{available_benchmark_estimators}
 \title{Lister les estimateurs benchmarkables par le package}
 \usage{
-available_benchmark_estimators()
+available_benchmark_estimators(include_installed = TRUE)
+}
+\arguments{
+\item{include_installed}{Si \code{TRUE}, ajoute une colonne indiquant si le
+package R requis est disponible dans la session.}
 }
 \value{
 Un data frame.

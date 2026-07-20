@@ -95,6 +95,16 @@ tune_grid(
 
 ## Benchmark automatique
 
+Pour savoir ce que le package sait lancer:
+
+```r
+available_benchmark_estimators()
+```
+
+La table indique le statut de chaque route, le package R requis, les arguments
+spatiaux attendus, les parametres tunables et si la dependance est installee
+dans la session courante.
+
 ```r
 bench <- benchmark_spatial(
   y ~ x1 + x2,
@@ -111,6 +121,10 @@ bench <- benchmark_spatial(
 
 bench$results
 ```
+
+Afficher directement `bench` donne un resume console court: formule,
+coordonnees, estimateurs demandes, fits reussis ou echoues et metriques
+principales.
 
 Pour plusieurs datasets, on declare chaque jeu avec sa formule et ses
 coordonnees:
