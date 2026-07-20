@@ -9,8 +9,18 @@ test_that("les constructeurs parsnip exposent des specs", {
   expect_true(is.function(fit_sem))
   expect_true(is.function(fit_sdm))
   expect_true(is.function(diagnose_spatial))
+  expect_true(is.function(benchmark_spatial))
+  expect_true(is.function(available_benchmark_estimators))
   expect_s3_class(spboost_reg(coords = c("x", "y"), DGP = "SAR", mstop = 50), "spboost_reg")
   expect_s3_class(mgwrsar_reg(coords = c("x", "y"), model_type = "GWR", kernel = "gauss", bandwidth = 20), "mgwrsar_reg")
+})
+
+test_that("le registre benchmark distingue routes automatiques et routes a brancher", {
+  registry <- available_benchmark_estimators()
+
+  expect_true(all(c("estimator", "backend", "automatic", "notes") %in% names(registry)))
+  expect_true(all(c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
+  expect_false(registry$automatic[registry$estimator == "spboost"])
 })
 
 test_that("les constructeurs SAR/SEM/SDM fixent le type de modele", {

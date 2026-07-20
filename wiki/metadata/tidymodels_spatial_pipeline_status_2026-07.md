@@ -286,6 +286,33 @@ pourquoi le benchmark ne doit pas regarder uniquement RMSE/MAE pour les
 modeles econometriques spatiaux. Verification locale actualisee: `testthat`
 passe avec 64 tests.
 
+Clarification d'architecture du 2026-07-20: `diagnose_spatial()` n'est pas le
+benchmark automatique complet. C'est une brique de diagnostic pour un modele
+deja ajuste. La couche automatique commence avec `benchmark_spatial()`, qui
+accepte une formule, un jeu de donnees, des coordonnees et une liste
+d'estimateurs. Elle ajuste les estimateurs demandes, collecte RMSE/MAE,
+AIC/logLik, parametre spatial et Moran I des residus, puis retourne une table
+commune `results` et les objets ajustes `fits`.
+
+Premiere tranche implementee dans le package:
+
+```r
+bench <- benchmark_spatial(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed")
+)
+
+bench$results
+```
+
+`available_benchmark_estimators()` liste les routes connues et distingue les
+estimateurs deja automatises (`ols`, `gam_spatial`, `sar_lag`, `sem_error`,
+`sdm_mixed`) de ceux encore a brancher dans le package (`spboost`,
+`mgwrsar_*`, `spmoran_*`). Verification locale actualisee: `testthat` passe
+avec 76 tests; `R CMD check` passe avec les deux NOTES connues.
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

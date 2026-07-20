@@ -70,6 +70,22 @@ La table retourne notamment RMSE, MAE, AIC, log-vraisemblance, parametre
 spatial (`rho` ou `lambda`) et Moran I des residus. Quand la formule est connue,
 une ligne `ols_baseline` est ajoutee automatiquement.
 
+Pour lancer automatiquement plusieurs estimateurs sur le meme jeu:
+
+```r
+bench <- benchmark_spatial(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed")
+)
+
+bench$results
+```
+
+`available_benchmark_estimators()` liste les estimateurs deja automatises et
+ceux qui sont connus mais encore a brancher dans le benchmark package.
+
 ## Parite package / benchmark manuel
 
 Les routes `spatialreg` ont ete comparees ligne par ligne au benchmark manuel

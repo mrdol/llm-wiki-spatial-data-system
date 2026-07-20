@@ -67,6 +67,16 @@ Third follow-up same day:
   `ols_baseline` row so SAR/SEM/SDM can be judged against OLS beyond RMSE/MAE.
 - Updated verification: 64 testthat assertions pass.
 
+Fourth follow-up same day:
+- Added `benchmark_spatial()` as the package-level automatic benchmark layer.
+- Added `available_benchmark_estimators()` as the estimator registry.
+- First automated estimators: `ols`, `gam_spatial`, `sar_lag`, `sem_error`,
+  `sdm_mixed`.
+- Known but not yet automated in this package layer: `spboost`, `mgwrsar_*`,
+  `spmoran_*`.
+- Updated verification: 76 testthat assertions pass; `R CMD check` passes with
+  only the same 2 known NOTEs.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

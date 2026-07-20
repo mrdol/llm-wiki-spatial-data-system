@@ -194,6 +194,44 @@ test_that("diagnose_spatial fonctionne aussi sur une baseline glm", {
   expect_true(is.finite(diag$moran_i))
 })
 
+test_that("benchmark_spatial lance plusieurs estimateurs sur columbus_crime", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spatialreg")
+  skip_if_not_installed("spdep")
+  skip_if_not_installed("mgcv")
+
+  dat <- load_columbus_crime_for_tests()
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = c("ols", "gam_spatial", "sar_lag")
+  ))
+
+  expect_s3_class(bench, "spatial_benchmark")
+  expect_equal(bench$results$estimator, c("ols", "gam_spatial", "sar_lag"))
+  expect_true(all(c("rmse", "mae", "aic", "logLik", "moran_i", "moran_p_value", "fit_error") %in% names(bench$results)))
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(is.na(bench$results$fit_error)))
+  expect_true(all(c("ols", "gam_spatial", "sar_lag") %in% names(bench$fits)))
+})
+
+test_that("benchmark_spatial signale les estimateurs connus mais non automatises", {
+  dat <- load_columbus_crime_for_tests()
+
+  expect_error(
+    benchmark_spatial(
+      CRIME ~ HOVAL + INC,
+      data = dat,
+      coords = c("X", "Y"),
+      estimators = "spboost"
+    ),
+    "pas encore automatises"
+  )
+})
+
 test_that("spatialreg_reg passe dans tune_grid() sur k_neighbors", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
