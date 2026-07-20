@@ -199,6 +199,93 @@ Le terme `experimental` reste reserve aux routes instables ou incompletes,
 par exemple `spmoran_resf` tant que certains folds peuvent retourner des
 predictions `NA`.
 
+Mise a jour complementaire du 2026-07-20: le package expose maintenant des
+constructeurs explicites `sar_reg()`, `sem_reg()` et `sdm_reg()`. Ce sont des
+raccourcis publics autour du moteur commun `spatialreg_reg()`, avec
+`model_type` fixe respectivement a `"SAR"`, `"SEM"` et `"SDM"`. Les tests
+package couvrent maintenant:
+
+- la registration des trois constructeurs;
+- `workflow()` + `predict()` sur `columbus_crime`;
+- `tune::tune_grid()` sur `columbus_crime` avec `k_neighbors = tune()`.
+
+La correction importante est que ces wrappers capturent directement les
+arguments utilisateur. Cela permet a `tune_grid()` de voir
+`k_neighbors = tune::tune()` au lieu de recevoir le symbole local
+`k_neighbors`, qui provoquait l'erreur `'language' object cannot be coerced to
+type 'integer'`.
+
+Verification locale: `testthat` passe avec 35 tests. `R CMD check
+--no-manual --no-build-vignettes packages/spatialtidymodels` passe avec
+`LC_ALL=C`; il reste seulement les deux NOTES connues: check direct sans
+`R CMD build` prealable et usage interne `parsnip:::update_spec`.
+
+Mise a jour complementaire API spatiale du 2026-07-20: la separation des
+arguments geographiques est formalisee pour les routes `spatialreg`. Le
+package expose maintenant `spatial_knn_args()` comme contrat commun pour
+`coords`, `W`, `k_neighbors`, `style` et `zero_policy`. Les specs
+`sar_reg()`, `sem_reg()` et `sdm_reg()` acceptent ces arguments directement.
+Au fit, `W` est utilise s'il est fourni; sinon un objet `listw` est construit
+depuis `coords` et `k_neighbors`. La prediction hors-echantillon continue a
+utiliser `coords` pour reconstruire le voisinage train+test.
+
+Cette etape stabilise l'usage recommande:
+
+```r
+library(spatialtidymodels)
+
+spec <- sar_reg(
+  coords = c("X", "Y"),
+  k_neighbors = 8,
+  style = "W",
+  zero_policy = TRUE
+) |>
+  parsnip::set_engine("spatialreg")
+```
+
+Verification locale actualisee: `testthat` passe avec 42 tests. `R CMD check
+--no-manual --no-build-vignettes packages/spatialtidymodels` passe avec
+`LC_ALL=C`; il reste seulement les deux NOTES connues.
+
+Mise a jour API courte du 2026-07-20: pour un usage proche de
+`glm(formula, data)`, le package expose maintenant `fit_sar()`, `fit_sem()` et
+`fit_sdm()`. Ces fonctions construisent automatiquement la spec parsnip, le
+`workflow()` et le fit:
+
+```r
+fit <- fit_sar(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  k_neighbors = 8
+)
+
+predict(fit, new_data = columbus)
+```
+
+Ces raccourcis ne remplacent pas `sar_reg()` / `workflow()` / `tune_grid()`;
+ils servent aux tests rapides et a l'usage interactif quand l'utilisateur ne
+veut pas ecrire toute la grammaire tidymodels. Verification locale actualisee:
+`testthat` passe avec 54 tests; `R CMD check` passe avec les 2 NOTES connues.
+
+Mise a jour diagnostic du 2026-07-20: le package expose maintenant
+`diagnose_spatial()`. Cette fonction produit une table de benchmark courte et
+mixte prediction/econometrie pour un workflow `spatialtidymodels`, un modele
+`glm` ou un moteur compatible. Elle calcule, quand les informations sont
+disponibles: RMSE, MAE, AIC, log-vraisemblance, parametre spatial (`rho` ou
+`lambda`) et Moran I des residus. Si la formule est connue et
+`include_baseline = TRUE`, elle ajuste automatiquement une baseline
+`ols_baseline` avec `glm(formula, data)` pour comparer le modele spatial a OLS
+dans la meme table.
+
+Exemple observe sur `columbus_crime`, formule `CRIME ~ HOVAL + INC`, kNN=8:
+`sar_lag` a une RMSE in-sample legerement plus haute que `ols_baseline`, mais
+un AIC plus bas et des residus dont Moran I n'est plus significatif, alors que
+les residus OLS restent spatialement autocorreles. Cette sortie illustre
+pourquoi le benchmark ne doit pas regarder uniquement RMSE/MAE pour les
+modeles econometriques spatiaux. Verification locale actualisee: `testthat`
+passe avec 64 tests.
+
 L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
 estimateurs via:
 

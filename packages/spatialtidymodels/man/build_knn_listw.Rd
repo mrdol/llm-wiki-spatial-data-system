@@ -4,12 +4,16 @@
 \alias{build_knn_listw}
 \title{Construire un objet listw kNN}
 \usage{
-build_knn_listw(coords, k = 8)
+build_knn_listw(coords, k = 8, style = "W", zero_policy = TRUE)
 }
 \arguments{
 \item{coords}{Matrice ou data frame de coordonnees.}
 
 \item{k}{Nombre de voisins.}
+
+\item{style}{Style de standardisation \code{spdep::nb2listw()}.}
+
+\item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
 }
 \value{
 Un objet \code{listw}.

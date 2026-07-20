@@ -39,10 +39,12 @@ build_knn_W <- function(coords, k = 8, sparse = TRUE) {
 #'
 #' @param coords Matrice ou data frame de coordonnees.
 #' @param k Nombre de voisins.
+#' @param style Style de standardisation `spdep::nb2listw()`.
+#' @param zero_policy Politique `spdep` pour les observations sans voisin.
 #'
 #' @return Un objet `listw`.
 #' @export
-build_knn_listw <- function(coords, k = 8) {
+build_knn_listw <- function(coords, k = 8, style = "W", zero_policy = TRUE) {
   # Version spdep/spatialreg de la meme structure W. spatialreg attend un
   # objet listw construit depuis un voisinage nb; nb2listw evite les erreurs
   # observees avec une conversion directe depuis matrice dense.
@@ -51,9 +53,11 @@ build_knn_listw <- function(coords, k = 8) {
   n <- nrow(coords)
   if (n < 2) stop("build_knn_listw(): il faut au moins deux observations.", call. = FALSE)
   k_use <- check_k_neighbors(k, n = n, arg = "k")
+  style <- check_spatial_style(style)
+  zero_policy <- check_zero_policy(zero_policy)
   knn <- spdep::knearneigh(coords, k = k_use)
   nb <- spdep::knn2nb(knn, sym = FALSE)
-  spdep::nb2listw(nb, style = "W", zero.policy = TRUE)
+  spdep::nb2listw(nb, style = style, zero.policy = zero_policy)
 }
 
 #' Calculer un diagnostic Moran I sur un voisinage kNN

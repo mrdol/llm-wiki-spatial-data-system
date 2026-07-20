@@ -17,20 +17,52 @@ Arguments de modele:
 Arguments geographiques:
 
 - `coords` indique les colonnes de coordonnees conservees dans le workflow;
-- `k_neighbors` indique le nombre de voisins utilises pour construire W.
+- `W` permet de fournir directement une matrice de poids ou un objet `listw`;
+- `k_neighbors` indique le nombre de voisins utilises pour construire W quand
+  `W` n'est pas fourni;
+- `style` controle la standardisation `spdep::nb2listw()`;
+- `zero_policy` controle le comportement `spdep` pour les observations sans
+  voisin.
+
+Ces arguments sont formalises par `spatial_knn_args()`. Les specs peuvent les
+recevoir directement, ce qui donne une API plus courte pour l'utilisateur tout
+en gardant une separation claire dans le code du package.
 
 ## Workflow de base
+
+### Raccourci type glm()
+
+```r
+library(spatialtidymodels)
+
+fit <- fit_sar(
+  y ~ x1 + x2,
+  data = train,
+  coords = c("x_coord", "y_coord"),
+  k_neighbors = 8
+)
+
+predict(fit, new_data = test)
+diagnose_spatial(fit, data = train)
+```
+
+Les fonctions `fit_sar()`, `fit_sem()` et `fit_sdm()` construisent en interne
+la spec parsnip, le workflow et l'ajustement. Elles sont faites pour les tests
+rapides et l'usage interactif.
+
+`diagnose_spatial()` ajoute une couche benchmark/econometrie: RMSE, MAE, AIC,
+log-vraisemblance, parametre spatial et Moran I des residus. Quand la formule
+est disponible, une baseline `ols_baseline` est calculee automatiquement pour
+voir si le modele spatial apporte quelque chose par rapport a OLS.
+
+### Workflow explicite
 
 ```r
 library(spatialtidymodels)
 library(parsnip)
 library(workflows)
 
-spec <- spatialreg_reg(
-  coords = c("x_coord", "y_coord"),
-  model_type = "SAR",
-  k_neighbors = 8
-) |>
+spec <- sar_reg(coords = c("x_coord", "y_coord"), k_neighbors = 8) |>
   set_engine("spatialreg")
 
 wf <- workflow() |>
@@ -48,11 +80,7 @@ library(tune)
 library(rsample)
 library(yardstick)
 
-spec <- spatialreg_reg(
-  coords = c("x_coord", "y_coord"),
-  model_type = "SAR",
-  k_neighbors = tune()
-) |>
+spec <- sar_reg(coords = c("x_coord", "y_coord"), k_neighbors = tune()) |>
   set_engine("spatialreg")
 
 grid <- data.frame(k_neighbors = c(4L, 8L, 12L))

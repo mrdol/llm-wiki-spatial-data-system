@@ -11,6 +11,62 @@ tags: [log, wiki, chronology]
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
 
+## [2026-07-20] tidymodels | explicit SAR SEM SDM package specs
+
+Files updated:
+- `packages/spatialtidymodels/R/10-parsnip-spatialreg.R`
+- `packages/spatialtidymodels/tests/testthat/test-registration.R`
+- `packages/spatialtidymodels/tests/testthat/test-workflows.R`
+- `packages/spatialtidymodels/README.md`
+- `packages/spatialtidymodels/pkgdown/articles/spatialtidymodels.md`
+- `packages/spatialtidymodels/_pkgdown.yml`
+- `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
+
+Reason:
+- The package needed explicit user-facing model specs instead of only the
+  generic `spatialreg_reg(model_type = ...)` entry point.
+
+Key changes:
+- Added `sar_reg()`, `sem_reg()` and `sdm_reg()` as public parsnip specs.
+- Kept a single underlying `spatialreg_reg` engine so SAR/SEM/SDM continue to
+  share the same fit/predict implementation and parity harness.
+- Added tests on real `columbus_crime` data for `workflow()` prediction and
+  `tune::tune_grid()` over `k_neighbors`.
+- Fixed wrapper argument capture so `k_neighbors = tune::tune()` is visible to
+  `tune_grid()`.
+
+Verification:
+- `testthat::test_dir(...)`: 35 passed, 0 failed.
+- `R CMD check --no-manual --no-build-vignettes packages/spatialtidymodels`
+  passes with `LC_ALL=C`; remaining notes are the known direct-source check
+  note and `parsnip:::update_spec`.
+
+Follow-up same day:
+- Formalized spatial arguments for `spatialreg` through `spatial_knn_args()`.
+- Extended `sar_reg()`, `sem_reg()` and `sdm_reg()` to accept `coords`, `W`,
+  `k_neighbors`, `style` and `zero_policy`.
+- Added workflow coverage for an explicit `W` on `columbus_crime`.
+- Updated verification: 42 testthat assertions pass; `R CMD check` still
+  passes with only the same 2 known NOTEs.
+
+Second follow-up same day:
+- Added user-facing shortcuts `fit_sar()`, `fit_sem()` and `fit_sdm()` for
+  formula/data usage close to `glm()`.
+- The shortcuts add coordinate columns to the internal workflow formula,
+  construct the corresponding parsnip spec, fit the workflow, and return the
+  fitted workflow for standard `predict()` calls.
+- Updated verification: 54 testthat assertions pass; `R CMD check` still
+  passes with only the same 2 known NOTEs.
+
+Third follow-up same day:
+- Added `diagnose_spatial()` to produce benchmark diagnostics for workflows,
+  `glm` baselines and compatible engines.
+- The diagnostic table reports RMSE, MAE, AIC, logLik, spatial parameter and
+  Moran I of residuals when available.
+- When the formula is known, `diagnose_spatial()` automatically adds an
+  `ols_baseline` row so SAR/SEM/SDM can be judged against OLS beyond RMSE/MAE.
+- Updated verification: 64 testthat assertions pass.
+
 ## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
 
 Files updated:

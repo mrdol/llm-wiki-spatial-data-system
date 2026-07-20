@@ -20,7 +20,7 @@ register_spatialreg_reg <- function() {
   parsnip::set_model_engine("spatialreg_reg", mode = "regression", eng = "spatialreg")
   parsnip::set_dependency("spatialreg_reg", eng = "spatialreg", pkg = "spatialreg")
 
-  for (arg in c("coords", "model_type", "k_neighbors")) {
+  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy")) {
     parsnip::set_model_arg(
       model = "spatialreg_reg",
       eng = "spatialreg",

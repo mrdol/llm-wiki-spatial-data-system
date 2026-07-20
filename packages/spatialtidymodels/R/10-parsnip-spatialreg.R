@@ -12,20 +12,27 @@
 #'
 #' @param mode Mode parsnip. Seul `"regression"` est supporte.
 #' @param coords Colonnes de coordonnees disponibles dans le workflow.
+#' @param W Matrice de poids spatiaux ou objet `listw` fourni au fit.
 #' @param model_type Type de modele: `"SAR"`, `"SEM"` ou `"SDM"`.
 #' @param k_neighbors Nombre de voisins utilise pour construire W.
+#' @param style Style de standardisation `spdep::nb2listw()`.
+#' @param zero_policy Politique `spdep` pour les observations sans voisin.
 #'
 #' @return Une specification de modele `parsnip`.
 #' @export
-spatialreg_reg <- function(mode = "regression", coords = NULL,
-                           model_type = NULL, k_neighbors = NULL) {
+spatialreg_reg <- function(mode = "regression", coords = NULL, W = NULL,
+                           model_type = NULL, k_neighbors = NULL,
+                           style = "W", zero_policy = TRUE) {
   # Constructeur utilisateur. model_type vaut "SAR", "SEM" ou "SDM".
   # Les coordonnees sont conservees dans la formule workflow pour arriver
   # jusqu'au moteur, puis retirees de la formule statistique native.
   args <- list(
     coords = rlang::enquo(coords),
+    W = rlang::enquo(W),
     model_type = rlang::enquo(model_type),
-    k_neighbors = rlang::enquo(k_neighbors)
+    k_neighbors = rlang::enquo(k_neighbors),
+    style = rlang::enquo(style),
+    zero_policy = rlang::enquo(zero_policy)
   )
   parsnip::new_model_spec(
     "spatialreg_reg",
@@ -37,17 +44,130 @@ spatialreg_reg <- function(mode = "regression", coords = NULL,
   )
 }
 
+#' Specification parsnip explicite pour SAR lag
+#'
+#' Cree une specification `parsnip` pour un modele SAR lag ajuste avec
+#' `spatialreg::lagsarlm()`. Cette fonction est un raccourci lisible autour de
+#' `spatialreg_reg(model_type = "SAR")`.
+#'
+#' @param mode Mode parsnip. Seul `"regression"` est supporte.
+#' @param coords Colonnes de coordonnees disponibles dans le workflow.
+#' @param W Matrice de poids spatiaux ou objet `listw` fourni au fit.
+#' @param k_neighbors Nombre de voisins utilise pour construire W.
+#' @param style Style de standardisation `spdep::nb2listw()`.
+#' @param zero_policy Politique `spdep` pour les observations sans voisin.
+#'
+#' @return Une specification de modele `parsnip`.
+#' @export
+sar_reg <- function(mode = "regression", coords = NULL, W = NULL,
+                    k_neighbors = NULL, style = "W", zero_policy = TRUE) {
+  # Raccourci utilisateur: la route interne reste spatialreg_reg(). On capture
+  # directement les arguments utilisateur pour que tune::tune() reste visible
+  # par tune_grid(), au lieu de capturer le symbole local `k_neighbors`.
+  parsnip::new_model_spec(
+    "spatialreg_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      W = rlang::enquo(W),
+      model_type = rlang::quo("SAR"),
+      k_neighbors = rlang::enquo(k_neighbors),
+      style = rlang::enquo(style),
+      zero_policy = rlang::enquo(zero_policy)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Specification parsnip explicite pour SEM error
+#'
+#' Cree une specification `parsnip` pour un modele SEM error ajuste avec
+#' `spatialreg::errorsarlm()`. Cette fonction est un raccourci lisible autour
+#' de `spatialreg_reg(model_type = "SEM")`.
+#'
+#' @param mode Mode parsnip. Seul `"regression"` est supporte.
+#' @param coords Colonnes de coordonnees disponibles dans le workflow.
+#' @param W Matrice de poids spatiaux ou objet `listw` fourni au fit.
+#' @param k_neighbors Nombre de voisins utilise pour construire W.
+#' @param style Style de standardisation `spdep::nb2listw()`.
+#' @param zero_policy Politique `spdep` pour les observations sans voisin.
+#'
+#' @return Une specification de modele `parsnip`.
+#' @export
+sem_reg <- function(mode = "regression", coords = NULL, W = NULL,
+                    k_neighbors = NULL, style = "W", zero_policy = TRUE) {
+  # Le moteur spatialreg commun est conserve pour garantir la parite avec la
+  # route generique et eviter trois implementations presque identiques.
+  parsnip::new_model_spec(
+    "spatialreg_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      W = rlang::enquo(W),
+      model_type = rlang::quo("SEM"),
+      k_neighbors = rlang::enquo(k_neighbors),
+      style = rlang::enquo(style),
+      zero_policy = rlang::enquo(zero_policy)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Specification parsnip explicite pour SDM mixed
+#'
+#' Cree une specification `parsnip` pour un modele SDM mixed ajuste avec
+#' `spatialreg::lagsarlm(Durbin = ...)`. Cette fonction est un raccourci
+#' lisible autour de `spatialreg_reg(model_type = "SDM")`.
+#'
+#' @param mode Mode parsnip. Seul `"regression"` est supporte.
+#' @param coords Colonnes de coordonnees disponibles dans le workflow.
+#' @param W Matrice de poids spatiaux ou objet `listw` fourni au fit.
+#' @param k_neighbors Nombre de voisins utilise pour construire W.
+#' @param style Style de standardisation `spdep::nb2listw()`.
+#' @param zero_policy Politique `spdep` pour les observations sans voisin.
+#'
+#' @return Une specification de modele `parsnip`.
+#' @export
+sdm_reg <- function(mode = "regression", coords = NULL, W = NULL,
+                    k_neighbors = NULL, style = "W", zero_policy = TRUE) {
+  # SDM garde la correction interne deja mise en place: formule Durbin explicite
+  # sans intercept spatialement lagge.
+  parsnip::new_model_spec(
+    "spatialreg_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      W = rlang::enquo(W),
+      model_type = rlang::quo("SDM"),
+      k_neighbors = rlang::enquo(k_neighbors),
+      style = rlang::enquo(style),
+      zero_policy = rlang::enquo(zero_policy)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
 #' @export
 #' @method update spatialreg_reg
 update.spatialreg_reg <- function(object, parameters = NULL, coords = NULL,
-                                  model_type = NULL, k_neighbors = NULL,
+                                  W = NULL, model_type = NULL, k_neighbors = NULL,
+                                  style = NULL, zero_policy = NULL,
                                   fresh = FALSE, ...) {
   # Necessaire pour rester compatible avec la mecanique parsnip/tune, meme si
   # ces modeles ne sont pas encore tunes dans le benchmark courant.
   args <- list(
     coords = rlang::enquo(coords),
+    W = rlang::enquo(W),
     model_type = rlang::enquo(model_type),
-    k_neighbors = rlang::enquo(k_neighbors)
+    k_neighbors = rlang::enquo(k_neighbors),
+    style = rlang::enquo(style),
+    zero_policy = rlang::enquo(zero_policy)
   )
   parsnip:::update_spec(
     object = object, parameters = parameters, args_enquo_list = args,
@@ -59,15 +179,22 @@ update.spatialreg_reg <- function(object, parameters = NULL, coords = NULL,
 #'
 #' @keywords internal
 #' @export
-spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
-                                k_neighbors = 8) {
+spatialreg_fit_impl <- function(formula, data, coords, W = NULL,
+                                model_type = "SAR", k_neighbors = 8,
+                                style = "W", zero_policy = TRUE) {
   # Normalisation standard pour workflow/parsnip: data.frame classique,
   # reponse eventuellement renomme par workflow(), et formule sans coordonnees.
   sanitized <- sanitize_formula_response(formula, data)
   formula <- sanitized$formula
   data <- as.data.frame(sanitized$data)
-  coords <- check_spatial_coords(coords, data = data)
-  k_neighbors <- check_k_neighbors(k_neighbors, n = nrow(data))
+  spatial_args <- resolve_spatial_knn_args(
+    coords = coords, W = W, k_neighbors = k_neighbors,
+    style = style, zero_policy = zero_policy, data = data
+  )
+  coords <- spatial_args$coords
+  k_neighbors <- spatial_args$k_neighbors
+  style <- spatial_args$style
+  zero_policy <- spatial_args$zero_policy
   model_formula <- drop_formula_terms(formula, coords, data = data)
   x_vars <- attr(stats::terms(model_formula, data = data), "term.labels")
   # Pour SDM, `type = "mixed"` lagge implicitement aussi l'intercept dans
@@ -76,7 +203,13 @@ spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
   sdm_durbin_formula <- if (length(x_vars) > 0) stats::reformulate(x_vars) else FALSE
 
   coords_mat <- as.matrix(data[, coords, drop = FALSE])
-  listw_train <- build_knn_listw(coords_mat, k = k_neighbors)
+  listw_train <- if (is.null(spatial_args$W)) {
+    build_knn_listw(coords_mat, k = k_neighbors, style = style, zero_policy = zero_policy)
+  } else if (inherits(spatial_args$W, "listw")) {
+    spatial_args$W
+  } else {
+    spdep::mat2listw(as.matrix(spatial_args$W), style = style)
+  }
   model_type <- toupper(model_type)
 
   # do.call() injecte l'objet formule evalue dans l'appel spatialreg. Cela
@@ -85,15 +218,15 @@ spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
   fit_obj <- switch(model_type,
     SAR = do.call(spatialreg::lagsarlm, list(
       formula = model_formula, data = data, listw = listw_train,
-      zero.policy = TRUE
+      zero.policy = zero_policy
     )),
     SEM = do.call(spatialreg::errorsarlm, list(
       formula = model_formula, data = data, listw = listw_train,
-      zero.policy = TRUE
+      zero.policy = zero_policy
     )),
     SDM = do.call(spatialreg::lagsarlm, list(
       formula = model_formula, data = data, listw = listw_train,
-      Durbin = sdm_durbin_formula, zero.policy = TRUE
+      Durbin = sdm_durbin_formula, zero.policy = zero_policy
     )),
     stop(sprintf("spatialreg_reg: model_type inconnu: %s", model_type),
          call. = FALSE)
@@ -106,6 +239,8 @@ spatialreg_fit_impl <- function(formula, data, coords, model_type = "SAR",
   attr(fit_obj, "spatialreg_train_data") <- data
   attr(fit_obj, "spatialreg_coords_cols") <- coords
   attr(fit_obj, "spatialreg_k_neighbors") <- k_neighbors
+  attr(fit_obj, "spatialreg_style") <- style
+  attr(fit_obj, "spatialreg_zero_policy") <- zero_policy
   attr(fit_obj, "spatialreg_x_vars") <- x_vars
   fit_obj
 }
@@ -153,6 +288,8 @@ spatialreg_pred_impl <- function(object, new_data) {
   train <- attr(fit_obj, "spatialreg_train_data")
   coords <- attr(fit_obj, "spatialreg_coords_cols")
   k_neighbors <- attr(fit_obj, "spatialreg_k_neighbors")
+  style <- attr(fit_obj, "spatialreg_style")
+  zero_policy <- attr(fit_obj, "spatialreg_zero_policy")
   x_vars <- attr(fit_obj, "spatialreg_x_vars")
   test <- as.data.frame(new_data)
   coords <- check_spatial_coords(coords, data = test)
@@ -178,8 +315,10 @@ spatialreg_pred_impl <- function(object, new_data) {
   # fold. Les lignes de test_data restent donc avec leurs propres noms de
   # lignes (issus de `new_data`), independants de ceux de all_data/listw_all.
   test_data <- test[, common_cols, drop = FALSE]
-  listw_all <- build_knn_listw(as.matrix(all_data[, coords, drop = FALSE]),
-                               k = k_neighbors)
+  listw_all <- build_knn_listw(
+    as.matrix(all_data[, coords, drop = FALSE]),
+    k = k_neighbors, style = style, zero_policy = zero_policy
+  )
   # all.data=TRUE dirait a predict.Sarlm() que `newdata` contient DEJA train+
   # test combines; comme on ne lui passe que les lignes test (test_data), ce
   # desaccord ne plante pas mais produit des predictions fausses (confirme
@@ -191,7 +330,7 @@ spatialreg_pred_impl <- function(object, new_data) {
   preds <- tryCatch(
     suppressWarnings(stats::predict(
       fit_obj, newdata = test_data, listw = listw_all,
-      pred.type = "TS", all.data = FALSE, zero.policy = TRUE
+      pred.type = "TS", all.data = FALSE, zero.policy = zero_policy
     )),
     error = function(e) e
   )

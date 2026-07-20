@@ -4,7 +4,16 @@
 \alias{spatialreg_fit_impl}
 \title{Fonction interne de fit spatialreg pour parsnip}
 \usage{
-spatialreg_fit_impl(formula, data, coords, model_type = "SAR", k_neighbors = 8)
+spatialreg_fit_impl(
+  formula,
+  data,
+  coords,
+  W = NULL,
+  model_type = "SAR",
+  k_neighbors = 8,
+  style = "W",
+  zero_policy = TRUE
+)
 }
 \description{
 Fonction interne de fit spatialreg pour parsnip

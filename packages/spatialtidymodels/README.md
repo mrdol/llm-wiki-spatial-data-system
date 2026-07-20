@@ -6,7 +6,11 @@ spatiaux du benchmark `llm-wiki-karpathy` en specs `parsnip` compatibles avec
 
 ## Etat actuel
 
-- `spatialreg_reg()` : spec parsnip pour SAR, SEM et SDM via `spatialreg`.
+- `spatialreg_reg()` : spec parsnip generique pour SAR, SEM et SDM via `spatialreg`.
+- `sar_reg()`, `sem_reg()`, `sdm_reg()` : specs explicites qui fixent le
+  type de modele spatialreg et rendent les workflows plus lisibles.
+- `spatial_knn_args()` : contrat commun des arguments geographiques
+  (`coords`, `W`, `k_neighbors`, `style`, `zero_policy`).
 - `spboost_reg()` : spec parsnip pour SpBoost via `spboost`.
 - `mgwrsar_reg()` : spec parsnip pour GWR/MGWR/MGWRSAR via `mgwrsar`.
 - `build_knn_W()` / `build_knn_listw()` : helpers communs pour construire `W`.
@@ -14,6 +18,57 @@ spatiaux du benchmark `llm-wiki-karpathy` en specs `parsnip` compatibles avec
 Ce package est une extension interne en developpement: le code est versionne,
 teste localement et utilisable dans le projet, mais pas encore stabilise comme
 API publique ou package CRAN.
+
+## API utilisateur stabilisee en premier
+
+L'entree recommandee pour les modeles `spatialreg` est maintenant:
+
+```r
+library(spatialtidymodels)
+library(parsnip)
+
+spec <- sar_reg(
+  coords = c("X", "Y"),
+  k_neighbors = 8,
+  style = "W",
+  zero_policy = TRUE
+) |>
+  set_engine("spatialreg") |>
+  set_mode("regression")
+```
+
+`coords`, `W`, `k_neighbors`, `style` et `zero_policy` sont des arguments
+geographiques: ils definissent la structure spatiale utilisee par le backend.
+Ils ne doivent pas etre confondus avec les arguments econometriques du modele.
+Si `W` est fourni, il est utilise au fit; sinon le package construit un
+voisinage kNN depuis `coords`.
+
+Pour un usage plus proche de `glm(formula, data)`, les raccourcis suivants
+construisent automatiquement la spec, le workflow et le fit:
+
+```r
+fit <- fit_sar(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  k_neighbors = 8
+)
+
+predict(fit, new_data = columbus)
+```
+
+Les variantes equivalentes sont `fit_sem()` et `fit_sdm()`.
+
+Pour comparer rapidement un modele spatial a OLS sur les diagnostics utiles au
+benchmark:
+
+```r
+diagnose_spatial(fit, data = columbus)
+```
+
+La table retourne notamment RMSE, MAE, AIC, log-vraisemblance, parametre
+spatial (`rho` ou `lambda`) et Moran I des residus. Quand la formule est connue,
+une ligne `ols_baseline` est ajoutee automatiquement.
 
 ## Parite package / benchmark manuel
 
