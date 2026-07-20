@@ -2,7 +2,7 @@
 title: Wiki Log
 type: metadata
 created: 2026-04-07
-updated: 2026-05-12
+updated: 2026-07-20
 sources: []
 tags: [log, wiki, chronology]
 ---
@@ -10,6 +10,41 @@ tags: [log, wiki, chronology]
 # Wiki Log
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
+
+## [2026-07-20] tidymodels | spatialtidymodels package state and dataset fiche regeneration
+
+Files updated:
+- `packages/spatialtidymodels/`
+- `code/R/estimators/parsnip_spatialreg.R`
+- `wiki/datasets/fiches_datasets/*.md`
+- `wiki/metadata/tidymodels_spatial_pipeline_status_2026-07.md`
+- `wiki/overview.md`
+- `wiki/index.md`
+- `wiki/glossary.md`
+- `CONTEXT.md`
+- `AGENTS.md`
+
+Reason:
+- The tidymodels mission moved from a benchmark-only prototype to a versioned
+  in-development R package extension, and the wiki needed to reflect the new
+  maturity level without overusing "minimal" or "experimental".
+
+Key changes:
+- Added and committed `packages/spatialtidymodels/` with parsnip engines for
+  `spatialreg`, `spboost` and `mgwrsar`, dials parameters, tests, docs and a
+  parity harness.
+- Fixed SDM encoding by using an explicit `Durbin` formula without
+  `lag.(Intercept)` and by setting `compute_intercept = FALSE` in the custom
+  parsnip registration.
+- Regenerated 97 dataset fiches with a structured Quality Control checklist.
+- Updated shared vocabulary: `extension en developpement`, `prototype valide`,
+  `experimental` and `parite numerique`.
+
+Verification:
+- Dataset fiche regeneration commit passed Tier 1; Tier 2 degraded gracefully
+  because the local `anthropic` package is unavailable.
+- `sar_lag`, `sem_error` and `sdm_mixed` had exact package/manual parity on
+  `columbus_crime`: 27/27 folds, `max_abs_diff = 0`.
 
 ## [2026-05-13] estimator | enrich GAMBoost from PDF formula extraction
 

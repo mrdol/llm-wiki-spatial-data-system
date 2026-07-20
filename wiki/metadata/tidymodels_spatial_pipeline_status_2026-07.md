@@ -2,7 +2,7 @@
 title: Etat du pipeline tidymodels spatial - juillet 2026
 type: metadata
 created: 2026-07-03
-updated: 2026-07-08
+updated: 2026-07-20
 sources:
   - code/R/estimators/benchmark_manual_test_2026-07.R
   - code/R/estimators/spatial_tidymodels_api.R
@@ -157,8 +157,62 @@ custom via `spatialreg_reg()`. Ils ne passent donc plus par une route
 declares comme specs avec `set_engine("spatialreg")`, ajoutes a un
 `workflow()`, puis evalues par `score_split()` comme les autres modeles
 compatibles workflow. Le wrapper reconstruit un objet `listw` kNN au fit et
-au predict, et conserve un repli tendance `X * beta` si `predict.Sarlm()`
-echoue sur un fold hors echantillon.
+au predict. Le repli silencieux vers une tendance `X * beta` a ete retire:
+une erreur de prediction doit maintenant etre visible dans les logs.
+
+## Mise a jour courte au 2026-07-20
+
+Le travail a franchi une etape de packaging. Le dossier
+`packages/spatialtidymodels/` est maintenant versionne comme **extension en
+developpement** du projet, et non comme simple brouillon minimal. Il contient:
+
+- les specs parsnip `spatialreg_reg()`, `spboost_reg()` et `mgwrsar_reg()` ;
+- les helpers de preparation, coordonnees et matrices de voisinage ;
+- les parametres dials `mstop`, `bandwidth`, `kernel`, `k_neighbors` ;
+- les tests `testthat` de registration, `workflow()` et `tune_grid()` ;
+- la documentation Rd generee et une page pkgdown en Markdown ;
+- un script de parite numerique sous
+  `packages/spatialtidymodels/inst/parity/compare_with_manual_benchmark.R`.
+
+La correction SDM principale est stabilisee: `sdm_mixed` utilise une formule
+`Durbin` explicite sur les covariables pour eviter le couple aliase
+`(Intercept)` / `lag.(Intercept)`. L'encodage parsnip de `spatialreg_reg()`
+utilise aussi `compute_intercept = FALSE`, parce que `spatialreg` reconstruit
+deja l'intercept depuis la formule native.
+
+La parite numerique package vs benchmark manuel a ete validee sur plusieurs
+datasets pour les routes `spatialreg`:
+
+| Dataset | Estimateurs | Folds testes | Resultat |
+|---|---|---:|---|
+| `columbus_crime` | `sar_lag`, `sem_error`, `sdm_mixed` | 27 | `max_abs_diff = 0` |
+| `london_hp` | `sar_lag`, `sem_error`, `sdm_mixed` | 33 | `max_abs_diff = 0` |
+| `boston_housing` | `sar_lag`, `sem_error` | 22 | `max_abs_diff = 0` |
+| `boston_housing` | `sdm_mixed` | 11 | echec reproduit cote manuel et package: `CHAS1` / `lag.CHAS1` aliases |
+
+Ces trois routes doivent donc etre decrites comme **prototypes valides sur les
+perimetres testes**, pas comme "experimentales" au sens strict. Le cas
+`boston_housing` / `sdm_mixed` est un cas limite documente: la parite montre
+que le package reproduit le comportement du benchmark, y compris l'echec du
+fit SDM quand une covariable binaire et son lag spatial deviennent aliases.
+Le terme `experimental` reste reserve aux routes instables ou incompletes,
+par exemple `spmoran_resf` tant que certains folds peuvent retourner des
+predictions `NA`.
+
+L'API utilisateur expose actuellement 15 datasets benchmarkables et 18
+estimateurs via:
+
+```r
+source("R/estimators/spatial_tidymodels_api.R")
+list_available_datasets()
+list_available_estimators()
+run_spatial_benchmark()
+```
+
+Attention: les derniers `.rds` de benchmark dans `data/manifests/runs/`
+peuvent etre des sorties du dernier run cible, pas un benchmark global. Le
+resume courant archive porte notamment sur `columbus_crime` et les trois
+estimateurs `spatialreg`.
 
 ## Objectif vise
 
@@ -244,9 +298,9 @@ travail restant.
 | `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")` | wrapper `parsnip`, evaluation standard | `W` fixe par kNN | verifier prediction hors-echantillon et comparer a `spatialreg::lagsarlm()` |
 | `mgwrsar_mgwrsar` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control(W=W))` | wrapper `parsnip`, tuning `H`/`kernel` possible | `bandwidth`/`H`, `kernel`, `W` fixe | stabiliser choix theorique `kc/kv` et documenter l'autocorrelation |
 | `mgwrsar_mgwr` | `mgwrsar::TDS_MGWR()` | wrapper `parsnip`, pas de tuning externe | bandwidths internes par covariable | tester cout/robustesse sur grands datasets et documenter les sorties locales |
-| `sar_lag` | `spatialreg::lagsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | tester sur plus de datasets et envisager tuning de `k_neighbors` |
-| `sem_error` | `spatialreg::errorsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | tester sur plus de datasets et comparer aux residus Moran |
-| `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()` | `W/listw` fixe par kNN | surveiller les folds instables et le nombre de covariables laggees |
+| `sar_lag` | `spatialreg::lagsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()`, parite columbus OK | `W/listw` fixe par kNN | etendre la parite a LondonHP puis NYC Education |
+| `sem_error` | `spatialreg::errorsarlm()` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()`, parite columbus OK | `W/listw` fixe par kNN | etendre la parite a LondonHP puis NYC Education |
+| `sdm_mixed` | `spatialreg::lagsarlm(Durbin=...)` via `spatialreg_reg()` | wrapper `parsnip` + `workflow()`, parite columbus OK | `W/listw` fixe par kNN | etendre la parite et surveiller le cout des covariables laggees |
 | `spmoran_esf` | `spmoran::meigen()`/`esf()` | scoring direct fold par fold | `enum`, seuil `meigen_f` | stabiliser projection train/test, puis decider wrapper ou scorer dedie |
 | `spmoran_resf` | `spmoran::resf()` | experimental, scoring direct | `enum`, effet aleatoire spatial | corriger les predictions `NA` avant toute integration tidymodels |
 
@@ -316,9 +370,9 @@ covariables ordinaires.
 | `mgwrsar_gwr` | `mgwrsar::MGWRSAR(Model="GWR")` -- une seule bande passante pour toutes les covariables -- **c'est le baseline "GWR simple"** | **oui, depuis le 2026-07-04** |
 | `mgwrsar_sar` | `mgwrsar::MGWRSAR(Model="SAR")`, ajoute le 2026-07-04, baseline SAR global (lambda constant, beta constant, W construite par kNN k=8) | oui (memes rouages que `mgwrsar_gwr`) |
 | `mgwrsar_mgwr` | `mgwrsar::TDS_MGWR(Model="tds_mgwr")` -- **une bande passante par covariable**, trouvee par backfitting | non applicable (pas d'hyperparametre externe a tuner, l'algorithme est auto-suffisant) |
-| `sar_lag` | `spatialreg::lagsarlm()` | non -- score direct fold par fold |
-| `sem_error` | `spatialreg::errorsarlm()` | non -- score direct fold par fold |
-| `sdm_mixed` | `spatialreg::lagsarlm(type="mixed")` | non -- score direct fold par fold |
+| `sar_lag` | `spatialreg::lagsarlm()` via `spatialreg_reg()` | oui -- wrapper parsnip/workflow, parite columbus OK |
+| `sem_error` | `spatialreg::errorsarlm()` via `spatialreg_reg()` | oui -- wrapper parsnip/workflow, parite columbus OK |
+| `sdm_mixed` | `spatialreg::lagsarlm(Durbin=...)` via `spatialreg_reg()` | oui -- wrapper parsnip/workflow, parite columbus OK |
 | `mgwrsar_mgwrsar` | `mgwrsar::MGWRSAR(Model="MGWRSAR_1_0_kv", control=list(W=W))` | oui pour `H`/`kernel` via la route MGWRSAR existante |
 | `spmoran_esf` | `spmoran::esf()` avec vecteurs propres de Moran | non -- score direct fold par fold |
 | `spmoran_resf` | `spmoran::resf()` avec effet spatial aleatoire | non -- experimental, predictions parfois `NA` |

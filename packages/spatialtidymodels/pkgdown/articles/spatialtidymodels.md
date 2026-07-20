@@ -1,7 +1,9 @@
 # Demarrer avec spatialtidymodels
 
 Cette fiche pkgdown documente le chemin vise pour passer du benchmark manuel a
-une extension tidymodels reutilisable.
+une extension tidymodels reutilisable. Le package est une extension en
+developpement: il est teste dans le projet, mais il n'est pas encore une API
+publique stabilisee.
 
 ## Separation des arguments
 
@@ -17,7 +19,7 @@ Arguments geographiques:
 - `coords` indique les colonnes de coordonnees conservees dans le workflow;
 - `k_neighbors` indique le nombre de voisins utilises pour construire W.
 
-## Workflow minimal
+## Workflow de base
 
 ```r
 library(spatialtidymodels)
@@ -39,7 +41,7 @@ fit <- fit(wf, data = train)
 predict(fit, new_data = test)
 ```
 
-## Tuning minimal
+## Tuning de base
 
 ```r
 library(tune)
@@ -65,7 +67,7 @@ tune_grid(
 
 ## Parite avec le benchmark manuel
 
-La verification de parite numerique doit comparer, a split identique:
+La verification de parite numerique compare, a split identique:
 
 1. la formule utilisee par le benchmark manuel;
 2. les colonnes de coordonnees et la matrice W;
@@ -76,3 +78,19 @@ La verification de parite numerique doit comparer, a split identique:
 Une difference acceptable doit etre expliquee par une difference de backend,
 de prediction hors-echantillon ou de construction de W. Sinon, le package doit
 etre corrige avant de remplacer le benchmark manuel.
+
+Etat actuel:
+
+| Dataset | Estimateurs | Resultat |
+|---|---|---|
+| `columbus_crime` | `sar_lag`, `sem_error`, `sdm_mixed` | 27/27 folds, `max_abs_diff = 0` |
+| `london_hp` | `sar_lag`, `sem_error`, `sdm_mixed` | 33/33 folds, `max_abs_diff = 0` |
+| `boston_housing` | `sar_lag`, `sem_error` | 22/22 folds, `max_abs_diff = 0` |
+| `boston_housing` | `sdm_mixed` | echec identique cote manuel/package: `CHAS1` / `lag.CHAS1` aliases |
+
+Le script de parite se trouve dans:
+
+```r
+source("packages/spatialtidymodels/inst/parity/compare_with_manual_benchmark.R")
+run_spatialtidymodels_parity_check("london_hp")
+```

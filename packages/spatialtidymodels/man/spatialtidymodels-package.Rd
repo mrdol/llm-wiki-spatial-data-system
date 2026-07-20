@@ -6,9 +6,14 @@
 \alias{spatialtidymodels-package}
 \title{spatialtidymodels}
 \description{
-Extensions tidymodels experimentales pour des estimateurs de regression
-spatiale. Le package enregistre des specs \code{parsnip} et des moteurs pour les
-backends \code{spatialreg}, \code{spboost} et \code{mgwrsar}.
+Extension tidymodels en developpement pour des estimateurs de regression
+spatiale.
+}
+\details{
+Le package enregistre des specs \code{parsnip} et des moteurs pour les backends
+\code{spatialreg}, \code{spboost} et \code{mgwrsar}. Les routes \code{spatialreg} disposent de
+tests de parite numerique contre le benchmark manuel sur plusieurs datasets
+du projet.
 }
 \author{
 \strong{Maintainer}: Johnny D'Oliveira \email{johnny@example.com}

@@ -2,7 +2,7 @@
 title: Glossary
 type: glossary
 created: 2026-04-07
-updated: 2026-07-08
+updated: 2026-07-20
 sources: []
 tags: [terminology, style, glossary]
 ---
@@ -223,6 +223,26 @@ Each entry follows this format:
 - Preferred: `mgwrsar_mgwrsar` / Avoid: `mgwrsar_autocorr` in new outputs
 - See also: [[mgwrsar]], [[spatial_autocorrelation]]
 
+**spatialtidymodels** *(canonical form)*
+: Project package under `packages/spatialtidymodels` that exposes spatial estimators as parsnip/workflow-compatible R model specifications.
+- Preferred: `spatialtidymodels` or `extension en developpement` / Avoid: calling the whole package `minimal` after workflow and parity tests pass
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]], [[tidymodels_parsnip_extension_procedure]]
+
+**Extension en developpement** *(canonical form)*
+: Code path that is versioned and tested inside the project but not yet released or stabilized as a public package/API.
+- Preferred: `extension en developpement` / Avoid: `experimental` when the uncertainty is packaging maturity, not model failure
+- See also: [[tidymodels_parsnip_extension_procedure]]
+
+**Prototype valide** *(canonical form)*
+: Estimator route that has passed the expected local tests for a defined perimeter, such as workflow prediction or parity against the benchmark manual.
+- Preferred: `prototype valide sur <dataset/test>` / Avoid: claiming global validation without multi-dataset evidence
+- See also: [[tidymodels_spatial_pipeline_status_2026-07]]
+
+**Parite numerique** *(canonical form)*
+: Line-by-line comparison of predictions from two implementation routes on the same resamples.
+- Preferred: `parite numerique` / Avoid: saying only "works" when exact prediction equality was tested
+- See also: `packages/spatialtidymodels/inst/parity/compare_with_manual_benchmark.R`
+
 ---
 
 ## Style Conventions
@@ -246,6 +266,8 @@ Terms that have been replaced, renamed, or should not be used:
 | `mgwrsar_autocorr` | `mgwrsar_mgwrsar` | New convention names the actual MGWRSAR model family explicitly |
 | CSV as default benchmark output | `.rds` | The current R pipeline stores benchmark/tuning/resample outputs as native R objects |
 | raw catalogue line as `Dataset` | `DatasetCatalogRecord` | A catalogue row is discovery evidence, not a validated dataset entity |
+| `minimal` for tested package routes | `extension en developpement` or `prototype valide` | "Minimal" hides the difference between missing public packaging and passing local tests |
+| `experimental` for every custom estimator | `experimental` only for unstable routes; otherwise use `prototype valide` or `extension en developpement` | The project now has parity-tested routes, so maturity labels must be precise |
 
 ---
 

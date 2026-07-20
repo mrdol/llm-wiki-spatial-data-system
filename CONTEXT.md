@@ -107,9 +107,27 @@ de specification `parsnip`, injecte dans `workflows::workflow()`, evalue sur
 des folds `rsample`, tune par `tune::tune_grid()` quand c'est applicable, puis
 score avec des metriques `yardstick`.
 
-**Scoring direct fold par fold** -- Route provisoire pour les estimateurs qui
-ne sont pas encore de vrais moteurs `parsnip`. Le benchmark appelle une
-fonction `score = function(split, y_resp) ...` pour chaque fold.
+**Extension en developpement** -- Statut actuel du package
+`packages/spatialtidymodels`. Le code est versionne, teste et utilisable dans
+le projet, mais il n'est pas encore un package public stabilise. Preferer ce
+terme a "minimal" quand les routes ont deja des tests de workflow/parite.
+
+**Prototype valide** -- Route technique qui a passe les tests locaux attendus
+pour son perimetre. Exemple courant: `sar_lag`, `sem_error` et `sdm_mixed`
+ont une parite numerique exacte avec le benchmark manuel sur `columbus_crime`.
+
+**Experimental** -- A reserver aux routes dont le comportement reste instable
+ou incomplet, par exemple `spmoran_resf` tant que certains folds produisent
+des predictions `NA`. Ne pas utiliser pour tout le package par habitude.
+
+**Parite numerique** -- Comparaison ligne par ligne entre les predictions du
+benchmark manuel et celles du package `spatialtidymodels` sur les memes
+resamples. Une parite `max_abs_diff = 0` signifie que la migration package ne
+change pas les predictions sur le perimetre teste.
+
+**Scoring direct fold par fold** -- Route provisoire ou assumee pour les
+estimateurs qui ne sont pas encore de vrais moteurs `parsnip`. Le benchmark
+appelle une fonction `score = function(split, y_resp) ...` pour chaque fold.
 
 ---
 

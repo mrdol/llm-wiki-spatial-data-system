@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-04-21
-updated: 2026-07-08
+updated: 2026-07-20
 sources:
   - AGENTS.md
   - README.md
@@ -37,6 +37,9 @@ Current durable layers:
 - `.kg/graph.sqlite` for the local graph;
 - `wiki/` for validated synthesis;
 - `code/` for discovery, scraping, catalog and audit scripts.
+- `packages/spatialtidymodels/` for the in-development tidymodels extension
+  package that exposes spatial estimators as parsnip/workflow-compatible
+  model specifications.
 
 ---
 
@@ -46,11 +49,18 @@ The active modeling mission is the integration of spatial estimators into a
 tidymodels-compatible R benchmark. The durable status page is
 [[tidymodels_spatial_pipeline_status_2026-07]].
 
-Current implementation state:
+Current implementation state as of 2026-07-20:
 
 - `workflows::workflow()` and `tune::tune_grid()` are working for the custom
   `spboost` and `mgwrsar_gwr` routes, with a static workflow fallback retained
   for fragile custom engines.
+- `packages/spatialtidymodels/` is now versioned as an in-development package,
+  with parsnip engines for `spatialreg`, `spboost` and `mgwrsar`, dials
+  parameters, tests, generated Rd documentation and a parity harness.
+- `sar_lag`, `sem_error` and `sdm_mixed` are no longer direct scorers in the
+  benchmark: they are parsnip/workflow routes through `spatialreg_reg()`.
+- The `spatialreg` routes have exact parity against the benchmark manual on
+  `columbus_crime`: 27/27 folds pass with `max_abs_diff = 0`.
 - Benchmark outputs, tuning grids and resample manifests are saved as `.rds`
   objects under `data/manifests/runs/`.
 - `spatial_viz.R` reads RDS outputs and generates PNG figures from the R-native
@@ -60,8 +70,9 @@ Current implementation state:
   orchestration script.
 - The benchmark includes native tidymodels baselines (`glm`, `earth`,
   `random_forest`, `xgboost`, plus `_xy` variants with coordinates), custom
-  parsnip wrappers (`spboost`, `mgwrsar_*`) and direct fold-by-fold spatial
-  estimators (`spatialreg`, `spmoran`).
+  parsnip wrappers (`spboost`, `mgwrsar_*`, `spatialreg_reg`) and direct
+  fold-by-fold spatial estimators only where a wrapper is not stabilized
+  (`spmoran_esf`, `spmoran_resf`).
 - Spatial weights `W` are factorized in `code/R/utils/spatial_weights.R`
   and reused by SpBoost, MGWRSAR variants, spatialreg baselines and Moran
   diagnostics.
@@ -151,7 +162,7 @@ dataset. Dataset-related nodes are split into layers:
 |---|---|---:|
 | `DatasetCatalogRecord` | raw package/catalogue/inventory line | 1108 |
 | `DatasetCandidate` | candidate discovered but not validated as final | 9 |
-| `Dataset` | promoted dataset entity with stronger evidence or local conversion | 197 |
+| `Dataset` | promoted dataset entity with stronger evidence or local conversion | 211 |
 | `DatasetArtifact` | local file artifact such as final RDS | 111 |
 
 This change fixes the previous ambiguity where the KG reported more than one
@@ -188,6 +199,9 @@ Recent durable additions include:
 - a tidymodels spatial benchmark status page documenting workflows, tuning,
   RDS outputs, estimator names, W construction, fold logging and remaining
   implementation gaps.
+- regenerated dataset fiches with a structured Quality Control checklist
+  (`Schema`, `Variables`, `Formula`, `CRS`, `Geometry`, `Missing values`,
+  `Duplicates`, `Reproducibility`).
 
 ---
 
@@ -217,9 +231,10 @@ Recent durable additions include:
 - Several estimator fiches now pass structural review, but Tier 2 semantic
   review still flags source-fidelity gaps when local PDFs or TEI evidence are
   not extractable.
-- `spmoran_resf` and some SAR/SEM/SDM prediction paths remain experimental in
-  the benchmark because out-of-sample prediction requires careful train/test
-  neighborhood handling.
+- `spmoran_resf` remains experimental because some folds may still produce
+  `NA` predictions. `sar_lag`, `sem_error` and `sdm_mixed` should now be
+  described more precisely as parity-tested prototypes on `columbus_crime`,
+  not as broadly experimental routes.
 
 ---
 

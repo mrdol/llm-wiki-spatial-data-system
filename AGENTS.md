@@ -1,10 +1,17 @@
 # LLM Wiki - Agent Operating Manual
 
-Read `CONTEXT.md` first — it defines all project terms (fiche, sf, N/T,
+Read `CONTEXT.md` first - it defines all project terms (fiche, sf, N/T,
 typologies Y/X, bandwidth, pipeline, eval scores, estimateurs, agents).
 
 This file defines how agents should work inside `llm-wiki-karpathy`.
 Read it before making durable changes.
+
+When a durable change introduces or stabilizes shared vocabulary, update
+`CONTEXT.md` in the same work session. Do not keep using "minimal" or
+"experimental" as default labels once a component has versioned code and
+passing tests; use the vocabulary in `CONTEXT.md` (`extension en
+developpement`, `prototype valide`, `experimental`) to distinguish maturity
+levels.
 
 The project combines several working layers:
 

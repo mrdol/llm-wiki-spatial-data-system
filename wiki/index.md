@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-07-08
+updated: 2026-07-20
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -26,8 +26,8 @@ Each entry follows this format:
 
 | Page | Summary | Updated |
 |---|---|---|
-| [[overview]] | High-level synthesis of the knowledge base, KG/wiki layers, and current tidymodels spatial-estimator mission | 2026-07-08 |
-| [[glossary]] | Terminology, naming conventions and avoid-list terms | 2026-07-08 |
+| [[overview]] | High-level synthesis of the knowledge base, KG/wiki layers, current tidymodels spatial-estimator mission and spatialtidymodels package state | 2026-07-20 |
+| [[glossary]] | Terminology, naming conventions, maturity labels and avoid-list terms | 2026-07-20 |
 
 ---
 
@@ -159,7 +159,8 @@ Each entry follows this format:
 - [[quality_pedigree_schema_v1]] - Human-LLM quality control matrix with score evidence, Delta1 risk, and review status | metadata | 2026-05-05
 - [[feature_selection_block_template]] - Reusable block for documenting X candidates and X selected for estimation | metadata | 2026-05-12
 - [[cross_language_software_dataset_access]] - Convention for software datasets available in both R and Python, with both local access routes preserved | metadata | 2026-05-12
-- [[tidymodels_spatial_pipeline_status_2026-07]] - Current status of the R tidymodels spatial-estimator benchmark, workflow/tune_grid integration, RDS outputs, W construction and estimator naming | metadata | 2026-07-08
+- [[tidymodels_spatial_pipeline_status_2026-07]] - Current status of the R tidymodels spatial-estimator benchmark, workflow/tune_grid integration, RDS outputs, W construction, spatialtidymodels package state and estimator naming | metadata | 2026-07-20
+- [[tidymodels_parsnip_extension_procedure]] - Procedure note for building parsnip model extensions and applying it to the spatialtidymodels package | metadata | 2026-07-20
 
 ### KG Schema Files
 
