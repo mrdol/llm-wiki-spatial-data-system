@@ -9,6 +9,10 @@ benchmark_dataset_registry <- function() {
       "georgia", "columbus_crime", "london_hp", "boston_housing",
       "dub_voter", "ewhp", "lasrosas"
     ),
+    data_object = c(
+      "georgia", "columbus_crime", "london_hp", "boston_housing",
+      "dub_voter", "ewhp", "lasrosas"
+    ),
     rds = c(
       "data/final_datasets/sf/Python_libpysal_georgia.rds",
       "data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds",
@@ -129,6 +133,31 @@ resolve_benchmark_data_path <- function(path, data_dir = NULL) {
   stop(sprintf("Fichier dataset introuvable: %s. Fournissez `data_dir` si vous n'etes pas dans le repo.", path), call. = FALSE)
 }
 
+load_packaged_benchmark_data <- function(object) {
+  # Charge un objet embarque dans packages/spatialtidymodels/data. Cela rend le
+  # benchmark utilisable apres install_local(), sans pointer vers le repo source.
+  env <- new.env(parent = emptyenv())
+  loaded <- utils::data(list = object, package = "spatialtidymodels", envir = env)
+  if (!identical(loaded, object) || !exists(object, envir = env, inherits = FALSE)) {
+    return(NULL)
+  }
+  get(object, envir = env, inherits = FALSE)
+}
+
+coerce_numeric_like_columns <- function(data) {
+  # Certains datasets empaquetes conservent des indicatrices 0/1 comme chaines.
+  # Les backends mgwrsar travaillent mieux avec une matrice de variables
+  # numeriques stable entre fit et predict.
+  as.data.frame(lapply(data, function(x) {
+    if (!is.character(x)) return(x)
+    values <- stats::na.omit(x)
+    if (length(values) == 0L) return(x)
+    numeric_values <- suppressWarnings(as.numeric(values))
+    if (all(!is.na(numeric_values))) return(suppressWarnings(as.numeric(x)))
+    x
+  }), stringsAsFactors = FALSE)
+}
+
 #' List registered benchmark datasets
 #'
 #' Returns continuous-regression datasets for which the package knows the
@@ -159,8 +188,14 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
   # Charge le .rds, conserve uniquement Y/X/coords, puis applique complete.cases
   # sur les colonnes utiles au modele.
   spec <- get_benchmark_dataset_spec(dataset)
-  path <- resolve_benchmark_data_path(spec$rds[[1]], data_dir = data_dir)
-  dat <- as.data.frame(readRDS(path))
+  packaged <- if (is.null(data_dir)) load_packaged_benchmark_data(spec$data_object[[1]]) else NULL
+  if (!is.null(packaged)) {
+    dat <- as.data.frame(packaged)
+    path <- sprintf("package:spatialtidymodels/data/%s", spec$data_object[[1]])
+  } else {
+    path <- resolve_benchmark_data_path(spec$rds[[1]], data_dir = data_dir)
+    dat <- as.data.frame(readRDS(path))
+  }
   predictors <- unlist(spec$predictors[[1]], use.names = FALSE)
   coords <- unlist(spec$coords[[1]], use.names = FALSE)
   needed <- unique(c(spec$response[[1]], predictors, coords))
@@ -168,7 +203,7 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
   if (length(missing) > 0L) {
     stop(sprintf("Colonnes absentes du dataset %s: %s", dataset, paste(missing, collapse = ", ")), call. = FALSE)
   }
-  dat <- dat[, needed, drop = FALSE]
+  dat <- coerce_numeric_like_columns(dat[, needed, drop = FALSE])
   dat <- dat[stats::complete.cases(dat[, needed, drop = FALSE]), , drop = FALSE]
   list(
     data = dat,
@@ -177,6 +212,38 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
     spec = spec,
     path = path
   )
+}
+
+recommended_benchmark_tuning_grids <- function(dataset, estimators, data) {
+  # Grilles courtes inspirees des fiches dataset. Elles servent a reduire
+  # l'appel utilisateur pour les routes complexes, pas a remplacer un protocole
+  # scientifique complet.
+  spec <- get_benchmark_dataset_spec(dataset)
+  predictors <- unlist(spec$predictors[[1]], use.names = FALSE)
+  n <- nrow(data)
+  k_values <- unique(pmin(if (n > 1500L) c(8L) else c(4L, 8L), max(2L, n - 1L)))
+  h_values <- unique(pmin(if (n > 1500L) c(20L) else c(8L, 12L), max(3L, n - 1L)))
+  numeric_predictors <- predictors[vapply(data[predictors], is.numeric, logical(1))]
+  fixed_candidates <- if (length(numeric_predictors) >= 2L) {
+    unique(c(numeric_predictors[[1L]], numeric_predictors[[length(numeric_predictors)]]))
+  } else {
+    numeric_predictors
+  }
+  out <- list()
+  for (estimator in estimators) {
+    if (estimator %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) {
+      grid <- expand.grid(
+        bandwidth = h_values,
+        kernel = "gauss",
+        k_neighbors = k_values,
+        fixed_vars = fixed_candidates,
+        KEEP.OUT.ATTRS = FALSE,
+        stringsAsFactors = FALSE
+      )
+      out[[estimator]] <- grid
+    }
+  }
+  if (length(out) == 0L) NULL else out
 }
 
 #' Run a benchmark from a registered dataset
@@ -189,6 +256,8 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
 #' @param estimators Estimators to run.
 #' @param data_dir Optional repository directory, or directory containing the
 #'   prepared `.rds` files.
+#' @param use_recommended_grids If `TRUE`, fill missing tuning grids from the
+#'   dataset registry for complex estimators such as native mixed MGWRSAR.
 #' @param ... Arguments passed to `benchmark_spatial()`, such as
 #'   `cv_scheme = "near_prediction"`, `tune = TRUE`, or `tuning_grids = ...`.
 #'
@@ -197,14 +266,27 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
 benchmark_spatial_dataset <- function(dataset,
                                       estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                                       data_dir = NULL,
+                                      use_recommended_grids = TRUE,
                                       ...) {
   loaded <- load_benchmark_dataset(dataset, data_dir = data_dir)
-  bench <- benchmark_spatial(
-    formula = loaded$formula,
-    data = loaded$data,
-    coords = loaded$coords,
-    estimators = estimators,
-    ...
+  dots <- list(...)
+  if (isTRUE(dots$tune %||% FALSE) && isTRUE(use_recommended_grids)) {
+    recommended <- recommended_benchmark_tuning_grids(dataset, estimators, loaded$data)
+    if (!is.null(recommended)) {
+      dots$tuning_grids <- utils::modifyList(recommended, dots$tuning_grids %||% list())
+    }
+  }
+  bench <- do.call(
+    benchmark_spatial,
+    c(
+      list(
+        formula = loaded$formula,
+        data = loaded$data,
+        coords = loaded$coords,
+        estimators = estimators
+      ),
+      dots
+    )
   )
   bench$dataset <- dataset
   bench$dataset_spec <- loaded$spec

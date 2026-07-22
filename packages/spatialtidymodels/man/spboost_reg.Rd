@@ -25,11 +25,15 @@ de coordonnees, deja dans un CRS projete/metrique.}
 
 \item{method}{Nom de methode spboost, par exemple "BSPA_SAR_ML"/"BSPA_SEM_ML".
 Si NULL, il est deduit de \code{DGP} (SAR -> BSPA_SAR_ML, SEM -> BSPA_SEM_ML,
-SARAR -> BSPA_SARAR_ML), comme dans R/estimators/fit_spboost.R.}
+SARAR -> BSPA_SARAR_ML), comme dans R/estimators/fit_spboost.R.
+Les suffixes ML et CFE indiquent deux methodes d'estimation du parametre
+spatial; ils ne changent pas la famille spatiale du modele.}
 
 \item{mstop}{Nombre d'iterations de boosting mboost.}
 
-\item{nu}{Taux d'apprentissage mboost.}
+\item{nu}{Taux d'apprentissage mboost. Dans le benchmark automatique, \code{nu}
+est conserve fixe via \code{spboost_nu}; le tuning porte sur \code{mstop} et
+\code{k_neighbors}.}
 
 \item{k_neighbors}{Nombre de plus proches voisins utilise pour construire
 la matrice de poids spatiaux W standardisee par ligne, au fit et au predict.}
@@ -38,6 +42,14 @@ la matrice de poids spatiaux W standardisee par ligne, au fit et au predict.}
 Une specification de modele \code{parsnip}.
 }
 \description{
-Cree une specification \code{parsnip} experimentale pour les estimateurs
-boosting spatiaux fournis par \code{spboost}.
+Cree une specification \code{parsnip} pour les estimateurs boosting spatiaux
+fournis par \code{spboost::spbgam()}.
+}
+\details{
+Cette spec est fonctionnelle dans les workflows et le benchmark du package.
+Le backend natif reste toutefois exigeant: il attend une formule et un
+\code{data.frame} classiques, et \code{predict_spboost()} demande les donnees
+d'entrainement plus une matrice W train+test reconstruite au moment de la
+prediction. Le wrapper gere ces contraintes, mais elles expliquent pourquoi
+cette route est plus encadree que les modeles parsnip natifs.
 }

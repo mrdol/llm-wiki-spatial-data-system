@@ -14,6 +14,11 @@ Arguments de modele:
 - `kernel` pour le noyau spatial;
 - `model_type` ou `DGP` pour la famille statistique.
 
+Pour les routes `spboost_bspa_*`, `ML` et `CFE` sont deux methodes
+d'estimation du parametre spatial (`rho` pour SAR, `lambda` pour SEM), pas
+deux familles spatiales differentes. Dans le benchmark automatique, `nu` reste
+fixe via `spboost_nu`; on tune seulement `mstop` et `k_neighbors`.
+
 Arguments geographiques:
 
 - `coords` indique les colonnes de coordonnees conservees dans le workflow;
@@ -120,7 +125,10 @@ bench <- benchmark_spatial_dataset(
   tune = TRUE,
   tuning_grids = list(
     sar_lag = data.frame(k_neighbors = c(4L, 8L)),
-    spboost = data.frame(mstop = c(50L, 100L, 200L))
+    spboost = expand.grid(
+      mstop = c(50L, 100L, 200L),
+      k_neighbors = c(4L, 8L)
+    )
   )
 )
 
@@ -134,8 +142,8 @@ bench <- benchmark_spatial(
   coords = c("x_coord", "y_coord"),
   estimators = c(
     "ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed",
-    "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr",
-    "mgwrsar_mgwrsar"
+    "spboost", "spboost_bspa_sar_cfe",
+    "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar"
   ),
   spboost_mstop = 100,
   mgwrsar_bandwidth = 20
@@ -164,9 +172,7 @@ bench_set$results
 ```
 
 `lsl` n'est pas utilise dans ces tests de regression continue parce que sa
-cible scientifique est binaire. Les routes `spmoran_esf` et `spmoran_resf`
-restent connues dans le registre, mais ne sont pas encore automatisees dans le
-package.
+cible scientifique est binaire.
 
 ### Tuning integre au benchmark
 
@@ -179,7 +185,10 @@ bench <- benchmark_spatial(
   tune = TRUE,
   tuning_grids = list(
     sar_lag = data.frame(k_neighbors = c(4L, 8L)),
-    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    spboost = expand.grid(
+      mstop = c(50L, 100L, 200L),
+      k_neighbors = c(4L, 8L)
+    ),
     mgwrsar_gwr = data.frame(
       bandwidth = c(20L, 40L),
       kernel = c("bisq", "gauss")
@@ -192,10 +201,66 @@ bench$results
 ```
 
 Cette couche tune actuellement `k_neighbors` pour `sar_lag`, `sem_error` et
-`sdm_mixed`, `mstop` pour `spboost`, puis `bandwidth`/`kernel` pour
-`mgwrsar_gwr` et `mgwrsar_mgwrsar`. Si aucun `resamples` n'est fourni, un
+`sdm_mixed`, `mstop` et `k_neighbors` pour `spboost` et les variantes
+`spboost_bspa_*`, puis `bandwidth`/`kernel` pour `mgwrsar_gwr` et
+`mgwrsar_mgwrsar`. Si aucun `resamples` n'est fourni, un
 `rsample::vfold_cv()` classique est cree. Pour un protocole spatial strict,
 les folds doivent etre construits en amont et passes via `resamples`.
+
+## Visualisation apres estimation
+
+Les objets retournes par le package peuvent etre visualises sans relire les
+anciens fichiers CSV/RDS du benchmark manuel.
+
+Pour comparer les estimateurs:
+
+```r
+plot_benchmark_comparison(bench, metric = "rmse")
+plot_benchmark_comparison(bench, metric = "mae")
+```
+
+Pour afficher une courbe de tuning:
+
+```r
+plot_tuning_curve(
+  bench$tuning$mgwrsar_gwr$grid,
+  x = "bandwidth",
+  color = "kernel"
+)
+
+plot_tuning_curve(
+  bench$tuning$spboost$grid,
+  x = "mstop"
+)
+```
+
+Pour verifier un fold near-prediction:
+
+```r
+near <- make_spatial_resamples(
+  columbus,
+  coords = c("X", "Y"),
+  cv_scheme = "near_prediction",
+  near_n_reps = 3,
+  near_test_size = 10
+)
+
+plot_near_prediction_fold(near, data = columbus, coords = c("X", "Y"), fold = "rep_1")
+```
+
+Pour tracer les predictions ou les residus d'un fit individuel:
+
+```r
+fit <- fit_sar(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  k_neighbors = 8
+)
+
+plot_spatial_predictions(fit, columbus, coords = c("X", "Y"))
+plot_spatial_predictions(fit, columbus, coords = c("X", "Y"), truth = "CRIME", type = "residual")
+```
 
 ## Parite avec le benchmark manuel
 

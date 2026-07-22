@@ -11,7 +11,12 @@ spatiaux du benchmark `llm-wiki-karpathy` en specs `parsnip` compatibles avec
   type de modele spatialreg et rendent les workflows plus lisibles.
 - `spatial_knn_args()` : contrat commun des arguments geographiques
   (`coords`, `W`, `k_neighbors`, `style`, `zero_policy`).
-- `spboost_reg()` : spec parsnip pour SpBoost via `spboost`.
+- `spboost_reg()` : spec parsnip generique pour SpBoost via `spboost`.
+- `spboost_bspa_sar_ml()`, `spboost_bspa_sar_cfe()`,
+  `spboost_bspa_sem_ml()`, `spboost_bspa_sem_cfe()` : specs explicites pour
+  les quatre routes BSPA principales. `ML` et `CFE` sont deux methodes
+  d'estimation du parametre spatial (`rho` ou `lambda`), pas deux familles
+  spatiales differentes.
 - `mgwrsar_reg()` : spec parsnip pour GWR/MGWR/MGWRSAR via `mgwrsar`.
 - `build_knn_W()` / `build_knn_listw()` : helpers communs pour construire `W`.
 
@@ -100,11 +105,13 @@ d'estimateurs sur plusieurs jeux de donnees declares par
 car sa cible scientifique est binaire.
 
 Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
-`earth`, `earth_xy`, `random_forest`, `random_forest_xy`, `xgboost`,
+`gamboost`, `earth`, `earth_xy`, `random_forest`, `random_forest_xy`, `xgboost`,
 `xgboost_xy`, `sar_lag`, `sem_error`, `sdm_mixed`, `spboost`,
-`mgwrsar_gwr`, `mgwrsar_sar`, `mgwrsar_mgwr`, `mgwrsar_mgwrsar`,
-`spmoran_esf` et `spmoran_resf`. Les suffixes `_xy` ajoutent les coordonnees
-comme covariables brutes; ils ne construisent pas de matrice `W`.
+`spboost_bspa_sar_ml`, `spboost_bspa_sar_cfe`, `spboost_bspa_sem_ml`,
+`spboost_bspa_sem_cfe`, `mgwrsar_gwr`, `mgwrsar_sar`, `mgwrsar_mgwr`,
+`mgwrsar_mgwrsar`, `spmoran_esf` et `spmoran_resf`. Les suffixes `_xy`
+ajoutent les coordonnees comme covariables brutes; ils ne construisent pas de
+matrice `W`.
 
 Pour les datasets deja enregistres dans le package, il n'est plus necessaire
 de recopier la formule:
@@ -118,7 +125,10 @@ bench <- benchmark_spatial_dataset(
   tune = TRUE,
   tuning_grids = list(
     sar_lag = data.frame(k_neighbors = c(4L, 8L)),
-    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    spboost = expand.grid(
+      mstop = c(50L, 100L, 200L),
+      k_neighbors = c(4L, 8L)
+    ),
     mgwrsar_gwr = data.frame(
       bandwidth = c(20L, 40L),
       kernel = c("bisq", "gauss")
@@ -189,7 +199,10 @@ bench <- benchmark_spatial(
   tune = TRUE,
   tuning_grids = list(
     sar_lag = data.frame(k_neighbors = c(4L, 8L)),
-    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    spboost = expand.grid(
+      mstop = c(50L, 100L, 200L),
+      k_neighbors = c(4L, 8L)
+    ),
     mgwrsar_gwr = data.frame(
       bandwidth = c(20L, 40L),
       kernel = c("bisq", "gauss")
@@ -206,12 +219,68 @@ bench$results
 Parametres actuellement tunes par cette couche:
 
 - `sar_lag`, `sem_error`, `sdm_mixed`: `k_neighbors`;
-- `spboost`: `mstop`;
+- `gamboost`: `mstop` ;
+- `spboost` et les variantes `spboost_bspa_*`: `mstop` et `k_neighbors`;
+  `nu` reste fixe via `spboost_nu`;
 - `mgwrsar_gwr`, `mgwrsar_mgwrsar`: `bandwidth` et `kernel`.
 
 Si `resamples` est absent, le package cree un `rsample::vfold_cv()` classique.
 Pour une validation spatiale plus stricte, construire les folds en amont et les
 passer avec `resamples = ...`.
+
+## Visualiser les resultats
+
+Le package expose trois familles de graphiques apres estimation.
+
+Comparer les estimateurs d'un benchmark:
+
+```r
+plot_benchmark_comparison(bench, metric = "rmse")
+plot_benchmark_comparison(bench, metric = "mae")
+```
+
+Visualiser une grille de tuning:
+
+```r
+plot_tuning_curve(
+  bench$tuning$mgwrsar_gwr$grid,
+  x = "bandwidth",
+  color = "kernel"
+)
+
+plot_tuning_curve(
+  bench$tuning$spboost$grid,
+  x = "mstop"
+)
+```
+
+Inspecter un fold near-prediction:
+
+```r
+near <- make_spatial_resamples(
+  columbus,
+  coords = c("X", "Y"),
+  cv_scheme = "near_prediction",
+  near_n_reps = 3,
+  near_test_size = 10
+)
+
+plot_near_prediction_fold(near, data = columbus, coords = c("X", "Y"), fold = "rep_1")
+```
+
+Visualiser les predictions ou les residus d'un fit individuel:
+
+```r
+fit <- fit_sar(
+  CRIME ~ HOVAL + INC,
+  data = columbus,
+  coords = c("X", "Y"),
+  k_neighbors = 8
+)
+
+plot_spatial_predictions(fit, columbus, coords = c("X", "Y"))
+plot_spatial_predictions(fit, columbus, coords = c("X", "Y"), truth = "CRIME", type = "residual")
+```
 
 ## Parite package / benchmark manuel
 

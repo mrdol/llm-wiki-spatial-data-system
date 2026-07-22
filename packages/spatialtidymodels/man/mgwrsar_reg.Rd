@@ -2,7 +2,7 @@
 % Please edit documentation in R/30-parsnip-mgwrsar.R
 \name{mgwrsar_reg}
 \alias{mgwrsar_reg}
-\title{Specification parsnip pour mgwrsar}
+\title{parsnip specification for mgwrsar models}
 \usage{
 mgwrsar_reg(
   mode = "regression",
@@ -10,33 +10,46 @@ mgwrsar_reg(
   model_type = NULL,
   kernel = NULL,
   bandwidth = NULL,
+  fixed_vars = NULL,
   kernels = NULL
 )
 }
 \arguments{
-\item{mode}{Mode parsnip. Seul \code{"regression"} est supporte.}
+\item{mode}{parsnip mode. Only \code{"regression"} is supported.}
 
-\item{coords}{Vecteur de caracteres de longueur 2 avec les noms des colonnes
-de coordonnees.}
+\item{coords}{Character vector of length 2 with the coordinate column names.}
 
-\item{model_type}{Valeur mgwrsar \verb{Model=}, par exemple "GWR", "MGWR",
-"MGWRSAR_0_kc_kv". Deux valeurs speciales "tds_mgwr"/"atds_mgwr"
-(2026-07-04) declenchent un chemin different: mgwrsar::TDS_MGWR() au lieu
-de mgwrsar::MGWRSAR() -- voir le commentaire dans mgwrsar_fit_impl().}
+\item{model_type}{Native mgwrsar \verb{Model=} value, for example \code{"GWR"},
+\code{"MGWR"} or \code{"MGWRSAR_1_0_kv"}. The special values \code{"tds_mgwr"} and
+\code{"atds_mgwr"} call \code{mgwrsar::TDS_MGWR()} instead of
+\code{mgwrsar::MGWRSAR()}.}
 
-\item{kernel}{Valeur mgwrsar \verb{kernels=}, par exemple \code{"gauss"} ou \code{"bisq"}.}
+\item{kernel}{Native mgwrsar \verb{kernels=} value. The benchmark layer fixes it
+to \code{"gauss"}; direct advanced model specs may still pass another native
+value if needed.}
 
-\item{bandwidth}{Bande passante mgwrsar \verb{H=} (valeur unique ou vecteur par
-noyau). Ignoree pour model_type="tds_mgwr"/"atds_mgwr": ces algorithmes
-trouvent eux-memes une bande passante par covariable via backfitting.}
+\item{bandwidth}{Native mgwrsar \verb{H=} bandwidth. Use a scalar for GWR and
+MGWRSAR benchmark routes, or a vector for direct \code{model_type = "MGWR"}
+fits. Ignored for \code{"tds_mgwr"} and \code{"atds_mgwr"} because those algorithms
+estimate one bandwidth per covariate internally by backfitting.}
 
-\item{kernels}{Alias historique de \code{kernel}, conserve pour compatibilite
-avec les scripts manuels du benchmark.}
+\item{fixed_vars}{Character vector naming coefficients kept spatially
+stationary in mixed MGWRSAR models such as \code{"MGWRSAR_0_kc_kv"} and
+\code{"MGWRSAR_1_kc_kv"}.}
+
+\item{kernels}{Historical alias of \code{kernel}, kept for compatibility with
+earlier benchmark scripts.}
 }
 \value{
-Une specification de modele \code{parsnip}.
+A \code{parsnip} model specification.
 }
 \description{
-Cree une specification \code{parsnip} experimentale pour les variantes GWR,
-MGWR et MGWRSAR fournies par \code{mgwrsar}.
+Creates a \code{parsnip} model specification for GWR, MGWR, TDS-MGWR, SAR and
+MGWRSAR variants provided by \code{mgwrsar}.
+}
+\details{
+The automatic benchmark tunes scalar \code{bandwidth}/\code{kernel} grids for
+\code{mgwrsar_gwr} and \code{mgwrsar_mgwrsar}. Direct vector-\code{H} tuning for native
+\code{Model = "MGWR"} is intentionally left to the user because each covariate
+has its own bandwidth dimension.
 }

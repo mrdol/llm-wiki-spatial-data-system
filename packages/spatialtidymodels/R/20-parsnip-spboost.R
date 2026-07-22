@@ -71,8 +71,15 @@ spb_build_boosting_formula <- function(formula, data) {
 
 #' Specification parsnip pour spboost
 #'
-#' Cree une specification `parsnip` experimentale pour les estimateurs
-#' boosting spatiaux fournis par `spboost`.
+#' Cree une specification `parsnip` pour les estimateurs boosting spatiaux
+#' fournis par `spboost::spbgam()`.
+#'
+#' Cette spec est fonctionnelle dans les workflows et le benchmark du package.
+#' Le backend natif reste toutefois exigeant: il attend une formule et un
+#' `data.frame` classiques, et `predict_spboost()` demande les donnees
+#' d'entrainement plus une matrice W train+test reconstruite au moment de la
+#' prediction. Le wrapper gere ces contraintes, mais elles expliquent pourquoi
+#' cette route est plus encadree que les modeles parsnip natifs.
 #'
 #' @param mode Mode parsnip. Seul `"regression"` est supporte.
 #' @param coords Vecteur de caracteres de longueur 2 avec les noms des colonnes
@@ -82,8 +89,12 @@ spb_build_boosting_formula <- function(formula, data) {
 #' @param method Nom de methode spboost, par exemple "BSPA_SAR_ML"/"BSPA_SEM_ML".
 #'   Si NULL, il est deduit de `DGP` (SAR -> BSPA_SAR_ML, SEM -> BSPA_SEM_ML,
 #'   SARAR -> BSPA_SARAR_ML), comme dans R/estimators/fit_spboost.R.
+#'   Les suffixes ML et CFE indiquent deux methodes d'estimation du parametre
+#'   spatial; ils ne changent pas la famille spatiale du modele.
 #' @param mstop Nombre d'iterations de boosting mboost.
-#' @param nu Taux d'apprentissage mboost.
+#' @param nu Taux d'apprentissage mboost. Dans le benchmark automatique, `nu`
+#'   est conserve fixe via `spboost_nu`; le tuning porte sur `mstop` et
+#'   `k_neighbors`.
 #' @param k_neighbors Nombre de plus proches voisins utilise pour construire
 #'   la matrice de poids spatiaux W standardisee par ligne, au fit et au predict.
 #'
@@ -105,6 +116,146 @@ spboost_reg <- function(mode = "regression", coords = NULL, DGP = NULL,
   parsnip::new_model_spec(
     "spboost_reg",
     args = args,
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+spboost_bspa_reg <- function(mode = "regression", coords = NULL, DGP,
+                             method, mstop = NULL, nu = NULL,
+                             k_neighbors = NULL) {
+  # Raccourci interne pour les variantes BSPA explicites. ML et CFE sont deux
+  # estimateurs du parametre spatial, pas deux structures spatiales differentes.
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo(!!DGP),
+      method = rlang::quo(!!method),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Explicit parsnip specification for BSPA SAR ML
+#'
+#' Creates a `parsnip` specification for `spboost::spbgam()` with
+#' `DGP = "SAR"` and `method = "BSPA_SAR_ML"`.
+#'
+#' @inheritParams spboost_reg
+#' @return A `parsnip` model specification.
+#' @export
+spboost_bspa_sar_ml <- function(mode = "regression", coords = NULL,
+                                mstop = NULL, nu = NULL,
+                                k_neighbors = NULL) {
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo("SAR"),
+      method = rlang::quo("BSPA_SAR_ML"),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Explicit parsnip specification for BSPA SAR CFE
+#'
+#' Creates a `parsnip` specification for `spboost::spbgam()` with
+#' `DGP = "SAR"` and `method = "BSPA_SAR_CFE"`.
+#'
+#' `ML` and `CFE` are alternative estimators of the spatial parameter, not
+#' different spatial model families.
+#'
+#' @inheritParams spboost_reg
+#' @return A `parsnip` model specification.
+#' @export
+spboost_bspa_sar_cfe <- function(mode = "regression", coords = NULL,
+                                 mstop = NULL, nu = NULL,
+                                 k_neighbors = NULL) {
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo("SAR"),
+      method = rlang::quo("BSPA_SAR_CFE"),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Explicit parsnip specification for BSPA SEM ML
+#'
+#' Creates a `parsnip` specification for `spboost::spbgam()` with
+#' `DGP = "SEM"` and `method = "BSPA_SEM_ML"`.
+#'
+#' @inheritParams spboost_reg
+#' @return A `parsnip` model specification.
+#' @export
+spboost_bspa_sem_ml <- function(mode = "regression", coords = NULL,
+                                mstop = NULL, nu = NULL,
+                                k_neighbors = NULL) {
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo("SEM"),
+      method = rlang::quo("BSPA_SEM_ML"),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
+    ),
+    eng_args = NULL,
+    mode = mode,
+    method = NULL,
+    engine = NULL
+  )
+}
+
+#' Explicit parsnip specification for BSPA SEM CFE
+#'
+#' Creates a `parsnip` specification for `spboost::spbgam()` with
+#' `DGP = "SEM"` and `method = "BSPA_SEM_CFE"`.
+#'
+#' `ML` and `CFE` are alternative estimators of the spatial parameter, not
+#' different spatial model families.
+#'
+#' @inheritParams spboost_reg
+#' @return A `parsnip` model specification.
+#' @export
+spboost_bspa_sem_cfe <- function(mode = "regression", coords = NULL,
+                                 mstop = NULL, nu = NULL,
+                                 k_neighbors = NULL) {
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo("SEM"),
+      method = rlang::quo("BSPA_SEM_CFE"),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
+    ),
     eng_args = NULL,
     mode = mode,
     method = NULL,
@@ -151,7 +302,7 @@ update.spboost_reg <- function(object, parameters = NULL, coords = NULL, DGP = N
 spboost_fit_impl <- function(formula, data, coords, DGP = "SAR", method = NULL,
                               mstop = 500L, nu = 0.1, k_neighbors = 8) {
   # workflows/parsnip peut renommer la reponse en "..y" et fournir un tibble.
-  # spboost est plus fragile: il attend une formule et un data.frame classiques.
+  # Le backend spboost est exigeant: il attend une formule et un data.frame classiques.
   sanitized <- sanitize_formula_response(formula, data)
   formula <- sanitized$formula
   data <- as.data.frame(sanitized$data)

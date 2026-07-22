@@ -14,8 +14,11 @@ benchmark_spatial(
   zero_policy = TRUE,
   spboost_mstop = 100L,
   spboost_nu = 0.1,
+  gamboost_mstop = 100L,
+  gamboost_nu = 0.1,
   mgwrsar_bandwidth = 20,
-  mgwrsar_kernel = "bisq",
+  mgwrsar_kernel = "gauss",
+  mgwrsar_fixed_vars = NULL,
   tune = FALSE,
   resamples = NULL,
   tuning_grids = NULL,
@@ -28,7 +31,11 @@ benchmark_spatial(
   near_n_reps = 3L,
   near_test_size = NULL,
   block_folds = 5L,
-  seed = 123L
+  seed = 123L,
+  verbose = FALSE,
+  parallel = FALSE,
+  workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+  allow_heavy_tuning = FALSE
 )
 }
 \arguments{
@@ -50,9 +57,16 @@ benchmark_spatial(
 
 \item{spboost_nu}{Learning rate for \code{spboost}.}
 
+\item{gamboost_mstop}{Number of boosting iterations for \code{mboost::gamboost}.}
+
+\item{gamboost_nu}{Learning rate for \code{mboost::gamboost}.}
+
 \item{mgwrsar_bandwidth}{Spatial bandwidth \code{H} for \code{mgwrsar} variants.}
 
 \item{mgwrsar_kernel}{Spatial kernel for \code{mgwrsar} variants.}
+
+\item{mgwrsar_fixed_vars}{Character vector of stationary coefficients for
+mixed MGWRSAR models.}
 
 \item{tune}{If \code{TRUE}, run \code{tune::tune_grid()} before the final fit for
 estimators with a supported tuning route.}
@@ -83,6 +97,16 @@ and \code{"vfold_cv"} score models out-of-sample; \code{"custom"} uses
 \item{block_folds}{Number of spatial block folds.}
 
 \item{seed}{Random seed used for resampling.}
+
+\item{verbose}{If \code{TRUE}, print progress messages during tuning.}
+
+\item{parallel}{If \code{TRUE}, evaluate manual MGWRSAR tuning candidates in
+parallel with \code{parallel::makeCluster()}.}
+
+\item{workers}{Number of parallel workers when \code{parallel = TRUE}.}
+
+\item{allow_heavy_tuning}{If \code{FALSE}, protect large datasets from tuning
+several expensive MGWRSAR estimators in the same call.}
 }
 \value{
 A \code{spatial_benchmark} object with \code{results}, \code{resample_results}, and

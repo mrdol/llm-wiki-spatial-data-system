@@ -6,92 +6,53 @@
 # un estimateur pas a pas.
 
 spatial_benchmark_registry <- function() {
-  # Registre utilisateur des estimateurs. Il sert a la fois de documentation
-  # console et de garde-fou pour benchmark_spatial().
-  estimators <- c(
-    "ols", "gam_spatial",
-    "earth", "earth_xy", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy",
-    "sar_lag", "sem_error", "sdm_mixed",
-    "spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar",
-    "spmoran_esf", "spmoran_resf"
-  )
-  automatic <- c(
-    TRUE, TRUE,
-    TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-    TRUE, TRUE, TRUE,
-    TRUE, TRUE, TRUE, TRUE, TRUE,
-    TRUE, TRUE
-  )
-  data.frame(
-    estimator = estimators,
-    status = ifelse(automatic, "automatic", "known_not_automated"),
-    mode = rep("regression", length(estimators)),
-    package = c(
-      "stats", "mgcv",
-      "earth", "earth", "ranger", "ranger", "xgboost", "xgboost",
-      "spatialreg", "spatialreg", "spatialreg",
-      "spboost", "mgwrsar", "mgwrsar", "mgwrsar", "mgwrsar",
-      "spmoran", "spmoran"
-    ),
-    backend = c(
-      "stats::glm", "mgcv::gam",
-      "earth::earth", "earth::earth", "ranger::ranger", "ranger::ranger",
-      "xgboost::xgb.train", "xgboost::xgb.train",
-      "spatialreg::lagsarlm",
-      "spatialreg::errorsarlm", "spatialreg::lagsarlm(Durbin)",
-      "spboost::spbgam", "mgwrsar::MGWRSAR(GWR)",
-      "mgwrsar::MGWRSAR(SAR)",
-      "mgwrsar::TDS_MGWR", "mgwrsar::MGWRSAR(MGWRSAR_1_0_kv)",
-      "spmoran::esf", "spmoran::resf"
-    ),
-    automatic = automatic,
-    requires_coords = c(
-      FALSE, TRUE,
-      FALSE, TRUE, FALSE, TRUE, FALSE, TRUE,
-      TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE
-    ),
-    requires_W = c(
-      FALSE, FALSE,
-      FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-      FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE
-    ),
-    spatial_args = c(
-      "", "coords",
-      "", "coords_as_covariates", "", "coords_as_covariates", "", "coords_as_covariates",
-      "coords/W/k_neighbors/style/zero_policy",
-      "coords/W/k_neighbors/style/zero_policy", "coords/W/k_neighbors/style/zero_policy",
-      "coords/k_neighbors", "coords/bandwidth/kernel", "coords/W",
-      "coords", "coords/W/bandwidth/kernel", "coords", "coords"
-    ),
-    tunable_parameters = c(
-      "", "",
-      "", "", "", "", "", "",
-      "k_neighbors", "k_neighbors", "k_neighbors",
-      "mstop, nu, k_neighbors", "bandwidth, kernel", "",
-      "", "bandwidth, kernel", "enum", "enum"
-    ),
-    notes = c(
-      "Baseline lineaire.",
-      "Baseline GAM avec lisseur spatial s(x, y).",
-      "Baseline MARS native tidymodels sur X seules.",
-      "Baseline MARS native tidymodels sur X et coordonnees brutes.",
-      "Baseline random forest native tidymodels sur X seules.",
-      "Baseline random forest native tidymodels sur X et coordonnees brutes.",
-      "Baseline XGBoost native tidymodels sur X seules.",
-      "Baseline XGBoost native tidymodels sur X et coordonnees brutes.",
-      "SAR lag via fit_sar().",
-      "SEM error via fit_sem().",
-      "SDM mixed via fit_sdm().",
-      "SpBoost SAR via spboost_reg().",
-      "GWR local via mgwrsar_reg(Model='GWR').",
-      "SAR global via mgwrsar_reg(Model='SAR').",
-      "MGWR multiscale via mgwrsar_reg(Model='tds_mgwr').",
-      "MGWRSAR autocorrele via mgwrsar_reg(Model='MGWRSAR_1_0_kv').",
-      "Eigenvector spatial filtering via spmoran::esf().",
-      "Random-effects eigenvector spatial filtering via spmoran::resf()."
-    ),
-    stringsAsFactors = FALSE
-  )
+  # Registre utilisateur des estimateurs. Une ligne = une route benchmark,
+  # pour eviter les erreurs de longueur entre vecteurs paralleles.
+  row <- function(estimator, package, backend, requires_coords, requires_W,
+                  spatial_args, tunable_parameters, notes,
+                  automatic = TRUE) {
+    data.frame(
+      estimator = estimator,
+      status = ifelse(automatic, "automatic", "known_not_automated"),
+      mode = "regression",
+      package = package,
+      backend = backend,
+      automatic = automatic,
+      requires_coords = requires_coords,
+      requires_W = requires_W,
+      spatial_args = spatial_args,
+      tunable_parameters = tunable_parameters,
+      notes = notes,
+      stringsAsFactors = FALSE
+    )
+  }
+  do.call(rbind, list(
+    row("ols", "stats", "stats::glm", FALSE, FALSE, "", "", "Baseline lineaire."),
+    row("gam_spatial", "mgcv", "mgcv::gam", TRUE, FALSE, "coords", "", "Baseline GAM avec lisseur spatial s(x, y)."),
+    row("gamboost", "mboost", "mboost::gamboost", FALSE, FALSE, "", "mstop", "Baseline GAMBoost gradient-based via mboost::gamboost()."),
+    row("earth", "earth", "earth::earth", FALSE, FALSE, "", "", "Baseline MARS native tidymodels sur X seules."),
+    row("earth_xy", "earth", "earth::earth", TRUE, FALSE, "coords_as_covariates", "", "Baseline MARS native tidymodels sur X et coordonnees brutes."),
+    row("random_forest", "ranger", "ranger::ranger", FALSE, FALSE, "", "", "Baseline random forest native tidymodels sur X seules."),
+    row("random_forest_xy", "ranger", "ranger::ranger", TRUE, FALSE, "coords_as_covariates", "", "Baseline random forest native tidymodels sur X et coordonnees brutes."),
+    row("xgboost", "xgboost", "xgboost::xgb.train", FALSE, FALSE, "", "", "Baseline XGBoost native tidymodels sur X seules."),
+    row("xgboost_xy", "xgboost", "xgboost::xgb.train", TRUE, FALSE, "coords_as_covariates", "", "Baseline XGBoost native tidymodels sur X et coordonnees brutes."),
+    row("sar_lag", "spatialreg", "spatialreg::lagsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SAR lag via fit_sar()."),
+    row("sem_error", "spatialreg", "spatialreg::errorsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SEM error via fit_sem()."),
+    row("sdm_mixed", "spatialreg", "spatialreg::lagsarlm(Durbin)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SDM mixed via fit_sdm()."),
+    row("spboost", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."),
+    row("spboost_bspa_sar_ml", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; ML estime le parametre spatial rho; nu reste fixe."),
+    row("spboost_bspa_sar_cfe", "spboost", "spboost::spbgam(BSPA_SAR_CFE)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; CFE estime le parametre spatial rho; nu reste fixe."),
+    row("spboost_bspa_sem_ml", "spboost", "spboost::spbgam(BSPA_SEM_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SEM; ML estime le parametre spatial lambda; nu reste fixe."),
+    row("spboost_bspa_sem_cfe", "spboost", "spboost::spbgam(BSPA_SEM_CFE)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SEM; CFE estime le parametre spatial lambda; nu reste fixe."),
+    row("mgwrsar_gwr", "mgwrsar", "mgwrsar::MGWRSAR(GWR)", TRUE, FALSE, "coords/bandwidth/kernel", "bandwidth", "GWR local via mgwrsar_reg(Model='GWR'); benchmark kernel fixed to gauss."),
+    row("mgwrsar_sar", "mgwrsar", "mgwrsar::MGWRSAR(SAR)", TRUE, TRUE, "coords/W", "", "SAR global via mgwrsar_reg(Model='SAR')."),
+    row("mgwrsar_mgwr", "mgwrsar", "mgwrsar::TDS_MGWR", TRUE, TRUE, "coords", "", "MGWR multiscale via mgwrsar_reg(Model='tds_mgwr')."),
+    row("mgwrsar_mgwrsar", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_1_0_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel", "bandwidth", "MGWRSAR autocorrele via mgwrsar_reg(Model='MGWRSAR_1_0_kv'); benchmark kernel fixed to gauss."),
+    row("MGWRSAR_0_kc_kv", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_0_kc_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel/fixed_vars", "bandwidth, k_neighbors, fixed_vars", "MGWRSAR mixte: lambda constant, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."),
+    row("MGWRSAR_1_kc_kv", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_1_kc_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel/fixed_vars", "bandwidth, k_neighbors, fixed_vars", "MGWRSAR mixte: lambda local, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."),
+    row("spmoran_esf", "spmoran", "spmoran::esf", TRUE, FALSE, "coords", "enum", "Eigenvector spatial filtering via spmoran::esf()."),
+    row("spmoran_resf", "spmoran", "spmoran::resf", TRUE, FALSE, "coords", "enum", "Random-effects eigenvector spatial filtering via spmoran::resf().")
+  ))
 }
 
 package_available <- function(package) {
@@ -146,68 +107,52 @@ fit_parsnip_baseline <- function(spec, formula, data, coords = NULL) {
     workflows::fit(data = data)
 }
 
-spmoran_model_matrix <- function(formula, data) {
-  # spmoran attend y et x separement. On retire l'intercept de x, car spmoran
-  # gere sa constante dans le backend.
-  response <- deparse(formula[[2]])
-  x <- stats::model.matrix(formula, data = data)
-  if ("(Intercept)" %in% colnames(x)) {
-    x <- x[, setdiff(colnames(x), "(Intercept)"), drop = FALSE]
+ensure_mboost_attached <- function() {
+  # mboost::gamboost() evalue certains termes comme bbs()/bols() par nom dans
+  # l'environnement de formule. requireNamespace() ne suffit donc pas dans un
+  # package installe; il faut attacher mboost au search path.
+  if (!"package:mboost" %in% search()) {
+    suppressPackageStartupMessages(
+      base::library("mboost", character.only = TRUE)
+    )
   }
-  list(y = data[[response]], x = x, response = response)
+  invisible(TRUE)
 }
 
-fit_spmoran_benchmark <- function(formula, data, coords, model_type = c("esf", "resf")) {
-  # Route benchmark pour spmoran. Elle n'est pas encore une spec parsnip, mais
-  # elle supporte prediction hors-echantillon via meigen0() + predict0().
-  require_package("spmoran", "spmoran benchmark")
-  model_type <- match.arg(model_type)
-  coords <- check_spatial_coords(coords, data = data)
-  xy <- as.matrix(data[, coords, drop = FALSE])
-  matrices <- spmoran_model_matrix(formula, data)
-  meig <- if (nrow(data) > 1000L) {
-    spmoran::meigen_f(coords = xy)
-  } else {
-    spmoran::meigen(coords = xy)
-  }
-  fit <- switch(model_type,
-    esf = spmoran::esf(y = matrices$y, x = matrices$x, meig = meig, vif = 10),
-    resf = spmoran::resf(y = matrices$y, x = matrices$x, meig = meig)
+spboost_benchmark_spec <- function(estimator, coords, mstop, nu, k_neighbors) {
+  # Route commune pour les variantes BSPA. ML et CFE ne changent que la facon
+  # d'estimer le parametre spatial (rho/lambda), pas la famille SAR/SEM.
+  dgp <- switch(estimator,
+    spboost = "SAR",
+    spboost_bspa_sar_ml = "SAR",
+    spboost_bspa_sar_cfe = "SAR",
+    spboost_bspa_sem_ml = "SEM",
+    spboost_bspa_sem_cfe = "SEM"
   )
-  structure(
-    list(
-      fit = fit,
-      meig = meig,
-      formula = formula,
-      coords = coords,
-      train_data = data,
-      model_type = model_type,
-      response = matrices$response
+  method <- switch(estimator,
+    spboost = "BSPA_SAR_ML",
+    spboost_bspa_sar_ml = "BSPA_SAR_ML",
+    spboost_bspa_sar_cfe = "BSPA_SAR_CFE",
+    spboost_bspa_sem_ml = "BSPA_SEM_ML",
+    spboost_bspa_sem_cfe = "BSPA_SEM_CFE"
+  )
+  parsnip::new_model_spec(
+    "spboost_reg",
+    args = list(
+      coords = rlang::enquo(coords),
+      DGP = rlang::quo(!!dgp),
+      method = rlang::quo(!!method),
+      mstop = rlang::enquo(mstop),
+      nu = rlang::enquo(nu),
+      k_neighbors = rlang::enquo(k_neighbors)
     ),
-    class = "spmoran_benchmark"
-  )
-}
-
-#' @export
-predict.spmoran_benchmark <- function(object, new_data = NULL, newdata = NULL, ...) {
-  # Prediction in-sample depuis l'objet spmoran, prediction hors-echantillon
-  # via meigen0()/predict0() comme documente par spmoran.
-  if (is.null(new_data) && !is.null(newdata)) new_data <- newdata
-  if (is.null(new_data)) new_data <- object$train_data
-  new_data <- as.data.frame(new_data)
-  if (identical(nrow(new_data), nrow(object$train_data)) &&
-      identical(rownames(new_data), rownames(object$train_data))) {
-    pred <- object$fit$pred
-    if (is.data.frame(pred) && "pred" %in% names(pred)) pred <- pred$pred
-    return(data.frame(.pred = as.numeric(pred)))
-  }
-  matrices <- spmoran_model_matrix(object$formula, new_data)
-  meig0 <- spmoran::meigen0(
-    meig = object$meig,
-    coords0 = as.matrix(new_data[, object$coords, drop = FALSE])
-  )
-  pred <- spmoran::predict0(object$fit, meig0 = meig0, x0 = matrices$x)
-  data.frame(.pred = as.numeric(pred$pred$pred))
+    eng_args = NULL,
+    mode = "regression",
+    method = NULL,
+    engine = NULL
+  ) |>
+    parsnip::set_engine("spboost") |>
+    parsnip::set_mode("regression")
 }
 
 fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
@@ -215,8 +160,12 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         zero_policy = TRUE,
                                         spboost_mstop = 100L,
                                         spboost_nu = 0.1,
+                                        gamboost_mstop = 100L,
+                                        gamboost_nu = 0.1,
                                         mgwrsar_bandwidth = 20,
-                                        mgwrsar_kernel = "bisq") {
+                                        mgwrsar_kernel = "gauss",
+                                        mgwrsar_fixed_vars = NULL,
+                                        mgwrsar_control = list()) {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
   switch(estimator,
@@ -224,6 +173,16 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     gam_spatial = {
       require_package("mgcv", "benchmark GAM spatial")
       mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data)
+    },
+    gamboost = {
+      require_package("mboost", "benchmark GAMBoost")
+      ensure_mboost_attached()
+      boosting_formula <- spb_build_boosting_formula(formula, data)
+      mboost::gamboost(
+        formula = boosting_formula,
+        data = data,
+        control = mboost::boost_control(mstop = gamboost_mstop, nu = gamboost_nu)
+      )
     },
     earth = {
       require_package("earth", "benchmark MARS")
@@ -281,15 +240,42 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     ),
     spboost = {
       require_package("workflows", "benchmark SpBoost")
-      spec <- spboost_reg(
-        coords = coords, DGP = "SAR", mstop = spboost_mstop,
-        nu = spboost_nu, k_neighbors = k_neighbors
+      make_benchmark_workflow(
+        spboost_benchmark_spec(estimator, coords, spboost_mstop, spboost_nu, k_neighbors),
+        formula, coords, data
       ) |>
-        parsnip::set_engine("spboost") |>
-        parsnip::set_mode("regression")
-      workflows::workflow() |>
-        workflows::add_formula(add_coords_to_formula(formula, coords, data)) |>
-        workflows::add_model(spec) |>
+        workflows::fit(data = data)
+    },
+    spboost_bspa_sar_ml = {
+      require_package("workflows", "benchmark SpBoost BSPA SAR ML")
+      make_benchmark_workflow(
+        spboost_benchmark_spec(estimator, coords, spboost_mstop, spboost_nu, k_neighbors),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
+    spboost_bspa_sar_cfe = {
+      require_package("workflows", "benchmark SpBoost BSPA SAR CFE")
+      make_benchmark_workflow(
+        spboost_benchmark_spec(estimator, coords, spboost_mstop, spboost_nu, k_neighbors),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
+    spboost_bspa_sem_ml = {
+      require_package("workflows", "benchmark SpBoost BSPA SEM ML")
+      make_benchmark_workflow(
+        spboost_benchmark_spec(estimator, coords, spboost_mstop, spboost_nu, k_neighbors),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
+    spboost_bspa_sem_cfe = {
+      require_package("workflows", "benchmark SpBoost BSPA SEM CFE")
+      make_benchmark_workflow(
+        spboost_benchmark_spec(estimator, coords, spboost_mstop, spboost_nu, k_neighbors),
+        formula, coords, data
+      ) |>
         workflows::fit(data = data)
     },
     mgwrsar_gwr = {
@@ -310,7 +296,7 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       spec <- mgwrsar_reg(
         coords = coords, model_type = "SAR"
       ) |>
-        parsnip::set_engine("mgwrsar") |>
+        parsnip::set_engine("mgwrsar", control = mgwrsar_control) |>
         parsnip::set_mode("regression")
       workflows::workflow() |>
         workflows::add_formula(add_coords_to_formula(formula, coords, data)) |>
@@ -336,19 +322,57 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
         coords = coords, model_type = "MGWRSAR_1_0_kv",
         kernels = mgwrsar_kernel, bandwidth = mgwrsar_bandwidth
       ) |>
-        parsnip::set_engine("mgwrsar") |>
+        parsnip::set_engine("mgwrsar", control = mgwrsar_control) |>
         parsnip::set_mode("regression")
       workflows::workflow() |>
         workflows::add_formula(add_coords_to_formula(formula, coords, data)) |>
         workflows::add_model(spec) |>
         workflows::fit(data = data)
     },
-    spmoran_esf = fit_spmoran_benchmark(
-      formula = formula, data = data, coords = coords, model_type = "esf"
-    ),
-    spmoran_resf = fit_spmoran_benchmark(
-      formula = formula, data = data, coords = coords, model_type = "resf"
-    ),
+    MGWRSAR_0_kc_kv = {
+      require_package("workflows", "benchmark MGWRSAR mixte")
+      spec <- mgwrsar_reg(
+        coords = coords, model_type = "MGWRSAR_0_kc_kv",
+        kernels = mgwrsar_kernel, bandwidth = mgwrsar_bandwidth,
+        fixed_vars = mgwrsar_fixed_vars
+      ) |>
+        parsnip::set_engine("mgwrsar", control = mgwrsar_control) |>
+        parsnip::set_mode("regression")
+      workflows::workflow() |>
+        workflows::add_formula(add_coords_to_formula(formula, coords, data)) |>
+        workflows::add_model(spec) |>
+        workflows::fit(data = data)
+    },
+    MGWRSAR_1_kc_kv = {
+      require_package("workflows", "benchmark MGWRSAR mixte local")
+      spec <- mgwrsar_reg(
+        coords = coords, model_type = "MGWRSAR_1_kc_kv",
+        kernels = mgwrsar_kernel, bandwidth = mgwrsar_bandwidth,
+        fixed_vars = mgwrsar_fixed_vars
+      ) |>
+        parsnip::set_engine("mgwrsar", control = mgwrsar_control) |>
+        parsnip::set_mode("regression")
+      workflows::workflow() |>
+        workflows::add_formula(add_coords_to_formula(formula, coords, data)) |>
+        workflows::add_model(spec) |>
+        workflows::fit(data = data)
+    },
+    spmoran_esf = {
+      require_package("workflows", "benchmark SpMoran ESF")
+      spec <- spmoran_esf_reg(coords = coords, vif = 10) |>
+        parsnip::set_engine("spmoran") |>
+        parsnip::set_mode("regression")
+      make_benchmark_workflow(spec, formula, coords, data) |>
+        workflows::fit(data = data)
+    },
+    spmoran_resf = {
+      require_package("workflows", "benchmark SpMoran RESF")
+      spec <- spmoran_resf_reg(coords = coords) |>
+        parsnip::set_engine("spmoran") |>
+        parsnip::set_mode("regression")
+      make_benchmark_workflow(spec, formula, coords, data) |>
+        workflows::fit(data = data)
+    },
     stop(sprintf("Estimateur non automatise dans benchmark_spatial(): %s", estimator), call. = FALSE)
   )
 }
@@ -367,19 +391,39 @@ default_benchmark_grid <- function(estimator, data) {
   # Grilles courtes et conservatrices pour l'API utilisateur. Les gros runs
   # scientifiques doivent fournir une grille explicite via `tuning_grids`.
   n <- nrow(data)
+  mgwrsar_h <- unique(pmin(if (n > 1500L) c(20L) else c(20L, 40L), max(3L, n - 1L)))
+  mgwrsar_kernel <- "gauss"
+  mgwrsar_k <- unique(pmin(if (n > 1500L) c(8L) else c(4L, 8L, 12L), max(2L, n - 1L)))
   switch(estimator,
     sar_lag = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
     sem_error = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
     sdm_mixed = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
-    spboost = data.frame(mstop = c(50L, 100L, 200L)),
+    gamboost = data.frame(mstop = c(50L, 100L, 200L)),
+    spboost = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
+    spboost_bspa_sar_ml = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
+    spboost_bspa_sar_cfe = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
+    spboost_bspa_sem_ml = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
+    spboost_bspa_sem_cfe = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
     mgwrsar_gwr = expand.grid(
-      bandwidth = unique(pmin(c(20L, 40L), max(3L, n - 1L))),
-      kernel = c("bisq", "gauss"),
+      bandwidth = mgwrsar_h,
+      kernel = mgwrsar_kernel,
       KEEP.OUT.ATTRS = FALSE
     ),
     mgwrsar_mgwrsar = expand.grid(
-      bandwidth = unique(pmin(c(20L, 40L), max(3L, n - 1L))),
-      kernel = c("bisq", "gauss"),
+      bandwidth = mgwrsar_h,
+      kernel = mgwrsar_kernel,
+      KEEP.OUT.ATTRS = FALSE
+    ),
+    MGWRSAR_0_kc_kv = expand.grid(
+      bandwidth = mgwrsar_h,
+      kernel = mgwrsar_kernel,
+      k_neighbors = mgwrsar_k,
+      KEEP.OUT.ATTRS = FALSE
+    ),
+    MGWRSAR_1_kc_kv = expand.grid(
+      bandwidth = mgwrsar_h,
+      kernel = mgwrsar_kernel,
+      k_neighbors = mgwrsar_k,
       KEEP.OUT.ATTRS = FALSE
     ),
     NULL
@@ -395,7 +439,82 @@ benchmark_tuning_grid <- function(estimator, tuning_grids, data) {
   default_benchmark_grid(estimator, data)
 }
 
-fit_tune_grid_or_error <- function(wf, resamples, grid) {
+formula_predictor_terms <- function(formula, data, coords = NULL) {
+  # Recupere les termes explicites de la formule pour construire des candidats
+  # fixed_vars. On evite les coordonnees, qui sont dans le workflow seulement
+  # pour les backends spatiaux et ne doivent pas devenir fixes par defaut.
+  terms <- attr(stats::terms(formula, data = data), "term.labels")
+  setdiff(terms, coords %||% character(0))
+}
+
+normalize_fixed_vars_value <- function(value) {
+  # Les grilles utilisateur peuvent fournir fixed_vars sous forme de vecteur,
+  # de liste-colonne ou de chaine "x1+x2"/"x1,x2"/"x1;x2".
+  if (is.null(value) || length(value) == 0L) return(NULL)
+  if (is.list(value) && length(value) == 1L) value <- value[[1]]
+  if (is.null(value) || length(value) == 0L) return(NULL)
+  if (is.character(value) && length(value) == 1L) {
+    value <- unlist(strsplit(value, "\\s*[+,;|]\\s*"))
+  }
+  value <- unique(stats::na.omit(as.character(value)))
+  value <- value[nzchar(value)]
+  if (length(value) == 0L) NULL else value
+}
+
+default_mgwrsar_fixed_vars_candidates <- function(formula, data, coords) {
+  # Heuristique prudente quand l'utilisateur ne precise pas les coefficients
+  # stationnaires: on teste quelques partitions simples en gardant toujours au
+  # moins une variable locale. La validation CV choisit ensuite la meilleure.
+  predictors <- formula_predictor_terms(formula, data = data, coords = coords)
+  if (length(predictors) < 2L) {
+    stop(
+      "Mixed MGWRSAR requires at least two non-coordinate predictors or an explicit `fixed_vars` grid.",
+      call. = FALSE
+    )
+  }
+  candidates <- list(
+    predictors[[1L]],
+    predictors[-length(predictors)]
+  )
+  if (length(predictors) > 2L) candidates <- c(candidates, list(predictors[seq_len(2L)]))
+  unique(lapply(candidates, normalize_fixed_vars_value))
+}
+
+expand_mgwrsar_mixed_grid <- function(grid, formula, data, coords, k_neighbors = 8L) {
+  # Complete une grille MGWRSAR mixte avec W_opt (k_neighbors) et les partitions
+  # fixed/local. fixed_vars reste une liste-colonne pour permettre plusieurs
+  # variables stationnaires dans une seule ligne.
+  # Le benchmark fixe le noyau MGWRSAR a gauss pour reduire la grille et suivre
+  # le protocole courant. L'argument direct mgwrsar_reg(kernel=...) reste libre.
+  grid$kernel <- "gauss"
+  if (!"bandwidth" %in% names(grid)) grid$bandwidth <- default_benchmark_grid("mgwrsar_mgwrsar", data)$bandwidth[[1]]
+  if (!"k_neighbors" %in% names(grid)) grid$k_neighbors <- k_neighbors
+  grid$bandwidth <- as.integer(grid$bandwidth)
+  grid$kernel <- "gauss"
+  grid$k_neighbors <- as.integer(grid$k_neighbors)
+
+  if ("fixed_vars" %in% names(grid)) {
+    fixed_candidates <- lapply(seq_len(nrow(grid)), function(i) normalize_fixed_vars_value(grid$fixed_vars[i]))
+    grid$fixed_vars <- I(fixed_candidates)
+    return(unique(grid[, c("bandwidth", "kernel", "k_neighbors", "fixed_vars"), drop = FALSE]))
+  }
+
+  fixed_candidates <- default_mgwrsar_fixed_vars_candidates(formula, data = data, coords = coords)
+  expanded <- do.call(rbind, lapply(seq_len(nrow(grid)), function(i) {
+    data.frame(
+      bandwidth = grid$bandwidth[[i]],
+      kernel = grid$kernel[[i]],
+      k_neighbors = grid$k_neighbors[[i]],
+      fixed_id = seq_along(fixed_candidates),
+      stringsAsFactors = FALSE
+    )
+  }))
+  expanded$fixed_vars <- I(rep(fixed_candidates, times = nrow(grid)))
+  expanded$fixed_id <- NULL
+  expanded
+}
+
+fit_tune_grid_or_error <- function(wf, resamples, grid, verbose = FALSE) {
   # Enveloppe unique pour garder l'erreur dans l'objet benchmark au lieu de
   # stopper tout le run.
   require_package("tune", "tuning benchmark_spatial()")
@@ -406,10 +525,16 @@ fit_tune_grid_or_error <- function(wf, resamples, grid) {
       resamples = resamples,
       grid = grid,
       metrics = yardstick::metric_set(yardstick::rmse, yardstick::mae),
-      control = tune::control_grid(save_pred = FALSE, verbose = FALSE)
+      control = tune::control_grid(save_pred = FALSE, verbose = verbose)
     ),
     error = function(e) e
   )
+}
+
+benchmark_log <- function(verbose, ...) {
+  # Journal console optionnel pour les runs longs. Par defaut le package reste
+  # silencieux pour ne pas polluer les petits appels interactifs.
+  if (isTRUE(verbose)) message(sprintf(...))
 }
 
 collect_benchmark_tuning <- function(tuned, grid_cols) {
@@ -432,7 +557,8 @@ collect_benchmark_tuning <- function(tuned, grid_cols) {
 }
 
 tune_spatialreg_benchmark <- function(estimator, formula, data, coords, resamples,
-                                      grid, style = "W", zero_policy = TRUE) {
+                                      grid, style = "W", zero_policy = TRUE,
+                                      verbose = FALSE) {
   spec <- switch(estimator,
     sar_lag = sar_reg(coords = coords, k_neighbors = tune::tune(), style = style, zero_policy = zero_policy),
     sem_error = sem_reg(coords = coords, k_neighbors = tune::tune(), style = style, zero_policy = zero_policy),
@@ -441,7 +567,8 @@ tune_spatialreg_benchmark <- function(estimator, formula, data, coords, resample
     parsnip::set_engine("spatialreg") |>
     parsnip::set_mode("regression")
   wf <- make_benchmark_workflow(spec, formula, coords, data)
-  tuned <- fit_tune_grid_or_error(wf, resamples, grid)
+  benchmark_log(verbose, "[tuning] %s: %d candidats via tune_grid()", estimator, nrow(grid))
+  tuned <- fit_tune_grid_or_error(wf, resamples, grid, verbose = verbose)
   if (inherits(tuned, "error")) return(list(error = conditionMessage(tuned)))
   grid_out <- collect_benchmark_tuning(tuned, "k_neighbors")
   best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
@@ -453,71 +580,61 @@ tune_spatialreg_benchmark <- function(estimator, formula, data, coords, resample
   )
 }
 
-tune_spboost_benchmark <- function(formula, data, coords, resamples, grid,
-                                  spboost_nu = 0.1, k_neighbors = 8) {
-  spec <- spboost_reg(
-    coords = coords, DGP = "SAR", mstop = tune::tune(),
-    nu = spboost_nu, k_neighbors = k_neighbors
-  ) |>
-    parsnip::set_engine("spboost") |>
-    parsnip::set_mode("regression")
+tune_spboost_benchmark <- function(estimator, formula, data, coords, resamples, grid,
+                                  spboost_nu = 0.1, k_neighbors = 8,
+                                  verbose = FALSE) {
+  if (!"mstop" %in% names(grid)) grid$mstop <- 100L
+  if (!"k_neighbors" %in% names(grid)) grid$k_neighbors <- k_neighbors
+  grid$mstop <- as.integer(grid$mstop)
+  grid$k_neighbors <- as.integer(grid$k_neighbors)
+  spec <- spboost_benchmark_spec(
+    estimator = estimator, coords = coords,
+    mstop = tune::tune(), nu = spboost_nu, k_neighbors = tune::tune()
+  )
   wf <- make_benchmark_workflow(spec, formula, coords, data)
-  tuned <- fit_tune_grid_or_error(wf, resamples, grid)
+  benchmark_log(verbose, "[tuning] %s: %d candidats via tune_grid()", estimator, nrow(grid))
+  tuned <- fit_tune_grid_or_error(wf, resamples, grid, verbose = verbose)
   if (inherits(tuned, "error")) return(list(error = conditionMessage(tuned)))
-  grid_out <- collect_benchmark_tuning(tuned, "mstop")
+  grid_out <- collect_benchmark_tuning(tuned, c("mstop", "k_neighbors"))
   best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
   list(
     grid = grid_out,
     best = best,
     tune_result = tuned,
-    params = list(spboost_mstop = as.integer(best$mstop[[1]]))
+    params = list(
+      spboost_mstop = as.integer(best$mstop[[1]]),
+      k_neighbors = as.integer(best$k_neighbors[[1]])
+    )
   )
 }
 
-tune_mgwrsar_benchmark <- function(estimator, formula, data, coords, resamples, grid) {
-  # `kernel` est boucle explicitement: c'est plus robuste que de tuner un
-  # argument caractere custom dans cette premiere API.
+tune_mgwrsar_gwr_benchmark <- function(estimator, formula, data, coords, resamples, grid,
+                                       verbose = FALSE) {
+  # GWR ne depend pas d'une W SAR globale train+test. On peut donc garder la
+  # route workflow()/tune_grid() classique pour tuner H et le noyau.
   model_type <- switch(estimator,
-    mgwrsar_gwr = "GWR",
-    mgwrsar_mgwrsar = "MGWRSAR_1_0_kv"
+    mgwrsar_gwr = "GWR"
   )
-  if (!"kernel" %in% names(grid)) grid$kernel <- "bisq"
-  pieces <- lapply(split(grid, grid$kernel), function(one_kernel_grid) {
-    kernel_value <- as.character(one_kernel_grid$kernel[[1]])
-    one_grid <- data.frame(bandwidth = as.integer(one_kernel_grid$bandwidth))
-    spec <- mgwrsar_reg(
-      coords = coords, model_type = model_type,
-      kernel = kernel_value, bandwidth = tune::tune()
-    ) |>
-      parsnip::set_engine("mgwrsar") |>
-      parsnip::set_mode("regression")
-    wf <- make_benchmark_workflow(spec, formula, coords, data)
-    tuned <- fit_tune_grid_or_error(wf, resamples, one_grid)
-    if (inherits(tuned, "error")) {
-      return(data.frame(
-        bandwidth = one_grid$bandwidth,
-        kernel = kernel_value,
-        rmse = NA_real_, n_rmse = 0L, mae = NA_real_, n_mae = 0L, n_ok = 0L,
-        error = conditionMessage(tuned),
-        stringsAsFactors = FALSE
-      ))
-    }
-    out <- collect_benchmark_tuning(tuned, "bandwidth")
-    out$kernel <- kernel_value
-    out$error <- NA_character_
-    out
-  })
-  grid_out <- do.call(rbind, pieces)
-  ok <- is.finite(grid_out$rmse) & grid_out$n_ok > 0L
-  if (!any(ok)) {
-    return(list(error = "Tous les candidats mgwrsar ont echoue pendant tune_grid().", grid = grid_out))
-  }
+  grid$kernel <- "gauss"
+  grid$bandwidth <- as.integer(grid$bandwidth)
+  grid$kernel <- "gauss"
+  spec <- mgwrsar_reg(
+    coords = coords, model_type = model_type,
+    kernel = tune::tune(), bandwidth = tune::tune()
+  ) |>
+    parsnip::set_engine("mgwrsar") |>
+    parsnip::set_mode("regression")
+  wf <- make_benchmark_workflow(spec, formula, coords, data)
+  benchmark_log(verbose, "[tuning] %s: %d candidats via tune_grid()", estimator, nrow(grid))
+  tuned <- fit_tune_grid_or_error(wf, resamples, grid, verbose = verbose)
+  if (inherits(tuned, "error")) return(list(error = conditionMessage(tuned)))
+  grid_out <- collect_benchmark_tuning(tuned, c("bandwidth", "kernel"))
   grid_out <- grid_out[order(grid_out$rmse), , drop = FALSE]
   best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
   list(
     grid = grid_out,
     best = best,
-    tune_result = NULL,
+    tune_result = tuned,
     params = list(
       mgwrsar_bandwidth = as.integer(best$bandwidth[[1]]),
       mgwrsar_kernel = as.character(best$kernel[[1]])
@@ -525,21 +642,234 @@ tune_mgwrsar_benchmark <- function(estimator, formula, data, coords, resamples, 
   )
 }
 
+tune_gamboost_benchmark <- function(estimator, formula, coords, resamples, grid,
+                                    gamboost_nu = 0.1, verbose = FALSE) {
+  # GAMBoost est une baseline non spatiale hors parsnip. On tune donc mstop
+  # avec la meme boucle fold x candidat que les routes manuelles.
+  if (!"mstop" %in% names(grid)) grid$mstop <- 100L
+  grid$mstop <- as.integer(grid$mstop)
+  rows <- lapply(seq_len(nrow(grid)), function(i) {
+    benchmark_log(verbose, "[tuning] %s candidat %d/%d: mstop=%s", estimator, i, nrow(grid), grid$mstop[[i]])
+    params <- list(
+      k_neighbors = 8L,
+      style = "W",
+      zero_policy = TRUE,
+      spboost_mstop = 100L,
+      spboost_nu = 0.1,
+      gamboost_mstop = grid$mstop[[i]],
+      gamboost_nu = gamboost_nu,
+      mgwrsar_bandwidth = 20L,
+      mgwrsar_kernel = "gauss",
+      mgwrsar_fixed_vars = NULL
+    )
+    fold_rows <- lapply(seq_len(nrow(resamples)), function(j) {
+      fold_id <- if ("id" %in% names(resamples)) as.character(resamples$id[[j]]) else paste0("Fold", j)
+      score_benchmark_fold(
+        estimator = estimator,
+        fold_id = fold_id,
+        split = resamples$splits[[j]],
+        formula = formula,
+        coords = coords,
+        params = params
+      )
+    })
+    fold_rows <- do.call(rbind, fold_rows)
+    ok <- is.na(fold_rows$fit_error) & is.finite(fold_rows$rmse) & is.finite(fold_rows$mae)
+    data.frame(
+      mstop = grid$mstop[[i]],
+      rmse = if (any(ok)) mean(fold_rows$rmse[ok]) else NA_real_,
+      mae = if (any(ok)) mean(fold_rows$mae[ok]) else NA_real_,
+      n_rmse = sum(ok),
+      n_mae = sum(ok),
+      n_ok = sum(ok),
+      fit_error = paste(unique(stats::na.omit(fold_rows$fit_error)), collapse = " | "),
+      stringsAsFactors = FALSE
+    )
+  })
+  grid_out <- do.call(rbind, rows)
+  grid_out$fit_error[grid_out$fit_error == ""] <- NA_character_
+  grid_out <- grid_out[order(grid_out$rmse), , drop = FALSE]
+  if (!any(is.finite(grid_out$rmse))) {
+    stop("All GAMBoost tuning candidates failed.", call. = FALSE)
+  }
+  best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
+  list(
+    grid = grid_out,
+    best = best,
+    tune_result = NULL,
+    params = list(gamboost_mstop = as.integer(best$mstop[[1]]))
+  )
+}
+
+tune_mgwrsar_candidate <- function(i, estimator, formula, coords, resamples, grid, mixed,
+                                   verbose = FALSE) {
+  # Evalue un candidat MGWRSAR sur tous les folds. Cette fonction est separee
+  # pour pouvoir etre appelee par lapply() ou par parallel::parLapply().
+  candidate <- grid[i, , drop = FALSE]
+  params <- list(
+    k_neighbors = as.integer(candidate$k_neighbors[[1]]),
+    style = "W",
+    zero_policy = TRUE,
+    spboost_mstop = 100L,
+    spboost_nu = 0.1,
+    mgwrsar_bandwidth = as.integer(candidate$bandwidth[[1]]),
+    mgwrsar_kernel = as.character(candidate$kernel[[1]]),
+    mgwrsar_fixed_vars = if (isTRUE(mixed)) candidate$fixed_vars[[1]] else NULL
+  )
+  benchmark_log(
+    verbose,
+    "[tuning] %s candidat %d/%d: H=%s kernel=%s k=%s fixed=%s",
+    estimator, i, nrow(grid), params$mgwrsar_bandwidth,
+    params$mgwrsar_kernel, params$k_neighbors,
+    paste(params$mgwrsar_fixed_vars %||% NA_character_, collapse = "+")
+  )
+  fold_rows <- lapply(seq_len(nrow(resamples)), function(j) {
+    fold_id <- if ("id" %in% names(resamples)) as.character(resamples$id[[j]]) else paste0("Fold", j)
+    benchmark_log(verbose, "[tuning] %s candidat %d fold %s", estimator, i, fold_id)
+    score_benchmark_fold(
+      estimator = estimator,
+      fold_id = fold_id,
+      split = resamples$splits[[j]],
+      formula = formula,
+      coords = coords,
+      params = params
+    )
+  })
+  fold_rows <- do.call(rbind, fold_rows)
+  ok <- is.na(fold_rows$fit_error) & is.finite(fold_rows$rmse) & is.finite(fold_rows$mae)
+  data.frame(
+    bandwidth = candidate$bandwidth[[1]],
+    kernel = candidate$kernel[[1]],
+    k_neighbors = candidate$k_neighbors[[1]],
+    fixed_vars = if (isTRUE(mixed)) paste(params$mgwrsar_fixed_vars, collapse = "+") else NA_character_,
+    rmse = if (any(ok)) mean(fold_rows$rmse[ok]) else NA_real_,
+    mae = if (any(ok)) mean(fold_rows$mae[ok]) else NA_real_,
+    n_rmse = sum(ok),
+    n_mae = sum(ok),
+    n_ok = sum(ok),
+    n_failed = sum(!ok),
+    fit_error = paste(unique(stats::na.omit(fold_rows$fit_error)), collapse = " | "),
+    stringsAsFactors = FALSE
+  )
+}
+
+parallel_mgwrsar_candidates <- function(indices, estimator, formula, coords, resamples,
+                                        grid, mixed, workers = 2L, verbose = FALSE) {
+  # Parallele PSOCK compatible Windows/RStudio. Les workers chargent le package
+  # installe; en developpement, garder parallel=FALSE pour tester le code charge
+  # par devtools::load_all().
+  workers <- max(1L, min(as.integer(workers), length(indices)))
+  if (workers <= 1L) {
+    return(lapply(indices, tune_mgwrsar_candidate, estimator, formula, coords, resamples, grid, mixed, verbose))
+  }
+  require_package("parallel", "parallel MGWRSAR tuning")
+  cl <- parallel::makeCluster(workers)
+  on.exit(parallel::stopCluster(cl), add = TRUE)
+  parallel::clusterEvalQ(cl, suppressPackageStartupMessages(library(spatialtidymodels)))
+  parallel::clusterExport(
+    cl,
+    varlist = c("estimator", "formula", "coords", "resamples", "grid", "mixed"),
+    envir = environment()
+  )
+  parallel::parLapply(cl, indices, function(i) {
+    spatialtidymodels:::tune_mgwrsar_candidate(
+      i = i,
+      estimator = estimator,
+      formula = formula,
+      coords = coords,
+      resamples = resamples,
+      grid = grid,
+      mixed = mixed,
+      verbose = FALSE
+    )
+  })
+}
+
+tune_mgwrsar_autocorrelated_benchmark <- function(estimator, formula, data, coords, resamples,
+                                                  grid, k_neighbors = 8,
+                                                  parallel = FALSE, workers = 2L,
+                                                  verbose = FALSE) {
+  # MGWRSAR autocorrele a besoin d'une W train+test propre a chaque fold. On ne
+  # passe donc pas par tune_grid(): on controle explicitement chaque split pour
+  # construire W_train_test, extraire W_train, fitter, predire et scorer.
+  mixed <- estimator %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")
+  if (isTRUE(mixed)) {
+    grid <- expand_mgwrsar_mixed_grid(grid, formula = formula, data = data, coords = coords, k_neighbors = k_neighbors)
+  } else {
+    grid$kernel <- "gauss"
+    if (!"k_neighbors" %in% names(grid)) grid$k_neighbors <- k_neighbors
+    grid$bandwidth <- as.integer(grid$bandwidth)
+    grid$kernel <- "gauss"
+    grid$k_neighbors <- as.integer(grid$k_neighbors)
+    grid <- unique(grid[, c("bandwidth", "kernel", "k_neighbors"), drop = FALSE])
+  }
+
+  benchmark_log(
+    verbose,
+    "[tuning] %s: %d candidats x %d folds%s",
+    estimator, nrow(grid), nrow(resamples),
+    if (isTRUE(parallel)) sprintf(" en parallele (%d workers)", workers) else ""
+  )
+  rows <- if (isTRUE(parallel)) {
+    parallel_mgwrsar_candidates(
+      indices = seq_len(nrow(grid)),
+      estimator = estimator,
+      formula = formula,
+      coords = coords,
+      resamples = resamples,
+      grid = grid,
+      mixed = mixed,
+      workers = workers,
+      verbose = verbose
+    )
+  } else {
+    lapply(seq_len(nrow(grid)), tune_mgwrsar_candidate, estimator, formula, coords, resamples, grid, mixed, verbose)
+  }
+  grid_out <- do.call(rbind, rows)
+  grid_out$fit_error[grid_out$fit_error == ""] <- NA_character_
+  grid_out <- grid_out[order(grid_out$rmse), , drop = FALSE]
+  if (!any(is.finite(grid_out$rmse))) {
+    stop("All MGWRSAR tuning candidates failed.", call. = FALSE)
+  }
+  best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
+  list(
+    grid = grid_out,
+    best = best,
+    tune_result = NULL,
+    params = list(
+      mgwrsar_bandwidth = as.integer(best$bandwidth[[1]]),
+      mgwrsar_kernel = as.character(best$kernel[[1]]),
+      k_neighbors = as.integer(best$k_neighbors[[1]]),
+      mgwrsar_fixed_vars = if (isTRUE(mixed)) normalize_fixed_vars_value(best$fixed_vars[[1]]) else NULL
+    )
+  )
+}
+
 tune_one_benchmark_estimator <- function(estimator, formula, data, coords, resamples,
                                          tuning_grids = NULL, k_neighbors = 8,
                                          style = "W", zero_policy = TRUE,
-                                         spboost_nu = 0.1) {
+                                         spboost_nu = 0.1,
+                                         gamboost_nu = 0.1,
+                                         parallel = FALSE, workers = 2L,
+                                         verbose = FALSE) {
   # Retourne NULL si l'estimateur n'a pas encore de route de tuning package.
   grid <- benchmark_tuning_grid(estimator, tuning_grids, data)
   if (is.null(grid)) return(NULL)
   out <- tryCatch({
     switch(estimator,
-      sar_lag = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy),
-      sem_error = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy),
-      sdm_mixed = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy),
-      spboost = tune_spboost_benchmark(formula, data, coords, resamples, grid, spboost_nu, k_neighbors),
-      mgwrsar_gwr = tune_mgwrsar_benchmark(estimator, formula, data, coords, resamples, grid),
-      mgwrsar_mgwrsar = tune_mgwrsar_benchmark(estimator, formula, data, coords, resamples, grid),
+      sar_lag = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy, verbose),
+      sem_error = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy, verbose),
+      sdm_mixed = tune_spatialreg_benchmark(estimator, formula, data, coords, resamples, grid, style, zero_policy, verbose),
+      gamboost = tune_gamboost_benchmark(estimator, formula, coords, resamples, grid, gamboost_nu, verbose),
+      spboost = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      spboost_bspa_sar_ml = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      spboost_bspa_sar_cfe = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      spboost_bspa_sem_ml = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      spboost_bspa_sem_cfe = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      mgwrsar_gwr = tune_mgwrsar_gwr_benchmark(estimator, formula, data, coords, resamples, grid, verbose),
+      mgwrsar_mgwrsar = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
+      MGWRSAR_0_kc_kv = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
+      MGWRSAR_1_kc_kv = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
       NULL
     )
   }, error = function(e) list(error = conditionMessage(e)))
@@ -719,111 +1049,6 @@ near_prediction_rset <- function(data, coords, n_reps = 3L, test_size = 20L,
   rset
 }
 
-#' Plot a near-prediction resampling fold
-#'
-#' Visualizes one near-prediction fold generated by `make_spatial_resamples()`.
-#' Training observations are shown in grey, test observations in red, and the
-#' quadtree cell borders in blue.
-#'
-#' @param rset A near-prediction rset returned by `make_spatial_resamples()`.
-#' @param data Optional data frame. If omitted, the function uses the data
-#'   stored inside the rsample split.
-#' @param coords Coordinate column names. Required when `data` is supplied.
-#' @param fold Fold number or fold id.
-#'
-#' @return A `ggplot2` object.
-#' @export
-plot_near_prediction_fold <- function(rset, data = NULL, coords = NULL, fold = 1L) {
-  # Visualisation reprise du script local code/R/utils/spatial_cv.R, adaptee au
-  # rset package et a la metadata stockee dans attr(rset, "near_cv").
-  require_package("ggplot2", "near-prediction fold plot")
-  near_cv <- attr(rset, "near_cv")
-  if (is.null(near_cv)) {
-    stop("`rset` does not contain near-prediction metadata. Rebuild it with cv_scheme = 'near_prediction'.", call. = FALSE)
-  }
-
-  if (is.character(fold)) {
-    fold_index <- match(fold, names(near_cv$folds))
-  } else {
-    fold_index <- as.integer(fold)
-  }
-  if (length(fold_index) != 1L || is.na(fold_index) ||
-      fold_index < 1L || fold_index > length(near_cv$folds)) {
-    stop("`fold` must identify an existing near-prediction repetition.", call. = FALSE)
-  }
-
-  if (is.null(data)) {
-    split_obj <- rset$splits[[fold_index]]
-    data <- split_obj$data
-  } else {
-    data <- as.data.frame(data)
-  }
-  if (is.null(coords)) {
-    coords <- c("x", "y")
-    if (!all(coords %in% names(data))) {
-      stop("`coords` must be supplied when data does not contain columns named x and y.", call. = FALSE)
-    }
-  }
-  coords <- check_spatial_coords(coords, data = data)
-  coords_mat <- as.matrix(data[, coords, drop = FALSE])
-
-  if (ncol(coords_mat) != 2L || nrow(coords_mat) != length(near_cv$cell_id)) {
-    stop("`data` and `coords` must match the coordinates used to build the near-prediction rset.", call. = FALSE)
-  }
-
-  split <- near_cv$folds[[fold_index]]
-  plot_data <- data.frame(
-    x = coords_mat[, 1L],
-    y = coords_mat[, 2L],
-    set = "Train",
-    cell_id = near_cv$cell_id
-  )
-  plot_data$set[split$test] <- "Test"
-  plot_data$set <- factor(plot_data$set, levels = c("Train", "Test"))
-
-  ggplot2::ggplot() +
-    ggplot2::geom_point(
-      data = plot_data[plot_data$set == "Train", , drop = FALSE],
-      ggplot2::aes(x = x, y = y),
-      color = "grey65",
-      size = 0.45,
-      alpha = 0.55
-    ) +
-    ggplot2::geom_path(
-      data = near_cv$polygons,
-      ggplot2::aes(x = x, y = y, group = id),
-      color = "#006D77",
-      linewidth = 0.45,
-      alpha = 0.9
-    ) +
-    ggplot2::geom_point(
-      data = plot_data[plot_data$set == "Test", , drop = FALSE],
-      ggplot2::aes(x = x, y = y, color = set),
-      size = 2.2,
-      alpha = 0.95
-    ) +
-    ggplot2::scale_color_manual(values = c(Test = "#D73027"), name = NULL) +
-    ggplot2::coord_equal() +
-    ggplot2::labs(
-      title = sprintf("Near-prediction - fold %s", names(near_cv$folds)[[fold_index]]),
-      subtitle = sprintf(
-        "%d quadtree cells - %d test points - %d train points",
-        near_cv$n_cells,
-        length(split$test),
-        length(split$train)
-      ),
-      x = coords[[1]],
-      y = coords[[2]],
-      caption = "Red: test, one point per cell. Grey: train."
-    ) +
-    ggplot2::theme_minimal(base_size = 11) +
-    ggplot2::theme(
-      panel.grid.minor = ggplot2::element_blank(),
-      legend.position = "top",
-      plot.title.position = "plot"
-    )
-}
-
 spatial_block_rset <- function(data, coords, block_folds = 5L, seed = NULL) {
   # Validation spatiale par blocs contigus non hexagonaux via blockCV.
   require_package("blockCV", "spatial block resampling")
@@ -955,6 +1180,20 @@ apply_tuned_params <- function(base, tuned) {
   utils::modifyList(base, tuned$params)
 }
 
+ensure_mgwrsar_fixed_vars_params <- function(params, estimator, formula, data, coords) {
+  # Les modeles MGWRSAR_0/1_kc_kv demandent une partition entre coefficients
+  # fixes et locaux. Pour un appel utilisateur court, on prend le premier
+  # candidat heuristique; le tuning explicite reste prioritaire.
+  if (!estimator %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) return(params)
+  if (!is.null(normalize_fixed_vars_value(params$mgwrsar_fixed_vars))) return(params)
+  params$mgwrsar_fixed_vars <- default_mgwrsar_fixed_vars_candidates(
+    formula = formula,
+    data = data,
+    coords = coords
+  )[[1L]]
+  params
+}
+
 failed_benchmark_row <- function(estimator, data, formula, error) {
   # Ligne rectangulaire pour un estimateur qui echoue. Cela permet de comparer
   # les runs sans perdre l'information d'echec.
@@ -991,19 +1230,59 @@ predict_vector_for_benchmark <- function(fit, new_data) {
   as.numeric(pred)
 }
 
+prepare_mgwrsar_fold_control <- function(estimator, train, test, coords, k_neighbors) {
+  # Reproduit le protocole du package mgwrsar pour les modeles avec
+  # autocorrelation: on construit W sur train+test, puis on extrait le bloc
+  # train-train pour le fit. Ainsi, le bloc train de W_predict reste coherent
+  # avec la matrice utilisee pour estimer le modele.
+  if (!estimator %in% c("mgwrsar_sar", "mgwrsar_mgwrsar", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) {
+    return(list())
+  }
+  require_package("mgwrsar", "benchmark MGWRSAR fold W")
+  coords_train <- as.matrix(train[, coords, drop = FALSE])
+  coords_test <- as.matrix(test[, coords, drop = FALSE])
+  coords_train_test <- rbind(coords_train, coords_test)
+  W_train_test <- build_knn_W(coords_train_test, k = k_neighbors, sparse = TRUE)
+  n_train <- nrow(train)
+  W_train <- W_train_test[seq_len(n_train), seq_len(n_train), drop = FALSE]
+  W_train <- mgwrsar::normW(W_train)
+  list(
+    W = W_train,
+    W_predict = W_train_test,
+    W_predict_coords = coords_train_test
+  )
+}
+
 score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, params) {
   # Ajuste sur analysis(split), predit sur assessment(split), puis calcule les
   # metriques hors-echantillon. Les erreurs restent dans une ligne de resultat.
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
+  params <- ensure_mgwrsar_fixed_vars_params(
+    params = params,
+    estimator = estimator,
+    formula = formula,
+    data = train,
+    coords = coords
+  )
+  mgwrsar_control <- prepare_mgwrsar_fold_control(
+    estimator = estimator,
+    train = train,
+    test = test,
+    coords = coords,
+    k_neighbors = params$k_neighbors
+  )
   fit <- tryCatch(
     fit_one_benchmark_estimator(
       estimator = estimator, formula = formula, data = train, coords = coords,
       k_neighbors = params$k_neighbors, style = params$style,
       zero_policy = params$zero_policy,
       spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
+      gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
       mgwrsar_bandwidth = params$mgwrsar_bandwidth,
-      mgwrsar_kernel = params$mgwrsar_kernel
+      mgwrsar_kernel = params$mgwrsar_kernel,
+      mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
+      mgwrsar_control = mgwrsar_control
     ),
     error = function(e) e
   )
@@ -1145,14 +1424,24 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
   fits <- list()
   for (estimator in estimators) {
     params <- apply_tuned_params(base_params, tuning[[estimator]])
+    params <- ensure_mgwrsar_fixed_vars_params(
+      params = params,
+      estimator = estimator,
+      formula = formula,
+      data = data,
+      coords = coords
+    )
     fit <- tryCatch(
       fit_one_benchmark_estimator(
         estimator = estimator, formula = formula, data = data, coords = coords,
         k_neighbors = params$k_neighbors, style = params$style,
         zero_policy = params$zero_policy,
         spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
+        gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
         mgwrsar_bandwidth = params$mgwrsar_bandwidth,
-        mgwrsar_kernel = params$mgwrsar_kernel
+        mgwrsar_kernel = params$mgwrsar_kernel,
+        mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
+        mgwrsar_control = list()
       ),
       error = function(e) e
     )
@@ -1197,6 +1486,28 @@ validate_benchmark_estimators <- function(estimators, registry) {
   invisible(selected)
 }
 
+validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tuning) {
+  # Evite les appels pieges sur gros datasets: tuner plusieurs MGWRSAR en meme
+  # temps peut lancer des dizaines de fits couteux sans retour console.
+  if (!isTRUE(tune) || isTRUE(allow_heavy_tuning) || nrow(data) <= 1500L) {
+    return(invisible(TRUE))
+  }
+  heavy <- intersect(estimators, c("mgwrsar_gwr", "mgwrsar_mgwrsar", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv"))
+  if (length(heavy) > 1L) {
+    stop(
+      sprintf(
+        paste(
+          "Tuning lourd demande sur %d lignes pour plusieurs estimateurs MGWRSAR: %s.",
+          "Lancez-les un par un, fournissez une grille courte, ou forcez avec `allow_heavy_tuning = TRUE`."
+        ),
+        nrow(data), paste(heavy, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  invisible(TRUE)
+}
+
 #' Run an automatic spatial benchmark
 #'
 #' Fits the requested estimators on one dataset and returns comparable
@@ -1213,8 +1524,12 @@ validate_benchmark_estimators <- function(estimators, registry) {
 #' @param zero_policy Zero-neighbour policy passed to `spdep`.
 #' @param spboost_mstop Number of boosting iterations for `spboost`.
 #' @param spboost_nu Learning rate for `spboost`.
+#' @param gamboost_mstop Number of boosting iterations for `mboost::gamboost`.
+#' @param gamboost_nu Learning rate for `mboost::gamboost`.
 #' @param mgwrsar_bandwidth Spatial bandwidth `H` for `mgwrsar` variants.
 #' @param mgwrsar_kernel Spatial kernel for `mgwrsar` variants.
+#' @param mgwrsar_fixed_vars Character vector of stationary coefficients for
+#'   mixed MGWRSAR models.
 #' @param tune If `TRUE`, run `tune::tune_grid()` before the final fit for
 #'   estimators with a supported tuning route.
 #' @param resamples `rsample` object used for tuning. If `NULL` and
@@ -1233,6 +1548,12 @@ validate_benchmark_estimators <- function(estimators, registry) {
 #' @param near_test_size Target number of near-prediction test cells.
 #' @param block_folds Number of spatial block folds.
 #' @param seed Random seed used for resampling.
+#' @param verbose If `TRUE`, print progress messages during tuning.
+#' @param parallel If `TRUE`, evaluate manual MGWRSAR tuning candidates in
+#'   parallel with `parallel::makeCluster()`.
+#' @param workers Number of parallel workers when `parallel = TRUE`.
+#' @param allow_heavy_tuning If `FALSE`, protect large datasets from tuning
+#'   several expensive MGWRSAR estimators in the same call.
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
 #'   final `fits`.
@@ -1241,7 +1562,9 @@ benchmark_spatial <- function(formula, data, coords,
                               estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                               k_neighbors = 8, style = "W", zero_policy = TRUE,
                               spboost_mstop = 100L, spboost_nu = 0.1,
-                              mgwrsar_bandwidth = 20, mgwrsar_kernel = "bisq",
+                              gamboost_mstop = 100L, gamboost_nu = 0.1,
+                              mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
+                              mgwrsar_fixed_vars = NULL,
                               tune = FALSE, resamples = NULL, tuning_grids = NULL,
                               tuning_folds = 3L,
                               cv_scheme = c(
@@ -1251,12 +1574,16 @@ benchmark_spatial <- function(formula, data, coords,
                               eval_resamples = NULL, eval_folds = 5L,
                               holdout_prop = 0.9,
                               near_n_reps = 3L, near_test_size = NULL,
-                              block_folds = 5L, seed = 123L) {
+                              block_folds = 5L, seed = 123L,
+                              verbose = FALSE, parallel = FALSE,
+                              workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+                              allow_heavy_tuning = FALSE) {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
   cv_scheme <- match.arg(cv_scheme)
   registry <- spatial_benchmark_registry()
   validate_benchmark_estimators(estimators, registry)
+  validate_heavy_tuning_request(estimators, data, tune, allow_heavy_tuning)
 
   base_params <- list(
     k_neighbors = k_neighbors,
@@ -1264,8 +1591,11 @@ benchmark_spatial <- function(formula, data, coords,
     zero_policy = zero_policy,
     spboost_mstop = spboost_mstop,
     spboost_nu = spboost_nu,
+    gamboost_mstop = gamboost_mstop,
+    gamboost_nu = gamboost_nu,
     mgwrsar_bandwidth = mgwrsar_bandwidth,
-    mgwrsar_kernel = mgwrsar_kernel
+    mgwrsar_kernel = mgwrsar_kernel,
+    mgwrsar_fixed_vars = mgwrsar_fixed_vars
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -1281,7 +1611,11 @@ benchmark_spatial <- function(formula, data, coords,
         k_neighbors = k_neighbors,
         style = style,
         zero_policy = zero_policy,
-        spboost_nu = spboost_nu
+        spboost_nu = spboost_nu,
+        gamboost_nu = gamboost_nu,
+        parallel = parallel,
+        workers = workers,
+        verbose = verbose
       )
       if (!is.null(tuned)) tuning[[estimator]] <- tuned
     }
@@ -1323,7 +1657,10 @@ benchmark_spatial <- function(formula, data, coords,
           estimator = estimator, formula = formula, data = data, coords = coords,
           k_neighbors = params$k_neighbors, style = params$style, zero_policy = params$zero_policy,
           spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
-          mgwrsar_bandwidth = params$mgwrsar_bandwidth, mgwrsar_kernel = params$mgwrsar_kernel
+          gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
+          mgwrsar_bandwidth = params$mgwrsar_bandwidth,
+          mgwrsar_kernel = params$mgwrsar_kernel,
+          mgwrsar_fixed_vars = params$mgwrsar_fixed_vars
         ),
         error = function(e) e
       )
@@ -1372,10 +1709,17 @@ benchmark_spatial <- function(formula, data, coords,
       near_test_size = near_test_size,
       block_folds = block_folds,
       seed = seed,
+      verbose = verbose,
+      parallel = parallel,
+      workers = workers,
+      allow_heavy_tuning = allow_heavy_tuning,
       spboost_mstop = spboost_mstop,
       spboost_nu = spboost_nu,
+      gamboost_mstop = gamboost_mstop,
+      gamboost_nu = gamboost_nu,
       mgwrsar_bandwidth = mgwrsar_bandwidth,
-      mgwrsar_kernel = mgwrsar_kernel
+      mgwrsar_kernel = mgwrsar_kernel,
+      mgwrsar_fixed_vars = mgwrsar_fixed_vars
     ),
     class = "spatial_benchmark"
   )
@@ -1458,7 +1802,9 @@ benchmark_spatial_datasets <- function(datasets,
                                        estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                                        k_neighbors = 8, style = "W", zero_policy = TRUE,
                                        spboost_mstop = 100L, spboost_nu = 0.1,
-                                       mgwrsar_bandwidth = 20, mgwrsar_kernel = "bisq",
+                                       gamboost_mstop = 100L, gamboost_nu = 0.1,
+                                       mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
+                                       mgwrsar_fixed_vars = NULL,
                                        tune = FALSE, resamples = NULL, tuning_grids = NULL,
                                        tuning_folds = 3L,
                                        cv_scheme = c(
@@ -1468,7 +1814,10 @@ benchmark_spatial_datasets <- function(datasets,
                                        eval_resamples = NULL, eval_folds = 5L,
                                        holdout_prop = 0.9,
                                        near_n_reps = 3L, near_test_size = NULL,
-                                       block_folds = 5L, seed = 123L) {
+                                       block_folds = 5L, seed = 123L,
+                                       verbose = FALSE, parallel = FALSE,
+                                       workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+                                       allow_heavy_tuning = FALSE) {
   datasets <- normalize_dataset_specs(datasets)
   cv_scheme <- match.arg(cv_scheme)
   benchmarks <- list()
@@ -1488,8 +1837,11 @@ benchmark_spatial_datasets <- function(datasets,
       zero_policy = zero_policy,
       spboost_mstop = spboost_mstop,
       spboost_nu = spboost_nu,
+      gamboost_mstop = gamboost_mstop,
+      gamboost_nu = gamboost_nu,
       mgwrsar_bandwidth = mgwrsar_bandwidth,
       mgwrsar_kernel = mgwrsar_kernel,
+      mgwrsar_fixed_vars = mgwrsar_fixed_vars,
       tune = tune,
       resamples = if (is.null(resamples)) NULL else resamples[[spec$name]],
       tuning_grids = tuning_grids,
@@ -1501,7 +1853,11 @@ benchmark_spatial_datasets <- function(datasets,
       near_n_reps = near_n_reps,
       near_test_size = near_test_size,
       block_folds = block_folds,
-      seed = seed
+      seed = seed,
+      verbose = verbose,
+      parallel = parallel,
+      workers = workers,
+      allow_heavy_tuning = allow_heavy_tuning
     )
     benchmarks[[spec$name]] <- bench
     out <- bench$results

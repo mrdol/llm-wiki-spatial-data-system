@@ -65,6 +65,13 @@ predict_values_for_diagnostics <- function(object, engine, data) {
   # Pour un workflow, predict() renvoie un tibble .pred. Pour un modele lm/glm,
   # predict() utilise `newdata` et renvoie directement un vecteur.
   if (is.null(data)) return(NULL)
+  if (isS4(engine) && "fit" %in% methods::slotNames(engine) &&
+      length(engine@fit) == nrow(data)) {
+    # Diagnostic in-sample pour mgwrsar: le backend natif stocke les valeurs
+    # ajustees dans @fit. C'est plus fiable que predict_mgwrsar() quand les
+    # donnees demandees sont exactement celles du fit.
+    return(as.numeric(engine@fit))
+  }
   if (inherits(object, "workflow")) {
     preds <- tryCatch(stats::predict(object, new_data = data), error = function(e) e)
     if (!inherits(preds, "error")) {

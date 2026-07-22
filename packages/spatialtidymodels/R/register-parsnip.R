@@ -10,6 +10,7 @@
   register_spatialreg_reg()
   register_spboost_reg()
   register_mgwrsar_reg()
+  register_spmoran_reg()
 }
 
 register_spatialreg_reg <- function() {
@@ -155,13 +156,14 @@ register_mgwrsar_reg <- function() {
   parsnip::set_model_engine("mgwrsar_reg", mode = "regression", eng = "mgwrsar")
   parsnip::set_dependency("mgwrsar_reg", eng = "mgwrsar", pkg = "mgwrsar")
 
-  for (arg in c("coords", "model_type", "kernel", "bandwidth")) {
+  for (arg in c("coords", "model_type", "kernel", "bandwidth", "fixed_vars")) {
     parsnip::set_model_arg(
       model = "mgwrsar_reg",
       eng = "mgwrsar",
       parsnip = arg,
       original = switch(arg,
-        coords = "coords", model_type = "Model", kernel = "kernels", bandwidth = "H"
+        coords = "coords", model_type = "Model", kernel = "kernels",
+        bandwidth = "H", fixed_vars = "fixed_vars"
       ),
       func = switch(arg,
         bandwidth = list(pkg = "spatialtidymodels", fun = "bandwidth"),
@@ -209,6 +211,72 @@ register_mgwrsar_reg <- function() {
         object = quote(object),
         new_data = quote(new_data),
         coords = quote(object$spec$args$coords)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
+register_spmoran_reg <- function() {
+  if ("spmoran_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("spmoran_reg")
+  parsnip::set_model_mode(model = "spmoran_reg", mode = "regression")
+  parsnip::set_model_engine("spmoran_reg", mode = "regression", eng = "spmoran")
+  parsnip::set_dependency("spmoran_reg", eng = "spmoran", pkg = "spmoran")
+
+  for (arg in c("coords", "model_type", "vif", "enum")) {
+    parsnip::set_model_arg(
+      model = "spmoran_reg",
+      eng = "spmoran",
+      parsnip = arg,
+      original = arg,
+      func = switch(arg,
+        enum = list(pkg = "dials", fun = "unknown"),
+        vif = list(pkg = "dials", fun = "unknown"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "spmoran_reg",
+    eng = "spmoran",
+    mode = "regression",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "spmoran_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "spmoran_reg",
+    eng = "spmoran",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "spmoran_reg",
+    eng = "spmoran",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = function(results, object) as.numeric(results),
+      func = c(pkg = "spatialtidymodels", fun = "spmoran_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
       )
     )
   )

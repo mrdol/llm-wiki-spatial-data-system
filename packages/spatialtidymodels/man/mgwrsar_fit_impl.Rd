@@ -9,8 +9,9 @@ mgwrsar_fit_impl(
   data,
   coords,
   Model = "GWR",
-  kernels = "bisq",
+  kernels = "gauss",
   H = NULL,
+  fixed_vars = NULL,
   control = list()
 )
 }

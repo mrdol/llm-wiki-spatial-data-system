@@ -268,6 +268,32 @@ test_that("benchmark_spatial lance les baselines ML natives et leurs versions xy
   ) %in% names(bench$fits)))
 })
 
+test_that("benchmark_spatial lance et tune gamboost", {
+  skip_if_not_installed("mboost")
+  skip_if_not_installed("rsample")
+
+  dat <- load_columbus_crime_for_tests()
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = "gamboost",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(gamboost = data.frame(mstop = c(5L, 10L))),
+    gamboost_nu = 0.1
+  ))
+
+  expect_equal(bench$results$estimator, "gamboost")
+  expect_true("gamboost" %in% names(bench$tuning))
+  expect_true(bench$tuning$gamboost$params$gamboost_mstop %in% c(5L, 10L))
+  expect_true(all(is.finite(bench$tuning$gamboost$grid$rmse)))
+  expect_true(is.na(bench$results$fit_error))
+  expect_true(is.finite(bench$results$rmse))
+})
+
 test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus_crime", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
@@ -288,6 +314,34 @@ test_that("benchmark_spatial lance spboost et les variantes mgwrsar sur columbus
 
   expect_equal(bench$results$estimator, c("spboost", "mgwrsar_gwr", "mgwrsar_sar", "mgwrsar_mgwr", "mgwrsar_mgwrsar"))
   expect_true(all(is.finite(bench$results$rmse)))
+  expect_true(all(is.na(bench$results$fit_error)))
+})
+
+test_that("benchmark_spatial lance les quatre variantes BSPA spboost", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spboost")
+  skip_if_not_installed("mboost")
+
+  dat <- make_tiny_spatial_data(n = 16L)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    y ~ x1 + x2,
+    data = dat,
+    coords = c("x_coord", "y_coord"),
+    estimators = c(
+      "spboost_bspa_sar_ml", "spboost_bspa_sar_cfe",
+      "spboost_bspa_sem_ml", "spboost_bspa_sem_cfe"
+    ),
+    spboost_mstop = 5,
+    spboost_nu = 0.1,
+    k_neighbors = 4
+  ))
+
+  expect_equal(
+    bench$results$estimator,
+    c("spboost_bspa_sar_ml", "spboost_bspa_sar_cfe", "spboost_bspa_sem_ml", "spboost_bspa_sem_cfe")
+  )
   expect_true(all(is.na(bench$results$fit_error)))
 })
 
@@ -329,6 +383,44 @@ test_that("benchmark_spatial score spmoran ESF en holdout", {
   expect_true(is.finite(bench$results$rmse))
   expect_true(is.finite(bench$results$mae))
   expect_true(is.na(bench$results$fit_error))
+})
+
+test_that("spmoran_esf_reg predit via workflow()", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spmoran")
+
+  dat <- load_columbus_crime_for_tests()
+  spec <- spmoran_esf_reg(coords = c("X", "Y"), vif = 10) |>
+    parsnip::set_engine("spmoran") |>
+    parsnip::set_mode("regression")
+  fit <- suppressWarnings(workflows::workflow() |>
+    workflows::add_formula(CRIME ~ HOVAL + INC + X + Y) |>
+    workflows::add_model(spec) |>
+    workflows::fit(dat))
+
+  preds <- stats::predict(fit, new_data = dat[1:5, , drop = FALSE])
+  expect_equal(nrow(preds), 5L)
+  expect_true(all(is.finite(preds$.pred)))
+})
+
+test_that("spmoran_resf_reg predit via workflow()", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spmoran")
+
+  dat <- load_columbus_crime_for_tests()
+  spec <- spmoran_resf_reg(coords = c("X", "Y")) |>
+    parsnip::set_engine("spmoran") |>
+    parsnip::set_mode("regression")
+  fit <- suppressWarnings(workflows::workflow() |>
+    workflows::add_formula(CRIME ~ HOVAL + INC + X + Y) |>
+    workflows::add_model(spec) |>
+    workflows::fit(dat))
+
+  preds <- stats::predict(fit, new_data = dat[1:5, , drop = FALSE])
+  expect_equal(nrow(preds), 5L)
+  expect_true(all(is.finite(preds$.pred)))
 })
 
 test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
@@ -478,6 +570,39 @@ test_that("plot_near_prediction_fold visualise un rset near-prediction", {
   expect_s3_class(p, "ggplot")
 })
 
+test_that("les visualisations benchmark package retournent des ggplot", {
+  skip_if_not_installed("ggplot2")
+
+  results <- data.frame(
+    estimator = c("ols", "sar_lag"),
+    cv_scheme = c("near_prediction", "near_prediction"),
+    rmse = c(10, 8),
+    mae = c(7, 6)
+  )
+  tuning <- data.frame(
+    bandwidth = c(20L, 40L),
+    kernel = c("gauss", "gauss"),
+    rmse = c(9, 7),
+    mae = c(6, 5)
+  )
+
+  expect_s3_class(plot_benchmark_comparison(results, metric = "rmse"), "ggplot")
+  expect_s3_class(plot_tuning_curve(tuning, x = "bandwidth", color = "kernel"), "ggplot")
+})
+
+test_that("plot_spatial_predictions visualise predictions et residus", {
+  skip_if_not_installed("ggplot2")
+
+  dat <- load_columbus_crime_for_tests()
+  fit <- stats::glm(CRIME ~ HOVAL + INC, data = dat)
+
+  expect_s3_class(plot_spatial_predictions(fit, dat, coords = c("X", "Y")), "ggplot")
+  expect_s3_class(
+    plot_spatial_predictions(fit, dat, coords = c("X", "Y"), truth = "CRIME", type = "residual"),
+    "ggplot"
+  )
+})
+
 test_that("make_spatial_resamples construit des blocs spatiaux si blockCV est disponible", {
   skip_if_not_installed("rsample")
   skip_if_not_installed("blockCV")
@@ -592,7 +717,7 @@ test_that("benchmark_spatial tune mstop pour spboost", {
   expect_true(all(is.finite(bench$results$rmse)))
 })
 
-test_that("benchmark_spatial tune bandwidth et kernel pour mgwrsar_gwr", {
+test_that("benchmark_spatial tune bandwidth avec kernel gauss fixe pour mgwrsar_gwr", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")
   skip_if_not_installed("tune")
@@ -612,15 +737,98 @@ test_that("benchmark_spatial tune bandwidth et kernel pour mgwrsar_gwr", {
     resamples = folds,
     tuning_grids = list(mgwrsar_gwr = data.frame(
       bandwidth = c(4L, 5L),
-      kernel = c("gauss", "gauss")
+      kernel = c("bisq", "gauss")
     ))
   ))
 
   expect_true("mgwrsar_gwr" %in% names(bench$tuning))
   expect_true(bench$tuning$mgwrsar_gwr$params$mgwrsar_bandwidth %in% c(4L, 5L))
   expect_equal(bench$tuning$mgwrsar_gwr$params$mgwrsar_kernel, "gauss")
+  expect_equal(unique(bench$tuning$mgwrsar_gwr$grid$kernel), "gauss")
   expect_true(all(is.finite(bench$tuning$mgwrsar_gwr$grid$rmse)))
   expect_true(all(is.finite(bench$results$rmse)))
+})
+
+test_that("benchmark_spatial tune MGWRSAR autocorrele avec W fold-specifique", {
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("mgwrsar")
+
+  dat <- load_columbus_crime_for_tests()
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = "mgwrsar_mgwrsar",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(mgwrsar_mgwrsar = data.frame(
+      bandwidth = c(8L, 12L),
+      kernel = c("gauss", "gauss")
+    )),
+    k_neighbors = 4
+  ))
+
+  expect_true("mgwrsar_mgwrsar" %in% names(bench$tuning))
+  expect_null(bench$tuning$mgwrsar_mgwrsar$tune_result)
+  expect_true(bench$tuning$mgwrsar_mgwrsar$params$mgwrsar_bandwidth %in% c(8L, 12L))
+  expect_equal(bench$tuning$mgwrsar_mgwrsar$params$mgwrsar_kernel, "gauss")
+  expect_true(all(c("n_ok", "n_failed") %in% names(bench$tuning$mgwrsar_mgwrsar$grid)))
+  expect_true(all(is.finite(bench$tuning$mgwrsar_mgwrsar$grid$rmse)))
+})
+
+test_that("benchmark_spatial tune MGWRSAR_0_kc_kv avec W_opt et fixed_vars", {
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("mgwrsar")
+
+  dat <- load_columbus_crime_for_tests()
+  folds <- rsample::vfold_cv(dat, v = 2)
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = "MGWRSAR_0_kc_kv",
+    tune = TRUE,
+    resamples = folds,
+    tuning_grids = list(MGWRSAR_0_kc_kv = data.frame(
+      bandwidth = c(8L, 12L),
+      kernel = c("gauss", "gauss"),
+      k_neighbors = c(4L, 8L),
+      fixed_vars = c("HOVAL", "INC")
+    ))
+  ))
+
+  expect_true("MGWRSAR_0_kc_kv" %in% names(bench$tuning))
+  expect_null(bench$tuning$MGWRSAR_0_kc_kv$tune_result)
+  expect_true(bench$tuning$MGWRSAR_0_kc_kv$params$k_neighbors %in% c(4L, 8L))
+  expect_true(bench$tuning$MGWRSAR_0_kc_kv$params$mgwrsar_bandwidth %in% c(8L, 12L))
+  expect_true(bench$tuning$MGWRSAR_0_kc_kv$params$mgwrsar_fixed_vars %in% c("HOVAL", "INC"))
+  expect_true(all(c("fixed_vars", "k_neighbors", "n_ok", "n_failed") %in% names(bench$tuning$MGWRSAR_0_kc_kv$grid)))
+  expect_true(all(is.finite(bench$tuning$MGWRSAR_0_kc_kv$grid$rmse)))
+  expect_true(all(is.finite(bench$results$rmse)))
+})
+
+test_that("benchmark_spatial lance MGWRSAR_1_kc_kv avec fixed_vars explicite", {
+  skip_if_not_installed("mgwrsar")
+
+  dat <- load_columbus_crime_for_tests()
+
+  bench <- suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = "MGWRSAR_1_kc_kv",
+    k_neighbors = 4L,
+    mgwrsar_bandwidth = 8L,
+    mgwrsar_kernel = "gauss",
+    mgwrsar_fixed_vars = "HOVAL"
+  ))
+
+  expect_equal(bench$results$estimator, "MGWRSAR_1_kc_kv")
+  expect_true(is.na(bench$results$fit_error))
+  expect_true(is.finite(bench$results$rmse))
 })
 
 test_that("spatialreg_reg passe dans tune_grid() sur k_neighbors", {
@@ -717,11 +925,53 @@ test_that("mgwrsar_reg predit via workflow()", {
     workflows::add_formula(y ~ x1 + x2 + x_coord + y_coord) |>
     workflows::add_model(spec)
 
-  fit <- workflows::fit(wf, data = train)
+  fit <- suppressWarnings(workflows::fit(wf, data = train))
   preds <- stats::predict(fit, new_data = test)
 
   expect_equal(nrow(preds), nrow(test))
   expect_true(all(is.finite(preds$.pred)))
+})
+
+test_that("mgwrsar SAR conserve une W train/test coherente pour predict()", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("mgwrsar")
+
+  dat <- make_tiny_spatial_data(n = 16L)
+  train <- dat[1:12, ]
+  test <- dat[13:16, ]
+  coords <- c("x_coord", "y_coord")
+  W_train_test <- build_knn_W(rbind(train[, coords], test[, coords]), k = 3, sparse = TRUE)
+  W_train <- mgwrsar::normW(W_train_test[seq_len(nrow(train)), seq_len(nrow(train)), drop = FALSE])
+
+  spec <- mgwrsar_reg(
+    coords = coords,
+    model_type = "SAR"
+  ) |>
+    parsnip::set_engine("mgwrsar", control = list(
+      W = W_train,
+      W_predict = W_train_test,
+      W_predict_coords = as.matrix(rbind(train[, coords], test[, coords]))
+    ))
+
+  wf <- workflows::workflow() |>
+    workflows::add_formula(y ~ x1 + x2 + x_coord + y_coord) |>
+    workflows::add_model(spec)
+
+  fit <- suppressWarnings(workflows::fit(wf, data = train))
+  engine <- workflows::extract_fit_engine(fit)
+
+  expect_identical(attr(engine, "spatialtidymodels_W_predict"), W_train_test)
+  preds <- suppressWarnings(stats::predict(fit, new_data = test))
+  expect_equal(nrow(preds), nrow(test))
+  expect_true(all(is.finite(preds$.pred)))
+
+  test_wrong_coords <- test
+  test_wrong_coords$x_coord <- test_wrong_coords$x_coord + 100
+  expect_error(
+    stats::predict(fit, new_data = test_wrong_coords),
+    "different train/test coordinates"
+  )
 })
 
 test_that("spboost_reg predit via workflow()", {

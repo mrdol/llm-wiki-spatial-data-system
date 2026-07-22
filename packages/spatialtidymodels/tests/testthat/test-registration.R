@@ -16,7 +16,14 @@ test_that("les constructeurs parsnip exposent des specs", {
   expect_true(is.function(make_spatial_resamples))
   expect_true(is.function(plot_near_prediction_fold))
   expect_s3_class(spboost_reg(coords = c("x", "y"), DGP = "SAR", mstop = 50), "spboost_reg")
+  expect_s3_class(spboost_bspa_sar_ml(coords = c("x", "y"), mstop = 50), "spboost_reg")
+  expect_s3_class(spboost_bspa_sar_cfe(coords = c("x", "y"), mstop = 50), "spboost_reg")
+  expect_s3_class(spboost_bspa_sem_ml(coords = c("x", "y"), mstop = 50), "spboost_reg")
+  expect_s3_class(spboost_bspa_sem_cfe(coords = c("x", "y"), mstop = 50), "spboost_reg")
   expect_s3_class(mgwrsar_reg(coords = c("x", "y"), model_type = "GWR", kernel = "gauss", bandwidth = 20), "mgwrsar_reg")
+  expect_s3_class(spmoran_reg(coords = c("x", "y"), model_type = "ESF"), "spmoran_reg")
+  expect_s3_class(spmoran_esf_reg(coords = c("x", "y")), "spmoran_reg")
+  expect_s3_class(spmoran_resf_reg(coords = c("x", "y")), "spmoran_reg")
 })
 
 test_that("le registre benchmark distingue routes automatiques et routes a brancher", {
@@ -27,16 +34,27 @@ test_that("le registre benchmark distingue routes automatiques et routes a branc
     "requires_coords", "requires_W", "spatial_args", "tunable_parameters",
     "notes", "installed"
   ) %in% names(registry)))
-  expect_true(all(c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
+  expect_true(all(c("ols", "gam_spatial", "gamboost", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
+  expect_equal(registry$package[registry$estimator == "gamboost"], "mboost")
+  expect_match(registry$tunable_parameters[registry$estimator == "gamboost"], "mstop")
   expect_equal(registry$status[registry$estimator == "spboost"], "automatic")
   expect_equal(registry$package[registry$estimator == "spboost"], "spboost")
   expect_match(registry$tunable_parameters[registry$estimator == "spboost"], "mstop")
   expect_true(registry$requires_coords[registry$estimator == "sar_lag"])
   expect_true(registry$automatic[registry$estimator == "spboost"])
+  expect_true(registry$automatic[registry$estimator == "spboost_bspa_sar_ml"])
+  expect_true(registry$automatic[registry$estimator == "spboost_bspa_sar_cfe"])
+  expect_true(registry$automatic[registry$estimator == "spboost_bspa_sem_ml"])
+  expect_true(registry$automatic[registry$estimator == "spboost_bspa_sem_cfe"])
+  expect_match(registry$tunable_parameters[registry$estimator == "spboost_bspa_sar_cfe"], "k_neighbors")
+  expect_false(grepl("nu", registry$tunable_parameters[registry$estimator == "spboost_bspa_sar_cfe"]))
   expect_true(registry$automatic[registry$estimator == "mgwrsar_gwr"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_sar"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwr"])
   expect_true(registry$automatic[registry$estimator == "mgwrsar_mgwrsar"])
+  expect_true(registry$automatic[registry$estimator == "MGWRSAR_0_kc_kv"])
+  expect_true(registry$automatic[registry$estimator == "MGWRSAR_1_kc_kv"])
+  expect_match(registry$tunable_parameters[registry$estimator == "MGWRSAR_0_kc_kv"], "fixed_vars")
   expect_true(registry$automatic[registry$estimator == "spmoran_esf"])
   expect_true(registry$automatic[registry$estimator == "spmoran_resf"])
 })
@@ -50,7 +68,7 @@ test_that("available_benchmark_estimators peut omettre la verification d'install
 test_that("le registre dataset expose les formules confirmees", {
   datasets <- available_benchmark_datasets()
 
-  expect_true(all(c("dataset", "rds", "formula", "response", "predictors", "coords") %in% names(datasets)))
+  expect_true(all(c("dataset", "data_object", "rds", "formula", "response", "predictors", "coords") %in% names(datasets)))
   expect_true(all(c("coords_crs", "formula_status", "source_ref", "recommended_cv") %in% names(datasets)))
   expect_true(all(c("columbus_crime", "london_hp") %in% datasets$dataset))
   expect_equal(
@@ -63,12 +81,93 @@ test_that("le registre dataset expose les formules confirmees", {
   )
 })
 
+test_that("les datasets de benchmark sont chargeables avec data()", {
+  env <- new.env(parent = emptyenv())
+  loaded <- utils::data("columbus_crime", package = "spatialtidymodels", envir = env)
+
+  expect_equal(loaded, "columbus_crime")
+  expect_true(exists("columbus_crime", envir = env, inherits = FALSE))
+  expect_true(all(c("CRIME", "HOVAL", "INC", "X", "Y") %in% names(env$columbus_crime)))
+})
+
+test_that("le chargement benchmark convertit les indicatrices numeriques texte", {
+  dat <- load_benchmark_dataset("boston_housing")$data
+
+  expect_true(is.numeric(dat$CHAS))
+})
+
+test_that("les grilles recommandees reduisent l'appel utilisateur MGWRSAR papier", {
+  dat <- load_benchmark_dataset("columbus_crime")$data
+  grids <- recommended_benchmark_tuning_grids(
+    "columbus_crime",
+    estimators = c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv"),
+    data = dat
+  )
+
+  expect_true(all(c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv") %in% names(grids)))
+  expect_true(all(c("bandwidth", "kernel", "k_neighbors", "fixed_vars") %in% names(grids$MGWRSAR_0_kc_kv)))
+  expect_equal(unique(grids$MGWRSAR_0_kc_kv$kernel), "gauss")
+  expect_lte(nrow(grids$MGWRSAR_0_kc_kv), 8L)
+})
+
+test_that("les grilles recommandees restent courtes sur gros dataset", {
+  dat <- load_benchmark_dataset("lasrosas")$data
+  grids <- recommended_benchmark_tuning_grids(
+    "lasrosas",
+    estimators = c("MGWRSAR_0_kc_kv"),
+    data = dat
+  )
+
+  expect_equal(unique(grids$MGWRSAR_0_kc_kv$bandwidth), 20L)
+  expect_equal(unique(grids$MGWRSAR_0_kc_kv$kernel), "gauss")
+  expect_equal(unique(grids$MGWRSAR_0_kc_kv$k_neighbors), 8L)
+  expect_lte(nrow(grids$MGWRSAR_0_kc_kv), 2L)
+})
+
+test_that("le tuning lourd de plusieurs MGWRSAR est protege sur gros dataset", {
+  dat <- load_benchmark_dataset("lasrosas")$data
+
+  expect_error(
+    benchmark_spatial(
+      yield ~ nitro + bv,
+      data = dat,
+      coords = c("X", "Y"),
+      estimators = c("mgwrsar_gwr", "MGWRSAR_0_kc_kv"),
+      tune = TRUE
+    ),
+    "Tuning lourd demande"
+  )
+})
+
 test_that("les constructeurs SAR/SEM/SDM fixent le type de modele", {
   skip_if_not_installed("rlang")
 
   expect_equal(rlang::eval_tidy(sar_reg(coords = c("x", "y"))$args$model_type), "SAR")
   expect_equal(rlang::eval_tidy(sem_reg(coords = c("x", "y"))$args$model_type), "SEM")
   expect_equal(rlang::eval_tidy(sdm_reg(coords = c("x", "y"))$args$model_type), "SDM")
+})
+
+test_that("les constructeurs ESF/RESF fixent le type de modele", {
+  skip_if_not_installed("rlang")
+
+  expect_equal(rlang::eval_tidy(spmoran_esf_reg(coords = c("x", "y"))$args$model_type), "ESF")
+  expect_equal(rlang::eval_tidy(spmoran_resf_reg(coords = c("x", "y"))$args$model_type), "RESF")
+})
+
+test_that("les constructeurs BSPA fixent DGP et methode spboost", {
+  skip_if_not_installed("rlang")
+
+  sar_ml <- spboost_bspa_sar_ml(coords = c("x", "y"))
+  sar_cfe <- spboost_bspa_sar_cfe(coords = c("x", "y"))
+  sem_ml <- spboost_bspa_sem_ml(coords = c("x", "y"))
+  sem_cfe <- spboost_bspa_sem_cfe(coords = c("x", "y"))
+
+  expect_equal(rlang::eval_tidy(sar_ml$args$DGP), "SAR")
+  expect_equal(rlang::eval_tidy(sar_ml$args$method), "BSPA_SAR_ML")
+  expect_equal(rlang::eval_tidy(sar_cfe$args$method), "BSPA_SAR_CFE")
+  expect_equal(rlang::eval_tidy(sem_ml$args$DGP), "SEM")
+  expect_equal(rlang::eval_tidy(sem_ml$args$method), "BSPA_SEM_ML")
+  expect_equal(rlang::eval_tidy(sem_cfe$args$method), "BSPA_SEM_CFE")
 })
 
 test_that("la construction de W conserve les dimensions attendues", {

@@ -8,6 +8,7 @@ benchmark_spatial_dataset(
   dataset,
   estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
   data_dir = NULL,
+  use_recommended_grids = TRUE,
   ...
 )
 }
@@ -18,6 +19,9 @@ benchmark_spatial_dataset(
 
 \item{data_dir}{Optional repository directory, or directory containing the
 prepared \code{.rds} files.}
+
+\item{use_recommended_grids}{If \code{TRUE}, fill missing tuning grids from the
+dataset registry for complex estimators such as native mixed MGWRSAR.}
 
 \item{...}{Arguments passed to \code{benchmark_spatial()}, such as
 \code{cv_scheme = "near_prediction"}, \code{tune = TRUE}, or \code{tuning_grids = ...}.}
