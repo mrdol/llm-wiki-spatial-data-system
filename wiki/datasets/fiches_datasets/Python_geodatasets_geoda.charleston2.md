@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.charleston2
 type: dataset
 created: 2026-07-10
@@ -87,17 +87,10 @@ Dataset spatial issu du package Python `geodatasets` (`charleston2`).
 - x_terms_used: POP2001 + EST98 + EMP98 + PAY98 + EST01 + MAN98 + MAN01 + OFF98
 - y_term_used: INDEX
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: INDEX ~ POP2001 + EST98 + EMP98 + PAY98 + EST01 + MAN98 + MAN01 + OFF98
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: INDEX ~ POP2001 + EST98 + EMP98 + PAY98
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

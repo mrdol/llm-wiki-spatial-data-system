@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_libpysal_Snow
 type: dataset
 created: 2026-07-10
@@ -64,17 +64,10 @@ Dataset spatial issu du package Python `libpysal` (`Snow`).
 - x_terms_used: pestfield + dis_pestf + dis_sewers + dis_bspump
 - y_term_used: deaths
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: une seule specification distincte est disponible avec les variables candidates actuelles; candidate_2 repete candidate_1 en attendant une revue manuelle.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.ndvi
 type: dataset
 created: 2026-07-10
@@ -61,17 +61,10 @@ Dataset spatial issu du package Python `geodatasets` (`ndvi`).
 - x_terms_used: TEMP + ELEV + PREC
 - y_term_used: GREEN
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: GREEN ~ TEMP + ELEV + PREC
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: GREEN ~ TEMP + ELEV + PREC
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: une seule specification distincte est disponible avec les variables candidates actuelles; candidate_2 repete candidate_1 en attendant une revue manuelle.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

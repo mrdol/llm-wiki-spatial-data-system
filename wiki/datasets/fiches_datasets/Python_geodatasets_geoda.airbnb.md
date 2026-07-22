@@ -1,4 +1,4 @@
----
+﻿---
 title: Python_geodatasets_geoda.airbnb
 type: dataset
 created: 2026-07-10
@@ -73,17 +73,10 @@ Dataset spatial issu du package Python `geodatasets` (`airbnb`).
 - x_terms_used: poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes
 - y_term_used: price_pp
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: price_pp ~ poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: price_pp ~ poverty + crowded + dependency + without_hs
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: R_gstat_jura_jura.val
 type: dataset
 created: 2026-07-10
@@ -66,17 +66,10 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 - x_terms_used: Landuse + Rock
 - y_term_used: Cd
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: Cd ~ Landuse + Rock
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: Cd ~ Landuse + Rock
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: une seule specification distincte est disponible avec les variables candidates actuelles; candidate_2 repete candidate_1 en attendant une revue manuelle.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

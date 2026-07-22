@@ -1,4 +1,4 @@
----
+﻿---
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
 created: 2026-07-10
@@ -70,17 +70,10 @@ Concentrations of selected herbicides and degradation products determined by lab
 - x_terms_used: sampletype + date + hour + ametryn + T
 - y_term_used: atrazine
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: atrazine ~ sampletype + date + hour + ametryn + T
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: atrazine ~ sampletype + date + hour + ametryn
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

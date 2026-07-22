@@ -97,17 +97,10 @@ def build_formula_candidates(formula_used: str, y_term: str, x_terms: str, x_can
 
 def candidate_block(candidate_1: str, candidate_2: str, recommended: str, reason: str) -> str:
     return "\n".join([
-        "",
         "### Formules candidates — niveau systeme",
         "",
         f"- formula_candidate_1: {candidate_1}",
-        "- formula_candidate_1_role: recommended_default",
         f"- formula_candidate_2: {candidate_2}",
-        "- formula_candidate_2_role: alternative_specification",
-        f"- recommended_formula: {recommended}",
-        "- selection_status: generated_system_formula",
-        f"- selection_reason: {reason}",
-        "- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.",
     ])
 
 

@@ -1,4 +1,4 @@
----
+﻿---
 title: R_gstat_oxford_oxford
 type: dataset
 created: 2026-07-10
@@ -76,17 +76,10 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
 - y_term_used: PROFCLASS
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 

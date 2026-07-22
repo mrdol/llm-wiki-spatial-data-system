@@ -1,4 +1,4 @@
----
+﻿---
 title: R_spatstat.data_nbfires_nbfires
 type: dataset
 created: 2026-07-10
@@ -64,17 +64,10 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 - x_terms_used: year + fire.type + dis.julian + out.julian + cause + ign.src
 - y_term_used: fnl.size
 
-
 ### Formules candidates — niveau systeme
 
 - formula_candidate_1: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
-- formula_candidate_1_role: recommended_default
 - formula_candidate_2: fnl.size ~ year + fire.type + dis.julian + out.julian
-- formula_candidate_2_role: alternative_specification
-- recommended_formula: formula_candidate_1
-- selection_status: generated_system_formula
-- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
-- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
 
 ## Bloc 2 — Identification et DOI
 
