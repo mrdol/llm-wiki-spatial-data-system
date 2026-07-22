@@ -6,17 +6,87 @@
 \alias{spatialtidymodels-package}
 \title{spatialtidymodels}
 \description{
-Extension tidymodels en developpement pour des estimateurs de regression
-spatiale.
+Tidymodels extension for spatial regression benchmarks.
 }
 \details{
-Le package enregistre des specs \code{parsnip} et des moteurs pour les backends
-\code{spatialreg}, \code{spboost} et \code{mgwrsar}. Les routes \code{spatialreg} disposent de
-tests de parite numerique contre le benchmark manuel sur plusieurs datasets
-du projet.
+\code{spatialtidymodels} connects the \code{llm-wiki-karpathy} metadata workflow to
+executable spatial regression benchmarks. The package is not only a
+collection of wrappers: it is designed to consume curated metadata extracted
+from dataset fiches and estimator fiches, then use that metadata to choose
+formulas, coordinates, resampling schemes, estimator routes, and diagnostics.
+\subsection{Metadata-driven workflow}{
+
+The project keeps the human-readable knowledge base in Markdown:
+\itemize{
+\item dataset fiches in \verb{wiki/datasets/fiches_datasets/};
+\item estimator fiches in \verb{wiki/estimators/};
+\item methodological schemas in \verb{wiki/metadata/}.
+}
+
+The intended package workflow is:
+\enumerate{
+\item validate and enrich the Markdown fiches;
+\item export machine-readable dataset and estimator registries;
+\item load those registries from the package;
+\item run benchmarks through stable R functions.
+}
+
+This keeps the scientific decisions visible in the wiki while giving R users
+a compact API.
+}
+
+\subsection{Dataset metadata}{
+
+Dataset fiches provide the information used by
+\code{\link[=available_benchmark_datasets]{available_benchmark_datasets()}} and \code{\link[=benchmark_spatial_dataset]{benchmark_spatial_dataset()}}:
+\itemize{
+\item dataset identifier and source package;
+\item response variable and candidate predictors;
+\item published formula when available;
+\item generated formula candidates when no published formula was found;
+\item coordinate columns, CRS, geometry type, and spatial support;
+\item missing-value and duplicate checks;
+\item recommended benchmark eligibility.
+}
+}
+
+\subsection{Estimator metadata}{
+
+Estimator fiches document which estimators are allowed by the project policy,
+what each backend needs, and how it can enter the benchmark:
+\itemize{
+\item \code{parsnip} specification and engine;
+\item required spatial arguments such as \code{coords}, \code{W}, and \code{k_neighbors};
+\item tunable hyperparameters such as \code{mstop} or \code{bandwidth};
+\item diagnostics to inspect, including residual Moran's I when applicable;
+\item known failure modes and dataset compatibility constraints.
+}
+}
+
+\subsection{Main user entry points}{
+
+Use \code{\link[=available_benchmark_datasets]{available_benchmark_datasets()}} to list registered datasets and
+\code{\link[=available_benchmark_estimators]{available_benchmark_estimators()}} to list registered estimators. Use
+\code{\link[=benchmark_spatial_dataset]{benchmark_spatial_dataset()}} when a dataset is already registered, or
+\code{\link[=benchmark_spatial]{benchmark_spatial()}} when you provide a formula, data frame, and coordinate
+columns manually.
+
+For quick model-level work, \code{\link[=fit_sar]{fit_sar()}}, \code{\link[=fit_sem]{fit_sem()}}, and \code{\link[=fit_sdm]{fit_sdm()}} provide
+a compact interface similar to \code{glm(formula, data)}. For full tidymodels
+usage, use \code{\link[=sar_reg]{sar_reg()}}, \code{\link[=sem_reg]{sem_reg()}}, \code{\link[=sdm_reg]{sdm_reg()}}, \code{\link[=spboost_reg]{spboost_reg()}},
+\code{\link[=mgwrsar_reg]{mgwrsar_reg()}}, and \code{\link[=spmoran_reg]{spmoran_reg()}} inside \code{workflows::workflow()}.
+}
+
+\subsection{Current scope}{
+
+The package currently focuses on regression benchmarks for spatial datasets.
+Classification tasks, temporal forecasting tasks, and a fully automatic
+export from all wiki fiches to package registries are planned follow-up
+steps.
+}
 }
 \author{
-\strong{Maintainer}: Johnny D'Oliveira \email{johnny@example.com}
+\strong{Maintainer}: Johnny D'OLIVEIRA \email{johnny.d-oliveira@inrae.fr}
 
 }
 \keyword{internal}
