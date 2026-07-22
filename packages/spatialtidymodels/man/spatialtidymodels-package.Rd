@@ -97,5 +97,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Johnny D'OLIVEIRA \email{johnny.d-oliveira@inrae.fr}
 
+Authors:
+\itemize{
+  \item Ghislain Geniaux
+}
+
 }
 \keyword{internal}
