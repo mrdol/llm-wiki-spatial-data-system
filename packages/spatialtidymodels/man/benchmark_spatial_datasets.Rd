@@ -17,6 +17,8 @@ benchmark_spatial_datasets(
   mgwrsar_bandwidth = 20,
   mgwrsar_kernel = "gauss",
   mgwrsar_fixed_vars = NULL,
+  spmoran_enum = NULL,
+  spmoran_vif = 10,
   tune = FALSE,
   resamples = NULL,
   tuning_grids = NULL,
@@ -61,6 +63,11 @@ benchmark_spatial_datasets(
 
 \item{mgwrsar_fixed_vars}{Character vector of stationary coefficients for
 mixed MGWRSAR models.}
+
+\item{spmoran_enum}{Optional number of Moran eigenvectors for SpMoran ESF
+and RE-ESF.}
+
+\item{spmoran_vif}{VIF threshold for SpMoran ESF.}
 
 \item{tune}{If \code{TRUE}, run \code{tune::tune_grid()} before the final fit for
 estimators with a supported tuning route.}

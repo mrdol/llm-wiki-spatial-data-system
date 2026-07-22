@@ -11,7 +11,9 @@ spmoran_resf_reg(mode = "regression", coords = NULL, enum = NULL)
 
 \item{coords}{Character vector of length 2 giving the coordinate columns.}
 
-\item{enum}{Optional number of Moran eigenvectors for \code{spmoran::meigen_f()}.}
+\item{enum}{Optional number of Moran eigenvectors for \code{spmoran::meigen_f()}.
+When \code{NULL}, the wrapper uses \code{spmoran::meigen()} on small datasets and
+\code{spmoran::meigen_f()} on larger datasets.}
 }
 \value{
 A \code{parsnip} model specification.

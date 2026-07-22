@@ -423,6 +423,121 @@ test_that("spmoran_resf_reg predit via workflow()", {
   expect_true(all(is.finite(preds$.pred)))
 })
 
+test_that("spmoran ESF supporte tune_grid() sur enum et vif", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spmoran")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("yardstick")
+
+  set.seed(42)
+  dat <- load_columbus_crime_for_tests()
+  spec <- spmoran_esf_reg(coords = c("X", "Y"), enum = tune::tune(), vif = tune::tune()) |>
+    parsnip::set_engine("spmoran") |>
+    parsnip::set_mode("regression")
+  wf <- workflows::workflow() |>
+    workflows::add_formula(CRIME ~ HOVAL + INC + X + Y) |>
+    workflows::add_model(spec)
+  folds <- rsample::mc_cv(dat, prop = 0.9, times = 2)
+
+  tuned <- suppressMessages(suppressWarnings(tune::tune_grid(
+    wf,
+    resamples = folds,
+    grid = expand.grid(enum = c(5L, 8L), vif = c(5, 10), KEEP.OUT.ATTRS = FALSE),
+    metrics = yardstick::metric_set(yardstick::rmse)
+  )))
+  metrics <- tune::collect_metrics(tuned)
+
+  expect_true(all(c("enum", "vif") %in% names(metrics)))
+  expect_true(all(is.finite(metrics$mean)))
+})
+
+test_that("spmoran RESF supporte tune_grid() sur enum", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("parsnip")
+  skip_if_not_installed("spmoran")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("yardstick")
+
+  set.seed(42)
+  dat <- load_columbus_crime_for_tests()
+  spec <- spmoran_resf_reg(coords = c("X", "Y"), enum = tune::tune()) |>
+    parsnip::set_engine("spmoran") |>
+    parsnip::set_mode("regression")
+  wf <- workflows::workflow() |>
+    workflows::add_formula(CRIME ~ HOVAL + INC + X + Y) |>
+    workflows::add_model(spec)
+  folds <- rsample::mc_cv(dat, prop = 0.9, times = 2)
+
+  tuned <- suppressMessages(suppressWarnings(tune::tune_grid(
+    wf,
+    resamples = folds,
+    grid = data.frame(enum = c(5L, 8L)),
+    metrics = yardstick::metric_set(yardstick::rmse)
+  )))
+  metrics <- tune::collect_metrics(tuned)
+
+  expect_true("enum" %in% names(metrics))
+  expect_true(all(is.finite(metrics$mean)))
+})
+
+test_that("benchmark_spatial tune spmoran ESF et RESF", {
+  skip_if_not_installed("spmoran")
+  skip_if_not_installed("rsample")
+  skip_if_not_installed("tune")
+  skip_if_not_installed("yardstick")
+
+  set.seed(42)
+  dat <- load_columbus_crime_for_tests()
+  tuning_resamples <- rsample::mc_cv(dat, prop = 0.9, times = 2)
+  bench <- suppressMessages(suppressWarnings(benchmark_spatial(
+    CRIME ~ HOVAL + INC,
+    data = dat,
+    coords = c("X", "Y"),
+    estimators = c("spmoran_esf", "spmoran_resf"),
+    tune = TRUE,
+    resamples = tuning_resamples,
+    tuning_grids = list(
+      spmoran_esf = expand.grid(enum = c(5L, 8L), vif = c(5, 10), KEEP.OUT.ATTRS = FALSE),
+      spmoran_resf = data.frame(enum = c(5L, 8L))
+    )
+  )))
+
+  expect_equal(names(bench$tuning), c("spmoran_esf", "spmoran_resf"))
+  expect_null(bench$tuning$spmoran_esf$error)
+  expect_null(bench$tuning$spmoran_resf$error)
+  expect_true(all(is.finite(bench$results$rmse)))
+  expect_length(bench$tuning$spmoran_esf$params$spmoran_enum, 1L)
+  expect_length(bench$tuning$spmoran_resf$params$spmoran_enum, 1L)
+  expect_length(bench$tuning$spmoran_esf$params$spmoran_vif, 1L)
+  expect_true(is.finite(as.numeric(bench$tuning$spmoran_esf$params$spmoran_enum)))
+  expect_true(is.finite(as.numeric(bench$tuning$spmoran_resf$params$spmoran_enum)))
+  expect_true(is.finite(as.numeric(bench$tuning$spmoran_esf$params$spmoran_vif)))
+})
+
+test_that("spmoran valide les arguments utilisateur", {
+  skip_if_not_installed("spmoran")
+
+  dat <- load_columbus_crime_for_tests()[1:30, , drop = FALSE]
+  expect_error(
+    spmoran_fit_impl(CRIME ~ HOVAL + INC, dat, coords = c("X", "Y"), model_type = "bad"),
+    "`model_type` must be 'ESF' or 'RESF'",
+    fixed = TRUE
+  )
+  expect_error(
+    spmoran_fit_impl(CRIME ~ HOVAL + INC, dat, coords = c("X", "Y"), enum = 0),
+    "`enum` must be a positive integer or NULL",
+    fixed = TRUE
+  )
+  expect_error(
+    spmoran_fit_impl(CRIME ~ HOVAL + INC, dat, coords = c("X", "Y"), vif = 0),
+    "`vif` must be a positive finite number",
+    fixed = TRUE
+  )
+})
+
 test_that("benchmark_spatial_datasets combine columbus_crime et london_hp", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("parsnip")

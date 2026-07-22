@@ -50,7 +50,7 @@ spatial_benchmark_registry <- function() {
     row("mgwrsar_mgwrsar", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_1_0_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel", "bandwidth", "MGWRSAR autocorrele via mgwrsar_reg(Model='MGWRSAR_1_0_kv'); benchmark kernel fixed to gauss."),
     row("MGWRSAR_0_kc_kv", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_0_kc_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel/fixed_vars", "bandwidth, k_neighbors, fixed_vars", "MGWRSAR mixte: lambda constant, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."),
     row("MGWRSAR_1_kc_kv", "mgwrsar", "mgwrsar::MGWRSAR(MGWRSAR_1_kc_kv)", TRUE, TRUE, "coords/W/bandwidth/kernel/fixed_vars", "bandwidth, k_neighbors, fixed_vars", "MGWRSAR mixte: lambda local, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."),
-    row("spmoran_esf", "spmoran", "spmoran::esf", TRUE, FALSE, "coords", "enum", "Eigenvector spatial filtering via spmoran::esf()."),
+    row("spmoran_esf", "spmoran", "spmoran::esf", TRUE, FALSE, "coords", "enum, vif", "Eigenvector spatial filtering via spmoran::esf()."),
     row("spmoran_resf", "spmoran", "spmoran::resf", TRUE, FALSE, "coords", "enum", "Random-effects eigenvector spatial filtering via spmoran::resf().")
   ))
 }
@@ -165,6 +165,8 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         mgwrsar_bandwidth = 20,
                                         mgwrsar_kernel = "gauss",
                                         mgwrsar_fixed_vars = NULL,
+                                        spmoran_enum = NULL,
+                                        spmoran_vif = 10,
                                         mgwrsar_control = list()) {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
@@ -359,7 +361,7 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     },
     spmoran_esf = {
       require_package("workflows", "benchmark SpMoran ESF")
-      spec <- spmoran_esf_reg(coords = coords, vif = 10) |>
+      spec <- spmoran_esf_reg(coords = coords, vif = spmoran_vif, enum = spmoran_enum) |>
         parsnip::set_engine("spmoran") |>
         parsnip::set_mode("regression")
       make_benchmark_workflow(spec, formula, coords, data) |>
@@ -367,7 +369,7 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     },
     spmoran_resf = {
       require_package("workflows", "benchmark SpMoran RESF")
-      spec <- spmoran_resf_reg(coords = coords) |>
+      spec <- spmoran_resf_reg(coords = coords, enum = spmoran_enum) |>
         parsnip::set_engine("spmoran") |>
         parsnip::set_mode("regression")
       make_benchmark_workflow(spec, formula, coords, data) |>
@@ -394,6 +396,7 @@ default_benchmark_grid <- function(estimator, data) {
   mgwrsar_h <- unique(pmin(if (n > 1500L) c(20L) else c(20L, 40L), max(3L, n - 1L)))
   mgwrsar_kernel <- "gauss"
   mgwrsar_k <- unique(pmin(if (n > 1500L) c(8L) else c(4L, 8L, 12L), max(2L, n - 1L)))
+  spmoran_enum_grid <- unique(pmin(if (n > 1500L) c(50L, 100L) else c(5L, 10L, 20L), max(2L, n - 1L)))
   switch(estimator,
     sar_lag = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
     sem_error = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
@@ -426,6 +429,12 @@ default_benchmark_grid <- function(estimator, data) {
       k_neighbors = mgwrsar_k,
       KEEP.OUT.ATTRS = FALSE
     ),
+    spmoran_esf = expand.grid(
+      enum = spmoran_enum_grid,
+      vif = c(5, 10),
+      KEEP.OUT.ATTRS = FALSE
+    ),
+    spmoran_resf = data.frame(enum = spmoran_enum_grid),
     NULL
   )
 }
@@ -660,7 +669,9 @@ tune_gamboost_benchmark <- function(estimator, formula, coords, resamples, grid,
       gamboost_nu = gamboost_nu,
       mgwrsar_bandwidth = 20L,
       mgwrsar_kernel = "gauss",
-      mgwrsar_fixed_vars = NULL
+      mgwrsar_fixed_vars = NULL,
+      spmoran_enum = NULL,
+      spmoran_vif = 10
     )
     fold_rows <- lapply(seq_len(nrow(resamples)), function(j) {
       fold_id <- if ("id" %in% names(resamples)) as.character(resamples$id[[j]]) else paste0("Fold", j)
@@ -698,6 +709,82 @@ tune_gamboost_benchmark <- function(estimator, formula, coords, resamples, grid,
     best = best,
     tune_result = NULL,
     params = list(gamboost_mstop = as.integer(best$mstop[[1]]))
+  )
+}
+
+tune_spmoran_benchmark <- function(estimator, formula, data, coords, resamples,
+                                   grid, verbose = FALSE) {
+  # ESF/RESF supportent tune_grid() via leurs specs parsnip, mais le benchmark
+  # utilise une boucle tolerante: spmoran::esf() peut echouer sur certains
+  # petits folds quand la base de vecteurs propres est trop courte.
+  if (!"enum" %in% names(grid)) grid$enum <- 20L
+  grid$enum <- as.integer(grid$enum)
+  if (identical(estimator, "spmoran_esf")) {
+    if (!"vif" %in% names(grid)) grid$vif <- 10
+    grid$vif <- as.numeric(grid$vif)
+  } else {
+    grid$vif <- 10
+  }
+  rows <- lapply(seq_len(nrow(grid)), function(i) {
+    benchmark_log(
+      verbose, "[tuning] %s candidat %d/%d: enum=%s vif=%s",
+      estimator, i, nrow(grid), grid$enum[[i]], grid$vif[[i]]
+    )
+    params <- list(
+      k_neighbors = 8L,
+      style = "W",
+      zero_policy = TRUE,
+      spboost_mstop = 100L,
+      spboost_nu = 0.1,
+      gamboost_mstop = 100L,
+      gamboost_nu = 0.1,
+      mgwrsar_bandwidth = 20L,
+      mgwrsar_kernel = "gauss",
+      mgwrsar_fixed_vars = NULL,
+      spmoran_enum = grid$enum[[i]],
+      spmoran_vif = grid$vif[[i]]
+    )
+    fold_rows <- lapply(seq_len(nrow(resamples)), function(j) {
+      fold_id <- if ("id" %in% names(resamples)) as.character(resamples$id[[j]]) else paste0("Fold", j)
+      score_benchmark_fold(
+        estimator = estimator,
+        fold_id = fold_id,
+        split = resamples$splits[[j]],
+        formula = formula,
+        coords = coords,
+        params = params
+      )
+    })
+    fold_rows <- do.call(rbind, fold_rows)
+    ok <- is.na(fold_rows$fit_error) & is.finite(fold_rows$rmse) & is.finite(fold_rows$mae)
+    data.frame(
+      enum = grid$enum[[i]],
+      vif = if (identical(estimator, "spmoran_esf")) grid$vif[[i]] else NA_real_,
+      rmse = if (any(ok)) mean(fold_rows$rmse[ok]) else NA_real_,
+      mae = if (any(ok)) mean(fold_rows$mae[ok]) else NA_real_,
+      n_rmse = sum(ok),
+      n_mae = sum(ok),
+      n_ok = sum(ok),
+      n_failed = sum(!is.na(fold_rows$fit_error)),
+      fit_error = paste(unique(stats::na.omit(fold_rows$fit_error)), collapse = " | "),
+      stringsAsFactors = FALSE
+    )
+  })
+  grid_out <- do.call(rbind, rows)
+  grid_out$fit_error[grid_out$fit_error == ""] <- NA_character_
+  grid_out <- grid_out[order(grid_out$rmse), , drop = FALSE]
+  if (!any(is.finite(grid_out$rmse))) {
+    stop("All SpMoran tuning candidates failed.", call. = FALSE)
+  }
+  best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
+  list(
+    grid = grid_out,
+    best = best,
+    tune_result = NULL,
+    params = list(
+      spmoran_enum = as.integer(best$enum[[1]]),
+      spmoran_vif = if (identical(estimator, "spmoran_esf")) as.numeric(best$vif[[1]]) else 10
+    )
   )
 }
 
@@ -870,6 +957,8 @@ tune_one_benchmark_estimator <- function(estimator, formula, data, coords, resam
       mgwrsar_mgwrsar = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
       MGWRSAR_0_kc_kv = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
       MGWRSAR_1_kc_kv = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
+      spmoran_esf = tune_spmoran_benchmark(estimator, formula, data, coords, resamples, grid, verbose),
+      spmoran_resf = tune_spmoran_benchmark(estimator, formula, data, coords, resamples, grid, verbose),
       NULL
     )
   }, error = function(e) list(error = conditionMessage(e)))
@@ -1282,6 +1371,8 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mgwrsar_bandwidth = params$mgwrsar_bandwidth,
       mgwrsar_kernel = params$mgwrsar_kernel,
       mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
+      spmoran_enum = params$spmoran_enum,
+      spmoran_vif = params$spmoran_vif,
       mgwrsar_control = mgwrsar_control
     ),
     error = function(e) e
@@ -1441,6 +1532,8 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
         mgwrsar_bandwidth = params$mgwrsar_bandwidth,
         mgwrsar_kernel = params$mgwrsar_kernel,
         mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
+        spmoran_enum = params$spmoran_enum,
+        spmoran_vif = params$spmoran_vif,
         mgwrsar_control = list()
       ),
       error = function(e) e
@@ -1530,6 +1623,9 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param mgwrsar_kernel Spatial kernel for `mgwrsar` variants.
 #' @param mgwrsar_fixed_vars Character vector of stationary coefficients for
 #'   mixed MGWRSAR models.
+#' @param spmoran_enum Optional number of Moran eigenvectors for SpMoran ESF
+#'   and RE-ESF.
+#' @param spmoran_vif VIF threshold for SpMoran ESF.
 #' @param tune If `TRUE`, run `tune::tune_grid()` before the final fit for
 #'   estimators with a supported tuning route.
 #' @param resamples `rsample` object used for tuning. If `NULL` and
@@ -1565,6 +1661,7 @@ benchmark_spatial <- function(formula, data, coords,
                               gamboost_mstop = 100L, gamboost_nu = 0.1,
                               mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
                               mgwrsar_fixed_vars = NULL,
+                              spmoran_enum = NULL, spmoran_vif = 10,
                               tune = FALSE, resamples = NULL, tuning_grids = NULL,
                               tuning_folds = 3L,
                               cv_scheme = c(
@@ -1595,7 +1692,9 @@ benchmark_spatial <- function(formula, data, coords,
     gamboost_nu = gamboost_nu,
     mgwrsar_bandwidth = mgwrsar_bandwidth,
     mgwrsar_kernel = mgwrsar_kernel,
-    mgwrsar_fixed_vars = mgwrsar_fixed_vars
+    mgwrsar_fixed_vars = mgwrsar_fixed_vars,
+    spmoran_enum = spmoran_enum,
+    spmoran_vif = spmoran_vif
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -1660,7 +1759,9 @@ benchmark_spatial <- function(formula, data, coords,
           gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
           mgwrsar_bandwidth = params$mgwrsar_bandwidth,
           mgwrsar_kernel = params$mgwrsar_kernel,
-          mgwrsar_fixed_vars = params$mgwrsar_fixed_vars
+          mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
+          spmoran_enum = params$spmoran_enum,
+          spmoran_vif = params$spmoran_vif
         ),
         error = function(e) e
       )
@@ -1719,7 +1820,9 @@ benchmark_spatial <- function(formula, data, coords,
       gamboost_nu = gamboost_nu,
       mgwrsar_bandwidth = mgwrsar_bandwidth,
       mgwrsar_kernel = mgwrsar_kernel,
-      mgwrsar_fixed_vars = mgwrsar_fixed_vars
+      mgwrsar_fixed_vars = mgwrsar_fixed_vars,
+      spmoran_enum = spmoran_enum,
+      spmoran_vif = spmoran_vif
     ),
     class = "spatial_benchmark"
   )
@@ -1805,6 +1908,7 @@ benchmark_spatial_datasets <- function(datasets,
                                        gamboost_mstop = 100L, gamboost_nu = 0.1,
                                        mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
                                        mgwrsar_fixed_vars = NULL,
+                                       spmoran_enum = NULL, spmoran_vif = 10,
                                        tune = FALSE, resamples = NULL, tuning_grids = NULL,
                                        tuning_folds = 3L,
                                        cv_scheme = c(
@@ -1842,6 +1946,8 @@ benchmark_spatial_datasets <- function(datasets,
       mgwrsar_bandwidth = mgwrsar_bandwidth,
       mgwrsar_kernel = mgwrsar_kernel,
       mgwrsar_fixed_vars = mgwrsar_fixed_vars,
+      spmoran_enum = spmoran_enum,
+      spmoran_vif = spmoran_vif,
       tune = tune,
       resamples = if (is.null(resamples)) NULL else resamples[[spec$name]],
       tuning_grids = tuning_grids,

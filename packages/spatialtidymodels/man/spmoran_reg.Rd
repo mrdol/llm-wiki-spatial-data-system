@@ -22,12 +22,20 @@ spmoran_reg(
 
 \item{vif}{Variance inflation threshold passed to \code{spmoran::esf()}.}
 
-\item{enum}{Optional number of Moran eigenvectors for \code{spmoran::meigen_f()}.}
+\item{enum}{Optional number of Moran eigenvectors for \code{spmoran::meigen_f()}.
+When \code{NULL}, the wrapper uses \code{spmoran::meigen()} on small datasets and
+\code{spmoran::meigen_f()} on larger datasets.}
 }
 \value{
 A \code{parsnip} model specification.
 }
 \description{
-Creates an experimental \code{parsnip} model specification for eigenvector
-spatial filtering models fitted by \code{spmoran}.
+Creates a \code{parsnip} model specification for eigenvector spatial filtering
+models fitted by \code{spmoran}.
+}
+\details{
+ESF can fail on very small training folds when the spatial eigenvector basis
+is too short for \code{spmoran::esf()}. Prefer resampling schemes with enough
+training observations, or use the automatic benchmark route which records
+failed folds instead of stopping the whole benchmark.
 }

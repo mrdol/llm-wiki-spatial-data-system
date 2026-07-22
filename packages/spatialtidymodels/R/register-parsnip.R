@@ -233,8 +233,8 @@ register_spmoran_reg <- function() {
       parsnip = arg,
       original = arg,
       func = switch(arg,
-        enum = list(pkg = "dials", fun = "unknown"),
-        vif = list(pkg = "dials", fun = "unknown"),
+        enum = list(pkg = "spatialtidymodels", fun = "spmoran_enum"),
+        vif = list(pkg = "spatialtidymodels", fun = "spmoran_vif"),
         list(pkg = "dials", fun = "unknown")
       ),
       has_submodel = FALSE

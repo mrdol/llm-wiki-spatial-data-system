@@ -77,3 +77,42 @@ k_neighbors <- function(range = c(3L, 30L), trans = NULL) {
     label = c(k_neighbors = "Nombre de voisins kNN")
   )
 }
+
+#' dials parameter for the number of Moran eigenvectors
+#'
+#' Number of Moran eigenvectors used by `spmoran::meigen_f()`. Small values
+#' keep tuning fast; larger values allow richer spatial filtering bases.
+#'
+#' @param range Integer bounds for the number of eigenvectors.
+#' @param trans Optional transformation.
+#'
+#' @return A `dials` parameter.
+#' @export
+spmoran_enum <- function(range = c(5L, 200L), trans = NULL) {
+  dials::new_quant_param(
+    type = "integer",
+    range = range,
+    inclusive = c(TRUE, TRUE),
+    trans = trans,
+    label = c(enum = "Number of Moran eigenvectors")
+  )
+}
+
+#' dials parameter for the ESF VIF threshold
+#'
+#' Variance inflation threshold passed to `spmoran::esf()`.
+#'
+#' @param range Numeric bounds for the VIF threshold.
+#' @param trans Optional transformation.
+#'
+#' @return A `dials` parameter.
+#' @export
+spmoran_vif <- function(range = c(5, 20), trans = NULL) {
+  dials::new_quant_param(
+    type = "double",
+    range = range,
+    inclusive = c(TRUE, TRUE),
+    trans = trans,
+    label = c(vif = "ESF VIF threshold")
+  )
+}
