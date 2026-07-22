@@ -66,9 +66,9 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: CRIME ~ HOVAL + INC
+- x_terms_used: HOVAL + INC
+- y_term_used: CRIME
 
 ## Bloc 2 — Identification et DOI
 

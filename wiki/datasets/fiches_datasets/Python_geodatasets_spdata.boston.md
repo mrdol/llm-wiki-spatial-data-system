@@ -58,24 +58,24 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
+- x_terms_pub: CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
+- y_term_pub: log(CMEDV)
+- Reference publication: Liu-type pretest and shrinkage estimation for the conditional autoregressive model, Table 1, Boston housing full model; dataset originally Harrison & Rubinfeld (1978).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: article
+- Methode d'estimation: conditional autoregressive model / full linear predictor
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule identifiee par revue ciblee d'article. Le papier note la variable crime comme CRIME ; la fiche locale utilise le nom de colonne `CRIM`.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
+- x_terms_used: CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
+- y_term_used: log(CMEDV)
 
 ## Bloc 2 — Identification et DOI
 
@@ -96,13 +96,13 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B"
+  equation_family: transformed_linear
+  model_family: "conditional autoregressive model"
+  source_type: scientific_article
+  source_ref: "Liu-type pretest and shrinkage estimation for the conditional autoregressive model, Table 1, Boston housing full model; dataset originally Harrison & Rubinfeld (1978)."
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -139,7 +139,7 @@ modeling_evidence:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: OK - formule publication renseignee par revue ciblee d'article.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4267).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
