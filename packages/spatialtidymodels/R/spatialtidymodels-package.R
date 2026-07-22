@@ -1,4 +1,4 @@
-#' spatialtidymodels
+#' Spatialtidymodels
 #'
 #' Tidymodels extension for spatial regression benchmarks.
 #'
@@ -73,7 +73,7 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' spatialtidymodels package overview
+#' Spatialtidymodels package overview
 #'
 #' Opens the package overview for `spatialtidymodels`.
 #'

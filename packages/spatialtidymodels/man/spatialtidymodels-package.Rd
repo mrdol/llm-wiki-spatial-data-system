@@ -3,7 +3,7 @@
 \docType{package}
 \name{spatialtidymodels-package}
 \alias{spatialtidymodels-package}
-\title{spatialtidymodels}
+\title{Spatialtidymodels}
 \description{
 Tidymodels extension for spatial regression benchmarks.
 }

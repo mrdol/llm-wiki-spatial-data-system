@@ -2,7 +2,7 @@
 % Please edit documentation in R/spatialtidymodels-package.R
 \name{spatialtidymodels}
 \alias{spatialtidymodels}
-\title{spatialtidymodels package overview}
+\title{Spatialtidymodels package overview}
 \usage{
 spatialtidymodels()
 }
