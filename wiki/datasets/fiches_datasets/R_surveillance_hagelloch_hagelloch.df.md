@@ -145,9 +145,10 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20% : DEAD (NA=93.6%), TD (NA=58%), TM (NA=58%), tDEAD (NA=93.6%).
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch.
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 
 - Source: package R `surveillance`
+- Duplicate/version candidate: [[R_surveillance_hagelloch_hagelloch]]

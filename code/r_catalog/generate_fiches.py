@@ -473,6 +473,7 @@ def make_fiche(
     data_type = b4.get("data_type", "spatial")
     structure = b4.get("structure", "coupe_transversale")
     t_var = b4.get("T_var") or "none"
+    temporal_note = b4.get("temporal_note") or "none"
 
     geom_type = b5.get("geom_type") or ""
     gt_up = geom_type.upper()
@@ -485,7 +486,10 @@ def make_fiche(
     else:
         spatial_res = f"spatial feature ({geom_type})" if geom_type else "unknown"
 
-    if T == 1:
+    if structure == "transactions_datees":
+        temporal_res = "transaction dates; not a balanced panel"
+        time_range_str = "pending inspection"
+    elif T == 1:
         temporal_res = "not applicable (cross-sectional dataset)"
         time_range_str = "not applicable (cross-sectional dataset)"
     else:
@@ -540,6 +544,8 @@ def make_fiche(
     high_na = qc_items(qc.get("vars_high_na"))
     duplicate_of = entry.get("duplicate_of")
     duplicate_status = entry.get("status")
+    duplicate_notes = qc_items(entry.get("duplicate_notes"))
+    related_duplicate_pages = qc_items(entry.get("related_duplicate_pages"))
 
     schema_status = "OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`."
 
@@ -577,10 +583,14 @@ def make_fiche(
     else:
         missing_status = "OK - aucune variable avec NA > 20% detectee."
 
-    if duplicate_of:
+    if duplicate_notes:
+        duplicates_status = "WARN - " + " | ".join(duplicate_notes)
+    elif duplicate_of:
         duplicates_status = f"WARN - fiche marquee comme doublon de `{duplicate_of}`."
     elif duplicate_status and str(duplicate_status).startswith("duplicate"):
         duplicates_status = f"WARN - statut doublon dans le catalogue : {duplicate_status}."
+    elif duplicate_status == "suspect_version":
+        duplicates_status = "WARN - version suspecte d'un groupe de datasets ; revue manuelle requise."
     else:
         duplicates_status = "OK - aucun doublon exact retenu pour cette fiche."
 
@@ -599,6 +609,11 @@ def make_fiche(
         f"- Duplicates: {duplicates_status}",
         f"- Reproducibility: {reproducibility_status}",
     ])
+
+    related_lines = [f"- Source: {source_label}"]
+    for page in related_duplicate_pages:
+        related_lines.append(f"- Duplicate/version candidate: [[{page}]]")
+    related_block = "\n".join(related_lines)
 
     if pub_formula != "pending":
         used_formula = pub_formula
@@ -704,6 +719,7 @@ modeling_evidence:
 - T periods: {T}
 - Variable temporelle: {t_var}
 - N/T profile: {profil_nt}
+- Temporal note: {temporal_note}
 
 ## Bloc 5 — Resolution et etendue
 
@@ -732,7 +748,7 @@ modeling_evidence:
 
 ## Related Pages
 
-- Source: {source_label}
+{related_block}
 """
 
 
@@ -743,6 +759,51 @@ def should_keep(entry: dict[str, Any]) -> bool:
     if did in CONFIRMED_KEEP:
         return True
     return entry.get("status") in ("ok", None, "")
+
+
+def annotate_duplicate_groups(data: dict[str, Any]) -> None:
+    """Ajoute aux entrees les groupes de doublons exacts et versions suspectes.
+
+    Ces annotations evitent que l'information reste seulement dans le JSON global :
+    les fiches generees portent aussi les liens vers les jeux equivalents ou a
+    verifier.
+    """
+    by_id = {entry["dataset_id"]: entry for entry in data.get("datasets", [])}
+
+    def add_note(dataset_id: str, note: str) -> None:
+        entry = by_id.get(dataset_id)
+        if not entry:
+            return
+        entry.setdefault("duplicate_notes", [])
+        if note not in entry["duplicate_notes"]:
+            entry["duplicate_notes"].append(note)
+
+    def add_related(dataset_id: str, related_id: str) -> None:
+        entry = by_id.get(dataset_id)
+        if not entry:
+            return
+        entry.setdefault("related_duplicate_pages", [])
+        if related_id != dataset_id and related_id not in entry["related_duplicate_pages"]:
+            entry["related_duplicate_pages"].append(related_id)
+
+    for group in data.get("exact_duplicate_groups", []):
+        retained = group.get("retained_id")
+        duplicates = [item.get("dataset_id") for item in group.get("duplicates", []) if item.get("dataset_id")]
+        if retained and duplicates:
+            add_note(retained, "doublon exact detecte et version retenue; doublons ecartes: " + ", ".join(duplicates))
+            for dup in duplicates:
+                add_related(retained, dup)
+
+    for group in data.get("suspect_versions", []):
+        versions = [item.get("dataset_id") for item in group.get("versions", []) if item.get("dataset_id")]
+        if len(versions) < 2:
+            continue
+        label = group.get("dataset_name_norm") or "unknown"
+        for did in versions:
+            others = [item for item in versions if item != did]
+            add_note(did, f"groupe de versions suspectes `{label}`; autres versions: {', '.join(others)}")
+            for other in others:
+                add_related(did, other)
 
 
 def parse_args() -> argparse.Namespace:
@@ -762,6 +823,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     data = load_json(args.json_in)
+    annotate_duplicate_groups(data)
     args.wiki_out.mkdir(parents=True, exist_ok=True)
 
     try:

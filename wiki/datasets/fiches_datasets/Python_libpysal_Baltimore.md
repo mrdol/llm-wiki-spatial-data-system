@@ -138,9 +138,10 @@ modeling_evidence:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: WARN - doublon exact detecte et version retenue; doublons ecartes: Python_libpysal_baltim.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 
 - Source: package Python `libpysal`
+- Duplicate/version candidate: [[Python_libpysal_baltim]]

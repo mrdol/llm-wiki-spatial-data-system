@@ -109,6 +109,7 @@ modeling_evidence:
 - T periods: 372
 - Variable temporelle: date
 - N/T profile: N_grand_T_grand
+- Temporal note: dates presentes mais identifiant de ligne quasi unique; base de transactions datees, pas panel
 
 ## Bloc 5 — Resolution et etendue
 

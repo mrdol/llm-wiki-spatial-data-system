@@ -132,9 +132,12 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 
 - Source: package R `gstat`
+- Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
+- Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
+- Duplicate/version candidate: [[R_gstat_jura_validation.dat]]
