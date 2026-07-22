@@ -65,6 +65,18 @@ The object loaded is a ‘sf’ object containing a world map data from Natural 
 - x_terms_used: area_km2 + continent + region_un + subregion + type
 - y_term_used: lifeExp
 
+
+### Formules candidates — niveau systeme
+
+- formula_candidate_1: lifeExp ~ area_km2 + continent + region_un + subregion + type
+- formula_candidate_1_role: recommended_default
+- formula_candidate_2: lifeExp ~ area_km2 + continent + region_un + subregion
+- formula_candidate_2_role: alternative_specification
+- recommended_formula: formula_candidate_1
+- selection_status: generated_system_formula
+- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
+- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spData_world_world`

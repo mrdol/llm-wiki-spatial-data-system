@@ -22,6 +22,9 @@ class Proposal:
     formula_used: str
     y_term_used: str
     x_terms_used: str
+    formula_candidate_1: str
+    formula_candidate_2: str
+    recommended_candidate: str
     source: str
     reason: str
 
@@ -48,6 +51,80 @@ def split_formula(formula: str) -> tuple[str, str]:
         return "", ""
     y_term, x_terms = formula.split("~", 1)
     return y_term.strip().strip("`"), x_terms.strip().strip("`")
+
+
+def split_x_terms(x_terms: str) -> list[str]:
+    return [term.strip() for term in x_terms.split("+") if term.strip()]
+
+
+def join_formula(y_term: str, x_terms: list[str]) -> str:
+    return f"{y_term} ~ {' + '.join(x_terms)}" if y_term and x_terms else ""
+
+
+def build_formula_candidates(formula_used: str, y_term: str, x_terms: str, x_candidates: list[str]) -> tuple[str, str, str, str]:
+    """Construit deux formules systeme candidates pour une fiche sans formule publiee.
+
+    La premiere formule reste la formule par defaut deja utilisee par le benchmark.
+    La seconde donne une variante parcimonieuse ou etendue selon le nombre de
+    variables deja retenues.
+    """
+    primary_terms = split_x_terms(x_terms)
+    candidate_pool = [term for term in x_candidates if term not in primary_terms]
+
+    if len(primary_terms) >= 5:
+        secondary_terms = primary_terms[:4]
+        reason = (
+            "candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; "
+            "candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme."
+        )
+    elif candidate_pool:
+        secondary_terms = (primary_terms + candidate_pool)[:8]
+        reason = (
+            "candidate_1 est prioritaire car elle reste parcimonieuse; "
+            "candidate_2 ajoute davantage de covariables candidates pour les estimateurs avec selection implicite."
+        )
+    else:
+        secondary_terms = primary_terms
+        reason = (
+            "une seule specification distincte est disponible avec les variables candidates actuelles; "
+            "candidate_2 repete candidate_1 en attendant une revue manuelle."
+        )
+
+    candidate_1 = formula_used
+    candidate_2 = join_formula(y_term, secondary_terms)
+    return candidate_1, candidate_2, "formula_candidate_1", reason
+
+
+def candidate_block(candidate_1: str, candidate_2: str, recommended: str, reason: str) -> str:
+    return "\n".join([
+        "",
+        "### Formules candidates — niveau systeme",
+        "",
+        f"- formula_candidate_1: {candidate_1}",
+        "- formula_candidate_1_role: recommended_default",
+        f"- formula_candidate_2: {candidate_2}",
+        "- formula_candidate_2_role: alternative_specification",
+        f"- recommended_formula: {recommended}",
+        "- selection_status: generated_system_formula",
+        f"- selection_reason: {reason}",
+        "- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.",
+    ])
+
+
+def upsert_candidate_block(text: str, block: str) -> str:
+    pattern = (
+        r"(?ms)^### Formules candidates — niveau systeme\n\n"
+        r".*?"
+        r"(?=^## Bloc 2|^### |\Z)"
+    )
+    if re.search(pattern, text):
+        return re.sub(pattern, block + "\n\n", text)
+    marker = r"(?m)^-\s*y_term_used\s*:.*$"
+    match = re.search(marker, text)
+    if not match:
+        return text
+    insert_at = match.end()
+    return text[:insert_at] + "\n" + block + text[insert_at:]
 
 
 def executable_public_formula(formula_pub: str) -> tuple[str, str, str] | None:
@@ -90,26 +167,50 @@ def propose_for_fiche(path: Path, apply: bool) -> Proposal:
     current_used = field_value(text, "formula_used")
 
     if path.name.startswith("R_ade4_"):
-        return Proposal(dataset_id, rel_path, "skipped", "", "", "", "none", "ade4 exclu de la passe benchmark spatial")
-    if not is_pending(current_used):
-        return Proposal(dataset_id, rel_path, "skipped", current_used, field_value(text, "y_term_used"), field_value(text, "x_terms_used"), "existing_formula_used", "formula_used deja renseignee")
+        return Proposal(dataset_id, rel_path, "skipped", "", "", "", "", "", "", "none", "ade4 exclu de la passe benchmark spatial")
 
     formula_pub = field_value(text, "formula_pub")
+    x_candidates = backtick_values(text, "Candidate X variables")
+
+    if not is_pending(current_used) and is_pending(formula_pub):
+        formula = current_used
+        y_term = field_value(text, "y_term_used")
+        x_terms = field_value(text, "x_terms_used")
+        candidate_1, candidate_2, recommended, candidate_reason = build_formula_candidates(formula, y_term, x_terms, x_candidates)
+        if apply:
+            updated = upsert_candidate_block(text, candidate_block(candidate_1, candidate_2, recommended, candidate_reason))
+            path.write_text(updated, encoding="utf-8", newline="\n")
+        return Proposal(
+            dataset_id, rel_path, "updated", formula, y_term, x_terms,
+            candidate_1, candidate_2, recommended,
+            "generated_formula_candidates",
+            "formula_used existante completee par deux formules candidates",
+        )
+
+    if not is_pending(current_used):
+        return Proposal(
+            dataset_id, rel_path, "skipped", current_used,
+            field_value(text, "y_term_used"), field_value(text, "x_terms_used"),
+            "", "", "", "existing_published_or_manual_formula",
+            "formula_used deja renseignee depuis une source publiee ou une revue manuelle",
+        )
+
     public = executable_public_formula(formula_pub)
     if public:
         formula, y_term, x_terms = public
         source = "published_formula_reused"
         reason = "formula_pub executable reprise dans formula_used"
+        candidate_1 = candidate_2 = recommended = ""
     else:
         y_candidates = backtick_values(text, "Candidate Y variables")
-        x_candidates = backtick_values(text, "Candidate X variables")
         if not y_candidates or not x_candidates:
-            return Proposal(dataset_id, rel_path, "skipped", "", "", "", "none", "candidats Y/X insuffisants")
+            return Proposal(dataset_id, rel_path, "skipped", "", "", "", "", "", "", "none", "candidats Y/X insuffisants")
         y_term = y_candidates[0]
         x_terms = " + ".join(x_candidates[:8])
         formula = f"{y_term} ~ {x_terms}"
         source = "generated_from_yx_candidates"
         reason = "formule systeme proposee depuis les candidats Y/X inspectes"
+        candidate_1, candidate_2, recommended, candidate_reason = build_formula_candidates(formula, y_term, x_terms, x_candidates)
 
     if apply:
         updated = replace_line(text, "formula_used", formula)
@@ -120,9 +221,10 @@ def propose_for_fiche(path: Path, apply: bool) -> Proposal:
                 updated,
                 "Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.",
             )
+            updated = upsert_candidate_block(updated, candidate_block(candidate_1, candidate_2, recommended, candidate_reason))
         path.write_text(updated, encoding="utf-8", newline="\n")
 
-    return Proposal(dataset_id, rel_path, "updated", formula, y_term, x_terms, source, reason)
+    return Proposal(dataset_id, rel_path, "updated", formula, y_term, x_terms, candidate_1, candidate_2, recommended, source, reason)
 
 
 def write_manifest(rows: list[Proposal], path: Path) -> None:

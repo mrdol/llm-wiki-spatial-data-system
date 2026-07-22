@@ -99,6 +99,18 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 - x_terms_used: PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
 - y_term_used: YPLL_rate
 
+
+### Formules candidates — niveau systeme
+
+- formula_candidate_1: YPLL_rate ~ PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
+- formula_candidate_1_role: recommended_default
+- formula_candidate_2: YPLL_rate ~ PDENS14 + CarC14P + CTA14P + Undr514P
+- formula_candidate_2_role: alternative_specification
+- recommended_formula: formula_candidate_1
+- selection_status: generated_system_formula
+- selection_reason: candidate_1 conserve la specification systeme actuelle pour comparer les estimateurs; candidate_2 est une variante parcimonieuse utile si colinearite, temps de calcul ou petits folds posent probleme.
+- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_libpysal_chicagoSDOH`

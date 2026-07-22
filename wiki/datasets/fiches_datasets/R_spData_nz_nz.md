@@ -62,6 +62,18 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 - x_terms_used: Land_area + Island
 - y_term_used: Population
 
+
+### Formules candidates — niveau systeme
+
+- formula_candidate_1: Population ~ Land_area + Island
+- formula_candidate_1_role: recommended_default
+- formula_candidate_2: Population ~ Land_area + Island
+- formula_candidate_2_role: alternative_specification
+- recommended_formula: formula_candidate_1
+- selection_status: generated_system_formula
+- selection_reason: une seule specification distincte est disponible avec les variables candidates actuelles; candidate_2 repete candidate_1 en attendant une revue manuelle.
+- preprocessing_note: Les estimateurs comme xgboost, random_forest, gamboost et spboost peuvent reduire l'effet de certaines variables via leur mecanisme d'apprentissage ou de regularisation ; les modeles lineaires/spatiaux parametriques restent plus sensibles au choix explicite de X.
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spData_nz_nz`
