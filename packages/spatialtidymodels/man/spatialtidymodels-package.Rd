@@ -85,6 +85,15 @@ export from all wiki fiches to package registries are planned follow-up
 steps.
 }
 }
+\seealso{
+Useful links:
+\itemize{
+\item \href{https://github.com/mrdol/llm-wiki-spatial-data-system}{Project repository}
+\item \href{https://github.com/mrdol/llm-wiki-spatial-data-system/tree/main/packages/spatialtidymodels}{Spatialtidymodels package source}
+\item \href{https://www.tidymodels.org/learn/develop/models/}{Tidymodels model extension guide}
+\item \href{https://parsnip.tidymodels.org/}{parsnip documentation}
+}
+}
 \author{
 \strong{Maintainer}: Johnny D'OLIVEIRA \email{johnny.d-oliveira@inrae.fr}
 

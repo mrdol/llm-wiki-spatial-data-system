@@ -70,5 +70,13 @@
 #' export from all wiki fiches to package registries are planned follow-up
 #' steps.
 #'
+#' @seealso
+#' Useful links:
+#'
+#' * [Project repository](https://github.com/mrdol/llm-wiki-spatial-data-system)
+#' * [Spatialtidymodels package source](https://github.com/mrdol/llm-wiki-spatial-data-system/tree/main/packages/spatialtidymodels)
+#' * [Tidymodels model extension guide](https://www.tidymodels.org/learn/develop/models/)
+#' * [parsnip documentation](https://parsnip.tidymodels.org/)
+#'
 #' @keywords internal
 "_PACKAGE"
