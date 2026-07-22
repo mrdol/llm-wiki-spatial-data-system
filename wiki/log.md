@@ -11,6 +11,23 @@ tags: [log, wiki, chronology]
 
 Append-only chronological record of all activity: ingests, queries, and lint passes.
 
+## [2026-07-22] tidymodels | spatialtidymodels benchmark package stabilized
+
+Files updated:
+- `packages/spatialtidymodels/`
+
+Commit:
+- `adb3b5a Stabilize spatialtidymodels benchmark package`
+
+Key changes:
+- Added `gamboost = mboost::gamboost()` to the automatic benchmark with `mstop` tuning.
+- Added explicit SpBoost BSPA SAR/SEM routes for ML and CFE.
+- Fixed MGWRSAR benchmark defaults to keep `kernel = "gauss"` and added fold-consistent W handling.
+- Embedded benchmark datasets in the package and added resampling, visualization, spmoran, and package tests.
+
+Verification:
+- `devtools::test("packages/spatialtidymodels")`: 255 passed, 0 failed.
+
 ## [2026-07-20] tidymodels | explicit SAR SEM SDM package specs
 
 Files updated:
