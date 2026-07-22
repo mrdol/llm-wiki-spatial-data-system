@@ -104,7 +104,7 @@ modeling_evidence:
 ## Bloc 4 — Typologie des donnees
 
 - Data type: spatio-temporel
-- Structure: panel
+- Structure: transactions_datees
 - N observations: 21613
 - T periods: 372
 - Variable temporelle: date
@@ -113,9 +113,9 @@ modeling_evidence:
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection
+- Temporal resolution: transaction date (daily sales; 2014-05-02 to 2015-05-27)
 - Spatial extent: x [-122.519, -121.315], y [47.1559, 47.7776] (EPSG:4326)
-- Time range: pending inspection
+- Time range: 2014-05-02 to 2015-05-27
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
@@ -139,7 +139,7 @@ modeling_evidence:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: OK - 21 436 identifiants de vente uniques sur 21 613 lignes; 177 identifiants repetes, structure transactionnelle datee plutot que panel.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages

@@ -129,19 +129,19 @@ modeling_evidence:
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel
+- Data type: spatial
+- Structure: coupe_transversale
 - N observations: 791
-- T periods: 617
-- Variable temporelle: YEARS_LOST
-- N/T profile: N_grand_T_grand
+- T periods: 1
+- Variable temporelle: none
+- N/T profile: N_grand_T_1
 
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection
+- Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-87.8468, -87.5299], y [41.6509, 42.021] (EPSG:4326)
-- Time range: pending inspection
+- Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84

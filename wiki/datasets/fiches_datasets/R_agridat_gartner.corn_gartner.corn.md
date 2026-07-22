@@ -91,19 +91,19 @@ modeling_evidence:
 
 ## Bloc 4 — Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel
+- Data type: spatial
+- Structure: coupe_transversale
 - N observations: 4949
-- T periods: 4949
-- Variable temporelle: time
-- N/T profile: N_grand_T_grand
+- T periods: 1
+- Variable temporelle: none
+- N/T profile: N_grand_T_1
 
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection
+- Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-93.9784, -93.9735], y [43.921, 43.9273] (CRS unknown)
-- Time range: pending inspection
+- Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown

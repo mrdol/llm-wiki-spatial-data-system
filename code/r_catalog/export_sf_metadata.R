@@ -150,6 +150,61 @@ profil_nt <- function(N, T) {
   paste0(n_cat, "_", t_cat)
 }
 
+# -- Detection temporelle prudente --------------------------------------------
+is_temporal_candidate <- function(name, col) {
+  nm <- tolower(name)
+  if (grepl("years?_lost|candidates?_total|pct|percent|rate|score|index|income|price|value", nm))
+    return(FALSE)
+  if (!grepl("(^|[_.])(date|datetime|time|timestamp|year|month|week|day|period|season)([_.]|$)|^date$|^time$|^year$|^yr$|^month$",
+             nm, perl = TRUE))
+    return(FALSE)
+  inherits(col, c("Date", "POSIXt")) || is.character(col) || is.factor(col) || is.integer(col) || is.numeric(col)
+}
+
+infer_time_dimension <- function(df, vars) {
+  candidates <- vars[vapply(vars, function(v) is_temporal_candidate(v, df[[v]]), logical(1))]
+  if (!length(candidates))
+    return(list(T = 1L, T_var = NA_character_, structure = "coupe_transversale",
+                data_type = "spatial", temporal_note = "aucune variable temporelle structurelle detectee"))
+
+  for (candidate in candidates) {
+    values <- df[[candidate]]
+    T_val <- as.integer(length(unique(values[!is.na(values)])))
+    if (T_val <= 1L)
+      next
+
+    id_routes <- vars[vapply(vars, function(v) identical(route_structural(v), "identifier"), logical(1))]
+    row_level_id <- FALSE
+    if (length(id_routes)) {
+      row_level_id <- any(vapply(id_routes, function(id_col) {
+        nm <- tolower(id_col)
+        id <- df[[id_col]]
+        nm %in% c("id", "fid", "gid", "objectid", "no", "num") &&
+          length(unique(id[!is.na(id)])) >= nrow(df) * 0.95
+      }, logical(1)))
+    }
+    if (row_level_id)
+      return(list(T = T_val, T_var = candidate, structure = "transactions_datees",
+                  data_type = "spatio-temporel", temporal_note = "dates presentes mais identifiant de ligne quasi unique; base de transactions datees, pas panel"))
+
+    repeated_unit <- FALSE
+    if (length(id_routes)) {
+      repeated_unit <- any(vapply(id_routes, function(id_col) {
+        id <- df[[id_col]]
+        length(unique(id[!is.na(id)])) < nrow(df) * 0.8 &&
+          max(tabulate(match(id, unique(id)))) >= 2L
+      }, logical(1)))
+    }
+
+    if (repeated_unit || (!length(id_routes) && nrow(df) / T_val >= 2))
+      return(list(T = T_val, T_var = candidate, structure = "panel",
+                  data_type = "spatio-temporel", temporal_note = "dimension temporelle structurelle detectee"))
+  }
+
+  list(T = 1L, T_var = NA_character_, structure = "coupe_transversale",
+       data_type = "spatial", temporal_note = "colonnes date/time presentes mais traitees comme attributs transactionnels")
+}
+
 # -- Inspection complete d'un sf ----------------------------------------------
 inspect_sf <- function(path, catalogue_row) {
   obj <- tryCatch(readRDS(path), error = function(e) {
@@ -179,14 +234,9 @@ inspect_sf <- function(path, catalogue_row) {
   epsg      <- if (!is.na(crs_info$epsg)) as.character(crs_info$epsg) else "NA_pending_lookup"
   crs_name  <- if (!is.null(crs_info$Name)) crs_info$Name else "unknown"
 
-  time_pat <- "year|date|time|month|annee|periode|timestamp|^yr$|^an$"
-  t_vars   <- vars[grepl(time_pat, vars, ignore.case = TRUE)]
-  T_val    <- 1L
-  T_var    <- NA_character_
-  if (length(t_vars) > 0) {
-    T_var <- t_vars[1]
-    T_val <- as.integer(length(unique(df[[T_var]])))
-  }
+  time_info <- infer_time_dimension(df, vars)
+  T_val    <- time_info$T
+  T_var    <- time_info$T_var
 
   variables     <- list()
   coord_columns <- list()
@@ -259,9 +309,10 @@ inspect_sf <- function(path, catalogue_row) {
     bloc3 = list(model_level1 = NULL, model_level2 = NULL, model_level3 = NULL),
     bloc4 = list(
       N = N, T = T_val, T_var = T_var, k = k,
-      data_type = if (T_val > 1) "spatio-temporel" else "spatial",
-      structure  = if (T_val > 1) "panel" else "coupe_transversale",
-      profil_nt  = profil_nt(N, T_val)
+      data_type = time_info$data_type,
+      structure  = time_info$structure,
+      profil_nt  = profil_nt(N, T_val),
+      temporal_note = time_info$temporal_note
     ),
     bloc5 = list(
       geom_type             = geom_type,
