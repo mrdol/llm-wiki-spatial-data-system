@@ -72,3 +72,18 @@
 #'
 #' @keywords internal
 "_PACKAGE"
+
+#' spatialtidymodels package overview
+#'
+#' Opens the package overview for `spatialtidymodels`.
+#'
+#' This help topic summarizes how the package connects the
+#' `llm-wiki-karpathy` metadata workflow to executable spatial regression
+#' benchmarks. It is intentionally exported so that `help(spatialtidymodels)`
+#' and `?spatialtidymodels` resolve to a visible documentation page.
+#'
+#' @return Invisibly returns the package help object.
+#' @export
+spatialtidymodels <- function() {
+  utils::help("spatialtidymodels-package", package = "spatialtidymodels")
+}
