@@ -56,24 +56,24 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: Crime_pers ~ Region + Literacy + Donations + Infants + Suicides; Crime_prop ~ Region + Literacy + Donations + Infants + Suicides
+- x_terms_pub: Region + Literacy + Donations + Infants + Suicides
+- y_term_pub: Crime_pers; Crime_prop
+- Reference publication: Official Guerry package vignette, "Guerry data: Multivariate Analysis", Michael Friendly; Friendly (2007), Statistical Science 22, 368-399.
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: official_software_documentation
+- Methode d'estimation: OLS
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule officielle issue de la vignette du package R `Guerry`; `formula_used` est adaptee aux noms abreges du dataset GeoDa/Python.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Crm_prs ~ Region + Litercy + Donatns + Infants + Suicids
+- x_terms_used: Region + Litercy + Donatns + Infants + Suicids
+- y_term_used: Crm_prs
 
 ## Bloc 2 — Identification et DOI
 
@@ -94,13 +94,13 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "Crime_pers ~ Region + Literacy + Donations + Infants + Suicides; Crime_prop ~ Region + Literacy + Donations + Infants + Suicides"
+  equation_family: linear
+  model_family: "OLS"
+  source_type: official_software_documentation
+  source_ref: "Official Guerry package vignette, 'Guerry data: Multivariate Analysis', Michael Friendly; Friendly (2007), Statistical Science 22, 368-399."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees

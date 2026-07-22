@@ -58,13 +58,12 @@ Dataset spatial issu du package Python `geodatasets` (`nydata`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: TRACTCAS ~ POP8 + PCTOWNHOME + PCTAGE65P + AVGIDIST + PEXPOSURE
+- x_terms_used: POP8 + PCTOWNHOME + PCTAGE65P + AVGIDIST + PEXPOSURE
+- y_term_used: TRACTCAS
 
 ## Bloc 2 — Identification et DOI
 

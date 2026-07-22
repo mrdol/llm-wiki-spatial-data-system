@@ -186,13 +186,12 @@ Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: lfs2__1982 ~ pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992
+- x_terms_used: pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992
+- y_term_used: lfs2__1982
 
 ## Bloc 2 — Identification et DOI
 

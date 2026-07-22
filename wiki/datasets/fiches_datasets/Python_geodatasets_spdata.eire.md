@@ -48,24 +48,24 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: A ~ towns + pale; OWNCONS ~ ROADACC
+- x_terms_pub: towns + pale; ROADACC
+- y_term_pub: A; OWNCONS
+- Reference publication: Official spData::eire examples, Upton and Fingleton (1985), Bailey and Gatrell (1995), Cliff and Ord (1973).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: official_software_documentation
+- Methode d'estimation: OLS + spatial residual diagnostics
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: La documentation officielle `spData::eire` fournit deux exemples de regression ; `A ~ towns + pale` est retenue comme formule systeme principale.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: A ~ towns + pale
+- x_terms_used: towns + pale
+- y_term_used: A
 
 ## Bloc 2 — Identification et DOI
 
@@ -86,13 +86,13 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "A ~ towns + pale; OWNCONS ~ ROADACC"
+  equation_family: linear
+  model_family: "OLS with spatial diagnostics"
+  source_type: official_software_documentation
+  source_ref: "Official spData::eire examples; Upton and Fingleton (1985), Bailey and Gatrell (1995), Cliff and Ord (1973)."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees

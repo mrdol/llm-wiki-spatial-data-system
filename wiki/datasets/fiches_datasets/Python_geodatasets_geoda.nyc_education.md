@@ -81,13 +81,12 @@ Dataset spatial issu du package Python `geodatasets` (`nyc_education`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: YOUTH_DROP ~ PER_MNRTY + PER_ASIAN + PER_WHITE + PER_BLACK + mean_inc + pop1619 + enrollhs + PER_PRV_SC
+- x_terms_used: PER_MNRTY + PER_ASIAN + PER_WHITE + PER_BLACK + mean_inc + pop1619 + enrollhs + PER_PRV_SC
+- y_term_used: YOUTH_DROP
 
 ## Bloc 2 — Identification et DOI
 

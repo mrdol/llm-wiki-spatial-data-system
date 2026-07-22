@@ -76,13 +76,12 @@ Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: I_turnout ~ types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
+- x_terms_used: types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
+- y_term_used: I_turnout
 
 ## Bloc 2 — Identification et DOI
 

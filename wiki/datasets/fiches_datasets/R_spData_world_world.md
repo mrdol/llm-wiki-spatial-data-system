@@ -58,13 +58,12 @@ The object loaded is a ‘sf’ object containing a world map data from Natural 
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: lifeExp ~ area_km2 + continent + region_un + subregion + type
+- x_terms_used: area_km2 + continent + region_un + subregion + type
+- y_term_used: lifeExp
 
 ## Bloc 2 — Identification et DOI
 

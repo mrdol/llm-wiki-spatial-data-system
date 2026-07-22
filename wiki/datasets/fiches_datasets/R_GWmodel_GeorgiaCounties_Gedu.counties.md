@@ -57,9 +57,9 @@ Dataset spatial issu du package R `GWmodel` (`GeorgiaCounties`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
+- x_terms_used: PctRural+PctFB+PctBlack+PctEld
+- y_term_used: PctBach
 
 ## Bloc 2 — Identification et DOI
 

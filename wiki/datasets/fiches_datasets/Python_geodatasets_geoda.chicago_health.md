@@ -107,13 +107,12 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_health`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: BirthRate ~ Pop2014 + PopChng + PopMP + PopFP + Under5P + Under18P + Over65P + Wht14P
+- x_terms_used: Pop2014 + PopChng + PopMP + PopFP + Under5P + Under18P + Over65P + Wht14P
+- y_term_used: BirthRate
 
 ## Bloc 2 — Identification et DOI
 

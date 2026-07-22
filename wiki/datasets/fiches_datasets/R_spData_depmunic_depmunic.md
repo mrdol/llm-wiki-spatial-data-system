@@ -56,13 +56,12 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: airbnb ~ museums + population + greensp + area
+- x_terms_used: museums + population + greensp + area
+- y_term_used: airbnb
 
 ## Bloc 2 — Identification et DOI
 

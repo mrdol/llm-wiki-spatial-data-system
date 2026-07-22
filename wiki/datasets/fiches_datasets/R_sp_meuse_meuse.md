@@ -66,9 +66,9 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: log(zinc) ~ sqrt(dist)
+- x_terms_used: sqrt(dist)
+- y_term_used: log(zinc)
 
 ## Bloc 2 — Identification et DOI
 

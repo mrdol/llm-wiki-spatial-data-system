@@ -63,9 +63,9 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)
+- x_terms_used: elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)
+- y_term_used: cbind(npos, ntot-npos)
 
 ## Bloc 2 — Identification et DOI
 

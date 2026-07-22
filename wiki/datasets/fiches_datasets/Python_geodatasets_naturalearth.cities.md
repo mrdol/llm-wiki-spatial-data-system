@@ -63,13 +63,12 @@ Dataset spatial issu du package Python `geodatasets` (`cities`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: pop_max ~ scalerank + natscale + labelrank + adm0cap + capalt + rank_max + rank_min + min_zoom
+- x_terms_used: scalerank + natscale + labelrank + adm0cap + capalt + rank_max + rank_min + min_zoom
+- y_term_used: pop_max
 
 ## Bloc 2 — Identification et DOI
 

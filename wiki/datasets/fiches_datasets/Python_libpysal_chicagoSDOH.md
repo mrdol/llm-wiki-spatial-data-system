@@ -92,13 +92,12 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: YPLL_rate ~ PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
+- x_terms_used: PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
+- y_term_used: YPLL_rate
 
 ## Bloc 2 — Identification et DOI
 

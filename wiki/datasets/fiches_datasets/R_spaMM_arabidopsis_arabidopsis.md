@@ -73,9 +73,9 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
+- x_terms_used: seasonal + Matern(1|LAT+LONG)
+- y_term_used: cbind(pos1046738, 1-pos1046738)
 
 ## Bloc 2 — Identification et DOI
 

@@ -71,13 +71,12 @@ Dataset spatial issu du package Python `geodatasets` (`health_indicators`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Infan_Rate ~ Below_evel + Unemp_ment + NoHig_loma + PerCa_come + Dependency + Crowd_sing + Prena_ster + Prete_rths
+- x_terms_used: Below_evel + Unemp_ment + NoHig_loma + PerCa_come + Dependency + Crowd_sing + Prena_ster + Prete_rths
+- y_term_used: Infan_Rate
 
 ## Bloc 2 — Identification et DOI
 

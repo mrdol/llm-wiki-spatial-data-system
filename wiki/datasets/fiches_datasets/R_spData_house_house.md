@@ -73,13 +73,12 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: price ~ yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage
+- x_terms_used: yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage
+- y_term_used: price
 
 ## Bloc 2 — Identification et DOI
 

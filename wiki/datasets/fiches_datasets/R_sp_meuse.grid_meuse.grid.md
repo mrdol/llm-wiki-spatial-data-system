@@ -55,13 +55,12 @@ The ‘meuse.grid’ data frame has 3103 rows and 7 columns; a grid with 40 m x 
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: dist ~ part.a + part.b + soil + ffreq
+- x_terms_used: part.a + part.b + soil + ffreq
+- y_term_used: dist
 
 ## Bloc 2 — Identification et DOI
 

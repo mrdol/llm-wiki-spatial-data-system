@@ -80,13 +80,12 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: BURGLARY ~ AREA + POPULATION + MEDIAN_AGE + AGE_0_5 + AGE_15_19 + AGE_20_24 + AGE_25_34 + AGE_35_44
+- x_terms_used: AREA + POPULATION + MEDIAN_AGE + AGE_0_5 + AGE_15_19 + AGE_20_24 + AGE_25_34 + AGE_35_44
+- y_term_used: BURGLARY
 
 ## Bloc 2 — Identification et DOI
 

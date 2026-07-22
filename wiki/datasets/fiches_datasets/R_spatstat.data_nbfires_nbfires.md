@@ -57,13 +57,12 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
+- x_terms_used: year + fire.type + dis.julian + out.julian + cause + ign.src
+- y_term_used: fnl.size
 
 ## Bloc 2 — Identification et DOI
 

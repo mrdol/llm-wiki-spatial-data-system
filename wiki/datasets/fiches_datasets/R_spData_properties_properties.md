@@ -55,13 +55,12 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: price ~ size + age + dist_metro
+- x_terms_used: size + age + dist_metro
+- y_term_used: price
 
 ## Bloc 2 — Identification et DOI
 

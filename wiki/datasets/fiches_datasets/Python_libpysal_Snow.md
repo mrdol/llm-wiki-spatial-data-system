@@ -57,13 +57,12 @@ Dataset spatial issu du package Python `libpysal` (`Snow`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
+- x_terms_used: pestfield + dis_pestf + dis_sewers + dis_bspump
+- y_term_used: deaths
 
 ## Bloc 2 — Identification et DOI
 

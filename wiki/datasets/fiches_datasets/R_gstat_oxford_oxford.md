@@ -69,13 +69,12 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- y_term_used: PROFCLASS
 
 ## Bloc 2 — Identification et DOI
 

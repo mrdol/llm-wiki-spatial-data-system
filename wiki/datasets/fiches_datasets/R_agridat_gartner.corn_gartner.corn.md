@@ -54,13 +54,12 @@ Yield monitor data from a corn field in Minnesota
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: mass ~ dist + elev
+- x_terms_used: dist + elev
+- y_term_used: mass
 
 ## Bloc 2 — Identification et DOI
 

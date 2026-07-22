@@ -66,13 +66,12 @@ Dataset spatial issu du package Python `geodatasets` (`airbnb`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: price_pp ~ poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes
+- x_terms_used: poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes
+- y_term_used: price_pp
 
 ## Bloc 2 — Identification et DOI
 

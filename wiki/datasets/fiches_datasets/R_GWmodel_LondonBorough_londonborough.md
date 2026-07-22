@@ -58,9 +58,9 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PURCHASE ~ FLOORSZ + PROF + BATH2
+- x_terms_used: FLOORSZ + PROF + BATH2
+- y_term_used: PURCHASE
 
 ## Bloc 2 — Identification et DOI
 

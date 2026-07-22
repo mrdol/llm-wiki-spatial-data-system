@@ -75,13 +75,12 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: LM68 ~ AREA + POPM68 + POPF68 + POPM78 + POPF78 + POPM88 + POPF88 + LMW68
+- x_terms_used: AREA + POPM68 + POPF68 + POPM78 + POPF78 + POPM88 + POPF88 + LMW68
+- y_term_used: LM68
 
 ## Bloc 2 — Identification et DOI
 

@@ -63,9 +63,9 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- x_terms_used: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- y_term_used: GenEl2004
 
 ## Bloc 2 — Identification et DOI
 

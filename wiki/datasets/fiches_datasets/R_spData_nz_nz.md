@@ -55,13 +55,12 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Population ~ Land_area + Island
+- x_terms_used: Land_area + Island
+- y_term_used: Population
 
 ## Bloc 2 — Identification et DOI
 

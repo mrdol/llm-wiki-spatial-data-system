@@ -79,13 +79,12 @@ Dataset spatial issu du package Python `geodatasets` (`nepal`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: povindex ~ population + schlppop + schoolcnt + kids1_5 + pcincmp + TOTCAMT + TOTDAMT + EDUCAMT
+- x_terms_used: population + schlppop + schoolcnt + kids1_5 + pcincmp + TOTCAMT + TOTDAMT + EDUCAMT
+- y_term_used: povindex
 
 ## Bloc 2 — Identification et DOI
 

@@ -14,8 +14,8 @@ Aucune formule n'est inventée ici : les lignes `manual_search_required` doivent
 ## Résumé
 
 - Fiches Python auditées: 43
-- Formules résolues automatiquement/localement: 4
-- Recherche manuelle requise: 39
+- Formules résolues automatiquement/localement: 7
+- Recherche manuelle requise: 36
 
 ## Jeux de données à vérifier manuellement
 
@@ -28,7 +28,6 @@ Aucune formule n'est inventée ici : les lignes `manual_search_required` doivent
 | `Python_geodatasets_geoda.chicago_health` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.chicago_health.md` | "geodatasets::chicago_health" regression formula<br>"geodatasets geoda.chicago health" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::chicago_health" model formula |
 | `Python_geodatasets_geoda.chile_labor` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.chile_labor.md` | "geodatasets::chile_labor" regression formula<br>"geodatasets geoda.chile labor" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::chile_labor" model formula |
 | `Python_geodatasets_geoda.cincinnati` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.cincinnati.md` | "geodatasets::cincinnati" regression formula<br>"geodatasets geoda.cincinnati" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::cincinnati" model formula |
-| `Python_geodatasets_geoda.guerry` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.guerry.md` | "geodatasets::guerry" regression formula<br>"geodatasets geoda.guerry" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::guerry" model formula |
 | `Python_geodatasets_geoda.health` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.health.md` | "geodatasets::health" regression formula<br>"geodatasets geoda.health" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::health" model formula |
 | `Python_geodatasets_geoda.health_indicators` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.health_indicators.md` | "geodatasets::health_indicators" regression formula<br>"geodatasets geoda.health indicators" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::health_indicators" model formula |
 | `Python_geodatasets_geoda.hickory1` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.hickory1.md` | "geodatasets::hickory1" regression formula<br>"geodatasets geoda.hickory1" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::hickory1" model formula |
@@ -51,10 +50,8 @@ Aucune formule n'est inventée ici : les lignes `manual_search_required` doivent
 | `Python_geodatasets_geoda.tampa1` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.tampa1.md` | "geodatasets::tampa1" regression formula<br>"geodatasets geoda.tampa1" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::tampa1" model formula |
 | `Python_geodatasets_geoda.us_sdoh` | `wiki/datasets/fiches_datasets/Python_geodatasets_geoda.us_sdoh.md` | "geodatasets::us_sdoh" regression formula<br>"geodatasets geoda.us sdoh" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::us_sdoh" model formula |
 | `Python_geodatasets_naturalearth.cities` | `wiki/datasets/fiches_datasets/Python_geodatasets_naturalearth.cities.md` | "geodatasets::cities" regression formula<br>"geodatasets naturalearth.cities" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::cities" model formula |
-| `Python_geodatasets_spdata.eire` | `wiki/datasets/fiches_datasets/Python_geodatasets_spdata.eire.md` | "geodatasets::eire" regression formula<br>"geodatasets spdata.eire" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::eire" model formula |
 | `Python_geodatasets_spdata.nydata` | `wiki/datasets/fiches_datasets/Python_geodatasets_spdata.nydata.md` | "geodatasets::nydata" regression formula<br>"geodatasets spdata.nydata" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::nydata" model formula |
 | `Python_geodatasets_spdata.wheat` | `wiki/datasets/fiches_datasets/Python_geodatasets_spdata.wheat.md` | "geodatasets::wheat" regression formula<br>"geodatasets spdata.wheat" spatial regression formula<br>"package Python `geodatasets`" "geodatasets::wheat" model formula |
-| `Python_libpysal_Baltimore` | `wiki/datasets/fiches_datasets/Python_libpysal_Baltimore.md` | "libpysal::Baltimore" regression formula<br>"libpysal Baltimore" spatial regression formula<br>"package Python `libpysal`" "libpysal::Baltimore" model formula |
 | `Python_libpysal_Elections` | `wiki/datasets/fiches_datasets/Python_libpysal_Elections.md` | "libpysal::Elections" regression formula<br>"libpysal Elections" spatial regression formula<br>"package Python `libpysal`" "libpysal::Elections" model formula |
 | `Python_libpysal_NYC_Socio-Demographics` | `wiki/datasets/fiches_datasets/Python_libpysal_NYC_Socio-Demographics.md` | "libpysal::NYC Socio-Demographics" regression formula<br>"libpysal NYC Socio-Demographics" spatial regression formula<br>"package Python `libpysal`" "libpysal::NYC Socio-Demographics" model formula |
 | `Python_libpysal_Ohiolung` | `wiki/datasets/fiches_datasets/Python_libpysal_Ohiolung.md` | "libpysal::Ohiolung" regression formula<br>"libpysal Ohiolung" spatial regression formula<br>"package Python `libpysal`" "libpysal::Ohiolung" model formula |
@@ -65,7 +62,10 @@ Aucune formule n'est inventée ici : les lignes `manual_search_required` doivent
 
 | Dataset | Statut | Formule | Source |
 |---|---|---|---|
+| `Python_geodatasets_geoda.guerry` | `resolved_existing_python_fiche` | `Crime_pers ~ Region + Literacy + Donations + Infants + Suicides; Crime_prop ~ Region + Literacy + Donations + Infants + Suicides` | Official Guerry package vignette, "Guerry data: Multivariate Analysis", Michael Friendly; Friendly (2007), Statistical Science 22, 368-399. |
 | `Python_geodatasets_geoda.lasrosas` | `resolved_existing_python_fiche` | `yield ~ 1 + nitro + I(nitro^2)` | Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture. |
 | `Python_geodatasets_spdata.boston` | `resolved_existing_python_fiche` | `log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B` | Liu-type pretest and shrinkage estimation for the conditional autoregressive model, Table 1, Boston housing full model; dataset originally Harrison & Rubinfeld (1978). |
 | `Python_geodatasets_spdata.columbus` | `resolved_existing_python_fiche` | `CRIME ~ HOVAL + INC` | Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189. |
+| `Python_geodatasets_spdata.eire` | `resolved_existing_python_fiche` | `A ~ towns + pale; OWNCONS ~ ROADACC` | Official spData::eire examples, Upton and Fingleton (1985), Bailey and Gatrell (1995), Cliff and Ord (1973). |
+| `Python_libpysal_Baltimore` | `resolved_existing_python_fiche` | `PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT` | PySAL spreg ML_Lag documentation example on Baltimore (`baltim.dbf`/`baltim_q.gal`); Dubin, Robin A. (1992), Spatial autocorrelation and neighborhood quality, Regional Science and Urban Economics 22(3), 433-452. |
 | `Python_libpysal_georgia` | `resolved_existing_python_fiche` | `PctBach~PctRural+PctFB+PctBlack+PctEld` | Fotheringham, Brunsdon & Charlton (2002), Wiley |

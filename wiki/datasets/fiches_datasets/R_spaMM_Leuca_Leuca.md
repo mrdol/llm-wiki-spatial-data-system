@@ -63,9 +63,9 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
+- x_terms_used: sex + Matern(1|x+y %in% sex)
+- y_term_used: fec_div
 
 ## Bloc 2 — Identification et DOI
 

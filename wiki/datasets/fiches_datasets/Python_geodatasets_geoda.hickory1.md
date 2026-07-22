@@ -76,13 +76,12 @@ Dataset spatial issu du package Python `geodatasets` (`hickory1`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: hh_inc ~ tot_pop + pop_16 + pop_65 + white + black + asian + hisp + multi_ra
+- x_terms_used: tot_pop + pop_16 + pop_65 + white + black + asian + hisp + multi_ra
+- y_term_used: hh_inc
 
 ## Bloc 2 — Identification et DOI
 

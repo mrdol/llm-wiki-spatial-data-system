@@ -72,13 +72,12 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: tPRO ~ AGE + SEX + CL + C + CA + NI + GE + x.loc
+- x_terms_used: AGE + SEX + CL + C + CA + NI + GE + x.loc
+- y_term_used: tPRO
 
 ## Bloc 2 — Identification et DOI
 

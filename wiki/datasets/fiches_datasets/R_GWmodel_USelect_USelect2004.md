@@ -60,9 +60,9 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+- x_terms_used: unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+- y_term_used: winner
 
 ## Bloc 2 — Identification et DOI
 

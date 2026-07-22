@@ -60,9 +60,9 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PM10 ~ 1
+- x_terms_used: 1
+- y_term_used: PM10
 
 ## Bloc 2 — Identification et DOI
 

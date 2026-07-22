@@ -60,9 +60,9 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- x_terms_used: 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- y_term_used: yield
 
 ## Bloc 2 — Identification et DOI
 

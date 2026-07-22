@@ -80,13 +80,12 @@ Dataset spatial issu du package Python `geodatasets` (`charleston2`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: INDEX ~ POP2001 + EST98 + EMP98 + PAY98 + EST01 + MAN98 + MAN01 + OFF98
+- x_terms_used: POP2001 + EST98 + EMP98 + PAY98 + EST01 + MAN98 + MAN01 + OFF98
+- y_term_used: INDEX
 
 ## Bloc 2 — Identification et DOI
 

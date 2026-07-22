@@ -53,24 +53,24 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- x_terms_pub: NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- y_term_pub: PRICE
+- Reference publication: PySAL spreg ML_Lag documentation example on Baltimore (`baltim.dbf`/`baltim_q.gal`); Dubin, Robin A. (1992), Spatial autocorrelation and neighborhood quality, Regional Science and Urban Economics 22(3), 433-452.
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: official_software_documentation
+- Methode d'estimation: spatial lag / hedonic regression
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: La documentation `spData::baltimore` confirme le jeu de prix hedoniques ; la formule exécutable est prise dans l'exemple officiel PySAL `spreg.ML_Lag`.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- x_terms_used: NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- y_term_used: PRICE
 
 ## Bloc 2 — Identification et DOI
 
@@ -91,13 +91,13 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT"
+  equation_family: linear
+  model_family: "spatial lag / hedonic regression"
+  source_type: official_software_documentation
+  source_ref: "PySAL spreg ML_Lag documentation example on Baltimore (`baltim.dbf`/`baltim_q.gal`); Dubin, Robin A. (1992), Spatial autocorrelation and neighborhood quality, Regional Science and Urban Economics 22(3), 433-452."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees

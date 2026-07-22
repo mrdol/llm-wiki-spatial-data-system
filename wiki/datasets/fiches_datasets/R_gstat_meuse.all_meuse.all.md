@@ -65,9 +65,9 @@ This data set gives locations and top soil heavy metal concentrations (ppm), alo
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
+- x_terms_used: sqrt(dist) (idem cadmium/lead/copper)
+- y_term_used: log(zinc)
 
 ## Bloc 2 — Identification et DOI
 

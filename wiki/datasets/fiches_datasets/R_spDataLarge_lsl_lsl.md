@@ -60,9 +60,9 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: lslpts ~ slope + cplan + cprof + elev + log10_carea
+- x_terms_used: slope + cplan + cprof + elev + log10_carea
+- y_term_used: lslpts
 
 ## Bloc 2 — Identification et DOI
 
