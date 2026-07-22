@@ -58,9 +58,9 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: book
+- Methode d'estimation: OLS / SAR lag / spatial error
 - Correspondance Python/R: R_spdep_oldcol_COL.OLD
 - Note: Formule identifiee via la documentation du package equivalent `R_spdep_oldcol_COL.OLD` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
@@ -89,13 +89,13 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "CRIME ~ HOVAL + INC"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
+  equation_family: linear
+  model_family: "OLS/SAR/SEM"
+  source_type: book
   source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189."
-  confidence: low
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees

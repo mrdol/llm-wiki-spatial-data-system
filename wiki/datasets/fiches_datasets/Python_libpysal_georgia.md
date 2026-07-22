@@ -88,11 +88,11 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: unknown
+  equation_family: linear
   model_family: "GWR"
-  source_type: unknown
+  source_type: book
   source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: low
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees

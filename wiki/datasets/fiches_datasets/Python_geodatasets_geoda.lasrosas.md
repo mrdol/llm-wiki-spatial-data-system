@@ -77,9 +77,9 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolved
+- Niveau de preuve: article
+- Methode d'estimation: spatial regression
 - Correspondance Python/R: R_agridat_lasrosas.corn_lasrosas.corn
 - Note: Formule identifiee via la documentation du package equivalent `R_agridat_lasrosas.corn_lasrosas.corn` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
@@ -108,13 +108,13 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
+  existing_model_found: true
+  equation_text: "yield ~ 1 + nitro + I(nitro^2)"
+  equation_family: quadratic_linear
+  model_family: "spatial regression"
+  source_type: conference_paper
   source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
