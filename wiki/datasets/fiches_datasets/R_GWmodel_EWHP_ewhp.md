@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_GWmodel_EWHP_ewhp
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 A house price data set for England and Wales from 2001 with 9 hedonic (explanatory) variables.
+
+## Description du jeu de donnees
+
+- Topic: immobilier / prix des logements
+- Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
+- Observed population: marche immobilier documente par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: A house price data set for England and Wales from 2001 with 9 hedonic (explanatory) variables.
+- Description source: package R `GWmodel`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -61,17 +72,13 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
-- x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
-- y_term_used: PurPrice
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
-- formula_candidate_2: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -109,6 +116,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -130,6 +138,30 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+  - estimator: mgwrsar_gwr
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+  - estimator: mgwrsar_mgwr
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+  - estimator: spboost_bspa_sar_ml
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+  - estimator: spboost_bspa_sar_cfe
+    basis: benchmark_use
+    source_ref: "GWmodel EWHP documentation / project formula."
+```
 
 ## Quality Control
 

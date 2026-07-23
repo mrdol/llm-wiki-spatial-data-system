@@ -1,14 +1,25 @@
 ---
 title: Python_geodatasets_spdata.boston
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.boston.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`boston`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`boston`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -58,24 +69,24 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ### Formule — niveau publication
 
-- formula_pub: log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
-- x_terms_pub: CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
-- y_term_pub: log(CMEDV)
-- Reference publication: Liu-type pretest and shrinkage estimation for the conditional autoregressive model, Table 1, Boston housing full model; dataset originally Harrison & Rubinfeld (1978).
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
 ### Statut regression canonique
 
-- Statut: resolved
-- Niveau de preuve: article
-- Methode d'estimation: conditional autoregressive model / full linear predictor
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule identifiee par revue ciblee d'article. Le papier note la variable crime comme CRIME ; la fiche locale utilise le nom de colonne `CRIM`.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
-- x_terms_used: CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
-- y_term_used: log(CMEDV)
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -96,13 +107,13 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B"
-  equation_family: transformed_linear
-  model_family: "conditional autoregressive model"
-  source_type: scientific_article
-  source_ref: "Liu-type pretest and shrinkage estimation for the conditional autoregressive model, Table 1, Boston housing full model; dataset originally Harrison & Rubinfeld (1978)."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,6 +124,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -135,11 +147,69 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
 
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+    notes: "Classic continuous hedonic regression benchmark."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: gamboost
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: random_forest
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: random_forest_xy
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: xgboost
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: xgboost_xy
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: sar_lag
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: sem_error
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: sdm_mixed
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: spboost_bspa_sar_ml
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: spboost_bspa_sar_cfe
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: spboost_bspa_sem_ml
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: spboost_bspa_sem_cfe
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: mgwrsar_gwr
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: MGWRSAR_0_kc_kv
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+  - estimator: MGWRSAR_1_kc_kv
+    basis: benchmark_use
+    source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
+```
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee par revue ciblee d'article.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4267).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

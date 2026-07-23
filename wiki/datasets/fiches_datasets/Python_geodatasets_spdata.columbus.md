@@ -1,14 +1,25 @@
 ---
 title: Python_geodatasets_spdata.columbus
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`columbus`).
+
+## Description du jeu de donnees
+
+- Topic: criminalite urbaine
+- Observation unit: quartier, zone urbaine ou evenement de police selon la documentation source
+- Observed population: unites spatiales ou evenements lies a la criminalite
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`columbus`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -58,9 +69,9 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ### Statut regression canonique
 
-- Statut: resolved
-- Niveau de preuve: book
-- Methode d'estimation: OLS / SAR lag / spatial error
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: R_spdep_oldcol_COL.OLD
 - Note: Formule identifiee via la documentation du package equivalent `R_spdep_oldcol_COL.OLD` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
@@ -91,11 +102,11 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "CRIME ~ HOVAL + INC"
-  equation_family: linear
-  model_family: "OLS/SAR/SEM"
-  source_type: book
+  equation_family: unknown
+  model_family: "formule publication confirmee et utilisee"
+  source_type: unknown
   source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189."
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -106,6 +117,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -127,6 +139,48 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: scientific_evidence
+    source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models, Chapter 12 Columbus crime example."
+    pages: "191-192"
+    pdf_pages: "203-204"
+    tables: ["12.3"]
+    notes: "OLS regression with diagnostics for spatial effects, formula CRIME ~ INC + HOUSE/HOVAL."
+  - estimator: sar_lag
+    basis: scientific_evidence
+    source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models, Chapter 12 Columbus crime example."
+    pages: "192-194"
+    pdf_pages: "204-206"
+    tables: ["12.4", "12.5"]
+    notes: "Mixed regressive spatial autoregressive model with W_CRIME."
+  - estimator: sem_error
+    basis: scientific_evidence
+    source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models, Chapter 12 Columbus crime example."
+    pages: "194-196"
+    pdf_pages: "206-208"
+    tables: ["12.6", "12.7"]
+    notes: "ML estimation of the model with spatially dependent error terms."
+  - estimator: sdm_mixed
+    basis: scientific_evidence
+    source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models, Chapter 12 Columbus crime example."
+    pages: "196-197"
+    pdf_pages: "208-209"
+    tables: ["12.8"]
+    notes: "Spatial Durbin model with W_CRIME, W_INC and W_HOUSE."
+  - estimator: spmoran_esf
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package tests on Columbus; method source must be Murakami/spmoran, not Anselin 1988."
+    notes: "Benchmark route only until a paper-source relation is curated."
+  - estimator: spmoran_resf
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package tests on Columbus; method source must be Murakami/spmoran, not Anselin 1988."
+    notes: "Benchmark route only until a paper-source relation is curated."
+```
 
 ## Quality Control
 

@@ -314,6 +314,91 @@ def parse_doc(path: Path | None) -> dict[str, str | None]:
             "version": version, "epsg": epsg}
 
 
+def infer_dataset_description_fields(
+    did: str,
+    package: str,
+    dataset: str,
+    intro: str,
+    b4: dict[str, Any],
+    b5: dict[str, Any],
+    source_label: str,
+) -> dict[str, str]:
+    """Construit un resume lisible du sujet et de l'unite d'observation.
+
+    Ces champs restent prudents : ils donnent une orientation utilisateur au
+    package sans remplacer la validation manuelle par fiche ou par article.
+    """
+    text = " ".join([did, package, dataset, intro]).lower()
+    geom_type = str(b5.get("geom_type") or "unknown")
+    data_type = str(b4.get("data_type") or "unknown")
+    temporal_note = str(b4.get("temporal_note") or "pending")
+
+    topic = "pending"
+    observation_unit = "pending"
+    observed_population = "pending"
+
+    if any(word in text for word in ("house", "housing", "home_sales", "property", "properties", "price", "purchase")):
+        topic = "immobilier / prix des logements"
+        observation_unit = "logement, transaction immobiliere ou zone residentielle selon la documentation source"
+        observed_population = "marche immobilier documente par le package source"
+    if any(word in text for word in ("crime", "columbus", "police")):
+        topic = "criminalite urbaine"
+        observation_unit = "quartier, zone urbaine ou evenement de police selon la documentation source"
+        observed_population = "unites spatiales ou evenements lies a la criminalite"
+    if any(word in text for word in ("education", "school", "student", "bachelor")):
+        topic = "education et socio-demographie"
+        observation_unit = "unite spatiale administrative ou scolaire"
+        observed_population = "population scolaire ou socio-demographique locale"
+    if any(word in text for word in ("corn", "yield", "crop", "agri", "tomato", "herbicide", "wheat")):
+        topic = "agriculture / rendement ou experimentation agronomique"
+        observation_unit = "parcelle, placette experimentale ou observation agricole"
+        observed_population = "observations agricoles documentees par le package source"
+    if any(word in text for word in ("voter", "election", "elect", "vote")):
+        topic = "elections et comportement electoral"
+        observation_unit = "circonscription, bureau de vote ou unite administrative"
+        observed_population = "resultats electoraux ou population votante"
+    if any(word in text for word in ("health", "disease", "lung", "loaloa", "case", "mortality", "cancer")):
+        topic = "sante publique / epidemiologie spatiale"
+        observation_unit = "individu, cas sanitaire ou unite spatiale de sante"
+        observed_population = "population sanitaire documentee par le package source"
+    if any(word in text for word in ("population", "census", "sdoh", "demographic", "income")) and topic == "pending":
+        topic = "socio-demographie territoriale"
+        observation_unit = "unite de recensement ou unite administrative"
+        observed_population = "population territoriale documentee par le package source"
+
+    if topic == "pending":
+        topic = f"dataset spatial {data_type}"
+    if observation_unit == "pending":
+        observation_unit = f"observation spatiale de type {geom_type}"
+
+    return {
+        "topic": topic,
+        "observation_unit": observation_unit,
+        "observed_population": observed_population,
+        "geographic_context": "a preciser depuis la documentation, l'article ou l'etendue spatiale",
+        "temporal_context": temporal_note,
+        "source_description": intro,
+        "description_source": source_label,
+        "description_confidence": "medium" if intro else "pending",
+    }
+
+
+def extract_estimator_eligibility_block(path: Path) -> str:
+    """Recupere le bloc de relations dataset-estimateur d'une fiche existante.
+
+    Ce bloc est curatorial : il ne doit pas disparaitre lors d'une regeneration
+    automatique des fiches depuis le catalogue sf.
+    """
+    if not path.exists():
+        return ""
+    text = path.read_text(encoding="utf-8", errors="replace")
+    match = re.search(
+        r"(?ms)^## Estimator eligibility\s*\n.*?(?=^## |\Z)",
+        text,
+    )
+    return match.group(0).strip() if match else ""
+
+
 def make_fiche(
     entry: dict[str, Any],
     doc: dict[str, str | None],
@@ -321,6 +406,7 @@ def make_fiche(
     client: Any,
     refresh_llm: bool,
     wiki_out: Path | None = None,
+    estimator_eligibility_block: str = "",
 ) -> str:
     did = entry["dataset_id"]
     package = entry["package"]
@@ -354,6 +440,9 @@ def make_fiche(
         source_label_versioned = source_label
 
     intro = doc.get("description") or f"Dataset spatial issu du {source_label} (`{dataset}`)."
+    description_fields = infer_dataset_description_fields(
+        did, package, dataset, intro, b4, b5, source_label
+    )
 
     # External enrichment (enrich_web.py) — package license/year (deterministic,
     # PyPI/CRAN APIs) and publication DOI/formula (LLM + web_search, cached).
@@ -637,6 +726,17 @@ tags: {tags}
 
 {intro}
 
+## Description du jeu de donnees
+
+- Topic: {description_fields["topic"]}
+- Observation unit: {description_fields["observation_unit"]}
+- Observed population: {description_fields["observed_population"]}
+- Geographic context: {description_fields["geographic_context"]}
+- Temporal context: {description_fields["temporal_context"]}
+- Source description: {description_fields["source_description"]}
+- Description source: {description_fields["description_source"]}
+- Description confidence: {description_fields["description_confidence"]}
+
 ## Bloc 1 — Formule et variables
 
 ### Variables (niveau systeme — inspection directe du sf)
@@ -742,6 +842,7 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: {source_family}
 
+{estimator_eligibility_block + chr(10) + chr(10) if estimator_eligibility_block else ""}
 ## Quality Control
 
 {qc_block}
@@ -867,7 +968,16 @@ def main() -> int:
             print(f"  SKIP    {did}")
             continue
 
-        content = make_fiche(entry, doc, cache, client, args.refresh_llm, wiki_out=args.wiki_out)
+        existing_eligibility_block = extract_estimator_eligibility_block(out_path)
+        content = make_fiche(
+            entry,
+            doc,
+            cache,
+            client,
+            args.refresh_llm,
+            wiki_out=args.wiki_out,
+            estimator_eligibility_block=existing_eligibility_block,
+        )
 
         if not args.dry_run:
             out_path.write_text(content, encoding="utf-8", newline="\n")

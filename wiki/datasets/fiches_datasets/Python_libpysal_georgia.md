@@ -1,14 +1,25 @@
 ---
 title: Python_libpysal_georgia
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `libpysal` (`georgia`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `libpysal` (`georgia`).
+- Description source: package Python `libpysal`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -63,8 +74,8 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach ~ PctRural + PctFB + PctBlack + PctEld
-- x_terms_used: PctRural + PctFB + PctBlack + PctEld
+- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
+- x_terms_used: PctRural+PctFB+PctBlack+PctEld
 - y_term_used: PctBach
 
 ## Bloc 2 — Identification et DOI
@@ -88,11 +99,11 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: linear
+  equation_family: unknown
   model_family: "GWR"
-  source_type: book
+  source_type: unknown
   source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -103,6 +114,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -124,6 +136,28 @@ modeling_evidence:
 - Reproducibility status: available via package Python `libpysal`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: benchmark_use
+    source_ref: "Georgia education example, libpysal/GWmodel."
+    notes: "Continuous spatial education dataset with projected coordinates."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "Georgia education example, libpysal/GWmodel."
+    notes: "Useful for testing smooth spatial baseline models."
+  - estimator: mgwrsar_gwr
+    basis: benchmark_use
+    source_ref: "Georgia education example, libpysal/GWmodel."
+    notes: "Useful for testing geographically weighted regression routes."
+  - estimator: mgwrsar_mgwr
+    basis: benchmark_use
+    source_ref: "Georgia education example, libpysal/GWmodel."
+    notes: "Useful for testing multiscale geographically weighted regression routes."
+```
 
 ## Quality Control
 

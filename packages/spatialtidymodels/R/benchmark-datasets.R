@@ -3,7 +3,7 @@
 # Ce fichier evite de forcer l'utilisateur a recopier les formules depuis les
 # fiches Markdown. Les entrees sont volontairement explicites et testables.
 
-benchmark_dataset_registry <- function() {
+fallback_benchmark_dataset_registry <- function() {
   data.frame(
     dataset = c(
       "georgia", "columbus_crime", "london_hp", "boston_housing",
@@ -98,6 +98,31 @@ benchmark_dataset_registry <- function() {
     ),
     stringsAsFactors = FALSE
   )
+}
+
+benchmark_dataset_registry <- function() {
+  metadata <- metadata_dataset_registry()
+  out <- if (!is.null(metadata)) metadata else fallback_benchmark_dataset_registry()
+  if (!"eligible_estimators" %in% names(out)) {
+    out$eligible_estimators <- I(rep(list(character()), nrow(out)))
+  }
+  if (!"benchmark_estimators" %in% names(out)) {
+    out$benchmark_estimators <- out$eligible_estimators
+  }
+  if (!"estimator_evidence" %in% names(out)) {
+    out$estimator_evidence <- I(rep(list(data.frame()), nrow(out)))
+  }
+  for (field in c("eligibility_basis", "eligibility_source_ref", "eligibility_notes")) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
+  for (field in c(
+    "topic", "observation_unit", "observed_population", "geographic_context",
+    "temporal_context", "source_description", "description_source",
+    "description_confidence"
+  )) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
+  out
 }
 
 find_benchmark_repo_root <- function(start = getwd()) {

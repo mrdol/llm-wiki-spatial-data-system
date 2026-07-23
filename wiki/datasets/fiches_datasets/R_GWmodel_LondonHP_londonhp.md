@@ -1,14 +1,25 @@
 ---
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 A house price data set with 18 hedonic variables for London in 2001.
+
+## Description du jeu de donnees
+
+- Topic: immobilier / prix des logements
+- Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
+- Observed population: marche immobilier documente par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: A house price data set with 18 hedonic variables for London in 2001.
+- Description source: package R `GWmodel`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -72,7 +83,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 - Niveau de preuve: publication
 - Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: R_GWmodel_LondonBorough_londonborough
-- Note: Formule issue de Lu, Charlton, Harris & Fotheringham (2014) et retenue comme formule systeme du benchmark LondonHP.
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
@@ -101,11 +112,11 @@ A house price data set with 18 hedonic variables for London in 2001.
 modeling_evidence:
   existing_model_found: true
   equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
-  equation_family: hedonic_price_regression
-  model_family: "GWR / hedonic house price model"
-  source_type: scientific_article
+  equation_family: unknown
+  model_family: "formule publication confirmee et utilisee"
+  source_type: unknown
   source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
-  confidence: high
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -116,16 +127,17 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [507400, 552300], y [159400, 194900] (EPSG:27700, via documentation)
+- Spatial extent: x [507400, 552300], y [159400, 194900] (EPSG:27700)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: 27700 (source: documentation du package, .rds sans CRS embarque)
-- CRS nom: unknown
+- CRS EPSG: 27700
+- CRS nom: OSGB36 / British National Grid
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
@@ -138,12 +150,42 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: scientific_evidence
+    source_ref: "Lu, Charlton, Harris & Fotheringham (2014), IJGIS."
+    notes: "Hedonic house price reference model used as global baseline."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package benchmark metadata."
+    notes: "Useful smooth spatial baseline for the London house price data."
+  - estimator: mgwrsar_gwr
+    basis: scientific_evidence
+    source_ref: "Lu, Charlton, Harris & Fotheringham (2014), IJGIS."
+    notes: "LondonHP is a direct GWR hedonic house price case study."
+  - estimator: mgwrsar_mgwr
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package benchmark metadata."
+    notes: "Useful for multiscale local coefficient tests."
+  - estimator: MGWRSAR_0_kc_kv
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package benchmark metadata."
+    notes: "Useful for mixed stationary/non-stationary MGWRSAR tests without SAR autocorrelation."
+  - estimator: MGWRSAR_1_kc_kv
+    basis: benchmark_use
+    source_ref: "spatialtidymodels package benchmark metadata."
+    notes: "Useful for mixed stationary/non-stationary MGWRSAR tests with SAR autocorrelation."
+```
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
 - Formula: OK - formule publication renseignee.
-- CRS: WARN - CRS absent du `.rds` source ; EPSG:27700 extrait de la documentation et reporte dans le Bloc 5.
+- CRS: OK - CRS renseigne dans le Bloc 5 (27700).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.

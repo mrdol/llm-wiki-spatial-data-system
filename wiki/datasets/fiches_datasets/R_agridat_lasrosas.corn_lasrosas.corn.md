@@ -1,14 +1,25 @@
 ---
 title: R_agridat_lasrosas.corn_lasrosas.corn
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Yield monitor data for a corn field in Argentina with variable nitrogen.
+
+## Description du jeu de donnees
+
+- Topic: agriculture / rendement ou experimentation agronomique
+- Observation unit: parcelle, placette experimentale ou observation agricole
+- Observed population: observations agricoles documentees par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: dimension temporelle structurelle detectee
+- Source description: Yield monitor data for a corn field in Argentina with variable nitrogen.
+- Description source: package R `agridat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -52,16 +63,16 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: Python_geodatasets_geoda.lasrosas
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
-- formula_used: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
-- x_terms_used: 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- formula_used: yield ~ 1 + nitro + I(nitro^2)
+- x_terms_used: 1, nitro, I(nitro^2)
 - y_term_used: yield
 
 ## Bloc 2 — Identification et DOI
@@ -83,10 +94,10 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "yield ~ 1 + nitro + I(nitro^2)"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
   confidence: low
@@ -100,6 +111,7 @@ modeling_evidence:
 - T periods: 2
 - Variable temporelle: year
 - N/T profile: N_grand_T_moyen
+- Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -121,6 +133,48 @@ modeling_evidence:
 - Reproducibility status: available via package R `agridat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: gamboost
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: random_forest
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: random_forest_xy
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: xgboost
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: xgboost_xy
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: spboost_bspa_sar_ml
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: spboost_bspa_sar_cfe
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: mgwrsar_gwr
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: MGWRSAR_0_kc_kv
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+  - estimator: MGWRSAR_1_kc_kv
+    basis: benchmark_use
+    source_ref: "agridat lasrosas.corn documentation / project regression formula."
+```
 
 ## Quality Control
 

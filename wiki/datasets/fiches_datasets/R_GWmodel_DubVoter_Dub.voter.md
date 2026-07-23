@@ -1,14 +1,25 @@
 ---
 title: R_GWmodel_DubVoter_Dub.voter
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_DubVoter_Dub.voter.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Dataset spatial issu du package R `GWmodel` (`DubVoter`).
+
+## Description du jeu de donnees
+
+- Topic: elections et comportement electoral
+- Observation unit: circonscription, bureau de vote ou unite administrative
+- Observed population: resultats electoraux ou population votante
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package R `GWmodel` (`DubVoter`).
+- Description source: package R `GWmodel`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -55,16 +66,16 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
-- x_terms_used: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- x_terms_used: DiffAdd, LARent, SC1, Unempl, LowEduc, Age18_24, Age25_44, Age45_64
 - y_term_used: GenEl2004
 
 ## Bloc 2 — Identification et DOI
@@ -86,10 +97,10 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24"
   confidence: low
@@ -103,6 +114,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -124,6 +136,25 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  - estimator: ols
+    basis: benchmark_use
+    source_ref: "GWmodel DubVoter documentation and GWR examples."
+  - estimator: gam_spatial
+    basis: benchmark_use
+    source_ref: "GWmodel DubVoter documentation and GWR examples."
+  - estimator: mgwrsar_gwr
+    basis: scientific_evidence
+    source_ref: "GWmodel DubVoter documentation and GWR examples."
+    notes: "Electoral dataset with projected coordinates, useful for geographically weighted regression."
+  - estimator: mgwrsar_mgwr
+    basis: benchmark_use
+    source_ref: "GWmodel DubVoter documentation and GWR examples."
+```
 
 ## Quality Control
 
