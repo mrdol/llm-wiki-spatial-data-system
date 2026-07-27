@@ -1,14 +1,25 @@
 ---
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_gstat_DE_RB_2005_DE_RB_2005.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatio-temporel
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: dimension temporelle structurelle detectee
+- Source description: Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
+- Description source: package R `gstat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -52,16 +63,16 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: PM10 ~ 1
-- x_terms_used: 1
+- x_terms_used: pending
 - y_term_used: PM10
 
 ## Bloc 2 — Identification et DOI
@@ -83,10 +94,10 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "PM10 ~ 1"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218"
   confidence: low
@@ -100,6 +111,7 @@ modeling_evidence:
 - T periods: 365
 - Variable temporelle: time
 - N/T profile: N_grand_T_grand
+- Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

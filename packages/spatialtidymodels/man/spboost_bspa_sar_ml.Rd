@@ -34,3 +34,8 @@ A \code{parsnip} model specification.
 Creates a \code{parsnip} specification for \code{spboost::spbgam()} with
 \code{DGP = "SAR"} and \code{method = "BSPA_SAR_ML"}.
 }
+\details{
+\code{ML} and \code{CFE} are alternative estimators of the spatial parameter, not
+different spatial model families. \code{nu} is treated as a fixed learning rate;
+the supported tuning path uses \code{mstop} and \code{k_neighbors}.
+}

@@ -105,7 +105,8 @@ and \code{"vfold_cv"} score models out-of-sample; \code{"custom"} uses
 
 \item{seed}{Random seed used for resampling.}
 
-\item{verbose}{If \code{TRUE}, print progress messages during tuning.}
+\item{verbose}{If \code{TRUE}, print progress messages during tuning,
+resampling evaluation, and final fits.}
 
 \item{parallel}{If \code{TRUE}, evaluate manual MGWRSAR tuning candidates in
 parallel with \code{parallel::makeCluster()}.}
@@ -124,4 +125,41 @@ Fits the requested estimators on one dataset and returns comparable
 diagnostics. By default, results are in-sample diagnostics. Use \code{cv_scheme}
 to evaluate out-of-sample performance with a holdout, near-prediction folds,
 spatial blocks, classic v-fold cross-validation, or custom rsample objects.
+}
+\details{
+Spatial machine-learning forest routes are available when their optional
+packages are installed. \code{spatialml_grf} calls \code{SpatialML::grf()}, a
+Geographical Random Forest that fits one local random forest per training
+observation and predicts new observations from the nearest local forest.
+\code{spatialrf} calls \code{spatialRF::rf_spatial()}, which augments a random forest
+with spatial predictors such as Moran eigenvector maps; its most robust
+diagnostic path is currently in-sample because the upstream package exposes
+\code{get_predictions()} for fitted predictions. \code{rfgls} calls
+\code{RandomForestsGLS::RFGLS_estimate_spatial()}, which combines random forests
+with a GLS correction for spatial dependence using a nearest-neighbour
+Gaussian-process/Vecchia-style approximation.
+
+\code{AIC}, \code{AICc}, and \code{logLik} are reported when the fitted backend exposes a
+likelihood and a usable parameter count. For \code{spboost}, the package first
+tries the standard R methods, then falls back to backend fields such as
+\code{logl}/\code{AIC} and an explicit active-coefficient count when available.
+
+The \code{spatial_param} and \code{spatial_value} columns report a single explicit
+spatial dependence parameter when the fitted backend exposes one. SAR-style
+models usually report \code{rho}, the coefficient of the spatially lagged
+response \verb{W y}. SEM-style models report \code{lambda}, the coefficient of the
+spatially autocorrelated error process. Some MGWRSAR variants estimate a
+local spatial parameter; those are summarized as \code{lambda_local_mean}.
+
+Models such as \code{random_forest}, \code{spatialml_grf}, and \code{spatialrf} may use
+coordinates, local forests, distances, or spatial predictors, but they do not
+estimate one scalar econometric parameter equivalent to \code{rho} or \code{lambda}.
+Their \code{spatial_param} and \code{spatial_value} columns therefore remain \code{NA}.
+
+Runtime is recorded in seconds. The main \code{results} table reports
+\code{duration_sec}, the total measured time spent by each estimator across all
+evaluation folds. The fold-level \code{resample_results} table reports
+\code{elapsed_sec}, the elapsed time for each estimator/fold pair. In in-sample
+evaluations, \code{duration_sec} reports the elapsed time for the fit plus
+diagnostic pass on the full data.
 }

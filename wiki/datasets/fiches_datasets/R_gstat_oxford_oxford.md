@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_gstat_oxford_oxford
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_gstat_oxford_oxford.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows. Grid is oriented with long axis North-north-west to South-south-east Origin of grid is South-south-east point, 100m outside grid.
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows. Grid is oriented with long axis North-north-west to South-south-east Origin of grid is South-south-east point, 100m outside grid.
+- Description source: package R `gstat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -69,17 +80,13 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
-- x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
-- y_term_used: PROFCLASS
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
-- formula_candidate_2: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -117,6 +124,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

@@ -18,8 +18,7 @@ SDM a besoin de W\emph{X pour les nouvelles observations en plus de W}y.
 pour ce type -- confirme le 2026-07-06 sur london_hp: "Input data and
 neighbourhood list have different dimensions", que ce soit newdata=test
 seul (listw train+test) ou newdata=train+test complet (listw incoherente
-avec les row.names internes du fit). API documentee comme fragile dans
-\code{wiki/metadata/tidymodels_parsnip_extension_procedure.md}. On calcule donc
+avec les row.names internes du fit). On calcule donc
 la forme reduite nous-memes sur un systeme ferme limite au fold de test:
 W_test (kNN parmi les points de test uniquement), X_test avec ses lags
 W_test \%\emph{\% X_test, puis y_hat = (I - rho}W_test)^-1 \%\emph{\% (design \%}\% beta).

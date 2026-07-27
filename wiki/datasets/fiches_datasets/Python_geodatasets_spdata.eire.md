@@ -1,14 +1,25 @@
 ---
 title: Python_geodatasets_spdata.eire
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.eire.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`eire`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`eire`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -48,24 +59,24 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ### Formule — niveau publication
 
-- formula_pub: A ~ towns + pale; OWNCONS ~ ROADACC
-- x_terms_pub: towns + pale; ROADACC
-- y_term_pub: A; OWNCONS
-- Reference publication: Official spData::eire examples, Upton and Fingleton (1985), Bailey and Gatrell (1995), Cliff and Ord (1973).
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
 ### Statut regression canonique
 
-- Statut: resolved
-- Niveau de preuve: official_software_documentation
-- Methode d'estimation: OLS + spatial residual diagnostics
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: La documentation officielle `spData::eire` fournit deux exemples de regression ; `A ~ towns + pale` est retenue comme formule systeme principale.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: A ~ towns + pale
-- x_terms_used: towns + pale
-- y_term_used: A
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -86,13 +97,13 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "A ~ towns + pale; OWNCONS ~ ROADACC"
-  equation_family: linear
-  model_family: "OLS with spatial diagnostics"
-  source_type: official_software_documentation
-  source_ref: "Official spData::eire examples; Upton and Fingleton (1985), Bailey and Gatrell (1995), Cliff and Ord (1973)."
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -103,6 +114,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

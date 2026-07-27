@@ -1,14 +1,25 @@
 ---
 title: R_GWmodel_USelect_USelect2004
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_USelect_USelect2004.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Dataset spatial issu du package R `GWmodel` (`USelect`).
+
+## Description du jeu de donnees
+
+- Topic: elections et comportement electoral
+- Observation unit: circonscription, bureau de vote ou unite administrative
+- Observed population: resultats electoraux ou population votante
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package R `GWmodel` (`USelect`).
+- Description source: package R `GWmodel`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -52,16 +63,16 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE
-- x_terms_used: unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+- x_terms_used: unemploy, pctcoled, PEROVER65, pcturban, WHITE
 - y_term_used: winner
 
 ## Bloc 2 — Identification et DOI
@@ -83,10 +94,10 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Robinson, A. C. (2013) Geovisualization of the 2004 Presidential Election. Penn State / National Institutes of Health (web resource)"
   confidence: low
@@ -100,6 +111,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

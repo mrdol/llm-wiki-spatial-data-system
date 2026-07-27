@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_gstat_jura_jura.val
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 The jura data set from Pierre Goovaerts' book (see references below). It contains four ‘data.frame’s: prediction.dat, validation.dat and transect.dat and juragrid.dat, and three ‘data.frame’s with consistently coded land use and rock type factors, as well as geographic coordinates. The examples below show how to transform these into spatial (sp) ob...
+
+## Description du jeu de donnees
+
+- Topic: agriculture / rendement ou experimentation agronomique
+- Observation unit: parcelle, placette experimentale ou observation agricole
+- Observed population: observations agricoles documentees par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: The jura data set from Pierre Goovaerts' book (see references below). It contains four ‘data.frame’s: prediction.dat, validation.dat and transect.dat and juragrid.dat, and three ‘data.frame’s with consistently coded land use and rock type factors, as well as geographic coordinates. The examples below show how to transform these into spatial (sp) ob...
+- Description source: package R `gstat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -59,17 +70,13 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: Cd ~ Landuse + Rock
-- x_terms_used: Landuse + Rock
-- y_term_used: Cd
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: Cd ~ Landuse + Rock
-- formula_candidate_2: Cd ~ Landuse + Rock
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -107,6 +114,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -137,7 +145,7 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat.
+- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages

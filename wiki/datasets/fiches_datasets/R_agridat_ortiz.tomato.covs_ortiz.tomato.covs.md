@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_agridat_ortiz.tomato.covs_ortiz.tomato.covs
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_agridat_ortiz.tomato.covs_ortiz.tomato.covs.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
+
+## Description du jeu de donnees
+
+- Topic: agriculture / rendement ou experimentation agronomique
+- Observation unit: parcelle, placette experimentale ou observation agricole
+- Observed population: observations agricoles documentees par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: colonnes date/time presentes mais traitees comme attributs transactionnels
+- Source description: Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
+- Description source: package R `agridat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -67,17 +78,13 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
-- x_terms_used: Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
-- y_term_used: Day
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
-- formula_candidate_2: Day ~ Dha + Driv + ExK + ExN
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -115,6 +122,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: colonnes date/time presentes mais traitees comme attributs transactionnels
 
 ## Bloc 5 — Resolution et etendue
 

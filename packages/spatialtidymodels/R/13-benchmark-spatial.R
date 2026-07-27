@@ -5,7 +5,7 @@
 # retourne une table comparable. Les raccourcis restent utiles pour inspecter
 # un estimateur pas a pas.
 
-spatial_benchmark_registry <- function() {
+fallback_spatial_benchmark_registry <- function() {
   # Registre utilisateur des estimateurs. Une ligne = une route benchmark,
   # pour eviter les erreurs de longueur entre vecteurs paralleles.
   row <- function(estimator, package, backend, requires_coords, requires_W,
@@ -36,6 +36,9 @@ spatial_benchmark_registry <- function() {
     row("random_forest_xy", "ranger", "ranger::ranger", TRUE, FALSE, "coords_as_covariates", "", "Baseline random forest native tidymodels sur X et coordonnees brutes."),
     row("xgboost", "xgboost", "xgboost::xgb.train", FALSE, FALSE, "", "", "Baseline XGBoost native tidymodels sur X seules."),
     row("xgboost_xy", "xgboost", "xgboost::xgb.train", TRUE, FALSE, "coords_as_covariates", "", "Baseline XGBoost native tidymodels sur X et coordonnees brutes."),
+    row("spatialml_grf", "SpatialML", "SpatialML::grf", TRUE, FALSE, "coords/bandwidth/kernel", "bandwidth, ntree, mtry", "Geographical Random Forest: une foret locale par observation; kernel adaptive, bandwidth = voisins."),
+    row("spatialrf", "spatialRF", "spatialRF::rf_spatial", TRUE, FALSE, "coords/distance_matrix/MEM", "method, ntree, mtry, max_spatial_predictors", "Spatial Random Forest avec predicteurs spatiaux/MEM pour reduire l'autocorrelation residuelle."),
+    row("rfgls", "RandomForestsGLS", "RandomForestsGLS::RFGLS_estimate_spatial", TRUE, FALSE, "coords/covariance/n_neighbors", "ntree, mtry, k_neighbors, nthsize, cov_model", "Random Forest GLS pour donnees spatialement dependantes via approximation NNGP/Vecchia."),
     row("sar_lag", "spatialreg", "spatialreg::lagsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SAR lag via fit_sar()."),
     row("sem_error", "spatialreg", "spatialreg::errorsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SEM error via fit_sem()."),
     row("sdm_mixed", "spatialreg", "spatialreg::lagsarlm(Durbin)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SDM mixed via fit_sdm()."),
@@ -53,6 +56,15 @@ spatial_benchmark_registry <- function() {
     row("spmoran_esf", "spmoran", "spmoran::esf", TRUE, FALSE, "coords", "enum, vif", "Eigenvector spatial filtering via spmoran::esf()."),
     row("spmoran_resf", "spmoran", "spmoran::resf", TRUE, FALSE, "coords", "enum", "Random-effects eigenvector spatial filtering via spmoran::resf().")
   ))
+}
+
+spatial_benchmark_registry <- function() {
+  metadata <- metadata_estimator_registry()
+  out <- if (!is.null(metadata)) metadata else fallback_spatial_benchmark_registry()
+  if (!"test_datasets" %in% names(out)) {
+    out$test_datasets <- I(rep(list(character()), nrow(out)))
+  }
+  out
 }
 
 package_available <- function(package) {
@@ -167,6 +179,20 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         mgwrsar_fixed_vars = NULL,
                                         spmoran_enum = NULL,
                                         spmoran_vif = 10,
+                                        spatialml_bandwidth = 20L,
+                                        spatialml_ntree = 100L,
+                                        spatialml_mtry = NULL,
+                                        spatialrf_ntree = 100L,
+                                        spatialrf_method = "hengl",
+                                        spatialrf_mtry = NULL,
+                                        spatialrf_min_node_size = NULL,
+                                        spatialrf_max_spatial_predictors = NULL,
+                                        rfgls_ntree = 50L,
+                                        rfgls_mtry = NULL,
+                                        rfgls_n_neighbors = NULL,
+                                        rfgls_nthsize = 20L,
+                                        rfgls_cov_model = "exponential",
+                                        rfgls_param_estimate = FALSE,
                                         mgwrsar_control = list()) {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
@@ -228,6 +254,37 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
         add_coords_to_baseline_formula(formula, coords, data), data
       )
     },
+    spatialml_grf = fit_spatialml_grf_impl(
+      formula = formula,
+      data = data,
+      coords = coords,
+      bandwidth = spatialml_bandwidth,
+      kernel = "adaptive",
+      ntree = spatialml_ntree,
+      mtry = spatialml_mtry
+    ),
+    spatialrf = fit_spatialrf_impl(
+      formula = formula,
+      data = data,
+      coords = coords,
+      ntree = spatialrf_ntree,
+      method = spatialrf_method,
+      mtry = spatialrf_mtry,
+      min_node_size = spatialrf_min_node_size,
+      max_spatial_predictors = spatialrf_max_spatial_predictors,
+      ncores = 1L
+    ),
+    rfgls = fit_rfgls_impl(
+      formula = formula,
+      data = data,
+      coords = coords,
+      ntree = rfgls_ntree,
+      n_neighbors = rfgls_n_neighbors %||% k_neighbors,
+      nthsize = rfgls_nthsize,
+      mtry = rfgls_mtry,
+      cov_model = rfgls_cov_model,
+      param_estimate = rfgls_param_estimate
+    ),
     sar_lag = fit_sar(
       formula, data = data, coords = coords, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
@@ -397,6 +454,10 @@ default_benchmark_grid <- function(estimator, data) {
   mgwrsar_kernel <- "gauss"
   mgwrsar_k <- unique(pmin(if (n > 1500L) c(8L) else c(4L, 8L, 12L), max(2L, n - 1L)))
   spmoran_enum_grid <- unique(pmin(if (n > 1500L) c(50L, 100L) else c(5L, 10L, 20L), max(2L, n - 1L)))
+  p <- max(1L, ncol(data) - 3L)
+  forest_mtry <- unique(pmin(p, pmax(1L, c(floor(sqrt(p)), floor(p / 3L)))))
+  grf_bandwidth <- unique(pmin(max(2L, n - 1L), if (n > 1500L) 100L else c(50L, 100L)))
+  rfgls_neighbors <- unique(pmin(max(2L, n - 1L), 15L))
   switch(estimator,
     sar_lag = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
     sem_error = data.frame(k_neighbors = unique(pmin(c(4L, 8L, 12L), max(2L, n - 1L)))),
@@ -407,6 +468,27 @@ default_benchmark_grid <- function(estimator, data) {
     spboost_bspa_sar_cfe = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
     spboost_bspa_sem_ml = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
     spboost_bspa_sem_cfe = expand.grid(mstop = c(50L, 100L, 200L), k_neighbors = unique(pmin(c(4L, 8L), max(2L, n - 1L))), KEEP.OUT.ATTRS = FALSE),
+    spatialml_grf = expand.grid(
+      bandwidth = grf_bandwidth,
+      ntree = 100L,
+      mtry = forest_mtry[[1L]],
+      KEEP.OUT.ATTRS = FALSE
+    ),
+    spatialrf = expand.grid(
+      method = "hengl",
+      ntree = 100L,
+      mtry = forest_mtry[[1L]],
+      max_spatial_predictors = if (n > 1500L) 25L else c(10L, 25L),
+      KEEP.OUT.ATTRS = FALSE
+    ),
+    rfgls = expand.grid(
+      ntree = 50L,
+      mtry = forest_mtry[[1L]],
+      k_neighbors = rfgls_neighbors,
+      cov_model = "exponential",
+      param_estimate = FALSE,
+      KEEP.OUT.ATTRS = FALSE
+    ),
     mgwrsar_gwr = expand.grid(
       bandwidth = mgwrsar_h,
       kernel = mgwrsar_kernel,
@@ -788,6 +870,140 @@ tune_spmoran_benchmark <- function(estimator, formula, data, coords, resamples,
   )
 }
 
+tune_spatial_forest_benchmark <- function(estimator, formula, coords, resamples,
+                                          grid, k_neighbors = 8L,
+                                          verbose = FALSE) {
+  # Les packages SpatialML/spatialRF/RandomForestsGLS ne passent pas encore par
+  # parsnip. On tune donc leurs hyperparametres avec la meme boucle manuelle que
+  # les estimateurs spatiaux externes: candidat x folds -> RMSE moyen.
+  if (identical(estimator, "spatialml_grf")) {
+    if (!"bandwidth" %in% names(grid)) grid$bandwidth <- 20L
+    if (!"ntree" %in% names(grid)) grid$ntree <- 100L
+    if (!"mtry" %in% names(grid)) grid$mtry <- NA_integer_
+    grid$bandwidth <- as.integer(grid$bandwidth)
+    grid$ntree <- as.integer(grid$ntree)
+    grid$mtry <- as.integer(grid$mtry)
+    grid_cols <- c("bandwidth", "ntree", "mtry")
+  } else if (identical(estimator, "spatialrf")) {
+    if (!"method" %in% names(grid)) grid$method <- "hengl"
+    if (!"ntree" %in% names(grid)) grid$ntree <- 100L
+    if (!"mtry" %in% names(grid)) grid$mtry <- NA_integer_
+    if (!"min_node_size" %in% names(grid)) grid$min_node_size <- NA_integer_
+    if (!"max_spatial_predictors" %in% names(grid)) grid$max_spatial_predictors <- NA_integer_
+    grid$method <- as.character(grid$method)
+    grid$ntree <- as.integer(grid$ntree)
+    grid$mtry <- as.integer(grid$mtry)
+    grid$min_node_size <- as.integer(grid$min_node_size)
+    grid$max_spatial_predictors <- as.integer(grid$max_spatial_predictors)
+    grid_cols <- c("method", "ntree", "mtry", "min_node_size", "max_spatial_predictors")
+  } else {
+    if (!"ntree" %in% names(grid)) grid$ntree <- 50L
+    if (!"mtry" %in% names(grid)) grid$mtry <- NA_integer_
+    if (!"k_neighbors" %in% names(grid)) grid$k_neighbors <- k_neighbors
+    if (!"nthsize" %in% names(grid)) grid$nthsize <- 20L
+    if (!"cov_model" %in% names(grid)) grid$cov_model <- "exponential"
+    if (!"param_estimate" %in% names(grid)) grid$param_estimate <- FALSE
+    grid$ntree <- as.integer(grid$ntree)
+    grid$mtry <- as.integer(grid$mtry)
+    grid$k_neighbors <- as.integer(grid$k_neighbors)
+    grid$nthsize <- as.integer(grid$nthsize)
+    grid$cov_model <- as.character(grid$cov_model)
+    grid$param_estimate <- as.logical(grid$param_estimate)
+    grid_cols <- c("ntree", "mtry", "k_neighbors", "nthsize", "cov_model", "param_estimate")
+  }
+
+  rows <- lapply(seq_len(nrow(grid)), function(i) {
+    candidate <- grid[i, , drop = FALSE]
+    benchmark_log(
+      verbose,
+      "[tuning] %s candidat %d/%d",
+      estimator, i, nrow(grid)
+    )
+    params <- list(
+      k_neighbors = if ("k_neighbors" %in% names(candidate)) as.integer(candidate$k_neighbors[[1]]) else k_neighbors,
+      style = "W",
+      zero_policy = TRUE,
+      spboost_mstop = 100L,
+      spboost_nu = 0.1,
+      gamboost_mstop = 100L,
+      gamboost_nu = 0.1,
+      mgwrsar_bandwidth = 20L,
+      mgwrsar_kernel = "gauss",
+      mgwrsar_fixed_vars = NULL,
+      spmoran_enum = NULL,
+      spmoran_vif = 10,
+      spatialml_bandwidth = if ("bandwidth" %in% names(candidate)) as.integer(candidate$bandwidth[[1]]) else 20L,
+      spatialml_ntree = if ("ntree" %in% names(candidate)) as.integer(candidate$ntree[[1]]) else 100L,
+      spatialml_mtry = if ("mtry" %in% names(candidate) && !is.na(candidate$mtry[[1]])) as.integer(candidate$mtry[[1]]) else NULL,
+      spatialrf_ntree = if ("ntree" %in% names(candidate)) as.integer(candidate$ntree[[1]]) else 100L,
+      spatialrf_method = if ("method" %in% names(candidate)) as.character(candidate$method[[1]]) else "hengl",
+      spatialrf_mtry = if ("mtry" %in% names(candidate) && !is.na(candidate$mtry[[1]])) as.integer(candidate$mtry[[1]]) else NULL,
+      spatialrf_min_node_size = if ("min_node_size" %in% names(candidate) && !is.na(candidate$min_node_size[[1]])) as.integer(candidate$min_node_size[[1]]) else NULL,
+      spatialrf_max_spatial_predictors = if ("max_spatial_predictors" %in% names(candidate) && !is.na(candidate$max_spatial_predictors[[1]])) as.integer(candidate$max_spatial_predictors[[1]]) else NULL,
+      rfgls_ntree = if ("ntree" %in% names(candidate)) as.integer(candidate$ntree[[1]]) else 50L,
+      rfgls_mtry = if ("mtry" %in% names(candidate) && !is.na(candidate$mtry[[1]])) as.integer(candidate$mtry[[1]]) else NULL,
+      rfgls_n_neighbors = if ("k_neighbors" %in% names(candidate)) as.integer(candidate$k_neighbors[[1]]) else k_neighbors,
+      rfgls_nthsize = if ("nthsize" %in% names(candidate)) as.integer(candidate$nthsize[[1]]) else 20L,
+      rfgls_cov_model = if ("cov_model" %in% names(candidate)) as.character(candidate$cov_model[[1]]) else "exponential",
+      rfgls_param_estimate = if ("param_estimate" %in% names(candidate)) isTRUE(candidate$param_estimate[[1]]) else FALSE
+    )
+    fold_rows <- lapply(seq_len(nrow(resamples)), function(j) {
+      fold_id <- if ("id" %in% names(resamples)) as.character(resamples$id[[j]]) else paste0("Fold", j)
+      benchmark_log(verbose, "[tuning] %s candidat %d fold %s", estimator, i, fold_id)
+      score_benchmark_fold(
+        estimator = estimator,
+        fold_id = fold_id,
+        split = resamples$splits[[j]],
+        formula = formula,
+        coords = coords,
+        params = params
+      )
+    })
+    fold_rows <- do.call(rbind, fold_rows)
+    ok <- is.na(fold_rows$fit_error) & is.finite(fold_rows$rmse) & is.finite(fold_rows$mae)
+    out <- candidate[, grid_cols, drop = FALSE]
+    out$rmse <- if (any(ok)) mean(fold_rows$rmse[ok]) else NA_real_
+    out$mae <- if (any(ok)) mean(fold_rows$mae[ok]) else NA_real_
+    out$n_rmse <- sum(ok)
+    out$n_mae <- sum(ok)
+    out$n_ok <- sum(ok)
+    out$n_failed <- sum(!ok)
+    out$fit_error <- paste(unique(stats::na.omit(fold_rows$fit_error)), collapse = " | ")
+    out
+  })
+  grid_out <- do.call(rbind, rows)
+  grid_out$fit_error[grid_out$fit_error == ""] <- NA_character_
+  grid_out <- grid_out[order(grid_out$rmse), , drop = FALSE]
+  if (!any(is.finite(grid_out$rmse))) {
+    stop(sprintf("All %s tuning candidates failed.", estimator), call. = FALSE)
+  }
+  best <- grid_out[which.min(grid_out$rmse), , drop = FALSE]
+  params <- switch(estimator,
+    spatialml_grf = list(
+      spatialml_bandwidth = as.integer(best$bandwidth[[1]]),
+      spatialml_ntree = as.integer(best$ntree[[1]]),
+      spatialml_mtry = if (!is.na(best$mtry[[1]])) as.integer(best$mtry[[1]]) else NULL
+    ),
+    spatialrf = list(
+      spatialrf_ntree = as.integer(best$ntree[[1]]),
+      spatialrf_method = as.character(best$method[[1]]),
+      spatialrf_mtry = if (!is.na(best$mtry[[1]])) as.integer(best$mtry[[1]]) else NULL,
+      spatialrf_min_node_size = if (!is.na(best$min_node_size[[1]])) as.integer(best$min_node_size[[1]]) else NULL,
+      spatialrf_max_spatial_predictors = if (!is.na(best$max_spatial_predictors[[1]])) as.integer(best$max_spatial_predictors[[1]]) else NULL
+    ),
+    rfgls = list(
+      rfgls_ntree = as.integer(best$ntree[[1]]),
+      rfgls_mtry = if (!is.na(best$mtry[[1]])) as.integer(best$mtry[[1]]) else NULL,
+      rfgls_n_neighbors = as.integer(best$k_neighbors[[1]]),
+      rfgls_nthsize = as.integer(best$nthsize[[1]]),
+      rfgls_cov_model = as.character(best$cov_model[[1]]),
+      rfgls_param_estimate = isTRUE(best$param_estimate[[1]]),
+      k_neighbors = as.integer(best$k_neighbors[[1]])
+    )
+  )
+  list(grid = grid_out, best = best, tune_result = NULL, params = params)
+}
+
 tune_mgwrsar_candidate <- function(i, estimator, formula, coords, resamples, grid, mixed,
                                    verbose = FALSE) {
   # Evalue un candidat MGWRSAR sur tous les folds. Cette fonction est separee
@@ -953,6 +1169,9 @@ tune_one_benchmark_estimator <- function(estimator, formula, data, coords, resam
       spboost_bspa_sar_cfe = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
       spboost_bspa_sem_ml = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
       spboost_bspa_sem_cfe = tune_spboost_benchmark(estimator, formula, data, coords, resamples, grid, spboost_nu, k_neighbors, verbose),
+      spatialml_grf = tune_spatial_forest_benchmark(estimator, formula, coords, resamples, grid, k_neighbors, verbose),
+      spatialrf = tune_spatial_forest_benchmark(estimator, formula, coords, resamples, grid, k_neighbors, verbose),
+      rfgls = tune_spatial_forest_benchmark(estimator, formula, coords, resamples, grid, k_neighbors, verbose),
       mgwrsar_gwr = tune_mgwrsar_gwr_benchmark(estimator, formula, data, coords, resamples, grid, verbose),
       mgwrsar_mgwrsar = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
       MGWRSAR_0_kc_kv = tune_mgwrsar_autocorrelated_benchmark(estimator, formula, data, coords, resamples, grid, k_neighbors, parallel, workers, verbose),
@@ -1293,7 +1512,11 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     rmse = NA_real_,
     mae = NA_real_,
     aic = NA_real_,
+    aicc = NA_real_,
     logLik = NA_real_,
+    elapsed_sec = NA_real_,
+    elapsed_total_sec = NA_real_,
+    duration_sec = NA_real_,
     spatial_param = NA_character_,
     spatial_value = NA_real_,
     moran_i = NA_real_,
@@ -1308,6 +1531,9 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
   # Ajoute les colonnes propres au benchmark automatique.
   row$estimator <- estimator
   row$fit_error <- NA_character_
+  if (!"elapsed_sec" %in% names(row)) row$elapsed_sec <- NA_real_
+  if (!"elapsed_total_sec" %in% names(row)) row$elapsed_total_sec <- NA_real_
+  if (!"duration_sec" %in% names(row)) row$duration_sec <- row$elapsed_total_sec
   row
 }
 
@@ -1347,6 +1573,8 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
   # metriques hors-echantillon. Les erreurs restent dans une ligne de resultat.
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
+  elapsed_start <- proc.time()[["elapsed"]]
+  elapsed_now <- function() as.numeric(proc.time()[["elapsed"]] - elapsed_start)
   params <- ensure_mgwrsar_fixed_vars_params(
     params = params,
     estimator = estimator,
@@ -1373,6 +1601,20 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
       spmoran_enum = params$spmoran_enum,
       spmoran_vif = params$spmoran_vif,
+      spatialml_bandwidth = params$spatialml_bandwidth,
+      spatialml_ntree = params$spatialml_ntree,
+      spatialml_mtry = params$spatialml_mtry,
+      spatialrf_ntree = params$spatialrf_ntree,
+      spatialrf_method = params$spatialrf_method,
+      spatialrf_mtry = params$spatialrf_mtry,
+      spatialrf_min_node_size = params$spatialrf_min_node_size,
+      spatialrf_max_spatial_predictors = params$spatialrf_max_spatial_predictors,
+      rfgls_ntree = params$rfgls_ntree,
+      rfgls_mtry = params$rfgls_mtry,
+      rfgls_n_neighbors = params$rfgls_n_neighbors,
+      rfgls_nthsize = params$rfgls_nthsize,
+      rfgls_cov_model = params$rfgls_cov_model,
+      rfgls_param_estimate = params$rfgls_param_estimate,
       mgwrsar_control = mgwrsar_control
     ),
     error = function(e) e
@@ -1386,6 +1628,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       response = deparse(formula[[2]]),
       rmse = NA_real_,
       mae = NA_real_,
+      elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
@@ -1415,6 +1658,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       response = deparse(formula[[2]]),
       rmse = NA_real_,
       mae = NA_real_,
+      elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
@@ -1435,6 +1679,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     response = diag$response[[1]],
     rmse = diag$rmse[[1]],
     mae = diag$mae[[1]],
+    elapsed_sec = elapsed_now(),
     moran_i = diag$moran_i[[1]],
     moran_p_value = diag$moran_p_value[[1]],
     moran_error = diag$moran_error[[1]],
@@ -1444,23 +1689,39 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
 }
 
 evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
-                                         eval_resamples, base_params, tuning) {
+                                         eval_resamples, base_params, tuning,
+                                         verbose = FALSE) {
   # Boucle explicite fold x estimateur pour obtenir une table comparable au
   # benchmark manuel, avec une ligne par fold.
   rows <- list()
   for (estimator in estimators) {
     params <- apply_tuned_params(base_params, tuning[[estimator]])
+    benchmark_log(
+      verbose,
+      "[evaluation] %s: %d resamples",
+      estimator,
+      nrow(eval_resamples)
+    )
     for (i in seq_len(nrow(eval_resamples))) {
       fold_id <- if ("id" %in% names(eval_resamples)) {
         as.character(eval_resamples$id[[i]])
       } else {
         paste0("Fold", i)
       }
+      split <- eval_resamples$splits[[i]]
+      benchmark_log(
+        verbose,
+        "[evaluation] %s fold %s: train=%d test=%d",
+        estimator,
+        fold_id,
+        nrow(rsample::analysis(split)),
+        nrow(rsample::assessment(split))
+      )
       key <- paste(estimator, fold_id, sep = "__")
       rows[[key]] <- score_benchmark_fold(
         estimator = estimator,
         fold_id = fold_id,
-        split = eval_resamples$splits[[i]],
+        split = split,
         formula = formula,
         coords = coords,
         params = params
@@ -1474,6 +1735,8 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
 
 summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   # Agrege les lignes fold par fold en une table principale par estimateur.
+  # La table principale garde seulement le temps total lisible par estimateur;
+  # le detail des temps par fold reste disponible dans resample_results.
   pieces <- lapply(split(resample_results, resample_results$estimator), function(rows) {
     ok <- is.na(rows$fit_error) & is.finite(rows$rmse) & is.finite(rows$mae)
     data.frame(
@@ -1484,7 +1747,13 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
       mae = if (any(ok)) mean(rows$mae[ok]) else NA_real_,
       rmse_sd = if (sum(ok) > 1L) stats::sd(rows$rmse[ok]) else NA_real_,
       mae_sd = if (sum(ok) > 1L) stats::sd(rows$mae[ok]) else NA_real_,
+      duration_sec = if (any(!is.na(rows$elapsed_sec))) {
+        sum(rows$elapsed_sec, na.rm = TRUE)
+      } else {
+        NA_real_
+      },
       aic = NA_real_,
+      aicc = NA_real_,
       logLik = NA_real_,
       spatial_param = NA_character_,
       spatial_value = NA_real_,
@@ -1508,12 +1777,52 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   out
 }
 
+augment_results_with_final_diagnostics <- function(results, fits, data, coords, formula,
+                                                   base_params, tuning) {
+  # Les performances restent celles de la validation croisee. Cette passe ajoute
+  # seulement les diagnostics disponibles sur le modele final ajuste sur tout le
+  # jeu de donnees: AIC/AICc, logLik et parametre spatial explicite.
+  for (estimator in intersect(results$estimator, names(fits))) {
+    fit <- fits[[estimator]]
+    if (inherits(fit, "error") || is.null(fit)) next
+    params <- apply_tuned_params(base_params, tuning[[estimator]])
+    diag <- tryCatch(
+      diagnose_spatial(
+        fit,
+        data = data,
+        coords = coords,
+        formula = formula,
+        k_neighbors = params$k_neighbors,
+        style = params$style,
+        zero_policy = params$zero_policy,
+        include_baseline = FALSE
+      ),
+      error = function(e) NULL
+    )
+    if (is.null(diag) || nrow(diag) == 0L) next
+    idx <- which(results$estimator == estimator)
+    results$aic[idx] <- diag$aic[[1]]
+    results$aicc[idx] <- diag$aicc[[1]]
+    results$logLik[idx] <- diag$logLik[[1]]
+    results$spatial_param[idx] <- diag$spatial_param[[1]]
+    results$spatial_value[idx] <- diag$spatial_value[[1]]
+  }
+  results
+}
+
 fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
-                                           base_params, tuning) {
+                                           base_params, tuning,
+                                           verbose = FALSE) {
   # Ajuste les modeles finaux sur toutes les donnees pour inspection ulterieure
   # dans bench$fits. L'evaluation CV reste stockee separement.
   fits <- list()
   for (estimator in estimators) {
+    benchmark_log(
+      verbose,
+      "[final fit] %s: n=%d",
+      estimator,
+      nrow(data)
+    )
     params <- apply_tuned_params(base_params, tuning[[estimator]])
     params <- ensure_mgwrsar_fixed_vars_params(
       params = params,
@@ -1534,6 +1843,20 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
         mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
         spmoran_enum = params$spmoran_enum,
         spmoran_vif = params$spmoran_vif,
+        spatialml_bandwidth = params$spatialml_bandwidth,
+        spatialml_ntree = params$spatialml_ntree,
+        spatialml_mtry = params$spatialml_mtry,
+        spatialrf_ntree = params$spatialrf_ntree,
+        spatialrf_method = params$spatialrf_method,
+        spatialrf_mtry = params$spatialrf_mtry,
+        spatialrf_min_node_size = params$spatialrf_min_node_size,
+        spatialrf_max_spatial_predictors = params$spatialrf_max_spatial_predictors,
+        rfgls_ntree = params$rfgls_ntree,
+        rfgls_mtry = params$rfgls_mtry,
+        rfgls_n_neighbors = params$rfgls_n_neighbors,
+        rfgls_nthsize = params$rfgls_nthsize,
+        rfgls_cov_model = params$rfgls_cov_model,
+        rfgls_param_estimate = params$rfgls_param_estimate,
         mgwrsar_control = list()
       ),
       error = function(e) e
@@ -1644,7 +1967,8 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param near_test_size Target number of near-prediction test cells.
 #' @param block_folds Number of spatial block folds.
 #' @param seed Random seed used for resampling.
-#' @param verbose If `TRUE`, print progress messages during tuning.
+#' @param verbose If `TRUE`, print progress messages during tuning,
+#'   resampling evaluation, and final fits.
 #' @param parallel If `TRUE`, evaluate manual MGWRSAR tuning candidates in
 #'   parallel with `parallel::makeCluster()`.
 #' @param workers Number of parallel workers when `parallel = TRUE`.
@@ -1653,6 +1977,43 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
 #'   final `fits`.
+#'
+#' @details
+#' Spatial machine-learning forest routes are available when their optional
+#' packages are installed. `spatialml_grf` calls `SpatialML::grf()`, a
+#' Geographical Random Forest that fits one local random forest per training
+#' observation and predicts new observations from the nearest local forest.
+#' `spatialrf` calls `spatialRF::rf_spatial()`, which augments a random forest
+#' with spatial predictors such as Moran eigenvector maps; its most robust
+#' diagnostic path is currently in-sample because the upstream package exposes
+#' `get_predictions()` for fitted predictions. `rfgls` calls
+#' `RandomForestsGLS::RFGLS_estimate_spatial()`, which combines random forests
+#' with a GLS correction for spatial dependence using a nearest-neighbour
+#' Gaussian-process/Vecchia-style approximation.
+#'
+#' `AIC`, `AICc`, and `logLik` are reported when the fitted backend exposes a
+#' likelihood and a usable parameter count. For `spboost`, the package first
+#' tries the standard R methods, then falls back to backend fields such as
+#' `logl`/`AIC` and an explicit active-coefficient count when available.
+#'
+#' The `spatial_param` and `spatial_value` columns report a single explicit
+#' spatial dependence parameter when the fitted backend exposes one. SAR-style
+#' models usually report `rho`, the coefficient of the spatially lagged
+#' response `W y`. SEM-style models report `lambda`, the coefficient of the
+#' spatially autocorrelated error process. Some MGWRSAR variants estimate a
+#' local spatial parameter; those are summarized as `lambda_local_mean`.
+#'
+#' Models such as `random_forest`, `spatialml_grf`, and `spatialrf` may use
+#' coordinates, local forests, distances, or spatial predictors, but they do not
+#' estimate one scalar econometric parameter equivalent to `rho` or `lambda`.
+#' Their `spatial_param` and `spatial_value` columns therefore remain `NA`.
+#'
+#' Runtime is recorded in seconds. The main `results` table reports
+#' `duration_sec`, the total measured time spent by each estimator across all
+#' evaluation folds. The fold-level `resample_results` table reports
+#' `elapsed_sec`, the elapsed time for each estimator/fold pair. In in-sample
+#' evaluations, `duration_sec` reports the elapsed time for the fit plus
+#' diagnostic pass on the full data.
 #' @export
 benchmark_spatial <- function(formula, data, coords,
                               estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
@@ -1694,7 +2055,21 @@ benchmark_spatial <- function(formula, data, coords,
     mgwrsar_kernel = mgwrsar_kernel,
     mgwrsar_fixed_vars = mgwrsar_fixed_vars,
     spmoran_enum = spmoran_enum,
-    spmoran_vif = spmoran_vif
+    spmoran_vif = spmoran_vif,
+    spatialml_bandwidth = 20L,
+    spatialml_ntree = 100L,
+    spatialml_mtry = NULL,
+    spatialrf_ntree = 100L,
+    spatialrf_method = "hengl",
+    spatialrf_mtry = NULL,
+    spatialrf_min_node_size = NULL,
+    spatialrf_max_spatial_predictors = NULL,
+    rfgls_ntree = 50L,
+    rfgls_mtry = NULL,
+    rfgls_n_neighbors = NULL,
+    rfgls_nthsize = 20L,
+    rfgls_cov_model = "exponential",
+    rfgls_param_estimate = FALSE
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -1744,12 +2119,27 @@ benchmark_spatial <- function(formula, data, coords,
       coords = coords,
       eval_resamples = eval_resamples,
       base_params = base_params,
-      tuning = tuning
+      tuning = tuning,
+      verbose = verbose
     )
     results <- summarize_resample_results(resample_results, formula = formula, cv_scheme = cv_scheme)
-    fits <- fit_final_benchmark_estimators(estimators, formula, data, coords, base_params, tuning)
+    fits <- fit_final_benchmark_estimators(
+      estimators, formula, data, coords, base_params, tuning,
+      verbose = verbose
+    )
+    results <- augment_results_with_final_diagnostics(
+      results = results,
+      fits = fits,
+      data = data,
+      coords = coords,
+      formula = formula,
+      base_params = base_params,
+      tuning = tuning
+    )
   } else {
     for (estimator in estimators) {
+      benchmark_log(verbose, "[in-sample] %s: n=%d", estimator, nrow(data))
+      elapsed_start <- proc.time()[["elapsed"]]
       params <- apply_tuned_params(base_params, tuning[[estimator]])
       fit <- tryCatch(
         fit_one_benchmark_estimator(
@@ -1761,12 +2151,31 @@ benchmark_spatial <- function(formula, data, coords,
           mgwrsar_kernel = params$mgwrsar_kernel,
           mgwrsar_fixed_vars = params$mgwrsar_fixed_vars,
           spmoran_enum = params$spmoran_enum,
-          spmoran_vif = params$spmoran_vif
+          spmoran_vif = params$spmoran_vif,
+          spatialml_bandwidth = params$spatialml_bandwidth,
+          spatialml_ntree = params$spatialml_ntree,
+          spatialml_mtry = params$spatialml_mtry,
+          spatialrf_ntree = params$spatialrf_ntree,
+          spatialrf_method = params$spatialrf_method,
+          spatialrf_mtry = params$spatialrf_mtry,
+          spatialrf_min_node_size = params$spatialrf_min_node_size,
+          spatialrf_max_spatial_predictors = params$spatialrf_max_spatial_predictors,
+          rfgls_ntree = params$rfgls_ntree,
+          rfgls_mtry = params$rfgls_mtry,
+          rfgls_n_neighbors = params$rfgls_n_neighbors,
+          rfgls_nthsize = params$rfgls_nthsize,
+          rfgls_cov_model = params$rfgls_cov_model,
+          rfgls_param_estimate = params$rfgls_param_estimate
         ),
         error = function(e) e
       )
       if (inherits(fit, "error")) {
         rows[[estimator]] <- failed_benchmark_row(estimator, data, formula, fit)
+        rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
+        rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
+        rows[[estimator]]$duration_sec <- rows[[estimator]]$elapsed_total_sec
+        rows[[estimator]]$elapsed_sec <- NULL
+        rows[[estimator]]$elapsed_total_sec <- NULL
         next
       }
       fits[[estimator]] <- fit
@@ -1781,6 +2190,11 @@ benchmark_spatial <- function(formula, data, coords,
         include_baseline = FALSE
       )
       rows[[estimator]] <- normalize_diagnostic_row_for_benchmark(diag[1, , drop = FALSE], estimator)
+      rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
+      rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
+      rows[[estimator]]$duration_sec <- rows[[estimator]]$elapsed_total_sec
+      rows[[estimator]]$elapsed_sec <- NULL
+      rows[[estimator]]$elapsed_total_sec <- NULL
     }
 
     results <- do.call(rbind, rows)
@@ -1832,7 +2246,8 @@ benchmark_print_columns <- function(results) {
   # Colonnes utiles a l'affichage console; l'objet complet garde toutes les
   # colonnes dans $results.
   cols <- c("dataset", "estimator", "n", "response", "rmse", "mae",
-            "aic", "spatial_param", "spatial_value", "moran_p_value", "fit_error")
+            "duration_sec", "aic", "aicc", "spatial_param", "spatial_value",
+            "moran_p_value", "fit_error")
   cols[cols %in% names(results)]
 }
 

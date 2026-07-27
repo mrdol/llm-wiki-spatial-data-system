@@ -1,14 +1,25 @@
 ---
 title: R_spdep_oldcol_COL.OLD
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spdep_oldcol_COL.OLD.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Dataset spatial issu du package R `spdep` (`oldcol`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package R `spdep` (`oldcol`).
+- Description source: package R `spdep`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -58,16 +69,16 @@ Dataset spatial issu du package R `spdep` (`oldcol`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: Python_geodatasets_spdata.columbus
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: CRIME ~ HOVAL + INC
-- x_terms_used: HOVAL + INC
+- x_terms_used: HOVAL, INC
 - y_term_used: CRIME
 
 ## Bloc 2 — Identification et DOI
@@ -89,10 +100,10 @@ Dataset spatial issu du package R `spdep` (`oldcol`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "CRIME ~ HOVAL + INC"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189."
   confidence: low
@@ -106,6 +117,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

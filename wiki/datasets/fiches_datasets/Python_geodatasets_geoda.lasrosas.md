@@ -1,14 +1,25 @@
 ---
 title: Python_geodatasets_geoda.lasrosas
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.lasrosas.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -70,23 +81,23 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 
 ### Formule — niveau publication
 
-- formula_pub: yield ~ 1 + nitro + I(nitro^2)
-- x_terms_pub: 1 + nitro + I(nitro^2)
+- formula_pub: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- x_terms_pub: 1 + nitro + I(nitro^2) (referencee dans catalogue)
 - y_term_pub: yield
 - Reference publication: Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture.
 
 ### Statut regression canonique
 
-- Statut: resolved
-- Niveau de preuve: article
-- Methode d'estimation: spatial regression
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: R_agridat_lasrosas.corn_lasrosas.corn
 - Note: Formule identifiee via la documentation du package equivalent `R_agridat_lasrosas.corn_lasrosas.corn` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: yield ~ 1 + nitro + I(nitro^2)
-- x_terms_used: 1 + nitro + I(nitro^2)
+- formula_used: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- x_terms_used: 1 + nitro + I(nitro^2) (referencee dans catalogue)
 - y_term_used: yield
 
 ## Bloc 2 — Identification et DOI
@@ -109,12 +120,12 @@ Dataset spatial issu du package Python `geodatasets` (`lasrosas`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "yield ~ 1 + nitro + I(nitro^2)"
-  equation_family: quadratic_linear
-  model_family: "spatial regression"
-  source_type: conference_paper
+  equation_text: "yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)"
+  equation_family: unknown
+  model_family: "formule publication confirmee et utilisee"
+  source_type: unknown
   source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
-  confidence: medium
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -125,6 +136,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

@@ -7,8 +7,8 @@
 
 #' Specification parsnip pour SAR, SEM et SDM
 #'
-#' Cree une specification `parsnip` experimentale pour les modeles spatiaux
-#' classiques ajustes par `spatialreg`: SAR lag, SEM error et SDM mixed.
+#' Cree une specification `parsnip` pour les modeles spatiaux classiques
+#' ajustes par `spatialreg`: SAR lag, SEM error et SDM mixed.
 #'
 #' @param mode Mode parsnip. Seul `"regression"` est supporte.
 #' @param coords Colonnes de coordonnees disponibles dans le workflow.
@@ -159,8 +159,8 @@ update.spatialreg_reg <- function(object, parameters = NULL, coords = NULL,
                                   W = NULL, model_type = NULL, k_neighbors = NULL,
                                   style = NULL, zero_policy = NULL,
                                   fresh = FALSE, ...) {
-  # Necessaire pour rester compatible avec la mecanique parsnip/tune, meme si
-  # ces modeles ne sont pas encore tunes dans le benchmark courant.
+  # Necessaire pour rester compatible avec la mecanique parsnip/tune:
+  # tune_grid() remplace les valeurs tune() par grille via update().
   args <- list(
     coords = rlang::enquo(coords),
     W = rlang::enquo(W),
@@ -252,8 +252,7 @@ spatialreg_fit_impl <- function(formula, data, coords, W = NULL,
 #' pour ce type -- confirme le 2026-07-06 sur london_hp: "Input data and
 #' neighbourhood list have different dimensions", que ce soit newdata=test
 #' seul (listw train+test) ou newdata=train+test complet (listw incoherente
-#' avec les row.names internes du fit). API documentee comme fragile dans
-#' `wiki/metadata/tidymodels_parsnip_extension_procedure.md`. On calcule donc
+#' avec les row.names internes du fit). On calcule donc
 #' la forme reduite nous-memes sur un systeme ferme limite au fold de test:
 #' W_test (kNN parmi les points de test uniquement), X_test avec ses lags
 #' W_test %*% X_test, puis y_hat = (I - rho*W_test)^-1 %*% (design %*% beta).

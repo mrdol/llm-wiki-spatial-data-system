@@ -1,14 +1,25 @@
 ---
 title: Python_geodatasets_geoda.guerry
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.guerry.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`guerry`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`guerry`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -56,24 +67,24 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ### Formule — niveau publication
 
-- formula_pub: Crime_pers ~ Region + Literacy + Donations + Infants + Suicides; Crime_prop ~ Region + Literacy + Donations + Infants + Suicides
-- x_terms_pub: Region + Literacy + Donations + Infants + Suicides
-- y_term_pub: Crime_pers; Crime_prop
-- Reference publication: Official Guerry package vignette, "Guerry data: Multivariate Analysis", Michael Friendly; Friendly (2007), Statistical Science 22, 368-399.
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
 ### Statut regression canonique
 
-- Statut: resolved
-- Niveau de preuve: official_software_documentation
-- Methode d'estimation: OLS
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule officielle issue de la vignette du package R `Guerry`; `formula_used` est adaptee aux noms abreges du dataset GeoDa/Python.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: Crm_prs ~ Region + Litercy + Donatns + Infants + Suicids
-- x_terms_used: Region + Litercy + Donatns + Infants + Suicids
-- y_term_used: Crm_prs
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -94,13 +105,13 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "Crime_pers ~ Region + Literacy + Donations + Infants + Suicides; Crime_prop ~ Region + Literacy + Donations + Infants + Suicides"
-  equation_family: linear
-  model_family: "OLS"
-  source_type: official_software_documentation
-  source_ref: "Official Guerry package vignette, 'Guerry data: Multivariate Analysis', Michael Friendly; Friendly (2007), Statistical Science 22, 368-399."
-  confidence: high
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: unknown
+  model_family: "n/a"
+  source_type: unknown
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -111,6 +122,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

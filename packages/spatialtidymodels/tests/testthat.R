@@ -1,4 +1,4 @@
-# Lance les tests unitaires du package experimental.
+# Lance les tests unitaires du package.
 library(testthat)
 library(spatialtidymodels)
 

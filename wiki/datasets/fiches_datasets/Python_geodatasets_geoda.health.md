@@ -1,14 +1,25 @@
-﻿---
+---
 title: Python_geodatasets_geoda.health
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.health.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `geodatasets` (`health`).
+
+## Description du jeu de donnees
+
+- Topic: sante publique / epidemiologie spatiale
+- Observation unit: individu, cas sanitaire ou unite spatiale de sante
+- Observed population: population sanitaire documentee par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `geodatasets` (`health`).
+- Description source: package Python `geodatasets`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -79,17 +90,13 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
-- x_terms_used: statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
-- y_term_used: le_agg_q1
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
-- formula_candidate_2: le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -127,6 +134,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

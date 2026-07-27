@@ -279,6 +279,44 @@ def add_edge(edges: dict[str, dict[str, Any]], source: str, relation: str, targe
     }
 
 
+def add_paper_dataset_use(
+    nodes: dict[str, dict[str, Any]],
+    edges: dict[str, dict[str, Any]],
+    paper: str,
+    dataset: str,
+    dataset_target: str,
+    *,
+    evidence_id: str,
+    evidence_snippet: str,
+    detection_source: str,
+    status: str,
+    confidence: float,
+) -> str:
+    """Ajoute un usage papier-dataset a valider au lieu d'un USES_DATASET direct.
+
+    Les signaux TEI automatiques sont utiles pour trouver des pistes, mais ils
+    ne sont pas assez fiables pour affirmer qu'un papier utilise vraiment un
+    dataset. On les isole donc dans PaperDatasetUse.
+    """
+    use_id = f"paper_dataset_use:{slug(paper)}:{slug(dataset)}:{slug(detection_source)}"
+    add_node(
+        nodes,
+        use_id,
+        "PaperDatasetUse",
+        f"{paper} -> {dataset}",
+        dataset=dataset,
+        dataset_target=dataset_target,
+        detection_source=detection_source,
+        status=status,
+        confidence=confidence,
+        evidence_id=evidence_id,
+        evidence_snippet=evidence_snippet,
+    )
+    add_edge(edges, paper, "HAS_PAPER_DATASET_USE", use_id, extraction_source=detection_source)
+    add_edge(edges, use_id, "CANDIDATE_DATASET_USE", dataset_target, extraction_source=detection_source)
+    return use_id
+
+
 def paper_id(doi: str, tei_path: Path) -> str:
     """Calcule l'identifiant Paper, prioritairement a partir du DOI."""
     doi = doi.lower().strip()
@@ -622,7 +660,18 @@ def parse_one_tei(
         eid = f"{pid}:evidence:dataset:{slug(label)}"
         add_node(nodes, did, "Dataset", label, matched_alias=alias, source="r_dataset_docs")
         add_node(nodes, eid, "Evidence", f"Evidence for {label}", snippet=alias, source="grobid_tei")
-        add_edge(edges, pid, "USES_DATASET", did, evidence_id=eid, confidence=0.65, extraction_source="alias_match")
+        add_paper_dataset_use(
+            nodes,
+            edges,
+            pid,
+            label,
+            did,
+            evidence_id=eid,
+            evidence_snippet=alias,
+            detection_source="tei_alias_match",
+            status="unvalidated_tei_signal",
+            confidence=0.45,
+        )
         add_edge(edges, eid, "SUPPORTS", did, extraction_source="alias_match")
         if "::" in label:
             package = label.split("::", 1)[0]
@@ -646,9 +695,21 @@ def parse_one_tei(
             eid = f"{sid}:evidence:dataset:{slug(label)}"
             add_node(nodes, did, "Dataset", label, matched_alias=alias, section_source="section_dataset_match")
             add_node(nodes, eid, "Evidence", f"Section evidence for {label}", snippet=alias, source="grobid_tei")
-            add_edge(edges, pid, "USES_DATASET", did, evidence_id=eid, confidence=0.7, extraction_source="section_match")
+            add_paper_dataset_use(
+                nodes,
+                edges,
+                pid,
+                label,
+                did,
+                evidence_id=eid,
+                evidence_snippet=alias,
+                detection_source="tei_section_match",
+                status="explicit_ref_unvalidated" if alias == "explicit_ref" else "unvalidated_tei_signal",
+                confidence=0.7 if alias == "explicit_ref" else 0.35,
+            )
             add_edge(edges, eid, "SUPPORTS", did, extraction_source="section_match")
-        for label, formula_text in section_formula_candidates(scope, labels, dataset_variables):
+        explicit_labels = [label for label, alias in dataset_hits if alias == "explicit_ref"]
+        for label, formula_text in section_formula_candidates(scope, explicit_labels, dataset_variables):
             did = dataset_node_id(label)
             fid = f"formula:tei:{slug(label)}:{slug(formula_text)[:96]}"
             model_family = "binomial" if "binomial" in scope.lower() else ""

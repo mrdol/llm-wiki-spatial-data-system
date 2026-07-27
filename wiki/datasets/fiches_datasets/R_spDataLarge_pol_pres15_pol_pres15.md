@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_spDataLarge_pol_pres15_pol_pres15
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spDataLarge_pol_pres15_pol_pres15.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Polish Presidential election 2015 data by gminy and Warsaw borough areal units
+
+## Description du jeu de donnees
+
+- Topic: elections et comportement electoral
+- Observation unit: circonscription, bureau de vote ou unite administrative
+- Observed population: resultats electoraux ou population votante
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Polish Presidential election 2015 data by gminy and Warsaw borough areal units
+- Description source: package R `spDataLarge`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -76,17 +87,13 @@ Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: I_turnout ~ types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
-- x_terms_used: types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
-- y_term_used: I_turnout
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: I_turnout ~ types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
-- formula_candidate_2: I_turnout ~ types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -124,6 +131,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

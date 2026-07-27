@@ -1,14 +1,25 @@
 ---
 title: R_ade4_sarcelles_sarcelles
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_ade4_sarcelles_sarcelles.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 The data frame ‘sarcelles$tab’ contains the number of the winter teals (_Anas C. Crecca_) for which the ring was retrieved in the area _i_ during the month _j_ (_n_=3049).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: The data frame ‘sarcelles$tab’ contains the number of the winter teals (_Anas C. Crecca_) for which the ring was retrieved in the area _i_ during the month _j_ (_n_=3049).
+- Description source: package R `ade4`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -108,6 +119,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

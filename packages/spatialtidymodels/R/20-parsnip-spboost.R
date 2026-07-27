@@ -150,6 +150,10 @@ spboost_bspa_reg <- function(mode = "regression", coords = NULL, DGP,
 #' Creates a `parsnip` specification for `spboost::spbgam()` with
 #' `DGP = "SAR"` and `method = "BSPA_SAR_ML"`.
 #'
+#' `ML` and `CFE` are alternative estimators of the spatial parameter, not
+#' different spatial model families. `nu` is treated as a fixed learning rate;
+#' the supported tuning path uses `mstop` and `k_neighbors`.
+#'
 #' @inheritParams spboost_reg
 #' @return A `parsnip` model specification.
 #' @export
@@ -179,7 +183,8 @@ spboost_bspa_sar_ml <- function(mode = "regression", coords = NULL,
 #' `DGP = "SAR"` and `method = "BSPA_SAR_CFE"`.
 #'
 #' `ML` and `CFE` are alternative estimators of the spatial parameter, not
-#' different spatial model families.
+#' different spatial model families. `nu` is treated as a fixed learning rate;
+#' the supported tuning path uses `mstop` and `k_neighbors`.
 #'
 #' @inheritParams spboost_reg
 #' @return A `parsnip` model specification.
@@ -208,6 +213,10 @@ spboost_bspa_sar_cfe <- function(mode = "regression", coords = NULL,
 #'
 #' Creates a `parsnip` specification for `spboost::spbgam()` with
 #' `DGP = "SEM"` and `method = "BSPA_SEM_ML"`.
+#'
+#' `ML` and `CFE` are alternative estimators of the spatial parameter, not
+#' different spatial model families. `nu` is treated as a fixed learning rate;
+#' the supported tuning path uses `mstop` and `k_neighbors`.
 #'
 #' @inheritParams spboost_reg
 #' @return A `parsnip` model specification.
@@ -238,7 +247,8 @@ spboost_bspa_sem_ml <- function(mode = "regression", coords = NULL,
 #' `DGP = "SEM"` and `method = "BSPA_SEM_CFE"`.
 #'
 #' `ML` and `CFE` are alternative estimators of the spatial parameter, not
-#' different spatial model families.
+#' different spatial model families. `nu` is treated as a fixed learning rate;
+#' the supported tuning path uses `mstop` and `k_neighbors`.
 #'
 #' @inheritParams spboost_reg
 #' @return A `parsnip` model specification.

@@ -34,7 +34,10 @@ test_that("le registre benchmark distingue routes automatiques et routes a branc
     "requires_coords", "requires_W", "spatial_args", "tunable_parameters",
     "notes", "installed"
   ) %in% names(registry)))
-  expect_true(all(c("ols", "gam_spatial", "gamboost", "sar_lag", "sem_error", "sdm_mixed") %in% registry$estimator))
+  expect_true(all(c(
+    "ols", "gam_spatial", "gamboost", "sar_lag", "sem_error", "sdm_mixed",
+    "spatialml_grf", "spatialrf", "rfgls"
+  ) %in% registry$estimator))
   expect_equal(registry$package[registry$estimator == "gamboost"], "mboost")
   expect_match(registry$tunable_parameters[registry$estimator == "gamboost"], "mstop")
   expect_equal(registry$status[registry$estimator == "spboost"], "automatic")
@@ -57,6 +60,12 @@ test_that("le registre benchmark distingue routes automatiques et routes a branc
   expect_match(registry$tunable_parameters[registry$estimator == "MGWRSAR_0_kc_kv"], "fixed_vars")
   expect_true(registry$automatic[registry$estimator == "spmoran_esf"])
   expect_true(registry$automatic[registry$estimator == "spmoran_resf"])
+  expect_true(registry$automatic[registry$estimator == "spatialml_grf"])
+  expect_true(registry$automatic[registry$estimator == "spatialrf"])
+  expect_true(registry$automatic[registry$estimator == "rfgls"])
+  expect_match(registry$backend[registry$estimator == "spatialml_grf"], "SpatialML::grf")
+  expect_match(registry$backend[registry$estimator == "spatialrf"], "spatialRF::rf_spatial")
+  expect_match(registry$backend[registry$estimator == "rfgls"], "RFGLS_estimate_spatial")
 })
 
 test_that("available_benchmark_estimators peut omettre la verification d'installation", {
@@ -204,4 +213,45 @@ test_that("les parametres dials du package sont disponibles", {
   expect_s3_class(bandwidth(), "quant_param")
   expect_s3_class(k_neighbors(), "quant_param")
   expect_s3_class(spatial_kernel(), "qual_param")
+  expect_s3_class(spmoran_enum(), "quant_param")
+  expect_s3_class(spmoran_vif(), "quant_param")
+})
+
+test_that("les parametres dials generent des grilles standard", {
+  skip_if_not_installed("dials")
+
+  regular_grid <- dials::grid_regular(
+    dials::parameters(
+      mstop(range = c(50L, 100L)),
+      bandwidth(range = c(10L, 20L)),
+      k_neighbors(range = c(4L, 8L))
+    ),
+    levels = 2
+  )
+
+  expect_equal(nrow(regular_grid), 8L)
+  expect_true(all(c("mstop", "bandwidth", "k_neighbors") %in% names(regular_grid)))
+  expect_true(is.integer(regular_grid$mstop))
+  expect_true(is.integer(regular_grid$bandwidth))
+  expect_true(is.integer(regular_grid$k_neighbors))
+
+  latin_grid <- suppressWarnings(dials::grid_latin_hypercube(
+    dials::parameters(
+      mstop(range = c(50L, 100L)),
+      k_neighbors(range = c(4L, 8L))
+    ),
+    size = 3
+  ))
+
+  expect_equal(nrow(latin_grid), 3L)
+  expect_true(all(c("mstop", "k_neighbors") %in% names(latin_grid)))
+  expect_true(is.integer(latin_grid$mstop))
+  expect_true(is.integer(latin_grid$k_neighbors))
+
+  kernel_grid <- dials::grid_regular(
+    spatial_kernel(values = c("gauss", "bisq")),
+    levels = 2
+  )
+
+  expect_equal(kernel_grid$kernel, c("gauss", "bisq"))
 })

@@ -57,11 +57,22 @@ node_types:
     description: Page de synthese du wiki.
   Evidence:
     description: Fragment de source qui justifie une relation.
+  PaperDatasetUse:
+    description: Usage d'un jeu de donnees par un papier, avec statut de validation, source, page/preuve, formule et caracterisation spatiale quand ces elements sont confirmes.
 
 edge_types:
   USES_DATASET:
     from: Paper
     to: Dataset
+  HAS_PAPER_DATASET_USE:
+    from: Paper
+    to: PaperDatasetUse
+  RESOLVES_TO_DATASET:
+    from: PaperDatasetUse
+    to: Dataset | DatasetCatalogRecord | DatasetCandidate
+  CANDIDATE_DATASET_USE:
+    from: PaperDatasetUse
+    to: Dataset | DatasetCatalogRecord | DatasetCandidate
   USES_PACKAGE:
     from: Paper
     to: RPackage
@@ -120,7 +131,7 @@ edge_types:
     from: RPackage | PythonPackage
     to: Method
   MENTIONS_METHOD:
-    from: Paper
+    from: Paper | PaperDatasetUse
     to: Method
   HAS_FORMULA:
     from: Paper

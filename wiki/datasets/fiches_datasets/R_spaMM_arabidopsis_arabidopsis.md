@@ -1,14 +1,25 @@
 ---
 title: R_spaMM_arabidopsis_arabidopsis
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spaMM_arabidopsis_arabidopsis.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 For 948 “accessions” from European Arabidopsis thaliana populations, this data set merges the genotypic information at four single nucleotide polymorphisms (SNP) putatively involved in adaptation to climate (Fournier-Level et al, 2011, Table 1), with 13 climatic variables from Hancock et al. (2011).
+
+## Description du jeu de donnees
+
+- Topic: socio-demographie territoriale
+- Observation unit: unite de recensement ou unite administrative
+- Observed population: population territoriale documentee par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: For 948 “accessions” from European Arabidopsis thaliana populations, this data set merges the genotypic information at four single nucleotide polymorphisms (SNP) putatively involved in adaptation to climate (Fournier-Level et al, 2011, Table 1), with 13 climatic variables from Hancock et al. (2011).
+- Description source: package R `spaMM`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -65,16 +76,16 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
-- x_terms_used: seasonal + Matern(1|LAT+LONG)
+- x_terms_used: seasonal, Matern(1|LAT+LONG)
 - y_term_used: cbind(pos1046738, 1-pos1046738)
 
 ## Bloc 2 — Identification et DOI
@@ -96,10 +107,10 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
   confidence: low
@@ -113,6 +124,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

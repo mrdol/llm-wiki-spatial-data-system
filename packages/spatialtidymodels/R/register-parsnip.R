@@ -97,7 +97,6 @@ register_spboost_reg <- function() {
       original = arg,
       func = switch(arg,
         mstop = list(pkg = "spatialtidymodels", fun = "mstop"),
-        nu = list(pkg = "dials", fun = "learn_rate"),
         k_neighbors = list(pkg = "spatialtidymodels", fun = "k_neighbors"),
         list(pkg = "dials", fun = "unknown")
       ),

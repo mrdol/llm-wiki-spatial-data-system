@@ -219,7 +219,7 @@ eligible_datasets_for_estimator <- function(estimator) {
 #' formula, coordinates, source, and estimator eligibility evidence.
 #'
 #' @param dataset Registered dataset name from `available_benchmark_datasets()`.
-#' @param evidence Evidence layer passed to [eligible_estimators_for_dataset()].
+#' @param evidence Evidence layer passed to `eligible_estimators_for_dataset()`.
 #' @param include_installed If `TRUE`, report whether estimator backend packages
 #'   are installed.
 #'

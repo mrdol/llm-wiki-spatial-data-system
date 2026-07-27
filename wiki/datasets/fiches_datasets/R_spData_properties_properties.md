@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_spData_properties_properties
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spData_properties_properties.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 A dataset of apartments in the municipality of Athens for 2017. Point location of the properties is given together with their main characteristics and the distance to the closest metro/train station.
+
+## Description du jeu de donnees
+
+- Topic: immobilier / prix des logements
+- Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
+- Observed population: marche immobilier documente par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: A dataset of apartments in the municipality of Athens for 2017. Point location of the properties is given together with their main characteristics and the distance to the closest metro/train station.
+- Description source: package R `spData`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -55,17 +66,13 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: price ~ size + age + dist_metro
-- x_terms_used: size + age + dist_metro
-- y_term_used: price
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: price ~ size + age + dist_metro
-- formula_candidate_2: price ~ size + age + dist_metro
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -103,6 +110,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

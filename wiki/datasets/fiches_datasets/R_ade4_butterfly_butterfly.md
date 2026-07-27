@@ -1,14 +1,25 @@
 ---
 title: R_ade4_butterfly_butterfly
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_ade4_butterfly_butterfly.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 This data set contains environmental and genetics informations about 16 _Euphydryas editha_ butterfly colonies studied in California and Oregon.
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: This data set contains environmental and genetics informations about 16 _Euphydryas editha_ butterfly colonies studied in California and Oregon.
+- Description source: package R `ade4`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -98,6 +109,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

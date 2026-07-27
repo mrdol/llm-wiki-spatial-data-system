@@ -1,14 +1,25 @@
-﻿---
+---
 title: Python_libpysal_Snow
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_libpysal_Snow.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
 Dataset spatial issu du package Python `libpysal` (`Snow`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package Python `libpysal` (`Snow`).
+- Description source: package Python `libpysal`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -57,17 +68,13 @@ Dataset spatial issu du package Python `libpysal` (`Snow`).
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
-- x_terms_used: pestfield + dis_pestf + dis_sewers + dis_bspump
-- y_term_used: deaths
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
-- formula_candidate_2: deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -105,6 +112,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

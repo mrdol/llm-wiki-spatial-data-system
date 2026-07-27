@@ -1,14 +1,25 @@
 ---
 title: R_surveillance_hagelloch_hagelloch.df
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Data on the 188 cases in the measles outbreak among children in the German city of Hagelloch (near Tübingen) 1861. The data were originally collected by Dr. Albert Pfeilsticker (1863) and augmented and re-analysed by Dr. Heike Oesterle (1992). This dataset is used to illustrate the ‘twinSIR’ model class in ‘vignette("twinSIR")’.
+
+## Description du jeu de donnees
+
+- Topic: sante publique / epidemiologie spatiale
+- Observation unit: individu, cas sanitaire ou unite spatiale de sante
+- Observed population: population sanitaire documentee par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Data on the 188 cases in the measles outbreak among children in the German city of Hagelloch (near Tübingen) 1861. The data were originally collected by Dr. Albert Pfeilsticker (1863) and augmented and re-analysed by Dr. Heike Oesterle (1992). This dataset is used to illustrate the ‘twinSIR’ model class in ‘vignette("twinSIR")’.
+- Description source: package R `surveillance`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -68,16 +79,17 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+
 ### Formule — niveau systeme
 
-- formula_used: tPRO ~ AGE + SEX + CL + C + CA + NI + GE + x.loc
-- x_terms_used: AGE + SEX + CL + C + CA + NI + GE + x.loc
-- y_term_used: tPRO
+- formula_used: ~ household + cox(AGE)
+- x_terms_used: household, cox(AGE)
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -98,10 +110,10 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "~ household + cox(AGE)"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249–261"
   confidence: low
@@ -115,6 +127,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
@@ -145,7 +158,7 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20% : DEAD (NA=93.6%), TD (NA=58%), TM (NA=58%), tDEAD (NA=93.6%).
-- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch.
+- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages

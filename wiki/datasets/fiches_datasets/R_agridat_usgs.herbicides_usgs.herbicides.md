@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_agridat_usgs.herbicides_usgs.herbicides.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Concentrations of selected herbicides and degradation products determined by laboratory method analysis code GCS for water samples collected from 51 streams in nine Midwestern States, 2002.
+
+## Description du jeu de donnees
+
+- Topic: elections et comportement electoral
+- Observation unit: circonscription, bureau de vote ou unite administrative
+- Observed population: resultats electoraux ou population votante
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: dimension temporelle structurelle detectee
+- Source description: Concentrations of selected herbicides and degradation products determined by laboratory method analysis code GCS for water samples collected from 51 streams in nine Midwestern States, 2002.
+- Description source: package R `agridat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -63,17 +74,13 @@ Concentrations of selected herbicides and degradation products determined by lab
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: atrazine ~ sampletype + date + hour + ametryn + T
-- x_terms_used: sampletype + date + hour + ametryn + T
-- y_term_used: atrazine
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: atrazine ~ sampletype + date + hour + ametryn + T
-- formula_candidate_2: atrazine ~ sampletype + date + hour + ametryn
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -111,6 +118,7 @@ modeling_evidence:
 - T periods: 62
 - Variable temporelle: date
 - N/T profile: N_moyen_T_grand
+- Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

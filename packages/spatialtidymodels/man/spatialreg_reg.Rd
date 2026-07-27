@@ -33,6 +33,6 @@ spatialreg_reg(
 Une specification de modele \code{parsnip}.
 }
 \description{
-Cree une specification \code{parsnip} experimentale pour les modeles spatiaux
-classiques ajustes par \code{spatialreg}: SAR lag, SEM error et SDM mixed.
+Cree une specification \code{parsnip} pour les modeles spatiaux classiques
+ajustes par \code{spatialreg}: SAR lag, SEM error et SDM mixed.
 }

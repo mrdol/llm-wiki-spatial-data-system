@@ -49,6 +49,80 @@ numeric_or_na <- function(expr) {
   as.numeric(out[[1]])
 }
 
+finite_scalar_or_na <- function(x) {
+  # Convertit defensivement les sorties heterogenes des backends en scalaire
+  # numerique. Cela evite qu'une methode S3/S4 partielle casse tout le tableau.
+  out <- suppressWarnings(tryCatch(as.numeric(x[[1]]), error = function(e) NA_real_))
+  if (length(out) != 1L || !is.finite(out)) return(NA_real_)
+  out
+}
+
+spboost_effective_df_for_ic <- function(engine) {
+  # spboost herite de mboost mais logLik() ne pose pas toujours attr(, "df").
+  # On utilise alors une approximation transparente: nombre de coefficients
+  # actifs plus les parametres spatiaux scalaires. Si cette approximation n'est
+  # pas disponible, AICc reste NA plutot que d'inventer k.
+  coefs <- tryCatch(stats::coef(engine), error = function(e) NULL)
+  k_beta <- if (is.list(coefs)) {
+    sum(vapply(coefs, length, integer(1)))
+  } else if (!is.null(coefs)) {
+    length(coefs)
+  } else {
+    NA_integer_
+  }
+  if (!is.finite(k_beta)) return(NA_real_)
+  k_spatial <- 0L
+  if (!is.null(engine_component(engine, "rho"))) k_spatial <- k_spatial + 1L
+  if (!is.null(engine_component(engine, "lambda"))) k_spatial <- k_spatial + 1L
+  as.numeric(k_beta + k_spatial)
+}
+
+extract_information_criteria <- function(engine, n = NA_integer_) {
+  # Extrait logLik/AIC/AICc avec routes par backend. Les methodes standards R
+  # restent prioritaires; les champs internes servent seulement de repli quand
+  # le backend documente/stocker deja l'information mais ne fournit pas de
+  # methode AIC/logLik robuste.
+  ll_obj <- tryCatch(stats::logLik(engine), error = function(e) NULL)
+  loglik <- if (is.null(ll_obj)) NA_real_ else finite_scalar_or_na(ll_obj)
+  k <- if (is.null(ll_obj)) NA_real_ else finite_scalar_or_na(attr(ll_obj, "df"))
+
+  if (!is.finite(loglik)) {
+    loglik <- finite_scalar_or_na(engine_component(engine, "logLik"))
+  }
+  if (!is.finite(loglik)) {
+    loglik <- finite_scalar_or_na(engine_component(engine, "logl"))
+  }
+
+  if (!is.finite(k)) {
+    k <- finite_scalar_or_na(engine_component(engine, "df"))
+  }
+  if (!is.finite(k) && inherits(engine, "spboost")) {
+    k <- spboost_effective_df_for_ic(engine)
+  }
+
+  aic <- numeric_or_na(stats::AIC(engine))
+  if (!is.finite(aic)) {
+    aic <- finite_scalar_or_na(engine_component(engine, "AIC"))
+  }
+  if (!is.finite(aic) && is.finite(loglik) && is.finite(k)) {
+    aic <- -2 * loglik + 2 * k
+  }
+
+  n <- finite_scalar_or_na(n)
+  aicc <- if (is.finite(aic) && is.finite(k) && is.finite(n) && n > k + 1) {
+    aic + (2 * k * (k + 1)) / (n - k - 1)
+  } else {
+    NA_real_
+  }
+
+  list(
+    logLik = loglik,
+    aic = aic,
+    aicc = aicc,
+    df = k
+  )
+}
+
 make_metric_values <- function(truth, pred) {
   # Metriques simples sans dependance obligatoire a yardstick. Cela rend la
   # fonction utilisable meme hors benchmark complet.
@@ -125,7 +199,38 @@ engine_component <- function(engine, name) {
 }
 
 spatial_parameter_for_diagnostics <- function(engine) {
-  # SAR/SDM exposent rho, SEM expose lambda. Les autres modeles retournent NA.
+  # SAR/SDM exposent rho, SEM expose lambda. Certains backends gardent un nom
+  # interne different; on renvoie ici le nom econometrique lisible par
+  # l'utilisateur du benchmark.
+  if (inherits(engine, "spboost")) {
+    rho <- engine_component(engine, "rho")
+    if (!is.null(rho)) {
+      param_name <- if (inherits(engine, "BSPA_SEM_ML") || inherits(engine, "BSPA_SEM_CFE")) {
+        "lambda"
+      } else {
+        "rho"
+      }
+      return(list(name = param_name, value = as.numeric(rho[[1]])))
+    }
+  }
+  if (isS4(engine) && inherits(engine, "mgwrsar")) {
+    model <- engine_component(engine, "Model")
+    Betac <- engine_component(engine, "Betac")
+    Betav <- engine_component(engine, "Betav")
+    if (!is.null(Betac) && "lambda" %in% names(Betac)) {
+      return(list(name = "lambda", value = as.numeric(Betac[["lambda"]])))
+    }
+    if (!is.null(Betac) && "PhWy" %in% names(Betac)) {
+      return(list(name = "lambda", value = as.numeric(Betac[["PhWy"]])))
+    }
+    if (!is.null(Betav) && length(dim(Betav)) == 2L && "lambda" %in% colnames(Betav)) {
+      lambda <- as.numeric(Betav[, "lambda"])
+      return(list(
+        name = if (identical(model, "MGWRSAR_1_kc_kv")) "lambda_local_mean" else "lambda",
+        value = mean(lambda[is.finite(lambda)])
+      ))
+    }
+  }
   rho <- engine_component(engine, "rho")
   if (!is.null(rho)) {
     return(list(name = "rho", value = as.numeric(rho[[1]])))
@@ -190,6 +295,10 @@ diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
     W = W, style = style, zero_policy = zero_policy
   )
   spatial_param <- spatial_parameter_for_diagnostics(engine)
+  info_criteria <- extract_information_criteria(
+    engine = engine,
+    n = if (is.null(data)) NA_integer_ else nrow(data)
+  )
 
   data.frame(
     estimator = estimator,
@@ -197,8 +306,9 @@ diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
     response = response,
     rmse = metrics$rmse,
     mae = metrics$mae,
-    aic = numeric_or_na(stats::AIC(engine)),
-    logLik = numeric_or_na(stats::logLik(engine)),
+    aic = info_criteria$aic,
+    aicc = info_criteria$aicc,
+    logLik = info_criteria$logLik,
     spatial_param = spatial_param$name,
     spatial_value = spatial_param$value,
     moran_i = moran$i,

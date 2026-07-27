@@ -90,10 +90,17 @@ attach_mgwrsar_prediction_context <- function(fit, W_predict = NULL, W_predict_c
 #'   earlier benchmark scripts.
 #'
 #' @details
-#' The automatic benchmark tunes scalar `bandwidth`/`kernel` grids for
-#' `mgwrsar_gwr` and `mgwrsar_mgwrsar`. Direct vector-`H` tuning for native
-#' `Model = "MGWR"` is intentionally left to the user because each covariate
-#' has its own bandwidth dimension.
+#' `bandwidth` maps to mgwrsar's native `H` argument. For `GWR`,
+#' `MGWRSAR_0_kc_kv`, and `MGWRSAR_1_kc_kv`, the package benchmark uses a
+#' scalar bandwidth. For native `Model = "MGWR"`, advanced users may pass a
+#' vector `H`, typically one bandwidth per local coefficient. Direct vector-`H`
+#' tuning is intentionally left to the user because it creates one tuning
+#' dimension per covariate. For `model_type = "tds_mgwr"` and `"atds_mgwr"`,
+#' mgwrsar estimates the bandwidth vector internally by backfitting.
+#'
+#' The default kernel is `"gauss"`. The benchmark layer also fixes the kernel
+#' to `"gauss"` for MGWRSAR tuning so that the search focuses on bandwidth,
+#' `k_neighbors`, and the fixed/local coefficient partition.
 #'
 #' @return A `parsnip` model specification.
 #' @export
@@ -151,6 +158,67 @@ update.mgwrsar_reg <- function(object, parameters = NULL, coords = NULL, model_t
   )
 }
 
+check_mgwrsar_bandwidth <- function(H, Model) {
+  # H est la bande passante native mgwrsar. On garde MGWR permissif car un
+  # utilisateur avance peut fournir un vecteur H, mais les autres routes du
+  # package attendent une valeur scalaire.
+  if (is.null(H)) return(NULL)
+  H <- as.numeric(H)
+  if (length(H) < 1L || anyNA(H) || any(!is.finite(H)) || any(H <= 0)) {
+    stop("`bandwidth` must contain positive finite values.", call. = FALSE)
+  }
+  scalar_models <- c("GWR", "MGWRSAR_1_0_kv", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")
+  if (Model %in% scalar_models && length(H) != 1L) {
+    stop(
+      "`bandwidth` must be scalar for this MGWRSAR model. ",
+      "Use `model_type = \"MGWR\"` for a vector H, or `tds_mgwr`/`atds_mgwr` ",
+      "to let mgwrsar estimate one bandwidth per covariate.",
+      call. = FALSE
+    )
+  }
+  H
+}
+
+normalize_mgwrsar_fixed_vars_for_fit <- function(fixed_vars, model_formula, data, Model) {
+  # Les modeles kc/kv demandent explicitement quelles covariables restent
+  # stationnaires. On valide cette partition avant d'appeler le backend natif.
+  if (is.null(fixed_vars) || length(fixed_vars) == 0L) {
+    if (Model %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) {
+      stop("Mixed MGWRSAR models require `fixed_vars`.", call. = FALSE)
+    }
+    return(NULL)
+  }
+  if (is.list(fixed_vars) && length(fixed_vars) == 1L) fixed_vars <- fixed_vars[[1]]
+  if (is.character(fixed_vars) && length(fixed_vars) == 1L) {
+    fixed_vars <- unlist(strsplit(fixed_vars, "\\s*[+,;|]\\s*"))
+  }
+  fixed_vars <- unique(stats::na.omit(as.character(fixed_vars)))
+  fixed_vars <- fixed_vars[nzchar(fixed_vars)]
+  if (length(fixed_vars) == 0L) {
+    if (Model %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) {
+      stop("Mixed MGWRSAR models require `fixed_vars`.", call. = FALSE)
+    }
+    return(NULL)
+  }
+  predictors <- attr(stats::terms(model_formula, data = data), "term.labels")
+  unknown <- setdiff(fixed_vars, predictors)
+  if (length(unknown) > 0L) {
+    stop(
+      "`fixed_vars` must be predictor terms from the model formula. Unknown: ",
+      paste(unknown, collapse = ", "),
+      call. = FALSE
+    )
+  }
+  if (Model %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv") &&
+      length(setdiff(predictors, fixed_vars)) == 0L) {
+    stop(
+      "`fixed_vars` must leave at least one non-stationary/local predictor.",
+      call. = FALSE
+    )
+  }
+  fixed_vars
+}
+
 # ---------------------------------------------------------------------------
 # Mise en oeuvre du fit
 # ---------------------------------------------------------------------------
@@ -179,6 +247,13 @@ mgwrsar_fit_impl <- function(formula, data, coords, Model = "GWR",
   coords_mat <- as.matrix(data[, coords, drop = FALSE])
   control_parts <- split_mgwrsar_control(control)
   control <- control_parts$control
+  H <- check_mgwrsar_bandwidth(H, Model)
+  fixed_vars <- normalize_mgwrsar_fixed_vars_for_fit(
+    fixed_vars = fixed_vars,
+    model_formula = model_formula,
+    data = data,
+    Model = Model
+  )
 
   # Branche MGWR multiscale par Top-Down Scale (2026-07-04): `TDS_MGWR()`
   # estime lui-meme le vecteur H par backfitting. C'est la route automatique
@@ -240,9 +315,6 @@ mgwrsar_fit_impl <- function(formula, data, coords, Model = "GWR",
   # simple, le modele utilise une matrice W fournie dans control pour estimer
   # une dependance spatiale en plus des coefficients locaux.
   if (Model %in% c("MGWRSAR_1_0_kv", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv")) {
-    if (Model %in% c("MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv") && is.null(fixed_vars)) {
-      stop("Mixed MGWRSAR models require `fixed_vars`.", call. = FALSE)
-    }
     ctl <- control
     if (is.null(ctl$adaptive)) ctl$adaptive <- TRUE
     if (is.null(ctl$W)) ctl$W <- mgwrsar_build_knn_W(coords_mat, k = 8)

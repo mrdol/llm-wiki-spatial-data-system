@@ -1,14 +1,25 @@
 ---
 title: R_GWmodel_LondonBorough_londonborough
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonBorough_londonborough.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
+- Description source: package R `GWmodel`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -43,16 +54,16 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 
 ### Formule — niveau publication
 
-- formula_pub: `PURCHASE ~ FLOORSZ + PROF + BATH2`
-- x_terms_pub: FLOORSZ + PROF + BATH2`
-- y_term_pub: `PURCHASE
-- Reference publication: Lu, Charlton, Harris & Fotheringham (2014), DOI `10.1080/13658816.2013.865739`; documentation `GWmodel::LondonHP`
+- formula_pub: PURCHASE ~ FLOORSZ + PROF + BATH2
+- x_terms_pub: FLOORSZ + PROF + BATH2
+- y_term_pub: PURCHASE
+- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681
 
 ### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: GWR non-euclidienne
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: R_GWmodel_LondonHP_londonhp
 - Note: Formule identifiee via la documentation du package equivalent `R_GWmodel_LondonHP_londonhp` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
@@ -82,11 +93,11 @@ Dataset spatial issu du package R `GWmodel` (`LondonBorough`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "`PURCHASE ~ FLOORSZ + PROF + BATH2`"
+  equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
   equation_family: unknown
-  model_family: "GWR non-euclidienne"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
-  source_ref: "Lu, Charlton, Harris & Fotheringham (2014), DOI `10.1080/13658816.2013.865739`; documentation `GWmodel::LondonHP`"
+  source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
   confidence: low
 ```
 
@@ -98,6 +109,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

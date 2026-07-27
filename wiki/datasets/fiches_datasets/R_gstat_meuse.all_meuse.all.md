@@ -1,14 +1,25 @@
 ---
 title: R_gstat_meuse.all_meuse.all
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 This data set gives locations and top soil heavy metal concentrations (ppm), along with a number of soil and landscape variables, collected in a flood plain of the river Meuse, near the village Stein. Heavy metal concentrations are bulk sampled from an area of approximately 15 m x 15 m.
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: This data set gives locations and top soil heavy metal concentrations (ppm), along with a number of soil and landscape variables, collected in a flood plain of the river Meuse, near the village Stein. Heavy metal concentrations are bulk sampled from an area of approximately 15 m x 15 m.
+- Description source: package R `gstat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -50,23 +61,23 @@ This data set gives locations and top soil heavy metal concentrations (ppm), alo
 
 ### Formule — niveau publication
 
-- formula_pub: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
-- x_terms_pub: sqrt(dist) (idem cadmium/lead/copper)
+- formula_pub: log(zinc) ~ sqrt(dist)
+- x_terms_pub: sqrt(dist)
 - y_term_pub: log(zinc)
-- Reference publication: Tutoriel officiel gstat (Pebesma)
+- Reference publication: Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University
 
 ### Statut regression canonique
 
-- Statut: bon candidat
-- Niveau de preuve: verbatim
-- Methode d'estimation: OLS + krigeage universel
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: R_sp_meuse_meuse
 - Note: Formule identifiee via la documentation du package equivalent `R_sp_meuse_meuse` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
 
 ### Formule — niveau systeme
 
-- formula_used: log(zinc)~sqrt(dist) (idem cadmium/lead/copper)
-- x_terms_used: sqrt(dist) (idem cadmium/lead/copper)
+- formula_used: log(zinc) ~ sqrt(dist)
+- x_terms_used: sqrt(dist)
 - y_term_used: log(zinc)
 
 ## Bloc 2 — Identification et DOI
@@ -88,12 +99,12 @@ This data set gives locations and top soil heavy metal concentrations (ppm), alo
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "log(zinc)~sqrt(dist) (idem cadmium/lead/copper)"
+  existing_model_found: false
+  equation_text: "log(zinc) ~ sqrt(dist)"
   equation_family: unknown
-  model_family: "OLS + krigeage universel"
+  model_family: "n/a"
   source_type: unknown
-  source_ref: "Tutoriel officiel gstat (Pebesma)"
+  source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
   confidence: low
 ```
 
@@ -105,6 +116,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

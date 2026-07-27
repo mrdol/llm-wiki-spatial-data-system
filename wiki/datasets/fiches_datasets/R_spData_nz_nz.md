@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_spData_nz_nz
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spData_nz_nz.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Polygons representing the 16 regions of New Zealand (2018). See <https://en.wikipedia.org/wiki/Regions_of_New_Zealand> for a description of these regions and <https://www.stats.govt.nz> for information on the data source
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Polygons representing the 16 regions of New Zealand (2018). See <https://en.wikipedia.org/wiki/Regions_of_New_Zealand> for a description of these regions and <https://www.stats.govt.nz> for information on the data source
+- Description source: package R `spData`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -55,17 +66,13 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: Population ~ Land_area + Island
-- x_terms_used: Land_area + Island
-- y_term_used: Population
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: Population ~ Land_area + Island
-- formula_candidate_2: Population ~ Land_area + Island
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -103,6 +110,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

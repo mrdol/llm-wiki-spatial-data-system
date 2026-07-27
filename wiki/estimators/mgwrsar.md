@@ -2,7 +2,7 @@
 title: MGWRSAR
 type: estimator
 created: 2026-04-23
-updated: 2026-07-06
+updated: 2026-07-23
 sources:
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/DESCRIPTION
   - raw/estimators/Mgwrsar/mgwrsar_1.3.2/mgwrsar/man/MGWRSAR.Rd
@@ -59,6 +59,30 @@ The main function `MGWRSAR()` exposes several model types through the `Model` ar
 | `MGWRSAR_1_kc_0` | SAR-like model with fixed coefficient group | `fixed_vars`, `W` |
 
 `kc` refers to variables treated with constant coefficients. `kv` refers to variables treated with spatially varying coefficients.
+
+## Variantes Exposees Dans spatialtidymodels
+
+Le package `spatialtidymodels` expose une specification generique
+`mgwrsar_reg()` et plusieurs noms d'estimateurs pour le benchmark automatique.
+Ces noms correspondent aux routes que l'utilisateur peut passer a
+`benchmark_spatial()` ou `benchmark_spatial_dataset()`.
+
+| Nom dans `spatialtidymodels` | Backend `mgwrsar` | Role dans le benchmark | Arguments spatiaux principaux | Tuning actuel |
+|---|---|---|---|---|
+| `mgwrsar_gwr` | `MGWRSAR(Model = "GWR")` | GWR local sans autocorrelation SAR explicite | `coords`, `bandwidth`, `kernel` | `bandwidth` |
+| `mgwrsar_sar` | `MGWRSAR(Model = "SAR")` | SAR global via backend `mgwrsar` | `coords`, `W` | non prioritaire |
+| `mgwrsar_mgwr` | `TDS_MGWR()` | MGWR multiscale / top-down scale | `coords`, vecteur de bandwidths `H` | route encore a stabiliser |
+| `mgwrsar_mgwrsar` | `MGWRSAR(Model = "MGWRSAR_1_0_kv")` | MGWRSAR avec autocorrelation spatiale et coefficients locaux | `coords`, `W`, `bandwidth`, `kernel` | `bandwidth` |
+| `MGWRSAR_0_kc_kv` | `MGWRSAR(Model = "MGWRSAR_0_kc_kv")` | modele mixte avec coefficients fixes et locaux; lambda constant | `coords`, `W`, `fixed_vars`, `bandwidth`, `kernel` | `bandwidth`, `k_neighbors`, `fixed_vars` |
+| `MGWRSAR_1_kc_kv` | `MGWRSAR(Model = "MGWRSAR_1_kc_kv")` | modele mixte avec coefficients fixes et locaux; lambda local | `coords`, `W`, `fixed_vars`, `bandwidth`, `kernel` | `bandwidth`, `k_neighbors`, `fixed_vars` |
+
+Dans le benchmark actuel, `kernel` est garde sur `gauss` par defaut pour eviter
+une grille trop large. Pour les modeles `kc_kv`, `fixed_vars` est obligatoire:
+il indique quelles variables gardent un coefficient global. Les autres variables
+sont traitees comme locales. Pour les predictions avec autocorrelation, le
+package construit une matrice `W` coherente a l'echelle du fold: `W_train_test`
+est construite sur train + test, puis `W_train` est extraite pour le fit et
+`W_train_test` est transmise a la prediction.
 
 ## Data Structures It May Fit
 

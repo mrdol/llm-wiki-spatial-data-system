@@ -1,14 +1,25 @@
 ---
 title: R_spDataLarge_lsl_lsl
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spDataLarge_lsl_lsl.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Data used in the "Statistical learning for geographic data" chapter in Geocomputation with R. See <https://r.geocompx.org/spatial-cv.html> for details.
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Data used in the "Statistical learning for geographic data" chapter in Geocomputation with R. See <https://r.geocompx.org/spatial-cv.html> for details.
+- Description source: package R `spDataLarge`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -52,16 +63,16 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
 - formula_used: lslpts ~ slope + cplan + cprof + elev + log10_carea
-- x_terms_used: slope + cplan + cprof + elev + log10_carea
+- x_terms_used: slope, cplan, cprof, elev, log10_carea
 - y_term_used: lslpts
 
 ## Bloc 2 — Identification et DOI
@@ -83,10 +94,10 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284."
   confidence: low
@@ -100,6 +111,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

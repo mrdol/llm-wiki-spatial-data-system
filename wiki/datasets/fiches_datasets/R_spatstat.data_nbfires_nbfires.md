@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_spatstat.data_nbfires_nbfires
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spatstat.data_nbfires_nbfires.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Point patterns created from yearly records, provided by the New Brunswick Department of Natural Resources, of all fires falling under their jurisdiction for the years 1987 to 2003 inclusive (with the year 1988 omitted until further notice).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatio-temporel
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: dimension temporelle structurelle detectee
+- Source description: Point patterns created from yearly records, provided by the New Brunswick Department of Natural Resources, of all fires falling under their jurisdiction for the years 1987 to 2003 inclusive (with the year 1988 omitted until further notice).
+- Description source: package R `spatstat.data`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -57,17 +68,13 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
-- x_terms_used: year + fire.type + dis.julian + out.julian + cause + ign.src
-- y_term_used: fnl.size
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
-- formula_candidate_2: fnl.size ~ year + fire.type + dis.julian + out.julian
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -105,6 +112,7 @@ modeling_evidence:
 - T periods: 16
 - Variable temporelle: year
 - N/T profile: N_grand_T_grand
+- Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

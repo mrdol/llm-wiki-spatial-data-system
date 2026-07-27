@@ -99,7 +99,8 @@ and \code{"vfold_cv"} score models out-of-sample; \code{"custom"} uses
 
 \item{seed}{Random seed used for resampling.}
 
-\item{verbose}{If \code{TRUE}, print progress messages during tuning.}
+\item{verbose}{If \code{TRUE}, print progress messages during tuning,
+resampling evaluation, and final fits.}
 
 \item{parallel}{If \code{TRUE}, evaluate manual MGWRSAR tuning candidates in
 parallel with \code{parallel::makeCluster()}.}

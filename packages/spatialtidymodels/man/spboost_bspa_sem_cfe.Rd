@@ -36,5 +36,6 @@ Creates a \code{parsnip} specification for \code{spboost::spbgam()} with
 }
 \details{
 \code{ML} and \code{CFE} are alternative estimators of the spatial parameter, not
-different spatial model families.
+different spatial model families. \code{nu} is treated as a fixed learning rate;
+the supported tuning path uses \code{mstop} and \code{k_neighbors}.
 }

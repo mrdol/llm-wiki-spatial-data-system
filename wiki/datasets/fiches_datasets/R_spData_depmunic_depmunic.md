@@ -1,14 +1,25 @@
 ---
 title: R_spData_depmunic_depmunic
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_spData_depmunic_depmunic.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 The geographic boundaries of departments (sf) of the municipality of Athens. This is accompanied by various characteristics in these areas.
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatial
+- Observation unit: observation spatiale de type POINT
+- Observed population: pending
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: The geographic boundaries of departments (sf) of the municipality of Athens. This is accompanied by various characteristics in these areas.
+- Description source: package R `spData`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -52,16 +63,17 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+
 ### Formule — niveau systeme
 
-- formula_used: airbnb ~ museums + population + greensp + area
-- x_terms_used: museums + population + greensp + area
-- y_term_used: airbnb
+- formula_used: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
+- x_terms_used: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
+- y_term_used: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
 
 ## Bloc 2 — Identification et DOI
 
@@ -82,10 +94,10 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
+  existing_model_found: true
   equation_text: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
   equation_family: unknown
-  model_family: "n/a"
+  model_family: "formule publication confirmee et utilisee"
   source_type: unknown
   source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
   confidence: low
@@ -99,6 +111,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_petit_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

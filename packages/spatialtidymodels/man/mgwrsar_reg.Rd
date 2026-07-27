@@ -48,8 +48,15 @@ Creates a \code{parsnip} model specification for GWR, MGWR, TDS-MGWR, SAR and
 MGWRSAR variants provided by \code{mgwrsar}.
 }
 \details{
-The automatic benchmark tunes scalar \code{bandwidth}/\code{kernel} grids for
-\code{mgwrsar_gwr} and \code{mgwrsar_mgwrsar}. Direct vector-\code{H} tuning for native
-\code{Model = "MGWR"} is intentionally left to the user because each covariate
-has its own bandwidth dimension.
+\code{bandwidth} maps to mgwrsar's native \code{H} argument. For \code{GWR},
+\code{MGWRSAR_0_kc_kv}, and \code{MGWRSAR_1_kc_kv}, the package benchmark uses a
+scalar bandwidth. For native \code{Model = "MGWR"}, advanced users may pass a
+vector \code{H}, typically one bandwidth per local coefficient. Direct vector-\code{H}
+tuning is intentionally left to the user because it creates one tuning
+dimension per covariate. For \code{model_type = "tds_mgwr"} and \code{"atds_mgwr"},
+mgwrsar estimates the bandwidth vector internally by backfitting.
+
+The default kernel is \code{"gauss"}. The benchmark layer also fixes the kernel
+to \code{"gauss"} for MGWRSAR tuning so that the search focuses on bandwidth,
+\code{k_neighbors}, and the fixed/local coefficient partition.
 }

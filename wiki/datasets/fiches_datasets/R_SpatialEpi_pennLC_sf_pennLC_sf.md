@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_SpatialEpi_pennLC_sf_pennLC_sf
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_SpatialEpi_pennLC_sf_pennLC_sf.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002, stratified on race (white vs non-white), gender and age (Under 40, 40-59, 60-69 and 70+). Additionally, county-specific smoking rates.
+
+## Description du jeu de donnees
+
+- Topic: sante publique / epidemiologie spatiale
+- Observation unit: individu, cas sanitaire ou unite spatiale de sante
+- Observed population: population sanitaire documentee par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002, stratified on race (white vs non-white), gender and age (Under 40, 40-59, 60-69 and 70+). Additionally, county-specific smoking rates.
+- Description source: package R `SpatialEpi`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -58,17 +69,13 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: cases ~ population + race + gender + age + smoking
-- x_terms_used: population + race + gender + age + smoking
-- y_term_used: cases
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: cases ~ population + race + gender + age + smoking
-- formula_candidate_2: cases ~ population + race + gender + age
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -106,6 +113,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_grand_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

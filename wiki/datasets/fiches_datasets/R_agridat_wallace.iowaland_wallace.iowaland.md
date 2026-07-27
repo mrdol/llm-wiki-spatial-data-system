@@ -1,14 +1,25 @@
-﻿---
+---
 title: R_agridat_wallace.iowaland_wallace.iowaland
 type: dataset
-created: 2026-07-10
-updated: 2026-07-10
+created: 2026-07-23
+updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_agridat_wallace.iowaland_wallace.iowaland.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
 Iowa farmland values by county in 1925
+
+## Description du jeu de donnees
+
+- Topic: agriculture / rendement ou experimentation agronomique
+- Observation unit: parcelle, placette experimentale ou observation agricole
+- Observed population: observations agricoles documentees par le package source
+- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Temporal context: aucune variable temporelle structurelle detectee
+- Source description: Iowa farmland values by county in 1925
+- Description source: package R `agridat`
+- Description confidence: medium
 
 ## Bloc 1 — Formule et variables
 
@@ -56,17 +67,13 @@ Iowa farmland values by county in 1925
 - Niveau de preuve: n/a
 - Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule systeme proposee automatiquement pour benchmark spatial ; ne pas confondre avec une formule publiee.
+- Note: n/a
+
 ### Formule — niveau systeme
 
-- formula_used: fedval ~ yield + corn + grain + untillable
-- x_terms_used: yield + corn + grain + untillable
-- y_term_used: fedval
-
-### Formules candidates — niveau systeme
-
-- formula_candidate_1: fedval ~ yield + corn + grain + untillable
-- formula_candidate_2: fedval ~ yield + corn + grain + untillable
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 
 ## Bloc 2 — Identification et DOI
 
@@ -104,6 +111,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_1
+- Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 

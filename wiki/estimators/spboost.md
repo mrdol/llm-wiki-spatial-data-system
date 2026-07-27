@@ -2,7 +2,7 @@
 title: SpBoost
 type: estimator
 created: 2026-04-23
-updated: 2026-07-06
+updated: 2026-07-23
 sources:
   - corpus/papers/raw_pdf/spbbost_article.pdf
   - raw/estimators/spboost_0.6.3/spboost/DESCRIPTION
@@ -37,6 +37,28 @@ spatiale.
 - Project status: allowed by [[restricted_estimator_policy_v1]].
 - Implementation route: R-first through package `spboost`.
 - Current benchmark route: custom `parsnip` engine `spboost_reg()`.
+
+## Variantes Exposees Dans spatialtidymodels
+
+Le package `spatialtidymodels` expose une specification generique
+`spboost_reg()` et quatre raccourcis explicites. Les quatre variantes utilisent
+le meme principe de boosting additif; elles different par la structure spatiale
+SAR/SEM et par la methode d'estimation du parametre spatial.
+
+| Nom dans `spatialtidymodels` | Backend `spboost` | Structure spatiale | Parametre spatial | Methode d'estimation |
+|---|---|---|---|---|
+| `spboost` | `BSPA_SAR_ML` | SAR | `rho` | ML |
+| `spboost_bspa_sar_ml` | `BSPA_SAR_ML` | SAR | `rho` | maximum de vraisemblance |
+| `spboost_bspa_sar_cfe` | `BSPA_SAR_CFE` | SAR | `rho` | closed-form estimator |
+| `spboost_bspa_sem_ml` | `BSPA_SEM_ML` | SEM | `lambda` | maximum de vraisemblance |
+| `spboost_bspa_sem_cfe` | `BSPA_SEM_CFE` | SEM | `lambda` | closed-form estimator |
+
+`ML` et `CFE` ne designent pas deux modeles spatiaux differents: ce sont deux
+methodes pour estimer le parametre spatial. Le choix SAR/SEM porte sur la
+structure econometrique; le choix ML/CFE porte sur la procedure d'estimation.
+Dans le benchmark actuel, `nu` reste fixe et le tuning porte surtout sur
+`mstop`, avec possibilite de faire varier `k_neighbors` quand on tune aussi la
+construction de `W`.
 
 ## Model Equation
 
