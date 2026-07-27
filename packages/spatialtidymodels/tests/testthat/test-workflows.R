@@ -1687,3 +1687,37 @@ test_that("mgwrsar_reg passe dans tune_grid() sur bandwidth", {
   expect_true(all(c("bandwidth", "mean") %in% names(metrics)))
   expect_true(all(is.finite(metrics$mean)))
 })
+
+test_that("summarize_resample_results calcule RMSE/MAE sur les predictions concatenees", {
+  # Le resume principal doit ponderer chaque observation de test de la meme
+  # maniere. Une moyenne simple des RMSE de folds donnerait un resultat different
+  # quand les folds n'ont pas la meme taille.
+  resample_results <- data.frame(
+    estimator = c("ols", "ols"),
+    id = c("fold1", "fold2"),
+    n_train = c(10L, 10L),
+    n_test = c(1L, 3L),
+    response = c("y", "y"),
+    rmse = c(10, 1),
+    mae = c(10, 1),
+    elapsed_sec = c(0.1, 0.2),
+    moran_i = c(NA_real_, NA_real_),
+    moran_p_value = c(NA_real_, NA_real_),
+    moran_error = c(NA_character_, NA_character_),
+    fit_error = c(NA_character_, NA_character_),
+    truth = I(list(c(10), c(0, 0, 0))),
+    pred = I(list(c(0), c(1, 1, 1))),
+    stringsAsFactors = FALSE
+  )
+
+  summary <- summarize_resample_results(
+    resample_results,
+    formula = y ~ x,
+    cv_scheme = "unit_test"
+  )
+
+  expect_equal(summary$n, 4)
+  expect_equal(summary$rmse, sqrt((100 + 1 + 1 + 1) / 4))
+  expect_equal(summary$mae, 13 / 4)
+  expect_equal(summary$rmse_sd, stats::sd(c(10, 1)))
+})

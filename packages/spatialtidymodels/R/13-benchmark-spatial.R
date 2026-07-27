@@ -1539,9 +1539,28 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
 
 predict_vector_for_benchmark <- function(fit, new_data) {
   # Normalise les sorties predict(): workflow renvoie .pred, certains backends
-  # renvoient directement un vecteur numerique.
-  pred <- stats::predict(fit, new_data = new_data)
+  # renvoient directement un vecteur numerique. Les objets tidymodels attendent
+  # `new_data`, tandis que les objets R classiques attendent souvent `newdata`.
+  pred <- tryCatch(
+    stats::predict(fit, new_data = new_data),
+    error = function(e) e
+  )
+  pred_len <- if (inherits(pred, "error")) {
+    NA_integer_
+  } else if (is.data.frame(pred)) {
+    nrow(pred)
+  } else {
+    length(pred)
+  }
+  if (inherits(pred, "error") || !identical(pred_len, nrow(new_data))) {
+    pred_newdata <- tryCatch(
+      stats::predict(fit, newdata = new_data),
+      error = function(e) e
+    )
+    if (!inherits(pred_newdata, "error")) pred <- pred_newdata
+  }
   if (is.data.frame(pred) && ".pred" %in% names(pred)) return(pred$.pred)
+  if (inherits(pred, "error")) stop(pred)
   as.numeric(pred)
 }
 
@@ -1633,6 +1652,53 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = conditionMessage(fit),
+      truth = I(list(numeric())),
+      pred = I(list(numeric())),
+      stringsAsFactors = FALSE
+    ))
+  }
+  response_name <- deparse(formula[[2]])
+  pred <- tryCatch(
+    predict_vector_for_benchmark(fit, test),
+    error = function(e) e
+  )
+  if (inherits(pred, "error")) {
+    return(data.frame(
+      estimator = estimator,
+      id = fold_id,
+      n_train = nrow(train),
+      n_test = nrow(test),
+      response = response_name,
+      rmse = NA_real_,
+      mae = NA_real_,
+      elapsed_sec = elapsed_now(),
+      moran_i = NA_real_,
+      moran_p_value = NA_real_,
+      moran_error = NA_character_,
+      fit_error = conditionMessage(pred),
+      truth = I(list(numeric())),
+      pred = I(list(numeric())),
+      stringsAsFactors = FALSE
+    ))
+  }
+  truth <- as.numeric(test[[response_name]])
+  pred <- as.numeric(pred)
+  if (length(pred) != length(truth)) {
+    return(data.frame(
+      estimator = estimator,
+      id = fold_id,
+      n_train = nrow(train),
+      n_test = nrow(test),
+      response = response_name,
+      rmse = NA_real_,
+      mae = NA_real_,
+      elapsed_sec = elapsed_now(),
+      moran_i = NA_real_,
+      moran_p_value = NA_real_,
+      moran_error = NA_character_,
+      fit_error = sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
+      truth = I(list(numeric())),
+      pred = I(list(numeric())),
       stringsAsFactors = FALSE
     ))
   }
@@ -1663,6 +1729,8 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = conditionMessage(diag),
+      truth = I(list(numeric())),
+      pred = I(list(numeric())),
       stringsAsFactors = FALSE
     ))
   }
@@ -1684,6 +1752,8 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     moran_p_value = diag$moran_p_value[[1]],
     moran_error = diag$moran_error[[1]],
     fit_error = metric_error,
+    truth = I(list(truth)),
+    pred = I(list(pred)),
     stringsAsFactors = FALSE
   )
 }
@@ -1735,16 +1805,29 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
 
 summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   # Agrege les lignes fold par fold en une table principale par estimateur.
-  # La table principale garde seulement le temps total lisible par estimateur;
-  # le detail des temps par fold reste disponible dans resample_results.
+  # RMSE/MAE sont recalcules sur toutes les predictions test concatenees: cela
+  # donne a chaque observation le meme poids, au lieu de moyenner des RMSE de
+  # folds qui peuvent avoir des tailles differentes.
   pieces <- lapply(split(resample_results, resample_results$estimator), function(rows) {
-    ok <- is.na(rows$fit_error) & is.finite(rows$rmse) & is.finite(rows$mae)
+    has_predictions <- "truth" %in% names(rows) && "pred" %in% names(rows)
+    pred_lengths <- if (has_predictions) {
+      vapply(rows$pred, length, integer(1))
+    } else {
+      integer(nrow(rows))
+    }
+    ok <- is.na(rows$fit_error) & is.finite(rows$rmse) & is.finite(rows$mae) & pred_lengths > 0L
+    truth_all <- if (has_predictions && any(ok)) unlist(rows$truth[ok], use.names = FALSE) else numeric()
+    pred_all <- if (has_predictions && any(ok)) unlist(rows$pred[ok], use.names = FALSE) else numeric()
+    finite_predictions <- is.finite(truth_all) & is.finite(pred_all)
+    truth_all <- truth_all[finite_predictions]
+    pred_all <- pred_all[finite_predictions]
+    has_global_metrics <- length(truth_all) > 0L && length(truth_all) == length(pred_all)
     data.frame(
       estimator = rows$estimator[[1]],
-      n = sum(rows$n_test[ok]),
+      n = if (has_global_metrics) length(truth_all) else sum(rows$n_test[ok]),
       response = deparse(formula[[2]]),
-      rmse = if (any(ok)) mean(rows$rmse[ok]) else NA_real_,
-      mae = if (any(ok)) mean(rows$mae[ok]) else NA_real_,
+      rmse = if (has_global_metrics) sqrt(mean((truth_all - pred_all)^2)) else NA_real_,
+      mae = if (has_global_metrics) mean(abs(truth_all - pred_all)) else NA_real_,
       rmse_sd = if (sum(ok) > 1L) stats::sd(rows$rmse[ok]) else NA_real_,
       mae_sd = if (sum(ok) > 1L) stats::sd(rows$mae[ok]) else NA_real_,
       duration_sec = if (any(!is.na(rows$elapsed_sec))) {
