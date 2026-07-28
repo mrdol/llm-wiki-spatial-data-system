@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
+  - data/final_datasets/sf/R_gstat_jura_jura.pred.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -137,6 +138,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Jura. Elle fusionne les objets `jura.val` et `jura.pred` du package `gstat`, qui forment deux volets complementaires d'un meme cas d'etude geostatistique.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_gstat_jura_jura.val` | gstat | `jura.val` | `data/final_datasets/sf/R_gstat_jura_jura.val.rds` | fiche canonique conservee |
+| `R_gstat_jura_jura.pred` | gstat | `jura.pred` | `data/final_datasets/sf/R_gstat_jura_jura.pred.rds` | grille ou volet de prediction integre |
+
+### Elements communs
+
+- Meme source package: `gstat`.
+- Meme cas d'etude Jura pour des exemples geostatistiques.
+- Les deux objets servent ensemble a l'apprentissage et/ou a la prediction spatiale.
+
+### Elements non communs
+
+- `jura.val` porte les observations de validation.
+- `jura.pred` porte le support de prediction; ce n'est pas un dataset empirique independant.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -145,12 +168,11 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat
+- Duplicates: FUSED - fiche commune pour `R_gstat_jura_jura.val` et `R_gstat_jura_jura.pred`; autres fichiers apparentes non fusionnes ici: R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 
 - Source: package R `gstat`
-- Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
 - Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]

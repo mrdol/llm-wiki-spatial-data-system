@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
+  - data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -140,6 +141,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Meuse. Elle fusionne la source R `sp::meuse` et la source R `gstat::meuse.all`, qui portent des variantes d'un meme cas d'etude sur la pollution des sols dans la plaine alluviale de la Meuse.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_sp_meuse_meuse` | sp | `meuse` | `data/final_datasets/sf/R_sp_meuse_meuse.rds` | fiche canonique conservee |
+| `R_gstat_meuse.all_meuse.all` | gstat | `meuse.all` | `data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds` | variante integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme theme: concentrations de metaux lourds dans les sols.
+- Meme famille d'usage: interpolation spatiale, geostatistique et modelisation spatiale.
+- Meme territoire general: plaine alluviale de la Meuse aux Pays-Bas.
+
+### Elements non communs
+
+- `sp::meuse` est la table d'exemple canonique la plus frequente.
+- `gstat::meuse.all` fournit une variante plus complete pour certains exemples geostatistiques.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -148,7 +171,7 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:28992 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `R_sp_meuse_meuse` et `R_gstat_meuse.all_meuse.all`.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages

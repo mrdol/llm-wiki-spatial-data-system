@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
+  - data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
@@ -159,6 +160,28 @@ estimator_eligibility:
     notes: "Useful for testing multiscale geographically weighted regression routes."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Georgia. Elle fusionne la source Python `libpysal::georgia` et la source R `GWmodel::GeorgiaCounties / Gedu.counties`, toutes deux utilisees pour des exemples de regression spatiale et de GWR.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `Python_libpysal_georgia` | libpysal | `georgia` | `data/final_datasets/sf/Python_libpysal_georgia.rds` | fiche canonique conservee |
+| `R_GWmodel_GeorgiaCounties_Gedu.counties` | GWmodel | `Gedu.counties` | `data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds` | source R integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme territoire: comtes de Georgia.
+- Meme famille d'usage: modelisation socio-demographique spatiale et GWR.
+- Meme reponse de benchmark actuelle: `PctBach`.
+
+### Elements non communs
+
+- La source R `GWmodel` est directement liee aux exemples GWR.
+- La source Python `libpysal` facilite les usages PySAL et libpysal.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -167,7 +190,7 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `Python_libpysal_georgia` et `R_GWmodel_GeorgiaCounties_Gedu.counties`.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages

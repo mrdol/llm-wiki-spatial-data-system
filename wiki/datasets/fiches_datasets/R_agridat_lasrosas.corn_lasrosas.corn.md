@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds
+  - data/final_datasets/sf/Python_geodatasets_geoda.lasrosas.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -176,6 +177,28 @@ estimator_eligibility:
     source_ref: "agridat lasrosas.corn documentation / project regression formula."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Las Rosas corn. Elle fusionne la source R `agridat::lasrosas.corn` et la source Python `geodatasets::geoda.lasrosas`, qui renvoient au meme dispositif spatial d'essai agronomique.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_agridat_lasrosas.corn_lasrosas.corn` | agridat | `lasrosas.corn` | `data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds` | fiche canonique conservee |
+| `Python_geodatasets_geoda.lasrosas` | geodatasets / GeoDa | `geoda.lasrosas` | `data/final_datasets/sf/Python_geodatasets_geoda.lasrosas.rds` | source Python integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme theme: rendement agricole du mais dans un dispositif spatial.
+- Meme reponse principale retenue dans le benchmark: `yield`.
+- Meme interet pour tester des estimateurs capables de capter une variation spatiale locale.
+
+### Elements non communs
+
+- La source R porte la documentation agronomique principale.
+- La source Python apporte une entree GeoDa compatible avec l'ecosysteme Python.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -184,7 +207,7 @@ estimator_eligibility:
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `R_agridat_lasrosas.corn_lasrosas.corn` et `Python_geodatasets_geoda.lasrosas`.
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages

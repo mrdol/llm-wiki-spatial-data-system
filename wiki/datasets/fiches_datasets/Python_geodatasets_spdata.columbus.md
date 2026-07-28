@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds
+  - data/final_datasets/sf/R_spdep_oldcol_COL.OLD.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
@@ -182,6 +183,28 @@ estimator_eligibility:
     notes: "Benchmark route only until a paper-source relation is curated."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Columbus crime. Elle fusionne les sources Python `geodatasets::spdata.columbus` et R `spdep::COL.OLD`, qui documentent le meme jeu de donnees historique utilise pour les exemples d'econometrie spatiale d'Anselin.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `Python_geodatasets_spdata.columbus` | geodatasets / spData | `spdata.columbus` | `data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds` | fiche canonique conservee |
+| `R_spdep_oldcol_COL.OLD` | spdep | `COL.OLD` | `data/final_datasets/sf/R_spdep_oldcol_COL.OLD.rds` | source R integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme cas d'etude: criminalite et variables socio-economiques dans les quartiers de Columbus.
+- Meme formule de reference: `CRIME ~ HOVAL + INC`.
+- Meme usage methodologique: comparaison OLS, SAR, SEM et variantes spatiales.
+
+### Elements non communs
+
+- Les noms d'objets et le package source different selon l'ecosysteme Python ou R.
+- Les metadonnees de provenance conservent les deux chemins d'artefacts pour permettre de retracer les deux sources.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -190,7 +213,7 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `Python_geodatasets_spdata.columbus` et `R_spdep_oldcol_COL.OLD`.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages

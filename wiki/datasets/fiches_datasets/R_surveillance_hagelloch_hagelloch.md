@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
+  - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -144,6 +145,27 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Hagelloch. Elle fusionne l'objet spatial `hagelloch` et la variante tabulaire `hagelloch.df` du package `surveillance`.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_surveillance_hagelloch_hagelloch` | surveillance | `hagelloch` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds` | fiche canonique conservee |
+| `R_surveillance_hagelloch_hagelloch.df` | surveillance | `hagelloch.df` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds` | variante tabulaire integree |
+
+### Elements communs
+
+- Meme source package et meme cas d'etude epidemiologique.
+- Meme objet empirique sous deux representations.
+
+### Elements non communs
+
+- `hagelloch` porte la representation principale retenue par le pipeline.
+- `hagelloch.df` est une version data.frame utile pour certains exemples non spatiaux directs.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -152,10 +174,9 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch.df
+- Duplicates: FUSED - fiche commune pour `R_surveillance_hagelloch_hagelloch` et `R_surveillance_hagelloch_hagelloch.df`.
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 
 - Source: package R `surveillance`
-- Duplicate/version candidate: [[R_surveillance_hagelloch_hagelloch.df]]
