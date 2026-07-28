@@ -12,7 +12,13 @@ Rules:
 - Add `repo_dataset` using the normalized `dataset` value from `datasets.json`.
 - Add `regression_formula_1`, `regression_formula_2`, etc. for formulas or model equations.
 - If an article cites other open-source datasets not already present in the repo, set
-  `other_data = {YES}` and add `url_Others_data_1`, `url_Others_data_2`, etc.
+  `other_data = {YES}` and add paired fields `name_Others_data_1` /
+  `url_Others_data_1`, `name_Others_data_2` / `url_Others_data_2`, etc.
+  The `name_Others_data_X` field must give the dataset, repository, package, or
+  data portal name behind the URL so the link can be understood without opening it.
+- If one repository URL contains several datasets, create one numbered
+  `name_Others_data_X` / `url_Others_data_X` pair per dataset, preferably using the
+  deepest stable folder URL available.
 
 ## Progress
 
@@ -39,6 +45,23 @@ Rules:
 | 19 | `python_geodatasets_geoda_nepal` | no_regression_article_found | Search found GeoDa/geodatasets documentation for Nepal health, poverty and education indicators, but no scientific article verified as using this exact repository dataset with an explicit regression formula. |
 | 20 | `python_geodatasets_geoda_nyc` | no_regression_article_found | Search found GeoDa/geodatasets and Furman Center source documentation for NYC rental housing/demographic sub-borough data. Gentrification/housing studies use related NYC sources, but no article was verified as using this exact GeoDa `nyc` dataset with an explicit regression formula. |
 | 21 | `python_geodatasets_geoda_nyc_education` | references_added | Added Wang et al. 2026 GWRBoost (`10.1080/24694452.2026.2648327`), which uses the GeoDa Lab NYC Education data set in an empirical regression case study. GS-BART (`10.1080/01621459.2026.2655550`) was identified as a possible additional article using NYC Education and King County Home Sales, but it is left pending because the URLs for its non-repository auxiliary datasets were not fully verified from the article metadata. |
+
+## Other Dataset Granularity Pass
+
+- `Hengl_2018_RFsp`: split the GeoMLA repository link into five candidate
+  datasets: SIC 1997 Swiss rainfall, Ebergotzen soil mapping, NCSS Carson
+  clay, National Geochemical Survey Illinois-Indiana, and Boulder Colorado
+  precipitation.
+- `Sekulic_2020_RFSI`: split the RFSI repository link into synthetic
+  simulation data, Catalonia precipitation, and Croatia temperature.
+- `Liu_Kounadi_ZuritaMilla_2022_SAC_ML`: replaced the repository-level link
+  by the California housing `houses1990.csv` dataset; Meuse is already a
+  repository dataset and is not repeated as other data.
+- `Wiedemann_Martin_Westerholt_2023_SpatialHeterogeneityBenchmark`: split the
+  spatial-rf-python benchmark link into plant richness, deforestation, and
+  mortality-rate datasets, following the repository README.
+- `Wang_Huang_2026_GWRBoost_NYCEducation`: replaced the generic GWRBoost
+  repository label with the synthetic square-grid simulation data folder.
 | 22 | `python_geodatasets_geoda_nyc_neighborhoods` | no_regression_article_found | Search found GeoDa/geodatasets and geoportal records for NYC Neighborhood demographics, plus unrelated NYC neighborhood regression studies using different assembled sources. No scientific article verified as using this exact repository dataset with an explicit regression formula. |
 | 23 | `python_geodatasets_geoda_orlando1` | no_regression_article_found | Search found GeoDa/geodatasets and geoportal records for Orlando1 / Orlando 2000 Employment, but no scientific article verified as using this exact repository dataset with an explicit regression formula. |
 | 24 | `python_geodatasets_geoda_phoenix_acs` | no_regression_article_found | Search found GeoDa/geodatasets and teaching/workbook references for Phoenix ACS / Income and Error in Phoenix. Related Phoenix flood and ACS regression papers use different ACS extracts and study data, not the repository GeoDa dataset as distributed. |

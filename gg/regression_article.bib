@@ -23,8 +23,9 @@
 % Audit rule for other_data:
 %   For each entry with other_data = {YES}, identify the other open-source
 %   datasets cited or used in the article, excluding datasets already present in
-%   this repository with a verified source URL. Store valid access links in
-%   numbered fields url_Others_data_1, url_Others_data_2, ...,
+%   this repository with a verified source URL. Store a human-readable name in
+%   numbered fields name_Others_data_1, name_Others_data_2, ..., and the
+%   matching access link in url_Others_data_1, url_Others_data_2, ...,
 %   url_Others_data_X. Each URL must be checked as a data access route
 %   (URL/DOI/repository/package), with availability/licence status and
 %   regression formula/model evidence verified before reuse.
@@ -72,7 +73,16 @@
   url = {https://doi.org/10.7717/peerj.5518},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {YES},
-  url_Others_data_1 = {https://github.com/thengl/GeoMLA}
+  name_Others_data_1 = {Swiss rainfall dataset SIC 1997: 467 daily rainfall measurements in Switzerland on 1986-05-08},
+  url_Others_data_1 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/rainfall},
+  name_Others_data_2 = {Ebergotzen soil mapping dataset from plotKML: 3670 ground observations of soil types and texture},
+  url_Others_data_2 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/eberg},
+  name_Others_data_3 = {NCSS Carson soil dataset: 3418 clay-content measurements for a sub-area around Carson},
+  url_Others_data_3 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/NRCS},
+  name_Others_data_4 = {National Geochemical Survey Illinois-Indiana dataset: 2858 point measurements of Pb, Cu, K and Mg},
+  url_Others_data_4 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/geochem},
+  name_Others_data_5 = {Boulder Colorado daily precipitation dataset: 176467 measurements for 2014-2017},
+  url_Others_data_5 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/st_prec}
 }
 
 @article{Behrens_2018_EDF_ML,
@@ -115,9 +125,13 @@
   url = {https://doi.org/10.5194/soil-6-269-2020},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {YES},
+  name_Others_data_1 = {Vindum soil organic matter observations and auxiliary data},
   url_Others_data_1 = {https://bitbucket.org/abmoeller/ogc/src/master/rPackage/OGC/},
+  name_Others_data_2 = {Ebergotzen soil mapping case study from plotKML},
   url_Others_data_2 = {https://rdrr.io/cran/plotKML/man/eberg.html},
+  name_Others_data_3 = {Spatial Interpolation Comparison 1997 Swiss rainfall data from gstat},
   url_Others_data_3 = {https://r-spatial.github.io/gstat/reference/sic97.html},
+  name_Others_data_4 = {Replication data for the Oblique Geographic Coordinates digital soil mapping study},
   url_Others_data_4 = {https://doi.org/10.5281/zenodo.3820068}
 }
 
@@ -262,12 +276,19 @@
   regression_formula_2 = {GWRBoost stage m: residual_m(s_i) = beta_0_m(s_i) + sum_k beta_k_m(s_i) x_{ik} + epsilon_i},
   formula_evidence = {Article empirical case study uses the GeoDa Lab NYC Education data set to explain education status with 56 census-derived variables; GWRBoost is a stage-wise sequence of geographically weighted regressions.},
   other_data = {YES},
-  url_Others_data_1 = {https://github.com/HanwGeek/GWRBoost},
+  name_Others_data_1 = {GWRBoost synthetic square-grid simulation data for spatially varying coefficients},
+  url_Others_data_1 = {https://github.com/HanwGeek/GWRBoost/tree/master/examples/synthetic/data},
+  name_Others_data_2 = {Atlas of Living Australia biodiversity data},
   url_Others_data_2 = {https://www.ala.org.au/},
+  name_Others_data_3 = {ABARES ACLUMP land-use data for Australia 2010-11 and 2015-16},
   url_Others_data_3 = {https://www.agriculture.gov.au/abares/aclump/land-use/land-use-of-australia-2010-11_2015-16},
+  name_Others_data_4 = {Australian Statistical Geography Standard Edition 3 GDA2020 digital boundary files},
   url_Others_data_4 = {https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files#downloads-for-gda2020-digital-boundary-files},
+  name_Others_data_5 = {Google Earth Engine yearly averaged climate and air-pollution raster data},
   url_Others_data_5 = {https://earthengine.google.com/},
+  name_Others_data_6 = {ArcGIS Hub global life expectancy data},
   url_Others_data_6 = {https://hub.arcgis.com/datasets/dee7af232e2b47ee811f8d5f81939426_0/},
+  name_Others_data_7 = {World Bank GDP current US dollars indicator NY.GDP.MKTP.CD},
   url_Others_data_7 = {https://data.worldbank.org/indicator/NY.GDP.MKTP.CD}
 }
 
@@ -283,7 +304,12 @@
   url = {https://doi.org/10.3390/rs12101687},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {YES},
-  url_Others_data_1 = {https://github.com/AleksandarSekulic/RFSI}
+  name_Others_data_1 = {RFSI synthetic spatially autocorrelated random-field simulation data},
+  url_Others_data_1 = {https://github.com/AleksandarSekulic/RFSI/tree/master/simulation},
+  name_Others_data_2 = {Catalonia daily precipitation case-study dataset for 2016-2018},
+  url_Others_data_2 = {https://github.com/AleksandarSekulic/RFSI/tree/master/prcp_catalonia},
+  name_Others_data_3 = {Croatia daily mean temperature case-study dataset for 2018},
+  url_Others_data_3 = {https://github.com/AleksandarSekulic/RFSI/tree/master/temp_croatia}
 }
 
 @article{Liu_Kounadi_ZuritaMilla_2022_SAC_ML,
@@ -298,7 +324,8 @@
   url = {https://doi.org/10.3390/ijgi11040242},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {YES},
-  url_Others_data_1 = {https://github.com/xj-liu/spatial_feature_incorporation}
+  name_Others_data_1 = {California housing dataset used in spatial-feature incorporation benchmark: houses1990.csv},
+  url_Others_data_1 = {https://github.com/xj-liu/spatial_feature_incorporation/blob/main/houses1990.csv}
 }
 
 @article{Tadayon_Saber_2023_SpatialLogisticSkewGaussian,
@@ -343,7 +370,12 @@
   url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.GIScience.2023.11},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {YES},
-  url_Others_data_1 = {https://github.com/mie-lab/spatial_rf_python}
+  name_Others_data_1 = {Plant richness dataset from the spatialRF package},
+  url_Others_data_1 = {https://github.com/BlasBenito/spatialRF/blob/main/data/plant_richness_df.rda},
+  name_Others_data_2 = {Deforestation dataset from the GWRFC repository},
+  url_Others_data_2 = {https://github.com/FSantosCodes/GWRFC/tree/master/data},
+  name_Others_data_3 = {Mortality-rate dataset used in a geographically weighted random forest tutorial},
+  url_Others_data_3 = {https://www.dropbox.com/s/lrz6og0ld2m64df/Data_GWR.7z?dl=0}
 }
 
 @article{Xiong_2025_SVM_Uncertainty_Kriging,
