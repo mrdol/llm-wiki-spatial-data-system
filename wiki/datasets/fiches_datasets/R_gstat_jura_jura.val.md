@@ -67,17 +67,16 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule candidate generee par le systeme
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Cd ~ Landuse + Rock
+- x_terms_used: Landuse + Rock
+- y_term_used: Cd
 
 ## Bloc 2 — Identification et DOI
 
@@ -99,12 +98,12 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p. [Appendix C describes and provides the Jura data set]"
-  confidence: low
+  equation_text: Cd ~ Landuse + Rock
+  equation_family: regression_candidate
+  model_family: spatial_regression_candidate
+  source_type: generated_system_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -114,7 +113,7 @@ modeling_evidence:
 - N observations: 100
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -164,7 +163,7 @@ Cette fiche est la fiche canonique du cas d'etude Jura. Elle fusionne les objets
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

@@ -78,17 +78,16 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule candidate generee par le systeme
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+- x_terms_used: wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+- y_term_used: crime_pers
 
 ## Bloc 2 — Identification et DOI
 
@@ -110,12 +109,12 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Dray, S. and Jombart, T. (2011) Revisiting Guerry's Data: Introducing Spatial Constraints in Multivariate Analysis. The Annals of Applied Statistics, Vol. 5, No. 4, 2278-2299"
-  confidence: low
+  equation_text: crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+  equation_family: regression_candidate
+  model_family: spatial_regression_candidate
+  source_type: generated_system_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -125,7 +124,7 @@ modeling_evidence:
 - N observations: 85
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -153,7 +152,7 @@ modeling_evidence:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

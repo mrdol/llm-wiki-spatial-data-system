@@ -70,17 +70,16 @@ Concentrations of selected herbicides and degradation products determined by lab
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule candidate generee par le systeme
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: atrazine ~ sampletype + date + hour + ametryn + T
+- x_terms_used: sampletype + date + hour + ametryn + T
+- y_term_used: atrazine
 
 ## Bloc 2 — Identification et DOI
 
@@ -102,12 +101,12 @@ Concentrations of selected herbicides and degradation products determined by lab
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "None."
-  confidence: low
+  equation_text: atrazine ~ sampletype + date + hour + ametryn + T
+  equation_family: regression_candidate
+  model_family: spatial_regression_candidate
+  source_type: generated_system_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -145,7 +144,7 @@ modeling_evidence:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

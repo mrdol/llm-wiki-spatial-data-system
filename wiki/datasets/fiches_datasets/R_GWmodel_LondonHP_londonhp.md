@@ -112,12 +112,12 @@ A house price data set with 18 hedonic variables for London in 2001.
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
-  confidence: low
+  equation_text: PURCHASE ~ FLOORSZ + PROF + BATH2
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -127,7 +127,7 @@ modeling_evidence:
 - N observations: 316
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

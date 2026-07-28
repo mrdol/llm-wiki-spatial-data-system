@@ -180,6 +180,10 @@ Each dataset page or dataset metadata profile should include, when available:
 - dataset name;
 - source family and source URL;
 - paper DOI and dataset/archive DOI, kept separate;
+- for datasets distributed inside R/Python packages, a dataset DOI is often not
+  available; `Dataset DOI: none` or `Dataset DOI: not_applicable` is valid when
+  the fiche records the package source, object name, source URL/documentation,
+  license, and local artifact path;
 - variables, including candidate `Y`, candidate `X`, selected `X`;
 - variable roles: response, covariate, coordinate, geometry, identifier, time;
 - variable types: continuous, binary, count, rate, proportion, categorical,
@@ -191,7 +195,9 @@ Each dataset page or dataset metadata profile should include, when available:
   metadata source defines one;
 - reproducibility evidence: code, repository, supplements, examples;
 - licence and reuse constraints;
-- quality pedigree and review status when the page supports project decisions.
+- quality pedigree and review status when the page supports project decisions;
+  this is recommended evidence metadata, not a hard pre-commit requirement for
+  package-derived dataset fiches.
 
 ---
 

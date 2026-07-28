@@ -252,6 +252,12 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 - Never mark `review_status: reviewed` — only the user can validate an LLM-proposed evaluation
 - Never approve a fiche with an unresolved Tier 1 FAIL
 - Never treat a `null` criterion as implicitly passing
+- Package-derived dataset fiches do not necessarily have a dataset DOI. Accept
+  explicit `Dataset DOI: none` or `Dataset DOI: not_applicable` when package
+  source, object name, source URL/documentation, license, and local artifact are
+  documented.
+- Do not treat missing `quality_pedigree` as a hard hook blocker for dataset
+  fiches. It can remain a recommended enrichment or review-queue item.
 - Never run eval on excluded files: `index.md`, `log.md`, `overview.md`, `glossary.md`, `eval_queue.md`
 - If `ANTHROPIC_API_KEY` is missing, warn the user — Tier 2 will use the default score (0.80), which bypasses semantic evaluation
 

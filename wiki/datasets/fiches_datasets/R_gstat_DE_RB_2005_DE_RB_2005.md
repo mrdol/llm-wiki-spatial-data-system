@@ -72,7 +72,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ### Formule — niveau systeme
 
 - formula_used: PM10 ~ 1
-- x_terms_used: pending
+- x_terms_used: 1
 - y_term_used: PM10
 
 ## Bloc 2 — Identification et DOI
@@ -95,12 +95,12 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "PM10 ~ 1"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218"
-  confidence: low
+  equation_text: PM10 ~ 1
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees

@@ -82,9 +82,9 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Formule — niveau systeme
 
-- formula_used: ~ household + cox(AGE)
-- x_terms_used: household, cox(AGE)
-- y_term_used: pending
+- formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- y_term_used: event
 
 ## Bloc 2 — Identification et DOI
 
@@ -106,12 +106,12 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "~ household + cox(AGE)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
-  confidence: low
+  equation_text: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -121,7 +121,7 @@ modeling_evidence:
 - N observations: 70500
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

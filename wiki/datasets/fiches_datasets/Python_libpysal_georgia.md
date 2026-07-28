@@ -75,8 +75,8 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
-- x_terms_used: PctRural+PctFB+PctBlack+PctEld
+- formula_used: PctBach ~ PctRural + PctFB + PctBlack + PctEld
+- x_terms_used: PctRural + PctFB + PctBlack + PctEld
 - y_term_used: PctBach
 
 ## Bloc 2 — Identification et DOI
@@ -99,12 +99,12 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: unknown
-  model_family: "GWR"
-  source_type: unknown
-  source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: low
+  equation_text: PctBach ~ PctRural + PctFB + PctBlack + PctEld
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -114,7 +114,7 @@ modeling_evidence:
 - N observations: 159
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

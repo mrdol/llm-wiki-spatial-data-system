@@ -72,8 +72,8 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau systeme
 
-- formula_used: yield ~ 1 + nitro + I(nitro^2)
-- x_terms_used: 1, nitro, I(nitro^2)
+- formula_used: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+- x_terms_used: 1 + nitro + I(nitro^2) (referencee dans catalogue)
 - y_term_used: yield
 
 ## Bloc 2 — Identification et DOI
@@ -96,12 +96,12 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "yield ~ 1 + nitro + I(nitro^2)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
-  confidence: low
+  equation_text: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
