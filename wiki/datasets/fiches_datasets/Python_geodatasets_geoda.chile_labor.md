@@ -204,6 +204,41 @@ Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 - x_terms_used: pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992
 - y_term_used: lfs2__1982
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "lfs2__1982 ~ pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992"
+    response: "lfs2__1982"
+    predictors: ["pop_1982", "pop_1992", "pop_2002", "area_km2", "sex1__1982", "sex2__1982", "sex1__1992", "sex2__1992"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.chile_labor`

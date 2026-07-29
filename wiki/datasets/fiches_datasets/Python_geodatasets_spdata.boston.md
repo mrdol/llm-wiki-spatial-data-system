@@ -88,6 +88,41 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 - x_terms_used: CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
 - y_term_used: log(CMEDV)
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B"
+    response: "log(CMEDV)"
+    predictors: ["CRIM", "I(RM^2)", "log(LSTAT)", "TAX", "ZN", "INDUS", "CHAS", "I(NOX^2)", "AGE", "log(DIS)", "log(RAD)", "PTRATIO", "B"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.boston`

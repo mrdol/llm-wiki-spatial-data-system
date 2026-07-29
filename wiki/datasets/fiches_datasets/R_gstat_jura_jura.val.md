@@ -78,6 +78,41 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 - x_terms_used: Landuse + Rock
 - y_term_used: Cd
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "Cd ~ Landuse + Rock"
+    response: "Cd"
+    predictors: ["Landuse", "Rock"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_gstat_jura_jura.val`

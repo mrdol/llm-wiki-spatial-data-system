@@ -73,6 +73,41 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 - x_terms_used: Land_area + Island
 - y_term_used: Population
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "Population ~ Land_area + Island"
+    response: "Population"
+    predictors: ["Land_area", "Island"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spData_nz_nz`

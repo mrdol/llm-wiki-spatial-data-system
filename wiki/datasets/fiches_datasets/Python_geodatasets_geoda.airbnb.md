@@ -84,6 +84,41 @@ Dataset spatial issu du package Python `geodatasets` (`airbnb`).
 - x_terms_used: poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes
 - y_term_used: price_pp
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "price_pp ~ poverty + crowded + dependency + without_hs + unemployed + income_pc + harship_in + num_crimes"
+    response: "price_pp"
+    predictors: ["poverty", "crowded", "dependency", "without_hs", "unemployed", "income_pc", "harship_in", "num_crimes"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.airbnb`

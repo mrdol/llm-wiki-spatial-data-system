@@ -87,6 +87,41 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 - x_terms_used: ep_pci + ep_nohs + ep_sngp + ep_lime + ep_crow + ep_nove + rntov30p_1 + ep_minrty
 - y_term_used: SDOH_CL
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "SDOH_CL ~ ep_pci + ep_nohs + ep_sngp + ep_lime + ep_crow + ep_nove + rntov30p_1 + ep_minrty"
+    response: "SDOH_CL"
+    predictors: ["ep_pci", "ep_nohs", "ep_sngp", "ep_lime", "ep_crow", "ep_nove", "rntov30p_1", "ep_minrty"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.us_sdoh`

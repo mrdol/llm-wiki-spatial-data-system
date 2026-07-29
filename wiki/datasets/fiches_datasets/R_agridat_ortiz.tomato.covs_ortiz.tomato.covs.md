@@ -85,6 +85,41 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - x_terms_used: Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
 - y_term_used: Day
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT"
+    response: "Day"
+    predictors: ["Dha", "Driv", "ExK", "ExN", "ExP", "Irr", "K", "MeT"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_agridat_ortiz.tomato.covs_ortiz.tomato.covs`

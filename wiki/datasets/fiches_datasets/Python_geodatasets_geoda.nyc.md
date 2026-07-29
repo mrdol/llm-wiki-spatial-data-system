@@ -98,6 +98,41 @@ Dataset spatial issu du package Python `geodatasets` (`nyc`).
 - x_terms_used: forhis06 + forhis07 + forhis08 + forhis09 + forwh06 + forwh07 + forwh08 + forwh09
 - y_term_used: rent2008
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "rent2008 ~ forhis06 + forhis07 + forhis08 + forhis09 + forwh06 + forwh07 + forwh08 + forwh09"
+    response: "rent2008"
+    predictors: ["forhis06", "forhis07", "forhis08", "forhis09", "forwh06", "forwh07", "forwh08", "forwh09"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.nyc`

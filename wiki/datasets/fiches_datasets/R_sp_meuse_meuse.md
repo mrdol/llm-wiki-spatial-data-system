@@ -82,6 +82,41 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 - x_terms_used: sqrt(dist)
 - y_term_used: log(zinc)
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "log(zinc) ~ sqrt(dist)"
+    response: "log(zinc)"
+    predictors: ["sqrt(dist)"]
+    role: "simple_baseline"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_sp_meuse_meuse`

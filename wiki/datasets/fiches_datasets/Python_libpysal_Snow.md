@@ -75,6 +75,41 @@ Dataset spatial issu du package Python `libpysal` (`Snow`).
 - x_terms_used: pestfield + dis_pestf + dis_sewers + dis_bspump
 - y_term_used: deaths
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "deaths ~ pestfield + dis_pestf + dis_sewers + dis_bspump"
+    response: "deaths"
+    predictors: ["pestfield", "dis_pestf", "dis_sewers", "dis_bspump"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_libpysal_Snow`

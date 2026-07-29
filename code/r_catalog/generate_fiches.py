@@ -327,6 +327,126 @@ def normalize_nt_profile(profile: str, n: Any, t: Any) -> str:
     return f"N_{n_bucket}_T_{t_bucket(t)}"
 
 
+def yaml_quote(value: Any) -> str:
+    """Rend une valeur scalaire YAML robuste pour les blocs de fiche."""
+    text = str(value if value is not None else "pending")
+    return json.dumps(text, ensure_ascii=False)
+
+
+def split_formula_predictors(x_terms: str) -> list[str]:
+    """Decoupe les termes X sans essayer de parser toute la syntaxe R."""
+    x_terms = str(x_terms or "").strip()
+    if not x_terms or x_terms == "pending":
+        return []
+    if x_terms in {"1", "0"}:
+        return []
+    return [part.strip() for part in x_terms.split("+") if part.strip()]
+
+
+def formula_candidate_entry(
+    *,
+    formula: str = "pending",
+    response: str = "pending",
+    predictors: list[str] | None = None,
+    role: str,
+    source_type: str = "none_found",
+    source_ref: str = "pending",
+    estimator_context: list[str] | None = None,
+    status: str = "unavailable",
+) -> str:
+    """Construit une entree YAML de formule candidate au format stable."""
+    predictors = predictors or []
+    estimator_context = estimator_context or []
+    predictors_yaml = "[" + ", ".join(yaml_quote(v) for v in predictors) + "]"
+    estimators_yaml = "[" + ", ".join(yaml_quote(v) for v in estimator_context) + "]"
+    return "\n".join([
+        f"    formula: {yaml_quote(formula)}",
+        f"    response: {yaml_quote(response)}",
+        f"    predictors: {predictors_yaml}",
+        f"    role: {yaml_quote(role)}",
+        f"    source_type: {yaml_quote(source_type)}",
+        f"    source_ref: {yaml_quote(source_ref)}",
+        f"    estimator_context: {estimators_yaml}",
+        f"    status: {yaml_quote(status)}",
+    ])
+
+
+def build_formula_candidates_block(
+    *,
+    formula: str,
+    y_term: str,
+    x_terms: str,
+    source_type: str,
+    source_ref: str,
+) -> str:
+    """Construit les trois profils de formules sans inventer de source.
+
+    `formula_used` reste la formule commune du benchmark. Les candidats
+    ci-dessous servent a documenter les usages possibles : baseline simple,
+    specification contrainte par une source, ou ensemble de variables pour ML.
+    """
+    predictors = split_formula_predictors(x_terms)
+    has_formula = bool(formula and formula != "pending")
+    is_published = source_type in {
+        "scientific_publication_or_package_documentation",
+        "published_or_manual_formula",
+    }
+    is_generated = source_type == "generated_system_formula"
+
+    univariate = formula_candidate_entry(role="simple_baseline")
+    if has_formula and len(predictors) == 1:
+        univariate = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="simple_baseline",
+            source_type=source_type,
+            source_ref=source_ref,
+            estimator_context=["linear_regression", "kriging_auxiliary", "spatial_baseline"],
+            status="confirmed" if is_published else "generated",
+        )
+
+    multivariate = formula_candidate_entry(role="paper_main_specification")
+    if has_formula and is_published and len(predictors) >= 2:
+        multivariate = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="paper_main_specification",
+            source_type=source_type,
+            source_ref=source_ref,
+            estimator_context=["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"],
+            status="confirmed",
+        )
+
+    ml_or_selected = formula_candidate_entry(role="ml_candidate_features")
+    if has_formula and is_generated:
+        ml_or_selected = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="ml_candidate_features",
+            source_type="generated_system_formula",
+            source_ref=source_ref,
+            estimator_context=["random_forest", "xgboost", "gamboost", "spboost"],
+            status="generated",
+        )
+
+    return "\n".join([
+        "```yaml",
+        "formula_candidates:",
+        "  univariate:",
+        univariate,
+        "",
+        "  multivariate_constrained:",
+        multivariate,
+        "",
+        "  ml_or_selected:",
+        ml_or_selected,
+        "```",
+    ])
+
+
 def first_existing(paths: list[Path]) -> Path | None:
     for path in paths:
         if path.exists():
@@ -815,6 +935,14 @@ def make_fiche(
         modeling_source_ref = "null"
         modeling_confidence = "low"
 
+    formula_candidates_block = build_formula_candidates_block(
+        formula=used_formula,
+        y_term=used_y_term,
+        x_terms=used_x_terms,
+        source_type=modeling_source_type,
+        source_ref=modeling_source_ref,
+    )
+
     return f"""\
 ---
 title: {did}
@@ -884,6 +1012,10 @@ tags: {tags}
 - formula_used: {used_formula}
 - x_terms_used: {used_x_terms}
 - y_term_used: {used_y_term}
+
+### Formules candidates
+
+{formula_candidates_block}
 
 ## Bloc 2 — Identification et DOI
 

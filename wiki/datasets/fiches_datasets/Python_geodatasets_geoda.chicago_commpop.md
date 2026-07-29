@@ -74,6 +74,41 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 - x_terms_used: POP2000
 - y_term_used: POP2010
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "simple_baseline"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "generated"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.chicago_commpop`

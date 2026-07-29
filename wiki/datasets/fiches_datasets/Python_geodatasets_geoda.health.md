@@ -97,6 +97,41 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 - x_terms_used: statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
 - y_term_used: le_agg_q1
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon"
+    response: "le_agg_q1"
+    predictors: ["statemhir", "tractmhir", "cty_pop200", "cz_pop2000", "Diversity", "BlackorA", "AmericanI", "Asianalon"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_geoda.health`
