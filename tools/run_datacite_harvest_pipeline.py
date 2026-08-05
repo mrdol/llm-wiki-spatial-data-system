@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Lance toute la chaine DataCite: harvest, verification Claude, apurement."""
+"""Lance toute la chaine DataCite: harvest, verification, apurement, ingestion."""
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-harvest", action="store_true")
     parser.add_argument("--skip-verification", action="store_true")
     parser.add_argument("--skip-apply", action="store_true")
+    parser.add_argument("--skip-ingestion", action="store_true")
     parser.add_argument(
         "--no-force-verification",
         action="store_true",
@@ -90,6 +91,9 @@ def main() -> int:
 
     if not args.skip_apply:
         run_step([rscript, "tools/apply_datacite_verification.R"], cwd=repo_root)
+
+    if not args.skip_ingestion:
+        run_step([sys.executable, "tools/ingest_datacite_verified.py"], cwd=repo_root)
 
     print("\nPipeline DataCite termine.", flush=True)
     return 0
