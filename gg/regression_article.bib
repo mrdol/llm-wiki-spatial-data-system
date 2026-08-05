@@ -29,6 +29,10 @@
 %   url_Others_data_X. Each URL must be checked as a data access route
 %   (URL/DOI/repository/package), with availability/licence status and
 %   regression formula/model evidence verified before reuse.
+% - open_access_url, code_url and data_url record the best verified access
+%   route found during the web/deep-source pass when it differs from the DOI.
+% - tested_estimators records the estimator families explicitly compared or
+%   demonstrated in the paper; benchmark_evidence keeps a short traceable note.
 %
 % Current seed context:
 %   Meuse is treated as already present in the repository and is therefore not
@@ -44,7 +48,12 @@
   pages = {683--691},
   doi = {10.1016/j.cageo.2004.03.012},
   url = {https://doi.org/10.1016/j.cageo.2004.03.012},
+  open_access_url = {https://paperzz.com/doc/7147528/multivariable-geostatistics-in-s--the-gstat-package},
+  package_url = {https://r-spatial.github.io/gstat/},
+  data_url = {https://rsbivand.github.io/sp/reference/meuse.html},
   repo_dataset = {r_sp_meuse_meuse},
+  tested_estimators = {ordinary kriging; universal kriging; cokriging; conditional simulation},
+  benchmark_evidence = {Open full-text copy and gstat documentation show Meuse examples with log(zinc) ~ dist, residual variograms, universal kriging and multivariable variograms/cokriging for heavy metals.},
   other_data = {}
 }
 
@@ -71,7 +80,12 @@
   pages = {e5518},
   doi = {10.7717/peerj.5518},
   url = {https://doi.org/10.7717/peerj.5518},
+  open_access_url = {https://peerj.com/articles/5518/},
+  code_url = {https://github.com/thengl/GeoMLA},
+  data_url = {https://github.com/thengl/GeoMLA},
   repo_dataset = {r_sp_meuse_meuse},
+  tested_estimators = {RFsp; random forest with buffer-distance covariates; ordinary kriging; regression kriging; spatio-temporal kriging variants},
+  benchmark_evidence = {Open PeerJ/WUR metadata states that RFsp is illustrated on spatial and spatio-temporal datasets and compared with kriging techniques using fivefold cross-validation with refitting.},
   other_data = {YES},
   name_Others_data_1 = {Swiss rainfall dataset SIC 1997: 467 daily rainfall measurements in Switzerland on 1986-05-08},
   url_Others_data_1 = {https://github.com/thengl/GeoMLA/tree/master/RF_vs_kriging/data/rainfall},
@@ -95,7 +109,11 @@
   pages = {757--770},
   doi = {10.1111/ejss.12687},
   url = {https://doi.org/10.1111/ejss.12687},
+  open_access_url = {https://bsssjournals.onlinelibrary.wiley.com/doi/abs/10.1111/ejss.12687},
   repo_dataset = {r_sp_meuse_meuse},
+  tested_estimators = {Euclidean-distance-field modelling with linear model; bagged MARS; radial-basis SVM; Cubist; random forest; neural-network ensemble; ordinary kriging; regression kriging; GWR; ConMap; ConStat; CSM},
+  benchmark_evidence = {Wiley abstract states that seven Euclidean distance fields and common predictors are evaluated with several regression algorithms on two digital-soil-mapping case studies and compared with OK, RK, GWR, ConMap, ConStat and CSM.},
+  other_data_search_status = {Open web metadata confirms two DSM case studies but did not expose verified dataset names or open data URLs; requires full-text/supplementary-data pass before ingestion.},
   other_data = {}
 }
 
@@ -145,8 +163,14 @@
   pages = {587},
   doi = {10.3390/ijgi9100587},
   url = {https://doi.org/10.3390/ijgi9100587},
+  open_access_url = {https://www.mdpi.com/2220-9964/9/10/587},
+  data_url = {https://rsbivand.github.io/sp/reference/meuse.html},
   repo_dataset = {r_sp_meuse_meuse},
-  other_data = {}
+  tested_estimators = {indicator kriging; random forest with coordinates; random forest with distance features; random forest with PCA spatial features},
+  benchmark_evidence = {Open MDPI article uses Meuse and a Seoul borehole case study, comparing indicator kriging with TreeBagger random-forest variants RF-Coord, RF-Dist and RF-PCA under cross-validation.},
+  other_data = {YES},
+  name_Others_data_1 = {Seoul borehole deposit-soil-thickness dataset: 400 boreholes from the Korean Geotechnical Information DB System},
+  url_Others_data_1 = {https://www.geoinfo.or.kr/}
 }
 
 @inproceedings{Mao_Yao_2020_KingCounty_HousePrice,
@@ -322,7 +346,12 @@
   pages = {242},
   doi = {10.3390/ijgi11040242},
   url = {https://doi.org/10.3390/ijgi11040242},
+  open_access_url = {https://www.mdpi.com/2220-9964/11/4/242},
+  code_url = {https://github.com/xj-liu/spatial_feature_incorporation},
+  data_url = {https://github.com/xj-liu/spatial_feature_incorporation},
   repo_dataset = {r_sp_meuse_meuse},
+  tested_estimators = {random forest; random forest with spatial lag features; random forest with eigenvector spatial filtering features; GWR via PySAL MGWR},
+  benchmark_evidence = {Open MDPI article and companion repository state that Meuse and California housing are used to compare machine-learning models with spatial-lag and eigenvector-spatial-filtering features; GWR is fitted with PySAL MGWR using AICc bandwidth selection.},
   other_data = {YES},
   name_Others_data_1 = {California housing dataset used in spatial-feature incorporation benchmark: houses1990.csv},
   url_Others_data_1 = {https://github.com/xj-liu/spatial_feature_incorporation/blob/main/houses1990.csv}
@@ -352,8 +381,15 @@
   pages = {584--606},
   doi = {10.1080/13658816.2022.2131789},
   url = {https://doi.org/10.1080/13658816.2022.2131789},
+  open_access_url = {https://www.tandfonline.com/doi/full/10.1080/13658816.2022.2131789},
+  code_url = {https://github.com/alexanderbrenning/spdiag},
+  data_url = {https://doi.org/10.6084/m9.figshare.15157458},
   repo_dataset = {r_sp_meuse_meuse},
-  other_data = {}
+  tested_estimators = {nearest-neighbour prediction; ordinary kriging; kriging with external drift; multiple linear regression; random forest; ordinary-kriging random-forest hybrid},
+  benchmark_evidence = {Taylor and Francis data/code statement provides Figshare and GitHub reproducibility material; the article demonstrates spatial model diagnostics on Meuse and an environmental-science regionalization case study.},
+  other_data = {YES},
+  name_Others_data_1 = {Maipo regionalization case-study dataset from the sperrorest package},
+  url_Others_data_1 = {https://cran.r-project.org/package=sperrorest}
 }
 
 @inproceedings{Wiedemann_Martin_Westerholt_2023_SpatialHeterogeneityBenchmark,
@@ -368,14 +404,20 @@
   address = {Dagstuhl, Germany},
   doi = {10.4230/LIPIcs.GIScience.2023.11},
   url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.GIScience.2023.11},
+  open_access_url = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.GIScience.2023.11},
+  code_url = {https://github.com/mie-lab/spatial_rf_python},
   repo_dataset = {r_sp_meuse_meuse},
+  tested_estimators = {OLS; SLX; GWR; random forest; random forest with coordinates; spatial random forest; regression kriging},
+  benchmark_evidence = {Open Dagstuhl paper and companion code benchmark regression models under spatial heterogeneity on five public datasets: California housing, Atlantic mortality, deforestation, Meuse and plant richness.},
   other_data = {YES},
-  name_Others_data_1 = {Plant richness dataset from the spatialRF package},
-  url_Others_data_1 = {https://github.com/BlasBenito/spatialRF/blob/main/data/plant_richness_df.rda},
-  name_Others_data_2 = {Deforestation dataset from the GWRFC repository},
-  url_Others_data_2 = {https://github.com/FSantosCodes/GWRFC/tree/master/data},
-  name_Others_data_3 = {Mortality-rate dataset used in a geographically weighted random forest tutorial},
-  url_Others_data_3 = {https://www.dropbox.com/s/lrz6og0ld2m64df/Data_GWR.7z?dl=0}
+  name_Others_data_1 = {California housing prices dataset from the spatial-heterogeneity benchmark},
+  url_Others_data_1 = {https://www.kaggle.com/datasets/camnugent/california-housing-prices?resource=download},
+  name_Others_data_2 = {Atlantic mortality dataset used in a geographically weighted random forest tutorial},
+  url_Others_data_2 = {https://zia207.github.io/geospatial-r-github.io/geographically-wighted-random-forest.html},
+  name_Others_data_3 = {Deforestation dataset from the GWRFC repository},
+  url_Others_data_3 = {https://github.com/FSantosCodes/GWRFC/tree/master/data},
+  name_Others_data_4 = {Plant richness dataset from the spatialRF package},
+  url_Others_data_4 = {https://github.com/BlasBenito/spatialRF/blob/main/data/plant_richness_df.rda}
 }
 
 @article{Xiong_2025_SVM_Uncertainty_Kriging,
@@ -414,4 +456,146 @@
   url = {https://doi.org/10.1007/s10651-026-00728-3},
   repo_dataset = {r_sp_meuse_meuse},
   other_data = {}
+}
+
+@article{Gyodi_Nawaro_2021_AirbnbEuropeanCities,
+  author = {Gy{\'o}di, Krist{\'o}f and Nawaro, {\L}ukasz},
+  title = {Determinants of Airbnb prices in European cities: A spatial econometrics approach},
+  journal = {Tourism Management},
+  year = {2021},
+  volume = {86},
+  pages = {104319},
+  doi = {10.1016/j.tourman.2021.104319},
+  url = {https://doi.org/10.1016/j.tourman.2021.104319},
+  data_url = {https://doi.org/10.5281/zenodo.4446043},
+  code_url = {https://doi.org/10.5281/zenodo.4446043},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {European Airbnb city datasets},
+  response_variable = {realSum},
+  tested_estimators = {OLS; SLX; SAR; SDM; SEM; SDEM},
+  formula_status = {partial},
+  formula_evidence = {Zenodo supplementary material describes weekday/weekend city datasets and Python scripts for OLS, SLX, SAR, SDM, SEM and SDEM. Exact model formula must be extracted from models_robust.py before dataset ingestion.},
+  other_data = {YES}
+}
+
+@article{Adamiak_2019_AirbnbSpainSpatial,
+  author = {Adamiak, Czes{\l}aw},
+  title = {Airbnb Offer in Spain--Spatial Analysis of the Pattern and Determinants of Its Distribution},
+  journal = {ISPRS International Journal of Geo-Information},
+  year = {2019},
+  volume = {8},
+  number = {3},
+  pages = {155},
+  doi = {10.3390/ijgi8030155},
+  url = {https://doi.org/10.3390/ijgi8030155},
+  open_access_url = {https://www.mdpi.com/2220-9964/8/3/155},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Spain Airbnb municipality and tourist-area data},
+  response_variable = {Airbnb listing density or Airbnb listing counts},
+  tested_estimators = {linear regression; spatial lag model; SAR},
+  regression_formula_1 = {y = rho W y + X beta + epsilon},
+  formula_status = {explicit},
+  formula_evidence = {Open MDPI article Section 2.4 gives the spatial lag model equation and Table 1 lists explanatory-variable groups.},
+  other_data = {YES}
+}
+
+@article{Lagonigro_Martori_Apparicio_2020_AirbnbBarcelonaGWR,
+  author = {Lagonigro, Raymond and Martori, Joan Carles and Apparicio, Philippe},
+  title = {Understanding Airbnb spatial distribution in a southern European city: The case of Barcelona},
+  journal = {Applied Geography},
+  year = {2020},
+  volume = {115},
+  pages = {102136},
+  doi = {10.1016/j.apgeog.2019.102136},
+  url = {https://doi.org/10.1016/j.apgeog.2019.102136},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Barcelona Airbnb neighborhood data},
+  response_variable = {ratio of Airbnb short-term rentals over total households},
+  tested_estimators = {GWR},
+  formula_status = {partial},
+  formula_evidence = {Repository metadata and abstract identify the response and main factors: family income, education level and dwelling size. Exact article formula remains to extract from full text.},
+  other_data = {YES}
+}
+
+@article{Shabrina_Buyuklieva_Ng_2020_AirbnbLondonGWRMGWR,
+  author = {Shabrina, Zahratu and Buyuklieva, Boyana and Ng, Matthew Kok Ming},
+  title = {Short-Term Rental Platform in the Urban Tourism Context: A Geographically Weighted Regression (GWR) and a Multiscale GWR (MGWR) Approaches},
+  journal = {Geographical Analysis},
+  year = {2021},
+  volume = {53},
+  number = {4},
+  pages = {686--707},
+  doi = {10.1111/gean.12259},
+  url = {https://doi.org/10.1111/gean.12259},
+  open_access_url = {https://onlinelibrary.wiley.com/doi/full/10.1111/gean.12259},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Greater London LSOA Airbnb data},
+  response_variable = {Airbnb density},
+  tested_estimators = {OLS; GWR; MGWR},
+  regression_formula_1 = {Airbnb density ~ hotel density + food-and-beverage density + public-transport accessibility index},
+  formula_status = {explicit},
+  formula_evidence = {Open Wiley article Table 1 and methods section state Airbnb density as dependent variable and hotel density, F&B density and PTAI as independent variables for GWR/MGWR.},
+  other_data = {YES}
+}
+
+@article{EugenioMartin_CazorlaArtiles_GonzalezMartel_2019_AirbnbCanarySpatial,
+  author = {Eugenio-Martin, Juan L. and Cazorla-Artiles, Jos{\'e} Manuel and Gonz{\'a}lez-Martel, Christian},
+  title = {On the determinants of Airbnb location and its spatial distribution},
+  journal = {Tourism Economics},
+  year = {2019},
+  volume = {25},
+  number = {8},
+  pages = {1224--1244},
+  doi = {10.1177/1354816618825415},
+  url = {https://doi.org/10.1177/1354816618825415},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Canary Islands Airbnb, hotel and tourism data},
+  tested_estimators = {spatial regression; SAR},
+  formula_status = {partial},
+  formula_evidence = {SAGE metadata and abstract identify a spatial-regression analysis of Airbnb location and distribution; exact formula and dataset access require full-text verification.},
+  other_data = {YES}
+}
+
+@article{Cahill_Mulligan_2007_CrimeGWRPortland,
+  author = {Cahill, Meagan and Mulligan, Gordon},
+  title = {Using Geographically Weighted Regression to Explore Local Crime Patterns},
+  journal = {Social Science Computer Review},
+  year = {2007},
+  volume = {25},
+  number = {2},
+  pages = {174--193},
+  doi = {10.1177/0894439307298925},
+  url = {https://doi.org/10.1177/0894439307298925},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Portland Oregon violent-crime data},
+  response_variable = {violent crime},
+  tested_estimators = {OLS; GWR},
+  formula_status = {partial},
+  formula_evidence = {Article abstract identifies a structural violent-crime model and compares global OLS to GWR; exact response/covariate formula requires full-text verification.},
+  other_data = {YES}
+}
+
+@article{Wheeler_Waller_2009_CrimeSVCGWRHouston,
+  author = {Wheeler, David C. and Waller, Lance A.},
+  title = {Comparing spatially varying coefficient models: A case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests},
+  journal = {Journal of Geographical Systems},
+  year = {2009},
+  volume = {11},
+  pages = {1--22},
+  doi = {10.1007/s10109-008-0073-5},
+  url = {https://doi.org/10.1007/s10109-008-0073-5},
+  search_source = {gg/regression_article_search_2026-08.md},
+  validation_stage = {bibliography_validated},
+  candidate_dataset = {Houston violent-crime, alcohol-outlet and illegal-drug-arrest data},
+  response_variable = {violent crime rate},
+  tested_estimators = {GWR; Bayesian spatially varying coefficient process model},
+  formula_status = {partial},
+  formula_evidence = {Abstract identifies violent crime rates, alcohol outlets and illegal drug arrests in a comparison of GWR and Bayesian SVC models; exact formula requires full-text verification.},
+  other_data = {YES}
 }
