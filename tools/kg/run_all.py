@@ -43,6 +43,7 @@ def main() -> None:
     run_step(["code/package_metadata/export_spatialtidymodels_metadata.py"])
     run_step(["tools/kg/08_extract_model_evidence.py"])
     run_step(["tools/kg/09_extract_paper_dataset_uses.py"])
+    run_step(["tools/kg/10_make_audit_candidate_review.py"])
     run_step(["tools/kg/04_build_graph.py"])
     run_step(["tools/kg/06_make_summaries.py"])
     run_step(["tools/kg/07_export_agent_index.py", "stats"])
