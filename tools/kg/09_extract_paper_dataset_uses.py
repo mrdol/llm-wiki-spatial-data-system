@@ -19,6 +19,7 @@ import json
 import re
 import sys
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +36,7 @@ OUT_DIR = ROOT / ".kg" / "extracted"
 NODE_PATH = OUT_DIR / "paper_dataset_use_nodes.jsonl"
 EDGE_PATH = OUT_DIR / "paper_dataset_use_edges.jsonl"
 REPORT_PATH = ROOT / "wiki" / "analyses" / "paper_dataset_ingestion_gaps_2026-07.md"
+REPORT_CREATED = "2026-07-27"
 
 
 def slug(value: str) -> str:
@@ -235,9 +237,18 @@ def write_gap_report(records: list[dict[str, Any]]) -> None:
             by_paper[record.get("paper_title") or record["paper_id"]].append(record)
 
     lines = [
+        "---",
+        "title: Papiers du corpus avec datasets spatiaux non encore ingérés",
+        "type: metadata",
+        f"created: {REPORT_CREATED}",
+        f"updated: {date.today().isoformat()}",
+        "sources: [inst/kg/paper_dataset_uses.json]",
+        "tags: [metadata, kg, papers, datasets, ingestion, gaps]",
+        "---",
+        "",
         "# Papiers du corpus avec datasets spatiaux non encore ingérés",
         "",
-        "Date : 2026-07-27",
+        f"Date : {REPORT_CREATED}",
         "",
         "Cette liste est issue des usages papier-dataset curés dans `inst/kg/paper_dataset_uses.json`.",
         "Elle ne reprend pas les simples cooccurrences TEI non validées.",
@@ -271,6 +282,15 @@ def write_gap_report(records: list[dict[str, Any]]) -> None:
                 )
             )
         lines.append("")
+
+    lines.extend(
+        [
+            "## Related Pages",
+            "",
+            "- [[paper_dataset_ingestion_pipeline_2026-08]]",
+            "- [[model_evidence_candidates_review_2026-08]]",
+        ]
+    )
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8", newline="\n")

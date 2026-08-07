@@ -1,3 +1,12 @@
+---
+title: Papiers du corpus avec datasets spatiaux non encore ingérés
+type: metadata
+created: 2026-07-27
+updated: 2026-08-07
+sources: [inst/kg/paper_dataset_uses.json]
+tags: [metadata, kg, papers, datasets, ingestion, gaps]
+---
+
 # Papiers du corpus avec datasets spatiaux non encore ingérés
 
 Date : 2026-07-27
@@ -12,7 +21,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Beta0 for the geographically weighted regressions | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6189341; Publication DOI 10.1038/sdata.2018.246 | yes - Beta0 issus directement d'une regression GWR (temperature); domaine climat |
+| Beta0 for the geographically weighted regressions | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6189341; Publication DOI 10.1038/sdata.2018.246 | yes - Beta0 issus directement d'une regression GWR (temperature); domaine climat |
 
 ## Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source to the C sink
 
@@ -21,7 +30,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source to the C sink | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.15180179; Publication DOI 10.1080/17583004.2021.1962979 | partial - Cartographie carbone (biomasse), domaine climat/carbone plausible mais subjects DataCite incoherents (biochimie/virologie) a verifier manuellement |
+| Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source to the C sink | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.15180179; Publication DOI 10.1080/17583004.2021.1962979 | partial - Cartographie carbone (biomasse), domaine climat/carbone plausible mais subjects DataCite incoherents (biochimie/virologie) a verifier manuellement |
 
 ## An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States
 
@@ -30,7 +39,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Daily, Monthly, and Annual 8-Hour Maximum O3 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/dgxcth; Publication DOI 10.1021/acs.est.0c01791 | partial - Meme famille que #0 (O3) |
+| Daily, Monthly, and Annual 8-Hour Maximum O3 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/dgxcth; Publication DOI 10.1021/acs.est.0c01791 | partial - Meme famille que #0 (O3) |
 
 ## An ensemble-based model of PM2.5 concentration across the contiguous United States with high spatiotemporal resolution
 
@@ -39,7 +48,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Daily, Monthly, and Annual PM2.5 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/58c6hg; Publication DOI 10.1016/j.envint.2019.104909 | partial - PM2.5 grid produit par ensemble GW (NN+RF+GBM); domaine pollution/climat pertinent mais c'est une grille de prediction brute, pas un tableau Y/X explicite |
+| Daily, Monthly, and Annual PM2.5 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/58c6hg; Publication DOI 10.1016/j.envint.2019.104909 | partial - PM2.5 grid produit par ensemble GW (NN+RF+GBM); domaine pollution/climat pertinent mais c'est une grille de prediction brute, pas un tableau Y/X explicite |
 
 ## Assessing NO 2 Concentration and Model Uncertainty with High Spatiotemporal Resolution across the Contiguous United States Using Ensemble Model Averaging
 
@@ -48,7 +57,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Daily, Monthly, and Annual NO2 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/lufkyg; Publication DOI 10.1021/acs.est.9b03358 | partial - Meme famille que #0 (NO2) |
+| Daily, Monthly, and Annual NO2 Concentrations for the Contiguous United States, 1-km Grid (2000 - 2016) | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/lufkyg; Publication DOI 10.1021/acs.est.9b03358 | partial - Meme famille que #0 (NO2) |
 
 ## Balancing structural complexity with ecological insight in Spatio-temporal species distribution models
 
@@ -57,7 +66,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Transformed crane data from: Balancing structural complexity with ecological insight in spatio-temporal species distribution models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.2z34tmpps; Publication DOI 10.1111/2041-210x.13957 | partial - SDM spatio-temporel (INLA, point process) ; methode spatio-temporelle dans le perimetre mais domaine ecologie (grues) |
+| Transformed crane data from: Balancing structural complexity with ecological insight in spatio-temporal species distribution models | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.2z34tmpps; Publication DOI 10.1111/2041-210x.13957 | partial - SDM spatio-temporel (INLA, point process) ; methode spatio-temporelle dans le perimetre mais domaine ecologie (grues) |
 
 ## Building use-inspired species distribution models: Using multiple data types to examine and improve model performance
 
@@ -75,7 +84,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Dataset for: Cluster Detection of Spatial Regression Coefficients | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4126881; Publication DOI 10.1002/sim.7172 | yes - Cluster Detection of Spatial Regression Coefficients : titre explicite sur coefficients de regression spatiale |
+| Dataset for: Cluster Detection of Spatial Regression Coefficients | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4126881; Publication DOI 10.1002/sim.7172 | yes - Cluster Detection of Spatial Regression Coefficients : titre explicite sur coefficients de regression spatiale |
 
 ## Construção de um índice de desenvolvimento sustentável e análise espacial das desigualdades nos municípios cearenses
 
@@ -84,7 +93,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Building a sustainable development index and spacial assessment of municipalities inequalities in the state of Ceará | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6008072; Publication DOI 10.1590/0034-7612163114 | yes - Analyse spatiale des inegalites municipales (indice de developpement), domaine revenu/inegalite prioritaire |
+| Building a sustainable development index and spacial assessment of municipalities inequalities in the state of Ceará | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6008072; Publication DOI 10.1590/0034-7612163114 | yes - Analyse spatiale des inegalites municipales (indice de developpement), domaine revenu/inegalite prioritaire |
 
 ## Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model
 
@@ -93,7 +102,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.9986387; Publication DOI 10.1590/0103-6351/4456 | yes - Spatial Tobit Model explicite, econometrie regionale (innovation), domaine economique prioritaire |
+| Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.9986387; Publication DOI 10.1590/0103-6351/4456 | yes - Spatial Tobit Model explicite, econometrie regionale (innovation), domaine economique prioritaire |
 
 ## Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals
 
@@ -102,7 +111,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.nq8hg19; Publication DOI 10.1111/geb.12999 | partial - Macroecologie mammiferes, SEM/path analysis mais pas econometrie spatiale au sens du projet |
+| Data from: Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.nq8hg19; Publication DOI 10.1111/geb.12999 | partial - Macroecologie mammiferes, SEM/path analysis mais pas econometrie spatiale au sens du projet |
 
 ## Examining the effects of green infrastructure on residential sales prices in Omaha, Nebraska
 
@@ -129,7 +138,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Arequipa Climate Maps - Normals (Version 1) | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.4231/490d-hc66; Publication DOI 10.5751/es-12481-260327 | no - INCOHERENCE dataset/publication : cartes climatiques Arequipa liees a un article qualitatif sur les savoirs autochtones face au changement climatique, sans lien de modelisation evident -> verifier le lien reel |
+| Arequipa Climate Maps - Normals (Version 1) | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.4231/490d-hc66; Publication DOI 10.5751/es-12481-260327 | no - INCOHERENCE dataset/publication : cartes climatiques Arequipa liees a un article qualitatif sur les savoirs autochtones face au changement climatique, sans lien de modelisation evident -> verifier le lien reel |
 
 ## Integrated species distribution models to account for sampling biases and improve range-wide occurrence predictions
 
@@ -138,7 +147,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Integrated species distribution models to account for sampling biases and improve range wide occurrence predictions | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.k98sf7mdg; Publication DOI 10.1111/geb.13792 | partial - SDM INLA sampling bias, meme famille que #11 |
+| Data from: Integrated species distribution models to account for sampling biases and improve range wide occurrence predictions | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.k98sf7mdg; Publication DOI 10.1111/geb.13792 | partial - SDM INLA sampling bias, meme famille que #11 |
 
 ## MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 
@@ -147,7 +156,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| MetaComNet: A random forest-based framework for making spatial prediction of plant-pollinator interactions | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.n02v6wwzn; Publication DOI 10.1111/2041-210x.13762 | partial - Random forest pour prediction spatiale (interactions plante-pollinisateur) : ML spatial dans le perimetre mais domaine ecologie |
+| MetaComNet: A random forest-based framework for making spatial prediction of plant-pollinator interactions | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.n02v6wwzn; Publication DOI 10.1111/2041-210x.13762 | partial - Random forest pour prediction spatiale (interactions plante-pollinisateur) : ML spatial dans le perimetre mais domaine ecologie |
 
 ## Model selection and model averaging for matrix exponential spatial models
 
@@ -156,7 +165,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Model selection and model averaging for matrix exponential spatial models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.19391222; Publication DOI 10.1080/07474938.2022.2047507 | yes - Model selection/averaging pour modeles spatiaux a matrice exponentielle : papier d'econometrie spatiale pure, verifier si dataset applique existe |
+| Model selection and model averaging for matrix exponential spatial models | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.19391222; Publication DOI 10.1080/07474938.2022.2047507 | yes - Model selection/averaging pour modeles spatiaux a matrice exponentielle : papier d'econometrie spatiale pure, verifier si dataset applique existe |
 
 ## Niche conservatism limits the distribution of Medicago in the tropics
 
@@ -165,7 +174,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Niche conservatism limits the distribution of Medicago in the tropics | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.280gb5mrw; Publication DOI 10.1111/ecog.06085 | partial - GWR mentionne dans les subjects pour modelisation de niche (biogeographie), domaine eloigne des priorites |
+| Niche conservatism limits the distribution of Medicago in the tropics | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.280gb5mrw; Publication DOI 10.1111/ecog.06085 | partial - GWR mentionne dans les subjects pour modelisation de niche (biogeographie), domaine eloigne des priorites |
 
 ## O impacto das cooperativas na produção agropecuária brasileira: uma análise econométrica espacial
 
@@ -174,7 +183,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| The impact of cooperatives on Brazilian agricultural production: a spatial econometric analysis | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.11314013; Publication DOI 10.1590/1806-9479.2019.187145 | yes - Analyse econometrique spatiale explicite, agriculture (cooperatives bresiliennes) |
+| The impact of cooperatives on Brazilian agricultural production: a spatial econometric analysis | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.11314013; Publication DOI 10.1590/1806-9479.2019.187145 | yes - Analyse econometrique spatiale explicite, agriculture (cooperatives bresiliennes) |
 
 ## Primary productivity explains size variation across the Pallid bat's western geographic range
 
@@ -183,7 +192,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Primary productivity explains size variation across the Pallid bat's (Antrozous pallidus) western geographic range | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.c5805; Publication DOI 10.1111/1365-2435.13092 | partial - Spatial Autoregressive Model (SAR) explicite dans subjects, mais applique a la morphologie d'une chauve-souris (domaine tres eloigne) |
+| Data from: Primary productivity explains size variation across the Pallid bat's (Antrozous pallidus) western geographic range | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.c5805; Publication DOI 10.1111/1365-2435.13092 | partial - Spatial Autoregressive Model (SAR) explicite dans subjects, mais applique a la morphologie d'une chauve-souris (domaine tres eloigne) |
 
 ## Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach
 
@@ -192,7 +201,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.17632/fthhmvgm6r.1; Publication DOI 10.1016/j.eneco.2015.08.003 | yes - Approche econometrique spatiale explicite (titre), photovoltaique UK |
+| Data for: Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.17632/fthhmvgm6r.1; Publication DOI 10.1016/j.eneco.2015.08.003 | yes - Approche econometrique spatiale explicite (titre), photovoltaique UK |
 
 ## Regulatory Convergence in the Financial Periphery: How Interdependence Shapes Regulators' Decisions
 
@@ -201,7 +210,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Replication Data for: Regulatory Convergence in the Financial Periphery: How Interdependence Shapes Regulators' Decisions | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/vbnpjs; Publication DOI 10.1093/isq/sqz068 | partial - Diffusion reglementaire financiere, methode possible de type lag spatial en science politique, a verifier |
+| Replication Data for: Regulatory Convergence in the Financial Periphery: How Interdependence Shapes Regulators' Decisions | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/vbnpjs; Publication DOI 10.1093/isq/sqz068 | partial - Diffusion reglementaire financiere, methode possible de type lag spatial en science politique, a verifier |
 
 ## Spatial Structure of Above-Ground Biomass Limits Accuracy of Carbon Mapping in Rainforest but Large Scale Forest Inventories Can Help to Overcome
 
@@ -210,7 +219,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Spatial structure of above-ground biomass limits accuracy of carbon mapping in rainforest but large scale forest inventories can help to overcome | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.38578; Publication DOI 10.1371/journal.pone.0138456 | yes - Kriging-regression pour cartographie carbone : interpolation spatiale/regression, dans le perimetre scientifique (near-prediction/geostatistique) |
+| Data from: Spatial structure of above-ground biomass limits accuracy of carbon mapping in rainforest but large scale forest inventories can help to overcome | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.5061/dryad.38578; Publication DOI 10.1371/journal.pone.0138456 | yes - Kriging-regression pour cartographie carbone : interpolation spatiale/regression, dans le perimetre scientifique (near-prediction/geostatistique) |
 
 ## Spatial distribution of wood volume in Brazilian savannas
 
@@ -219,7 +228,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Spatial distribution of wood volume in Brazilian savannas | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.10025600; Publication DOI 10.1590/0001-3765201920180666 | partial - Distribution spatiale volume de bois (foresterie), modele de regression plausible mais non confirme par le titre |
+| Spatial distribution of wood volume in Brazilian savannas | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.10025600; Publication DOI 10.1590/0001-3765201920180666 | partial - Distribution spatiale volume de bois (foresterie), modele de regression plausible mais non confirme par le titre |
 
 ## Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis
 
@@ -228,7 +237,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Additional file 2 of Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.20236415; Publication DOI 10.1186/s41043-022-00309-7 | yes - GWR explicite, malnutrition infantile (sante), domaine prioritaire sante |
+| Additional file 2 of Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.20236415; Publication DOI 10.1186/s41043-022-00309-7 | yes - GWR explicite, malnutrition infantile (sante), domaine prioritaire sante |
 
 ## Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
 
@@ -237,7 +246,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Replication Data for: Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/828wud; Publication DOI 10.1007/s10640-021-00536-2 | partial - Meta-regression sur effets de sites de dechets, prix immobiliers (domaine prioritaire) mais dataset = meta-analyse d'etudes, pas un jeu de donnees spatial direct |
+| Replication Data for: Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/828wud; Publication DOI 10.1007/s10640-021-00536-2 | partial - Meta-regression sur effets de sites de dechets, prix immobiliers (domaine prioritaire) mais dataset = meta-analyse d'etudes, pas un jeu de donnees spatial direct |
 
 ## The Importance of Scale in Spatially Varying Coefficient Modeling
 
@@ -264,7 +273,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Replication Data for: The Wald Test of Common Factors in Spatial Model Specification Search Strategies | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/cy7ywe; Publication DOI 10.1017/pan.2020.23 | yes - Wald test / common factors en specification de modele spatial, econometrie spatiale pure (meme si domaine = science politique) |
+| Replication Data for: The Wald Test of Common Factors in Spatial Model Specification Search Strategies | `tei_present_needs_curation` |  | None | None | DataCite dataset DOI 10.7910/dvn/cy7ywe; Publication DOI 10.1017/pan.2020.23 | yes - Wald test / common factors en specification de modele spatial, econometrie spatiale pure (meme si domaine = science politique) |
 
 ## Top-down scale approaches for multiscale GWR with locally adaptive bandwidths
 
@@ -279,3 +288,8 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | VaucluseHousePrice | `not_ingested_source_known` | House price | 3215 | 12 | DVF / data.gouv.fr; Geniaux (2026), Table 5 and text around p. 29 | Geniaux (2026), p. 29 states that VaucluseHousePrice comes from the French DVF real estate transaction database and contains house sales in small municipalities in Vaucluse; Table 5 gives size 3215 and 12 covariates. |
 | KingHousePrices | `not_ingested_source_known` | House price | 18788 | 8 | Kaggle House Sales Prediction; Geniaux (2026), Table 5 | Geniaux (2026), Table 5 lists KingHousePrices as a real dataset with theme House price, size 18788 and 8 covariates; p. 29 points to Kaggle and the reproduction GitHub repository. |
 | NYCAirBnb | `not_ingested_source_known` | Airbnb rental price | 38782 | 7 | Kaggle New York City Airbnb Open Data; Geniaux (2026), Table 5 | Geniaux (2026), Table 5 lists NYCAirBnb as a real dataset with theme Airbnb rental price, size 38782 and 7 covariates; p. 29 points to Kaggle and the reproduction GitHub repository. |
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
+- [[model_evidence_candidates_review_2026-08]]
