@@ -45,7 +45,7 @@ def default_rules() -> dict[str, Any]:
             "data_source": {
                 "score": 35,
                 "title_patterns": ["data", "dataset", "study area", "case study", "materials"],
-                "content_patterns": ["dataset", "obtained from", "available at", "coordinates", "shapefile"],
+                "content_patterns": ["obtained from", "available at", "downloaded", "retrieved from", "shapefile"],
             },
             "preprocessing": {
                 "score": 30,
@@ -97,57 +97,79 @@ def load_rules(path: Path = RULES_PATH) -> dict[str, Any]:
 
 
 def pattern_hits(text: str, patterns: list[str]) -> list[str]:
-    """Retourne les motifs trouvés dans un texte."""
+    """Retourne les motifs trouvés dans un texte.
+
+    Les motifs a un seul mot exigent une frontiere de mot (sinon "sar" matche
+    "neces-sar-y" et "log" matche "metho-dolog-ie"). Les phrases multi-mots
+    restent en simple sous-chaine : les espaces jouent deja le role de
+    frontiere naturelle.
+    """
     lowered = text.lower()
     hits = []
     for pattern in patterns:
         pattern_l = pattern.lower()
-        if re.search(r"(?<![a-z0-9])" + re.escape(pattern_l) + r"(?![a-z0-9])", lowered):
-            hits.append(pattern)
-        elif pattern_l in lowered:
+        if " " in pattern_l:
+            if pattern_l in lowered:
+                hits.append(pattern)
+        elif re.search(r"(?<![a-z0-9])" + re.escape(pattern_l) + r"(?![a-z0-9])", lowered):
             hits.append(pattern)
     return hits
 
 
 def score_section(title: str, text: str, rules: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Classe une section TEI selon son utilité empirique."""
+    """Classe une section TEI selon son utilité empirique.
+
+    Le score d'un role haute-priorite est calcule independamment des autres
+    (base + bonus de densite), et le role principal est celui qui obtient le
+    meilleur score individuel plutot que le premier role rencontre dans le
+    fichier de regles. Le score final part du meilleur role et n'ajoute qu'un
+    bonus plafonne pour les roles secondaires : un texte qui touche
+    plusieurs categories via du vocabulaire econometrique generique
+    (regression, coefficient, data set...) ne doit pas automatiquement
+    saturer au plafond de 100 avant meme que la penalite theorie/simulation
+    ait une chance de s'appliquer.
+    """
     rules = rules or load_rules()
     title = norm_space(title)
     text = norm_space(text)
     title_l = title.lower()
     text_l = text.lower()
+    role_scores: dict[str, int] = {}
     roles: list[str] = []
     positive_hits: list[str] = []
     negative_hits: list[str] = []
-    score = 0
 
     for role, cfg in (rules.get("high_priority_sections") or {}).items():
         title_hits = pattern_hits(title_l, cfg.get("title_patterns") or [])
         content_hits = pattern_hits(text_l[:5000], cfg.get("content_patterns") or [])
         if title_hits or content_hits:
             roles.append(role)
-            score += int(cfg.get("score", 20))
-            score += min(15, 3 * len(title_hits) + 2 * len(content_hits))
+            role_scores[role] = int(cfg.get("score", 20)) + min(15, 3 * len(title_hits) + 2 * len(content_hits))
             positive_hits.extend([f"{role}:title:{hit}" for hit in title_hits])
             positive_hits.extend([f"{role}:content:{hit}" for hit in content_hits[:8]])
 
     low_roles: list[str] = []
+    penalty = 0
     for role, cfg in (rules.get("low_priority_sections") or {}).items():
         title_hits = pattern_hits(title_l, cfg.get("title_patterns") or [])
         content_hits = pattern_hits(text_l[:5000], cfg.get("content_patterns") or [])
         if title_hits or content_hits:
             low_roles.append(role)
-            score -= int(cfg.get("penalty", 20))
+            penalty += int(cfg.get("penalty", 20))
             negative_hits.extend([f"{role}:title:{hit}" for hit in title_hits])
             negative_hits.extend([f"{role}:content:{hit}" for hit in content_hits[:8]])
 
-    if not roles and low_roles:
+    if role_scores:
+        primary_role = max(role_scores, key=role_scores.get)
+        score = role_scores[primary_role] + min(20, 8 * (len(role_scores) - 1))
+    elif low_roles:
         primary_role = low_roles[0]
-    elif roles:
-        primary_role = roles[0]
+        score = 0
     else:
         primary_role = "background"
+        score = 0
 
+    score -= penalty
     score = max(0, min(100, score))
     return {
         "section_role": primary_role,
@@ -189,25 +211,46 @@ def should_attach_formula(section_score: dict[str, Any], candidate_text: str, ru
     return int(section_score.get("priority_score") or 0) >= 25
 
 
+MIN_SUBSTANTIVE_TABLE_BODY = 40
+FLOOR_SCORE_UNMATCHED_TABLE = 12
+
+
 def score_table(caption: str, body: str, rules: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Classe un tableau TEI selon sa probabilité de décrire variables/résultats."""
+    """Classe un tableau TEI selon sa probabilité de décrire variables/résultats.
+
+    Un tableau au contenu substantiel qui ne matche aucun motif de légende
+    connu ne doit pas disparaitre sans trace (score 0 -> ligne jetée en aval
+    par `03_parse_tei.py`) : il recoit un score plancher modeste en tant que
+    `table_other`, pour rester visible dans l'audit/le KG meme quand les
+    motifs de legende ne le couvrent pas (ex. legendes que GROBID n'a pas
+    correctement isolees du corps du tableau).
+    """
     rules = rules or load_rules()
     caption_text = norm_space(caption)
     body_text = norm_space(body)
-    roles = []
+    role_scores: dict[str, int] = {}
     hits = []
-    score = 0
     for role, cfg in (rules.get("table_patterns") or {}).items():
         caption_hits = pattern_hits(caption_text.lower(), cfg.get("caption_patterns") or [])
         body_hits = pattern_hits(body_text.lower()[:3000], cfg.get("caption_patterns") or [])
         if caption_hits or body_hits:
-            roles.append(role)
+            role_scores[role] = int(cfg.get("score", 20)) + min(10, 2 * len(caption_hits) + len(body_hits))
             hits.extend([f"{role}:caption:{hit}" for hit in caption_hits])
             hits.extend([f"{role}:body:{hit}" for hit in body_hits[:8]])
-            score += int(cfg.get("score", 20)) + min(10, 2 * len(caption_hits) + len(body_hits))
+
+    if role_scores:
+        table_role = max(role_scores, key=role_scores.get)
+        score = role_scores[table_role]
+    elif len(body_text) >= MIN_SUBSTANTIVE_TABLE_BODY:
+        table_role = "table_other"
+        score = FLOOR_SCORE_UNMATCHED_TABLE
+    else:
+        table_role = "table_other"
+        score = 0
+
     return {
-        "table_role": roles[0] if roles else "table_other",
-        "table_roles": sorted(set(roles)),
+        "table_role": table_role,
+        "table_roles": sorted(role_scores),
         "priority_score": max(0, min(100, score)),
         "positive_hits": hits,
         "caption": caption_text,

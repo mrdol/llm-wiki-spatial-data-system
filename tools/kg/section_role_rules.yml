@@ -18,16 +18,27 @@ high_priority_sections:
       - study site
       - data source
     content_patterns:
+      # "coordinates", "longitude", "latitude", "census" seuls ont ete
+      # retires : trop topicaux (ils apparaissent aussi dans une prose
+      # theorique qui utilise un exemple geographique sans decrire un
+      # dataset reellement utilise dans le papier). "data set"/"dataset"
+      # sont conserves : desormais que score_section() ne fait plus une
+      # simple somme non bornee entre roles (voir plus bas), ils restent
+      # un signal utile sans faire saturer le score des sections theoriques.
       - data set
       - dataset
       - downloaded
       - obtained from
       - available at
+      - retrieved from
+      - collected from
+      - provided by
       - shapefile
-      - coordinates
-      - longitude
-      - latitude
-      - census
+      - we use data from
+      - the data used in this study
+      - sample consists of
+      - the sample includes
+      - "data source:"
 
   preprocessing:
     score: 30
@@ -110,6 +121,10 @@ table_patterns:
       - independent variables
       - covariates
       - data description
+      - data source
+      - list of
+      - missing observations
+      - cross-checking
 
   model_tables:
     score: 30
@@ -123,6 +138,11 @@ table_patterns:
       - rmse
       - aic
       - aicc
+      - estimation results
+      - estimation
+      - spatial dependence
+      - test for
+      - test statistics
 
 low_priority_sections:
   generic_theory:

@@ -1,3 +1,12 @@
+---
+title: Pipeline d'ingestion des jeux de donnees issus de papiers
+type: metadata
+created: 2026-08-06
+updated: 2026-08-07
+sources: []
+tags: [metadata, pipeline, kg, papers, ingestion]
+---
+
 # Pipeline d'ingestion des jeux de donnees issus de papiers
 
 Date : 2026-08-06
@@ -224,6 +233,50 @@ Decision attendue :
   - `extracted_needs_review`
   - `blocked_needs_manual_review`
   - `rejected_generic_formula`
+
+## Phase 6bis - Desambiguiser par LLM les candidats prioritaires (optionnel)
+
+But : filtrer les faux positifs theoriques qui restent dans la zone
+prioritaire (`review_for_dataset_use`/`review_for_model_evidence`) apres le
+filtre a mots-cles. Le score a mots-cles (Phase 5) reste le premier passage,
+gratuit, sur tout le corpus ; ce n'est que sur les candidats deja retenus
+comme prioritaires que Claude est appele, car c'est la que le cout d'un faux
+positif pour un relecteur humain est le plus eleve (ex. un chapitre
+theorique d'Anselin 1988 qui franchissait le score sans dataset empirique).
+
+Script responsable :
+
+- `tools/kg/09b_llm_disambiguate_candidates.py`
+
+Sortie a consulter :
+
+- `data/manifests/papers/llm_candidate_disambiguation_cache.json`
+
+Commande typique :
+
+```powershell
+python tools/kg/09b_llm_disambiguate_candidates.py
+```
+
+Fonctionnement :
+
+- necessite `ANTHROPIC_API_KEY` (modele par defaut : `claude-haiku-4-5-20251001`,
+  configurable via `EVAL_MODEL`) ; si absente, le script s'arrete proprement
+  et `10_make_audit_candidate_review.py` retombe sur le seul score a
+  mots-cles ;
+- verdict `"empirical"` / `"theoretical"` / `"uncertain"` + confiance, mis en
+  cache par candidat (hash paper+section+debut du texte) pour ne jamais
+  repayer un appel sur un candidat inchange ;
+- le LLM ne peut que **retirer** un candidat de la zone prioritaire
+  (`verdict="theoretical"` avec confiance >= 0.6), jamais en **ajouter** : le
+  filtre a mots-cles reste seul juge de ce qui entre dans cette zone.
+
+Decision attendue :
+
+- les candidats declasses apparaissent dans la section "Candidats declasses
+  par verification LLM" du rapport (Phase 7), avec la justification du LLM ;
+- une justification `"theoretical"` reste indicative, pas une verite
+  absolue : en cas de doute, consulter le TEI/PDF source.
 
 ## Phase 7 - Produire le rapport de revue des candidats
 
@@ -481,6 +534,13 @@ Commande KG complete avec GROBID :
 python tools/kg/run_all.py --run-grobid --from-bib
 ```
 
+Commande KG complete avec desambiguisation LLM des candidats prioritaires
+(voir Phase 6bis, appels API payants) :
+
+```powershell
+python tools/kg/run_all.py --llm-disambiguate
+```
+
 Ordre des etapes dans `run_all.py` :
 
 ```text
@@ -492,6 +552,7 @@ Ordre des etapes dans `run_all.py` :
 export_spatialtidymodels_metadata.py
 08_extract_model_evidence.py
 09_extract_paper_dataset_uses.py
+09b_llm_disambiguate_candidates.py   optionnel (--llm-disambiguate)
 10_make_audit_candidate_review.py
 04_build_graph.py
 06_make_summaries.py
@@ -513,3 +574,9 @@ Il doit passer par au moins ces validations :
 7. une version finale benchmarkable existe.
 
 Le KG sert donc de sas de curation. Les fiches wiki et le package ne doivent consommer que les elements valides ou explicitement marques comme candidats.
+
+## Related Pages
+
+- [[model_evidence_candidates_review_2026-08]]
+- [[catalog_registry_schema_v3]]
+- [[quality_pedigree_schema_v1]]
