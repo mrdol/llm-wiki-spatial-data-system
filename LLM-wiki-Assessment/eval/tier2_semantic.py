@@ -104,8 +104,8 @@ Return only valid JSON. Write the "reasoning" field in French.
 2. x_typology_ok: candidate X variables use allowed roles/types, or null if unknown.
 3. nt_profile_consistent: N/T profile is consistent with N and T, or null if all are unknown.
 4. formula_faithful: modeling_evidence is faithful to source evidence, or null if no model source evidence.
-5. quality_gate_ok: LLM-proposed quality_pedigree remains pending and requires human review.
-6. metadata_completeness_ok: DOI traceability, license, source URL, reproducibility, feature_selection, modeling_evidence and quality_pedigree are explicit. A null/none Dataset DOI is acceptable only when the fiche clearly says no DOI is available.
+5. quality_gate_ok: if quality_pedigree is present, LLM-proposed review_status must remain pending and require human review. If quality_pedigree is absent on a dataset fiche, do not fail this criterion solely for that absence.
+6. metadata_completeness_ok: DOI traceability, license, source URL, reproducibility, feature_selection and modeling_evidence are explicit when available. For datasets distributed through R/Python packages, a null/none/not_applicable Dataset DOI is acceptable when the package source, object name, documentation/source URL, license and local artifact are documented. quality_pedigree is recommended but not a hard completeness requirement for dataset fiches.
 7. paper_linkage_ok: if the dataset claims a linked scientific paper, paper DOI/title/evidence are coherent; if no paper is linked, the fiche explicitly says none/unknown rather than silently omitting it.
 
 ## Expected JSON

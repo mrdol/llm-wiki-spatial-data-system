@@ -71,9 +71,44 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ### Formule — niveau systeme
 
-- formula_used: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
-- x_terms_used: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
-- y_term_used: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
+- formula_used: airbnb ~ museums + population + greensp + area
+- x_terms_used: museums + population + greensp + area
+- y_term_used: airbnb
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "airbnb ~ museums + population + greensp + area"
+    response: "airbnb"
+    predictors: ["museums", "population", "greensp", "area"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -95,12 +130,12 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
-  confidence: low
+  equation_text: airbnb ~ museums + population + greensp + area
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +145,7 @@ modeling_evidence:
 - N observations: 7
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

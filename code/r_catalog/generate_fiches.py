@@ -14,6 +14,7 @@ Schema: wiki/metadata/catalog_registry_schema_v3.md (Tier 1-compatible).
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -47,25 +48,47 @@ LLM_SYSTEM_PROMPT = (
 
 # Resolution manuelle des groupes suspects issus de sf_catalog_metadata.json.
 CONFIRMED_KEEP = {
-    "R_surveillance_hagelloch_hagelloch",    # spatio-temporel: 188 cas x pas de temps
-    "R_surveillance_hagelloch_hagelloch.df", # spatial pur: 1 ligne par cas
-    "R_gstat_jura_jura.pred",
+    "R_surveillance_hagelloch_hagelloch",
     "R_gstat_jura_jura.val",
 }
 CONFIRMED_DISCARD = {
     "R_gstat_jura_prediction.dat",
     "R_gstat_jura_validation.dat",
+    "R_surveillance_hagelloch_hagelloch.df",
+    "R_gstat_jura_jura.pred",
+    "Python_geodatasets_geoda.lasrosas",
+    "R_GWmodel_GeorgiaCounties_Gedu.counties",
+    "R_GWmodel_LondonBorough_londonborough",
+    "R_gstat_meuse.all_meuse.all",
+    "R_spdep_oldcol_COL.OLD",
 }
 
 DATASET_NOTES = {
     "R_surveillance_hagelloch_hagelloch": (
-        "> **Note** - Version spatio-temporelle : 188 cas individuels x plusieurs pas de temps "
-        "(N=70 500 lignes). Complementaire a `hagelloch.df`, version spatiale pure (N=188)."
+        "> **Note** - Fiche canonique fusionnee : l'objet `hagelloch.df` est une "
+        "variante tabulaire integree dans cette fiche, pas une fiche dataset separee."
     ),
-    "R_surveillance_hagelloch_hagelloch.df": (
-        "> **Note** - Version spatiale : 1 ligne par cas individuel (N=188). "
-        "Complementaire a `hagelloch`, version spatio-temporelle (N=70 500)."
-    ),
+}
+
+DATASET_YX_OVERRIDES = {
+    "Python_geodatasets_spdata.wheat": {
+        "x_candidates": ["r", "c", "lat1"],
+        "rationale": (
+            "Selection Y/X corrigee depuis la documentation source : `yield` est "
+            "la variable reponse naturelle. `r` et `c` decrivent les lignes et "
+            "colonnes des centres de parcelles; elles sont donc des covariables "
+            "de position/grille utiles pour capter un effet spatial de champ. "
+            "`lat1` conserve le gradient nord-sud transforme de la documentation."
+        ),
+    }
+}
+
+GENERATED_FORMULA_OVERRIDES = {
+    "Python_geodatasets_spdata.wheat": {
+        "formula_used": "yield ~ r + c + lat1",
+        "x_terms_used": "r + c + lat1",
+        "y_term_used": "yield",
+    }
 }
 
 ADE4_NOTE = (
@@ -111,6 +134,28 @@ def load_cache(path: Path) -> dict[str, Any]:
         return json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
         return {}
+
+
+def load_generated_formula_audit(root: Path) -> dict[str, dict[str, str]]:
+    """Charge les formules systeme generees par la passe d'audit.
+
+    Ces formules ne sont pas des formules publiees. Elles servent de
+    propositions reproductibles quand aucune source scientifique ou
+    documentation ne fournit d'equation canonique.
+    """
+    path = root / "data" / "manifests" / "datasets" / "proposed_formula_used_audit.csv"
+    if not path.exists():
+        return {}
+    out: dict[str, dict[str, str]] = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            did = (row.get("dataset_id") or "").strip()
+            formula = (row.get("formula_used") or "").strip()
+            source = (row.get("source") or "").strip()
+            if not did or not formula or source != "generated_formula_candidates":
+                continue
+            out[did] = row
+    return out
 
 
 def save_cache(path: Path, cache: dict[str, Any]) -> None:
@@ -251,6 +296,155 @@ def license_is_open(license_name: str | None) -> str:
         return "unknown"
     lowered = license_name.lower()
     return "yes" if any(kw in lowered for kw in OPEN_LICENSE_KEYWORDS) else "unknown"
+
+
+def normalize_nt_profile(profile: str, n: Any, t: Any) -> str:
+    """Normalise le profil N/T sur les modalites grand/moyen/petit."""
+    profile = str(profile or "").strip()
+    if re.fullmatch(r"N_(petit|moyen|grand)_T_(petit|moyen|grand)", profile):
+        return profile
+
+    def t_bucket(value: Any) -> str:
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            return "moyen"
+        if numeric <= 1:
+            return "petit"
+        if numeric < 50:
+            return "moyen"
+        return "grand"
+
+    n_match = re.search(r"N_(petit|moyen|grand)", profile)
+    if n_match:
+        n_bucket = n_match.group(1)
+    else:
+        try:
+            n_value = float(n)
+            n_bucket = "petit" if n_value < 100 else "moyen" if n_value < 1000 else "grand"
+        except (TypeError, ValueError):
+            n_bucket = "moyen"
+    return f"N_{n_bucket}_T_{t_bucket(t)}"
+
+
+def yaml_quote(value: Any) -> str:
+    """Rend une valeur scalaire YAML robuste pour les blocs de fiche."""
+    text = str(value if value is not None else "pending")
+    return json.dumps(text, ensure_ascii=False)
+
+
+def split_formula_predictors(x_terms: str) -> list[str]:
+    """Decoupe les termes X sans essayer de parser toute la syntaxe R."""
+    x_terms = str(x_terms or "").strip()
+    if not x_terms or x_terms == "pending":
+        return []
+    if x_terms in {"1", "0"}:
+        return []
+    return [part.strip() for part in x_terms.split("+") if part.strip()]
+
+
+def formula_candidate_entry(
+    *,
+    formula: str = "pending",
+    response: str = "pending",
+    predictors: list[str] | None = None,
+    role: str,
+    source_type: str = "none_found",
+    source_ref: str = "pending",
+    estimator_context: list[str] | None = None,
+    status: str = "unavailable",
+) -> str:
+    """Construit une entree YAML de formule candidate au format stable."""
+    predictors = predictors or []
+    estimator_context = estimator_context or []
+    predictors_yaml = "[" + ", ".join(yaml_quote(v) for v in predictors) + "]"
+    estimators_yaml = "[" + ", ".join(yaml_quote(v) for v in estimator_context) + "]"
+    return "\n".join([
+        f"    formula: {yaml_quote(formula)}",
+        f"    response: {yaml_quote(response)}",
+        f"    predictors: {predictors_yaml}",
+        f"    role: {yaml_quote(role)}",
+        f"    source_type: {yaml_quote(source_type)}",
+        f"    source_ref: {yaml_quote(source_ref)}",
+        f"    estimator_context: {estimators_yaml}",
+        f"    status: {yaml_quote(status)}",
+    ])
+
+
+def build_formula_candidates_block(
+    *,
+    formula: str,
+    y_term: str,
+    x_terms: str,
+    source_type: str,
+    source_ref: str,
+) -> str:
+    """Construit les trois profils de formules sans inventer de source.
+
+    `formula_used` reste la formule commune du benchmark. Les candidats
+    ci-dessous servent a documenter les usages possibles : baseline simple,
+    specification contrainte par une source, ou ensemble de variables pour ML.
+    """
+    predictors = split_formula_predictors(x_terms)
+    has_formula = bool(formula and formula != "pending")
+    is_published = source_type in {
+        "scientific_publication_or_package_documentation",
+        "published_or_manual_formula",
+    }
+    is_generated = source_type == "generated_system_formula"
+
+    univariate = formula_candidate_entry(role="simple_baseline")
+    if has_formula and len(predictors) == 1:
+        univariate = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="simple_baseline",
+            source_type=source_type,
+            source_ref=source_ref,
+            estimator_context=["linear_regression", "kriging_auxiliary", "spatial_baseline"],
+            status="confirmed" if is_published else "generated",
+        )
+
+    multivariate = formula_candidate_entry(role="paper_main_specification")
+    if has_formula and is_published and len(predictors) >= 2:
+        multivariate = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="paper_main_specification",
+            source_type=source_type,
+            source_ref=source_ref,
+            estimator_context=["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"],
+            status="confirmed",
+        )
+
+    ml_or_selected = formula_candidate_entry(role="ml_candidate_features")
+    if has_formula and is_generated:
+        ml_or_selected = formula_candidate_entry(
+            formula=formula,
+            response=y_term,
+            predictors=predictors,
+            role="ml_candidate_features",
+            source_type="generated_system_formula",
+            source_ref=source_ref,
+            estimator_context=["random_forest", "xgboost", "gamboost", "spboost"],
+            status="generated",
+        )
+
+    return "\n".join([
+        "```yaml",
+        "formula_candidates:",
+        "  univariate:",
+        univariate,
+        "",
+        "  multivariate_constrained:",
+        multivariate,
+        "",
+        "  ml_or_selected:",
+        ml_or_selected,
+        "```",
+    ])
 
 
 def first_existing(paths: list[Path]) -> Path | None:
@@ -403,6 +597,7 @@ def make_fiche(
     entry: dict[str, Any],
     doc: dict[str, str | None],
     cache: dict[str, Any],
+    generated_formulas: dict[str, dict[str, str]],
     client: Any,
     refresh_llm: bool,
     wiki_out: Path | None = None,
@@ -462,6 +657,10 @@ def make_fiche(
     all_vars = b1.get("variables", [])
     var_by_name = {v["name"]: v for v in all_vars}
     llm_result = classify_yx_llm(did, all_vars, intro, cache, client, refresh_llm)
+    if did in DATASET_YX_OVERRIDES:
+        override = DATASET_YX_OVERRIDES[did]
+        llm_result["x_candidates"] = override["x_candidates"]
+        llm_result["rationale"] = override["rationale"]
     llm_rationale = llm_result.get("rationale") or "n/a"
 
     y_cands = [var_by_name[n] for n in llm_result.get("y_candidates", []) if n in var_by_name]
@@ -558,7 +757,7 @@ def make_fiche(
     # Spatiotemporal
     N = b4.get("N")
     T = b4.get("T", 1)
-    profil_nt = b4.get("profil_nt", "unknown")
+    profil_nt = normalize_nt_profile(b4.get("profil_nt", "unknown"), N, T)
     data_type = b4.get("data_type", "spatial")
     structure = b4.get("structure", "coupe_transversale")
     t_var = b4.get("T_var") or "none"
@@ -708,10 +907,41 @@ def make_fiche(
         used_formula = pub_formula
         used_x_terms = pub_x_terms
         used_y_term = pub_y_term
+        modeling_existing = "true"
+        modeling_equation = pub_formula
+        modeling_family = "regression"
+        modeling_source_type = "scientific_publication_or_package_documentation"
+        modeling_source_ref = pub_ref
+        modeling_confidence = "medium"
+    elif did in generated_formulas:
+        generated = {**generated_formulas[did], **GENERATED_FORMULA_OVERRIDES.get(did, {})}
+        used_formula = generated.get("formula_used") or generated.get("formula_candidate_1") or "pending"
+        used_x_terms = generated.get("x_terms_used") or "pending"
+        used_y_term = generated.get("y_term_used") or "pending"
+        modeling_existing = "false"
+        modeling_equation = used_formula
+        modeling_family = "regression_candidate"
+        modeling_source_type = "generated_system_formula"
+        modeling_source_ref = "data/manifests/datasets/proposed_formula_used_audit.csv"
+        modeling_confidence = "medium"
     else:
         used_formula = "pending"
         used_x_terms = "pending"
         used_y_term = "pending"
+        modeling_existing = "false"
+        modeling_equation = "null"
+        modeling_family = "n/a"
+        modeling_source_type = "none_found"
+        modeling_source_ref = "null"
+        modeling_confidence = "low"
+
+    formula_candidates_block = build_formula_candidates_block(
+        formula=used_formula,
+        y_term=used_y_term,
+        x_terms=used_x_terms,
+        source_type=modeling_source_type,
+        source_ref=modeling_source_ref,
+    )
 
     return f"""\
 ---
@@ -783,6 +1013,10 @@ tags: {tags}
 - x_terms_used: {used_x_terms}
 - y_term_used: {used_y_term}
 
+### Formules candidates
+
+{formula_candidates_block}
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `{did}`
@@ -802,13 +1036,13 @@ tags: {tags}
 
 ```yaml
 modeling_evidence:
-  existing_model_found: {"true" if regression_status not in ("pending", "mauvais candidat") else "false"}
-  equation_text: "{pub_formula if pub_formula != 'pending' else 'null'}"
-  equation_family: unknown
-  model_family: "{regression_method}"
-  source_type: unknown
-  source_ref: "{pub_ref if pub_ref != 'pending' else 'null'}"
-  confidence: low
+  existing_model_found: {modeling_existing}
+  equation_text: "{modeling_equation}"
+  equation_family: {modeling_family}
+  model_family: "{regression_method if pub_formula != 'pending' else modeling_family}"
+  source_type: {modeling_source_type}
+  source_ref: "{modeling_source_ref}"
+  confidence: {modeling_confidence}
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -926,6 +1160,7 @@ def main() -> int:
     data = load_json(args.json_in)
     annotate_duplicate_groups(data)
     args.wiki_out.mkdir(parents=True, exist_ok=True)
+    generated_formulas = load_generated_formula_audit(repo_root())
 
     try:
         from dotenv import load_dotenv
@@ -973,6 +1208,7 @@ def main() -> int:
             entry,
             doc,
             cache,
+            generated_formulas,
             client,
             args.refresh_llm,
             wiki_out=args.wiki_out,

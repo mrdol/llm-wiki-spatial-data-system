@@ -72,8 +72,43 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 ### Formule — niveau systeme
 
 - formula_used: lslpts ~ slope + cplan + cprof + elev + log10_carea
-- x_terms_used: slope, cplan, cprof, elev, log10_carea
+- x_terms_used: slope + cplan + cprof + elev + log10_carea
 - y_term_used: lslpts
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
+    response: "lslpts"
+    predictors: ["slope", "cplan", "cprof", "elev", "log10_carea"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -95,12 +130,12 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284."
-  confidence: low
+  equation_text: lslpts ~ slope + cplan + cprof + elev + log10_carea
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +145,7 @@ modeling_evidence:
 - N observations: 350
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
+  - data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
@@ -74,9 +75,44 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach~PctRural+PctFB+PctBlack+PctEld
-- x_terms_used: PctRural+PctFB+PctBlack+PctEld
+- formula_used: PctBach ~ PctRural + PctFB + PctBlack + PctEld
+- x_terms_used: PctRural + PctFB + PctBlack + PctEld
 - y_term_used: PctBach
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "PctBach ~ PctRural + PctFB + PctBlack + PctEld"
+    response: "PctBach"
+    predictors: ["PctRural", "PctFB", "PctBlack", "PctEld"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -98,12 +134,12 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "PctBach~PctRural+PctFB+PctBlack+PctEld"
-  equation_family: unknown
-  model_family: "GWR"
-  source_type: unknown
-  source_ref: "Fotheringham, Brunsdon & Charlton (2002), Wiley"
-  confidence: low
+  equation_text: PctBach ~ PctRural + PctFB + PctBlack + PctEld
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +149,7 @@ modeling_evidence:
 - N observations: 159
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -159,6 +195,28 @@ estimator_eligibility:
     notes: "Useful for testing multiscale geographically weighted regression routes."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Georgia. Elle fusionne la source Python `libpysal::georgia` et la source R `GWmodel::GeorgiaCounties / Gedu.counties`, toutes deux utilisees pour des exemples de regression spatiale et de GWR.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `Python_libpysal_georgia` | libpysal | `georgia` | `data/final_datasets/sf/Python_libpysal_georgia.rds` | fiche canonique conservee |
+| `R_GWmodel_GeorgiaCounties_Gedu.counties` | GWmodel | `Gedu.counties` | `data/final_datasets/sf/R_GWmodel_GeorgiaCounties_Gedu.counties.rds` | source R integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme territoire: comtes de Georgia.
+- Meme famille d'usage: modelisation socio-demographique spatiale et GWR.
+- Meme reponse de benchmark actuelle: `PctBach`.
+
+### Elements non communs
+
+- La source R `GWmodel` est directement liee aux exemples GWR.
+- La source Python `libpysal` facilite les usages PySAL et libpysal.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -167,7 +225,7 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `Python_libpysal_georgia` et `R_GWmodel_GeorgiaCounties_Gedu.counties`.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages

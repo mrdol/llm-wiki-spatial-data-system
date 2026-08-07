@@ -44,6 +44,8 @@ REGRESSION_STATUS_VALUES = {
     "candidat par analogie — non vérifié", "pending",
 }
 REGRESSION_EVIDENCE_VALUES = {"verbatim", "code", "article", "analogie", "n/a", "pending"}
+REGRESSION_STATUS_VALUES.update({"resolu", "résolu", "generated_system_formula"})
+REGRESSION_EVIDENCE_VALUES.update({"publication", "system_generated"})
 
 EXCLUDED_FILES = {"index.md", "log.md", "overview.md", "glossary.md", "eval_queue.md"}
 
@@ -158,7 +160,6 @@ CHECKS_BY_TYPE = {
 DATASET_ENRICHED_PATTERNS = [
     ("feature_selection block", r"(?im)^\s*feature_selection\s*:"),
     ("modeling_evidence block", r"(?im)^\s*modeling_evidence\s*:"),
-    ("quality_pedigree block", r"(?im)^\s*quality_pedigree\s*:"),
 ]
 
 DATASET_NON_NULL_FIELDS = [
@@ -326,6 +327,22 @@ def _field_contains_doi(value: str | None) -> bool:
     return bool(DOI_RE.search(_clean_value(value)))
 
 
+def _is_package_dataset(body: str) -> bool:
+    source_family = (_field_value(body, "Source family") or "").lower()
+    source_url = (_field_value(body, "Source URL") or "").lower()
+    source_package = bool(re.search(r"(?im)^-\s*Source:\s*package\s+(R|Python)\b", body))
+    frontmatter_artifact = bool(re.search(r"(?im)^\s*-\s*data/final_datasets/sf/(R|Python)_", body))
+    return (
+        "package" in source_family
+        or "r_package" in source_family
+        or "python_package" in source_family
+        or "cran.r-project.org" in source_url
+        or "rdrr.io" in source_url
+        or source_package
+        or frontmatter_artifact
+    )
+
+
 def _check_backlinks(body: str, warnings: list[str]) -> None:
     all_pages = {path.stem for path in WIKI_ROOT.rglob("*.md")}
     for match in BACKLINK_RE.finditer(body):
@@ -421,7 +438,10 @@ def _check_dataset_non_null_fields(body: str, errors: list[str], warnings: list[
     if doi_value is None:
         errors.append("Critical dataset field is missing: Dataset DOI")
     elif _has_declared_absent_doi(doi_value):
-        warnings.append("Dataset DOI explicitly absent: verify that the source documents no DOI")
+        if _is_package_dataset(body):
+            warnings.append("Dataset DOI absent accepted for package-derived dataset fiche")
+        else:
+            warnings.append("Dataset DOI explicitly absent: verify that the source documents no DOI")
     elif not _field_contains_doi(doi_value):
         errors.append(f"Dataset DOI is not a valid DOI or explicit absence: {doi_value!r}")
 

@@ -75,8 +75,43 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 ### Formule — niveau systeme
 
 - formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
-- x_terms_used: sex, Matern(1|x+y %in% sex)
+- x_terms_used: sex + Matern(1|x+y %in% sex)
 - y_term_used: fec_div
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "fec_div ~ sex + Matern(1|x+y %in% sex)"
+    response: "fec_div"
+    predictors: ["sex", "Matern(1|x", "y %in% sex)"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -98,12 +133,12 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "fec_div ~ sex + Matern(1|x+y %in% sex)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
-  confidence: low
+  equation_text: fec_div ~ sex + Matern(1|x+y %in% sex)
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +148,7 @@ modeling_evidence:
 - N observations: 156
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

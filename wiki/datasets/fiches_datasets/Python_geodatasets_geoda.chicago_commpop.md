@@ -63,17 +63,51 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule candidate generee par le systeme
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: POP2010 ~ POP2000
+- x_terms_used: POP2000
+- y_term_used: POP2010
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "simple_baseline"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "generated"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -95,12 +129,12 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  equation_text: POP2010 ~ POP2000
+  equation_family: regression_candidate
+  model_family: spatial_regression_candidate
+  source_type: generated_system_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +144,7 @@ modeling_evidence:
 - N observations: 77
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -138,7 +172,7 @@ modeling_evidence:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

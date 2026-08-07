@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
+  - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -81,9 +82,44 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Formule — niveau systeme
 
-- formula_used: ~ household + cox(AGE)
-- x_terms_used: household, cox(AGE)
-- y_term_used: pending
+- formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- y_term_used: event
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
+    response: "event"
+    predictors: ["start", "stop", "atRiskY", "AGE", "SEX", "CL", "household", "nothousehold"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -105,12 +141,12 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "~ household + cox(AGE)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
-  confidence: low
+  equation_text: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -120,7 +156,7 @@ modeling_evidence:
 - N observations: 70500
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -144,6 +180,27 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Hagelloch. Elle fusionne l'objet spatial `hagelloch` et la variante tabulaire `hagelloch.df` du package `surveillance`.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_surveillance_hagelloch_hagelloch` | surveillance | `hagelloch` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds` | fiche canonique conservee |
+| `R_surveillance_hagelloch_hagelloch.df` | surveillance | `hagelloch.df` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds` | variante tabulaire integree |
+
+### Elements communs
+
+- Meme source package et meme cas d'etude epidemiologique.
+- Meme objet empirique sous deux representations.
+
+### Elements non communs
+
+- `hagelloch` porte la representation principale retenue par le pipeline.
+- `hagelloch.df` est une version data.frame utile pour certains exemples non spatiaux directs.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -152,10 +209,9 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch.df
+- Duplicates: FUSED - fiche commune pour `R_surveillance_hagelloch_hagelloch` et `R_surveillance_hagelloch_hagelloch.df`.
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 
 - Source: package R `surveillance`
-- Duplicate/version candidate: [[R_surveillance_hagelloch_hagelloch.df]]

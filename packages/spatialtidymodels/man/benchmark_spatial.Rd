@@ -139,10 +139,11 @@ diagnostic path is currently in-sample because the upstream package exposes
 with a GLS correction for spatial dependence using a nearest-neighbour
 Gaussian-process/Vecchia-style approximation.
 
-\code{AIC}, \code{AICc}, and \code{logLik} are reported when the fitted backend exposes a
+\code{AICc} and \code{logLik} are reported when the fitted backend exposes a
 likelihood and a usable parameter count. For \code{spboost}, the package first
 tries the standard R methods, then falls back to backend fields such as
-\code{logl}/\code{AIC} and an explicit active-coefficient count when available.
+\code{logl}/backend information and an explicit active-coefficient count when
+available.
 
 The \code{spatial_param} and \code{spatial_value} columns report a single explicit
 spatial dependence parameter when the fitted backend exposes one. SAR-style
@@ -155,6 +156,12 @@ Models such as \code{random_forest}, \code{spatialml_grf}, and \code{spatialrf} 
 coordinates, local forests, distances, or spatial predictors, but they do not
 estimate one scalar econometric parameter equivalent to \code{rho} or \code{lambda}.
 Their \code{spatial_param} and \code{spatial_value} columns therefore remain \code{NA}.
+
+The \code{moran_i} column reports Moran's I on residuals, while \code{moran_abs}
+reports \code{abs(moran_i)}. When the goal is to remove residual spatial
+autocorrelation, \code{moran_abs} is usually the metric to minimize because both
+positive clustering and negative checkerboard-like autocorrelation indicate
+remaining spatial structure.
 
 Runtime is recorded in seconds. The main \code{results} table reports
 \code{duration_sec}, the total measured time spent by each estimator across all

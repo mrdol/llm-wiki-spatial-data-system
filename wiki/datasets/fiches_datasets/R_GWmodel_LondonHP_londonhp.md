@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
+  - data/final_datasets/sf/R_GWmodel_LondonBorough_londonborough.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -91,6 +92,41 @@ A house price data set with 18 hedonic variables for London in 2001.
 - x_terms_used: FLOORSZ, PROF, BATH2
 - y_term_used: PURCHASE
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "PURCHASE ~ FLOORSZ + PROF + BATH2"
+    response: "PURCHASE"
+    predictors: ["FLOORSZ, PROF, BATH2"]
+    role: "simple_baseline"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_GWmodel_LondonHP_londonhp`
@@ -111,12 +147,12 @@ A house price data set with 18 hedonic variables for London in 2001.
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
-  confidence: low
+  equation_text: PURCHASE ~ FLOORSZ + PROF + BATH2
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +162,7 @@ modeling_evidence:
 - N observations: 316
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -180,6 +216,28 @@ estimator_eligibility:
     notes: "Useful for mixed stationary/non-stationary MGWRSAR tests with SAR autocorrelation."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude London house prices. Elle conserve `LondonHP` comme table de modelisation et integre `LondonBorough` comme couche auxiliaire de contexte spatial plutot que comme fiche dataset separee.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `R_GWmodel_LondonHP_londonhp` | GWmodel | `LondonHP` | `data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds` | fiche canonique conservee |
+| `R_GWmodel_LondonBorough_londonborough` | GWmodel | `LondonBorough` | `data/final_datasets/sf/R_GWmodel_LondonBorough_londonborough.rds` | couche spatiale auxiliaire integree |
+
+### Elements communs
+
+- Meme cas d'etude London utilise dans les travaux GWR sur les prix immobiliers.
+- Meme source package: `GWmodel`.
+- Meme contexte spatial de Londres.
+
+### Elements non communs
+
+- `LondonHP` contient les observations de logements et la reponse de modelisation.
+- `LondonBorough` fournit une geometrie administrative de contexte; ce n'est pas une table de regression equivalente.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -188,7 +246,7 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (27700).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `R_GWmodel_LondonHP_londonhp` et la couche auxiliaire `R_GWmodel_LondonBorough_londonborough`.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages

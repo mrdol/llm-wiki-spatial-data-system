@@ -180,6 +180,10 @@ Each dataset page or dataset metadata profile should include, when available:
 - dataset name;
 - source family and source URL;
 - paper DOI and dataset/archive DOI, kept separate;
+- for datasets distributed inside R/Python packages, a dataset DOI is often not
+  available; `Dataset DOI: none` or `Dataset DOI: not_applicable` is valid when
+  the fiche records the package source, object name, source URL/documentation,
+  license, and local artifact path;
 - variables, including candidate `Y`, candidate `X`, selected `X`;
 - variable roles: response, covariate, coordinate, geometry, identifier, time;
 - variable types: continuous, binary, count, rate, proportion, categorical,
@@ -191,7 +195,9 @@ Each dataset page or dataset metadata profile should include, when available:
   metadata source defines one;
 - reproducibility evidence: code, repository, supplements, examples;
 - licence and reuse constraints;
-- quality pedigree and review status when the page supports project decisions.
+- quality pedigree and review status when the page supports project decisions;
+  this is recommended evidence metadata, not a hard pre-commit requirement for
+  package-derived dataset fiches.
 
 ---
 
@@ -457,6 +463,12 @@ Do not invent a regression formula. Formula links must come from one of:
 If a formula is inferred from damaged GROBID output, mark it as an inference in
 the KG props and keep it reviewable.
 
+For datasets linked to scientific papers, apply the detailed extraction rules in
+`wiki/metadata/regression_formula_extraction_policy_v1.md`. In particular,
+distinguish formulas stated in prose from formulas reconstructed from regression
+tables, keep table-column specifications separate when they differ, and never
+upgrade GROBID-only table extraction above manual-review confidence.
+
 ---
 
 ## Papers And Bibliography
@@ -485,6 +497,25 @@ datasets, formulas, methods, variables, packages, sections, and citations.
 Keep paper DOI, dataset DOI, and archive DOI separate.
 
 Do not maintain citation-count fields by default.
+
+PDFs collected manually can be staged first in the sibling project
+`Biblio_from_pdf`. That project creates a clean `<batch>.bib` and renamed PDFs
+from a folder of dropped PDFs. Import only user-confirmed batches into this
+project with:
+
+```powershell
+python "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\Biblio_from_pdf\tools\import_to_llm_wiki.py" <batch> --dry-run
+python "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\Biblio_from_pdf\tools\import_to_llm_wiki.py" <batch> `
+  --target "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\llm-wiki-karpathy"
+```
+
+The importer copies PDFs to `corpus/papers/raw_pdf/`, appends BibTeX records to
+`corpus/bib/references.bib`, converts `bdsk-file-1` into a JabRef/BibDesk
+`file = {:...:PDF}` field, and skips duplicate keys or DOI. After import, run:
+
+```powershell
+python tools/kg/ingest_papers.py --from-bib --missing-only
+```
 
 Do not use unauthorized paper download routes. Use legal sources only:
 

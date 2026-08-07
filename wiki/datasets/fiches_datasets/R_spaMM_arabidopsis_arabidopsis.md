@@ -85,8 +85,43 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 ### Formule — niveau systeme
 
 - formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
-- x_terms_used: seasonal, Matern(1|LAT+LONG)
+- x_terms_used: seasonal + Matern(1|LAT+LONG)
 - y_term_used: cbind(pos1046738, 1-pos1046738)
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
+    response: "cbind(pos1046738, 1-pos1046738)"
+    predictors: ["seasonal", "Matern(1|LAT", "LONG)"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -108,12 +143,12 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
-  confidence: low
+  equation_text: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +158,7 @@ modeling_evidence:
 - N observations: 948
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue

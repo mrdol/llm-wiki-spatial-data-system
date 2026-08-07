@@ -5,6 +5,7 @@ created: 2026-07-23
 updated: 2026-07-23
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds
+  - data/final_datasets/sf/R_spdep_oldcol_COL.OLD.rds
 tags: [dataset, python-package, spatial, point]
 ---
 
@@ -81,6 +82,41 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 - x_terms_used: HOVAL + INC
 - y_term_used: CRIME
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "CRIME ~ HOVAL + INC"
+    response: "CRIME"
+    predictors: ["HOVAL", "INC"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `Python_geodatasets_spdata.columbus`
@@ -101,12 +137,12 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "CRIME ~ HOVAL + INC"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189."
-  confidence: low
+  equation_text: CRIME ~ HOVAL + INC
+  equation_family: regression
+  model_family: published_or_manual_regression
+  source_type: published_or_manual_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -116,7 +152,7 @@ modeling_evidence:
 - N observations: 49
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -182,6 +218,28 @@ estimator_eligibility:
     notes: "Benchmark route only until a paper-source relation is curated."
 ```
 
+## Fusion des sources et variantes
+
+Cette fiche est la fiche canonique du cas d'etude Columbus crime. Elle fusionne les sources Python `geodatasets::spdata.columbus` et R `spdep::COL.OLD`, qui documentent le meme jeu de donnees historique utilise pour les exemples d'econometrie spatiale d'Anselin.
+
+### Sources fusionnees
+
+| Ancienne fiche | Source package | Objet source | Artefact local | Role |
+|---|---|---|---|---|
+| `Python_geodatasets_spdata.columbus` | geodatasets / spData | `spdata.columbus` | `data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds` | fiche canonique conservee |
+| `R_spdep_oldcol_COL.OLD` | spdep | `COL.OLD` | `data/final_datasets/sf/R_spdep_oldcol_COL.OLD.rds` | source R integree puis retiree comme fiche separee |
+
+### Elements communs
+
+- Meme cas d'etude: criminalite et variables socio-economiques dans les quartiers de Columbus.
+- Meme formule de reference: `CRIME ~ HOVAL + INC`.
+- Meme usage methodologique: comparaison OLS, SAR, SEM et variantes spatiales.
+
+### Elements non communs
+
+- Les noms d'objets et le package source different selon l'ecosysteme Python ou R.
+- Les metadonnees de provenance conservent les deux chemins d'artefacts pour permettre de retracer les deux sources.
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -190,7 +248,7 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: FUSED - fiche commune pour `Python_geodatasets_spdata.columbus` et `R_spdep_oldcol_COL.OLD`.
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages

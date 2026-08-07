@@ -61,17 +61,51 @@ Yield monitor data from a corn field in Minnesota
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule candidate generee par le systeme
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
-
+- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: mass ~ dist + elev
+- x_terms_used: dist + elev
+- y_term_used: mass
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "mass ~ dist + elev"
+    response: "mass"
+    predictors: ["dist", "elev"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -93,12 +127,12 @@ Yield monitor data from a corn field in Minnesota
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Suman Rakshit, Adrian Baddeley, Katia Stefanova, Karyn Reeves, Kefei Chen, Zhanglong Cao, Fiona Evans, Mark Gibberd (2020). Novel approach to the analysis of spatially-varying treatment effects in on-farm experiments. Field Crops Research, 255, 15 September 2020, 107783. https://doi.org/10.1016/j.fcr.2020.107783"
-  confidence: low
+  equation_text: mass ~ dist + elev
+  equation_family: regression_candidate
+  model_family: spatial_regression_candidate
+  source_type: generated_system_formula
+  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -108,7 +142,7 @@ modeling_evidence:
 - N observations: 4949
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: colonnes date/time presentes mais traitees comme attributs transactionnels
 
 ## Bloc 5 — Resolution et etendue
@@ -136,7 +170,7 @@ modeling_evidence:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
