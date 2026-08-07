@@ -1511,7 +1511,6 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     response = deparse(formula[[2]]),
     rmse = NA_real_,
     mae = NA_real_,
-    aic = NA_real_,
     aicc = NA_real_,
     logLik = NA_real_,
     elapsed_sec = NA_real_,
@@ -1520,6 +1519,7 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     spatial_param = NA_character_,
     spatial_value = NA_real_,
     moran_i = NA_real_,
+    moran_abs = NA_real_,
     moran_p_value = NA_real_,
     moran_error = NA_character_,
     fit_error = conditionMessage(error),
@@ -1534,6 +1534,7 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
   if (!"elapsed_sec" %in% names(row)) row$elapsed_sec <- NA_real_
   if (!"elapsed_total_sec" %in% names(row)) row$elapsed_total_sec <- NA_real_
   if (!"duration_sec" %in% names(row)) row$duration_sec <- row$elapsed_total_sec
+  if (!"moran_abs" %in% names(row)) row$moran_abs <- abs(row$moran_i)
   row
 }
 
@@ -1649,6 +1650,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mae = NA_real_,
       elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
+      moran_abs = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = conditionMessage(fit),
@@ -1673,6 +1675,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mae = NA_real_,
       elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
+      moran_abs = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = conditionMessage(pred),
@@ -1694,6 +1697,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mae = NA_real_,
       elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
+      moran_abs = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
@@ -1726,6 +1730,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       mae = NA_real_,
       elapsed_sec = elapsed_now(),
       moran_i = NA_real_,
+      moran_abs = NA_real_,
       moran_p_value = NA_real_,
       moran_error = NA_character_,
       fit_error = conditionMessage(diag),
@@ -1749,6 +1754,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     mae = diag$mae[[1]],
     elapsed_sec = elapsed_now(),
     moran_i = diag$moran_i[[1]],
+    moran_abs = diag$moran_abs[[1]],
     moran_p_value = diag$moran_p_value[[1]],
     moran_error = diag$moran_error[[1]],
     fit_error = metric_error,
@@ -1808,6 +1814,9 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   # RMSE/MAE sont recalcules sur toutes les predictions test concatenees: cela
   # donne a chaque observation le meme poids, au lieu de moyenner des RMSE de
   # folds qui peuvent avoir des tailles differentes.
+  if (!"moran_abs" %in% names(resample_results)) {
+    resample_results$moran_abs <- abs(resample_results$moran_i)
+  }
   pieces <- lapply(split(resample_results, resample_results$estimator), function(rows) {
     has_predictions <- "truth" %in% names(rows) && "pred" %in% names(rows)
     pred_lengths <- if (has_predictions) {
@@ -1835,12 +1844,12 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
       } else {
         NA_real_
       },
-      aic = NA_real_,
       aicc = NA_real_,
       logLik = NA_real_,
       spatial_param = NA_character_,
       spatial_value = NA_real_,
       moran_i = if (any(ok)) mean(rows$moran_i[ok], na.rm = TRUE) else NA_real_,
+      moran_abs = if (any(ok)) mean(rows$moran_abs[ok], na.rm = TRUE) else NA_real_,
       moran_p_value = if (any(ok)) mean(rows$moran_p_value[ok], na.rm = TRUE) else NA_real_,
       moran_error = paste(unique(stats::na.omit(rows$moran_error)), collapse = " | "),
       cv_scheme = cv_scheme,
@@ -1853,6 +1862,7 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   out <- do.call(rbind, pieces)
   out <- out[match(unique(resample_results$estimator), out$estimator), , drop = FALSE]
   out$moran_i[is.nan(out$moran_i)] <- NA_real_
+  out$moran_abs[is.nan(out$moran_abs)] <- NA_real_
   out$moran_p_value[is.nan(out$moran_p_value)] <- NA_real_
   out$moran_error[out$moran_error == ""] <- NA_character_
   out$fit_error[out$fit_error == ""] <- NA_character_
@@ -1864,7 +1874,7 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
                                                    base_params, tuning) {
   # Les performances restent celles de la validation croisee. Cette passe ajoute
   # seulement les diagnostics disponibles sur le modele final ajuste sur tout le
-  # jeu de donnees: AIC/AICc, logLik et parametre spatial explicite.
+  # jeu de donnees: AICc, logLik et parametre spatial explicite.
   for (estimator in intersect(results$estimator, names(fits))) {
     fit <- fits[[estimator]]
     if (inherits(fit, "error") || is.null(fit)) next
@@ -1884,7 +1894,6 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
     )
     if (is.null(diag) || nrow(diag) == 0L) next
     idx <- which(results$estimator == estimator)
-    results$aic[idx] <- diag$aic[[1]]
     results$aicc[idx] <- diag$aicc[[1]]
     results$logLik[idx] <- diag$logLik[[1]]
     results$spatial_param[idx] <- diag$spatial_param[[1]]
@@ -2074,10 +2083,11 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' with a GLS correction for spatial dependence using a nearest-neighbour
 #' Gaussian-process/Vecchia-style approximation.
 #'
-#' `AIC`, `AICc`, and `logLik` are reported when the fitted backend exposes a
+#' `AICc` and `logLik` are reported when the fitted backend exposes a
 #' likelihood and a usable parameter count. For `spboost`, the package first
 #' tries the standard R methods, then falls back to backend fields such as
-#' `logl`/`AIC` and an explicit active-coefficient count when available.
+#' `logl`/backend information and an explicit active-coefficient count when
+#' available.
 #'
 #' The `spatial_param` and `spatial_value` columns report a single explicit
 #' spatial dependence parameter when the fitted backend exposes one. SAR-style
@@ -2090,6 +2100,12 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' coordinates, local forests, distances, or spatial predictors, but they do not
 #' estimate one scalar econometric parameter equivalent to `rho` or `lambda`.
 #' Their `spatial_param` and `spatial_value` columns therefore remain `NA`.
+#'
+#' The `moran_i` column reports Moran's I on residuals, while `moran_abs`
+#' reports `abs(moran_i)`. When the goal is to remove residual spatial
+#' autocorrelation, `moran_abs` is usually the metric to minimize because both
+#' positive clustering and negative checkerboard-like autocorrelation indicate
+#' remaining spatial structure.
 #'
 #' Runtime is recorded in seconds. The main `results` table reports
 #' `duration_sec`, the total measured time spent by each estimator across all
@@ -2329,8 +2345,8 @@ benchmark_print_columns <- function(results) {
   # Colonnes utiles a l'affichage console; l'objet complet garde toutes les
   # colonnes dans $results.
   cols <- c("dataset", "estimator", "n", "response", "rmse", "mae",
-            "duration_sec", "aic", "aicc", "spatial_param", "spatial_value",
-            "moran_p_value", "fit_error")
+            "duration_sec", "aicc", "spatial_param", "spatial_value",
+            "moran_abs", "moran_p_value", "fit_error")
   cols[cols %in% names(results)]
 }
 
