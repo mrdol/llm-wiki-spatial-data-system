@@ -1,4 +1,4 @@
-# LLM Wiki - Agent Operating Manual
+﻿# LLM Wiki - Agent Operating Manual
 
 Read `CONTEXT.md` first - it defines all project terms (fiche, sf, N/T,
 typologies Y/X, bandwidth, pipeline, eval scores, estimateurs, agents).
@@ -47,6 +47,48 @@ corpus evidence -> KG relations -> wiki pages -> improved KG rules -> better wik
 Do not treat either layer as final truth by itself. The KG is structured
 evidence. The wiki is validated interpretation.
 
+---
+
+## Claude Fallback Production Mode
+
+Claude is normally the quality gate agent, not the production agent. If the user
+explicitly asks Claude to produce or modify fiches/scripts because Codex is not
+available, Claude may act in fallback production mode. In that mode, every batch
+must leave an audit trail: files changed, assumptions, source evidence, fields
+left unresolved, and manual-review items.
+
+Fallback production mode does not remove the package promotion gate. A
+paper-derived or warehouse-derived dataset must not be exported as a usable
+`spatialtidymodels` benchmark unless its fiche contains a `benchmark_readiness`
+block and `package_include: "yes"` has been chosen deliberately.
+
+## spatialtidymodels Package Promotion Gate
+
+Do not promote a dataset into the `spatialtidymodels` benchmark layer just
+because a wiki fiche exists. A dataset is package-benchmarkable only when all
+of the following are true:
+
+- a final local artifact exists and is readable (`.rds` or `.gpkg`);
+- the response variable is usable for the current benchmark task;
+- the covariates used by the formula or model specification are present in the
+  final artifact;
+- the fiche records defensible formula/model evidence, or clearly marks the
+  formula as system-generated;
+- spatial support is usable: geometry, coordinates, raster support, or an
+  original/reconstructible `W`;
+- CRS, distance, neighbor construction, or original `W` are documented well
+  enough for the relevant estimators;
+- preprocessing choices are documented and consistent with the paper,
+  package documentation, or source data;
+- the dataset is not only a prediction product, derived coefficient surface,
+  cluster output, or other model output unless the benchmark task explicitly
+  targets that object;
+- estimator eligibility is stated or inferable from the evidence.
+
+For `paper_*.md` and warehouse-derived fiches, the fiche must include a
+`benchmark_readiness` block. `package_include: "yes"` is allowed only with
+`benchmark_status: "ready"`. Use `manual_review`, `needs_*`, or `not_ready_*`
+instead of promoting an uncertain dataset.
 ---
 
 ## Core Priority
@@ -818,3 +860,5 @@ Keep estimator result names separate from backend/package names. Example:
 `mgwrsar_gwr` is the GWR model run through the R package/engine `mgwrsar`;
 `mgwrsar_mgwrsar` is the MGWRSAR model variant with explicit spatial
 autocorrelation.
+
+

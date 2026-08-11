@@ -1,0 +1,208 @@
+---
+title: paper_marrot_spatial_autocorrelation_fitness
+type: dataset
+created: 2026-08-10
+updated: 2026-08-10
+sources:
+  - data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds
+  - DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210
+tags: [dataset, paper-derived, spatial, point]
+---
+
+Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial autocorrelation in fitness affects the estimation of natural selection in the wild" (DOI 10.1111/2041-210x.12448).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatio-temporel
+- Observation unit: observation spatiale de type POINT
+- Observed population: a preciser depuis le papier source
+- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Temporal context: 27 distinct periods (variable: Laying_date)
+- Source description: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- Description source: paper_dataset_uses.json + lecture directe du papier
+- Description confidence: medium
+- Paper DOI: 10.1111/2041-210x.12448
+- Dataset DOI: 10.5061/dryad.pm86c
+- Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.pm86c
+- Local raw dir: `data/raw/papers/DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210/`
+- Local sf output: `data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds`
+
+## Bloc 1 — Formule et variables
+
+### Variables (niveau systeme — inspection directe du sf)
+
+- Candidate Y variables: `Number_of_fledglings`
+- Candidate Y typology: continuous
+- Candidate X variables: `Laying_date`, `Clutch_size`, `Incubation_duration`
+- Candidate X count: 3
+- Candidate X typology: continuous
+- Coordinates (x, y — excluded from X candidates): `Longitude`, `Latitude`
+- Identifier columns (excluded from X candidates): `Individuals_ID`, `Nest_boxes_ID`, `Years`
+- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Presence of imputed X: unknown
+
+#### Detail Y
+
+| Variable | Classe R | Typologie Y | Plage | NA (%) |
+|---|---|---|---|---|
+| `Number_of_fledglings` | `numeric` | continuous | [0, 13] | 0% |
+
+> Selection Y/X (paper-loader/curated evidence) : Pour `marrot_spatial_autocorrelation_fitness`, la ou les reponses `Number_of_fledglings` viennent du loader papier et/ou des preuves de l article `Spatial autocorrelation in fitness affects the estimation of natural selection in the wild`. Les covariables X retenues sont `Clutch_size`, `Laying_date`, `Incubation_duration`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Individuals_ID`, `Nest_boxes_ID`, `Years`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+
+#### Detail X
+
+| Variable | Classe R | Role X | NA (%) |
+|---|---|---|---|
+| `Laying_date` | `numeric` | continuous | 0% |
+| `Clutch_size` | `numeric` | continuous | 0% |
+| `Incubation_duration` | `numeric` | continuous | 0% |
+
+### Formule — niveau publication
+
+- formula_pub: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
+- x_terms_pub: Clutch_size, Laying_date, Incubation_duration
+- y_term_pub: Number_of_fledglings
+- Reference publication: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+
+### Statut regression canonique
+
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d estimation: formule publication confirmee et utilisee
+- Correspondance Python/R: aucune identifiee
+- Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+
+### Formule — niveau systeme
+
+- formula_used: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
+- x_terms_used: Clutch_size, Laying_date, Incubation_duration
+- y_term_used: Number_of_fledglings
+- Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
+    response: "Number_of_fledglings"
+    predictors: ["Clutch_size", "Laying_date", "Incubation_duration"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication"
+    source_ref: "Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
+## Bloc 2 — Identification et DOI
+
+- Dataset ID: `paper_marrot_spatial_autocorrelation_fitness`
+- Dataset name: Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- Source family: paper-derived
+- Source: papier scientifique (voir Paper DOI)
+- Paper title: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- Paper DOI: 10.1111/2041-210x.12448
+- Dataset DOI: 10.5061/dryad.pm86c
+- Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.pm86c
+- Year: unknown
+
+## Bloc 3 — Typologie des modeles
+
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
+- Modele niveau 2 (famille): pending
+- Modele niveau 3 (variante): pending
+
+```yaml
+modeling_evidence:
+  existing_model_found: true
+  equation_text: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
+  confidence: medium
+```
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous_or_count"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "decider si Number_of_fledglings doit rester count ou etre traite comme regression continue pour benchmark comparatif"
+  reason: "Y/X, coordonnees et N sont confirmes; formule locale disponible dans le KG et les donnees converties en sf."
+```
+
+- Decision: ready
+- Manque principal: decider si Number_of_fledglings doit rester count ou etre traite comme regression continue pour benchmark comparatif
+- Raison: Y/X, coordonnees et N sont confirmes; formule locale disponible dans le KG et les donnees converties en sf.
+
+## Bloc 4 — Typologie des donnees
+
+- Data type: spatio-temporel
+- Structure: panel_ou_series
+- N observations: 229
+- k variables: 12
+- T periods: 27
+- Variable temporelle: Laying_date
+- N/T profile: N_moyen_T_grand
+
+## Bloc 5 — Resolution et etendue
+
+- Type de geometrie: POINT
+- Spatial resolution: point observation
+- Temporal resolution: 27 distinct periods (variable: Laying_date)
+- CRS EPSG: 4326
+- CRS nom: WGS 84
+- Spatial extent: x [3.661328, 3.679321], y [43.6539548, 43.674217]
+- Time range: 30 to 58 (variable: Laying_date)
+- CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+
+## Bloc 6 — Reproductibilite
+
+- License present: unknown
+- License name: unknown
+- License URL: unknown
+- License open: unknown
+- Reproducibility status: OK - loader R enregistre et reexecutable (`marrot_spatial_autocorrelation_fitness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+- Code available: yes (loader `marrot_spatial_autocorrelation_fitness` dans `code/r_catalog/build_sf_datasets_papers.R`)
+- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
+
+## Quality Control
+
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
+- Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
+- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - loader R enregistre et reexecutable (`marrot_spatial_autocorrelation_fitness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
+- Source: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+

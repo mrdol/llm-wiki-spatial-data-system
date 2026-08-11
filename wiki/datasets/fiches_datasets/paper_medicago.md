@@ -1,0 +1,231 @@
+---
+title: paper_medicago
+type: dataset
+created: 2026-08-10
+updated: 2026-08-10
+sources:
+  - data/final_datasets/sf/paper_medicago.rds
+  - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
+tags: [dataset, paper-derived, spatial, point]
+---
+
+Dataset spatial converti en sf a partir des donnees brutes du papier "Niche conservatism limits the distribution of Medicago in the tropics" (DOI 10.1111/ecog.06085).
+
+## Description du jeu de donnees
+
+- Topic: biogeographie vegetale / gradients de richesse
+- Observation unit: cellule de grille (100x100 km)
+- Observed population: especes du genre Medicago
+- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Temporal context: none (cross-sectional)
+- Source description: Niche conservatism limits the distribution of Medicago in the tropics
+- Description source: paper_dataset_uses.json + lecture directe du papier
+- Description confidence: medium
+- Paper DOI: 10.1111/ecog.06085
+- Dataset DOI: 10.5061/dryad.280gb5mrw
+- Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.280gb5mrw
+- Local raw dir: `data/raw/papers/DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060/`
+- Local sf output: `data/final_datasets/sf/paper_medicago.rds`
+
+## Bloc 1 — Formule et variables
+
+### Variables (niveau systeme — inspection directe du sf)
+
+- Candidate Y variables: `richness`, `annual`, `perennial`
+- Candidate Y typology: continuous
+- Candidate X variables: `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad`, `MI`, `MAP`, `PDQ`, `AET`, `WD`, `DRT`, `TSN`, `ART`, `PSN`, `MATR`, `MAPR`, `Ele_range`, `Ele_std`, `LGMmat_ano`, `LGMmap_ano`, `LGMmtcq_ano`, `MHmat_ano`, `MHmap_ano`, `MHmtcq_ano`
+- Candidate X count: 24
+- Candidate X typology: continuous
+- Coordinates (x, y — excluded from X candidates): none detected
+- Identifier columns (excluded from X candidates): `GRIDCODE`, `Continent`, `Biome`
+- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Presence of imputed X: unknown
+
+#### Detail Y
+
+| Variable | Classe R | Typologie Y | Plage | NA (%) |
+|---|---|---|---|---|
+| `richness` | `numeric` | continuous | [1, 41] | 0% |
+| `annual` | `numeric` | continuous | [0, 37] | 0% |
+| `perennial` | `numeric` | continuous | [0, 12] | 0% |
+
+> Selection Y/X (paper-loader/curated evidence) : Pour `medicago`, la ou les reponses `richness`, `annual`, `perennial` viennent du loader papier et/ou des preuves de l article `Niche conservatism limits the distribution of Medicago in the tropics`. Les covariables X retenues sont `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad`, `MI`, `MAP`, `PDQ`, `AET`, `WD`, `DRT`, `TSN` ; 12 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (les coordonnees detectees), identifiants (`GRIDCODE`, `Continent`, `Biome`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_model_specification_review ; la promotion package reste conditionnee au bloc benchmark_readiness.
+
+#### Detail X
+
+| Variable | Classe R | Role X | NA (%) |
+|---|---|---|---|
+| `MAT` | `numeric` | continuous | 0% |
+| `MTCQ` | `numeric` | continuous | 0% |
+| `PET` | `numeric` | continuous | 0% |
+| `WI` | `numeric` | continuous | 0% |
+| `Solar_rad` | `numeric` | continuous | 0% |
+| `MI` | `numeric` | continuous | 0% |
+| `MAP` | `numeric` | continuous | 0% |
+| `PDQ` | `numeric` | continuous | 0% |
+| `AET` | `numeric` | continuous | 0% |
+| `WD` | `numeric` | continuous | 0% |
+| `DRT` | `numeric` | continuous | 0% |
+| `TSN` | `numeric` | continuous | 0% |
+| `ART` | `numeric` | continuous | 0% |
+| `PSN` | `numeric` | continuous | 0% |
+| `MATR` | `numeric` | continuous | 0% |
+| `MAPR` | `numeric` | continuous | 0% |
+| `Ele_range` | `numeric` | continuous | 0% |
+| `Ele_std` | `numeric` | continuous | 0% |
+| `LGMmat_ano` | `numeric` | continuous | 0% |
+| `LGMmap_ano` | `numeric` | continuous | 0% |
+| `LGMmtcq_ano` | `numeric` | continuous | 0% |
+| `MHmat_ano` | `numeric` | continuous | 0% |
+| `MHmap_ano` | `numeric` | continuous | 0% |
+| `MHmtcq_ano` | `numeric` | continuous | 0% |
+
+### Formule — niveau publication
+
+- formula_pub: richness ~ f(Quaternary climate change, environmental energy) via geographically weighted regression (GWR)
+- x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
+- y_term_pub: richness
+- Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+
+### Statut regression canonique
+
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d estimation: formule publication confirmee et utilisee
+- Correspondance Python/R: aucune identifiee
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+
+### Formule — niveau systeme
+
+- formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ... (12 covariables au total, voir Candidate X variables)
+- x_terms_used: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
+- y_term_used: richness
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ... (12 covariables au total, voir Candidate X variables)"
+    response: "richness"
+    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication"
+    source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
+## Bloc 2 — Identification et DOI
+
+- Dataset ID: `paper_medicago`
+- Dataset name: Niche conservatism limits the distribution of Medicago in the tropics
+- Source family: paper-derived
+- Source: papier scientifique (voir Paper DOI)
+- Paper title: Niche conservatism limits the distribution of Medicago in the tropics
+- Paper DOI: 10.1111/ecog.06085
+- Dataset DOI: 10.5061/dryad.280gb5mrw
+- Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.280gb5mrw
+- Year: unknown
+
+## Bloc 3 — Typologie des modeles
+
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
+- Modele niveau 2 (famille): pending
+- Modele niveau 3 (variante): pending
+
+```yaml
+modeling_evidence:
+  existing_model_found: true
+  equation_text: "richness ~ f(Quaternary climate change, environmental energy) via geographically weighted regression (GWR)"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
+  confidence: medium
+```
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "needs_model_specification_review"
+  benchmark_task: "regression_gwr"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "extraire la specification empirique exacte ou choisir une formule benchmark documentee"
+  reason: "GWR et covariables confirmees, mais aucune equation Y~X unique n'est encore validee pour le benchmark."
+```
+
+- Decision: needs_model_specification_review
+- Manque principal: extraire la specification empirique exacte ou choisir une formule benchmark documentee
+- Raison: GWR et covariables confirmees, mais aucune equation Y~X unique n'est encore validee pour le benchmark.
+
+## Bloc 4 — Typologie des donnees
+
+- Data type: spatial
+- Structure: coupe_transversale
+- N observations: 8297
+- k variables: 32
+- T periods: 1
+- Variable temporelle: n/a
+- N/T profile: N_grand_T_petit
+
+## Bloc 5 — Resolution et etendue
+
+- Type de geometrie: POINT
+- Spatial resolution: point observation
+- Temporal resolution: not applicable (cross-sectional dataset)
+- CRS EPSG: 4326
+- CRS nom: WGS 84
+- Spatial extent: x [-155.6728855, 177.8818578], y [-54.5346168, 70.8729427]
+- Time range: not applicable (cross-sectional dataset)
+- CRS analyse recommande: pending — multi-zones (span=333.6deg) -- projection nationale recommandee
+
+## Bloc 6 — Reproductibilite
+
+- License present: unknown
+- License name: unknown
+- License URL: unknown
+- License open: unknown
+- Reproducibility status: OK - loader R enregistre et reexecutable (`medicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+- Code available: yes (loader `medicago` dans `code/r_catalog/build_sf_datasets_papers.R`)
+- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
+
+## Quality Control
+
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
+- Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
+- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - loader R enregistre et reexecutable (`medicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
+- Source: Niche conservatism limits the distribution of Medicago in the tropics
+

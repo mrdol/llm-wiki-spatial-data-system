@@ -51,6 +51,21 @@ etre documentees separement.
 
 ---
 
+**Benchmark readiness** -- Bloc obligatoire pour les fiches `paper_*.md` et
+les futures fiches issues d'entrepots. Il distingue un dataset seulement trouve
+ou telecharge d'un dataset utilisable dans `spatialtidymodels`.
+
+**package_include** -- Champ du bloc `benchmark_readiness`. Valeurs autorisees:
+`yes`, `no`, `manual_review`. `yes` signifie que le dataset peut guider le
+package; `manual_review` signifie qu'il est interessant mais pas promu
+automatiquement; `no` signifie qu'il reste documentaire ou hors perimetre.
+
+**Mode secours Claude** -- Exception explicite ou Claude peut produire ou
+modifier des fiches/scripts quand Codex est indisponible. Ce mode exige un audit
+des modifications et ne permet jamais de promouvoir un dataset papier/entrepot
+sans `benchmark_readiness`.
+---
+
 ## Vocabulaire spatial et tidymodels
 
 **W** -- Matrice de voisinage ou de poids spatiaux. Dans le benchmark actuel,
@@ -193,3 +208,6 @@ Manuel complet: `AGENTS.md`.
 
 Regle inter-agents: le quality gate ne modifie jamais une fiche. L'injecting
 agent ne valide jamais sa propre evaluation.
+
+
+**Reconstructions air-quality monitor-level** -- Les datasets `paper_pm25_aqs_ma_2016_monitor_covariates`, `paper_no2_aqs_ma_2016_monitor_covariates` et `paper_o3_aqs_ma_2016_monitor_covariates` sont des reconstructions publiques partielles au niveau station EPA AQS, pas des repetitions exactes des matrices d'apprentissage des papiers Di/Requia. Le script responsable est `tools/build_air_quality_monitor_covariates.R`. Il recupere les observations EPA AirData, l'elevation USGS EPQS, les variables meteo/radiation NASA POWER, la classe NLCD 2016 et la densite de routes TIGER/Line. Les predictions finales de grille des auteurs sont conservees dans les RDS comme diagnostic mais exclues des formules benchmark pour eviter la fuite d'information. Les `.rds` dans `data/final_datasets/sf/` restent regenerables localement et sont ignores par Git par defaut.

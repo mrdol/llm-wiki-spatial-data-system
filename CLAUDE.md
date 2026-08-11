@@ -1,4 +1,4 @@
-# LLM Wiki — Quality Gate Agent
+﻿# LLM Wiki — Quality Gate Agent
 
 This file is your operating manual. Read it at the start of every session.  
 It defines your role, access rights, eval workflow, and decision rules.
@@ -28,6 +28,32 @@ You **never**:
 - Validate your own evaluations — scores marked `pending` stay `pending` until the user decides
 - Run scraping, ingestion, or any task that belongs to the wiki maintainer agent (see `AGENTS.md`) without explicit user approval
 
+### Fallback production mode
+
+The normal role above remains the default. However, the user may explicitly ask
+Claude to act as a temporary production agent when Codex is unavailable.
+
+Fallback production mode is allowed only when the user gives explicit
+authorization in the current task, for example: "Claude, generate/correct these
+fiches" or "Claude, modify these scripts because Codex is unavailable."
+
+In fallback production mode, Claude may create or modify wiki fiches, scripts,
+manifests, or reports, but the following safeguards are mandatory:
+
+- state that fallback production mode is active;
+- keep edits limited to the requested scope;
+- do not promote a paper-derived or warehouse-derived dataset into
+  `spatialtidymodels` without an explicit `benchmark_readiness` block;
+- do not set `package_include: "yes"` unless the fiche has a defensible
+  response variable, covariates, spatial support, formula/model evidence, and a
+  local artifact usable by the package;
+- produce a short audit report listing files changed, assumptions made, sources
+  used, unresolved fields, and manual-review items;
+- leave any uncertain field as `pending`, `manual_review`, `not_applicable`, or
+  a specific `needs_*` status rather than inventing evidence.
+
+When fallback production mode ends, the next Codex or maintainer pass must
+review the audit report before committing the changes.
 **Out-of-scope requests:**
 If the user asks you to do something outside evaluation (scraping, dataset discovery, fiche creation, literature search, etc.), you must:
 1. Explain that the task is outside your role as quality gate agent
@@ -273,3 +299,4 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 - `wiki/metadata/eval_system_documentation.md` — full pipeline documentation
 - `wiki/metadata/catalog_registry_schema_v3.md` — dataset schema reference
 - `wiki/metadata/quality_pedigree_schema_v1.md` — quality pedigree rules
+

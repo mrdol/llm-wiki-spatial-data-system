@@ -1,8 +1,8 @@
----
+﻿---
 title: Pipeline d'ingestion des jeux de donnees issus de papiers
 type: metadata
 created: 2026-08-06
-updated: 2026-08-07
+updated: 2026-08-09
 sources: []
 tags: [metadata, pipeline, kg, papers, ingestion]
 ---
@@ -311,6 +311,43 @@ Decision attendue :
 - identifier la formule ou la specification empirique ;
 - rejeter les candidats theoriques ou trop vagues.
 
+## Phase 7bis - Construire le manifeste central de curation
+
+But : eviter de creer directement des fiches definitives depuis des signaux
+bruts. Cette phase consolide les candidats issus des fiches `paper_*`, des
+manifestes DataCite verifies, des relations `PaperDatasetUse` du KG et de
+l'audit TEI dans un seul tableau de decision.
+
+Script responsable :
+
+- `tools/build_paper_dataset_curation_manifest.py`
+
+Sorties a consulter :
+
+- `data/manifests/papers/paper_dataset_benchmark_candidates.csv` : CSV Excel
+  avec separateur `;` ;
+- `data/manifests/papers/paper_dataset_benchmark_candidates.json` : version
+  structuree ;
+- `wiki/analyses/paper_dataset_benchmark_candidates_2026-08.md` : synthese par
+  priorite et statut.
+
+Commande typique :
+
+```powershell
+python tools/build_paper_dataset_curation_manifest.py
+```
+
+Decision attendue :
+
+- `high` : candidat presque directement exploitable, a controler puis brancher
+  vers preprocessing/package ;
+- `medium` : dataset concret mais reconciliation, formule, W, CRS, preprocessing
+  ou telechargement encore necessaire ;
+- `low` : signal utile pour le KG ou la veille, mais pas a transformer en fiche
+  definitive sans revue manuelle.
+
+Aucun candidat `tei_audit` seul ne doit etre promu : l'audit TEI signale une
+piste, pas un dataset benchmarkable.
 ## Phase 8 - Interroger le KG
 
 But : explorer rapidement les candidats par papier, type ou statut.
@@ -478,6 +515,55 @@ Decision attendue :
 - dataset exporte dans les metadata package ;
 - dataset listable depuis `spatialtidymodels`.
 
+## Phase 12bis - Controler la promotion vers le package
+
+But : separer clairement une fiche dataset documentee d'un dataset reellement
+utilisable par `spatialtidymodels`. Une fiche papier peut rester utile pour le
+KG et le wiki meme si elle n'est pas encore benchmarkable.
+
+Bloc obligatoire pour les fiches `paper_*.md` :
+
+```yaml
+benchmark_readiness:
+  benchmark_status: ready | almost_ready | needs_preprocessing | needs_covariate_join | needs_original_W | manual_review | not_ready_*
+  package_include: yes | no | manual_review
+  blocking_reason: "raison courte"
+  required_next_step: "action concrete"
+```
+
+Scripts responsables :
+
+- `tools/check_paper_benchmark_readiness.py` : controle les statuts et bloque
+  les promotions incoherentes ;
+- `code/package_metadata/export_spatialtidymodels_metadata.py` : exporte toutes
+  les fiches en metadata, mais ne marque `benchmark_ready = true` que si
+  `package_include: "yes"` et `benchmark_status: ready` sont presents ;
+- `packages/spatialtidymodels/inst/metadata/datasets.json` : metadata consommee
+  par le package.
+
+Commande de controle :
+
+```powershell
+python tools/check_paper_benchmark_readiness.py
+python code/package_metadata/export_spatialtidymodels_metadata.py
+```
+
+Regles de promotion :
+
+- `package_include: "yes"` est interdit si `benchmark_status` n'est pas `ready` ;
+- un dataset papier ne doit pas entrer dans les benchmarks package sans variable
+  reponse, covariables, support spatial, formule ou specification defendable, et
+  artefact local final (`.rds` ou `.gpkg`) ;
+- les statuts `almost_ready`, `needs_*`, `manual_review` et `not_ready_*` restent
+  visibles dans les metadata pour guider le travail, mais ne sont pas proposes
+  comme datasets benchmarkables par defaut.
+
+Decision attendue :
+
+- corriger la fiche si la promotion est trop optimiste ;
+- laisser `package_include: "no"` ou `manual_review` tant que le dataset n'est pas
+  effectivement utilisable ;
+- documenter l'etape manquante plutot que fabriquer une formule ou une source.
 ## Phase 13 - Rendre le dataset utilisable dans spatialtidymodels
 
 But : rendre les datasets propres appelables par les fonctions du package.
@@ -580,3 +666,5 @@ Le KG sert donc de sas de curation. Les fiches wiki et le package ne doivent con
 - [[model_evidence_candidates_review_2026-08]]
 - [[catalog_registry_schema_v3]]
 - [[quality_pedigree_schema_v1]]
+
+

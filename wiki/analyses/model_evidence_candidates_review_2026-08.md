@@ -2,7 +2,7 @@
 title: Revue des candidats model evidence issus de l'audit TEI
 type: metadata
 created: 2026-08-06
-updated: 2026-08-07
+updated: 2026-08-10
 sources: [data/manifests/papers/model_evidence_audit.csv]
 tags: [metadata, kg, audit, tei, model-evidence, review]
 ---
@@ -16,35 +16,35 @@ Il sert a relire les passages candidats avant toute promotion vers les fiches da
 
 ## Synthese
 
-- Lignes d'audit lues : 3986
-- Candidats retenus dans ce rapport : 918
-- Papiers avec au moins un candidat : 110
+- Lignes d'audit lues : 5674
+- Candidats retenus dans ce rapport : 1361
+- Papiers avec au moins un candidat : 142
 
 ### Par type
 
 | Type | Nombre |
 |---|---:|
-| `ModelEvidenceCandidate` | 538 |
-| `ModelTableCandidate` | 188 |
-| `DataSourceCandidate` | 97 |
-| `VariableTableCandidate` | 82 |
-| `GenericEstimatorFormulaCandidate` | 13 |
+| `ModelEvidenceCandidate` | 792 |
+| `ModelTableCandidate` | 260 |
+| `VariableTableCandidate` | 158 |
+| `DataSourceCandidate` | 132 |
+| `GenericEstimatorFormulaCandidate` | 19 |
 
 ### Par statut
 
 | Statut | Nombre |
 |---|---:|
-| `extracted_needs_review` | 905 |
-| `rejected_generic_formula` | 13 |
+| `extracted_needs_review` | 1342 |
+| `rejected_generic_formula` | 19 |
 
 ### Action proposee
 
 | Action | Nombre |
 |---|---:|
-| `low_priority_review` | 669 |
-| `review_for_model_evidence` | 145 |
-| `review_for_dataset_use` | 91 |
-| `reject_generic` | 13 |
+| `low_priority_review` | 940 |
+| `review_for_model_evidence` | 233 |
+| `review_for_dataset_use` | 169 |
+| `reject_generic` | 19 |
 
 ## Regle de lecture
 
@@ -72,8 +72,13 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationar... | Results with simulated data | 58 | L'extrait décrit clairement une expérience de simulation Monte Carlo (DGP = Data Generating Process, lattice générée artificiellement 25×25, données simulées). Il n'y a aucun dataset réel nommé, au... |
 | A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationar... | Case study 1 | 60 | Les données x1 et x2 sont explicitement générées par simulation (η1=0.5, η2=0.1, paramètres contrôlés). Il n'y a pas de dataset réel nommé, pas de source de données externe, pas de cas d'étude conc... |
 | A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationar... | Case study 2 | 60 | Cet extrait décrit une simulation Monte Carlo avec données générées artificiellement (η₁, η₂, paramètres ϕ contrôlés). Aucun dataset réel nommé, aucune source de données empiriques, aucun cas d'étu... |
+| Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source... | Stepwise multiple linear regression model (SMLR) | 59 | Extrait purement méthodologique : exposition générique de la technique SMLR (Stepwise Multiple Linear Regression), définitions formelles d'équations mathématiques (Eq. 1, 2, 3), notation matriciell... |
+| Airbnb Offer in Spain-Spatial Analysis of the Pattern and Determinants of Its Distribution | GROBID table | 46 | Cet extrait présente une table de variables explicatives génériques utilisées dans des modèles de régression, sans identification d'un dataset spécifique, de source de données concrète, ou d'applic... |
+| Agricultural technology adoption and land use: evidence for Brazilian municipalities | GROBID table | 47 | Cet extrait présente une taxonomie de modèles économétriques spatiaux avec des équations formelles et des descriptions méthodologiques génériques. Aucun dataset nommé, source de données concrète, n... |
+| Agricultural technology adoption and land use: evidence for Brazilian municipalities | GROBID table | 47 | L'extrait présente uniquement des spécifications de modèles econométriques génériques (équations 1-4) avec variables symboliques (N_j,i, T_i, C_i, E_i, W). Aucun dataset nommé, aucune source de don... |
 | Incorporating spatial and genetic competition into breeding pipelines with the R packag... | First step: competition matrix | 53 | L'extrait décrit la structure et l'utilisation générique de deux fonctions logicielles (prepfor et prepcrop) du package gencomp. Il expose le fonctionnement méthodologique des arguments et paramètr... |
 | Airbnb Offer in Spain-Spatial Analysis of the Pattern and Determinants of Its Distribution | GROBID table | 46 | Cet extrait présente une table de variables explicatives génériques utilisées dans des modèles de régression, sans identification d'un dataset spécifique, de source de données concrète, ou d'applic... |
+| An ensemble-based model of PM 2.5 concentration across the contiguous United States wit... | Machine learning algorithms | 64 | Cet extrait est une revue de littérature qui cite des études existantes (Gupta and Christopher 2009, Di et al. 2016, Chen et al. 2018, etc.) sans présenter d'application empirique propre au papier.... |
 | ECONOMICS OF SITE SPEC1fi1C NITROGEN MANAGEMENT IN CORN PRODUCTION | Spatial Models | 67 | L'extrait expose un cadre méthodologique général : définition des modèles de réponse des cultures, critique des méthodes OLS, exposition des problèmes d'autocorrélation spatiale, et revue de littér... |
 | ECONOMICS OF SITE SPEC1fi1C NITROGEN MANAGEMENT IN CORN PRODUCTION | Spatial Econometric Models | 72 | L'extrait expose le cadre méthodologique des modèles d'erreur spatiale : définitions (spatial lag vs spatial error model), justification théorique (facteurs agronomiques non observés), formulation... |
 | 02-0692-200 ts | A Taxonomy of Spatial Linear Regression Models for Cross-Sec:tion Data | 69 | L'extrait présente une exposition générique de cadre méthodologique et de spécifications de modèles. Il s'agit de définitions formelles (vecteurs de paramètres, matrices de poids spatiaux, structur... |
@@ -90,6 +95,10 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Top-down scale approaches for multiscale GWR with locally adaptive bandwidths | Computational issues | 62 | L'extrait traite exclusivement de complexité computationnelle, d'algorithmes et d'implémentations logicielles (R, Python). Aucune donnée réelle, cas d'étude empirique, ou application concrète n'est... |
 | Top-down scale approaches for multiscale GWR with locally adaptive bandwidths | GROBID table | 46 | Le tableau présente des résultats de comparaison de méthodes (GWR, python_mgwr, multiscale_gwr, tds_mgwr, atds_mgwr) selon des paramètres k (nombre de covariables) et n (nombre d'observations). Il... |
 | Regional distribution of photovoltaic deployment in the UK and its determinants: A spat... | Methodology | 71 | L'extrait présente une exposition méthodologique générique des modèles d'économétrie spatiale : définitions formelles des variables (Y, X, β), paramètres (ρ, λ), matrice de poids spatiale W, et spé... |
+| Benchmarking Regression Models Under Spatial Heterogeneity | Data-generating processes (DGPs) | 62 | L'extrait décrit la construction de processus générateurs de données (DGP) synthétiques pour des simulations Monte Carlo. Il explique comment générer artificiellement des données avec coordonnées t... |
+| Benchmarking Regression Models Under Spatial Heterogeneity | Ordinary Least Squares and a global spatial model | 69 | L'extrait expose des modèles (OLS et SLX) de manière générique avec formules mathématiques, définitions et justifications méthodologiques. Aucun dataset réel n'est nommé, aucune observation concrèt... |
+| Benchmarking Regression Models Under Spatial Heterogeneity | Random Forest Regression models | 55 | L'extrait décrit des aspects méthodologiques génériques des Random Forests : définition du modèle, principes de fonctionnement (ensemble de arbres de décision, moyenne des prédictions), choix de bi... |
+| Benchmarking Regression Models Under Spatial Heterogeneity | Spatial Random Forests | 60 | L'extrait décrit une méthodologie générique (extension des Random Forests avec approche locale spatiale, clustering K-Means, pondération par distances inverses). Aucun dataset réel n'est nommé, auc... |
 | Using Geographically Weighted Regression to Explore Local Crime Patterns | Section 1 | 64 | Cet extrait est une introduction théorique et une revue de littérature. Il discute de concepts généraux (clustering spatial du crime, stationarité/non-stationarité des processus spatiaux), cite des... |
 | Multiscale geographically and temporally weighted regression: exploring the spatiotempo... | Geographically and temporally weighted regression | 62 | L'extrait décrit la méthode GTWR de manière générique : formules mathématiques, équations matricielles, choix de fonctions de distance (Gaussian, bi-square, exponential). Aucun dataset réel n'est m... |
 | Multiscale geographically and temporally weighted regression: exploring the spatiotempo... | GROBID table | 46 | Tableau de simulation Monte Carlo comparant RMSE entre deux méthodes (GTWR vs MGTWR) avec des coefficients 'True value' générés. Aucune source de données réelle nommée, aucun cas d'étude concret, a... |
@@ -112,12 +121,17 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | paper:tei:geocomputation_with_r_tei | Exercises | 62 | Cet extrait est une section 'Exercises' (exercices) d'un chapitre de manuel ou de support pédagogique. Il propose des instructions génériques pour exécuter des analyses (NMDS, random forest, valida... |
 | Short-Term Rental Platform in the Urban Tourism Context: A Geographically Weighted Regr... | The Geographically Weighted Regression and multiscale GWR (MGWR) | 58 | L'extrait expose le cadre méthodologique de GWR et MGWR via des définitions, justifications théoriques et une revue de littérature (citations de Fotheringham et al., Brunsdon et al.). Les exemples... |
 | Fast Spatio-Temporally Varying Coefficient Modeling With Reluctant Interaction Selection | / Property of the Model | 58 | L'extrait expose les propriétés méthodologiques du modèle STVC de manière générique (comparaison avec GAM, description des fonctions de base, formules mathématiques). Bien qu'il mentionne une appli... |
+| Geographically Weighted Logistic Regression Applied to Credit Scoring Models* | Geographically Weighted Logistic Regression | 56 | L'extrait expose la méthodologie GWLR de manière générique : formules mathématiques, définitions des paramètres, description de la matrice de poids et de la fonction de vraisemblance. Aucun dataset... |
 | Annals of the American Association of Geographers | GeoShapley Applied to Models | 62 | L'extrait décrit une démonstration méthodologique utilisant des données SIMULÉES ("simulated data set from Equation 12"), non un dataset réel nommé ou identifiable. Il s'agit d'une exposition génér... |
+| Integrated species distribution models to account for sampling biases and improve range... | / INTRODUC TI ON | 58 | Cet extrait de l'INTRODUCTION expose le cadre général, la motivation et les enjeux des Species Distribution Models (SDMs). Il ne présente aucun dataset nommé, aucune observation concrète, aucune so... |
 | GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted... | GW regression 6.1. Basic GW regression | 56 | Extrait purement méthodologique : définitions formelles du modèle GW regression, équations mathématiques, exposition générale de la technique sans aucune donnée réelle, cas d'étude concret, source... |
 | GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted... | Robust GW regression | 58 | L'extrait décrit des méthodes génériques de régression géographique pondérée robuste (GW regression) sans application à aucun dataset réel nommé. Il expose des définitions mathématiques, des formul... |
 | GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted... | LCR GW regression vs. previous penalized GW regression models | 63 | L'extrait compare et contraste des méthodes statistiques (LCR-GWR, GWRR, GWL) sans aucune référence à un dataset réel, à des observations concrètes, à une source de données ou à une application emp... |
 | paper:tei:gwr4manual_409_tei | Step 1: The Data Tab | 62 | Cet extrait est un guide d'utilisation du logiciel GWR4 décrivant les formats de données acceptés, les structures requises et les conventions techniques (longueur de noms de fichiers, formats de co... |
 | Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source... | Stepwise multiple linear regression model (SMLR) | 59 | Extrait purement méthodologique : exposition générique de la technique SMLR (Stepwise Multiple Linear Regression), définitions formelles d'équations mathématiques (Eq. 1, 2, 3), notation matriciell... |
+| Random forest as a generic framework for predictive modeling of spatial and spatio-temp... | Spatial prediction | 62 | Cet extrait est une exposition générique et didactique des concepts fondamentaux de la prédiction spatiale. Il définit formellement la notation (s_i, D, n), présente les principes mathématiques gén... |
+| Random forest as a generic framework for predictive modeling of spatial and spatio-temp... | Random forest | 58 | L'extrait est une exposition méthodologique générique du Random Forest : définitions, références bibliographiques, description du cadre théorique et mathématique de la méthode. Aucun dataset nommé,... |
+| Random forest as a generic framework for predictive modeling of spatial and spatio-temp... | Random forest for spatial data (RFsp) | 60 | L'extrait décrit une approche méthodologique générique (RFsp) avec des définitions formelles de covariables (X_G, X_R, X_P) et des explications de concepts (kriging, bandes Landsat, indices topogra... |
 | REVISITING GUERRY'S DATA: INTRODUCING SPATIAL CONSTRAINTS IN MULTIVARIATE ANALYSIS | Moran's eigenvector maps. | 58 | L'extrait présente exclusivement des définitions mathématiques, des propriétés théoriques des Moran's Eigenvector Maps (MEM) et une revue de littérature sur leurs applications méthodologiques. Aucu... |
 | REVISITING GUERRY'S DATA: INTRODUCING SPATIAL CONSTRAINTS IN MULTIVARIATE ANALYSIS | Conclusions. | 58 | L'extrait est une section Conclusions qui résume les méthodes théoriques et leurs propriétés générales. Il ne présente aucun dataset nommé, aucune source de données concrètes, aucune observation em... |
 | Incorporating Spatial Autocorrelation in Machine Learning Models Using Spatial Lag and... | Eigenvector spatial filtering (ESF) is a regression technique proposed by Getis and | 58 | L'extrait expose la méthode ESF (Eigenvector Spatial Filtering) de manière générique : définitions mathématiques, formules, références bibliographiques, discussion des propriétés computationnelles... |
@@ -129,10 +143,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Top-down scale approaches for multiscale GWR with locally adaptive bandwidths | GROBID table | 46 | Le tableau présente des résultats de comparaison de méthodes (GWR, python_mgwr, multiscale_gwr, tds_mgwr, atds_mgwr) selon des paramètres k (nombre de covariables) et n (nombre d'observations). Il... |
 | The Wald Test of Common Factors in Spatial Model Specification Search Strategies | Substantive and Residual Dependence in Cross-Sectional Models | 56 | L'extrait expose un cadre conceptuel général distinguant trois types d'effets d'interaction causant l'autocorrélation spatiale (effets endogènes, exogènes, dépendances résiduelles). Il s'agit d'une... |
 | The Wald Test of Common Factors in Spatial Model Specification Search Strategies | . An Illustrative Example of the Different Spatial Processes | 56 | L'extrait utilise l'exemple des revenus fiscaux municipaux comme illustration conceptuelle pour expliquer les processus spatiaux (spillover effects, exogenous interactions). Bien qu'il mentionne de... |
+| The Wald Test of Common Factors in Spatial Model Specification Search Strategies | Substantive and Residual Dependence in Cross-Sectional Models | 56 | L'extrait expose un cadre conceptuel général distinguant trois types d'effets d'interaction causant l'autocorrélation spatiale (effets endogènes, exogènes, dépendances résiduelles). Il s'agit d'une... |
+| The Wald Test of Common Factors in Spatial Model Specification Search Strategies | . An Illustrative Example of the Different Spatial Processes | 56 | L'extrait utilise l'exemple des revenus fiscaux municipaux comme illustration conceptuelle pour expliquer les processus spatiaux (spillover effects, exogenous interactions). Bien qu'il mentionne de... |
 | Multivariate Adaptive Regression Splines | Having made the connection between knot selection and basis function (variable) selecti... | 58 | Cet extrait est une exposition méthodologique générique des techniques de sélection de variables pour les splines polynomiales. Il décrit des algorithmes (stepwise deletion/addition, AIC, BIC, GCV)... |
 | Multivariate Adaptive Regression Splines | Higher Dimensional Problems | 58 | L'extrait décrit un cadre méthodologique générique pour les problèmes de régression adaptative en dimensions supérieures (MARS, Hare, Polyclass, Polymars). Il expose l'algorithme général, les princ... |
 | Exploring Spatial Data Mining Techniques: Predicting Zinc Concentration with Kriging Me... | Geographically weighted regression | 68 | L'extrait expose uniquement la méthode GWR de manière générique : définitions, formulation mathématique (Équation 5), principes de fonctionnement et historique de la technique. Aucun dataset réel n... |
+| A Comparison of Four Spatial Regression Models for Yield Monitor Data: A Case Study fro... | Geostatistical approach to spatial regression (REML) | 60 | L'extrait est une revue de littérature et un exposé méthodologique du cadre geostatistique REML. Il décrit l'approche générale, son histoire (Cressie 1993), et cite des applications d'autres auteur... |
+| A Comparison of Four Spatial Regression Models for Yield Monitor Data: A Case Study fro... | Discrete spatial regression approach (SAR) | 66 | L'extrait expose le cadre méthodologique général de l'approche de régression spatiale discrète (SAR) : définitions conceptuelles, principes théoriques, critères de contiguïté (bishop, rook, queen),... |
 | Balancing structural complexity with ecological insight in Spatio-temporal species dist... | Existing methods for species distribution modelling include: | 57 | Cet extrait est une exposition méthodologique générique qui énumère des méthodes de modélisation existantes (MAXENT, GLM, GAM, MARS, etc.) et discute des problèmes théoriques associés (autocorrélat... |
+| Balancing structural complexity with ecological insight in Spatio-temporal species dist... | Existing methods for species distribution modelling include: | 57 | Cet extrait est une exposition méthodologique générique qui énumère des méthodes de modélisation existantes (MAXENT, GLM, GAM, MARS, etc.) et discute des problèmes théoriques associés (autocorrélat... |
+| SGWR: similarity and geographically weighted regression | Similarity weight matrix | 56 | L'extrait présente une revue générale de méthodes de similarité (Pearson, Cosine Similarity, K-Means, DBSCAN, etc.) et expose le cadre méthodologique de la matrice de similarité de manière génériqu... |
+| SGWR: similarity and geographically weighted regression | Evaluation metrics | 60 | L'extrait décrit les métriques d'évaluation de manière générique et méthodologique : définitions formelles, formules mathématiques, références bibliographiques. Aucun dataset réel n'est mentionné,... |
+| SGWR: similarity and geographically weighted regression | Beyond geographical distance | 64 | L'extrait expose le cadre méthodologique de SGWR (Similarity-based Geographically Weighted Regression) et ses principes généraux. Il cite des études antérieures mais ne décrit pas l'application à u... |
 | The GWmodel R package: Further Topics for Exploring Spatial Heterogeneity using Geograp... | GW summary statistics | 58 | L'extrait présente des définitions mathématiques formelles (équations 3 et 4), des explications conceptuelles sur GW summary statistics et GW PCA, ainsi qu'une discussion générale sur l'utilité mét... |
 | Integrated species distribution models to account for sampling biases and improve range... | / INTRODUC TI ON | 58 | Cet extrait de l'INTRODUCTION expose le cadre général, la motivation et les enjeux des Species Distribution Models (SDMs). Il ne présente aucun dataset nommé, aucune observation concrète, aucune so... |
 | A new method for dealing simultaneously with spatial autocorrelation and spatial hetero... | DGPs with spatial autocorrelation and spatially varying coefficients | 68 | L'extrait présente des formulations mathématiques génériques (équations 1 et 2), des discussions sur les hypothèses méthodologiques, les limitations théoriques des modèles de poids spatiaux, et des... |
@@ -143,6 +165,8 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Multiscale spatially varying coefficient modelling using a Geographical Gaussian Proces... | A Geographical Gaussian Process GAM for SVC modelling | 66 | L'extrait expose exclusivement le cadre méthodologique des GAMs, processus gaussiens et modèles SVC à coefficients variables spatialement. Il présente des formulations mathématiques génériques, des... |
 | Multivariable geostatistics in S: the gstat package $ | Handling spatial data in S | 58 | Cet extrait décrit des considérations méthodologiques et techniques concernant la manipulation de données spatiales dans le logiciel gstat/R. Il traite de structures de données (grilles, matrices,... |
 | Novel approach to the analysis of spatially-varying treatment effects in onfarm experim... | Geographically weighted regression | 60 | L'extrait présente uniquement des développements mathématiques génériques (formulation du modèle GWR, équations de log-vraisemblance, propriétés statistiques). Aucun dataset réel n'est mentionné, a... |
+| Novel approach to the analysis of spatially-varying treatment effects in onfarm experim... | Geographically weighted regression | 60 | L'extrait présente uniquement des développements mathématiques génériques (formulation du modèle GWR, équations de log-vraisemblance, propriétés statistiques). Aucun dataset réel n'est mentionné, a... |
+| Regional distribution of photovoltaic deployment in the UK and its determinants: A spat... | Methodology | 71 | L'extrait présente une exposition méthodologique générique des modèles d'économétrie spatiale : définitions formelles des variables (Y, X, β), paramètres (ρ, λ), matrice de poids spatiale W, et spé... |
 | Remote sensing-based measurement of Living Environment Deprivation: Improving classical... | Model performance | 62 | L'extrait expose un cadre méthodologique générique sur l'évaluation de modèles (validation, performance, métriques comme R² et MSE) sans présenter de résultats empiriques concrets, d'observations r... |
 | Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regre... | Choice of the Meta-Analytic Model | 53 | L'extrait décrit un cadre méthodologique général de modèles méta-analytiques multivariés (équation 5, fixed effects vs random effects models). Bien que le contexte mentionne une application à 'l'ef... |
 | Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regre... | Publication Bias | 58 | L'extrait décrit des concepts méthodologiques génériques (funnel plot, publication bias, effet sizes, standard errors, transformation log) sans référence à un dataset spécifique, à des données conc... |
@@ -152,10 +176,14 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | SGWR: similarity and geographically weighted regression | Similarity weight matrix | 56 | L'extrait présente une revue générale de méthodes de similarité (Pearson, Cosine Similarity, K-Means, DBSCAN, etc.) et expose le cadre méthodologique de la matrice de similarité de manière génériqu... |
 | SGWR: similarity and geographically weighted regression | Evaluation metrics | 60 | L'extrait décrit les métriques d'évaluation de manière générique et méthodologique : définitions formelles, formules mathématiques, références bibliographiques. Aucun dataset réel n'est mentionné,... |
 | SGWR: similarity and geographically weighted regression | Beyond geographical distance | 64 | L'extrait expose le cadre méthodologique de SGWR (Similarity-based Geographically Weighted Regression) et ses principes généraux. Il cite des études antérieures mais ne décrit pas l'application à u... |
+| Short-Term Rental Platform in the Urban Tourism Context: A Geographically Weighted Regr... | The Geographically Weighted Regression and multiscale GWR (MGWR) | 58 | L'extrait expose le cadre méthodologique de GWR et MGWR via des définitions, justifications théoriques et une revue de littérature (citations de Fotheringham et al., Brunsdon et al.). Les exemples... |
+| Spatial autocorrelation in fitness affects the estimation of natural selection in the wild | Principal coordinate matrices of neighbour matrices | 64 | L'extrait décrit la méthode PCNM et les Moran's eigenvectors maps de manière générique et abstraite. Il expose le cadre méthodologique en 5 étapes avec formules mathématiques, sans mentionner de da... |
+| Spatial autocorrelation in fitness affects the estimation of natural selection in the wild | S E L E C T I O N A N A L Y S I S A N D G E O S T A T I S T I C S O N S I M U L A T E D... | 60 | Bien que l'extrait utilise un dataset réel (volcano data de R), il s'agit d'une étude de simulation Monte Carlo. Les auteurs ont réduit le grid à 400 cellules et généré 200 datasets synthétiques où... |
 | Spatial Clustering Overview and Comparison: Accuracy, Sensitivity, and Computational Ex... | Methods and Data | 63 | L'extrait décrit une évaluation comparative de méthodes de clustering spatial (G*i, Moran's I, AMOEBA, Kulldorff's scan, FlexScan, GAScan, CM-LLR) avec détails formels et mathématiques en appendice... |
 | Spatial Statistics for Data Science | Spatial disease risk models | 58 | L'extrait décrit le cadre méthodologique général des modèles hiérarchiques bayésiens pour les risques spatiaux de maladie (définitions mathématiques, spécifications du modèle de Poisson, composante... |
 | Spatial Statistics for Data Science | Model-based geostatistics | 58 | L'extrait décrit le cadre général et méthodologique de la géostatistique basée sur les modèles : définitions formelles (modèle Gaussien Y_i = μ + S(·)), méthodes génériques (INLA, SPDE), références... |
 | Spatial Statistics for Data Science | Testing complete spatial randomness | 58 | L'extrait décrit une méthodologie générique de test de complète aléatoire spatiale (CSR) via la fonction K. Il expose le cadre théorique et l'algorithme de simulation Monte Carlo sans mentionner de... |
+| Spatially Varying Coefficient Model for Neuroimaging Data with Jump Discontinuities | Model Setup | 60 | Cet extrait est une exposition purement méthodologique et générique. Il présente le cadre théorique d'un modèle spatial varying coefficient (SVCM) avec notation mathématique abstraite, sans aucune... |
 | Flexible nonlinear spatial autoregressive models: a gradient boosting approach with clo... | Functional gradient descent boosting with additive models | 62 | L'extrait est une exposition méthodologique générique des méthodes de boosting par gradient fonctionnel et des modèles additifs généralisés. Il contient des définitions formelles, des références bi... |
 | Flexible nonlinear spatial autoregressive models: a gradient boosting approach with clo... | GROBID table | 46 | Cet extrait décrit une expérience de simulation Monte Carlo (1000 replications, n=2000, paramètres contrôlés ρ=0.0/0.2/0.6/0.9, SNR=0.7). Il s'agit d'une étude de performance de méthodes statistiqu... |
 | spmoran (ver. 0.2.0): An R package for Moran eigenvector-based scalable spatial additiv... | Spatially and non-spatially varying coefficient models 2.3.1. Varying coefficient modeling | 62 | L'extrait expose le cadre méthodologique des modèles à coefficients variant spatialement (SVC) et non-spatialement (NVC). Il compare des approches théoriques (GWR, MGWR, SGWR) et énumère des avanta... |
@@ -164,6 +192,11 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Spatially varying coefficient modeling for large datasets: Eliminating N from spatial r... | Model | 60 | L'extrait décrit des concepts méthodologiques génériques : définitions du coefficient de Moran, formulation mathématique de matrices spatiales, décomposition en vecteurs propres. Aucun dataset nomm... |
 | Spatially varying coefficient modeling for large datasets: Eliminating N from spatial r... | Modeling | 58 | L'extrait décrit une méthode de calcul générique (approximation de Nyström pour les vecteurs propres de Moran) et des considérations de complexité computationnelle. Il n'y a aucune référence à un d... |
 | Spatially varying coefficient modeling for large datasets: Eliminating N from spatial r... | Summary | 58 | L'extrait décrit exclusivement une méthodologie générique (réduction de rang, compression pré-estimation, estimation séquentielle) et une analyse de complexité computationnelle (O(L³), dépendance e... |
+| Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regre... | Choice of the Meta-Analytic Model | 53 | L'extrait décrit un cadre méthodologique général de modèles méta-analytiques multivariés (équation 5, fixed effects vs random effects models). Bien que le contexte mentionne une application à 'l'ef... |
+| Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regre... | Publication Bias | 58 | L'extrait décrit des concepts méthodologiques génériques (funnel plot, publication bias, effet sizes, standard errors, transformation log) sans référence à un dataset spécifique, à des données conc... |
+| Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regre... | GROBID table | 46 | Il s'agit d'une méta-analyse ou d'une synthèse de résultats d'études multiples (régression WLS avec erreurs groupées au niveau 'study level'). Les variables comme 'Methodology: Estimation Strategy'... |
+| The Wald Test of Common Factors in Spatial Model Specification Search Strategies | Substantive and Residual Dependence in Cross-Sectional Models | 56 | L'extrait expose un cadre conceptuel général distinguant trois types d'effets d'interaction causant l'autocorrélation spatiale (effets endogènes, exogènes, dépendances résiduelles). Il s'agit d'une... |
+| The Wald Test of Common Factors in Spatial Model Specification Search Strategies | . An Illustrative Example of the Different Spatial Processes | 56 | L'extrait utilise l'exemple des revenus fiscaux municipaux comme illustration conceptuelle pour expliquer les processus spatiaux (spillover effects, exogenous interactions). Bien qu'il mentionne de... |
 | Comparing spatially varying coefficient models: a case study examining violent crime ra... | Geographically weighted regression | 74 | L'extrait présente une exposition méthodologique générique de la GWR : formules mathématiques, définitions des composantes (y(s), b(s), X(s), e(s)), description du calcul des matrices de poids, et... |
 | Comparing spatially varying coefficient models: a case study examining violent crime ra... | Bayesian SVCP model and coefficient shrinkage | 62 | L'extrait expose un cadre méthodologique comparant les modèles GWR et SVCP à travers une discussion sur le shrinkage bayésien et la régression ridge. Il s'agit d'une revue de littérature (référence... |
 | Benchmarking Regression Models Under Spatial Heterogeneity | Data-generating processes (DGPs) | 62 | L'extrait décrit la construction de processus générateurs de données (DGP) synthétiques pour des simulations Monte Carlo. Il explique comment générer artificiellement des données avec coordonnées t... |
@@ -193,6 +226,26 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 56 | Error Component Models in Space-Time | An alternative way in which space and time effects can be incorporated into a regression model consists of the error components (ECM) or variance components (VCM) approach. In this framework, the space (or individual) and time effects are considered as part... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | 1:1.2. Speciftcation TeBting in Spatial EconometricB | In spatial analysis, three general types of specification tests are particularly relevant. The first concerns tests for the presence of spatial effects, i.e., tests for spatial dependence and spatial heterogeneity. These have been discussed at length in pre... |
 | low_priority_review | `truncated` |  |  | 30 autres candidats non affiches dans ce rapport |
+
+### A Comparison of Four Spatial Regression Models for Yield Monitor Data: A Case Study from Argentina
+
+- TEI : `corpus\papers\tei\lambert2004_A Comparison of Four Spatial Regression Models.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 71 | Comparison of the spatial regression models | Overall, the base OLS model AIC fit criterion improved between 3% and 15% when error spatial dependence was included in the model (Table 2 ). All models produced the expected signs for the quadratic yield response to nitrogen, and all topography intercept t... |
+| low_priority_review | `ModelEvidenceCandidate` | 66 | Discrete spatial regression approach (SAR) | The discrete spatial regression approach assumes that spatial dependence is a relationship among discrete observations, or polygons. Spatial structure may be found in either the dependent variable (e.g., yield) or in regression residuals. Spatial structure... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 61 | Materials and methods | Corn nitrogen response data from the study by Bongiovanni and Lowenberg-DeBoer (2000) were used in this analysis. The data were collected from strip trials at the ''Las Rosas'' farm located near Rı´o Cuarto in the southwestern corner of Co´rdoba Province, A... |
+| low_priority_review | `ModelEvidenceCandidate` | 60 | Geostatistical approach to spatial regression (REML) | Many agronomists have used geostatistical tools to model crop and soil spatial relationships. Perhaps this is because of the disciplinary links between soil science and geology. Originally, geostatistics was developed to produce maps by interpolation betwee... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Illustrative example: nitrogen budgeting and VRN profitability | Accounting for spatial dependence in yield monitor data has an effect on the inferences drawn about VRN profitability in this case study (Table 5 ). Though the estimated N responses are site-specific and cannot be generalized to other fields, they demonstra... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Nearest-neighbor approach and spatial regression (NN) | The classical experimental design in agronomy is the randomized complete block (RCB). An RCB design is essentially a strategy to control experimental error. Developed by Fisher in the 1920s, the RCB was hailed as a correction for nonhomogeneous experimental... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Practical applications of the results | If the discrete model of spatial dependence is a reasonable assumption, the SAR approach provides several advantages. SAR is a one step maximum likelihood estimation process, while the REML-geostatistical approach requires at least three steps. Second, SAR... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Nearest-neighbor approach | The NN model improved the coefficient of determination by 6%, compared to the OLS estimates (Adjusted R 2 ¼ 0.66, Table 2 ). The appropriate measure of fit statistic is Akaike's information criterion (AIC) criterion since an additional parameter was include... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Polynomial trend regression | The null hypothesis of no spatial structure in the regression error terms was strongly rejected when the model was estimated using the PTR specification (LR ¼ 984, df ¼ 2, Table 2 ). Compared to the original OLS model fit, the Adjusted R 2 for the PTR incre... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Polynomial trend regression and spatial regression (PTR) | Tamura et al. (1988) proposed another alternative to modeling spatial dependence by inserting a polynomial trend variable (T ij ) into the familiar ANOVA model. This approach is somewhat related to the spatial expansion regression methodology that has recei... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | REML-geostatistical approach | A spherical semivariogram model was used to fit the empirical semivariogam of the OLS residuals. The WNLS parameter estimates for the nugget (9), range (140 m), and sill (35) estimates were significant at the 1% level. The F-test for the fitted semivariogra... |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
 
 ### A Review of Software for Spatial Econometrics in R
 
@@ -285,51 +338,81 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Above ground carbon stock mapping over Coimbatore and Nilgiris Biosphere: a key source to the C sink
 
 - DOI : `10.1080/17583004.2021.1962979`
-- TEI : `corpus\papers\tei\Hari2021Above.tei.xml`
+- TEI : `corpus\papers\tei\Above ground carbon stock mapping over coimbatore and Nilgiris biosphere.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| low_priority_review | `ModelEvidenceCandidate` | 59 | Stepwise multiple linear regression model (SMLR) | SMLR-the most widely used non-spatial predictive regression analysis technique to explain the correlation between dependent and independent variables [61, 62] . Using SMLR in AGC estimation, the stepwise regression fitting method was adapted by applying it... |
 | low_priority_review | `ModelEvidenceCandidate` | 59 | Stepwise multiple linear regression model (SMLR) | SMLR-the most widely used non-spatial predictive regression analysis technique to explain the correlation between dependent and independent variables [61, 62] . Using SMLR in AGC estimation, the stepwise regression fitting method was adapted by applying it... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Gwr model | Geographically Weighted Regression (GWR)-the local spatial model was used to reckon AGC with spatial autocorrelation preponderance. GWR was fitted with a suitable variable using the Ordinary Least Square (OLS) regression model. Regulating both, the variable... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Gwr model | Geographically Weighted Regression (GWR)-the local spatial model was used to reckon AGC with spatial autocorrelation preponderance. GWR was fitted with a suitable variable using the Ordinary Least Square (OLS) regression model. Regulating both, the variable... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | SMLR model | For the precise understanding of AGC dynamics, SMLR-a prevalent multivariate method of stepwise regression model was used for an accurate assessment. To prognosticate the estimate, SMLR was used to produce quantitatively fitting variable coefficients with t... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | SMLR model | For the precise understanding of AGC dynamics, SMLR-a prevalent multivariate method of stepwise regression model was used for an accurate assessment. To prognosticate the estimate, SMLR was used to produce quantitatively fitting variable coefficients with t... |
 | low_priority_review | `ModelEvidenceCandidate` | 53 | Methodology and model-description | To estimate AGC at a regional scale, SMLR-a nonspatial predictive regression analysis and GWRspatially weighted regression analysis models were constructed and used in this study. To maximize the study's understanding, the better estimated AGC model was att... |
+| low_priority_review | `ModelEvidenceCandidate` | 53 | Methodology and model-description | To estimate AGC at a regional scale, SMLR-a nonspatial predictive regression analysis and GWRspatially weighted regression analysis models were constructed and used in this study. To maximize the study's understanding, the better estimated AGC model was att... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Model comparison | For evaluating the model's performance, Taylor diagram analysis was performed [80] . Through the law of cosines, statistics of R, RMSE and SD were plotted contemporaneously to analyse their relation in Figure 7 . All the SMLR model years exhibited practical... |
-| low_priority_review | `ModelEvidenceCandidate` | 47 | Geographically weighted regression model (GWR) | GWR-a spatial regression model influenced by the revision of equation (01) with the sample observations' locational attribute as an estimating factor [65, 66] . The GWR equation is projected as, where Ŷ is the dependent AGC variable for the associated indep... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Year Model Mini Maxi Mean SD R 2 R 2 adj MAE RMSE Std error 2006 SLMR 33.76 072.50 52.85 06.71 00.7194 00.7189 08.2737 10.1244 03.5581 GWR 02.07 128.46 49.28 17.10 00.4401 00.4392 15.2237 20.7309 20.3170 2010 SLMR 21.05 071.93 42.82 07.19 00.8371 00.8368 04... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Model comparison | For evaluating the model's performance, Taylor diagram analysis was performed [80] . Through the law of cosines, statistics of R, RMSE and SD were plotted contemporaneously to analyse their relation in Figure 7 . All the SMLR model years exhibited practical... |
+| low_priority_review | `truncated` |  |  | 6 autres candidats non affiches dans ce rapport |
+
+### Agricultural technology adoption and land use: evidence for Brazilian municipalities
+
+- DOI : `10.1080/1747423X.2019.1707312`
+- TEI : `corpus\papers\tei\Agricultural technology adoption and land use - evidence for Brazilian municipalities.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `VariableTableCandidate` | 47 | GROBID table | Table 3 . |
+| low_priority_review | `VariableTableCandidate` | 47 | GROBID table | Model (1) Equations N j;i ¼ f N Àj;i ; T i ; C i ; E i ; N j tÀ1 ð Þ;i ; ε j À Á Simultaneity Feedback Description In the feedback model, the equation that intends to explain the land use j in region i (N j;i ) has as determinants the other types of use (N... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 70 | Instrumental variables | Within the system of simultaneous equations, land use variables (N) can not be treated as exogenous to the model. In order to deal with this endogeneity, in this article, the instrumental variable used is time-lag land use (N tÀ1 ð Þ ). This variable can be... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Appendices | Appendix A. Auxiliary tables. Table A1. Stakhovych and Bijmolt Criteria for selection of spatial lag matrix*. Spatial lag matrix Cropland (cr) Pasture (pt) Forest (ft) 1-nearest neighbor (k1) 7635.49 7815.27 9378.89 5-nearest neighbors (k5) 7288.16 7724.41... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Exploratory analysis of spatial data: spatial autocorrelation tests | The presence of spatial autocorrelation was tested globally and locally via the Moran and the LISA (Local Indicator of Spatial Association) indexes, respectively. The existence of spatial patterns was verified for the dependent variables (land use) and the... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Economic model | We use microeconomic assumptions for land use analysis. The land use model is derived from the problem of profit maximization of the farmer. The production function for each land use category is described as: where j is the land use category, y j is the pro... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Econometric results | Figure 3 presents the determinants of agricultural and forestry land use using a structural model (4), following Kelejian and Robinson (1993) for the estimation procedure. All models estimated can be seen in Appendix B (Tables B1-B4 ). In this model structu... |
 
 ### Airbnb Offer in Spain-Spatial Analysis of the Pattern and Determinants of Its Distribution
 
 - DOI : `10.3390/ijgi8030155`
-- TEI : `corpus\papers\tei\Airbnb Offer in Spain—Spatial Analysis of the Pattern and Determinants of Its Distribution.tei.xml`
+- TEI : `corpus\papers\tei\Adamiak_2019_AirbnbSpainSpatial.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 6 . |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Total Entire Private Shared Listings Homes/Apartments Rooms Rooms (Intercept) -0.144 *** -0.117 *** -0.054 *** -0.001 Primary dwellings (per km 2 , ln) -0.042 *** -0.055 *** 0.004 * - Nonprimary dwellings (per km 2 , ln) 0.133 *** 0.129 *** 0.023 *** 0.001... |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 6 . |
+| low_priority_review | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
 | low_priority_review | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 . |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Finding Factors That Explain the Distribution of Airbnb Listings | In order to identify the factors affecting the distribution of Airbnb listings in Spain, we developed a series of regression models. We built eight models: for each territorial unit of analysis (municipality and tourist areas/sites) and for each type of Air... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Factors Affecting the Distribution of Airbnb Listings | After developing four simple regression models at the municipal level, the majority of the explaining variables proved to significantly affect the dependent variables (Table A5 in appendix D). This is partially a result of a large sample size. Despite corre... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Factors Affecting the Distribution of Airbnb Listings | After developing four simple regression models at the municipal level, the majority of the explaining variables proved to significantly affect the dependent variables (Table A5 in Appendix D). This is partially a result of a large sample size. Despite corre... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Shortage of hotel capacity | Occupancy of hotel rooms (percent, average monthly value between XI 2017 and X 2018; Hotel occupancy survey) Seasonality ratio (ratio between the highest and the lowest monthly number of hotel guests between X 2017 and IX 2018; Hotel occupancy survey) 5. Ac... |
 | low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and Methods |  |
-| low_priority_review | `ModelEvidenceCandidate` | 46 | Factors Affecting the Distribution of Airbnb Listings | After developing four simple regression models at the municipal level, the majority of the explaining variables proved to significantly affect the dependent variables (Table A5 in appendix D). This is partially a result of a large sample size. Despite corre... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Total Entire Private Shared Listings Homes/Apartments Rooms Rooms (Intercept) -0.144 *** -0.117 *** -0.054 *** -0.001 Primary dwellings (per km 2 , ln) -0.042 *** -0.055 *** 0.004 * - Nonprimary dwellings (per km 2 , ln) 0.133 *** 0.129 *** 0.023 *** 0.001... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and Methods |  |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
 
 ### An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States
 
 - DOI : `10.1021/acs.est.0c01791`
-- TEI : `corpus\papers\tei\Requia2020Ensemble.tei.xml`
+- TEI : `corpus\papers\tei\AnEnsembleLearningApproachforEstimatingHighSpatiotemporalResolution.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Cross Validation (Seventh Stage). | We performed individual 10-fold cross validation for each one of the three models applied in this study: neural network, random forest, and gradient boosting. Here, we first divided the monitoring sites into 10 splits, and then we trained the models with 90... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Cross Validation (Seventh Stage). | We performed individual 10-fold cross validation for each one of the three models applied in this study: neural network, random forest, and gradient boosting. Here, we first divided the monitoring sites into 10 splits, and then we trained the models with 90... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Model Training (Fourth Stage). | After imputing missing values, we standardized the dataset. Considering a variable "X", data standardization was based on X ij -X mean /X std where X ij is the raw data of the variable "X" on day i in the site j and X mean and X std are the mean and standar... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Model Training (Fourth Stage). | After imputing missing values, we standardized the dataset. Considering a variable "X", data standardization was based on X ij -X mean /X std where X ij is the raw data of the variable "X" on day i in the site j and X mean and X std are the mean and standar... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Study Design. | This study was conducted in seven stages. First, we accessed multiple datasets that included daily maximum 8 h O 3 concentrations at sites across the United States and the predictor variables for O 3 , which included weather parameters, gridded output from... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Study Design. | This study was conducted in seven stages. First, we accessed multiple datasets that included daily maximum 8 h O 3 concentrations at sites across the United States and the predictor variables for O 3 , which included weather parameters, gridded output from... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Machine Learning Approaches. | We used three machine learning models in this study, including a neural network, random forest, and gradient boosting. All three models were used to attempt to model the complex relationship between the dependent variable and predictor variables with differ... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Machine Learning Approaches. | We used three machine learning models in this study, including a neural network, random forest, and gradient boosting. All three models were used to attempt to model the complex relationship between the dependent variable and predictor variables with differ... |
 | low_priority_review | `ModelEvidenceCandidate` | 51 | MATERIALS AND METHODS |  |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | MATERIALS AND METHODS |  |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Predictions (Fifth Stage) and Ensemble Model (Sixth Stage). | After filling in missing values and interpolating data to 1 km grid cells, all predictor variables were available across the study area. Then, we used the trained models to predict daily maximum 8 h O 3 concentrations at each 1 km × 1 km grid cell in the co... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | ensemble model neural network random forest gradient boosting year R 2 RMSE (ppb) intercept slope spatial R 2 temporal R 2 R 2 R 2 R 2 2000 0.889 5.705 0.088 0.991 0.848 0.905 0.889 0.887 0.889 2001 0.892 5.517 0.254 0.992 0.845 0.911 0.889 0.889 0.892 2002... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Predictions (Fifth Stage) and Ensemble Model (Sixth Stage). | After filling in missing values and interpolating data to 1 km grid cells, all predictor variables were available across the study area. Then, we used the trained models to predict daily maximum 8 h O 3 concentrations at each 1 km × 1 km grid cell in the co... |
+| low_priority_review | `truncated` |  |  | 4 autres candidats non affiches dans ce rapport |
 
 ### An Introduction to Spatial Data Analysis and Visualisation in R
 
@@ -352,17 +435,23 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### An ensemble-based model of PM 2.5 concentration across the contiguous United States with high spatiotemporal resolution
 
 - DOI : `10.1016/j.envint.2019.104909`
-- TEI : `corpus\papers\tei\Di2019Ensemble.tei.xml`
+- TEI : `corpus\papers\tei\An ensemble-based model of PM2.5 concentration across the contiguous united states with high spatiotemporal resolution.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 4 |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Gradient boosting % Neural network % Random forest % Spatially lagged monitored PM 2.5 46.52% AOD related variables [c] 9.25% Spatially lagged monitored PM 2.5 28.96% CMAQ PM 2.5 11.58% Spatially lagged monitored PM 2.5 2.68% CMAQ PM 2.5 16.51% CMAQ PM 2.5... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 4 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Gradient boosting % Neural network % Random forest % Spatially lagged monitored PM 2.5 46.52% AOD related variables [c] 9.25% Spatially lagged monitored PM 2.5 28.96% CMAQ PM 2.5 11.58% Spatially lagged monitored PM 2.5 2.68% CMAQ PM 2.5 16.51% CMAQ PM 2.5... |
+| low_priority_review | `ModelEvidenceCandidate` | 64 | Machine learning algorithms | Neural networks are able to model any kind of nonlinear and interactive relationship given enough data, suitable for modeling PM 2.5 , where the underlying atmospheric dynamics are elusive, and variables have complex interactions (Bishop, 1995; Haykin and N... |
 | low_priority_review | `ModelEvidenceCandidate` | 64 | Machine learning algorithms | Neural networks are able to model any kind of nonlinear and interactive relationship given enough data, suitable for modeling PM 2.5 , where the underlying atmospheric dynamics are elusive, and variables have complex interactions (Bishop, 1995; Haykin and N... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Base learners and ensemble model | The details of neural network, random forest and gradient boosting algorithms can be found elsewhere (Bishop, 2006) . A simple explanation is that all three machine learning algorithms attempt to model the complex relationship between input variables (X's,... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Base learners and ensemble model | The details of neural network, random forest and gradient boosting algorithms can be found elsewhere (Bishop, 2006) . A simple explanation is that all three machine learning algorithms attempt to model the complex relationship between input variables (X's,... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Model prediction | After filling in missing values and interpolating, all input variables were available across the study area. We trained the three base learners and the ensemble model with input variables and monitored PM 2.5 as the dependent variable, and then used trained... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Model prediction | After filling in missing values and interpolating, all input variables were available across the study area. We trained the three base learners and the ensemble model with input variables and monitored PM 2.5 as the dependent variable, and then used trained... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Results | Table 1 presents the cross-validated R 2 by year. R 2 values ranged from 0.75 to 0.90, with an average of 0.86, indicating good model performance. The spatial R 2 ranged from 0.73 to 0.91, with an average of 0.89, demonstrating that our model can well captu... |
-| low_priority_review | `ModelEvidenceCandidate` | 46 | Generalized additive model | Both mixed-effect models and geographically weighted regression assume a linear relationship between predictor variables and the dependent variable, although the coefficients may vary. Generalized additive models use smoothing functions to account for nonli... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Results | Table 1 presents the cross-validated R 2 by year. R 2 values ranged from 0.75 to 0.90, with an average of 0.86, indicating good model performance. The spatial R 2 ranged from 0.73 to 0.91, with an average of 0.89, demonstrating that our model can well captu... |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
 
 ### Annals of the American Association of Geographers
 
@@ -377,20 +466,23 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Assessing NO 2 Concentration and Model Uncertainty with High Spatiotemporal Resolution across the Contiguous United States Using Ensemble Model Averaging
 
 - DOI : `10.1021/acs.est.9b03358`
-- TEI : `corpus\papers\tei\Di2019Assessing.tei.xml`
+- TEI : `corpus\papers\tei\Assessing NO2 Concentration and Model Uncertainty with High spatiotemporal resolution accross the contiguous united states.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 48 | Meteorological Data. | Reanalysis data sets rely on data sourced from land-surface monitors, ship, aircraft, satellite radiosondes, pibals, and other sources. The National Oceanic and Atmospheric Administration (NOAA) assimilates these data sets into a data assimilation system an... |
+| low_priority_review | `DataSourceCandidate` | 48 | Meteorological Data. | Reanalysis data sets rely on data sourced from land-surface monitors, ship, aircraft, satellite radiosondes, pibals, and other sources. The National Oceanic and Atmospheric Administration (NOAA) assimilates these data sets into a data assimilation system an... |
+| low_priority_review | `DataSourceCandidate` | 46 | Study Area and NO 2 Measurements. | Our study area is the contiguous United States, including 48 states and Washington, DC. The contiguous United States has several NO 2 monitoring networks included in the Air Quality System (AQS) from the Environmental Protection Agency (EPA), encompassing 9... |
 | low_priority_review | `DataSourceCandidate` | 46 | Study Area and NO 2 Measurements. | Our study area is the contiguous United States, including 48 states and Washington, DC. The contiguous United States has several NO 2 monitoring networks included in the Air Quality System (AQS) from the Environmental Protection Agency (EPA), encompassing 9... |
 | low_priority_review | `DataSourceCandidate` | 45 | Land-cover Variables. | A large percentage of surface NO 2 concentrations stems from local traffic emissions, which are sensitive to land-cover patterns 50 and can be approximated by land-cover terms. Hence, land-use variables are among the most important predictor variables in NO... |
+| low_priority_review | `DataSourceCandidate` | 45 | Land-cover Variables. | A large percentage of surface NO 2 concentrations stems from local traffic emissions, which are sensitive to land-cover patterns 50 and can be approximated by land-cover terms. Hence, land-use variables are among the most important predictor variables in NO... |
+| low_priority_review | `DataSourceCandidate` | 45 | Other Ancillary Variables. | The retrieval algorithm of satellite-based NO 2 is affected by aerosol, surface reflectance 53 /surface albedo, and cloud contamination, 54 although the agreement of satellite-based NO 2 with in situ measurements is usually good. 55 To correct possible erro... |
 | low_priority_review | `DataSourceCandidate` | 45 | Other Ancillary Variables. | The retrieval algorithm of satellite-based NO 2 is affected by aerosol, surface reflectance 53 /surface albedo, and cloud contamination, 54 although the agreement of satellite-based NO 2 with in situ measurements is usually good. 55 To correct possible erro... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Three Machine Learning Algorithms. | Previous studies have used neural network, random forest, 63 and other machine learning algorithms to estimate surface-level NO 2 . 17, 23, 33, 34 In these studies, land-cover variables, satellite measurements and other predictors were input variables of th... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Three Machine Learning Algorithms. | Previous studies have used neural network, random forest, 63 and other machine learning algorithms to estimate surface-level NO 2 . 17, 23, 33, 34 In these studies, land-cover variables, satellite measurements and other predictors were input variables of th... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Ensemble Model. | To blend NO 2 estimations from the three machine learning algorithms, we used a generalized additive model with penalized spline on both location and NO 2 estimation to account for geographic weights where f 1 denotes a thin plate spline for an interaction... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Model Prediction. | We predicted daily NO 2 at 1 km × 1 km grid cells in the study area with the trained model. In total, there are over 11 million grid cells in the entire study area. The trained model here included trained neural networks, random forests, gradient boosting m... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Environmental Science & Technology | Article the temporal variations and the satellite-derived NO 2 was less important as a result. In the long term, the spatial distribution of surface NO 2 contrasts with that of PM 2.5 and ozone ( Figure S4 ). High NO 2 levels cluster along highways and citi... |
-| low_priority_review | `ModelEvidenceCandidate` | 47 | METHODS | 3.1. Overview. Our NO 2 model was based on an ensemble model that took estimates from three independent machine learning algorithms. We first fit neural network, random forest, and gradient boosting algorithms with all input predictor variables and monitore... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 . |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Ensemble Model. | To blend NO 2 estimations from the three machine learning algorithms, we used a generalized additive model with penalized spline on both location and NO 2 estimation to account for geographic weights where f 1 denotes a thin plate spline for an interaction... |
+| low_priority_review | `truncated` |  |  | 8 autres candidats non affiches dans ce rapport |
 
 ### Assessing the Spatial Variability of Alfalfa Yield Using Satellite Imagery and Ground-Based Data
 
@@ -409,12 +501,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 47 | / DISCUSS ION | In this paper, we have fitted four different models of varying complexity. The simplest model is a spatio-temporal model with a single likelihood with an IID assumption between years. We will now compare the relative benefits of the different models with re... |
+| low_priority_review | `DataSourceCandidate` | 47 | / DISCUSS ION | In this paper, we have fitted four different models of varying complexity. The simplest model is a spatio-temporal model with a single likelihood with an IID assumption between years. We will now compare the relative benefits of the different models with re... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | TA B L E 1 | Posterior mean and 95% credible intervals for: Regression coefficients of environmental covariates; scaling parameter ( ) representing the interaction between G(s) and the probability of crane presence; temporal correlation parameter from the AR1 process; p... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | TA B L E 1 | Posterior mean and 95% credible intervals for: Regression coefficients of environmental covariates; scaling parameter ( ) representing the interaction between G(s) and the probability of crane presence; temporal correlation parameter from the AR1 process; p... |
 | low_priority_review | `ModelEvidenceCandidate` | 57 | Existing methods for species distribution modelling include: | approaches developed to deal with presence-only datasets (such as maximum entropy algorithm, distance sampling, similarity, and envelope methods such as MAXENT, Gower metric, Mahalanobis distance, and ecological niche factor analysis); machine-learning algo... |
+| low_priority_review | `ModelEvidenceCandidate` | 57 | Existing methods for species distribution modelling include: | approaches developed to deal with presence-only datasets (such as maximum entropy algorithm, distance sampling, similarity, and envelope methods such as MAXENT, Gower metric, Mahalanobis distance, and ecological niche factor analysis); machine-learning algo... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / Data | We investigate the spatial distribution of a resident breeding population of Eurasian crane in England following the return of the species to the UK in 1979 (Stanbury, 2011) , with the aim of predicting the distribution of the population in future years. Br... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | / Data | We investigate the spatial distribution of a resident breeding population of Eurasian crane in England following the return of the species to the UK in 1979 (Stanbury, 2011) , with the aim of predicting the distribution of the population in future years. Br... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | / INTRODUC TI ON | The continuing increase and the improvement both of the availability and detail of ecological information, and of computational resources allows realistically complex and flexible statistical models to be fitted to ecological data. However, increasing struc... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / INTRODUC TI ON | The continuing increase and the improvement both of the availability and detail of ecological information, and of computational resources allows realistically complex and flexible statistical models to be fitted to ecological data. However, increasing struc... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | / Single-field models | In order to explore what level of model complexity is needed to answer relevant ecological questions based on the crane data, we start with a relatively simple spatio-temporal model in continuous space. To improve our understanding of the spatio-temporal di... |
-| low_priority_review | `ModelEvidenceCandidate` | 45 | / Point process methodology and INLA | As model complexity increases-for example, when spatiotemporal correlation structures are included as complex model components-an advantageous approach can be found in Bayesian hierarchical modelling (Cressie et al., 2009) . Hierarchical models allow parame... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / Single-field models | In order to explore what level of model complexity is needed to answer relevant ecological questions based on the crane data, we start with a relatively simple spatio-temporal model in continuous space. To improve our understanding of the spatio-temporal di... |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
 
 ### Bayesian analysis of agricultural ®eld experiments
 
@@ -428,25 +526,43 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Other issues | Gilmour and Talbot add competition and interference to the list of possible complications. We agree that design, rather than analysis, should play the key role in tackling these, though additional plots may then be required. One advantage of spatial analysi... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Walter T. Federer (Cornell University, Ithaca) | A ®eld design of an experiment consists of ®rst selecting an experiment design plan (randomized complete-block design (RCBD), incomplete-block design, row±column, etc.) based on knowledge of the suspected experimental variation. The second step arises with... |
 
+### Bayesian model averaging for spatial autoregressive models based on convex combinations of different types of connectivity matrices
+
+- DOI : `10.1080/07350015.2020.1840993`
+- TEI : `corpus\papers\tei\Bayesian Model Averaging for Spatial Autoregressive Models Based on Convex Combinations of Different Types of Connectivity Matrices.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 72 | An applied illustration | To illustrate the method, we estimate a hedonic house price regression using a sample of 72,045 homes sold in the state of Ohio during the year 2000. The data is described in Brasington and Haurin (2006) ; Brasington (2007) and Brasington and Hite (2008) .... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | A c c e p t e d M a n u s c r i p t | To compare the two approaches, we produce estimates based on either the DGP from ( 28 ) or (29) using matrices W1 and W2 separately, and then calculate Bayesian model averaging estimates based on the two sets of results (approach of LeSage and Fischer, 2008... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 55 | Alternative estimation methods | There is a literature on Bayesian model averaging for spatial autoregressive models, where the focus has been on extending the approaches of Fernàndez et al. (2001) and George and McCulloch (1993, 1997) from non-spatial regression modeling that focuses on s... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 |   | for the spatial neighbors model. Of course, this leads to larger indirect or spillover effects, As noted earlier, larger spillover estimates may also arise because the convex combination model weight matrix is denser than the spatial weight matrix. (A check... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 10 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 9 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Estimates (variable) Constant β1(lTLA) Wspace -0.358 [-0.422; -0.297] [-0.181; -0.053] [-0.113; 0.005] [-0.465; -0.342] [-0.571; -0.453] Wbeds Wbaths Wage 1 2 c beds W W W baths     -0.119 -0.052 -0.402 -0.513 0.391 0.351 0.314 0.384 0.306 M a n u s c r... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Estimates (variable) Wspace c W   1 W beds   2 W baths   2 W age Constant 0.475 -0.513 [0.380; 0.567] [-0.571; -0.453] β1(lTLA) 0.331 0.306 [0.320; 0.341] [0.298; 0.316] β2(lLSIZE) 0.056 0.062 [0.052; 0.060] [0.058; 0.066] Bedrooms (#) Bathrooms (#) H... |
+
 ### Benchmarking Regression Models Under Spatial Heterogeneity
 
 - DOI : `10.4230/LIPIcs.GIScience.2023.11`
-- TEI : `corpus\papers\tei\Wiedemann_Martin_Westerholt_2023_SpatialHeterogeneityBenchmark.tei.xml`
+- TEI : `corpus\papers\tei\Benchmarking Regression Models Under Spatial heterogeneity.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 46 | Results based on real-world data | We experiment with five benchmark datasets that have been used in previous work on spatial data analysis and prediction, e.g. [19, 22, 14, 1] . The following sub-section first introduces these datasets. Afterward, we discuss the results obtained. |
+| low_priority_review | `DataSourceCandidate` | 46 | Results based on real-world data | We experiment with five benchmark datasets that have been used in previous work on spatial data analysis and prediction, e.g. [19, 22, 14, 1] . The following sub-section first introduces these datasets. Afterward, we discuss the results obtained. |
+| low_priority_review | `ModelEvidenceCandidate` | 69 | Ordinary Least Squares and a global spatial model | We employ two linear global types of regression models. One of these is the Ordinary Least Squares (OLS) model, which assumes a linear dependency of Y on X. It is given as with ϵ being the error term and β ∈ R m denoting the coefficients. In OLS, the coeffi... |
 | low_priority_review | `ModelEvidenceCandidate` | 69 | Ordinary Least Squares and a global spatial model | We employ two linear global types of regression models. One of these is the Ordinary Least Squares (OLS) model, which assumes a linear dependency of Y on X. It is given as with ϵ being the error term and β ∈ R m denoting the coefficients. In OLS, the coeffi... |
 | low_priority_review | `ModelEvidenceCandidate` | 62 | Data-generating processes (DGPs) | One of our investigated DGPs represents a linear relationship of Y on k independent variables x j (j ∈ [1..k]). It is given as where x ij is the j-th feature of the i-th sample, (u i , v i ) are the coordinates of the i-th sample, and β j (u i , v i ) is th... |
+| low_priority_review | `ModelEvidenceCandidate` | 62 | Data-generating processes (DGPs) | One of our investigated DGPs represents a linear relationship of Y on k independent variables x j (j ∈ [1..k]). It is given as where x ij is the j-th feature of the i-th sample, (u i , v i ) are the coordinates of the i-th sample, and β j (u i , v i ) is th... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Datasets | There are five real-world, publicly available datasets that we employ for validation: The California housing dataset 5 was generated from the 1990 California census. Our goal is to predict the median house price from the location and seven other variables,... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Datasets | There are five real-world, publicly available datasets that we employ for validation: The California housing dataset 5 was generated from the 1990 California census. Our goal is to predict the median house price from the location and seven other variables,... |
 | low_priority_review | `ModelEvidenceCandidate` | 60 | Spatial Random Forests | Aside from simply extending non-linear models by adding geographic coordinates or spatial features as covariates, another option is to fit them locally, as a non-linear counterpart to GWR. Similar to [11] , we implement this approach for RFs. To provide a l... |
+| low_priority_review | `ModelEvidenceCandidate` | 60 | Spatial Random Forests | Aside from simply extending non-linear models by adding geographic coordinates or spatial features as covariates, another option is to fit them locally, as a non-linear counterpart to GWR. Similar to [11] , we implement this approach for RFs. To provide a l... |
 | low_priority_review | `ModelEvidenceCandidate` | 55 | Random Forest Regression models | Random Forests (RFs) are established machine learning models for regression tasks and have been shown to be very successful for a wide range of applications. We choose RFs as the main non-linear model in our experiments since it is arguably most prominent i... |
-| low_priority_review | `ModelEvidenceCandidate` | 54 | Geographically Weighted Regression | Although Geographically Weighted Regression (GWR) was proposed for the analysis (not prediction) of spatial data, it is a suitable local model to account for non-stationarity in regression problems. GWR follows the standard linear regression framework but a... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Comparing training and test errors | GWR and related local models are oftentimes only evaluated in terms of their fit to the input data, and not by means of inference on unseen data. Since GWR is based on linear models, the risk of overfitting is considered low, and evaluating the fit on test... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Effect of the spatial heterogeneity of the errors | As explained in Section 2.1.2 we additionally simulate different distributions of the variance of the errors ϵ (see Figure 2 ). Figure 5 visualizes the RMSE for GWR and Regression Kriging by the noise level. The outcomes obtained for degrees of non-stationa... |
-| low_priority_review | `ModelEvidenceCandidate` | 47 | Regression models | We consider linear and non-linear, global and local models suitable for regression tasks. Figure 3 provides an overview of their properties. In the following, let X ∈ R n×m denote the m-dimensional feature matrix of n samples, and let Y ∈ R n be the depende... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Dataset Samples k LOSH RMSE OLS SLX GWR RF RF (coord.) spatial RF Kriging Atlantic 666 7 1.00 8.65 8.64 7.14 7.54 7.34 8.18 7.43 California housing 20433 8 0.88 72244 63532 56156 61234 48209 67493 55173 Deforestation 2418 36 1.00 0.83 0.82 0.80 0.66 0.67 0.... |
+| low_priority_review | `ModelEvidenceCandidate` | 55 | Random Forest Regression models | Random Forests (RFs) are established machine learning models for regression tasks and have been shown to be very successful for a wide range of applications. We choose RFs as the main non-linear model in our experiments since it is arguably most prominent i... |
+| low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
 
 ### Boosting Algorithms: Regularization, Prediction and Model Fitting
 
@@ -470,23 +586,29 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Building a sustainable development index and spacial assessment of municipalities inequalities in the state of Ceará
 
 - DOI : `10.1590/0034-7612163114`
-- TEI : `corpus\papers\tei\Silva2018Construcao.tei.xml`
+- TEI : `corpus\papers\tei\Building a sustainable development index and spacial assessment of municipalities inequalities in the state of Ceara.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 51 | SPATIAL MODELING TO MEASURE INEQUALITY IN MUNICIPALITIES OF THE STATE OF CEARÁ | The spatial econometric modeling began with the standardization of the indicators formed by the confirmatory factorial analysis, determining value 1 for the municipality with the highest index and 0 for the municipality with the lowest index. There is evide... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | SPATIAL MODELING TO MEASURE INEQUALITY IN MUNICIPALITIES OF THE STATE OF CEARÁ | The spatial econometric modeling began with the standardization of the indicators formed by the confirmatory factorial analysis, determining value 1 for the municipality with the highest index and 0 for the municipality with the lowest index. There is evide... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | AGGREGATING INDICATORS THROUGH SPATIAL ECONOMETRIC MODELING | The standardized SDI of each municipality was used to form a spatial stochastic process, i.e., a sequence of random variables ordered according to the geographic criterion, forming spatial data. According to Almeida (2012) this spatial data is a sample of p... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | AGGREGATING INDICATORS THROUGH SPATIAL ECONOMETRIC MODELING | The standardized SDI of each municipality was used to form a spatial stochastic process, i.e., a sequence of random variables ordered according to the geographic criterion, forming spatial data. According to Almeida (2012) this spatial data is a sample of p... |
 
 ### Cluster detection of spatial regression coefficients
 
 - DOI : `10.1002/sim.7172`
-- TEI : `corpus\papers\tei\Lee2016Cluster.tei.xml`
+- TEI : `corpus\papers\tei\Cluster detection of spatial regression coefficients.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Simultaneous Detection | Table II's left panel and Table III's top panel provide the significant clusters and the corresponding coefficient estimates that were detected via the simultaneous detection method at 𝛼 = 0.05. There are a total Table III. Coefficients estimates for sequen... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Simultaneous Detection | Table II's left panel and Table III's top panel provide the significant clusters and the corresponding coefficient estimates that were detected via the simultaneous detection method at 𝛼 = 0.05. There are a total Table III. Coefficients estimates for sequen... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Two-Stage Detection | Table II's right panel and Table III 's bottom panel provide the significant clusters and the corresponding coefficient estimates that were detected via the two-stage detection method at 𝛼 = 0.05. There are a total of five detected clusters with one overlap... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Two-Stage Detection | Table II's right panel and Table III 's bottom panel provide the significant clusters and the corresponding coefficient estimates that were detected via the two-stage detection method at 𝛼 = 0.05. There are a total of five detected clusters with one overlap... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Test for Spatial Cluster Effects in a Simplified Setting | Let D denote a spatial domain of interest in R 2 . Let N denote the number of cells that partition the spatial domain D and form a spatial lattice. For cell i = 1, … , N, let y i denote the ith response variable. We model the response variable as y i = 𝜇 i... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Test for Spatial Cluster Effects in a Simplified Setting | Let D denote a spatial domain of interest in R 2 . Let N denote the number of cells that partition the spatial domain D and form a spatial lattice. For cell i = 1, … , N, let y i denote the ith response variable. We model the response variable as y i = 𝜇 i... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Multiple Clusters | To detect potential additional clusters, we propose a sequential algorithm. That is, we estimate the first cluster Ĉ1 = arg max C∈C F(C), where C is pre-defined with N cells on the spatial lattice and the maximum radius is R max . To test H 0 ∶ 𝜽 C = 0 for... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Multiple Clusters | To detect potential additional clusters, we propose a sequential algorithm. That is, we estimate the first cluster Ĉ1 = arg max C∈C F(C), where C is pre-defined with N cells on the spatial lattice and the maximum radius is R max . To test H 0 ∶ 𝜽 C = 0 for... |
 
 ### Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests
@@ -527,17 +649,35 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Data Descriptor: A global dataset of air temperature derived from satellite remote sensing and weather stations
 
 - DOI : `10.1038/sdata.2018.246`
-- TEI : `corpus\papers\tei\Hooker2018Global.tei.xml`
+- TEI : `corpus\papers\tei\A global dataset of air temperature derived from satellite remote sensing and weather stations.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `DataSourceCandidate` | 60 | Input data | The Global Historical Climatology Network -Monthly (GHCN-M) dataset 13 is used as the source for reference air temperatures. This dataset provides monthly average air temperature at a large number of weather stations from sometimes up to more than 100 years... |
+| review_for_dataset_use | `DataSourceCandidate` | 60 | Input data | The Global Historical Climatology Network -Monthly (GHCN-M) dataset 13 is used as the source for reference air temperatures. This dataset provides monthly average air temperature at a large number of weather stations from sometimes up to more than 100 years... |
+| low_priority_review | `DataSourceCandidate` | 45 | Background & Summary | Air temperature is a fundamental biophysical variable that influences almost all biotic processes, as well as many abiotic processes globally. Gridded climatologies describe how air temperature varies geographically and seasonally, but in reality there are... |
 | low_priority_review | `DataSourceCandidate` | 45 | Background & Summary | Air temperature is a fundamental biophysical variable that influences almost all biotic processes, as well as many abiotic processes globally. Gridded climatologies describe how air temperature varies geographically and seasonally, but in reality there are... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Stacked generalisation | Predictions of air temperature based on GWR and on CSWR are finally combined to make an overall prediction of air temperature, using stacked generalisation. Stacked generalisation is a method to optimally combine multiple statistical models into an ensemble... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Stacked generalisation | Predictions of air temperature based on GWR and on CSWR are finally combined to make an overall prediction of air temperature, using stacked generalisation. Stacked generalisation is a method to optimally combine multiple statistical models into an ensemble... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Geographically weighted regression | When a regression is applied over geographically-distributed data, the coefficients of that regression model need not in fact to be constant over space. Geographically weighted regression was developed to deal with this non-stationarity. Rather than calibra... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Geographically weighted regression | When a regression is applied over geographically-distributed data, the coefficients of that regression model need not in fact to be constant over space. Geographically weighted regression was developed to deal with this non-stationarity. Rather than calibra... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Climate space weighted regression | The logic of applying repeated weighted regressions based on proximity in geographic space can equally be extended to proximity in climate space. The relationship between air temperature and LST could even be more consistent over stations with similar clima... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Climate space weighted regression | The logic of applying repeated weighted regressions based on proximity in geographic space can equally be extended to proximity in climate space. The relationship between air temperature and LST could even be more consistent over stations with similar clima... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Technical Validation | The dataset we describe consists of predictions made from a statistical model that we have developed. Independent observations of air temperature, with which we might validate these predictions, are not available. However, the nature of our statistical mode... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 . |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Technical Validation | The dataset we describe consists of predictions made from a statistical model that we have developed. Independent observations of air temperature, with which we might validate these predictions, are not available. However, the nature of our statistical mode... |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
+
+### Decapod Biodiversity Hotspots and Environmental Drivers: A Macroecological Approach About Bycatch Species in Brazil
+
+- DOI : `10.1111/jbi.70076`
+- TEI : `corpus\papers\tei\Decapod Biodiversity Hotspots and Environmental Drivers - A Macroecological.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 47 | / Species Richness and Phylogenetic Diversity Index | We calculated species richness (SR) for each 1° × 1° grid cell by counting the number of unique decapod species with occurrence records within each cell. To estimate the Phylogenetic Diversity index, the mitogenomic phylogenetic Decapod tree from Shen et al... |
+| low_priority_review | `DataSourceCandidate` | 45 | / Environmental Factors | Data from environmental factors were extracted from Bio-ORACLE: Marine data layers for Ecological Modelling version 2.2 (Assis et al. 2017) using the R package 'sdmpredictors' (Bosch and Fernandez 2023) . Were extracted 24 present benthic layers for the fol... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / Results | A total of 104 species were analysed to calculate SR, comprising 43,002 occurrence points, while 98 species were used for PD.SES and PE.SES metrics, distributed across 169 grid cells with 1° × 1° resolution within the Brazilian Exclusive Economic Zone. Acro... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | TABLE 1 / |
 
 ### Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model
 
@@ -548,7 +688,11 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Results | Three versions of the model were estimated using 2 years of pooled data (2004 and 2005) with a total sample size of 1,116 observations (558 microregions x 2 years). The fi rst version is an OLS (model 1) that includes all the variables but without spatial f... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Results | Three versions of the model were estimated using 2 years of pooled data (2004 and 2005) with a total sample size of 1,116 observations (558 microregions x 2 years). The fi rst version is an OLS (model 1) that includes all the variables but without spatial f... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 |
 
 ### Determinants of Airbnb prices in European cities: A spatial econometrics approach
@@ -623,8 +767,12 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 47 | / Diversity measures | We mapped the geographical distribution of terrestrial mammals by recording their presence in each grid cell. We used SAM (spatial analysis in macroecology; T. F. L. Rangel, Diniz-Filho, & Bini, 2006; T. F. Rangel, Diniz-Filho, & Bini, 2010) to calculate th... |
+| low_priority_review | `DataSourceCandidate` | 47 | / Diversity measures | We mapped the geographical distribution of terrestrial mammals by recording their presence in each grid cell. We used SAM (spatial analysis in macroecology; T. F. L. Rangel, Diniz-Filho, & Bini, 2006; T. F. Rangel, Diniz-Filho, & Bini, 2010) to calculate th... |
+| low_priority_review | `DataSourceCandidate` | 45 | / Environmental predictors | To incorporate environmental productivity, temperature, elevation and climatic stability into our analyses, we compiled, respectively, the following variables: (a) mean AET (Trabucco & Zomer, 2010) ; (b) mean annual temperature (Fick & Hijmans, 2017) ; (c)... |
 | low_priority_review | `DataSourceCandidate` | 45 | / Environmental predictors | To incorporate environmental productivity, temperature, elevation and climatic stability into our analyses, we compiled, respectively, the following variables: (a) mean AET (Trabucco & Zomer, 2010) ; (b) mean annual temperature (Fick & Hijmans, 2017) ; (c)... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / Statistical analysis | We designed a path model according to a hypothesis of how the environmental factors are likely to influence SR and PD, in addition to how PD is influenced by SR (Figure 1 ). The path model can assess: (a) the direct effect of each variable on richness and P... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / Statistical analysis | We designed a path model according to a hypothesis of how the environmental factors are likely to influence SR and PD, in addition to how PD is influenced by SR (Figure 1 ). The path model can assess: (a) the direct effect of each variable on richness and P... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | / INTRODUC TI ON | Biodiversity encompasses multiple dimensions, such as phylogenetic and functional diversity, and species richness (SR), which have varying degrees of spatial covariation (Stevens & Tello, 2018) . Environmental factors are correlated differently with each di... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | / INTRODUC TI ON | Biodiversity encompasses multiple dimensions, such as phylogenetic and functional diversity, and species richness (SR), which have varying degrees of spatial covariation (Stevens & Tello, 2018) . Environmental factors are correlated differently with each di... |
 
 ### Evaluation of finger millet (Eleusine coracana (L.) Gaertn.) in multi-environment trials using enhanced statistical models
@@ -741,6 +889,58 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 46 | GW summary statistics | This section presents the simplest form of GW modelling with GW summary statistics (Brunsdon et al. 2002; Fotheringham et al. 2002) . Here, we describe how to calculate GW means, GW standard deviations and GW measures of skew; which constitute a set of basi... |
 | low_priority_review | `truncated` |  |  | 1 autres candidats non affiches dans ce rapport |
 
+### Geographic range size and speciation in honeyeaters
+
+- DOI : `10.1186/s12862-022-02041-6`
+- TEI : `corpus\papers\tei\Geographic range size and speciation in honeyeaters.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `DataSourceCandidate` | 53 | Phylogenetic inference | We used recent phylogenomic analyses [59, 60] in conjunction with traditional nuclear and mitochondrial markers [53] to construct a comprehensive phylogeny of honeyeaters. We followed the IOC world bird list (version 10.2; [77] ), which recognises 191 speci... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Phylogenetic regressions | To test the relationship between range size and speciation, while accounting for other factors that are likely to influence this relationship, measures of range size, shape, and position for each species were treated as traits and used in phylogenetic gener... |
+
+### Geographically Weighted Logistic Regression Applied to Credit Scoring Models*
+
+- DOI : `10.1590/1808-057x201703760`
+- TEI : `corpus\papers\tei\Geographically Weighted Logistic Regression Applied to Credit Scoring Models.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 6 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables Coeffi cients Standard Deviation Wald Statistic Ratio of Chances Intercept -1.3068 0.0893 -14.6338* - d_age1 -0.5665 0.084 -6.7440* 0.567 d_age2 -0.2891 0.0907 -3.1874* 0.749 d_age4 0.1481 0.0635 2.3323* 1.160 d_age5 0.5684 0.0653 8.7044* 1.765 d_... |
+| low_priority_review | `ModelEvidenceCandidate` | 56 | Geographically Weighted Logistic Regression | When the response variable is binary, GWR should be applied via Geographically Weighted Logistic Regression (GWLR), in which the formula for obtaining the probability of the event of interest occurring is given by: or still, in the form: in which π(x j ) is... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Global Model via Logistic Regression | Th e global model was developed using the development sample, containing 10,944 records. Th e variables used in developing the model were all of the dummies created based on the categorizations presented in Table 5 . Using the stepwise variable selection me... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | 14 | All attributes of the rate of unemployment and infl ation variables presented similar levels of credit risk, and for this reason, they were excluded from the study. Th e categories for the other variables are found in Table 5 . It is observed in Table 5 tha... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Comparison Between the Models | Th e metrics used to compare the models developed via GWLR and Logistic Regression were: the AICc informational criteria (Hurvich, Simonoff, & Tsai, 1998) , the accuracy of the models, the percentage of false positives, the sum of the value of false positiv... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Comparison Between the Models | Th e comparison between the Logistic Regression model and the GWLR Adaptive Gaussian model was made using the following metrics: International AICc Criterion, Accuracy, Percentage of False Positives, Sum of Value of False Positive Debt, and Expected Monetar... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Database | Th e data related to this study refer to transactions involving Consumer Direct Credit (CDC) granted by a Brazilian fi nancial institution to clients residing in the Distrito Federal (DF). Th ese transactions are paid in installments over periods between 0... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Local Models via Geographically Weighted Logistic Regression (GWLR) | As described in the methodology, four models using the GWLR were developed, one for each weighting function shown in Table 1 . Th e predictive variables used were those selected by the logistic regression model, shown in Table 6 . Th e best model using GWLR... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Spatial indicators | Moran's I (Moran, 1950) is one of the most widely used global indicators for verifying the existence of spatial correlation. Global indicators present a single measure of spatial tendency for the whole region being studied, they allow the hypothesis of the... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Univariate and Bivariate Analyses | Th e results on general default rates and those by region are shown in Tables 3 and 4 and the spatial distribution of default rates is found in Figure 6 . As shown in Table 3 , the general default rate in the DF was 27.66%; thus, it can be observed in Table... |
+| low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
+
+### Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity
+
+- DOI : `10.1080/13658816.2019.1707834`
+- TEI : `corpus\papers\tei\Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 6 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 10 . |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Dataset | We designed a squared area with a length of 12 units as the simulated space and set the distance between two adjacent points to 0.5 (Figure 4(a) ). Accordingly, 625 observation points in this area are distributed on 25 × 25 matrix. The spatial coordinates o... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Model diagnosis | Testing for spatial non-stationarity of the parameters in the GNNWR model is quite important and some appropriate statistics for model diagnosis should be developed. The optimal bandwidth of the weight kernel should be determined prior to computing the fina... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Study area and data | The second case study is in the coastal area of Zhejiang (CAZ), China (Figure 4(b) ). Red tides is the primary cause of marine ecological damage in the CAZ and causes serious harm to the economic development and public safety in Zhejiang Province (Zhang et... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Experimental implementation | A four-layer feed-forward network is one of the most commonly used neural network architectures and is considered to be highly effective for nonlinear problems (Tamura and Tateishi 1997, Cetin et al. 2004) . Therefore, we design a four-layer SWNN architectu... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | OLS model | In spatial analysis, the OLS model is a basic method to identify the nature of the relationships among the factors in the form of a linear regression. In this technique, the relations between the dependent variabley i and the independent variables x i1 ; x... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Model design and estimation | The estimation process of the GNNWR model is shown in Figure 2 . First, we randomly divide the data into three sets: training dataset, validation dataset and testing dataset. It should be noted that the OLS coefficients, which denote the average relationshi... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Conclusions | In this study, based on a concept similar to the GWR model, we propose a GNNWR model that combines OLS with an SWNN model to estimate spatial non-stationarity. SWNN is designed to precisely construct the nonstationary weight matrix by using the superior fit... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | GWR model | The basic concern associated with the GWR model is that a global model's coefficient estimates may be unable to express the sophisticated local variations over space. Therefore, the global form is extended by the GWR to allow local estimations, and the GWR... |
+| low_priority_review | `ModelTableCandidate` | 33 | GROBID table | Table 9 . |
+| low_priority_review | `truncated` |  |  | 6 autres candidats non affiches dans ce rapport |
+
 ### Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data
 
 - DOI : `10.1080/13658816.2013.865739`
@@ -777,6 +977,38 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 6 |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 8 |
 
+### Geospatial Analysis of Airbnb Data: Understanding Distribution Patterns, User Satisfaction, and Economic Impacts in Major Global Cities
+
+- DOI : `10.31410/ITEMA.2024.131`
+- TEI : `corpus\papers\tei\Geospatial analysis on Airbnb data.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `ModelEvidenceCandidate` | 53 | DATA AND METHODOLOGY | The study in this section highlights the methodologies used for the analysis of Airbnb listings across multiple cities to uncover the impact of various amenities and other factors on user satisfaction metrics, such as overall ratings and communication ratin... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Regression Analysis | A multiple regression analysis using an Ordinary Least Squares (OLS) model was performed to assess the impact of variables such as the number of bedrooms, bathrooms, maximum guests, and minimum stay on the average daily rate (ADR) in USD. The model identifi... |
+
+### Global Patterns of Taxonomic Uncertainty and its Impacts on Biodiversity Research
+
+- DOI : `10.1093/sysbio/syaf010`
+- TEI : `corpus\papers\tei\Global Patterns of Taxonomic Uncertainty and its Impacts on Biodiversity Research.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 48 | Taxonomic Data | We followed the taxonomy employed in fully sampled phylogenies available for amphibians (Jetz and Pyron 2018) , turtles and crocodiles (Colston et al. 2020) , squamates (Tonini et al. 2016) , birds (Jetz et al. 2012) , and mammals (Upham, Esselstyn and Jetz... |
+| low_priority_review | `DataSourceCandidate` | 45 | Species-Level Covariates | Attributes related to species biology included body size and habitat use. For body size, we used body mass data for birds, mammals, and reptiles, which had on average a data coverage exceeding 95% (n = 24,758 out of 25,811 species), and body length for amph... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Determinants of Synonym Count Variation | We modeled synonym counts per species (crossspecies analyses) and the average number of synonyms (i.e., total number of synonyms divided by the total number of species) per grid cell (assemblage-level analyses) separately for amphibians, reptiles, birds, an... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Assemblage-Level Covariates | For assemblage-level analyses, we modeled the average number of synonyms per grid cell for each taxonomic class separately across three spatial grains (110, 220, and 440 km). As predictors, we used latitude, as well as median values per grid cell for elevat... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and Methods |  |
+
+### Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints
+
+- DOI : `10.1111/geb.13762`
+- TEI : `corpus\papers\tei\Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 48 | / Assemblage, morphological and phylogenetic data | More than 17,000 bird assemblages were taken directly from Weeks et al. (2022) . These were created from a 110 km x110km grid (roughly 1° latitude and 1° longitude at the equator, Behrmann projection), and excluded all non-terrestrial cells (>50% ocean or >... |
+
 ### Graph WaveNet for Deep Spatial-Temporal Graph Modeling
 
 - TEI : `corpus\papers\tei\2026-04-23_paper_graph_wavenet_spatial_temporal_graph_modeling.tei.xml`
@@ -790,10 +1022,12 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### How do Indigenous and local knowledge systems respond to climate change?
 
 - DOI : `10.5751/ES-12481-260327`
-- TEI : `corpus\papers\tei\Popovici2021How.tei.xml`
+- TEI : `corpus\papers\tei\How do Indigenous and local knowledge systems respond to climate change.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Climatic variables |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Climatic variables |
 
@@ -838,21 +1072,38 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `DataSourceCandidate` | 53 | First step: competition matrix | Following the logic presented in the "Methods" section, the first step is to build the competition matrix. For this, gencomp has two functions: prepfor and prepcrop. The former is designed to deal with tree breeding trials, and the latter, with crop breedin... |
 | review_for_dataset_use | `DataSourceCandidate` | 53 | Third step: main results | The resp function provides a list of the most relevant outputs: (i) results of the likelihood ratio tests (if lrtest = TRUE in asr or asr_ma), (ii) variance components, (iii) heritabilities of the DGE and the total genotypic effects (if cor = TRUE in asr or... |
 
+### Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation
+
+- DOI : `10.1111/ecog.06391`
+- TEI : `corpus\papers\tei\Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Modelling | The R code for data preparation and model fitting was based on the R-package ( www.r-project.org ) 'PointedSDMs' ver. 0.2.1.9004 ( https://github.com/oharar/PointedSDMs ), which is built on the widely used 'R-INLA' package (Lindgren and Rue 2015) . It was i... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Data and covariates | We used two sources of E. serotinus data for our study (Fig. 1 ), the first from the field survey that is part of the National Bat Monitoring Programme (NBMP) of the UK's Bat Conservation Trust (BCT). The field survey consists of a structured mobile acousti... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | How do the covariate effects differ between models? | The empirical semi-variograms for each covariate showed evidence for spatial autocorrelation in temperature, arable, and grassland. Semi-variance for these variables increased with increasing distance, but was comparatively stable for broadleaf (Supporting... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Model evaluation and comparison | To investigate the effect of mesh density on overall inference, we compared the spatial predictions of each model by mapping the mean as well as the SD of the estimated intensity on a regular grid with a 5 km resolution. Next, we focused on the individual m... |
+
 ### Integrated species distribution models to account for sampling biases and improve range-wide occurrence predictions
 
 - DOI : `10.1111/geb.13792`
-- TEI : `corpus\papers\tei\Makinen2023Integrated.tei.xml`
+- TEI : `corpus\papers\tei\Global Ecology and Biogeography - 2023 - Mäkinen - Integrated species distribution models to account for sampling biases.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `DataSourceCandidate` | 53 | / Model validation | We validated models with fourfold block-wise cross-validation on the PA data set, and the PO data set was used only for model training. In cross-validation, folds were formed by splitting the PA sites into 20 spatially distinct blocks and grouping blocks in... |
+| review_for_dataset_use | `DataSourceCandidate` | 53 | / Model validation | We validated models with fourfold block-wise cross-validation on the PA data set, and the PO data set was used only for model training. In cross-validation, folds were formed by splitting the PA sites into 20 spatially distinct blocks and grouping blocks in... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / DISCUSS ION | We tested integration of the opportunistically sampled PO data and the species checklist-based PA data for fitting integrated SDMs for 71 hummingbird species on the extent of the species' whole ranges. Of the different integration methods (tested, e.g. in A... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / DISCUSS ION | We tested integration of the opportunistically sampled PO data and the species checklist-based PA data for fitting integrated SDMs for 71 hummingbird species on the extent of the species' whole ranges. Of the different integration methods (tested, e.g. in A... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Effect | First order S econd order EVI measured with the Moran's I, and thus the changes in the covariate effect estimates were not associated with the spatial structure of the covariates. See Table S1 .6 in Appendix 1 for a table of Moran's I of each covariate rast... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Effect | First order S econd order EVI measured with the Moran's I, and thus the changes in the covariate effect estimates were not associated with the spatial structure of the covariates. See Table S1 .6 in Appendix 1 for a table of Moran's I of each covariate rast... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | / Model comparison | Our results show that integrated SDMs can help address limited amounts of the occurrence data but the improvements are conditional on accounting for different biases of the data sets, such as the sampling bias of the PO data, as can be expected based on pre... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | / Model comparison | Our results show that integrated SDMs can help address limited amounts of the occurrence data but the improvements are conditional on accounting for different biases of the data sets, such as the sampling bias of the PO data, as can be expected based on pre... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | / Data sets | We obtained PO, PA and expert range map data for 71 hummingbird species from a previous data integration study (Ellis-Soto et al., 2021) . Their data were accessible through the Map of Life ( mol . org ): PO observations are originally from GBIF ( https://... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | / Data sets | We obtained PO, PA and expert range map data for 71 hummingbird species from a previous data integration study (Ellis-Soto et al., 2021) . Their data were accessible through the Map of Life ( mol . org ): PO observations are originally from GBIF ( https://... |
 | low_priority_review | `ModelEvidenceCandidate` | 58 | / INTRODUC TI ON | Information about species distributions is widely used for assessing species vulnerability to climate and land use change (Dawson et al., 2011; Jetz et al., 2007) , and for optimizing species conservation efforts (Hannah et al., 2020; Jetz et al., 2022; Jun... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | / Limitations of the study and future perspectives | By involving different types of species information in the model inference and validation propagates uncertainties and biases in the results. We considered expert range maps as fixed truth of species occurrence status despite expert range maps have been sho... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | / Model fitting | We fitted models for each species separately with integrated nested laplace integration (INLA) through the R-INLA package and applied stochastic partial differential equations (SPDE) for fitting the spatial latent effects (Bakka et al., 2018; Lindgren & Rue... |
+| low_priority_review | `ModelEvidenceCandidate` | 58 | / INTRODUC TI ON | Information about species distributions is widely used for assessing species vulnerability to climate and land use change (Dawson et al., 2011; Jetz et al., 2007) , and for optimizing species conservation efforts (Hannah et al., 2020; Jetz et al., 2022; Jun... |
+| low_priority_review | `truncated` |  |  | 4 autres candidats non affiches dans ce rapport |
 
 ### Journal of Statistical Software
 
@@ -879,6 +1130,15 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 2 : |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 : |
 
+### Macaque Monkeys Perceive the Flash Lag Illusion
+
+- DOI : `10.1371/journal.pone.0058788`
+- TEI : `corpus\papers\tei\Macaque Monkeys Perceive the Flash Lag Illusion.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Data analysis | Data analysis was done in MATLAB using custom-written code. We fitted psychometric functions to the subjects' probability of reporting that the moving bar was located ahead of the flashed bar at different veridical spatial offsets, using the psignifit3 tool... |
+
 ### MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 
 - DOI : `10.1111/2041-210X.13762`
@@ -887,17 +1147,46 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | TA B L E 1 | Variables included in the MetaComNet network model. The data frame contains columns with response variables including: (i) number, or presence or absence, of observed interactions between a pollinator species and a plant species in a particular study site.... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | TA B L E 1 | Variables included in the MetaComNet network model. The data frame contains columns with response variables including: (i) number, or presence or absence, of observed interactions between a pollinator species and a plant species in a particular study site.... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Occurrence of interactions | The presence or absence of interactions between the bee species and plant within a site. The variable was transformed into a two-level categorical variable for models using classification trees and left as a numeric variable (zero or one) for the models usi... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Occurrence of interactions | The presence or absence of interactions between the bee species and plant within a site. The variable was transformed into a two-level categorical variable for models using classification trees and left as a numeric variable (zero or one) for the models usi... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | / Predicting flower-visitor species richness, diversity and abundance | Predicted bee species richness and abundance were positively correlated with observed flower-visitor species richness, diversity and abundance. The Pearson correlation coefficient between observed flower-visitor species richness, diversity or abundance, and... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / Predicting flower-visitor species richness, diversity and abundance | Predicted bee species richness and abundance were positively correlated with observed flower-visitor species richness, diversity and abundance. The Pearson correlation coefficient between observed flower-visitor species richness, diversity or abundance, and... |
+
+### Method of the Geographically Weighted Regression and an Example for its Application
+
+- DOI : `10.15196/RS04105`
+- TEI : `corpus\papers\tei\Method of the Geographically Weighted Regression and an Example for its Application.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | PPS | -15000.0 15000.1 -25000.0 25000.1 -35000.0 35000.1 -45000.0 45000.1 -Multicollinearity was examined with the help of a Red indicator; the value of which can be between 0 and 1, and the closer it is to 0, the smaller the effect of multicollinearity is (Kovác... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Local analysis of the fragmentation of regional development in Europe | With the help of an example for the application, the paper presents in which aspects the use of the GWR method is better than the use of global regression. Beginning with defining the regional framework: the calculations refer first of all to the EU member... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Weighting options | The weighting options of fixed kernels: the shape and the extension of the kernel is unchanged during the examination. w ij = 1 each i,j where j is a point in the space where the observation was made and i is a point in the space whose parameter was estimat... |
+| low_priority_review | `ModelEvidenceCandidate` | 46 | Geographically weighted regression | Regression is one of the most widespread mathematical-statistical tools of social scientific researches. Its popularity is based on its essence, since this is a method which is suitable to explore the relationships between the phenomena being the key object... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Unstandardised coefficients Standardised coefficient t Sig. B standard error Beta Constant -17838.8 1824.1 -9.8 0.0 Rate of people employed in the tertiary sector 383.3 16.7 0.536 23.0 0.0 Rate of economically actives 304.1 26.2 0.264 11.6 0.0 Unemployment... |
+
+### Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback
+
+- DOI : `10.1098/rspb.2022.0358`
+- TEI : `corpus\papers\tei\Mistletoes could moderate drought impacts on birds but are themselves susceptible to drought-induced dieback.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 45 | level | fixed effect description site-level spatial location WGS84 decimal latitude longitude to 2 m accuracy region 10-level factor defining regional clusters of monitoring sites. Included as a random term in mistletoe and bird models land use 9-level factor: prim... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | (c) Climate data | We sourced climate data from the Australian National University Climate surface database (ANUCLIM v. 6.1 [34] ). We obtained national monthly maximum temperature and rainfall measures between 2017 and 2020 and derived these measures for each of our monitori... |
 
 ### Model selection and model averaging for matrix exponential spatial models
 
 - DOI : `10.1080/07474938.2022.2047507`
-- TEI : `corpus\papers\tei\Yang2022Model.tei.xml`
+- TEI : `corpus\papers\tei\Model selection and model averaging for matrix exponential spatial models_nodatafound.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 52 | The matrix exponential specification | We consider the following cross-sectional MESS(1, 1) model where y ¼ ðy 1 , :::, y n Þ 0 is the n Â 1 vector of an outcome variable, X is the n Â k matrix of non-stochastic exogenous variables with the matching parameter vector b, W and M are the n Â n spat... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | The matrix exponential specification | We consider the following cross-sectional MESS(1, 1) model where y ¼ ðy 1 , :::, y n Þ 0 is the n Â 1 vector of an outcome variable, X is the n Â k matrix of non-stochastic exogenous variables with the matching parameter vector b, W and M are the n Â n spat... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 6 . |
 | low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 6 . |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 1 . |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 2 . |
@@ -907,8 +1196,21 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | W 1 W 2 W 3 W 4 MS MA a ¼ 0.2 n ¼ 169 RMSE of a 0.034 0.046 0.063 0.082 0.034 s ¼ 0.2 RMSE of s 0.087 0.094 0.137 0.201 0.086 b 1 ¼2 RMSE of b 1 0.074 0.079 0.078 0.082 0.074 b 2 ¼1 RMSE of b 2 0.079 0.079 0.083 0.084 0.079 Loss 3.223 21.300 29.087 33.987 3... |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | W 1 W 2 W 3 W 4 MS MA a ¼ 0.2 n ¼ 169 RMSE of a 0.173 0.145 0.097 0.081 0.088 s ¼ 0.2 RMSE of s 0.177 0.208 0.161 0.182 0.193 b 1 ¼2 RMSE of b 1 0.081 0.080 0.079 0.079 0.080 b 2 ¼1 RMSE of b 2 0.080 0.080 0.080 0.078 0.079 Loss 7.307 6.461 5.376 2.838 4.09... |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | W 1 W 2 W 3 W 4 MS MA a ¼ 0.2 n ¼ 169 RMSE of a 0.032 0.047 0.061 0.084 0.034 s ¼ 0.2 RMSE of s 0.087 0.095 0.132 0.187 0.087 b 1 ¼2 RMSE of b 1 0.076 0.080 0.079 0.084 0.075 b 2 ¼1 RMSE of b 2 0.080 0.080 0.084 0.087 0.080 Loss 3.221 21.377 29.073 34.087 3... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | W 1 W 2 W 3 W 4 MS MA a ¼ 0.2 n ¼ 169 RMSE of a 0.035 0.051 0.069 0.093 0.036 s ¼ 0.2 RMSE of s 0.086 0.096 0.138 0.207 0.086 b 1 ¼2 RMSE of b 1 0.099 0.102 0.102 0.107 0.099 b 2 ¼1 RMSE of b 2 0.085 0.088 0.093 0.097 0.085 Loss 4.322 22.655 30.453 35.390 4... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | W 1 W 2 W 3 W 4 MS MA a ¼ 0.2 n ¼ 169 RMSE of a 0.087 0.079 0.151 0.239 0.130 s ¼ 0.2 RMSE of s 0.173 0.089 0.138 0.359 0.148 b 1 ¼2 RMSE of b 1 0.126 0.077 0.078 0.090 0.077 b 2 ¼1 RMSE of b 2 0.094 0.081 0.084 0.084 0.081 Loss 25.059 6.213 15.484 16.662 8... |
+| low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
+
+### Modeling of spatial pattern and influencing factors of cultivated land quality in Henan Province based on spatial big data
+
+- DOI : `10.1371/journal.pone.0265613`
+- TEI : `corpus\papers\tei\Modeling of spatial pattern and influencing factors of cultivated land quality in Henan Province based on spatial big data.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `DataSourceCandidate` | 53 | Conclusions | Starting from the perspective of spatial pattern, this paper adopts the analysis method of spatial autocorrelation while coupling the normalized results of cultivated land area to study the spatial aggregation characteristics and differences of cultivated l... |
+| low_priority_review | `DataSourceCandidate` | 46 | Data preprocessing. | This paper takes the quality of cultivated land in 159 urban areas of Henan Province in 2018 as the research object, details of the sources of the underlying data are shown in Table 1 . Based on the standard of "Cultivated Land Quality Grade", the quality o... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Spatial autocorrelation analysis. | The first law of geography proposed by Tobler(1970) has been the theoretical basis for spatial autocorrelation analysis, and cultivated land as continuous space also satisfies this law [21] that there is spatial correlation or similarity. Detecting the pres... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 59 | Research methodology | Area weighting method and data normalization. Determination of spatial weights is the basis for spatial correlation analysis, through the spatial statistical analysis of the adjacency of cultivated land patches in the study area. This paper selects the Quee... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Influence factor analysis | This study selected five influencing factors with strong spatial correlation with the quality of cultivated land, namely IGR, slope, urbanization rate, pesticide use and TAMP, as independent variables and CLQGCA as dependent variables, and constructed a spa... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | Data and research methodology |  |
 
 ### Multiplicative Interaction in Generalized Linear Models
 
@@ -1001,12 +1303,15 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Niche conservatism limits the distribution of Medicago in the tropics
 
 - DOI : `10.1111/ecog.06085`
-- TEI : `corpus\papers\tei\Yang2022Niche.tei.xml`
+- TEI : `corpus\papers\tei\Niche conservatism limits the distribution of Medicago in the tropics.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `DataSourceCandidate` | 50 | Medicago distribution data | The global distribution data of Medicago were compiled from published floras, checklists, online databases, field investigations and herbarium specimens (see Supporting information for the list of all sources). The compiled data mainly included administrati... |
+| review_for_dataset_use | `DataSourceCandidate` | 50 | Medicago distribution data | The global distribution data of Medicago were compiled from published floras, checklists, online databases, field investigations and herbarium specimens (see Supporting information for the list of all sources). The compiled data mainly included administrati... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Geographical variation in energy-richness relationship | Interestingly, energy was positively correlated with species richness in temperate Asia, Europe and North America (Fig. 3 , Supporting information) and temperate biomes (tundra, boreal forest, temperate seasonal forest, temperate grassland/desert and woodla... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Geographical variation in energy-richness relationship | Interestingly, energy was positively correlated with species richness in temperate Asia, Europe and North America (Fig. 3 , Supporting information) and temperate biomes (tundra, boreal forest, temperate seasonal forest, temperate grassland/desert and woodla... |
+| low_priority_review | `ModelEvidenceCandidate` | 46 | Richness-energy relationship across continents, biomes and latitudes | We find that the energy variables are significantly correlated to Medicago species richness and they explain between 23 and 66% of the total variance, only next to Quaternary climate change variables (Supporting information). Interestingly, the effect of en... |
 | low_priority_review | `ModelEvidenceCandidate` | 46 | Richness-energy relationship across continents, biomes and latitudes | We find that the energy variables are significantly correlated to Medicago species richness and they explain between 23 and 66% of the total variance, only next to Quaternary climate change variables (Supporting information). Interestingly, the effect of en... |
 
 ### Notes on the earth package
@@ -1030,18 +1335,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 46 | Minnesota data: summary of the analysis | It is clear that the south-eastern (bottom-right corner) part of the field has the steepest negative relationship between yield and elevation, which means that yield increases at a higher rate when one moves from a high to a lower elevation. The other drast... |
+| low_priority_review | `DataSourceCandidate` | 46 | Minnesota data: summary of the analysis | It is clear that the south-eastern (bottom-right corner) part of the field has the steepest negative relationship between yield and elevation, which means that yield increases at a higher rate when one moves from a high to a lower elevation. The other drast... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Minnesota data: inadequacy of the global model | Although spatial variation in yield across the field is evident from Fig. 1 , spatial variation in the relationship between yield and elevation is not readily apparent. Left panel of Fig. 6 shows the global linear relationship between yield and elevation, w... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Minnesota data: inadequacy of the global model | Although spatial variation in yield across the field is evident from Fig. 1 , spatial variation in the relationship between yield and elevation is not readily apparent. Left panel of Fig. 6 shows the global linear relationship between yield and elevation, w... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Bandwidth selection for modelling yield based on treatment factors | Here we develop a bandwidth selection method for the Argentinian data shown in Fig. 2 . The aim is to estimate the spatially-varying treatment effects of the six nitrogen treatments on the yield. Because treatment factors are not spatial explanatory variabl... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Bandwidth selection for modelling yield based on treatment factors | Here we develop a bandwidth selection method for the Argentinian data shown in Fig. 2 . The aim is to estimate the spatially-varying treatment effects of the six nitrogen treatments on the yield. Because treatment factors are not spatial explanatory variabl... |
+| low_priority_review | `ModelEvidenceCandidate` | 60 | Geographically weighted regression | The underlying template model for the GWR is given by where the unknown quantities β and ϵ are the model parameters and error terms, respectively. We denote = … ⊤ ϵ (ϵ , , ϵ ) n 1 and assume ∼ τ ϵ 0 I ℕ( , ) 2 , i.e., the error terms are independent and nor... |
 | low_priority_review | `ModelEvidenceCandidate` | 60 | Geographically weighted regression | The underlying template model for the GWR is given by where the unknown quantities β and ϵ are the model parameters and error terms, respectively. We denote = … ⊤ ϵ (ϵ , , ϵ ) n 1 and assume ∼ τ ϵ 0 I ℕ( , ) 2 , i.e., the error terms are independent and nor... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Graphical display of the GWR results. | Although the primary focus of a GWR analysis is to compute and plot the spatially-varying treatment effects (e.g., see Fig. 12 ), these plots may not be readily interpretable, particularly when high order terms greater than the linear term are included in a... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Graphical display of the GWR results. | Although the primary focus of a GWR analysis is to compute and plot the spatially-varying treatment effects (e.g., see Fig. 12 ), these plots may not be readily interpretable, particularly when high order terms greater than the linear term are included in a... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Bandwidth selection for modelling yield using spatial variables | Here we consider bandwidth selection for the Minnesota field experiment data shown in Fig. 1 . The aim is to model yield as a function of the spatial variable elevation. Both leave-one-out cross-validation and AIC select small bandwidths for this dataset. U... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Las Rosas data: inadequacy of the global model | Fig. 2 shows the variation in the yield (measured in quintals/ha) where the east-slope, low-east and some parts of the west-slope zone on average produced higher yield than the hilltop and remaining parts of the west-slope zone. These zonal performances can... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Minnesota data: estimation and display of the spatially-varying slope coefficients | Fig. 8 shows the varying spatial relationship between yield and elevation in the Minnesota data. The contours in the plot help to identify zones with similar coefficients, and such a display could be helpful in assisting analysts to delineate separate manag... |
-| low_priority_review | `ModelEvidenceCandidate` | 54 | Conclusions | The novelty of the presented approach can be summarized as follows: • Adapts Geographically Weighted Regression (GWR) to on-farm ex- perimentation (OFE). • Allows estimation of spatially-varying treatment effects. • Develops methods for selecting smoothing... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Results | In this section, we discuss the analyses of yield responses from two on-farm experiments, applying the above described approach, and present the results. Yield data in these experiments (see Figs. 1 and 2 ) were recorded along with geo-coordinates of the ha... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Statistical model | Let y denote the response variable and … z z , , k 1 the k explanatory variables. Suppose we have measurements on these variables at n lo- cations … s s , , n 1 , called data points, within a study region . For a query location ∈ s , let y s ( ) and z s ( )... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Cross-validation and AIC for bandwidth selection | Irrespective of which kernel function is selected, the choice of bandwidth is crucial for local estimation of the model coefficients. A large bandwidth oversmooths the local effects and produces local estimates that are close to the global estimate, while a... |
-| low_priority_review | `truncated` |  |  | 5 autres candidats non affiches dans ce rapport |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Bandwidth selection for modelling yield using spatial variables | Here we consider bandwidth selection for the Minnesota field experiment data shown in Fig. 1 . The aim is to model yield as a function of the spatial variable elevation. Both leave-one-out cross-validation and AIC select small bandwidths for this dataset. U... |
+| low_priority_review | `truncated` |  |  | 22 autres candidats non affiches dans ce rapport |
 
 ### O impacto das cooperativas na produção agropecuária brasileira: uma análise econométrica espacial The impact of cooperatives on Brazilian agricultural production: a spatial econ...
 
@@ -1051,6 +1356,8 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Efeito da associação a cooperativas | Prosseguindo com a análise proposta na estratégia empírica, o modelo foi estimado, incialmente, por MQO, com os resultados sendo reportados na Tabela 4 13 . 13 Note que, para a estimação dos modelos econométricos, a variável de interesse (associação a coope... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Efeito da associação a cooperativas | Prosseguindo com a análise proposta na estratégia empírica, o modelo foi estimado, incialmente, por MQO, com os resultados sendo reportados na Tabela 4 13 . 13 Note que, para a estimação dos modelos econométricos, a variável de interesse (associação a coope... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | 564/ 576 | tal valor indicam autocorrelação espacial positiva, bem como valores menores que o da relação sugerem autocorrelação espacial negativa. Espera-se que, com o teste de Moran, possam ser obtidos três tipos de informações. A primeira remete ao nível de signific... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | 564/ 576 | tal valor indicam autocorrelação espacial positiva, bem como valores menores que o da relação sugerem autocorrelação espacial negativa. Espera-se que, com o teste de Moran, possam ser obtidos três tipos de informações. A primeira remete ao nível de signific... |
 
 ### Oblique geographic coordinates as covariates for digital soil mapping
@@ -1110,6 +1417,25 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 5 |
 
+### Patterns of livestock activity on heterogeneous subalpine pastures reveal distinct responses to spatial autocorrelation, environment and management
+
+- DOI : `10.1186/s40462-015-0053-6`
+- TEI : `corpus\papers\tei\Patterns of livestock activity on heterogeneous subalpine pastures reveal distinct responses to spatial autocorrelation environment and management.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 48 | Differences between study areas | Apart from the general effects unifying most of the study areas, specific covariate effects were only present in particular areas (Fig. 4 ). Most remarkably, there was no effect of terrain slope on grazing and resting intensity in Stocking rate Grazing inte... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Challenges in the analysis of livestock activity patterns | Quantification of animal activity patterns is greatly facilitated by bio-logging systems, such as the employed GPS tracking. This yielded fairly accurate (absolute accuracy of around ±3 m) position records over extended periods -2 -1 0 1 2 Posterior estimat... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Correlations of covariate effects with characteristics of study areas | We tested various characteristics of the study areas for their ability to explain the rank-order of covariate effects across areas (Fig. 6 ). Only those covariates that were significant in the majority of models, namely terrain slope, stocking rate, nutrien... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Statistical analysis of activity patterns | The activity data consisted of position counts y i of grazing, resting, and walking observations in each grid cell i. Because the data was over-dispersed, i.e. the variance in the data exceeded the mean, we assumed it to follow a negative binomial (NB) like... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Background | A quarter of the global land surface is covered by managed grasslands and many of them are strongly influenced and structured by grazing livestock [1] . The intensity of pasture use is a primary driver of grassland ecology and related ecosystem services [2]... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Estimates of additional model parameters | Besides the fixed covariates effects, five other parameters were estimated for the regression models of each activity and study area (Table 3 ). Small values of NB parameter κ indicated over-dispersion for resting, especially in areas D-F, where patterns we... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Calculation of environmental and management covariates | The effects of seven possible covariates influencing grazing, resting, and walking intensity were evaluated: elevation, terrain slope, insolation, forage quality, distance to the shed, distance to nearest water source, and stocking rate. The seven covariate... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Common drivers of grazing, resting, and walking intensity | The estimated effects of environmental and management covariates on the intensity of grazing, resting, and walking agreed reasonably well across all six study areas (Fig. 4 ). The main determinants of grazing intensity were terrain slope, forage quality, an... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Common influences of the environment on livestock activity patterns | Understanding and controlling livestock distribution is of major importance in heterogeneous and rugged landscapes. Because natural patterns of increased resource availability are likely to be reinforced by the animals' utilization patterns [10, 42] , inapp... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Covariate effects estimated for individual animals, daytime and season | Covariate effects estimated for subsets of the data generally agreed with the results obtained for the aggregated data per area (Fig. 5 and Additional file 4 with effects of all covariates and activities). Individual variation in the response of grazing int... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Sensitivity of model results to spatial autocorrelation and prior choice | Estimates of fixed covariate effects may depend on the specification of the random error terms and, if fitted in a Bayesian context as done here using INLA, their associated prior distributions [26, 27, 37] . Specifying error terms to account for spatial au... |
+
 ### Precision Agriculture: Economics of Nitrogen Management in Corn Using Sitespecific Crop Response Estimates from a Spatial Regression Model
 
 - TEI : `corpus\papers\tei\Economics of Nitrogen Management in Corn Using Sitespecific cross response.tei.xml`
@@ -1131,7 +1457,10 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 45 | / Environmental variables | We acquired spatially gridded environmental datasets to inform tests of the heat conservation and dissipation, seasonality and were generated using data from weather station monthly averages between the years 1960-1990 (Hijmans et al., 2005) . To test the s... |
+| low_priority_review | `DataSourceCandidate` | 45 | / Environmental variables | We acquired spatially gridded environmental datasets to inform tests of the heat conservation and dissipation, seasonality and were generated using data from weather station monthly averages between the years 1960-1990 (Hijmans et al., 2005) . To test the s... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / Data analyses | Prior to investigating geographic size variability, we tested for any evidence of sexual size dimorphism using Welch's two sample t test. Male and female Pallid bats did not differ in size (see Section 3), and therefore, we pooled males and females for subs... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | / Data analyses | Prior to investigating geographic size variability, we tested for any evidence of sexual size dimorphism using Welch's two sample t test. Male and female Pallid bats did not differ in size (see Section 3), and therefore, we pooled males and females for subs... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / RE SULTS | We found no evidence of sexual size dimorphism when we used centroid size of the lateral or ventral views of cranium as proxies for A. pallidus body size, (lateral cranium: t = -0.57, df = 173, p = .57, ventral cranium: t = -0.27, df = 173, p = .78). Our an... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | / RE SULTS | We found no evidence of sexual size dimorphism when we used centroid size of the lateral or ventral views of cranium as proxies for A. pallidus body size, (lateral cranium: t = -0.57, df = 173, p = .57, ventral cranium: t = -0.27, df = 173, p = .78). Our an... |
 
 ### Quantification of Neighborhood-Level Social Determinants of Health in the Continental United States
@@ -1172,6 +1501,26 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Spatial explanatory variables. | Principal component analysis with respect to the instrumental variables [PCAIV, Rao (1964) ], also known as redundancy analysis [van den Wollenberg (1977) ], is a direct extension of PCA and multiple regression adapted to the case of multivariate response d... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Moran scatterplot. | If the spatial weighting matrix is row-standardized, we can define the lag vector z = Wz (i.e., zi = n j=1 w ij x j ) composed of the weighted (by the spatial weighting matrix) averages of the neighboring values. Equation (4) can then be rewritten as since... |
 
+### Random forest as a generic framework for predictive modeling of spatial and spatio-temporal variables
+
+- DOI : `10.7717/peerj.5518`
+- TEI : `corpus\papers\tei\hengl2018_Random forest as a generic framework.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 48 | Meuse data set (regression, 2D, no covariates) | In the first example, we compare the performance of a state-of-the-art model-based geostatistical model, based on the implementation in the geoR package (Diggle & Ribeiro Jr, 2007) , with the RFsp model as implemented in the ranger package (Wright & Ziegler... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 68 | likfit: WARNING: This step can be time demanding! --------------------------------------------------------------likfi... | where lambda=0 indicates transformation by natural logarithm (positively skewed response). Once we have estimated the variogram model, we can generate predictions, i.e., the prediction map using Eq. ( 12 ): > locs <-meuse.grid@coords > zinc.ok <-krige.conv(... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Ebergötzen data set (binomial and multinomial variables, 2D, with covariates) | As Random Forest is a generic algorithm, it can also be used to map binomial (occurrencetype) and multinomial (factor-type) responses. These are considered to be ''classificationtype'' problems in Machine Learning. Mostly the same algorithms can be applied... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Summary results | We have defined a RFsp framework for spatial and spatiotemporal prediction of sampled variables as a data-driven modeling approach that uses three groups of covariates inside a single method: 1. geographical proximity to and composition of the sampling loca... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | The National Geochemical Survey data set, multivariate case (regression, 2D) | Because RF is a decision tree-based method, this opens a possibility to model multiple variables within a single model, i.e., by using type of variable as a covariate. This means that prediction values will show discrete jumps, depending on which variable t... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | CONCLUSIONS | We have shown that random forest can be used to generate unbiased spatial predictions and model and map uncertainty. Through several standard textbook datasets, we have shown that the predictions produced using RFsp are often equally accurate (based on repe... |
+| low_priority_review | `ModelEvidenceCandidate` | 62 | Spatial prediction | Spatial prediction is concerned with the prediction of the occurence, quantity and/or state of geographical phenomena, usually based on training data, e.g., ground measurements or samples y(s i ),i = 1...n, where s i ∈ D is a spatial coordinate (e.g., easti... |
+| low_priority_review | `ModelEvidenceCandidate` | 60 | Random forest for spatial data (RFsp) | RF is in essence a non-spatial approach to spatial prediction in a sense that sampling locations and general sampling pattern are ignored during the estimation of MLA model parameters. This can potentially lead to sub-optimal predictions and possibly system... |
+| low_priority_review | `ModelEvidenceCandidate` | 58 | Random forest | Random forest (RF) (Breiman, 2001; Prasad, Iverson & Liaw, 2006; Biau & Scornet, 2016) is an extension of bagged trees. It has been primarily used for classification problems and several benchmarking studies have proven that it is one of the best machine le... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | METHODS AND MATERIALS |  |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Geographical covariates | One of the key principles of geography is that ''everything is related to everything else, but near things are more related than distant things'' (Miller, 2004) . This principle forms the basis of geostatistics, which converts this rule into a mathematical... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | NRCS data set (weighted regression, 3D) | In many cases training data sets (points) come with variable measurement errors or have been collected with a sampling bias. If information about the data quality of each individual observation is known, then it also makes sense to use this information to p... |
+
 ### Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach
 
 - DOI : `10.1016/j.eneco.2015.08.003`
@@ -1180,16 +1529,29 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 51 | GROBID table | Table 11 . Missing observations and cross-checking of data |
+| review_for_dataset_use | `VariableTableCandidate` | 51 | GROBID table | Table 11 . Missing observations and cross-checking of data |
+| review_for_dataset_use | `VariableTableCandidate` | 49 | GROBID table | Table 6 . |
 | review_for_dataset_use | `VariableTableCandidate` | 49 | GROBID table | Table 6 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Name of variable Data Availability Year Data Source 1 Scale of Data Data processing Scotland 2011 GROS NUTS3 - England and Wales 2011 ONS -Census Aggregated Age of Population LSOA to NUTS3 Number of Scotland 2011 SNS Data Zone Aggregated Households England... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Name of variable Data Availability Year Data Source 1 Scale of Data Data processing Scotland 2011 GROS NUTS3 - England and Wales 2011 ONS -Census Aggregated Age of Population LSOA to NUTS3 Number of Scotland 2011 SNS Data Zone Aggregated Households England... |
+| low_priority_review | `ModelEvidenceCandidate` | 71 | Methodology | Elhorst (2010) proposes a general-to-specific approach to arrive at the most suitable econometric model. Equation ( 1 ) offers a family of related spatial econometric models: where Y is a (N x 1) vector of observations on a dependent variable and X is an (N... |
 | low_priority_review | `ModelEvidenceCandidate` | 71 | Methodology | Elhorst (2010) proposes a general-to-specific approach to arrive at the most suitable econometric model. Equation ( 1 ) offers a family of related spatial econometric models: where Y is a (N x 1) vector of observations on a dependent variable and X is an (N... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Dependent variable: PV data | The data on PV deployment comes from the Central FIT Register, published by the Ofgem Eserve Database and includes FIT installations as of 30 June 2013. The database lists installed and declared capacities (kW) for different technology and installation type... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Dependent variable: PV data | The data on PV deployment comes from the Central FIT Register, published by the Ofgem Eserve Database and includes FIT installations as of 30 June 2013. The database lists installed and declared capacities (kW) for different technology and installation type... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 55 | Model specification | In order to investigate the drivers of PV uptake across 134 regions, following on previous studies and within constraints on the available data, the following model has been employed 12 : (4) In equation ( 4 ) i denotes regions and u is an independently and... |
-| low_priority_review | `ModelEvidenceCandidate` | 54 | Results | An OLS estimation was performed and the estimation results are reported in Table 7 where R 2 denotes the coefficient of determination and AIC is the Akaike Information Criterion. In order to check for the diagnostics of the model, Breusch-Pagan heteroscedas... |
-| low_priority_review | `ModelEvidenceCandidate` | 51 | Data and Model Specification |  |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | A C C E P T E D | M A N U S C R I P T SAR-type models. Corrado and Fingleton (2012) further argue that the coefficient estimate for the WY variable may be significant because it may be picking up the effects of omitted WX variables or nonlinearities in the WX variables if th... |
-| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 9 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 8 . |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 55 | Model specification | In order to investigate the drivers of PV uptake across 134 regions, following on previous studies and within constraints on the available data, the following model has been employed 12 : (4) In equation ( 4 ) i denotes regions and u is an independently and... |
+| low_priority_review | `truncated` |  |  | 10 autres candidats non affiches dans ce rapport |
+
+### Regression models for prediction of corn yield in the state of Paraná (Brazil) from 2012 to 2014
+
+- DOI : `10.4025/actasciagron.v40i1.36494`
+- TEI : `corpus\papers\tei\Regression models for prediction of corn yield in the state of Parana Brazil from 2012 to 2014.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 63 | Material and methods | The area of study comprises the state of Paraná, and this study uses data related to the average corn yield of the main harvest (summer harvest) in the state municipalities, considering variables related to the altitude (m), soil agricultural potential, pre... |
 
 ### Regulatory Convergence in the Financial Periphery: How Interdependence Shapes Regulators' Decisions
 
@@ -1199,11 +1561,27 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Entire dataset 2005-2013 2008 cross-section 2013 cross-section Variables Mean Std. dev. N Mean Std. dev. Min. Max. N Mean Std. dev. Min. Max. N Dependent variable Basel II adoption 2.318 3.127 783 3.500 4.109 0 10 96 3.108 3.118 0 10 65 Spatial lags Spatial... |
 | review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Entire dataset 2005-2013 2008 cross-section 2013 cross-section Variables Mean Std. dev. N Mean Std. dev. Min. Max. N Mean Std. dev. Min. Max. N Dependent variable Basel II adoption 2.318 3.127 783 3.500 4.109 0 10 96 3.108 3.118 0 10 65 Spatial lags Spatial... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 63 | Data and Methodology | To test our argument about the impact of interdependence and cross-border interactions on regulators' responses to Basel II, we estimate a series of spatial lag and spatial autoregressive models of Basel II adoption among countries outside the Basel Committ... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 63 | Data and Methodology | To test our argument about the impact of interdependence and cross-border interactions on regulators' responses to Basel II, we estimate a series of spatial lag and spatial autoregressive models of Basel II adoption among countries outside the Basel Committ... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Spatial Lag Variables | To analyze the effect of interdependence in the spread of Basel II to the financial periphery, we use a spatial lag model, in which the key explanatory variables are weighted observations of the dependent variable in other units. Spatial lags are calculated... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Spatial Lag Variables | To analyze the effect of interdependence in the spread of Basel II to the financial periphery, we use a spatial lag model, in which the key explanatory variables are weighted observations of the dependent variable in other units. Spatial lags are calculated... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Robustness: Spatial Autoregressive Models | To test the robustness of our results, we estimate a series of spatial autoregressive models. While autoregressive models are often preferred to spatial-OLS models to avoid simultaneity bias, they require the sample of countries included in the connectivity... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Robustness: Spatial Autoregressive Models | To test the robustness of our results, we estimate a series of spatial autoregressive models. While autoregressive models are often preferred to spatial-OLS models to avoid simultaneity bias, they require the sample of countries included in the connectivity... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Robustness: Alternate Measure of the Dependent Variable | In the main models reported in Tables 2 and 3 above, the dependent variable of the extent of Basel II adoption is measured using the sum of Basel II components adopted. While this is a straightforward measure, there might be a concern that the index is not... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Robustness: Alternate Measure of the Dependent Variable | In the main models reported in Tables 2 and 3 above, the dependent variable of the extent of Basel II adoption is measured using the sum of Basel II components adopted. While this is a straightforward measure, there might be a concern that the index is not... |
+
+### Relationships between the distribution of wildlife and livestock diversity
+
+- DOI : `10.1111/ddi.13133`
+- TEI : `corpus\papers\tei\Relationships between the distribution of wildlife and livestock diversity.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 48 | / Distributional and environmental data | We calculated wildlife and livestock diversity indices for each of the 10 × 10 km UTM grid cells within mainland Spain, after removing island territories to avoid insularity effects, and costal grid cells to avoid size effects. A total of 5,033 grid cells w... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | / Statistical analyses | To analyse the relationship between wild species richness and livestock breed richness and environmental variables while accounting for the spatial non-stationarity of these relationships, we performed geographically weighted regression models (GWR) (Fother... |
 
 ### Remote sensing-based measurement of Living Environment Deprivation: Improving classical approaches with machine learning
 
@@ -1224,23 +1602,23 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### SGWR: similarity and geographically weighted regression
 
 - DOI : `10.1080/13658816.2024.2342319`
-- TEI : `corpus\papers\tei\SGWR similarity and geographically weighted regression.tei.xml`
+- TEI : `corpus\papers\tei\Lessani_Li_2024_SGWR.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 12 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Data Observations Predictors Dependent Variable Geographical Unit Housing 21,613 6 Price Neighborhood Crime 2,841 13 Crime rate County Mental health 68,356 12 Mental health prevalence Census tract (Contagious US) Depression HIV 1,072 2,526 12 7 Depression p... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 12 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Data Observations Predictors Dependent Variable Geographical Unit Housing 21,613 6 Price Neighborhood Crime 2,841 13 Crime rate County Mental health 68,356 12 Mental health prevalence Census tract (Contagious US) Depression HIV 1,072 2,526 12 7 Depression p... |
+| low_priority_review | `ModelEvidenceCandidate` | 64 | Beyond geographical distance | Waldo Tobler's First Law of Geography underscores the significance of spatial proximity in shaping relationships and interactions, thereby serving as a cornerstone in spatial analysis and geographical studies. Consequently, prior research primarily employed... |
 | low_priority_review | `ModelEvidenceCandidate` | 64 | Beyond geographical distance | Waldo Tobler's First Law of Geography underscores the significance of spatial proximity in shaping relationships and interactions, thereby serving as a cornerstone in spatial analysis and geographical studies. Consequently, prior research primarily employed... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Experimental datasets | Five distinct datasets are used to evaluate the proposed model: housing prices, crime rates, and three health outcomes -focusing on mental health, depression prevalence, and HIV. The housing dataset pertains to King County, Washington, US, and it consists o... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Experimental datasets | Five distinct datasets are used to evaluate the proposed model: housing prices, crime rates, and three health outcomes -focusing on mental health, depression prevalence, and HIV. The housing dataset pertains to King County, Washington, US, and it consists o... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Performance of the models | The performance of the three models, namely GWR, ordinary least squares (OLS), and SGWR, were evaluated based on several statistical measures. Additionally, we briefly discussed the results of SGWR with MGWR model. The OLS model, serving as our baseline mod... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | The role of similarity weight matrix | Tables 2-6 delineate the impact of varying a values on the performance of the model across five different datasets -housing, crime, mental health, depression, and HIV dataset, respectively. An a value lower than 1 signifies an improvement, indicating the pr... |
-| low_priority_review | `ModelEvidenceCandidate` | 60 | Evaluation metrics | The effectiveness of SGWR is assessed using key evaluation metrics including the adjusted coefficient of determination (R 2 ), Mean Absolute Percentage Error (MAPE), Root Mean Square Error (RMSE), Mean Absolute Error (MAE), Akaike Information Criterion Corr... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Evaluating SGWR model against the enhanced GWR models | Our analysis reveals that while there are several extensions to the GWR model, such as incorporating non-Euclidean distances (Lu et al. 2014) and using geographically neural network weighted regression (Du et al. 2020) , these are often tailored to specific... |
-| low_priority_review | `ModelEvidenceCandidate` | 56 | Similarity weight matrix | The principle underlying the similarity matrix is the notion that regions sharing similar attributes tend to exhibit similar trends or patterns, suggesting a stronger interaction. Several well-established methods exist for conducting similarity analyses acr... |
-| low_priority_review | `ModelEvidenceCandidate` | 54 | Computational time | Computational time is a critical metric when evaluating the efficiency of regression models, particularly in cases involving large datasets or complex calculations. Efficient models that provide accurate results in less time are highly valuable in the data... |
-| low_priority_review | `ModelEvidenceCandidate` | 54 | Geographically weighted regression | Global regression models operate on the assumption that the relationships being analyzed through the parameters of the model are spatially invariant. GWR, however, provides a more elaborated approach by relaxing the spatial constancy assumption inherent in... |
-| low_priority_review | `truncated` |  |  | 14 autres candidats non affiches dans ce rapport |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Performance of the models | The performance of the three models, namely GWR, ordinary least squares (OLS), and SGWR, were evaluated based on several statistical measures. Additionally, we briefly discussed the results of SGWR with MGWR model. The OLS model, serving as our baseline mod... |
+| low_priority_review | `truncated` |  |  | 40 autres candidats non affiches dans ce rapport |
 
 ### SPATIAL MACHINE-LEARNING MODEL DIAGNOSTICS: A MODEL-AGNOSTIC DISTANCE-BASED APPROACH A PREPRINT
 
@@ -1303,17 +1681,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Table 5 . |
+| review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Table 5 . |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 2 . |
 | review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 2 . |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 68 | Statistical base-lining | In the first instance, it was necessary to ensure that the chosen parameters exhibit no strong correlation with one another. Thus, we calculate the variance inflation factor (VIF) that assesses how much variances increase if predictors are correlated. No co... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 68 | Statistical base-lining | In the first instance, it was necessary to ensure that the chosen parameters exhibit no strong correlation with one another. Thus, we calculate the variance inflation factor (VIF) that assesses how much variances increase if predictors are correlated. No co... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Model comparison and performance | Table 4 shows the comparison between the results of the implemented models, including the global model and two local models, through the models' goodness of fit. It shows that both local models have a significantly better fit than the global regression mode... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Model comparison and performance | Table 4 shows the comparison between the results of the implemented models, including the global model and two local models, through the models' goodness of fit. It shows that both local models have a significantly better fit than the global regression mode... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Traditional accommodation from the Ordnance Survey Points of Interest (POI) data 2018. | including guest houses, bed and breakfast, hostels, hotels, motels, country houses, inns, youth hostels, and other youth classifications. Fig. 2b shows the data across London. It illustrates the concentration of 1382 hotels distributed in only 644 LSOAs (13... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Traditional accommodation from the Ordnance Survey Points of Interest (POI) data 2018. | including guest houses, bed and breakfast, hostels, hotels, motels, country houses, inns, youth hostels, and other youth classifications. Fig. 2b shows the data across London. It illustrates the concentration of 1382 hotels distributed in only 644 LSOAs (13... |
 | low_priority_review | `ModelEvidenceCandidate` | 58 | The Geographically Weighted Regression and multiscale GWR (MGWR) | Simple linear regression, the most used technique in geographical analysis, assumes changes across space to be universal, which is not always the case in every spatial context. Variations across geographical space, known as spatial non-stationarity, might b... |
-| low_priority_review | `ModelEvidenceCandidate` | 48 | Methodological contribution | This article has compared two local models (GWR and MGWR) against the global OLS model, to understand the fast-changing urban phenomenon of the short-term platform. Methodologically, the value of our article lies in the model specification and results that... |
-| low_priority_review | `ModelEvidenceCandidate` | 46 | Model interpretation | We have modeled the relationship between Airbnb and other elements of urban tourism using both GWR and MGWR models. For our dependent variable, the Airbnb density is examined We analyze this relationship individually, by comparing the GWR and MGWR results a... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Residuals Min 1Q Median 3Q Max -6.4331 -0.3917 -0.1720 0.0204 19.5092 Coefficients Estimate Std. Error t value Pr(>-t-) (Intercept) -0.034223 0.024822 -1.379 0.168 Hotel density 2.776062 0.155725 17.827 <2e-16*** F&B density 0.477264 0.037052 12.881 <2e-16*... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Model Adj-R 2 RSS AICc OLS 0.400 2900.463 11260.412 GWR 0.722 1211.924 8072.117 MGWR 0.767 1124.203 7560.638 |
+| low_priority_review | `ModelEvidenceCandidate` | 58 | The Geographically Weighted Regression and multiscale GWR (MGWR) | Simple linear regression, the most used technique in geographical analysis, assumes changes across space to be universal, which is not always the case in every spatial context. Variations across geographical space, known as spatial non-stationarity, might b... |
+| low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
 
 ### Spatial Clustering Overview and Comparison: Accuracy, Sensitivity, and Computational Expense
 
@@ -1402,17 +1781,50 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 46 | Environmental data | For all plots, we extracted from GIS all environmental variables assumed to influence forest growth that were freely accessible on available maps (Table 2 ). For continuous variables, we computed the mean values over the plot area, while for categorical var... |
+| low_priority_review | `DataSourceCandidate` | 46 | Environmental data | For all plots, we extracted from GIS all environmental variables assumed to influence forest growth that were freely accessible on available maps (Table 2 ). For continuous variables, we computed the mean values over the plot area, while for categorical var... |
+| low_priority_review | `DataSourceCandidate` | 45 | Satisfactory accuracy can be achieve for REDD+ operational scales | The comparison of our test dataset and training dataset showed that forest inventories with a sampling rate of between 0.1 and 0.5% estimated biomass with an accuracy <10% for large blocks (>100 km²) and for a large majority of 10 to 50-km² sites (respectiv... |
 | low_priority_review | `DataSourceCandidate` | 45 | Satisfactory accuracy can be achieve for REDD+ operational scales | The comparison of our test dataset and training dataset showed that forest inventories with a sampling rate of between 0.1 and 0.5% estimated biomass with an accuracy <10% for large blocks (>100 km²) and for a large majority of 10 to 50-km² sites (respectiv... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Reference a Context Data used for AGB Predictive variables used for Model measurement modelling Locality Cover Main Resolution Field plot Very Remote GIS space Allometry Predicted RMSE (ha) vegetation (ha) High sensing layers range (Mg.ha -1 ) types b Remot... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Theme Description of variables for selected plots |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Statistical analyses | Statistical analyses followed three steps that are summarized in Fig 2 . In the first step we used all our data to produce variograms in order to examine the spatial structure of biomass and its consequences in terms of accuracy for interpolating from field... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | A high local variability and a weak spatial structure led to large uncertainties in local biomass estimates | Variograms applied on the mixed datasets (Fig 3 ) showed high and significant semi-variance at the beginning of the curve (i.e. nugget of about 6,000 equivalent to a difference of about 110 Mg.ha -1 between neighbouring plots, located less than 500 m apart)... |
-| low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and Methods |  |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Coarse-graining improved the accuracy of maps | The pan-tropical maps at their original resolution (i.e. 1km) were poorly correlated with the test dataset (RMSEP > 80, R² = 0.02 and slope 0.1) whereas the accuracy of our complete model (i.e. KR) was largely improved at this resolution (RMSEP = 63, R² = 0... |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 . |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Scale Estimates RMSEP a R² Slope a Small project, production units (10-50 km²) training set 26 0.67*** 0.868 GLM 40 0.32*** 0.339 KR 31 0.64*** 0.551 Baccini [15] 61 0.15* 0.155 Saatchi [16] 7 0 <0.01 ns 0.079 Large project, concessions (>100 km²) training... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Reference a Context Data used for AGB Predictive variables used for Model measurement modelling Locality Cover Main Resolution Field plot Very Remote GIS space Allometry Predicted RMSE (ha) vegetation (ha) High sensing layers range (Mg.ha -1 ) types b Remot... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Theme Description of variables for selected plots |
+| low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
+
+### Spatial analysis and factors associated with leptospirosis in Santa Catarina, Brazil, 2001-2015
+
+- DOI : `10.1590/0037-8682-0466-2020`
+- TEI : `corpus\papers\tei\Spatial analysis and factors associated with leptospirosis in Santa Catarina Brazil 2001-2015.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | TABLE 1 : |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables description Beta coefficient Standard error p-value R² Minimum temperature (°C) 0.25 0.03 <0.001 0.16 Mean temperature (°C) 0.26 0.04 <0.001 0.13 Maximum temperature (°C) 0.18 0.04 <0.001 0.07 Minimum altitude (m) -0.002 0.0002 <0.001 0.24 Mean al... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 72 | Statistical analysis | Initially, to evaluate the association between the incidence of leptospirosis in SC and climatic, environmental, and demographic factors, a multiple linear regression model was fitted. The dependent variable was the natural logarithm of the rate of leptospi... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Figure 2 | shows a map with incidence rates of leptospirosis from 2001-2015 in all municipalities of SC. The highest incidences were found in the eastern and western portions of SC, indicating clusters of municipalities with similar incidence rates and a possible spat... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 2 : |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Linear regression model Spatial error model Coefficient p-value Coefficient p-value Intercept -0.13 0.89 1.00 0.46 Minimum altitude (m) -0.002 <0.0001 -0.002 <0.0001 Maximum temperature (°C) 0.09 0.02 0.04 0.45 Existence of risk area 0.22 0.09 0.11 0.39 R²... |
+
+### Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+
+- DOI : `10.1111/2041-210X.12448`
+- TEI : `corpus\papers\tei\Spatial autocorrelation in fitness affects the estimation of natural selection in the wild.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 . |
+| low_priority_review | `ModelEvidenceCandidate` | 64 | Principal coordinate matrices of neighbour matrices | The PCNM method is a special case of a wider family of methods that are classically called Moran's eigenvectors maps. The general principle of MEM is based on the extraction of eigenvectors from a distance (or connectivity) matrix among spatial units (Dray,... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | C O N T R O L L I N G F O R S P A T I A L A U T O C O R R E L A T I O N I N F I T N E S S | Our study showed that spatial units (i.e. nest boxes) in the study system are not independent in the context of Lande and Arnold's regression. This pseudoreplication caused a spatial autocorrelation in residuals of our selection models, which violates one o... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | E F F E C T S O F S P A T I A L A U T O C O R R E L A T I O N O N S E L E C T I O N E S T I M A T I O N | The effects of spatial autocorrelation on regression coefficients are still actively debated in the literature with some authors arguing that regression coefficients are generally not severely affected by spatial autocorrelation (Hawkins et al. 2007) , whil... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Results | Significant and positive spatial autocorrelation in fitness was found at 208 m and 416 m (Fig. 2 ) where Moran's indexes were, respectively, equal to 0Á16 (SD = 0Á025) and 0Á12 (SD = 0Á022). A significant but weaker positive spatial autocorrelation was also... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | S E L E C T I O N A N A L Y S I S A N D G E O S T A T I S T I C S I N A B L U E T I T D A T A S E T | Selection on laying date, clutch size and incubation duration were estimated from their association with the number of fledglings, considered here as a proxy for fitness. Traits were standardized by year (zero mean and unit variance within each year), and r... |
+| low_priority_review | `ModelEvidenceCandidate` | 60 | S E L E C T I O N A N A L Y S I S A N D G E O S T A T I S T I C S O N S I M U L A T E D D A T A S E T S | Finally, we ran simulations to assess the relative efficiency in controlling for spatial autocorrelation in residuals of the four geostatistical models. We used a subset of the volcano data set in R (R Core Team 2014), which consists of a 10 m by 10 m grid... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Simultaneous autoregressive models: SAR-lag and SAR-err | The simultaneous autoregressive model (SAR) is a special case of GLS model, where spatial autocorrelation is taken into account using a spatial weight matrix. The neighbourhood matrix, A, is a n*n matrix of spatial weight, which represents a measure of the... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and methods |  |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | SELECTION DIFFERENTIAL (Clutch size) Non-spatial model GLS model SAR-lag model SAR-err model PCNM model S(CS) 0Á138 AE 0Á018*** 0Á131 AE 0Á017*** 0Á125 AE 0Á017*** 0Á120 AE 0Á018*** 0Á109 AE 0Á017*** logLik À29 À34 À24 À26 À11 A I C 6 5 7 5 5 6 6 1 4 4 Mora... |
 
 ### Spatial distribution of wood volume in Brazilian savannas
 
@@ -1422,9 +1834,14 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 45 | eXPLOrATOrY ANALYSIS | The statistics of the wood volume (m 3 ha -1 ) obtained from field-based forest inventory indicate that average (48.5 m 3 ha -1 ) and median (44.7 m 3 ha -1 ) values are close to one another, indicating a symmetry in the distribution of the wood volume data... |
+| low_priority_review | `DataSourceCandidate` | 45 | eXPLOrATOrY ANALYSIS | The statistics of the wood volume (m 3 ha -1 ) obtained from field-based forest inventory indicate that average (48.5 m 3 ha -1 ) and median (44.7 m 3 ha -1 ) values are close to one another, indicating a symmetry in the distribution of the wood volume data... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | WOOD VOLUMe MODeLLINg | All parameters used in our multivariate regression model had significant coefficients (Table II ) and the residuals were normally distributed (Shapiro-Wilk, p = 0.98), with a coefficient of determination (R²) of 0.55 and a mean absolute error (MAe) of 34.5%... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | WOOD VOLUMe MODeLLINg | All parameters used in our multivariate regression model had significant coefficients (Table II ) and the residuals were normally distributed (Shapiro-Wilk, p = 0.98), with a coefficient of determination (R²) of 0.55 and a mean absolute error (MAe) of 34.5%... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | WOOD VOLUMe MODeLLINg AND regreSSION KrIgINg | We used a stepwise regression technique based on the Akaike information criterion (AIC) to select the most significant independent variables to build the wood volume model. The total database was randomly divided into a fitting set (70% of the database) and... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | WOOD VOLUMe MODeLLINg AND regreSSION KrIgINg | We used a stepwise regression technique based on the Akaike information criterion (AIC) to select the most significant independent variables to build the wood volume model. The total database was randomly divided into a fitting set (70% of the database) and... |
 | low_priority_review | `ModelEvidenceCandidate` | 51 | MATERIALS AND METHODS |  |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | MATERIALS AND METHODS |  |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | SPATIAL DISTrIBUTION OF WOOD VOLUMe | Both the global map generated by the regression model (rMSe = 11.6 %) (Figure 6 ) and the map corrected by the regression kriging technique (Figure 7 ) revealed a decrease in the wood volume from the middle towards the northern portions of the state. This i... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | SPATIAL DISTrIBUTION OF WOOD VOLUMe | Both the global map generated by the regression model (rMSe = 11.6 %) (Figure 6 ) and the map corrected by the regression kriging technique (Figure 7 ) revealed a decrease in the wood volume from the middle towards the northern portions of the state. This i... |
 
 ### Spatial prediction of soil properties using EBLUP with the Matérn covariance function
@@ -1460,6 +1877,21 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 7 |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 |
 | low_priority_review | `truncated` |  |  | 2 autres candidats non affiches dans ce rapport |
+
+### Spatially Varying Coefficient Model for Neuroimaging Data with Jump Discontinuities
+
+- TEI : `corpus\papers\tei\Spatially Varying Coefficient Model for Neuroimaging Data With Jump Discontinuities.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `ModelEvidenceCandidate` | 60 | Model Setup | We consider imaging measurements in a template and clinical variables (e.g., age, gender, and height) from n subjects. Let D represent a 3D volume and d and d 0 , respectively, denote a point and the center of a voxel in D. Let D 0 be the union of all cente... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Step (I. | 2) is to estimate η i (d) for all d ∈ D. We employ the local linear regression technique to estimate all individual functions η i (d). Let We develop an algorithm to estimate C i (d) as follows. Let K loc (•) be a univariate kernel function and ) be the res... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 2 : |
+| reject_generic | `GenericEstimatorFormulaCandidate` | 0 | GROBID raw formula | β * (d 0 ) = (β 1 * (d 0 ), . . . , β p * (d 0 )) T be the true value of β(d 0 ) at voxel d 0 . We first establish the uniform convergence rate of { β(d 0 ) : d 0 ∈ D 0 }. Theorem 1. Under assumptions (C1)-(C4) |
+| reject_generic | `GenericEstimatorFormulaCandidate` | 0 | GROBID raw formula | • (i) √ n[ β(d 0 ) -β * (d 0 )] → L N (0, Ω -1 X Σ y (d 0 , d 0 )) for any d 0 ∈ D 0 , where → L denotes convergence in distribution; • (ii) sup d 0 ∈D 0 // β(d 0 ) -β * (d 0 )// 2 = O p ( n -1 log(1 + N D )) Remark 1. Theorem 1 (i) just restates a standard... |
+| reject_generic | `GenericEstimatorFormulaCandidate` | 0 | GROBID raw formula | d 0 ; h s ) -βj * (d 0 ; h s ) and dm∈B(d 0 ,hs)∩D 0 ω(1) j (d, d m ; h s ) ∆j (d m ). Theo- rem 4 (iii) ensures that Σ( √ n βj * (d 0 ; h s )) is a uniform consistent estimator of Σ (1) j (d 0 ; h s ) across d 0 ∈ D 0 . Theorem 4 (iv) ensures that √ n{ βj... |
+| reject_generic | `GenericEstimatorFormulaCandidate` | 0 | GROBID raw formula | T 1 (h s ) = sup d 0 ∈D 0 dm,d m ∈B(d 0 ,hs)∩D 0 ωj (d 0 , d m ; h s )ω j (d 0 , d m ; h s ){ Σy (d m , d m ) -Σ y (d m , d m )} , T 2 (h s ) = sup d 0 ∈D 0 dm,d m ∈B(d 0 ,hs)∩D 0 {ω j (d 0 , d m ; h s ) - ω(0) j (d 0 , d m ; h s )}ω j (d 0 , d m ; h s )Σ y... |
+| reject_generic | `GenericEstimatorFormulaCandidate` | 0 | GROBID raw formula | K st (D β j (d 0 , d 0 ; h s-1 )/C n ) as s = 1. Let ∆j (d 0 ) = βj (d 0 ) -β j * (d 0 ) and ∆ j * (d 0 , d 0 ) = β j * (d 0 ) -β j * (d 0 ). It follows from Theorem 1 that D β j (d 0 , d 0 ; h 0 )/C n can be written as D β j (d 0 , d 0 ; h 0 )/C n = C -1 n... |
 
 ### Spatially varying coefficient modeling for large datasets: Eliminating N from spatial regressions
 
@@ -1499,6 +1931,28 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 49 | Application and illustration | The data set used is taken from AirBase foot_1 , the air quality data base for Europe provided by the European Environmental Agency (EEA). We focus on a single air quality indicator, particulate matter with a diameter less than 10 µm, measured at rural back... |
 
+### Special Issue: Precision Agriculture TEMPORAL VARIATION AND SPATIAL DISTRIBUTION OF RELATIVE INDICES OF LEAF CHLOROPHYLL IN GRAPEVINE cv. CHARDONNAY
+
+- DOI : `10.1590/1809-4430-Eng.Agric.v39nep74-84/2019`
+- TEI : `corpus\papers\tei\TEMPORAL VARIATION AND SPATIAL DISTRIBUTION OF RELATIVE INDICES OF LEAF CHLOROPHYLL IN GRAPEVINE cv. CHARDONNAY.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | TABLE 1 . |
+| low_priority_review | `ModelEvidenceCandidate` | 53 | MATERIAL AND METHODS | The study was conducted in a commercial wine grape orchard (Vitis vinifera L.), cv. 'Chardonnay', with a total area of 1.10 ha, located in the municipality of Espírito Santo do Pinhal, state of São Paulo, Brazil (coordinates: 22º 10' 49.1" S and 46º 44' 28.... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 4 . |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | DAP Model Nugget effect Level Range (m) SDI (%) RMSE Area 1 41 Spherical 18.09 20.66 55.10 3.61 W 4.39 57 Exponential 9.71 14.89 5.20 0.80 W 3.93 64 Exponential 7.74 16.25 20.00 4.66 W 3.77 78 Exponential 4.57 9.36 45.78 10.42 M 2.64 85 Exponential 4.32 7.6... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | TABLE 5 . |
+
+### Structure identification and variable selection in geographically weighted regression models
+
+- DOI : `10.1080/00949655.2017.1311896`
+- TEI : `corpus\papers\tei\Structure identification and variable selection in geographically weighted regression models.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Step | Remark: In general, the GWGlasso method leads to a mixed GWR model when the irrelevant explanatory variables (if any) are removed. With the above notations, the mixed GWR model is of the form The GWGlasso method can also yield the shrunk estimates of the sp... |
+
 ### Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
 
 - DOI : `10.1007/s10640-021-00536-2`
@@ -1507,17 +1961,39 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `DataSourceCandidate` | 53 | Choice of the Meta-Analytic Model | Multivariate meta-analytic models including moderating variables have become a standard framework to help explain the very likely presence of heterogeneity in effect sizes in applied economic research (Stanley and Doucouliagos 2012; Ringquist 2013 ). 13 Acc... |
+| low_priority_review | `DataSourceCandidate` | 53 | Choice of the Meta-Analytic Model | Multivariate meta-analytic models including moderating variables have become a standard framework to help explain the very likely presence of heterogeneity in effect sizes in applied economic research (Stanley and Doucouliagos 2012; Ringquist 2013 ). 13 Acc... |
+| low_priority_review | `DataSourceCandidate` | 46 | Data Characteristics | The data characteristics reveal that on average studies working with larger samples tend to report smaller estimates. By contrast, studies based on sales data collected at individual house level do not differ significantly from studies using assessed values... |
 | low_priority_review | `DataSourceCandidate` | 46 | Data Characteristics | The data characteristics reveal that on average studies working with larger samples tend to report smaller estimates. By contrast, studies based on sales data collected at individual house level do not differ significantly from studies using assessed values... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
 | low_priority_review | `VariableTableCandidate` | 46 | GROBID table | Table 4 ( |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | (7) On NPL -0.026 (0.090) 0.029 (0.065) -0.046 (0.045) 0.086 (0.086) -0.017 (0.018) 0.007 (0.049) 0.026 (0.023) -0.016 (0.015) 0.039 (0.027) -0.084 (0.089) 184 0.613 (6) Non-hazardous site -0.108*** (0.033) 0.021 (0.047) 0.064* (0.035) 0.074 (0.063) -0.022... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
+| low_priority_review | `VariableTableCandidate` | 46 | GROBID table | Table 4 ( |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | (7) On NPL -0.026 (0.090) 0.029 (0.065) -0.046 (0.045) 0.086 (0.086) -0.017 (0.018) 0.007 (0.049) 0.026 (0.023) -0.016 (0.015) 0.039 (0.027) -0.084 (0.089) 184 0.613 (6) Non-hazardous site -0.108*** (0.033) 0.021 (0.047) 0.064* (0.035) 0.074 (0.063) -0.022... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Subsample Analysis | Several moderators are not included in the baseline regression shown in column (1) due to missing observations or because these moderators only serve as replacements for explanatory variables already included. In a first step, I add these moderators to the... |
-| low_priority_review | `ModelEvidenceCandidate` | 58 | Publication Bias | A visual method commonly used to detect publication bias is the examination of a funnel plot. In a funnel plot, the effect sizes are plotted against their respective standard error. In an ideal setting without publication bias, the distribution of effect si... |
-| low_priority_review | `ModelEvidenceCandidate` | 52 | Selection of Moderators | The moderators, their respective definitions and descriptive statistics are summarised in Table 1 . The selection of moderators is undertaken on the basis of previous findings as discussed in the literature review. 11 The asterisks (*) indicate previously u... |
-| low_priority_review | `ModelEvidenceCandidate` | 51 | Methodology | The choice of the appropriate meta-analytic model is a point of ongoing discussion in the literature (Nelson and Kennedy 2009; Stanley and Doucouliagos 2012; Ringquist 2013) . The core of the debate revolves around the best identification of, and correction... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Previous Reviews and Meta-Analyses | The first reviews in this area (Farber 1998; Zeiss 1998; Boyle and Kiel 2001; Jackson 2001 ; also Brinkley and Leach 2019) were qualitative and aimed to identify moderators explaining the apparent heterogeneity of waste site-related property-price effects (... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Publication Bias and Corrected Mean Effect Size | The results of the tests for publication bias are summarised in Table 3 . In all cases, the weighted mean effect size is reported along with the respective coefficient controlling for publication bias, where applicable. Regardless of the chosen method, the... |
-| low_priority_review | `ModelEvidenceCandidate` | 50 | Site Characteristics | As expected, studies with multiple sites in the proximity of residential properties report higher effect sizes on average. In other words, multiple waste sites affect residential property values more adversely than single sites. By contrast, there seem to b... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Subsample Analysis | Several moderators are not included in the baseline regression shown in column (1) due to missing observations or because these moderators only serve as replacements for explanatory variables already included. In a first step, I add these moderators to the... |
+| low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
+
+### THE ROLE OF NONFARM INFLUENCES IN RICARDIAN ESTIMATES OF CLIMATE CHANGE IMPACTS ON US AGRICULTURE
+
+- DOI : `10.1093/ajae/aaz047`
+- TEI : `corpus\papers\tei\The Role of Nonfarm Influences in Ricardian Estimates of Climate Change Impacts on US Agriculture.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `DataSourceCandidate` | 50 | Climate Data | Climate data are obtained from two sources. The primary source is Schlenker and Roberts (2009) , which provides a detailed daily gridded data set for 1950-2005 based on the interpolation of daily weather station data and monthly gridded data from the PRISM... |
+| low_priority_review | `DataSourceCandidate` | 48 | Socioeconomic Data | Following the literature, the analysis also includes control variables, namely, population density and income per capita ( online 11 The four additional CGMs are the second generation Canadian Earth System Model (CanESM2), the Community Climate System Model... |
+| review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Table 6 . |
+| review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | 2012 0.028 [2.7] À0.358 [À5.61] 26.1 [6.5] 0.000792 [10.22] 0.208 [11.08] À0.000351 [À6.67] 1,790 Recent Cross-sections 2002 2007 0.00982 0.00774 [0.9] [0.89] À0.463 À0.276 [À6.77] [À5.14] 16.3 7.9 [3.73] [2.32] 0.00148 0.00098 [11.02] [11.34] 0.278 0.174 [... |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 1 . |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 3 . |
+| review_for_dataset_use | `VariableTableCandidate` | 47 | GROBID table | Table 5 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 7 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 8 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables Eastern Nonurban Counties With Complete Data (n ¼ 1,790) With Incomplete Data (n ¼ 2,236) M Min Mmax r l min max r Soil quality controls: Average water capacity 0.150 0.070 0.225 0.026 0.147 0.070 0.225 0.027 (fraction) Clay content (%) 28.2 4.2 5... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Independent 2009 2010 2011 2012 2013 2014 2016 variables A. Nonirrigated Cropland Cash Rent Degree-days 0.0878 0.115 0.101 0.103 0.0833 0.101 0.123 (10-30 C) [5.84] [7.89] [7.01] [6.45] [4.94] [6.03] [7.27] Degree-days (>30 C) |
+| low_priority_review | `truncated` |  |  | 3 autres candidats non affiches dans ce rapport |
 
 ### The Effect of Weather Conditions on Fertilizer Applications: A Spatial Dynamic Panel Data Analysis
 
@@ -1559,6 +2035,38 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Concluding remarks | This study, together with its companion study (23) , demonstrates the application of a wide range of techniques for investigating spatial heterogeneity, using functions provided by the GWmodel R package. Topics include that of (i) GW summary statistics, (ii... |
 | low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Variable Intercept DiffAdd LARent SC1 Unempl p-value 0.35 0.17 0.28 0.02 0.00 Variable LowEduc Age18_24 Age25_44 Age45_64 p-value 0.19 0.04 0.29 0.19 The optimal bandwidth for the basic GW regression is found at N = 109 in accordance to an automatic AICc ap... |
 
+### The Impact of Energy Price on CO2 Emissions in China: A Spatial Econometric Analysis
+
+- DOI : `10.1016/j.scitotenv.2019.135942`
+- TEI : `corpus\papers\tei\The impact of energy price on CO2 emissions in China - A spatial econometric analysis.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 4 . Main Results from Spatial Panel Data Models |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 . Decomposition of Marginal Impact |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 6 . Sensitivity and Robust Analyses |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables (1) SLR (2) SEM (3) SAC lnEP -0.165*** -0.161** -0.161*** (0.056) (0.066) (0.061) lnPOP 0.508*** 0.650*** 0.556*** (0.152) (0.143) (0.157) lnURB 0.402*** 0.352*** 0.356*** (0.131) (0.121) (0.124) lnPGDP 0.657*** 0.837*** 0.772*** (0.058) (0.049) (... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Journal Pre-proof Variables Direct effect Indirect effect Total effect lnEP -0.169*** -0.070** -0.239*** (0.053) (0.035) (0.084) lnPOP 0.522*** 0.206*** 0.727*** (0.156) (0.071) (0.211) lnURB 0.426*** 0.172** 0.598*** (0.137) (0.069) (0.195) lnPGDP 0.667***... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Journal Pre-proof Variables (1) DSAR (2) LSLR (3) LSEM (4) LSAC Lag.lnCO2 1.295*** -- -- -- (0.117) -- -- -- lnEP -0.186*** -- -- -- 0.058 -- -- -- Lag. lnEP -- -0.180*** -0.143** -0.161*** -- (0.056) (0.060) (0.060) lnPOP 0.738*** 0.618*** 0.678*** 0.623**... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | J o u r n a l P r e -p r o o f | We investigate this research question by applying a longitudinal data at the Chinese provincial level. The focus on regions is warranted because regional carbon emissions are closely linked to key structural factors such as local economic development level,... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | J o u r n a l P r e -p r o o f | China's current energy markets, where each Chinese region sets its own energy market trading rules relatively independent from others, and energy trading is generally carried out within the region but less frequently across regions. To increase the role of... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Test of Spatial Effect and Model Selection | Before estimating any spatial econometric models, it is essential to test the existence of spatial effects in our sample. Following methods recommended by Elhorst (2010) , we applied three different tests to validate the existence of spatial effect, namely... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Table 2 . |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Lagrange Multiplier (LM) test to determine whether to establish a spatial lag regression model specified in Equation 5 or a spatial error model specified in Equation 6. We estimated four different non-spatial panel data models and contrast each model's esti... |
+
+### The Importance of Scale in Spatially Varying Coefficient Modeling
+
+- DOI : `10.1080/24694452.2018.1462691`
+- TEI : `corpus\papers\tei\The Importance of Scale in Spatially Varying Coefficient Modeling.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Model Parameter Notation Case GWR Bandwidth b {0.2, 0.6, 1.0, 2.0} GWRa Adaptive bandwidth b(s i ) ad {0.1, 0.3, 0.5, 1.0} ESF Ratio of predictor variables being selected q {0.2, 0.4, 0.6, 0.8} RE-ESF Scale a k {0.2, 0.6, 1.0, 2.0} Variance r k {0.1, 1.0} |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Global Estimation (ESF and RE-ESF) | This global approach estimates the SVCs by fitting spatial process models. The spatial expansion and ESFbased approaches are representative of such methods, where the former fits trend surface models, whereas the latter fits ESF models describing spatially... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Spatially Varying Coefficient Modeling | The Overarching SVC Model A linear SVC model is formulated as follows: where y i represents the response variable at the ith sample site, with i 2 f1; :::; Ng, x i,k represents the kth predictor variable, with k 2 f1; :::; Kg, e i represents the disturbance... |
+
 ### The Practical Use of Semiparametric Models in Field Trials
 
 - DOI : `10.1198/1085711031265`
@@ -1582,7 +2090,13 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 56 | . An Illustrative Example of the Different Spatial Processes | Before outlining the alternative spatial model specifications, it is useful to contrast the different spatial processes with respect to their substantive implications for empirical political science research. Spillover effects occur whenever the behavior (e... |
+| low_priority_review | `ModelEvidenceCandidate` | 56 | . An Illustrative Example of the Different Spatial Processes | Before outlining the alternative spatial model specifications, it is useful to contrast the different spatial processes with respect to their substantive implications for empirical political science research. Spillover effects occur whenever the behavior (e... |
+| low_priority_review | `ModelEvidenceCandidate` | 56 | . An Illustrative Example of the Different Spatial Processes | Before outlining the alternative spatial model specifications, it is useful to contrast the different spatial processes with respect to their substantive implications for empirical political science research. Spillover effects occur whenever the behavior (e... |
 | low_priority_review | `ModelEvidenceCandidate` | 56 | Substantive and Residual Dependence in Cross-Sectional Models | In regression analyses utilizing cross-sectional data, three different types of interaction effects can be distinguished that generate spatial autocorrelation in the dependent variable. First, endogenous interaction effects occur whenever the units' outcome... |
+| low_priority_review | `ModelEvidenceCandidate` | 56 | Substantive and Residual Dependence in Cross-Sectional Models | In regression analyses utilizing cross-sectional data, three different types of interaction effects can be distinguished that generate spatial autocorrelation in the dependent variable. First, endogenous interaction effects occur whenever the units' outcome... |
+| low_priority_review | `ModelEvidenceCandidate` | 56 | Substantive and Residual Dependence in Cross-Sectional Models | In regression analyses utilizing cross-sectional data, three different types of interaction effects can be distinguished that generate spatial autocorrelation in the dependent variable. First, endogenous interaction effects occur whenever the units' outcome... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Motivation | The correct specification of the inherently unknown spatial process generating observable patterns of interrelatedness among the units of analysis constitutes a considerable challenge in crosssectional studies. In particular, distinguishing substantively me... |
+| low_priority_review | `ModelEvidenceCandidate` | 52 | Motivation | The correct specification of the inherently unknown spatial process generating observable patterns of interrelatedness among the units of analysis constitutes a considerable challenge in crosssectional studies. In particular, distinguishing substantively me... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Motivation | The correct specification of the inherently unknown spatial process generating observable patterns of interrelatedness among the units of analysis constitutes a considerable challenge in crosssectional studies. In particular, distinguishing substantively me... |
 
 ### Top-down scale approaches for multiscale GWR with locally adaptive bandwidths
@@ -1605,6 +2119,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 52 | AICc as stopping criterion | In such a gradient boosting algorithm, we need a stopping criterion to determine the terminal bandwidth size at which the coefficient estimation no longer improves. Among the two natural candidates for GWR-like estimations that avoid overfitting by choosing... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | First stage: algorithm 2 (tds_mgwr) | The properties of the top-down scale approach, identified in the univariate case with a decreasing sequence of bandwidths, can also help reduce computation times in standard multiscale GWR. In the standard application of the backfitting algorithm proposed b... |
 | low_priority_review | `truncated` |  |  | 23 autres candidats non affiches dans ce rapport |
+
+### Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes
+
+- DOI : `10.1111/1365-2664.13699`
+- TEI : `corpus\papers\tei\Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | / Occupancy modelling | To assess the trade-off between avian biodiversity and agricultural intensity, we fitted trade-off curves between the two (Phalan et al., 2011) . As a proxy for biodiversity, we estimated the probability of occupancy per species using a Bayesian framework (... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Section 1 | tural intensity metrics (meat yield, energy yield and profit) and a range of environmental covariates in a hierarchical Bayesian occupancy framework. 3. Woodland extent in the landscape consistently determines how individual bird species, and the bird commu... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / Landscape composition and environmental conditions | We used covariates that reflected variation in landscape composition and environmental conditions within our study region. Considering the importance of habitat availability for determining species' occurrence (Fahrig, 2013) , we calculated the woodland ext... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | / RE SULTS | Bird occupancy varied strongly across the land systems explored, from natural woodlands and grasslands to subsistence ranching, silvopastoral systems and intensified agriculture (pastures and cropping). Our best fitting occupancy model contained three covar... |
 
 ### Understanding Airbnb spatial distribution in a southern European city: The case of Barcelona
 
@@ -1649,6 +2175,27 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Dataset Summary Location ERA5 ECMWF reanalysis product https://cds.climate.copernicus.eu/cdsapp#!/home (last access: 26 August 2020) CRU TS4.03 Climate Research Unit gridded station http://data.ceda.ac.uk/badc/cru/data/cru_ts/cru_ts_4.03 observations (multi... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Dataset attribute Details Horizontal coverage Global Horizontal resolution 0.5 • × 0.5 • Vertical coverage Surface Temporal coverage -1 January 1979 00:00:00 to 31 December 2018 23:00:00 for variables Wind, Tair, PSurf and Qair -1 January 1979 07:00:00 to 3... |
 
+### Women's political empowerment and welfare policy decisions: a spatial analysis of European countries
+
+- DOI : `10.1080/17421772.2021.1905173`
+- TEI : `corpus\papers\tei\Women s political empowerment and welfare policy decisions - a spatial analysis of European countries.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `VariableTableCandidate` | 49 | GROBID table | Table 2 . |
+| review_for_dataset_use | `VariableTableCandidate` | 48 | GROBID table | Variable Mean SD Minimum Maximum Dependent variables Total social expenditure 22.75469 4.51608 13.064 34.178 Health expenditure 5.62344 1.371659 2.202 8.869 Family expenditure 2.308087 0.9933268 0.297 4.454 Family allowances 0.9903482 0.5285749 0.08 2.564 P... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 4 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 6 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 7 . |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Social expenditure W GDP W REGIME W NEIGH Total 0.705*** 0.404*** -0.298*** (9.859) (4.285) (-3.203) Health 0.638*** 0.667*** -0.704*** (6.948) (6.132) (-6.122) Family 0.0537 0.615*** 0.149 (0.652) (5.774) (1.491) Housing -0.00871 0.670*** -0.539*** (-0.099... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Unemployment 0.00522 (0.966) -0.0404*** (-3.236) Yes Yes 0.00325 (0.566) -0.0525*** (-2.621) -0.0493** (-2.156) 0.300*** (4.186) 0.0907*** (14.48) 240.6545 425 Active labour market -0.00699** (-2.186) -0.00537 (-0.725) Yes Yes -0.00709** (-2.112) -0.00744 (... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Unemployment -0.000421 (-0.0540) -0.000237 (-0.0239) -1.461*** (-5.085) 0.0321 (0.442) -0.0524*** (-8.225) 0.00459*** (5.449) 0.00415*** (4.309) 0.0308*** (3.569) 0.00480*** (3.733) 0.163* (1.942) -0.00679 (-1.065) Active labour market 0.00946* (1.908) -0.0... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables Family allowances Parental leave Childcare Child benefit Women in parl -0.00580*** 0.00424*** 0.00586*** -0.000258 (-2.729) (2.908) (2.796) (-0.232) W*Women in parl -0.00655 0.0112*** 0.0109*** -0.00797*** (-1.612) (3.955) (2.630) (-3.733) Control... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Variables W GDP W REGIME W NEIGH Women in parl (spatial lag) 25.68*** 25.39*** 25.78*** (84.31) (53.57) (52.78) Women in parl (time lag) 24.07*** 24.07*** 24.07*** (40.85) (40.85) (40.85) Female labour force 43.75*** 43.75*** 43.75*** (265.2) (265.2) (265.2... |
+| low_priority_review | `truncated` |  |  | 8 autres candidats non affiches dans ce rapport |
+
 ### XGBoost: A Scalable Tree Boosting System
 
 - TEI : `corpus\papers\tei\2026-04-23_paper_xgboost_scalable_tree_boosting.tei.xml`
@@ -1670,6 +2217,20 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Multiple Regression Analysis | Yearly yield data were used to calculate multiple regression equations for each of the years 1955, 1956, and 1957 . Also, equations based on the average 3-year yields were calculated for 1955-57 with and without the N P K term included. The form of the quad... |
 | low_priority_review | `ModelEvidenceCandidate` | 50 | Response Surfaces | Yield response surfaces, prepared from the yields predicted by the 195 5-57 NPK-omitted multiple regression equation, are shown in Figures 1 , 2 , and 3. These response surfaces in Figures IA, 1B, 2A, 2B, 3A, and 3B show the effect on yield of varying 2 fer... |
+
+### elifesciences.org
+
+- DOI : `10.7554/eLife.02851`
+- TEI : `corpus\papers\tei\Global distribution maps of the leishmaniases.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 45 | Estimation of population living in areas of environmental risk | Population living in areas of risk was estimated by using a threshold probability to reclassify the probabilistic risk maps into a binary risk map, then extracting the total human population in the 'at risk' areas using a gridded data set of human populatio... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 2 . |
+| low_priority_review | `ModelEvidenceCandidate` | 53 | Materials and methods | A boosted regression tree (BRT) modelling framework was used to generate global predicted environmental risk maps for CL and VL. This framework required four key information components: (i) a map of the consensus of evidence for the global extents of the le... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Conclusions | These maps represent evidence-based estimates of the current global distribution of the leishmaniases incorporating a comprehensive occurrence database and a rigorous statistical modelling framework with associated uncertainty statistics. We estimate that 1... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Modelled distribution of the leishmaniases | Figures 1B-4B show the global predicted environmental risk maps for CL and VL. Table 2 identifies the top five predictor variables in each of the four modelled regions (since CL and VL were modelled separately in the Old World and New World) as measured by... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Summarising the BRT model | The relative importance of predictor variables was quantified for the final BRT ensemble. Relative importance is defined as the number of times a variable is selected for splitting, weighted by the squared improvement to the model as a result of each split... |
 
 ### on the interpretability of predictors in spatial data science: the information horizon
 
@@ -1704,6 +2265,30 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Optimal Bandwidth Vector | Figure 4 shows the resulting bandwidths from the calibration of a GWR model and an equivalent MGWR model on the 100 simulated data sets for Design Process 1. In Figure 4 , b Ã is the single optimal 1 , and b Ã 2 are the optimal bandwidths for each of the th... |
 | low_priority_review | `ModelEvidenceCandidate` | 52 | Optimal Bandwidth Vector | Figure 11 displays the single optimal bandwidth for GWR and the two separate optimal bandwidths generated by MGWR for each of the 100 simulated data sets produced from Simulated Design 2. In this case, because the two parameter surfaces have the same degree... |
 | low_priority_review | `truncated` |  |  | 3 autres candidats non affiches dans ce rapport |
+
+### paper:doi:10.1257/aer.102.5.1898
+
+- DOI : `10.1257/aer.102.5.1898`
+- TEI : `corpus\papers\tei\A Rational Expectations Approach to Hedonic Price Regressions with Time-Varying Unobserved Product Attributes - The Price of Pollution.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `DataSourceCandidate` | 46 | B. Air Quality Data | We measure individuals' average marginal willingness-to-pay (MWTP) to avoid three of the EPA's major criteria air pollutants (California Air Resources Board 1990 -2006) . 5 The MWTP is a key determinant of the benefits of any new air pollution regulation, s... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 60 | B. The Marginal Willingness to Pay to Avoid Air Pollution | In our application, we allow Bay Area housing prices to be determined by different hedonic price functions in each of three separate periods: (i) 1990-1994, (ii) 1995-2000, and (iii) 2001-2006. 9 These periods correspond (roughly) to periods of depreciation... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 - |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 - |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 5 - |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 7 - |
+
+### paper:doi:10.1590/01047760201521021532
+
+- DOI : `10.1590/01047760201521021532`
+- TEI : `corpus\papers\tei\ESTIMACAO DE VOLUME DE MADEIRA DE EUCALIPTO POR COKRIGAGEM KRIGAGEM E REGRESSAO.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 2 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 |
 
 ### paper:tei:2026_04_23_paper_random_forest_breiman_2001_tei
 
