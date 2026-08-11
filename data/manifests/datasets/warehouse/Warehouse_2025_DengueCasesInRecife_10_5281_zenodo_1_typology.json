@@ -1,0 +1,356 @@
+{
+  "dataset_id": "Warehouse_Warehouse_2025_DengueCasesInRecife_10_5281_zenodo_1",
+  "package": "warehouse:Warehouse_2025_DengueCasesInRecife_10_5281_zenodo_1",
+  "dataset": "Warehouse_2025_DengueCasesInRecife_10_5281_zenodo_1",
+  "source_lang": "python",
+  "conversion_method": "tabular_lonlat:dengue_recife_2015_2024_clean.csv(longitude,latitude)",
+  "rds_path": "data/final_datasets/sf/Warehouse_Warehouse_2025_DengueCasesInRecife_10_5281_zenodo_1.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "notification_type",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2, 2]",
+        "n_unique": 1,
+        "pct_na": 0.0
+      },
+      {
+        "name": "report_date",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3199,
+        "pct_na": 0.0
+      },
+      {
+        "name": "report_week",
+        "class": "int64",
+        "typology": "count",
+        "range": "[201501, 202501]",
+        "n_unique": 522,
+        "pct_na": 0.0
+      },
+      {
+        "name": "report_year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2015, 2024]",
+        "n_unique": 10,
+        "pct_na": 0.0
+      },
+      {
+        "name": "state_report",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[14.0000, 53.0000]",
+        "n_unique": 21,
+        "pct_na": 0.0
+      },
+      {
+        "name": "symptom_onset_date",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3592,
+        "pct_na": 0.0
+      },
+      {
+        "name": "symptom_onset_week",
+        "class": "int64",
+        "typology": "count",
+        "range": "[197049, 202452]",
+        "n_unique": 530,
+        "pct_na": 0.0
+      },
+      {
+        "name": "birth_date",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 14084,
+        "pct_na": 5.8
+      },
+      {
+        "name": "age_raw",
+        "class": "int64",
+        "typology": "count",
+        "range": "[0, 115]",
+        "n_unique": 105,
+        "pct_na": 0.0
+      },
+      {
+        "name": "sex",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "pregnancy_status",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 9.0000]",
+        "n_unique": 7,
+        "pct_na": 0.0
+      },
+      {
+        "name": "race",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 9.0000]",
+        "n_unique": 6,
+        "pct_na": 10.0
+      },
+      {
+        "name": "education_level",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 10.0000]",
+        "n_unique": 11,
+        "pct_na": 23.6
+      },
+      {
+        "name": "state_residence",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[26.0000, 27.0000]",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "neighborhood_name",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 118,
+        "pct_na": 0.0
+      },
+      {
+        "name": "street_name",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 21918,
+        "pct_na": 1.6
+      },
+      {
+        "name": "investigation_date",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3175,
+        "pct_na": 2.2
+      },
+      {
+        "name": "street_normalized",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 20950,
+        "pct_na": 1.6
+      },
+      {
+        "name": "neighborhood_normalized",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 120,
+        "pct_na": 0.7
+      },
+      {
+        "name": "street_standardized",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 21499,
+        "pct_na": 1.6
+      },
+      {
+        "name": "neighborhood_standardized",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 120,
+        "pct_na": 0.7
+      },
+      {
+        "name": "case_flag",
+        "class": "bool",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 1,
+        "pct_na": 0.0
+      },
+      {
+        "name": "suspect_date_flag",
+        "class": "float64",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 0,
+        "pct_na": 100.0
+      },
+      {
+        "name": "age_years",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 100.0000]",
+        "n_unique": 101,
+        "pct_na": 2.6
+      },
+      {
+        "name": "neighborhood_source",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5,
+        "pct_na": 0.0
+      },
+      {
+        "name": "detected_municipality",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 4,
+        "pct_na": 2.1
+      },
+      {
+        "name": "postal_clean",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[50000000.0000, 54783180.0000]",
+        "n_unique": 5276,
+        "pct_na": 1.9
+      }
+    ],
+    "coordinate_columns": [
+      {
+        "name": "latitude",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "longitude",
+        "class": "float64",
+        "pct_na": 0.0
+      }
+    ],
+    "identifier_columns": [
+      {
+        "name": "key",
+        "class": "int64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "case_code",
+        "class": "int64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "disease_code",
+        "class": "str",
+        "pct_na": 0.0
+      },
+      {
+        "name": "municipality_report_id",
+        "class": "int64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "health_region_id",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "health_unit_id",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "municipality_residence_id",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "region_residence_id",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "district_id",
+        "class": "float64",
+        "pct_na": 9.0
+      },
+      {
+        "name": "neighborhood_id",
+        "class": "float64",
+        "pct_na": 1.8
+      },
+      {
+        "name": "postal_code",
+        "class": "float64",
+        "pct_na": 1.9
+      },
+      {
+        "name": "country_id",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "occupation_code",
+        "class": "str",
+        "pct_na": 95.1
+      },
+      {
+        "name": "address_key",
+        "class": "str",
+        "pct_na": 0.0
+      },
+      {
+        "name": "postal_code_estimated",
+        "class": "str",
+        "pct_na": 0.0
+      },
+      {
+        "name": "geocode_approximation",
+        "class": "bool",
+        "pct_na": 0.0
+      },
+      {
+        "name": "triple_key",
+        "class": "str",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 64344,
+    "T": 3199,
+    "T_var": "report_date",
+    "k": 27,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_grand_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "EPSG:4326",
+    "bbox": {
+      "xmin": -40.511131,
+      "xmax": -34.823608,
+      "ymin": -9.380831,
+      "ymax": -7.821346
+    }
+  },
+  "qc": {
+    "vars_high_na": [
+      "education_level",
+      "suspect_date_flag"
+    ],
+    "crs_missing": false,
+    "geom_complex": false
+  }
+}

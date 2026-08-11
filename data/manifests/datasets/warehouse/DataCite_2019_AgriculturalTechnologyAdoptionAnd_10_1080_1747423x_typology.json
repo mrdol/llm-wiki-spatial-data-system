@@ -1,0 +1,561 @@
+{
+  "dataset_id": "DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x",
+  "package": "paper:figshare:11492220",
+  "dataset": "Agricultural technology adoption and land use - evidence for Brazilian municipalities",
+  "source_lang": "python",
+  "conversion_method": "vector_file:land_kr.shp (geometrie municipale IBGE deja incluse, CRS absent du .prj mais bornes coherentes avec WGS84/Bresil, aucune jointure necessaire)",
+  "rds_path": "data/final_datasets/sf/DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "MUNICíPIO",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5238,
+        "pct_na": 0.0
+      },
+      {
+        "name": "SEM_ACENTO",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5232,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MUNICíPI0",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5507,
+        "pct_na": 0.0
+      },
+      {
+        "name": "UF",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 27,
+        "pct_na": 0.0
+      },
+      {
+        "name": "UF_IBGE",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 27,
+        "pct_na": 0.0
+      },
+      {
+        "name": "REGIãO",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MESO_IBGE",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 137,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MESO_IBG0",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 16,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MICRO_IBGE",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 554,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MICRO_IB0",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 66,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MESO_IBG1",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 137,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MICRO_IB1",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 558,
+        "pct_na": 0.0
+      },
+      {
+        "name": "AREA_97",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2.8599, 160755.0000]",
+        "n_unique": 5503,
+        "pct_na": 0.0
+      },
+      {
+        "name": "SEDE",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-72.8960, -32.4110]",
+        "n_unique": 4815,
+        "pct_na": 0.0
+      },
+      {
+        "name": "SEDE0",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-33.6910, 4.5960]",
+        "n_unique": 4942,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Z1",
+        "class": "int64",
+        "typology": "count",
+        "range": "[0, 9842059]",
+        "n_unique": 4497,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Z6",
+        "class": "int64",
+        "typology": "count",
+        "range": "[0, 9839436]",
+        "n_unique": 4945,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CODCOMP",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5507,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MUN",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5226,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COD6",
+        "class": "int64",
+        "typology": "count",
+        "range": "[110001, 530010]",
+        "n_unique": 5507,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COD7",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 5507,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COF",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.7000]",
+        "n_unique": 8,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CHE",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.8000]",
+        "n_unique": 8,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COC",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.7000]",
+        "n_unique": 7,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CAN",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 1.0000]",
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "BEA",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.5000]",
+        "n_unique": 6,
+        "pct_na": 0.0
+      },
+      {
+        "name": "MAI",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.7000]",
+        "n_unique": 7,
+        "pct_na": 0.0
+      },
+      {
+        "name": "SOY",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.7000]",
+        "n_unique": 8,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PER",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 0.3000]",
+        "n_unique": 4,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TL",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 1.0000]",
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PT",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 1.0000]",
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "FT",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 1.0000]",
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TDJF",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[16.8000, 28.8000]",
+        "n_unique": 111,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TMAM",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[14.4000, 27.6000]",
+        "n_unique": 128,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TJJA",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[10.4000, 27.4000]",
+        "n_unique": 165,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TSON",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[13.9000, 29.3000]",
+        "n_unique": 148,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PDJF",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[22.8000, 378.6000]",
+        "n_unique": 2195,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PMAM",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[30.6000, 496.1000]",
+        "n_unique": 1715,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PJJA",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.8000, 393.6000]",
+        "n_unique": 1516,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PSON",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.3000, 313.4000]",
+        "n_unique": 1604,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COOX",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-73.5000, -32.4000]",
+        "n_unique": 324,
+        "pct_na": 0.0
+      },
+      {
+        "name": "COOY",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-33.6000, 4.7000]",
+        "n_unique": 345,
+        "pct_na": 0.0
+      },
+      {
+        "name": "LATI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-33.7000, 4.6000]",
+        "n_unique": 340,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DAMZ",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DCAA",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DCER",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DPMP",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DPTN",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DMATL",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "K",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 2600000.0000]",
+        "n_unique": 18,
+        "pct_na": 0.0
+      },
+      {
+        "name": "H",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 150400000.0000]",
+        "n_unique": 29,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTPRC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.3154, 23.2167]",
+        "n_unique": 2408,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTCAN",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.2599, 48.6911]",
+        "n_unique": 1700,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTBEA",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.4998, 12.1132]",
+        "n_unique": 2906,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTMAI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.8299, 8.7501]",
+        "n_unique": 4044,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTSOY",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.3324, 7.6185]",
+        "n_unique": 1219,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTCOC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.1119, 18.5826]",
+        "n_unique": 261,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTCOF",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.2858, 12.1054]",
+        "n_unique": 1418,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTCHE",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.1575, 17.2793]",
+        "n_unique": 726,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTLT",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.3351, 3.0863]",
+        "n_unique": 4567,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTPT",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.2613, 2.7872]",
+        "n_unique": 4419,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTFT",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.3265, 3.8238]",
+        "n_unique": 4552,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ZTIMP",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.2442, 6.4258]",
+        "n_unique": 4468,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [
+      {
+        "name": "X",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "Y",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "LONG",
+        "class": "float64",
+        "pct_na": 0.0
+      }
+    ],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 5507,
+    "T": 1,
+    "T_var": null,
+    "k": 63,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_grand_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84 (assume - .prj absent du shapefile source, mais bornes [-74,-32]x[-34,5] non ambigues pour le Bresil)",
+    "bbox": {
+      "xmin": -73.990611,
+      "ymin": -33.751289,
+      "xmax": -32.3789,
+      "ymax": 5.271857
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": true,
+    "geom_complex": false,
+    "join_note": "Fichier supplement figshare 11492220 : le sm7670.docx est un supplement d'article classique, mais le sm6827.rar (code + donnees du modele TLUS) contenait un shapefile 'land_kr.shp' - nom trompeur (dossier 'KR') mais colonnes IBGE/UF/MESO/MICRO_IBGE confirment qu'il s'agit des municipalites BRESILIENNES (5507), avec covariables d'usage des sols (soja, mais, cafe, canne, elevage...), climat saisonnier et distances. Geometrie deja presente, aucune jointure necessaire."
+  }
+}

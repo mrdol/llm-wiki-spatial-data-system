@@ -26,8 +26,37 @@ def parse_args() -> argparse.Namespace:
         help="Path to Rscript.exe. Defaults to R_SCRIPT env var or PATH.",
     )
     parser.add_argument(
+        "--target",
+        type=int,
+        default=300,
+        help="Maximum number of DataCite candidates kept after filtering.",
+    )
+    parser.add_argument(
+        "--openalex-limit",
+        type=int,
+        default=1200,
+        help="Maximum number of pre-screened candidates enriched with OpenAlex/Crossref.",
+    )
+    parser.add_argument(
+        "--min-citations",
+        type=int,
+        default=5,
+        help="Minimum OpenAlex citation count for the parent article.",
+    )
+    parser.add_argument(
+        "--crossref-workers",
+        type=int,
+        default=1,
+        help="Number of parallel Crossref workers. Use 1 for the most conservative API behavior.",
+    )
+    parser.add_argument(
+        "--profiles",
+        default="all",
+        help="Comma-separated DataCite thematic profiles, or 'all'. Examples: core,transport_mobility,public_health.",
+    )
+    parser.add_argument(
         "--model",
-        default="claude-3-5-sonnet-20241022",
+        default="claude-sonnet-4-5",
         help="Anthropic model used by verify_datacite_candidates.py.",
     )
     parser.add_argument("--skip-harvest", action="store_true")
@@ -72,7 +101,25 @@ def main() -> int:
     rscript = find_rscript(args.rscript)
 
     if not args.skip_harvest:
-        run_step([rscript, "tools/harvest_datacite.R"], cwd=repo_root)
+        # Le harvest R garde DataCite comme source primaire, puis enrichit
+        # les articles parents avec OpenAlex et Crossref.
+        run_step(
+            [
+                rscript,
+                "tools/harvest_datacite.R",
+                "--target",
+                str(args.target),
+                "--openalex-limit",
+                str(args.openalex_limit),
+                "--min-citations",
+                str(args.min_citations),
+                "--crossref-workers",
+                str(args.crossref_workers),
+                "--profiles",
+                args.profiles,
+            ],
+            cwd=repo_root,
+        )
 
     if not args.skip_verification:
         verify_cmd = [

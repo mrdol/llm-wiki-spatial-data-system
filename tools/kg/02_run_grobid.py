@@ -58,7 +58,7 @@ def all_pdf_files() -> list[Path]:
     pdfs: list[Path] = []
     for directory in RAW_PDF_DIRS:
         if directory.exists():
-            pdfs.extend(directory.glob("*.pdf"))
+            pdfs.extend(path for path in directory.glob("*.pdf") if path.exists() and path.is_file())
     return sorted(pdfs)
 
 

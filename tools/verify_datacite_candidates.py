@@ -31,7 +31,14 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 
 
-DEFAULT_MODEL = "claude-3-5-sonnet-20241022"
+DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5")
+MODEL_FALLBACKS = (
+    "claude-sonnet-4-5",
+    "claude-sonnet-4-5-20250929",
+    "claude-haiku-4-5",
+    "claude-haiku-4-5-20251001",
+    "claude-sonnet-4-20250514",
+)
 USER_AGENT = "spatialtidymodels-datacite-verifier/0.1 (johnny.d-oliveira@inrae.fr)"
 ACTION_VALUES = {"keep", "needs_manual_check", "reject"}
 
@@ -304,6 +311,21 @@ def strip_json_fence(text: str) -> str:
     return text.strip()
 
 
+def model_candidates(model: str) -> list[str]:
+    # Les identifiants Anthropic changent avec les deprecations. On essaie
+    # d'abord le modele demande, puis quelques alias/IDs recents courants.
+    seen: set[str] = set()
+    candidates: list[str] = []
+    for item in [model, os.environ.get("ANTHROPIC_MODEL"), *MODEL_FALLBACKS]:
+        if item and item not in seen:
+            candidates.append(item)
+            seen.add(item)
+    return candidates
+
+
+def is_model_not_found_error(exc: Exception) -> bool:
+    text = str(exc).lower()
+    return "not_found_error" in text and "model" in text
 def anthropic_client() -> Any:
     try:
         from anthropic import Anthropic
@@ -330,7 +352,12 @@ def verify_batch_with_claude(
         "You are a rigorous bibliographic screening assistant for a spatial "
         "regression benchmark project. Do not invent evidence. Use only the "
         "candidate metadata and deterministic checks supplied by the user. "
-        "If a candidate is plausible but not proven, choose needs_manual_check."
+        "This screening happens BEFORE GROBID/PDF extraction: formula_status is "
+        "ALWAYS 'not_found' at this stage for every candidate, by pipeline design "
+        "(the formula is only extracted later from the full text). Do NOT treat "
+        "a missing formula as a reason to downgrade a candidate to "
+        "needs_manual_check or reject - judge relevance from the title/abstract/ "
+        "subjects/method-name evidence available now instead."
     )
     user = {
         "search_policy_excerpt": search_policy[:6000],
@@ -353,20 +380,45 @@ def verify_batch_with_claude(
         "decision_rules": [
             "Reject keyword-collision false positives and records outside spatial regression/econometrics/spatial prediction.",
             "Reject candidates already present in the local corpus.",
-            "Use keep only when the dataset and article are clearly relevant and the relation is credible.",
-            "Use needs_manual_check when relevance is plausible but formula/data/model evidence is incomplete.",
+            "Reject when the dataset DOI clearly points to a simulation/code supplement or a Monte Carlo example rather than a real empirical dataset with response/covariates/coordinates.",
+            "formula_status='not_found' is expected for EVERY candidate at this stage (pre-GROBID) - never use it alone as a reason for needs_manual_check or reject.",
+            "Use keep when an explicit spatial regression/ML method is named (SAR, SEM, SDM, GWR, MGWR, spatially varying coefficients, kriging/regression kriging, CAR/INLA, spatial random forest, hedonic spatial regression, etc.) AND the dataset is plausibly a real empirical dataset (not a pure simulation or a code-only file) AND it is not a near-duplicate already in the corpus - regardless of citation count or open-access status, since those only affect priority, not eligibility.",
+            "Use needs_manual_check only for genuine ambiguity that title/abstract/subjects cannot resolve: e.g. unclear whether the DOI is a real dataset vs. an article/code supplement, or conflicting domain signals.",
             "Do not invent formulas, datasets, citations, or URLs.",
             "Return only a JSON array. No markdown, no prose outside JSON.",
         ],
         "records": records,
     }
-    response = client.messages.create(
-        model=model,
+    create_kwargs = dict(
         max_tokens=8192,
-        temperature=0,
         system=system,
         messages=[{"role": "user", "content": json.dumps(user, ensure_ascii=False)}],
     )
+
+    last_error: Exception | None = None
+    response = None
+    for candidate_model in model_candidates(model):
+        kwargs = dict(create_kwargs, model=candidate_model)
+        if not candidate_model.startswith("claude-sonnet-5") and not candidate_model.startswith("claude-opus-5"):
+            kwargs["temperature"] = 0
+        try:
+            response = client.messages.create(**kwargs)
+            if candidate_model != model:
+                print(f"[verification] modele fallback utilise: {candidate_model}", flush=True)
+            break
+        except Exception as exc:  # l'API Anthropic leve des classes selon la version du SDK.
+            last_error = exc
+            if is_model_not_found_error(exc):
+                print(f"[verification] modele indisponible: {candidate_model}", flush=True)
+                continue
+            raise
+
+    if response is None:
+        tried = ", ".join(model_candidates(model))
+        raise RuntimeError(
+            "Aucun modele Anthropic disponible parmi: " + tried +
+            ". Verifiez les modeles accessibles a votre cle API via l endpoint /v1/models."
+        ) from last_error
     text = "".join(block.text for block in response.content if block.type == "text")
     parsed = json.loads(strip_json_fence(text))
     if not isinstance(parsed, list):

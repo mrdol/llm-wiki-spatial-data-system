@@ -207,6 +207,17 @@ def ingestion_record(row: dict[str, Any]) -> dict[str, Any]:
     publication_url = clean_text(row.get("publication_url") or row.get("article_oa_url"))
     methods = estimate_methods(row)
 
+    # tools/check_dataset_availability.py peut avoir deja recupere le PDF en
+    # amont (pre-flight check) : dans ce cas on saute directement l'etape
+    # "candidate_dataset_download_pending" pour ne pas refaire le telechargement.
+    local_pdf = clean_text(row.get("local_pdf"))
+    if local_pdf:
+        ingestion_status = "pdf_present_pending_grobid"
+        next_step = "run GROBID, extract formula/model evidence, then decide if a dataset fiche is warranted"
+    else:
+        ingestion_status = "candidate_dataset_download_pending"
+        next_step = "download legal OA PDF/data metadata, run GROBID, extract formula/model evidence, then decide if a dataset fiche is warranted"
+
     return {
         "metadata_schema": "spatialtidymodels_datacite_ingestion_v1",
         "candidate_status": row.get("candidate_status"),
@@ -228,8 +239,9 @@ def ingestion_record(row: dict[str, Any]) -> dict[str, Any]:
         "spatial_evidence": clean_text(row.get("spatial_evidence")),
         "model_evidence": clean_text(row.get("model_evidence")),
         "verification_notes": clean_text(row.get("verification_matches_objective")),
-        "ingestion_status": "candidate_dataset_download_pending",
-        "ingestion_next_step": "download legal OA PDF/data metadata, run GROBID, extract formula/model evidence, then decide if a dataset fiche is warranted",
+        "local_pdf": local_pdf or None,
+        "ingestion_status": ingestion_status,
+        "ingestion_next_step": next_step,
         "bib_key": bib_key(row),
     }
 
@@ -275,6 +287,7 @@ def kg_record(record: dict[str, Any]) -> dict[str, Any]:
         "dataset_doi": record["dataset_doi"],
         "data_access_url": record.get("data_access_url"),
         "open_access_pdf_url": record.get("open_access_pdf_url"),
+        "local_pdf": record.get("local_pdf"),
     }
 
 

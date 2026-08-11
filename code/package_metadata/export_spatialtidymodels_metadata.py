@@ -520,6 +520,15 @@ def yaml_title(text: str, fallback: str) -> str:
     return match.group(1).strip().strip('"') if match else fallback
 
 
+def strip_inline_code(value: str | None) -> str | None:
+    if value is None:
+        return None
+    value = value.strip().strip('"')
+    if len(value) >= 2 and value.startswith("`") and value.endswith("`"):
+        return value[1:-1].strip()
+    return value
+
+
 def bullet_value(text: str, label: str) -> str | None:
     pattern = rf"^\s*-\s*{re.escape(label)}\s*:\s*(.+?)\s*$"
     match = re.search(pattern, text, flags=re.IGNORECASE | re.MULTILINE)
@@ -656,19 +665,66 @@ def parse_estimator_eligibility(body: str) -> list[dict[str, Any]]:
     return [row for row in rows if row.get("estimator")]
 
 
+def parse_benchmark_readiness(body: str) -> dict[str, Any]:
+    """Lit le bloc `benchmark_readiness` des fiches datasets.
+
+    Ce bloc separe les datasets seulement documentes des datasets assez propres
+    pour guider automatiquement `spatialtidymodels`.
+    """
+    out: dict[str, Any] = {
+        "benchmark_status": "not_assessed",
+        "benchmark_task": "unknown",
+        "package_include": "manual_review",
+        "has_local_rds": None,
+        "benchmark_missing_items": "",
+        "benchmark_readiness_reason": "",
+    }
+    match = re.search(r"(?ms)```yaml\s*\n\s*benchmark_readiness:\s*(.*?)\n```", body)
+    if match:
+        block = match.group(1)
+    else:
+        plain = re.search(
+            r"(?ms)^benchmark_readiness:\s*\n(.*?)(?=\n(?:## |# |[A-Za-z][A-Za-z0-9_ -]*:\s*$)|\Z)",
+            body,
+        )
+        if not plain:
+            return out
+        block = plain.group(1)
+    key_map = {
+        "benchmark_status": "benchmark_status",
+        "benchmark_task": "benchmark_task",
+        "package_include": "package_include",
+        "has_local_rds": "has_local_rds",
+        "missing_items": "benchmark_missing_items",
+        "reason": "benchmark_readiness_reason",
+    }
+    for raw_line in block.splitlines():
+        field = re.match(r"\s*([A-Za-z_]+):\s*(.*?)\s*$", raw_line.rstrip())
+        if not field:
+            continue
+        key, value = field.group(1), clean_yaml_scalar(field.group(2))
+        target = key_map.get(key)
+        if not target:
+            continue
+        if target == "has_local_rds":
+            out[target] = value.lower() == "true"
+        else:
+            out[target] = value
+    return out
+
 def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     text = path.read_text(encoding="utf-8", errors="replace")
     body = strip_front_matter(text)
     dataset_id = bullet_value(body, "Dataset ID") or path.stem
     dataset_id = dataset_id.strip("`")
-    formula_used = bullet_value(body, "formula_used")
-    formula_pub = bullet_value(body, "formula_pub")
-    formula_candidate_1 = bullet_value(body, "formula_candidate_1")
+    formula_used = strip_inline_code(bullet_value(body, "formula_used"))
+    formula_pub = strip_inline_code(bullet_value(body, "formula_pub"))
+    formula_candidate_1 = strip_inline_code(bullet_value(body, "formula_candidate_1"))
     formula = formula_used or formula_pub or formula_candidate_1
     response, predictors = formula_parts(formula)
     coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
     if not coords:
-        coords = backtick_list(bullet_value(body, "Coordinates (x, y â€” excluded from X candidates)"))
+        coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
     source_description = bullet_value(body, "Source description") or leading_description(body)
     description_fallbacks = infer_description_metadata(
         dataset_id,
@@ -676,6 +732,12 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         bullet_value(body, "Data type"),
     )
     estimator_evidence = parse_estimator_eligibility(body)
+    benchmark_readiness = parse_benchmark_readiness(body)
+    local_artifact = next(
+        iter(re.findall(r"data/final_datasets/sf/[^\s\]]+\.(?:rds|gpkg)", text)),
+        None,
+    )
+    local_rds = next(iter(re.findall(r"data/final_datasets/sf/[^\s\]]+\.rds", text)), None)
     record = {
         "dataset": re.sub(r"[^A-Za-z0-9]+", "_", dataset_id).strip("_").lower(),
         "dataset_id": dataset_id,
@@ -690,7 +752,8 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         "description_confidence": bullet_value(body, "Description confidence"),
         "wiki_path": str(path.relative_to(repo_root)).replace("\\", "/"),
         "data_object": None,
-        "rds": next(iter(re.findall(r"data/final_datasets/sf/[^\s\]]+\.rds", text)), None),
+        "rds": local_rds,
+        "local_artifact": local_artifact,
         "formula": formula,
         "formula_pub": formula_pub,
         "formula_used": formula_used,
@@ -714,7 +777,15 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         "structure": bullet_value(body, "Structure"),
         "n_observations": _int_or_none(bullet_value(body, "N observations")),
         "t_periods": _int_or_none(bullet_value(body, "T periods")),
-        "benchmark_ready": False,
+        "benchmark_ready": (
+            benchmark_readiness.get("package_include") == "yes"
+            and benchmark_readiness.get("benchmark_status") == "ready"
+        ),
+        "benchmark_status": benchmark_readiness.get("benchmark_status"),
+        "benchmark_task": benchmark_readiness.get("benchmark_task"),
+        "package_include": benchmark_readiness.get("package_include"),
+        "benchmark_missing_items": benchmark_readiness.get("benchmark_missing_items"),
+        "benchmark_readiness_reason": benchmark_readiness.get("benchmark_readiness_reason"),
         "eligible_estimators": [],
         "estimator_evidence": estimator_evidence,
         "eligibility_basis": "not_assessed",

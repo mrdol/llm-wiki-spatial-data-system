@@ -1,0 +1,749 @@
+{
+  "dataset_id": "Warehouse_2025_DatasetForThePaper_10_5281_zenodo_1",
+  "package": "warehouse:zenodo:mexico_municipios_panel",
+  "dataset": "Mexican municipalities panel (elections, transfers, poverty, migration - 2000-2021)",
+  "source_lang": "python",
+  "conversion_method": "code_join:mxmaps_INEGI_municipio(CVE_ENT+CVE_MUN, verified 860/860 municipalities)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2025_DatasetForThePaper_10_5281_zenodo_1.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "YEAR",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2000.0000, 2021.0000]",
+        "n_unique": 22,
+        "pct_na": 0.0
+      },
+      {
+        "name": "EDOMUN",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1001.0000, 32056.0000]",
+        "n_unique": 860,
+        "pct_na": 0.0
+      },
+      {
+        "name": "YEM",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[200001001.0000, 202132056.0000]",
+        "n_unique": 18920,
+        "pct_na": 0.0
+      },
+      {
+        "name": "YE",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[200001.0000, 202132.0000]",
+        "n_unique": 682,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ID_IPUMS",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2000484001001.0000, 2015484032053.0000]",
+        "n_unique": 3248,
+        "pct_na": 81.8
+      },
+      {
+        "name": "CVE_ENT",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 32.0000]",
+        "n_unique": 31,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CVE_MUN",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 569.0000]",
+        "n_unique": 219,
+        "pct_na": 0.0
+      },
+      {
+        "name": "NOM_MUN",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 827,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Income_hh_pc",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[3.9643, 10.4277]",
+        "n_unique": 17864,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Political_Concentration",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0654, 0.7701]",
+        "n_unique": 6880,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Migration",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.7040]",
+        "n_unique": 2576,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Employment",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0469, 0.5540]",
+        "n_unique": 2580,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Population",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[242.0000, 1922523.0000]",
+        "n_unique": 4154,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Poverty",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-2.3846, 5.1575]",
+        "n_unique": 4291,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Federal_Election",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "National_Alignment",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Taxation_pc_ln",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-4.0950, 9.4147]",
+        "n_unique": 18632,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Den_Pop",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.9066, 9.8761]",
+        "n_unique": 4295,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Population_15",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0233, 0.4890]",
+        "n_unique": 4297,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Population_65",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0054, 0.2715]",
+        "n_unique": 4298,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Federal_Transfers",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-2.1151, 11.3173]",
+        "n_unique": 18920,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Missing_people",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 1508.5064]",
+        "n_unique": 4352,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TOTAL_PC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.1093, 11.4661]",
+        "n_unique": 18920,
+        "pct_na": 0.0
+      },
+      {
+        "name": "BPL_PC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.2178, 9.4692]",
+        "n_unique": 18913,
+        "pct_na": 0.0
+      },
+      {
+        "name": "SUBSIDIES_PC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.0881, 9.3219]",
+        "n_unique": 18890,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PI_PC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.2178, 11.1290]",
+        "n_unique": 18881,
+        "pct_na": 0.0
+      },
+      {
+        "name": "REELECTION",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "KM2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2.0000, 53238.0000]",
+        "n_unique": 638,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TOTAL_PC_K1",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.1093, 11.4661]",
+        "n_unique": 10054,
+        "pct_na": 46.9
+      },
+      {
+        "name": "TOTAL_PC_K2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.9912, 11.4661]",
+        "n_unique": 12012,
+        "pct_na": 33.3
+      },
+      {
+        "name": "TOTAL_PC_K3",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.9912, 11.4661]",
+        "n_unique": 14344,
+        "pct_na": 20.8
+      },
+      {
+        "name": "TOTAL_PC_K4",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[6.1944, 11.3969]",
+        "n_unique": 15950,
+        "pct_na": 14.0
+      },
+      {
+        "name": "TOTAL_PC_K5",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[47627.1303, 2698399.9773]",
+        "n_unique": 18832,
+        "pct_na": 0.5
+      },
+      {
+        "name": "TOTAL_PC_K10",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[6.0265, 11.4661]",
+        "n_unique": 18194,
+        "pct_na": 3.1
+      },
+      {
+        "name": "TOTAL_PC_K15",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[6.5641, 11.4661]",
+        "n_unique": 18656,
+        "pct_na": 1.3
+      },
+      {
+        "name": "TOTAL_PC_Q",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.9912, 11.3969]",
+        "n_unique": 14872,
+        "pct_na": 18.7
+      },
+      {
+        "name": "TOTAL_PC_Q2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.1093, 11.2809]",
+        "n_unique": 15818,
+        "pct_na": 12.0
+      },
+      {
+        "name": "yeardum1",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum2",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum3",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum4",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum5",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum6",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum7",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum8",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum9",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum10",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum11",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum12",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum13",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum14",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum15",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum16",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum17",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum18",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum19",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum20",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum21",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "yeardum22",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "BPL_PC_K1",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-11.8259, 9.4692]",
+        "n_unique": 10052,
+        "pct_na": 46.9
+      },
+      {
+        "name": "BPL_PC_K2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3849]",
+        "n_unique": 12008,
+        "pct_na": 33.3
+      },
+      {
+        "name": "BPL_PC_K3",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3849]",
+        "n_unique": 14343,
+        "pct_na": 20.8
+      },
+      {
+        "name": "BPL_PC_K4",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3849]",
+        "n_unique": 15949,
+        "pct_na": 14.0
+      },
+      {
+        "name": "BPL_PC_K5",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3849]",
+        "n_unique": 16828,
+        "pct_na": 10.0
+      },
+      {
+        "name": "BPL_PC_K10",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.2178, 9.3849]",
+        "n_unique": 18194,
+        "pct_na": 3.1
+      },
+      {
+        "name": "BPL_PC_K15",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-11.4570, 9.3011]",
+        "n_unique": 18656,
+        "pct_na": 1.3
+      },
+      {
+        "name": "BPL_PC_Q",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3849]",
+        "n_unique": 14872,
+        "pct_na": 18.7
+      },
+      {
+        "name": "BPL_PC_Q2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-10.7526, 8.9332]",
+        "n_unique": 15818,
+        "pct_na": 12.0
+      },
+      {
+        "name": "SUBSIDIES_PC_K1",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.0881, 9.3219]",
+        "n_unique": 10047,
+        "pct_na": 46.9
+      },
+      {
+        "name": "SUBSIDIES_PC_K2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.0726]",
+        "n_unique": 11993,
+        "pct_na": 33.3
+      },
+      {
+        "name": "SUBSIDIES_PC_K3",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.1235]",
+        "n_unique": 14327,
+        "pct_na": 20.8
+      },
+      {
+        "name": "SUBSIDIES_PC_K4",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.3219]",
+        "n_unique": 15936,
+        "pct_na": 14.0
+      },
+      {
+        "name": "SUBSIDIES_PC_K5",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.1235]",
+        "n_unique": 16815,
+        "pct_na": 10.0
+      },
+      {
+        "name": "SUBSIDIES_PC_K10",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.1161, 9.1235]",
+        "n_unique": 18189,
+        "pct_na": 3.1
+      },
+      {
+        "name": "SUBSIDIES_PC_K15",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.1161, 8.8893]",
+        "n_unique": 18654,
+        "pct_na": 1.3
+      },
+      {
+        "name": "SUBSIDIES_PC_Q",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.6165, 9.1235]",
+        "n_unique": 14857,
+        "pct_na": 18.7
+      },
+      {
+        "name": "SUBSIDIES_PC_Q2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-13.1161, 8.8957]",
+        "n_unique": 15810,
+        "pct_na": 12.0
+      },
+      {
+        "name": "PI_PC_K1",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.1023, 11.1290]",
+        "n_unique": 10042,
+        "pct_na": 46.9
+      },
+      {
+        "name": "PI_PC_K2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.6034, 11.1290]",
+        "n_unique": 12002,
+        "pct_na": 33.3
+      },
+      {
+        "name": "PI_PC_K3",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.4712, 11.1290]",
+        "n_unique": 14332,
+        "pct_na": 20.8
+      },
+      {
+        "name": "PI_PC_K4",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.4712, 10.5767]",
+        "n_unique": 15938,
+        "pct_na": 14.0
+      },
+      {
+        "name": "PI_PC_K5",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.6034, 10.5767]",
+        "n_unique": 16820,
+        "pct_na": 10.0
+      },
+      {
+        "name": "PI_PC_K10",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-14.2178, 11.1290]",
+        "n_unique": 18190,
+        "pct_na": 3.1
+      },
+      {
+        "name": "PI_PC_K15",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.4367, 11.1290]",
+        "n_unique": 18654,
+        "pct_na": 1.3
+      },
+      {
+        "name": "PI_PC_Q",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.0536, 10.5767]",
+        "n_unique": 14861,
+        "pct_na": 18.7
+      },
+      {
+        "name": "PI_PC_Q2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-12.4534, 9.7989]",
+        "n_unique": 15812,
+        "pct_na": 12.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [
+      {
+        "name": "Covid",
+        "class": "float64",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 860,
+    "T": 22,
+    "T_var": "YEAR",
+    "k": 86,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_grand_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": -117.123927,
+      "ymin": 15.960311,
+      "xmax": -86.732367,
+      "ymax": 32.718654
+    }
+  },
+  "qc": {
+    "vars_high_na": [
+      "ID_IPUMS",
+      "TOTAL_PC_K1",
+      "TOTAL_PC_K2",
+      "TOTAL_PC_K3",
+      "BPL_PC_K1",
+      "BPL_PC_K2",
+      "BPL_PC_K3",
+      "SUBSIDIES_PC_K1",
+      "SUBSIDIES_PC_K2",
+      "SUBSIDIES_PC_K3",
+      "PI_PC_K1",
+      "PI_PC_K2",
+      "PI_PC_K3"
+    ],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par code officiel INEGI (CVE_ENT+CVE_MUN, 5 chiffres) contre les polygones municipaux du paquet R mxmaps (diegovalle/mxmaps, source INEGI Marco Geoestadistico). Polygones reconstruits depuis le format ggplot2 'fortify' (long/lat/order/piece/hole) puis unis par code region ; 61 points marques 'hole' sur 133k (<0.05%, micro-enclaves) traites comme anneaux simples plutot que trous, impact negligeable sur une jointure par code. 860/860 municipalites verifiees, 0 non appariee."
+  }
+}

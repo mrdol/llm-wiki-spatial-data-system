@@ -33,6 +33,72 @@ def props(text: str) -> dict:
     return json.loads(text or "{}")
 
 
+DATASET_METADATA_PATH = ROOT / "packages" / "spatialtidymodels" / "inst" / "metadata" / "datasets.json"
+_DATASET_METADATA_CACHE: list[dict] | None = None
+
+
+def normalize_ref(value: object) -> str:
+    """Normalise les DOI/URL/identifiants pour les rapprochements souples."""
+    text = str(value or "").lower().strip()
+    for prefix in ("https://doi.org/", "http://dx.doi.org/", "doi:"):
+        text = text.replace(prefix, "")
+    return text.replace("\\", "/")
+
+
+def load_dataset_metadata() -> list[dict]:
+    """Lit les metadata package si disponibles."""
+    global _DATASET_METADATA_CACHE
+    if _DATASET_METADATA_CACHE is not None:
+        return _DATASET_METADATA_CACHE
+    if not DATASET_METADATA_PATH.exists():
+        _DATASET_METADATA_CACHE = []
+        return _DATASET_METADATA_CACHE
+    payload = json.loads(DATASET_METADATA_PATH.read_text(encoding="utf-8"))
+    _DATASET_METADATA_CACHE = payload.get("records", []) if isinstance(payload, dict) else []
+    return _DATASET_METADATA_CACHE
+
+
+def find_dataset_metadata(item: dict) -> dict:
+    """Trouve la fiche metadata package correspondant a un usage papier-dataset."""
+    dataset_doi = normalize_ref(item.get("dataset_doi"))
+    paper_doi = normalize_ref(item.get("paper_doi"))
+    target = normalize_ref(item.get("canonical_dataset_id") or item.get("dataset_target"))
+    source_text = normalize_ref(" ".join(str(item.get(key, "")) for key in ("source_ref", "source_url", "data_access_url")))
+
+    for record in load_dataset_metadata():
+        rec_dataset_doi = normalize_ref(record.get("dataset_doi"))
+        rec_publication_doi = normalize_ref(record.get("publication_doi"))
+        rec_dataset_id = normalize_ref(record.get("dataset_id") or record.get("dataset"))
+        rec_source_text = normalize_ref(" ".join(str(record.get(key, "")) for key in ("source_ref", "source_url", "wiki_path")))
+
+        if dataset_doi and dataset_doi == rec_dataset_doi:
+            return record
+        if paper_doi and paper_doi == rec_publication_doi:
+            return record
+        if dataset_doi and dataset_doi in rec_source_text:
+            return record
+        if rec_dataset_id and rec_dataset_id in target:
+            return record
+        if rec_dataset_doi and rec_dataset_doi in source_text:
+            return record
+    return {}
+
+
+def first_present(*values: object) -> object:
+    """Retourne la premiere valeur non vide."""
+    for value in values:
+        if value not in (None, "", []):
+            return value
+    return ""
+
+
+def format_list(value: object) -> str:
+    """Formate une liste metadata pour la console."""
+    if isinstance(value, list):
+        return ", ".join(str(item) for item in value)
+    return str(value or "")
+
+
 def list_papers(con: sqlite3.Connection) -> None:
     """Affiche les papiers presents dans le KG."""
     for row in con.execute("SELECT id, label, props_json FROM nodes WHERE type = 'Paper' ORDER BY label"):
@@ -135,10 +201,20 @@ def paper_dataset_uses(con: sqlite3.Connection, doi: str) -> None:
         return
     for _, _, props_json in rows:
         item = props(props_json)
-        dataset_name = item.get("dataset_name_in_paper") or item.get("dataset") or ""
-        status = item.get("ingestion_status") or item.get("status") or ""
+        metadata = find_dataset_metadata(item)
+        predictors = first_present(item.get("predictors"), metadata.get("predictors"))
+        n_covariates = first_present(item.get("n_covariates"), len(predictors) if isinstance(predictors, list) else "")
+        dataset_name = item.get("dataset_name_in_paper") or item.get("dataset") or metadata.get("dataset") or ""
+        status = item.get("ingestion_status") or item.get("status") or metadata.get("benchmark_status") or ""
         print(f"- {dataset_name}: {status}")
-        print(f"  theme: {item.get('theme', '')}; n={item.get('n_observations', '')}; covariates={item.get('n_covariates', '')}")
+        print(f"  theme: {first_present(item.get('theme'), metadata.get('topic'))}; n={first_present(item.get('n_observations'), metadata.get('n_observations'))}; covariates={n_covariates}")
+        if metadata:
+            print(f"  metadata dataset: {metadata.get('dataset_id') or metadata.get('dataset', '')}")
+            print(f"  response: {first_present(metadata.get('response'), metadata.get('y_term_used'))}")
+            print(f"  predictors: {format_list(predictors)}")
+            print(f"  formula: {first_present(metadata.get('formula_used'), metadata.get('formula'), metadata.get('formula_pub'))}")
+            print(f"  local artifact: {first_present(metadata.get('local_artifact'), metadata.get('rds'))}")
+            print(f"  readiness: {metadata.get('benchmark_status', '')}; package_include={metadata.get('package_include', '')}")
         print(f"  source: {item.get('source_ref', '')}")
         print(f"  target: {item.get('canonical_dataset_id') or item.get('dataset_target', '')}")
 
@@ -169,12 +245,15 @@ def paper_dataset_gaps(con: sqlite3.Connection) -> None:
             print(f"Paper: {paper_label}")
             if item.get("paper_doi"):
                 print(f"DOI: {item['paper_doi']}")
+        metadata = find_dataset_metadata(item)
+        predictors = first_present(metadata.get("predictors"), item.get("predictors"))
+        n_covariates = first_present(item.get("n_covariates"), len(predictors) if isinstance(predictors, list) else "")
         print(
             "- {dataset} | {status} | n={n} | covariates={k} | source={source}".format(
                 dataset=item.get("dataset_name_in_paper", ""),
                 status=item.get("ingestion_status", ""),
-                n=item.get("n_observations", ""),
-                k=item.get("n_covariates", ""),
+                n=first_present(item.get("n_observations"), metadata.get("n_observations")),
+                k=n_covariates,
                 source=item.get("source_ref", ""),
             )
         )

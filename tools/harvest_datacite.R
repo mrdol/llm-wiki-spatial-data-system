@@ -44,6 +44,7 @@ script_path <- function() {
 REPO_ROOT <- normalizePath(file.path(dirname(script_path()), ".."), mustWork = FALSE)
 
 OPENALEX_MAILTO <- "johnny.d-oliveira@inrae.fr"  # polite pool OpenAlex
+CROSSREF_MAILTO <- "johnny.d-oliveira@inrae.fr" # polite pool Crossref
 UA <- "spatial-benchmark-harvester/0.1 (INRAE Ecodev)"
 
 # Chemin du catalogue package deja integre, pour l'exclusion.
@@ -66,18 +67,18 @@ OUTPUT_EXCEL_CSV <- file.path(
 
 # Seuil de citations de l'article parent (0 = pas de filtre).
 # La recherche bibliographique du projet cible prioritairement les articles
-# ayant au moins 10 citations pour garder un compromis entre qualite et rappel.
-MIN_CITATIONS <- 10L
+# ayant au moins 5 citations pour garder un compromis entre qualite et rappel.
+MIN_CITATIONS <- 5L
 
 # Nombre de candidats retenus que l'on veut remonter dans le manifeste final.
 # Le script peut interroger plus d'enregistrements bruts, puis filtre et classe
 # les resultats pour garder au maximum TARGET_CANDIDATES lignes.
-TARGET_CANDIDATES <- 50L
+TARGET_CANDIDATES <- 300L
 
 # Nombre maximum de candidats DataCite a enrichir via OpenAlex avant le
 # filtrage final. Plus cette valeur est grande, plus le rappel augmente, mais
 # plus le script est long.
-OPENALEX_ENRICH_LIMIT <- 250L
+OPENALEX_ENRICH_LIMIT <- 1200L
 
 SCREENING_VERSION <- "datacite_harvest_v2"
 
@@ -90,6 +91,40 @@ STRICT_SPATIAL_ONLY <- FALSE
 # pas de version ouverte signalee par OpenAlex : cela serait trop restrictif.
 # Le statut open access sert plutot a classer la priorite d'ingestion.
 REQUIRE_OPEN_ACCESS_ARTICLE <- FALSE
+
+
+
+## ---- 0b. Arguments CLI -------------------------------------------------
+
+parse_cli_args <- function(args = commandArgs(trailingOnly = TRUE)) {
+  out <- list()
+  i <- 1L
+  while (i <= length(args)) {
+    key <- args[[i]]
+    if (startsWith(key, "--")) {
+      name <- sub("^--", "", key)
+      value <- TRUE
+      if (i < length(args) && !startsWith(args[[i + 1L]], "--")) {
+        value <- args[[i + 1L]]
+        i <- i + 1L
+      }
+      out[[name]] <- value
+    }
+    i <- i + 1L
+  }
+  out
+}
+
+cli_int <- function(args, name, default) {
+  value <- args[[name]]
+  if (is.null(value) || isTRUE(value)) return(default)
+  parsed <- suppressWarnings(as.integer(value))
+  if (is.na(parsed) || parsed <= 0L) {
+    stop("Argument --", name, " invalide: ", value, call. = FALSE)
+  }
+  parsed
+}
+
 
 ## ---- 1. Requetes DataCite ----------------------------------------------
 ## La syntaxe `query` de DataCite est un query_string Elasticsearch :
@@ -115,6 +150,24 @@ lex_geom <- c(
   'polygons', 'centroid'
 )
 
+# Profils thematiques : ils ajoutent des requetes ciblees au noyau spatial.
+# Objectif : diversifier les domaines sans remplacer les filtres regression,
+# geometrie, article parent, citations et verification LLM.
+THEME_PROFILES <- list(
+  core = character(),
+  transport_mobility = c('transport', 'mobility', 'accessibility', 'commuting', 'transit', 'walkability'),
+  energy_infrastructure = c('energy', 'electricity', 'renewable', 'solar', 'photovoltaic', 'infrastructure', 'network'),
+  public_health = c('public health', 'mortality', 'disease', 'epidemiology', 'malnutrition', 'health inequality'),
+  natural_hazards = c('flood', 'wildfire', 'fire', 'earthquake', 'landslide', 'natural hazard', 'risk'),
+  education_inequality = c('education', 'school', 'inequality', 'income', 'poverty', 'segregation'),
+  agriculture_economic = c('crop yield', 'agriculture', 'farmland', 'land value', 'farm', 'soil productivity'),
+  marine_littoral = c('fishery', 'fisheries', 'marine', 'coastal', 'littoral', 'aquaculture'),
+  urban_services = c('urban services', 'retail', 'commerce', 'amenity', 'facility', 'public service'),
+  public_policy_governance = c('public policy', 'tax', 'fiscal', 'governance', 'municipal', 'local government')
+)
+
+DEFAULT_PROFILES <- paste(names(THEME_PROFILES), collapse = ',')
+
 build_query <- function(model_terms, geom_terms) {
   paste0(
     "(", paste(model_terms, collapse = " OR "), ")",
@@ -126,7 +179,7 @@ build_query <- function(model_terms, geom_terms) {
 build_loose_queries <- function(model_terms, geom_terms) {
   # Requetes de rappel: DataCite indexe inegalement les descriptions. On part
   # de la requete stricte modele AND geometrie, puis on ajoute des requetes
-  # thematiques moins restrictives pour atteindre 50 candidats a curer.
+  # thematiques moins restrictives pour augmenter le rappel.
   c(
     build_query(model_terms, geom_terms),
     build_query(c('"geographically weighted"', '"multiscale geographically weighted"', '"GWR"', '"MGWR"'), geom_terms),
@@ -140,6 +193,48 @@ build_loose_queries <- function(model_terms, geom_terms) {
       "(covariate OR predictor OR regression OR model OR response)"
     )
   )
+}
+
+quote_terms <- function(terms) {
+  map_chr(terms, ~ if (str_detect(.x, "^[\\\"].*[\\\"]$")) .x else paste0('"', .x, '"'))
+}
+
+normalize_profiles <- function(profiles) {
+  if (is.null(profiles) || !nzchar(profiles)) return("core")
+  selected <- str_split(profiles, "[,;]", simplify = FALSE)[[1]] |>
+    str_trim() |>
+    discard(~ !nzchar(.x))
+  if (length(selected) == 0L || any(selected == "all")) return(names(THEME_PROFILES))
+  unknown <- setdiff(selected, names(THEME_PROFILES))
+  if (length(unknown) > 0L) {
+    stop(
+      "Profil(s) inconnu(s): ", paste(unknown, collapse = ", "),
+      ". Profils disponibles: ", paste(names(THEME_PROFILES), collapse = ", "),
+      call. = FALSE
+    )
+  }
+  unique(selected)
+}
+
+build_topic_query <- function(topic_terms, model_terms, geom_terms) {
+  paste0(
+    "(", paste(quote_terms(topic_terms), collapse = " OR "), ")",
+    " AND ",
+    "(", paste(c(model_terms, "regression", "model", "covariate", "predictor", "response"), collapse = " OR "), ")",
+    " AND ",
+    "(", paste(geom_terms, collapse = " OR "), ")"
+  )
+}
+
+build_profile_queries <- function(profiles, model_terms, geom_terms) {
+  selected <- normalize_profiles(profiles)
+  queries <- character()
+  if ("core" %in% selected) {
+    queries <- c(queries, build_loose_queries(model_terms, geom_terms))
+  }
+  topic_profiles <- setdiff(selected, "core")
+  topic_queries <- map_chr(topic_profiles, ~ build_topic_query(THEME_PROFILES[[.x]], model_terms, geom_terms))
+  unique(c(queries, topic_queries))
 }
 
 #' Interroge l'API DataCite avec pagination par curseur.
@@ -280,6 +375,22 @@ REG_TEXT_RX <- regex(
 OPEN_LICENSE_RX <- regex("cc0|cc-by|cc by|public domain|odbl|etalab|open data",
                          ignore_case = TRUE)
 
+## 3c-bis. Miroirs SciELO/figshare et depots non geres.
+## Ils generent beaucoup de faux positifs : supplements automatiques,
+## figures/tableaux ou depots sans API exploitable par notre pipeline.
+SCIELO_MIRROR_RX <- regex("scielo\\.figshare\\.com|scielo", ignore_case = TRUE)
+
+is_scielo_supplement_mirror <- function(url, publisher) {
+  str_detect(paste(url %||% "", publisher %||% ""), SCIELO_MIRROR_RX)
+}
+
+SCIENCEDB_RX <- regex("scidb\\.cn|sciencedb\\.cn|cstr\\.cn.*sciencedb", ignore_case = TRUE)
+
+is_sciencedb <- function(url, publisher, dataset_doi) {
+  str_detect(paste(url %||% "", publisher %||% "", dataset_doi %||% ""), SCIENCEDB_RX) |
+    str_detect(dataset_doi %||% "", regex("^10\\.57760/", ignore_case = TRUE))
+}
+
 ## 3d. Heuristique stricte "benchmark de regression spatiale".
 ## Elle est plus exigeante que REG_TEXT_RX, sinon DataCite remonte des cartes,
 ## des rasters ou des jeux seulement descriptifs.
@@ -355,6 +466,110 @@ openalex_work <- function(doi) {
     article_landing_page_url = res$primary_location$landing_page_url %||% NA_character_
   )
 }
+
+
+
+## ---- 4b. Controle Crossref ---------------------------------------------
+
+crossref_empty <- function() {
+  tibble(
+    crossref_doi_resolves = FALSE,
+    crossref_title = NA_character_,
+    crossref_venue = NA_character_,
+    crossref_year = NA_integer_,
+    crossref_type = NA_character_,
+    crossref_reference_count = NA_integer_,
+    crossref_is_referenced_by_count = NA_integer_
+  )
+}
+
+crossref_first <- function(x) {
+  if (is.null(x) || length(x) == 0L) return(NA_character_)
+  if (is.list(x)) x <- unlist(x, use.names = FALSE)
+  if (length(x) == 0L) return(NA_character_)
+  as.character(x[[1]])
+}
+
+crossref_work <- function(doi) {
+  doi <- normalize_datacite_doi(doi)
+  if (is.na(doi) || !nzchar(doi)) return(crossref_empty())
+
+  res <- try({
+    encoded <- utils::URLencode(doi, reserved = TRUE)
+    request(paste0("https://api.crossref.org/works/", encoded)) |>
+      req_user_agent(UA) |>
+      req_url_query(mailto = CROSSREF_MAILTO) |>
+      req_retry(max_tries = 3) |>
+      req_throttle(rate = 30 / 60) |>
+      req_perform() |>
+      resp_body_json(simplifyVector = FALSE)
+  }, silent = TRUE)
+
+  if (inherits(res, "try-error") || is.null(res$message)) {
+    return(crossref_empty())
+  }
+
+  item <- res$message
+  year <- suppressWarnings(as.integer(item$published$`date-parts`[[1]][[1]] %||% NA))
+
+  tibble(
+    crossref_doi_resolves = TRUE,
+    crossref_title = crossref_first(item$title),
+    crossref_venue = crossref_first(item$`container-title`),
+    crossref_year = year,
+    crossref_type = item$type %||% NA_character_,
+    crossref_reference_count = as.integer(item$`reference-count` %||% NA),
+    crossref_is_referenced_by_count = as.integer(item$`is-referenced-by-count` %||% NA)
+  )
+}
+
+crossref_map <- function(dois, workers = 1L, verbose = TRUE) {
+  norm_dois <- normalize_datacite_doi(dois)
+  unique_dois <- unique(norm_dois[!is.na(norm_dois) & nzchar(norm_dois)])
+
+  if (length(unique_dois) == 0L) {
+    return(bind_rows(rep(list(crossref_empty()), length(dois))))
+  }
+
+  workers <- max(1L, min(as.integer(workers), length(unique_dois)))
+  if (verbose) {
+    message(
+      "Controle Crossref sur ", length(dois), " lignes article (",
+      length(unique_dois), " DOI uniques, ", workers, " worker(s))..."
+    )
+  }
+
+  results <- if (workers <= 1L) {
+    map(unique_dois, crossref_work)
+  } else {
+    cl <- parallel::makeCluster(workers)
+    on.exit(parallel::stopCluster(cl), add = TRUE)
+    parallel::clusterEvalQ(cl, {
+      library(httr2)
+      library(tibble)
+      library(stringr)
+      NULL
+    })
+    parallel::clusterExport(
+      cl,
+      varlist = c(
+        "%||%", "normalize_datacite_doi", "crossref_empty",
+        "crossref_first", "crossref_work", "UA", "CROSSREF_MAILTO"
+      ),
+      envir = environment()
+    )
+    parallel::parLapply(cl, unique_dois, crossref_work)
+  }
+
+  lookup <- bind_rows(results) |>
+    mutate(publication_doi_crossref = unique_dois)
+
+  tibble(publication_doi_crossref = norm_dois) |>
+    left_join(lookup, by = "publication_doi_crossref") |>
+    mutate(crossref_doi_resolves = coalesce(crossref_doi_resolves, FALSE)) |>
+    select(-publication_doi_crossref)
+}
+
 
 ## ---- 5. Exclusion du corpus deja integre -------------------------------
 
@@ -437,6 +652,18 @@ candidate_column <- function(rows, name, default = NA_character_) {
 }
 
 screen_candidate_rows <- function(rows) {
+  if (nrow(rows) == 0L) return(rows)
+
+  rows <- rows |>
+    filter(!is_scielo_supplement_mirror(
+      candidate_column(rows, "data_access_url"),
+      candidate_column(rows, "publisher")
+    )) |>
+    filter(!is_sciencedb(
+      candidate_column(rows, "data_access_url"),
+      candidate_column(rows, "publisher"),
+      candidate_column(rows, "dataset_doi")
+    ))
   if (nrow(rows) == 0L) return(rows)
 
   text_blob <- paste(
@@ -546,10 +773,16 @@ write_candidate_outputs <- function(rows) {
 
 harvest <- function(min_citations = MIN_CITATIONS,
                     target_candidates = TARGET_CANDIDATES,
+                    openalex_enrich_limit = OPENALEX_ENRICH_LIMIT,
+                    crossref_workers = 1L,
+                    profiles = DEFAULT_PROFILES,
                     verbose = TRUE,
-                    existing_path = PATH_EXISTING) {
+                    existing_path = PATH_EXISTING,
+                    require_parent = TRUE) {
   
-  queries <- build_loose_queries(lex_model, lex_geom)
+  selected_profiles <- normalize_profiles(profiles)
+  if (verbose) message("Profils harvest : ", paste(selected_profiles, collapse = ", "))
+  queries <- build_profile_queries(profiles, lex_model, lex_geom)
   raw <- list()
   seen_raw <- character()
   
@@ -583,8 +816,14 @@ harvest <- function(min_citations = MIN_CITATIONS,
       flag_spatiotemporal = str_detect(screening_text_raw, SPATIOTEMP_TEXT_RX),
       flag_open_lic   = str_detect(paste(license_name, license_uri),
                                    OPEN_LICENSE_RX),
+      flag_scielo_mirror = is_scielo_supplement_mirror(url, publisher),
+      flag_sciencedb = is_sciencedb(url, publisher, dataset_doi),
+      flag_priority_repo = str_detect(url %||% "",
+        regex("zenodo\\.org|datadryad\\.org|figshare\\.com|dataverse\\.harvard\\.edu",
+              ignore_case = TRUE)),
       has_parent      = !is.na(publication_doi)
-    )
+    ) |>
+    filter(!flag_scielo_mirror, !flag_sciencedb)
   
   if (verbose) {
     message("  avec geometrie   : ", sum(cand$flag_geometry, na.rm = TRUE))
@@ -601,17 +840,27 @@ harvest <- function(min_citations = MIN_CITATIONS,
         if_else(flag_geometry, 2, 0) +
         if_else(flag_regression, 1, 0) +
         if_else(flag_open_lic, 1, 0) +
+        if_else(flag_priority_repo, 3, 0) +
         if_else(flag_spatiotemporal, -1, 0) +
         if_else(flag_non_benchmark_product, -4, 0)
     ) |>
-    filter(has_parent, pre_screen_score > 0) |>
+    filter(has_parent | !require_parent, pre_screen_score > 0) |>
     arrange(desc(pre_screen_score)) |>
-    slice_head(n = OPENALEX_ENRICH_LIMIT)
+    slice_head(n = openalex_enrich_limit)
   
   # Enrichissement citations (le plus couteux : on le fait apres filtrage)
   if (verbose) message("Enrichissement OpenAlex sur ", nrow(keep), " candidats...")
   enr <- map_dfr(keep$publication_doi, openalex_work)
   keep <- bind_cols(keep, enr)
+
+  xref <- crossref_map(keep$publication_doi, workers = crossref_workers, verbose = verbose)
+  keep <- bind_cols(keep, xref) |>
+    mutate(
+      article_title = coalesce(article_title, crossref_title),
+      article_venue = coalesce(article_venue, crossref_venue),
+      article_year = coalesce(article_year, crossref_year),
+      article_type = coalesce(article_type, crossref_type)
+    )
   
   keys <- load_existing_keys(existing_path)
   keep <- keep |>
@@ -660,6 +909,7 @@ harvest <- function(min_citations = MIN_CITATIONS,
         if_else(flag_open_lic, 2, 0) +
         if_else(coalesce(article_is_oa, FALSE), 2, 0) +
         if_else(flag_benchmark_model, 2, 0) +
+        if_else(flag_priority_repo, 3, 0) +
         if_else(!is.na(size_bytes) & size_bytes > 5e6, 2, 0) +
         pmin(coalesce(cited_by_count, 0L) / 50, 3),
       metadata_schema = "spatialtidymodels_metadata_v1",
@@ -698,6 +948,8 @@ harvest <- function(min_citations = MIN_CITATIONS,
       datacite_description, datacite_subjects,
       publication_doi, article_title, article_venue, article_year,
       article_type, article_is_oa, article_access_status,
+      crossref_doi_resolves, crossref_title, crossref_venue, crossref_year,
+      crossref_type, crossref_reference_count, crossref_is_referenced_by_count,
       article_oa_url, article_landing_page_url,
       cited_by_count, license_name, license_uri, formats, size_bytes,
       data_access_url, source_url, publication_url,
@@ -735,7 +987,29 @@ dryad_search <- function(q, per_page = 100L) {
 
 ## ---- 8. Execution ------------------------------------------------------
 if (sys.nframe() == 0L) {
-  new_res <- harvest(target_candidates = TARGET_CANDIDATES)
+  cli <- parse_cli_args()
+  min_citations <- cli_int(cli, "min-citations", MIN_CITATIONS)
+  target_candidates <- cli_int(cli, "target", TARGET_CANDIDATES)
+  openalex_limit <- cli_int(cli, "openalex-limit", OPENALEX_ENRICH_LIMIT)
+  crossref_workers <- cli_int(cli, "crossref-workers", 1L)
+  profiles <- cli[["profiles"]]
+  if (is.null(profiles) || isTRUE(profiles)) profiles <- DEFAULT_PROFILES
+
+  message(
+    "Parametres harvest : min_citations=", min_citations,
+    "; target=", target_candidates,
+    "; openalex_limit=", openalex_limit,
+    "; crossref_workers=", crossref_workers,
+    "; profiles=", profiles
+  )
+
+  new_res <- harvest(
+    min_citations = min_citations,
+    target_candidates = target_candidates,
+    openalex_enrich_limit = openalex_limit,
+    crossref_workers = crossref_workers,
+    profiles = profiles
+  )
   res <- merge_candidate_outputs(new_res, existing_path = OUTPUT_EXCEL_CSV)
   write_candidate_outputs(res)
   message("Nouveaux candidats du run : ", nrow(new_res))
