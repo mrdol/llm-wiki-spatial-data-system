@@ -1,8 +1,8 @@
 ---
 title: paper_waste_site
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_waste_site.rds
   - DataCite_2021_SystematicVariationInWaste_10_1007_s10640_0
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Topic: economie environnementale / prix hedoniques
 - Observation unit: estimation d'etude (meta-regression)
 - Observed population: etudes de prix immobiliers residentiels a proximite de sites de dechets
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [-110.243807777161, 138.348867052897], y [-28.40852405, 62.2748813]
 - Temporal context: 26 distinct periods (variable: year_publish)
 - Source description: Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Local raw dir: `data/raw/papers/DataCite_2021_SystematicVariationInWaste_10_1007_s10640_0/`
 - Local sf output: `data/final_datasets/sf/paper_waste_site.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `elas`
 - Candidate Y typology: continuous
-- Candidate X variables: `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL`, `active`, `job`, `cleanup_stage`, `HDI_subnational`, `HDI_national`, `GDP_p.c._national_2010_USD`, `data_year`, `time`, `sample`, `dist_mean`, `p_mean`, `converter_dich`, `sales`, `sale_ind`, `demoecon`, `log_log`, `num_sig_var`, `num_expl`, `num_struc`, `num_nb`, `num_env`, `oth_disamen`, `oth_amen`, `access`, `industry`, `miles_km`, `OLS`, `DF`, `ß`, `SE`, `t-value`, `p-value`, `sig`, `sig_level`, `sign`, `time_dummy`, `time_cont`, `time_disc`, `direction`, `interaction`, `spatial`, `elas_SE`, `comments`, `further comments`
-- Candidate X count: 56
+- Candidate X variables in local artifact: `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL`, `active`, `job`, `cleanup_stage`, `HDI_subnational`, `HDI_national`, `GDP_p.c._national_2010_USD`, `data_year`, `time`, `sample`, `dist_mean`, `p_mean`, `converter_dich`, `sales`, `sale_ind`, `demoecon`, `log_log`, `num_sig_var`, `num_expl`, `num_struc`, `num_nb`, `num_env`, `oth_disamen`, `oth_amen`, `access`, `industry`, `miles_km`, `OLS`, `DF`, `ß`, `SE`, `t-value`, `p-value`, `sig`, `sig_level`, `sign`, `time_dummy`, `time_cont`, `time_disc`, `direction`, `interaction`, `spatial`, `elas_SE`, `comments`, `further comments`
+- Candidate X count in local artifact: 56
 - Candidate X typology: categorical, continuous
-- Coordinates (x, y — excluded from X candidates): none detected
+- Published X variables from paper: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 |---|---|---|---|---|
 | `elas` | `numeric` | continuous | [-2.0938, 1.762] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL` ; 44 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (les coordonnees detectees), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL` ; 44 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -110,12 +112,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 | `comments` | `character` | categorical | 71.8% |
 | `further comments` | `character` | categorical | 86.2% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: elas ~ meta-regression (WLS/REML) sur 727 estimations, correction du biais de publication (PET-PEESE)
 - x_terms_pub: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
 - y_term_pub: elas
-- Reference publication: Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
+- Reference publication: Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
 
 ### Statut regression canonique
 
@@ -123,14 +125,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: elas ~ author + title + weight (sample_reuse) + second coding + year_publish + publish + element + site_cat + site_m + region + subnational state / district + NPL + ... (44 covariables au total, voir Candidate X variables)
 - x_terms_used: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
 - y_term_used: elas
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
 
 ### Formules candidates
 
@@ -152,7 +154,7 @@ formula_candidates:
     predictors: ["author", "title", "weight (sample_reuse)", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
+    source_ref: "Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -167,7 +169,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_waste_site`
 - Dataset name: Replication Data for: Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
@@ -179,7 +181,7 @@ formula_candidates:
 - Source URL: https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/828WUD
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -192,7 +194,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
+  source_ref: "Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
   confidence: medium
 ```
 
@@ -212,7 +214,18 @@ benchmark_readiness:
 - Manque principal: traiter comme meta-analyse, pas comme observations spatiales
 - Raison: Les lignes sont des estimations d'etudes, pas des observations geographiques elementaires.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_current_package"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel_ou_series
@@ -222,7 +235,7 @@ benchmark_readiness:
 - Variable temporelle: year_publish
 - N/T profile: N_grand_T_grand
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -231,9 +244,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-110.243807777161, 138.348867052897], y [-28.40852405, 62.2748813]
 - Time range: 1975 to 2019 (variable: year_publish)
-- CRS analyse recommande: pending — multi-zones (span=248.6deg) -- projection nationale recommandee
+- CRS analyse recommande: pending - multi-zones (span=248.6deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -247,7 +260,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20%: comments (NA=71.8%), further comments (NA=86.2%).

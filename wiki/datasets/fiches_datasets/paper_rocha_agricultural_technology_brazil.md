@@ -1,8 +1,8 @@
 ---
 title: paper_rocha_agricultural_technology_brazil
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_rocha_agricultural_technology_brazil.rds
   - DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x
@@ -13,10 +13,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
-- Observation unit: observation spatiale de type POINT
-- Observed population: a preciser depuis le papier source
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Topic: agriculture / adoption technologique et usage des sols
+- Observation unit: municipalite bresilienne
+- Observed population: municipalites agricoles du Bresil
+- Geographic context: etendue sf: x [-73.4961129845113, -32.418909344047], y [-33.650002, 4.7159435]
 - Temporal context: none (cross-sectional)
 - Source description: Agricultural technology adoption and land use: evidence for Brazilian municipalities
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 - Local raw dir: `data/raw/papers/DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x/`
 - Local sf output: `data/final_datasets/sf/paper_rocha_agricultural_technology_brazil.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `SOY`
 - Candidate Y typology: rate
-- Candidate X variables: `MUNICíPIO`, `SEM_ACENTO`, `MUNICíPI0`, `REGIãO`, `MESO_IBG0`, `MICRO_IB0`, `MESO_IBG1`, `MICRO_IB1`, `AREA_97`, `SEDE`, `SEDE0`, `Z1`, `Z6`, `CODCOMP`, `COF`, `CHE`, `COC`, `CAN`, `BEA`, `MAI`, `PER`, `TL`, `PT`, `FT`, `TDJF`, `TMAM`, `TJJA`, `TSON`, `PDJF`, `PMAM`, `PJJA`, `PSON`, `COOX`, `COOY`, `DAMZ`, `DCAA`, `DCER`, `DPMP`, `DPTN`, `DMATL`, `K`, `H`, `ZTPRC`, `ZTCAN`, `ZTBEA`, `ZTMAI`, `ZTSOY`, `ZTCOC`, `ZTCOF`, `ZTCHE`, `ZTLT`, `ZTPT`, `ZTFT`, `ZTIMP`
-- Candidate X count: 54
+- Candidate X variables in local artifact: `MUNICíPIO`, `SEM_ACENTO`, `MUNICíPI0`, `REGIãO`, `MESO_IBG0`, `MICRO_IB0`, `MESO_IBG1`, `MICRO_IB1`, `AREA_97`, `SEDE`, `SEDE0`, `Z1`, `Z6`, `CODCOMP`, `COF`, `CHE`, `COC`, `CAN`, `BEA`, `MAI`, `PER`, `TL`, `PT`, `FT`, `TDJF`, `TMAM`, `TJJA`, `TSON`, `PDJF`, `PMAM`, `PJJA`, `PSON`, `COOX`, `COOY`, `DAMZ`, `DCAA`, `DCER`, `DPMP`, `DPTN`, `DMATL`, `K`, `H`, `ZTPRC`, `ZTCAN`, `ZTBEA`, `ZTMAI`, `ZTSOY`, `ZTCOC`, `ZTCOF`, `ZTCHE`, `ZTLT`, `ZTPT`, `ZTFT`, `ZTIMP`
+- Candidate X count in local artifact: 54
 - Candidate X typology: categorical, continuous
-- Coordinates (x, y — excluded from X candidates): `LONG`, `LATI`
+- Published X variables from paper: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `LONG`, `LATI`
 - Identifier columns (excluded from X candidates): `MUN`, `COD6`, `COD7`, `UF`, `UF_IBGE`, `MESO_IBGE`, `MICRO_IBGE`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 |---|---|---|---|---|
 | `SOY` | `numeric` | rate | [0, 0.7] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `rocha_agricultural_technology_brazil`, la ou les reponses `SOY` viennent du loader papier et/ou des preuves de l article `Agricultural technology adoption and land use: evidence for Brazilian municipalities`. Les covariables X retenues sont `TDJF`, `TMAM`, `TJJA`, `TSON`, `PDJF`, `PMAM`, `PJJA`, `PSON`, `DAMZ`, `DCAA`, `DCER`, `DPMP`, `DPTN`, `DMATL` ; 40 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LONG`, `LATI`), identifiants (`MUN`, `COD6`, `COD7`, `UF`, `UF_IBGE`, `MESO_IBGE`, `MICRO_IBGE`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `rocha_agricultural_technology_brazil`, la ou les reponses `SOY` viennent du loader papier et/ou des preuves de l article `Agricultural technology adoption and land use: evidence for Brazilian municipalities`. Les covariables X retenues sont `TDJF`, `TMAM`, `TJJA`, `TSON`, `PDJF`, `PMAM`, `PJJA`, `PSON`, `DAMZ`, `DCAA`, `DCER`, `DPMP`, `DPTN`, `DMATL` ; 40 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LONG`, `LATI`), identifiants (`MUN`, `COD6`, `COD7`, `UF`, `UF_IBGE`, `MESO_IBGE`, `MICRO_IBGE`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -108,7 +110,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 | `ZTFT` | `numeric` | continuous | 0% |
 | `ZTIMP` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: SOY ~ TDJF + TMAM + TJJA + TSON + PDJF + PMAM + PJJA + PSON + DAMZ + DCAA + DCER + DPMP + DPTN + DMATL
 - x_terms_pub: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
@@ -123,7 +125,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 - Correspondance Python/R: aucune identifiee
 - Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Agricultural technology adoption and land use: evidence for Brazilian municipalities
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: SOY ~ TDJF + TMAM + TJJA + TSON + PDJF + PMAM + PJJA + PSON + DAMZ + DCAA + DCER + DPMP + DPTN + DMATL
 - x_terms_used: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
@@ -165,7 +167,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_rocha_agricultural_technology_brazil`
 - Dataset name: Agricultural technology adoption and land use: evidence for Brazilian municipalities
@@ -177,7 +179,7 @@ formula_candidates:
 - Source URL: https://tandf.figshare.com/articles/Agricultural_technology_adoption_and_land_use_evidence_for_Brazilian_municipalities/11492220
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -210,7 +212,18 @@ benchmark_readiness:
 - Manque principal: verifier CRS assume WGS84 et fixer une specification compacte si necessaire
 - Raison: Y continu/rate, covariables climatiques/distances et geometrie municipale sont disponibles; formule locale disponible dans le KG.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -220,7 +233,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -229,9 +242,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-73.4961129845113, -32.418909344047], y [-33.650002, 4.7159435]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending — multi-zones (span=41.1deg) -- projection nationale recommandee
+- CRS analyse recommande: pending - multi-zones (span=41.1deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -245,7 +258,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

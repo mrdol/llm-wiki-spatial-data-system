@@ -1,8 +1,8 @@
 ---
 title: paper_crane
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_crane.rds
   - DataCite_2022_BalancingStructuralComplexityWith_10_1111_2041_210
@@ -16,29 +16,31 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 - Topic: distribution d'espece / demographie de population
 - Observation unit: observation ponctuelle de presence
 - Observed population: population reintroduite de grues (Grus grus)
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [233643.173683893, 862162.495815702], y [22773.8203577613, 626978.465950806]
 - Temporal context: none (cross-sectional)
 - Source description: Balancing structural complexity with ecological insight in Spatio-temporal species distribution models
 - Description source: paper_dataset_uses.json + lecture directe du papier
-- Description confidence: low
+- Description confidence: medium
 - Paper DOI: 10.1111/2041-210x.13957
 - Dataset DOI: 10.5061/dryad.2z34tmpps
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.2z34tmpps
 - Local raw dir: `data/raw/papers/DataCite_2022_BalancingStructuralComplexityWith_10_1111_2041_210/`
 - Local sf output: `data/final_datasets/sf/paper_crane.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `mark`
 - Candidate Y typology: binary
-- Candidate X variables: `ti`, `Urb_Den_cov`, `PA_Ratio_cov`, `Area_cov`
-- Candidate X count: 4
+- Candidate X variables in local artifact: `ti`, `Urb_Den_cov`, `PA_Ratio_cov`, `Area_cov`
+- Candidate X count in local artifact: 4
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `x`, `y`, `x_m`, `y_m`
+- Published X variables from paper: ti, Urb_Den_cov, PA_Ratio_cov, Area_cov
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `x`, `y`, `x_m`, `y_m`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 |---|---|---|---|---|
 | `mark` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `crane`, la ou les reponses `mark` viennent du loader papier et/ou des preuves de l article `Balancing structural complexity with ecological insight in Spatio-temporal species distribution models`. Les covariables X retenues sont `ti`, `Urb_Den_cov`, `PA_Ratio_cov`, `Area_cov`. Les coordonnees (`x`, `y`, `x_m`, `y_m`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `crane`, la ou les reponses `mark` viennent du loader papier et/ou des preuves de l article `Balancing structural complexity with ecological insight in Spatio-temporal species distribution models`. Les covariables X retenues sont `ti`, `Urb_Den_cov`, `PA_Ratio_cov`, `Area_cov`. Les coordonnees (`x`, `y`, `x_m`, `y_m`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -58,12 +60,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 | `PA_Ratio_cov` | `numeric` | continuous | 0% |
 | `Area_cov` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: pending
 - x_terms_pub: ti, Urb_Den_cov, PA_Ratio_cov, Area_cov
 - y_term_pub: mark
-- Reference publication: pending
+- Reference publication: DataCite dataset DOI 10.5061/dryad.2z34tmpps; Publication DOI 10.1111/2041-210x.13957
 
 ### Statut regression canonique
 
@@ -73,12 +75,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: mark ~ ti + Urb_Den_cov + PA_Ratio_cov + Area_cov
 - x_terms_used: ti, Urb_Den_cov, PA_Ratio_cov, Area_cov
 - y_term_used: mark
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source — a confirmer par revue manuelle.
+- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
 ### Formules candidates
 
@@ -115,7 +117,7 @@ formula_candidates:
     status: "generated"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_crane`
 - Dataset name: Transformed crane data from: Balancing structural complexity with ecological insight in spatio-temporal species distribution models
@@ -127,7 +129,7 @@ formula_candidates:
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.2z34tmpps
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -160,7 +162,18 @@ benchmark_readiness:
 - Manque principal: support binaire/panel et schema CV adapte
 - Raison: Reponse binaire et structure temporelle.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_current_package"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -170,7 +183,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -179,9 +192,9 @@ benchmark_readiness:
 - CRS nom: unknown
 - Spatial extent: x [233643.173683893, 862162.495815702], y [22773.8203577613, 626978.465950806]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending - CRS source non geographique ou inconnu
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown

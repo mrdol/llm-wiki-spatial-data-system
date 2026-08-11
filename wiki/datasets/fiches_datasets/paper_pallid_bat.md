@@ -1,8 +1,8 @@
 ---
 title: paper_pallid_bat
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_pallid_bat.rds
   - DataCite_2018_PrimaryProductivityExplainsSize_10_1111_1365_243
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 - Topic: morphometrie et biogeographie animale
 - Observation unit: specimen museal individuel
 - Observed population: specimens de musee d'histoire naturelle geo-references via GBIF
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [-124.2623, -109.618423], y [23.5525, 48.052082]
 - Temporal context: none (cross-sectional)
 - Source description: Primary productivity explains size variation across the Pallid bat's western geographic range
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 - Local raw dir: `data/raw/papers/DataCite_2018_PrimaryProductivityExplainsSize_10_1111_1365_243/`
 - Local sf output: `data/final_datasets/sf/paper_pallid_bat.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `centroid_size`
 - Candidate Y typology: continuous
-- Candidate X variables: no additional covariates beyond coordinates/identifiers (raster or grid dataset)
-- Candidate X count: 0
-- Candidate X typology: unknown
-- Coordinates (x, y — excluded from X candidates): `lon`, `lat`
+- Candidate X variables in local artifact: `NPP`, `MinWinTemp`, `MaxSumTemp`, `TempSeas`, `PrecSeas`
+- Candidate X count in local artifact: 5
+- Candidate X typology: continuous
+- Published X variables from paper: NPP, MinWinTemp, MaxSumTemp, TempSeas, PrecSeas
+- Published X count: 5
+- Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `institution`, `catalog_number`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,20 +49,24 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 |---|---|---|---|---|
 | `centroid_size` | `numeric` | continuous | [902.6937, 1171.3787] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont aucune covariable explicative. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_covariate_join ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont `NPP`, `MinWinTemp`, `TempSeas` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| -- | -- | aucun candidat | -- |
+| `NPP` | `numeric` | continuous | 0% |
+| `MinWinTemp` | `numeric` | continuous | 0% |
+| `MaxSumTemp` | `numeric` | continuous | 0% |
+| `TempSeas` | `numeric` | continuous | 0% |
+| `PrecSeas` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
-- formula_pub: body_size ~ net_primary_productivity + heat_conservation (temperature) [spatial autoregressive model, SAR]
-- x_terms_pub: pending
-- y_term_pub: centroid_size
-- Reference publication: Kelly, Friedman & Santana (2018), Functional Ecology — test de la regle de Bergmann chez Antrozous pallidus via modele autoregressif spatial (SAR) ; la productivite primaire nette explique la variation de taille corporelle mieux que la conservation de chaleur ou la saisonnalite. Note : notre variable 'centroid_size' (derivee des landmarks TPS 2D) est un proxy geometrique-morphometrique, pas la mesure de taille exacte utilisee par les auteurs.
+- formula_pub: body_size ~ NPP + MinWinTemp + TempSeas [top SAR error model]
+- x_terms_pub: NPP, MinWinTemp, MaxSumTemp, TempSeas, PrecSeas
+- y_term_pub: cranium centroid size / body size proxy
+- Reference publication: Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
 
 ### Statut regression canonique
 
@@ -68,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Kelly, Friedman & Santana (2018), Functional Ecology — test de la regle de Bergmann chez Antrozous pallidus via modele autoregressif spatial (SAR) ; la productivite primaire nette explique la variation de taille corporelle mieux que la conservation de chaleur ou la saisonnalite. Note : notre variable 'centroid_size' (derivee des landmarks TPS 2D) est un proxy geometrique-morphometrique, pas la mesure de taille exacte utilisee par les auteurs.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
+- formula_used: centroid_size ~ NPP + MinWinTemp + TempSeas
+- x_terms_used: NPP, MinWinTemp, TempSeas
 - y_term_used: centroid_size
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Kelly, Friedman & Santana (2018), Functional Ecology — test de la regle de Bergmann chez Antrozous pallidus via modele autoregressif spatial (SAR) ; la productivite primaire nette explique la variation de taille corporelle mieux que la conservation de chaleur ou la saisonnalite. Note : notre variable 'centroid_size' (derivee des landmarks TPS 2D) est un proxy geometrique-morphometrique, pas la mesure de taille exacte utilisee par les auteurs.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
 
 ### Formules candidates
 
@@ -92,14 +98,14 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "centroid_size ~ NPP + MinWinTemp + TempSeas"
+    response: "cranium centroid size / body size proxy"
+    predictors: ["NPP", "MinWinTemp", "MaxSumTemp", "TempSeas", "PrecSeas"]
     role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -112,7 +118,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_pallid_bat`
 - Dataset name: Data from: Primary productivity explains size variation across the Pallid bat's (Antrozous pallidus) western geographic range
@@ -124,7 +130,7 @@ formula_candidates:
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.c5805
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -133,11 +139,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "body_size ~ net_primary_productivity + heat_conservation (temperature) [spatial autoregressive model, SAR]"
+  equation_text: "body_size ~ NPP + MinWinTemp + TempSeas [top SAR error model]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Kelly, Friedman & Santana (2018), Functional Ecology — test de la regle de Bergmann chez Antrozous pallidus via modele autoregressif spatial (SAR) ; la productivite primaire nette explique la variation de taille corporelle mieux que la conservation de chaleur ou la saisonnalite. Note : notre variable 'centroid_size' (derivee des landmarks TPS 2D) est un proxy geometrique-morphometrique, pas la mesure de taille exacte utilisee par les auteurs."
+  source_ref: "Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy."
   confidence: medium
 ```
 
@@ -145,29 +151,40 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "needs_covariate_join"
-  benchmark_task: "regression_spatial_sar"
-  package_include: "no"
+  benchmark_status: "almost_ready"
+  benchmark_task: "regression_continuous_spatial_sar"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "joindre NPP et variables climatiques mentionnees dans le papier"
-  reason: "La formule SAR est confirmee, mais les covariables principales du papier ne sont pas dans l'extraction actuelle."
+  missing_items: "documenter que centroid_size est derive des landmarks TPS et verifier l alignement exact lateral/ventral avec la mesure privilegiee dans le papier"
+  reason: "Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille."
 ```
 
-- Decision: needs_covariate_join
-- Manque principal: joindre NPP et variables climatiques mentionnees dans le papier
-- Raison: La formule SAR est confirmee, mais les covariables principales du papier ne sont pas dans l'extraction actuelle.
+- Decision: almost_ready
+- Manque principal: documenter que centroid_size est derive des landmarks TPS et verifier l alignement exact lateral/ventral avec la mesure privilegiee dans le papier
+- Raison: Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "almost_ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
 - N observations: 182
-- k variables: 7
+- k variables: 12
 - T periods: 1
 - Variable temporelle: n/a
 - N/T profile: N_moyen_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -176,9 +193,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-124.2623, -109.618423], y [23.5525, 48.052082]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: 32611 (UTM Zone 11N (EPSG:32611)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32611 (UTM Zone 11N (EPSG:32611)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -191,8 +208,8 @@ benchmark_readiness:
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
-- Variables: WARN - Y identifiee, mais aucune covariable X detectee (grille/raster sans covariable additionnelle).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

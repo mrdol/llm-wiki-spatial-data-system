@@ -1,4 +1,4 @@
-﻿---
+---
 title: paper_wang_henan_cultivated_land_quality
 type: dataset
 created: 2026-08-09
@@ -39,11 +39,13 @@ Le referentiel geometrique de reference (GADM ADM3) ne couvrait que 84/159 comte
 
 - Candidate Y variables: `Effective soil thickness` (Y de substitution — l'indice publie Y_i n'est pas directement present, voir note ci-dessous)
 - Candidate Y typology: continuous
-- Candidate X variables: `Effective soil thickness`, `Soil salinity content`, `Soil acidity and alkalinity`, `Drainage conditions`, `Irrigation guarantee rate`, `Slope`
+- Candidate X variables: `Soil salinity content`, `Soil acidity and alkalinity`, `Drainage conditions`, `Irrigation guarantee rate`, `Slope`
 - Candidate X typology: continuous
 - Presence of imputed X: unknown
 - Coordinates (excluded from X): aucune (geometrie polygonale, pas de coordonnees ponctuelles)
 - Identifier columns (excluded from X): `County`, `Map Area`
+
+> Selection Y/X (paper-loader / curated evidence) : Pour `paper_wang_henan_cultivated_land_quality`, la réponse utilisée est `Effective soil thickness`, uniquement comme variable de substitution continue car l'indice publié de qualité des terres cultivées n'est pas directement reconstruit dans l'artefact local. Les covariables X retenues sont `Soil salinity content`, `Soil acidity and alkalinity`, `Drainage conditions`, `Irrigation guarantee rate` et `Slope`, qui correspondent aux facteurs pédologiques, hydriques et topographiques disponibles dans le fichier final. La variable réponse est explicitement exclue de X ; les identifiants, géométries et champs techniques sont exclus de X. Statut benchmark actuel : ready_exploratory_surrogate_response ; l'usage reste exploratoire jusqu'à reconstruction de la réponse exacte du papier.
 
 #### Detail X
 

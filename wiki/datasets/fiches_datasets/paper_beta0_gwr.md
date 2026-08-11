@@ -1,8 +1,8 @@
 ---
 title: paper_beta0_gwr
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_beta0_gwr.rds
   - DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20
@@ -16,29 +16,31 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A global d
 - Topic: climatologie / desagregation satellite
 - Observation unit: cellule de grille globale (0.05 degre)
 - Observed population: surface terrestre mondiale
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [-179.5, 179.5], y [-89.5, 83.5]
 - Temporal context: none (cross-sectional)
 - Source description: A global dataset of air temperature derived from satellite remote sensing and weather stations
 - Description source: paper_dataset_uses.json + lecture directe du papier
-- Description confidence: low
+- Description confidence: medium
 - Paper DOI: 10.1038/sdata.2018.246
 - Dataset DOI: 10.6084/m9.figshare.6189341
 - Source URL: https://springernature.figshare.com/articles/Beta0_for_the_geographically_weighted_regressions/6189341
 - Local raw dir: `data/raw/papers/DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20/`
 - Local sf output: `data/final_datasets/sf/paper_beta0_gwr.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `b0_annual_mean`
 - Candidate Y typology: continuous
-- Candidate X variables: no additional covariates beyond coordinates/identifiers (raster or grid dataset)
-- Candidate X count: 0
+- Candidate X variables in local artifact: no additional covariates beyond coordinates/identifiers (raster or grid dataset)
+- Candidate X count in local artifact: 0
 - Candidate X typology: unknown
-- Coordinates (x, y — excluded from X candidates): none detected
+- Published X variables from paper: pending
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A global d
 |---|---|---|---|---|
 | `b0_annual_mean` | `numeric` | continuous | [-141.0869, 336.9121] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `beta0_gwr`, la ou les reponses `b0_annual_mean` viennent du loader papier et/ou des preuves de l article `A global dataset of air temperature derived from satellite remote sensing and weather stations`. Les covariables X retenues sont aucune covariable explicative. Les coordonnees (les coordonnees detectees), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_response ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `beta0_gwr`, la ou les reponses `b0_annual_mean` viennent du loader papier et/ou des preuves de l article `A global dataset of air temperature derived from satellite remote sensing and weather stations`. Les covariables X retenues sont aucune covariable explicative locale. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_response ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -55,12 +57,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A global d
 |---|---|---|---|
 | -- | -- | aucun candidat | -- |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: pending
 - x_terms_pub: pending
-- y_term_pub: b0_annual_mean
-- Reference publication: pending
+- y_term_pub: pending
+- Reference publication: DataCite dataset DOI 10.6084/m9.figshare.6189341; Publication DOI 10.1038/sdata.2018.246
 
 ### Statut regression canonique
 
@@ -70,12 +72,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A global d
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: pending
 - x_terms_used: pending
-- y_term_used: b0_annual_mean
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source — a confirmer par revue manuelle.
+- y_term_used: pending
+- Note: reponse identifiee dans le loader, mais aucune covariable X locale executable n est disponible dans le .rds actuel.
 
 ### Formules candidates
 
@@ -112,7 +114,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_beta0_gwr`
 - Dataset name: Beta0 for the geographically weighted regressions
@@ -124,7 +126,7 @@ formula_candidates:
 - Source URL: https://springernature.figshare.com/articles/Beta0_for_the_geographically_weighted_regressions/6189341
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -136,7 +138,7 @@ modeling_evidence:
   equation_text: "pending"
   equation_family: generated_system_candidate
   model_family: unknown
-  source_type: generated_system_formula
+  source_type: none_found
   source_ref: "data/raw/papers (loader-derived, no published equation located)"
   confidence: low
 ```
@@ -157,7 +159,18 @@ benchmark_readiness:
 - Manque principal: retrouver le dataset empirique original et ses covariables
 - Raison: La reponse est un coefficient beta0 derive d'une GWR, pas une variable empirique brute.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_derived_response"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -167,7 +180,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -176,9 +189,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-179.5, 179.5], y [-89.5, 83.5]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending — multi-zones (span=359deg) -- projection nationale recommandee
+- CRS analyse recommande: pending - multi-zones (span=359deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -192,7 +205,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: WARN - Y identifiee, mais aucune covariable X detectee (grille/raster sans covariable additionnelle).
-- Formula: PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place).
+- Formula: PENDING - reponse identifiee, mais aucune covariable X locale executable n est disponible.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

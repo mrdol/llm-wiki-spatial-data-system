@@ -63,6 +63,18 @@ raster_to_points_sf <- function(r, agg_fact = NULL, fun = "mean") {
   sf::st_as_sf(pts)
 }
 
+add_oblique_geographic_coordinates <- function(sf_obj, angles_deg = c(0, 30, 60, 90, 120, 150)) {
+  xy <- sf::st_coordinates(sf_obj)
+  x <- as.numeric(xy[, 1])
+  y <- as.numeric(xy[, 2])
+  x <- x - mean(x, na.rm = TRUE)
+  y <- y - mean(y, na.rm = TRUE)
+  for (angle in angles_deg) {
+    theta <- angle * pi / 180
+    sf_obj[[paste0("ogc_", sprintf("%03d", angle))]] <- x * cos(theta) + y * sin(theta)
+  }
+  sf_obj
+}
 # data/raw/papers/DataCite_2021_MetacomnetARandomForest_10_1111_2041_210/
 #   Site_locations.shp            -> geometrie point des 16 sites
 #   Sydenham_et_al_MetaComNet_data_frame.csv -> table Y/X (jointure sur Site)
@@ -280,6 +292,7 @@ load_swiss_rainfall <- function() {
   load(file.path(extract_dir, "gstat", "data", "sic97.rda"), envir = e)
   obj <- e$sic_full
   sf_obj <- if (inherits(obj, "sf")) obj else sf::st_as_sf(obj)
+  sf_obj <- add_oblique_geographic_coordinates(sf_obj)
 
   list(
     obj = sf_obj,
@@ -304,7 +317,23 @@ load_vindum <- function() {
   e <- new.env()
   load(file.path(dir, "Vindum_SOM.rda"), envir = e)
   obj <- e$Vindum_SOM  # SpatialPointsDataFrame : ID, SOM
+
+  cov_path <- file.path(dir, "Vindum_covariates.rda")
+  if (file.exists(cov_path)) {
+    if (!requireNamespace("raster", quietly = TRUE)) {
+      stop("Package 'raster' is required to extract Vindum_covariates.")
+    }
+    cov_env <- new.env()
+    load(cov_path, envir = cov_env)
+    covariates <- cov_env$Vindum_covariates
+    cov_df <- raster::extract(covariates, obj, df = TRUE, sp = FALSE)
+    cov_df <- cov_df[, setdiff(names(cov_df), "ID"), drop = FALSE]
+    names(cov_df) <- make.names(names(cov_df), unique = TRUE)
+    obj@data <- cbind(obj@data, cov_df)
+  }
+
   sf_obj <- sf::st_as_sf(obj)
+  sf_obj <- add_oblique_geographic_coordinates(sf_obj)
 
   list(
     obj = sf_obj,
@@ -414,25 +443,24 @@ load_waste_site <- function() {
 }
 
 # --- Loader Above-ground biomass rainforest (Guitet 2015) ------------------
-# DataAGB.xlsx (Dryad) ne contient PAS d'AGB precalculee : ce sont les
-# inventaires bruts (classes de DBH + simulations de densite de bois "WSG")
-# qui servaient a Guitet et al. a calculer la biomasse via une equation
-# allometrique (hors-scope ici). Deux reseaux de placettes : "P" (CTFT,
-# 1974-1976, 2010 placettes dont seulement 1172 georeferencees) et "H" (ONF,
-# 2006-2013, 1335 placettes, TOUTES georeferencees et couplees a DBHhab +
-# WSGhab). On retient le reseau H (couverture complete XY/DBH/WSG) et on
-# derive deux variables candidates directement disponibles sans allometrie :
-# nombre total de tiges par placette (n_stems, structure) et WSG moyen
-# (mean_wsg, sur les 1000 simulations) - le WSG est lui-meme une variable
-# d'interet ecologique dans cette litterature, pas seulement un intrant.
+# DataAGB.xlsx (Dryad) contient les inventaires bruts (classes de DBH +
+# simulations de densite de bois "WSG"). Le supplement PLOS S1_Dataset_AGB.xlsx
+# contient les 1000 simulations AGB par placette : on en tire AGB_mean, la
+# reponse locale executable. Deux reseaux de placettes : "P" (CTFT, 1974-1976,
+# 2010 placettes dont seulement 1172 georeferencees) et "H" (ONF, 2006-2013,
+# 1335 placettes, TOUTES georeferencees et couplees a DBHhab + WSGhab). On
+# retient le reseau H (couverture complete XY/DBH/WSG/AGB) et on derive aussi
+# deux variables descriptives directement disponibles : nombre total de tiges
+# par placette (n_stems, structure) et WSG moyen (mean_wsg).
 # CRS : readme indique "WSG1984 -UTM22N" (coquille pour WGS1984) -> EPSG:32622.
 load_biomass_rainforest <- function() {
   if (!requireNamespace("readxl", quietly = TRUE)) {
     stop("Package 'readxl' requis.", call. = FALSE)
   }
-  path <- file.path(REPO_ROOT, "data", "raw", "papers",
-                    "DataCite_2015_SpatialStructureOfAbove_10_1371_journal_",
-                    "_extracted", "DataAGB.xlsx")
+  raw_dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                       "DataCite_2015_SpatialStructureOfAbove_10_1371_journal_")
+  path <- file.path(raw_dir, "_extracted", "DataAGB.xlsx")
+  agb_path <- file.path(raw_dir, "plos_supplements", "S1_Dataset_AGB.xlsx")
 
   xy <- as.data.frame(readxl::read_excel(path, sheet = "XYplot"))
   xy <- xy[grepl("^H", xy$ID), ]
@@ -451,8 +479,29 @@ load_biomass_rainforest <- function() {
   sims <- sapply(wsg[, 2:ncol(wsg)], as.numeric)
   mean_wsg <- data.frame(ID = wsg[[1]], mean_wsg = rowMeans(sims, na.rm = TRUE))
 
+  agb <- as.data.frame(readxl::read_excel(agb_path, sheet = "AGB_distribution_chave_Hab2014"))
+  names(agb)[names(agb) == "parcs"] <- "ID"
+  agb <- agb[grepl("^H", agb$ID), ]
+  agb_sim_cols <- setdiff(names(agb), c("ID", "Surf", "Xutm", "Yutm"))
+  agb_sims <- sapply(agb[, agb_sim_cols], as.numeric)
+  agb_mean <- data.frame(ID = agb$ID, AGB_mean = rowMeans(agb_sims, na.rm = TRUE))
+
   df <- merge(xy, stems, by = "ID", all.x = TRUE)
   df <- merge(df, mean_wsg, by = "ID", all.x = TRUE)
+  df <- merge(df, agb_mean, by = "ID", all.x = TRUE)
+
+  env_path <- file.path(
+    REPO_ROOT, "data", "manifests", "papers",
+    "paper_biomass_rainforest_env_covariates_2026-08.csv"
+  )
+  if (file.exists(env_path)) {
+    env <- utils::read.csv(env_path, stringsAsFactors = FALSE, check.names = FALSE)
+    keep <- intersect(c("plot_id", "ALT", "SLO", "HAND", "LOG"), names(env))
+    env <- env[, keep, drop = FALSE]
+    names(env)[names(env) == "plot_id"] <- "ID"
+    for (v in setdiff(names(env), "ID")) env[[v]] <- as.numeric(env[[v]])
+    df <- merge(df, env, by = "ID", all.x = TRUE)
+  }
 
   sf_obj <- sf::st_as_sf(df, coords = c("Xutm", "Yutm"), crs = 32622, remove = FALSE)
 
@@ -462,7 +511,7 @@ load_biomass_rainforest <- function() {
       coordinate_columns = "Xutm,Yutm",
       identifier_variables = "ID",
       datetime_columns = "",
-      candidate_y_variables = "mean_wsg,n_stems"
+      candidate_y_variables = "AGB_mean"
     )
   )
 }
@@ -572,7 +621,7 @@ load_uk_photovoltaic <- function() {
   )
 }
 
-# --- Loader mammifÃ¨res SR/PD (Barreto et al. 2019) --------------------------
+# --- Loader mammifÃƒÂ¨res SR/PD (Barreto et al. 2019) --------------------------
 # all_data.shp : grille terrestre quasi-globale (17151 cellules) issue du
 # script GWPath_Barreto_et_al_2019.R (path analysis geographiquement
 # ponderee). Colonnes SR (richesse specifique) et PD (diversite
@@ -600,48 +649,6 @@ load_mammals_sr_pd <- function() {
       identifier_variables = "ID",
       datetime_columns = "",
       candidate_y_variables = "SR,PD"
-    )
-  )
-}
-
-# --- Loader Arequipa Climate Maps Normals (Moraes 2021, via Popovici 2021) -
-# Le lien dataset/papier avait ete signale "incoherent" (cartes climatiques
-# vs article qualitatif sur les savoirs autochtones). Verification faite :
-# la bibliographie de Popovici et al. (2021, Ecology & Society 26(3):27,
-# DOI 10.5751/ES-12481-260327) cite explicitement "Moraes, Bowling, Velarde,
-# Cherkauer. 2021. Arequipa climate maps normals. Version 2.0. ... Purdue
-# University. https://doi.org/10.4231/JNBK-ZK34" comme source de la grille
-# climatique journaliere (1988-2017) utilisee pour l'analyse de tendances
-# (section Methods : "climate trend analyses"). C'est la meme serie de
-# donnees (Purdue Nexus Institute, memes auteurs) que le DOI candidat
-# 10.4231/490d-hc66 deja telecharge, seule la version differe (1.0 vs 2.0,
-# non re-telechargee) -> lien reel confirme, pas de rejet.
-# ACMN_annual/*.tif : grille 1km, UTM 18S (EPSG:32718), region Arequipa/Colca,
-# normales annuelles temperature (moy/max/min) et precipitation. Conversion
-# en points (cellules non-NA uniquement, ~63k/156k, le reste hors bassin
-# modelise).
-load_arequipa_climate <- function() {
-  if (!requireNamespace("terra", quietly = TRUE)) {
-    stop("Package 'terra' requis.", call. = FALSE)
-  }
-  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
-                   "DataCite_2021_HowDoIndigenousAnd_10_5751_es_12481",
-                   "_extracted", "ACMN_annual")
-  layer_files <- c(averageT_annual = "ACMN_averageT_annual.tif",
-                    Prec_annual = "ACMN_Prec_annual.tif",
-                    Tmax_annual = "ACMN_Tmax_annual.tif",
-                    Tmin_annual = "ACMN_Tmin_annual.tif")
-  r <- terra::rast(file.path(dir, layer_files))
-  names(r) <- names(layer_files)
-  sf_obj <- raster_to_points_sf(r)
-
-  list(
-    obj = sf_obj,
-    row = list(
-      coordinate_columns = "",
-      identifier_variables = "",
-      datetime_columns = "",
-      candidate_y_variables = "Prec_annual,averageT_annual"
     )
   )
 }
@@ -787,6 +794,56 @@ load_pallid_bat <- function() {
 
   sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
 
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis pour joindre les rasters environnementaux Pallid bat.",
+         call. = FALSE)
+  }
+
+  raw_dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                       "DataCite_2018_PrimaryProductivityExplainsSize_10_1111_1365_243")
+  outer_zip <- file.path(raw_dir, "dryad_c5805_data.zip")
+  inner_zip <- file.path(dir, "data.zip")
+  if (!file.exists(inner_zip)) {
+    utils::unzip(outer_zip, files = "data.zip", exdir = dir)
+  }
+  env_files <- c(
+    "data/environmental_variables/bio4.bil",
+    "data/environmental_variables/bio4.hdr",
+    "data/environmental_variables/bio5.bil",
+    "data/environmental_variables/bio5.hdr",
+    "data/environmental_variables/bio6.bil",
+    "data/environmental_variables/bio6.hdr",
+    "data/environmental_variables/bio15.bil",
+    "data/environmental_variables/bio15.hdr",
+    "data/environmental_variables/MOD17A3_Science_NPP_mean_00_14.tif"
+  )
+  missing_env <- env_files[!file.exists(file.path(dir, env_files))]
+  if (length(missing_env)) {
+    utils::unzip(inner_zip, files = missing_env, exdir = dir)
+  }
+
+  env_dir <- file.path(dir, "data", "environmental_variables")
+  env_rasters <- list(
+    NPP = terra::rast(file.path(env_dir, "MOD17A3_Science_NPP_mean_00_14.tif")),
+    MinWinTemp = terra::rast(file.path(env_dir, "bio6.bil")),
+    MaxSumTemp = terra::rast(file.path(env_dir, "bio5.bil")),
+    TempSeas = terra::rast(file.path(env_dir, "bio4.bil")),
+    PrecSeas = terra::rast(file.path(env_dir, "bio15.bil"))
+  )
+  pts <- terra::vect(sf_obj)
+  env_values <- lapply(names(env_rasters), function(name) {
+    raster <- env_rasters[[name]]
+    pts_projected <- terra::project(pts, terra::crs(raster))
+    values <- terra::extract(raster, pts_projected, method = "bilinear", ID = FALSE)[[1]]
+    stats::setNames(data.frame(values), name)
+  })
+  env_values <- do.call(cbind, env_values)
+  env_values$MinWinTemp <- env_values$MinWinTemp / 10
+  env_values$MaxSumTemp <- env_values$MaxSumTemp / 10
+  env_values$TempSeas <- env_values$TempSeas / 100
+  sf_obj <- cbind(sf_obj, env_values)
+  sf_obj <- sf_obj[stats::complete.cases(sf::st_drop_geometry(sf_obj)[, names(env_values), drop = FALSE]), ]
+
   list(
     obj = sf_obj,
     row = list(
@@ -798,24 +855,20 @@ load_pallid_bat <- function() {
   )
 }
 
-# --- Loader colibris SDM integre (MÃ¤kinen et al. 2023) ----------------------
-# L'archive Dryad (559 Mo) ne contient QUE des rasters environnementaux
-# (Chelsa, EVI, zones d'etude) : le README indique explicitement que les
-# occurrences d'especes (PO via GBIF, PA via checklists Andes du Nord) ont
-# ete retirees "due to licensing concerns" - seuls des liens vers Map of
-# Life/GBIF restent. Reconstruire les 71 especes de colibris exactes du
-# papier depenserait un effort disproportionne pour ce lot ; on recupere
-# a la place une extraction GBIF directe (famille Trochilidae, Amerique du
-# Sud/Centrale, 1979-2017, avec coordonnees) fidele au perimetre reel de
-# l'etude (cf. scratchpad/gbif_fetch_hummingbirds.py), agregee en grille de
-# 1 degre pour produire une richesse specifique par cellule - le meme type
-# de reponse ("predicted species richness") que le niveau 2 de comparaison
-# du papier. Sous-espece exacte des 71 especes non garantie, mais domaine,
-# region et periode identiques.
+# --- Loader colibris SDM integre (MÃƒÂ¤kinen et al. 2023) ----------------------
+# L'archive Dryad (559 Mo) contient des rasters environnementaux locaux
+# (CHELSA et EVI) et des zones d'etude. Le README indique que certains
+# fichiers de l'article ont ete retires "due to licensing concerns" :
+# observations PA Map of Life, certains PO, cloud cover et TRI doivent etre
+# recuperes depuis leurs sources originales. On utilise donc ici :
+# - une extraction GBIF directe de colibris, deja presente localement ;
+# - les covariables CHELSA/EVI vraiment presentes dans Data.zip.
+# Le .rds reste une reconstruction benchmarkable partielle, pas la table
+# complete des 71 SDM du papier.
 load_hummingbird_sdm <- function() {
-  path <- file.path(REPO_ROOT, "data", "raw", "papers",
-                    "DataCite_2023_IntegratedSpeciesDistributionModels_10_1111_geb_1379",
-                    "_extracted", "gbif_hummingbird_occurrences.csv")
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2023_IntegratedSpeciesDistributionModels_10_1111_geb_1379")
+  path <- file.path(dir, "_extracted", "gbif_hummingbird_occurrences.csv")
   df <- utils::read.csv(path, stringsAsFactors = FALSE)
   df <- df[!is.na(df$lat) & !is.na(df$lon) & nzchar(df$species), ]
 
@@ -833,13 +886,55 @@ load_hummingbird_sdm <- function() {
 
   sf_obj <- sf::st_as_sf(agg, coords = c("cell_lon", "cell_lat"), crs = 4326, remove = FALSE)
 
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis pour joindre les rasters Dryad hummingbird.",
+         call. = FALSE)
+  }
+
+  data_zip <- file.path(dir, "_extracted", "Data.zip")
+  data_dir <- file.path(dir, "_extracted", "Data")
+  if (!file.exists(data_zip)) {
+    utils::unzip(file.path(dir, "dryad_k98sf7mdg_data.zip"),
+                 files = "Data.zip",
+                 exdir = file.path(dir, "_extracted"))
+  }
+  needed <- c(
+    "Data/Environment/Chelsa_SA.tif",
+    "Data/EVI/Annual_EVI_resampled_NA30x30_americas.tif"
+  )
+  missing <- needed[!file.exists(file.path(data_dir, needed))]
+  if (length(missing)) {
+    utils::unzip(data_zip, files = missing, exdir = data_dir)
+  }
+
+  chelsa <- terra::rast(file.path(data_dir, "Data", "Environment", "Chelsa_SA.tif"))
+  names(chelsa) <- c(
+    "annual_mean_temperature",
+    "mean_diurnal_range",
+    "annual_precipitation",
+    "precipitation_seasonality"
+  )
+  evi <- terra::rast(file.path(data_dir, "Data", "EVI",
+                               "Annual_EVI_resampled_NA30x30_americas.tif"))
+  names(evi) <- "evi_annual"
+
+  pts <- terra::vect(sf_obj)
+  pts <- terra::project(pts, terra::crs(chelsa))
+  env_values <- terra::extract(c(chelsa, evi), pts, ID = FALSE)
+  env_values <- as.data.frame(env_values)
+  sf_obj <- cbind(sf_obj, env_values)
+
+  complete_env <- stats::complete.cases(sf::st_drop_geometry(sf_obj)[, names(env_values), drop = FALSE])
+  sf_obj <- sf_obj[complete_env, ]
+  sf_obj$log1p_species_richness <- log1p(sf_obj$species_richness)
+
   list(
     obj = sf_obj,
     row = list(
       coordinate_columns = "cell_lon,cell_lat",
       identifier_variables = "",
       datetime_columns = "",
-      candidate_y_variables = "species_richness,n_occurrences"
+      candidate_y_variables = "log1p_species_richness,species_richness,n_occurrences"
     )
   )
 }
@@ -996,7 +1091,6 @@ PAPER_DATASET_LOADERS <- list(
   wald_test = load_wald_test,
   uk_photovoltaic = load_uk_photovoltaic,
   mammals_sr_pd = load_mammals_sr_pd,
-  arequipa_climate = load_arequipa_climate,
   beta0_gwr = load_beta0_gwr,
   pm25_grid = load_pm25_grid,
   o3_grid = load_o3_grid,
@@ -1046,4 +1140,5 @@ convert_all_registered <- function(verbose = TRUE) {
 if (sys.nframe() == 0) {
   convert_all_registered()
 }
+
 

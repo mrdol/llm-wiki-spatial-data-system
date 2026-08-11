@@ -50,6 +50,12 @@ def parse_args() -> argparse.Namespace:
         help="Number of parallel Crossref workers. Use 1 for the most conservative API behavior.",
     )
     parser.add_argument(
+        "--min-dataset-size-kb",
+        type=int,
+        default=50,
+        help="Minimum DataCite deposit size in KB when size metadata is available. Use 0 to disable.",
+    )
+    parser.add_argument(
         "--profiles",
         default="all",
         help="Comma-separated DataCite thematic profiles, or 'all'. Examples: core,transport_mobility,public_health.",
@@ -115,6 +121,8 @@ def main() -> int:
                 str(args.min_citations),
                 "--crossref-workers",
                 str(args.crossref_workers),
+                "--min-dataset-size-kb",
+                str(args.min_dataset_size_kb),
                 "--profiles",
                 args.profiles,
             ],

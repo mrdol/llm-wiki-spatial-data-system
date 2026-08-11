@@ -1,4 +1,4 @@
-﻿---
+---
 title: paper_velado_alonso_wildlife_livestock_diversity
 type: dataset
 created: 2026-08-09
@@ -44,6 +44,8 @@ Le fichier source fournit des coordonnees projetees (`XCentroid`, `YCentroid`) e
 - Presence of imputed X: unknown
 - Coordinates (excluded from X): `XCentroid`, `YCentroid` (identifiees comme identifiants dans le typology JSON car projetees, pas lon/lat directes)
 - Identifier columns (excluded from X): `UTMCode`, `Grid`, `Unnamed: 0`
+
+> Selection Y/X (paper-loader / curated evidence) : Pour `paper_velado_alonso_wildlife_livestock_diversity`, la réponse prioritaire est `Native_Mammal_Richness`, parce que le papier relie la diversité des vertébrés sauvages à la diversité du bétail et aux gradients environnementaux. Les covariables X retenues sont `Total_Breed_Richness`, `Annual_Mean_Temperature`, `Annual_Precipitation` et `HumanFootprint_2009`, qui résument respectivement la diversité du bétail, le climat et la pression humaine. Les réponses alternatives par groupe taxonomique restent disponibles pour analyses secondaires ; les identifiants, géométries et champs techniques sont exclus de X. Statut benchmark actuel : ready_with_crs_limit ; la limite CRS reste documentée dans le bloc benchmark_readiness.
 
 #### Detail Y
 

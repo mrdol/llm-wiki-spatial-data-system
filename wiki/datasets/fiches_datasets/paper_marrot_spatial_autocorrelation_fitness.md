@@ -1,8 +1,8 @@
 ---
 title: paper_marrot_spatial_autocorrelation_fitness
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds
   - DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210
@@ -14,9 +14,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 ## Description du jeu de donnees
 
 - Topic: dataset spatial spatio-temporel
-- Observation unit: observation spatiale de type POINT
-- Observed population: a preciser depuis le papier source
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Observation unit: observation spatiale du dataset "Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
+- Observed population: DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics
+- Geographic context: etendue sf: x [3.661328, 3.679321], y [43.6539548, 43.674217]
 - Temporal context: 27 distinct periods (variable: Laying_date)
 - Source description: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Local raw dir: `data/raw/papers/DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210/`
 - Local sf output: `data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Number_of_fledglings`
 - Candidate Y typology: continuous
-- Candidate X variables: `Laying_date`, `Clutch_size`, `Incubation_duration`
-- Candidate X count: 3
+- Candidate X variables in local artifact: `Laying_date`, `Clutch_size`, `Incubation_duration`
+- Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `Longitude`, `Latitude`
+- Published X variables from paper: Clutch_size, Laying_date, Incubation_duration
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Individuals_ID`, `Nest_boxes_ID`, `Years`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 |---|---|---|---|---|
 | `Number_of_fledglings` | `numeric` | continuous | [0, 13] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `marrot_spatial_autocorrelation_fitness`, la ou les reponses `Number_of_fledglings` viennent du loader papier et/ou des preuves de l article `Spatial autocorrelation in fitness affects the estimation of natural selection in the wild`. Les covariables X retenues sont `Clutch_size`, `Laying_date`, `Incubation_duration`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Individuals_ID`, `Nest_boxes_ID`, `Years`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `marrot_spatial_autocorrelation_fitness`, la ou les reponses `Number_of_fledglings` viennent du loader papier et/ou des preuves de l article `Spatial autocorrelation in fitness affects the estimation of natural selection in the wild`. Les covariables X retenues sont `Clutch_size`, `Laying_date`, `Incubation_duration`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Individuals_ID`, `Nest_boxes_ID`, `Years`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -57,7 +59,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 | `Clutch_size` | `numeric` | continuous | 0% |
 | `Incubation_duration` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
 - x_terms_pub: Clutch_size, Laying_date, Incubation_duration
@@ -72,7 +74,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Correspondance Python/R: aucune identifiee
 - Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
 - x_terms_used: Clutch_size, Laying_date, Incubation_duration
@@ -114,7 +116,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_marrot_spatial_autocorrelation_fitness`
 - Dataset name: Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
@@ -126,7 +128,7 @@ formula_candidates:
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.pm86c
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -159,7 +161,18 @@ benchmark_readiness:
 - Manque principal: decider si Number_of_fledglings doit rester count ou etre traite comme regression continue pour benchmark comparatif
 - Raison: Y/X, coordonnees et N sont confirmes; formule locale disponible dans le KG et les donnees converties en sf.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel_ou_series
@@ -169,7 +182,7 @@ benchmark_readiness:
 - Variable temporelle: Laying_date
 - N/T profile: N_moyen_T_grand
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -178,9 +191,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [3.661328, 3.679321], y [43.6539548, 43.674217]
 - Time range: 30 to 58 (variable: Laying_date)
-- CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -194,7 +207,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

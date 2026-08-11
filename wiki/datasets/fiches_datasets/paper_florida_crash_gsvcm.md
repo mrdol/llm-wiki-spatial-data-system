@@ -1,8 +1,8 @@
 ---
 title: paper_florida_crash_gsvcm
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_florida_crash_gsvcm.rds
   - DataCite_2020_GeneralizedSpatiallyVaryingCoefficient_10_1080_10618600
@@ -13,10 +13,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
-- Observation unit: observation spatiale de type POINT
-- Observed population: a preciser depuis le papier source
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Topic: transport / securite routiere
+- Observation unit: zone spatiale de comptage des accidents
+- Observed population: accidents routiers et facteurs socio-demographiques locaux
+- Geographic context: etendue sf: x [-87.5292058, -80.0332227], y [25.2968416, 30.9855385]
 - Temporal context: none (cross-sectional)
 - Source description: Generalized Spatially Varying Coefficient Models
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - Local raw dir: `data/raw/papers/DataCite_2020_GeneralizedSpatiallyVaryingCoefficient_10_1080_10618600/`
 - Local sf output: `data/final_datasets/sf/paper_florida_crash_gsvcm.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Offcrsh`
 - Candidate Y typology: count
-- Candidate X variables: `log.VMT`, `log.Pop`, `Rmale`, `Rold`, `Rhisp`, `Runemploy`
-- Candidate X count: 6
+- Candidate X variables in local artifact: `log.VMT`, `log.Pop`, `Rmale`, `Rold`, `Rhisp`, `Runemploy`
+- Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Coordinates (x, y — excluded from X candidates): `Lon`, `Lat`
+- Published X variables from paper: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `Lon`, `Lat`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 |---|---|---|---|---|
 | `Offcrsh` | `integer` | count | [0, 159] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -60,7 +62,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 | `Rhisp` | `numeric` | rate | 0% |
 | `Runemploy` | `numeric` | rate | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy [GSVCM negative-binomial application]
 - x_terms_pub: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
@@ -73,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy
 - x_terms_used: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_used: Offcrsh
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
 
 ### Formules candidates
 
@@ -117,7 +119,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_florida_crash_gsvcm`
 - Dataset name: Generalized Spatially Varying Coefficient Models
@@ -129,7 +131,7 @@ formula_candidates:
 - Source URL: https://tandf.figshare.com/articles/dataset/Generalized_Spatially_Varying_Coefficient_Models/12156975
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -162,7 +164,18 @@ benchmark_readiness:
 - Manque principal: confirmer dans l'article que l'application Florida crash est le cas empirique principal et choisir traitement count vs regression continue
 - Raison: Le script supplementaire donne explicitement Y, X et coordonnees; reponse Offcrsh est un compte.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "almost_ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -172,7 +185,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -181,9 +194,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-87.5292058, -80.0332227], y [25.2968416, 30.9855385]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -197,7 +210,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

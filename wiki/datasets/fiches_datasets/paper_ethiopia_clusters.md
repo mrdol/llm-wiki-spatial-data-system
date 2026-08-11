@@ -1,8 +1,8 @@
 ---
 title: paper_ethiopia_clusters
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_ethiopia_clusters.rds
   - DataCite_2022_SpatialTrendsAndProjections_10_1186_s41043_0
@@ -16,29 +16,31 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 - Topic: sante publique / geographie de la malnutrition
 - Observation unit: cluster spatial significatif (SaTScan)
 - Observed population: enfants de moins de 5 ans, Ethiopie
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [34.455099, 41.792392], y [3.621391, 13.987653]
 - Temporal context: 3 distinct periods (variable: year)
 - Source description: Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis
 - Description source: paper_dataset_uses.json + lecture directe du papier
-- Description confidence: low
+- Description confidence: medium
 - Paper DOI: 10.1186/s41043-022-00309-7
 - Dataset DOI: 10.6084/m9.figshare.20236415
 - Source URL: https://springernature.figshare.com/articles/dataset/Additional_file_2_of_Spatial_trends_and_projections_of_chronic_malnutrition_among_children_under_5_years_of_age_in_Ethiopia_from_2011_to_2019_a_geographically_weighted_regression_analysis/20236415
 - Local raw dir: `data/raw/papers/DataCite_2022_SpatialTrendsAndProjections_10_1186_s41043_0/`
 - Local sf output: `data/final_datasets/sf/paper_ethiopia_clusters.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `RR`, `cases`
 - Candidate Y typology: continuous
-- Candidate X variables: `radius_km`, `population`, `LLR`, `p_value`
-- Candidate X count: 4
+- Candidate X variables in local artifact: `radius_km`, `population`, `LLR`, `p_value`
+- Candidate X count in local artifact: 4
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `lon`, `lat`
+- Published X variables from paper: radius_km, population, LLR, p_value
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `cluster`, `year`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -48,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 | `RR` | `numeric` | continuous | [1.27, 2.23] | 0% |
 | `cases` | `numeric` | continuous | [19, 2082] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `ethiopia_clusters`, la ou les reponses `RR`, `cases` viennent du loader papier et/ou des preuves de l article `Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis`. Les covariables X retenues sont `radius_km`, `population`, `LLR`, `p_value`. Les coordonnees (`lon`, `lat`), identifiants (`cluster`, `year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_clusters ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_clusters`, la ou les reponses `RR`, `cases` viennent du loader papier et/ou des preuves de l article `Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis`. Les covariables X retenues sont `radius_km`, `population`, `LLR`, `p_value`. Les coordonnees (`lon`, `lat`), identifiants (`cluster`, `year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_clusters ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -59,12 +61,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 | `LLR` | `character` | categorical | 0% |
 | `p_value` | `character` | categorical | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: pending
 - x_terms_pub: radius_km, population, LLR, p_value
 - y_term_pub: RR
-- Reference publication: pending
+- Reference publication: DataCite dataset DOI 10.6084/m9.figshare.20236415; Publication DOI 10.1186/s41043-022-00309-7
 
 ### Statut regression canonique
 
@@ -74,12 +76,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: RR ~ radius_km + population + LLR + p_value
 - x_terms_used: radius_km, population, LLR, p_value
 - y_term_used: RR
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source — a confirmer par revue manuelle.
+- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
 ### Formules candidates
 
@@ -116,7 +118,7 @@ formula_candidates:
     status: "generated"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_ethiopia_clusters`
 - Dataset name: Additional file 2 of Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis
@@ -128,7 +130,7 @@ formula_candidates:
 - Source URL: https://springernature.figshare.com/articles/dataset/Additional_file_2_of_Spatial_trends_and_projections_of_chronic_malnutrition_among_children_under_5_years_of_age_in_Ethiopia_from_2011_to_2019_a_geographically_weighted_regression_analysis/20236415
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -161,7 +163,18 @@ benchmark_readiness:
 - Manque principal: retrouver le jeu DHS/GWR original ou rester hors benchmark
 - Raison: Le fichier contient des clusters SaTScan derives, pas les observations de malnutrition utilisees pour la GWR.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_derived_clusters"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel_ou_series
@@ -171,7 +184,7 @@ benchmark_readiness:
 - Variable temporelle: year
 - N/T profile: N_petit_T_moyen
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -180,9 +193,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [34.455099, 41.792392], y [3.621391, 13.987653]
 - Time range: 2011 to 2019 (variable: year)
-- CRS analyse recommande: 32637 (UTM Zone 37N (EPSG:32637)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32637 (UTM Zone 37N (EPSG:32637)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown

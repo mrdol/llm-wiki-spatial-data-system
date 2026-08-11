@@ -1,8 +1,8 @@
 ---
 title: paper_metacomnet
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_metacomnet.rds
   - DataCite_2021_MetacomnetARandomForest_10_1111_2041_210
@@ -16,29 +16,31 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 - Topic: ecologie / interactions plantes-pollinisateurs
 - Observation unit: site d'observation ou cellule de grille d'occurrence
 - Observed population: communautes de pollinisateurs ou d'oiseaux nectarivores
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [10.990725, 11.192735], y [60.085292, 60.318768]
 - Temporal context: none (cross-sectional)
 - Source description: MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 - Description source: paper_dataset_uses.json + lecture directe du papier
-- Description confidence: low
+- Description confidence: medium
 - Paper DOI: 10.1111/2041-210x.13762
 - Dataset DOI: 10.5061/dryad.n02v6wwzn
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.n02v6wwzn
 - Local raw dir: `data/raw/papers/DataCite_2021_MetacomnetARandomForest_10_1111_2041_210/`
 - Local sf output: `data/final_datasets/sf/paper_metacomnet.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Number`, `Occurrence`
 - Candidate Y typology: count, binary
-- Candidate X variables: `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH`, `LndscpGR`, `DistSand`, `NearestOcc`, `RegionalCommonness`, `FacOccurrence`
-- Candidate X count: 17
+- Candidate X variables in local artifact: `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH`, `LndscpGR`, `DistSand`, `NearestOcc`, `RegionalCommonness`, `FacOccurrence`
+- Candidate X count in local artifact: 17
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): none detected
+- Published X variables from paper: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `Site`, `SiteBee`, `SitePlant`, `SitePlantBee`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -48,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 | `Number` | `integer` | count | [0, 27] | 0% |
 | `Occurrence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `metacomnet`, la ou les reponses `Number`, `Occurrence` viennent du loader papier et/ou des preuves de l article `MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions`. Les covariables X retenues sont `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (les coordonnees detectees), identifiants (`Site`, `SiteBee`, `SitePlant`, `SitePlantBee`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `metacomnet`, la ou les reponses `Number`, `Occurrence` viennent du loader papier et/ou des preuves de l article `MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions`. Les covariables X retenues sont `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`Site`, `SiteBee`, `SitePlant`, `SitePlantBee`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -72,12 +74,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 | `RegionalCommonness` | `integer` | count | 0% |
 | `FacOccurrence` | `character` | categorical | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: pending
 - x_terms_pub: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
 - y_term_pub: Number
-- Reference publication: pending
+- Reference publication: DataCite dataset DOI 10.5061/dryad.n02v6wwzn; Publication DOI 10.1111/2041-210x.13762
 
 ### Statut regression canonique
 
@@ -87,12 +89,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 - Correspondance Python/R: aucune identifiee
 - Note: n/a
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + ... (5 covariables au total, voir Candidate X variables)
 - x_terms_used: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
 - y_term_used: Number
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source — a confirmer par revue manuelle.
+- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
 ### Formules candidates
 
@@ -129,7 +131,7 @@ formula_candidates:
     status: "generated"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_metacomnet`
 - Dataset name: MetaComNet: A random forest-based framework for making spatial prediction of plant-pollinator interactions
@@ -141,7 +143,7 @@ formula_candidates:
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.n02v6wwzn
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): pending
 - Modele niveau 2 (famille): pending
@@ -174,7 +176,18 @@ benchmark_readiness:
 - Manque principal: route classification/count et specification de reponse adaptee
 - Raison: Le papier utilise une logique Random Forest sur occurrences/interactions, pas une regression continue standard.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_current_package"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -184,7 +197,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -193,9 +206,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [10.990725, 11.192735], y [60.085292, 60.318768]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown

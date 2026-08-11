@@ -1,8 +1,8 @@
 ---
 title: paper_wald_test
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_wald_test.rds
   - DataCite_2020_TheWaldTestOf_10_1017_pan_2020
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Topic: econometrie spatiale / methodologie de test
 - Observation unit: observation parti x election
 - Observed population: partis politiques, democraties occidentales
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [-110.243807777161, 176.516596816029], y [-38.30531015, 79.958143]
 - Temporal context: none (cross-sectional)
 - Source description: The Wald Test of Common Factors in Spatial Model Specification Search Strategies
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Local raw dir: `data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/`
 - Local sf output: `data/final_datasets/sf/paper_wald_test.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `change`
 - Candidate Y typology: continuous
-- Candidate X variables: `countryname`, `clear1`, `lag_pervote`, `party_shift_t`, `party_shift_t1`, `niche`, `ciep_perc`, `rgdppc_growth`, `gparties`, `majority`, `prime_dummy`, `xregbet`, `govt_lag_pervote`, `govt_gparties`, `niche_lag_pervote`, `eff_par`, `govt_ciep`, `pm_ciep`, `growth_govt`, `pm_growth`, `pm_lag_pervote`, `pm_majority`, `pm_gparties`
-- Candidate X count: 23
+- Candidate X variables in local artifact: `countryname`, `clear1`, `lag_pervote`, `party_shift_t`, `party_shift_t1`, `niche`, `ciep_perc`, `rgdppc_growth`, `gparties`, `majority`, `prime_dummy`, `xregbet`, `govt_lag_pervote`, `govt_gparties`, `niche_lag_pervote`, `eff_par`, `govt_ciep`, `pm_ciep`, `growth_govt`, `pm_growth`, `pm_lag_pervote`, `pm_majority`, `pm_gparties`
+- Candidate X count in local artifact: 23
 - Candidate X typology: categorical, continuous
-- Coordinates (x, y — excluded from X candidates): none detected
+- Published X variables from paper: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ccode`, `iso_a2`, `party`, `ts`
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 |---|---|---|---|---|
 | `change` | `numeric` | continuous | [-28.24, 22.73] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (les coordonnees detectees), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_original_W ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_original_W ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -77,12 +79,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 | `pm_majority` | `numeric` | binary | 0% |
 | `pm_gparties` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
 - x_terms_pub: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_pub: change
-- Reference publication: Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Reference publication: Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
 
 ### Statut regression canonique
 
@@ -90,14 +92,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
 - x_terms_used: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_used: change
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
 
 ### Formules candidates
 
@@ -119,7 +121,7 @@ formula_candidates:
     predictors: ["rgdppc_growth", "growth_govt", "pm_growth", "party_shift_t", "party_shift_t1", "ciep_perc", "govt_ciep", "pm_ciep", "xregbet", "prime_dummy", "niche", "gparties", "pm_gparties", "lag_pervote", "pm_lag_pervote", "niche_lag_pervote", "eff_par"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
+    source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -134,7 +136,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_wald_test`
 - Dataset name: Replication Data for: The Wald Test of Common Factors in Spatial Model Specification Search Strategies
@@ -146,7 +148,7 @@ formula_candidates:
 - Source URL: https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/CY7YWE
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -159,7 +161,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
+  source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
   confidence: medium
 ```
 
@@ -179,7 +181,18 @@ benchmark_readiness:
 - Manque principal: conserver ou reconstruire la matrice W politique du papier
 - Raison: La formule SDM est confirmee, mais W est une proximite politique et non une matrice construite depuis les coordonnees.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "needs_original_W"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
+  conditionally_eligible_estimators: ["sar_lag", "sem_error", "sdm_mixed"]
+  ineligible_reason: "spatial econometric estimators require the original paper W or an explicitly accepted proxy W"
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -189,7 +202,7 @@ benchmark_readiness:
 - Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -198,9 +211,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [-110.243807777161, 176.516596816029], y [-38.30531015, 79.958143]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending — multi-zones (span=286.8deg) -- projection nationale recommandee
+- CRS analyse recommande: pending - multi-zones (span=286.8deg) -- projection nationale recommandee
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -214,7 +227,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

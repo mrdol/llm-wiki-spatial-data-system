@@ -1019,18 +1019,6 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | low_priority_review | `DataSourceCandidate` | 45 | Experimental Results | Table 2 compares the performance of Graph WaveNet and baseline models for 15 minutes, 30 minutes and 60 minutes ahead prediction on METR-LA and PEMS-BAY datasets. Graph WaveNet obtains the superior results on both datasets. It outperforms temporal models in... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 : |
 
-### How do Indigenous and local knowledge systems respond to climate change?
-
-- DOI : `10.5751/ES-12481-260327`
-- TEI : `corpus\papers\tei\How do Indigenous and local knowledge systems respond to climate change.tei.xml`
-
-| Action | Type | Score | Section/table | Extrait candidat |
-|---|---|---:|---|---|
-| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
-| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Climatic variables |
-| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 3 . |
-| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Climatic variables |
-
 ### Identification of a gene associated with avian migratory behaviour
 
 - DOI : `10.1098/rspb.2010.2567`

@@ -1,8 +1,8 @@
 ---
 title: paper_o3_aqs_ma_2016_monitor_covariates
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_o3_aqs_state_25_2016_monitor_covariates.rds
   - tools/build_air_quality_monitor_covariates.R
@@ -28,18 +28,18 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 - Local sf output: `data/final_datasets/sf/paper_o3_aqs_state_25_2016_monitor_covariates.rds`
 - Builder script: `tools/build_air_quality_monitor_covariates.R`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `o3_mean_2016`
 - Candidate Y typology: continuous
 - Candidate X variables: `elevation_m_usgs_epqs`, `power_t2m_mean_c`, `power_rh2m_mean_pct`, `power_ws10m_mean_m_s`, `power_prectotcorr_sum_mm`, `power_swdwn_mean_mj_m2_day`, `nlcd_land_cover_code`, `nlcd_developed`, `nlcd_forest`, `road_density_primary_secondary_1km_m_per_km2`, `road_density_primary_secondary_10km_m_per_km2`, `power_ps_mean_kpa`
 - Candidate X count: 12
 - Candidate X typology: continuous, categorical, binary
-- Coordinates (x, y — excluded from X candidates): `longitude`, `latitude`
+- Coordinates (x, y - excluded from X candidates): `longitude`, `latitude`
 - Identifier columns (excluded from X candidates): `site_id`, `state_code`, `county_code`, `site_num`, `measurement_column`, `response_units`, `pollutant`, `year`, `source_observations`, `source_grid_prediction`
-- Variables inspected: yes (auto — generate_air_quality_monitor_fiches.R)
+- Variables inspected: yes (auto - generate_air_quality_monitor_fiches.R)
 - Presence of imputed X: unknown
 - Diagnostic/proxy columns excluded from formula_used: `o3_grid_prediction_2016`, `o3_grid_distance_m`
 
@@ -49,7 +49,7 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 |---|---|---|---|---|
 | `o3_mean_2016` | `numeric` | continuous | [24.9824, 35.1017] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : o3_mean_2016 est la reponse naturelle car elle correspond a la moyenne annuelle 2016 observee aux stations EPA AQS. Les covariables X retenues sont les familles publiques explicitement mentionnees par l article (10.1021/acs.est.0c01791) et reconstruites localement: elevation, meteo/radiation, occupation du sol et routes. Les predictions de grille originales (`o3_grid_prediction_2016`, `o3_grid_distance_m`) sont conservees comme colonnes diagnostiques mais exclues de formula_used pour eviter une fuite d information.
+> Selection Y/X (paper-loader / curated evidence) : o3_mean_2016 est la reponse naturelle car elle correspond a la moyenne annuelle 2016 observee aux stations EPA AQS. Les covariables X retenues sont les familles publiques explicitement mentionnees par l article (10.1021/acs.est.0c01791) et reconstruites localement: elevation, meteo/radiation, occupation du sol et routes. Les predictions de grille originales (`o3_grid_prediction_2016`, `o3_grid_distance_m`) sont conservees comme colonnes diagnostiques mais exclues de formula_used pour eviter une fuite d information.
 
 #### Detail X
 
@@ -68,7 +68,7 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 | `road_density_primary_secondary_10km_m_per_km2` | `numeric` | continuous | 0% |
 | `power_ps_mean_kpa` | `numeric` | continuous | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: no single monitor-level regression formula published in the extracted article text.
 - x_terms_pub: air-quality observations, remote-sensing/satellite products, meteorology, land-use/land-cover, elevation, road/traffic proxies and chemical transport model outputs are cited as covariate families in the paper.
@@ -83,7 +83,7 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 - Correspondance Python/R: aucune identifiee
 - Note: formule compacte derivee pour garder un ratio n/p stable sur une coupe Massachusetts 2016.
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: o3_mean_2016 ~ elevation_m_usgs_epqs + power_t2m_mean_c + power_swdwn_mean_mj_m2_day + nlcd_forest + road_density_primary_secondary_10km_m_per_km2
 - x_terms_used: elevation_m_usgs_epqs, power_t2m_mean_c, power_swdwn_mean_mj_m2_day, nlcd_forest, road_density_primary_secondary_10km_m_per_km2
@@ -105,7 +105,7 @@ formula_candidates:
     status: "derived_reconstruction"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_o3_aqs_ma_2016_monitor_covariates`
 - Dataset name: O3 AQS Massachusetts 2016 monitor covariates
@@ -116,7 +116,7 @@ formula_candidates:
 - Publication DOI: 10.1021/acs.est.0c01791
 - Year: 2016
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression continue spatiale
 - Modele niveau 2 (famille): benchmark derive avec covariables publiques
@@ -149,7 +149,18 @@ benchmark_readiness:
 - Manque principal: exact paper training matrix and missing satellite/CTM/traffic covariates
 - Raison: usable for exploratory benchmark only after explicit validation.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review_derived_reconstruction"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
+  conditionally_eligible_estimators: ["sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  ineligible_reason: "spatial econometric estimators require explicit validation because this is a partial monitor-level reconstruction, not the exact paper training matrix"
+  rule: "paper-derived reconstructions are eligible only after the response, predictors, coordinates and leakage exclusions are explicit in formula_used"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
 - Structure: coupe_transversale
@@ -159,7 +170,7 @@ benchmark_readiness:
 - Variable temporelle: annualized 2016
 - N/T profile: N_petit_T_petit
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: monitoring station
@@ -170,7 +181,7 @@ benchmark_readiness:
 - Time range: 2016
 - CRS analyse recommande: projected CRS for Massachusetts / CONUS before distance-sensitive weights
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: public source dependent

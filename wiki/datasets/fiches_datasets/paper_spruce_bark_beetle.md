@@ -1,8 +1,8 @@
 ---
 title: paper_spruce_bark_beetle
 type: dataset
-created: 2026-08-10
-updated: 2026-08-10
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/paper_spruce_bark_beetle.rds
   - DataCite_2024_ClimaticAndManagementRelated_10_1111_1365_266
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Topic: ecologie / interactions plantes-pollinisateurs
 - Observation unit: site d'observation ou cellule de grille d'occurrence
 - Observed population: communautes de pollinisateurs ou d'oiseaux nectarivores
-- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)
+- Geographic context: etendue sf: x [7.10182, 14.55037], y [58.08526, 66.4163]
 - Temporal context: 18 distinct periods (variable: year)
 - Source description: Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -27,18 +27,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Local raw dir: `data/raw/papers/DataCite_2024_ClimaticAndManagementRelated_10_1111_1365_266/`
 - Local sf output: `data/final_datasets/sf/paper_spruce_bark_beetle.rds`
 
-## Bloc 1 — Formule et variables
+## Bloc 1 - Formule et variables
 
-### Variables (niveau systeme — inspection directe du sf)
+### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `trapcounts`
 - Candidate Y typology: count
-- Candidate X variables: `year`, `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture`
-- Candidate X count: 8
+- Candidate X variables in local artifact: `year`, `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture`
+- Candidate X count in local artifact: 8
 - Candidate X typology: continuous, categorical
-- Coordinates (x, y — excluded from X candidates): `east`, `north`
+- Published X variables from paper: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
+- Published X count: 0
+- Coordinates (x, y - excluded from X candidates): `east`, `north`
 - Identifier columns (excluded from X candidates): none detected
-- Variables inspected: yes (auto — generate_fiches_papers.R)
+- Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -47,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 |---|---|---|---|---|
 | `trapcounts` | `integer` | count | [7, 36735] | 0% |
 
-> Selection Y/X (paper-loader/curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,7 +64,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 | `precipitation` | `character` | categorical | 0% |
 | `soil_moisture` | `character` | categorical | 0% |
 
-### Formule — niveau publication
+### Formule - niveau publication
 
 - formula_pub: trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture
 - x_terms_pub: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
@@ -75,14 +77,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
 
-### Formule — niveau systeme
+### Formule - niveau systeme
 
 - formula_used: trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture
 - x_terms_used: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
 - y_term_used: trapcounts
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-10). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
 
 ### Formules candidates
 
@@ -119,7 +121,7 @@ formula_candidates:
     status: "unavailable"
 ```
 
-## Bloc 2 — Identification et DOI
+## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_spruce_bark_beetle`
 - Dataset name: Data for: Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests
@@ -131,7 +133,7 @@ formula_candidates:
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.kd51c5bdc
 - Year: unknown
 
-## Bloc 3 — Typologie des modeles
+## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
@@ -164,7 +166,18 @@ benchmark_readiness:
 - Manque principal: confirmer la specification empirique exacte dans le papier associe avant inclusion automatique package
 - Raison: Y=trapcounts, covariables documentees, coordonnees WGS84 et N=1731 sont disponibles dans le README Dryad.
 
-## Bloc 4 — Typologie des donnees
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "almost_ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+```
+
+## Bloc 4 - Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel_ou_series
@@ -174,7 +187,7 @@ benchmark_readiness:
 - Variable temporelle: year
 - N/T profile: N_grand_T_grand
 
-## Bloc 5 — Resolution et etendue
+## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
@@ -183,9 +196,9 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [7.10182, 14.55037], y [58.08526, 66.4163]
 - Time range: 2004 to 2021 (variable: year)
-- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32632 (UTM Zone 32N (EPSG:32632)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
-## Bloc 6 — Reproductibilite
+## Bloc 6 - Reproductibilite
 
 - License present: unknown
 - License name: unknown
@@ -199,7 +212,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee (verifiee par lecture directe du papier).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

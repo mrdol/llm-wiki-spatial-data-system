@@ -257,15 +257,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.05qfttf8t; Publication DOI 10.1111/geb.13762 | Analyse macroécologique globale oiseaux avec path analysis et modèles spatiaux; domaine biodiversité prioritaire; >17000 assemblages géoréférenciés; méthodes incluent null models écologiquement informés et analyses spatiales latitude/élévation / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
-## How do Indigenous and local knowledge systems respond to climate change?
-
-- DOI papier : `10.5751/es-12481-260327`
-- BibTeX key : `DataCite_2021_HowDoIndigenousAnd_10_5751_es_12481`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Arequipa Climate Maps - Normals (Version 1) | `converted_to_sf` |  | 63307 | None | DataCite dataset DOI 10.4231/490d-hc66; Publication DOI 10.5751/es-12481-260327 | no - INCOHERENCE dataset/publication : cartes climatiques Arequipa liees a un article qualitatif sur les savoirs autochtones face au changement climatique, sans lien de modelisation evident -> verifier le lien reel / Telecharge manuellement le 2026-08-07, mais l'incoherence dataset/papier signalee precedemment (cartes climatiques vs article qualitatif sur les savoirs autochtones) n'a pas ete levee : verification manuelle du lien reel toujours necessaire avant usage. / Pertinence confirmee le 2026-08-08 : la bibliographie de Popovici et al. (2021, DOI 10.5751/ES-12481-260327) cite explicitement Moraes et al. 2021 "Arequipa climate maps normals" (DOI 10.4231/JNBK-ZK34, v2.0, meme institut Purdue Nexus, memes auteurs Moraes/Cherkauer co-signataires du papier) comme source des tendances climatiques 1988-2017 utilisees en section Methods. Converti en sf (grille 1km UTM18S, 63307 points, ACMN_annual/*.tif). |
-
 ## Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation
 
 - DOI papier : `10.1111/ecog.06391`

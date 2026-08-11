@@ -10,7 +10,7 @@
 # explicatives conservees apres exclusion des coordonnees, identifiants et
 # champs techniques.
 #
-# Usage : Rscript code/r_catalog/generate_fiches_papers.R
+# Usage : Rscript code/r_catalog/generate_fiches_papers.R [record_id ...]
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -45,7 +45,6 @@ LOADER_TO_DIR <- c(
   wald_test              = "DataCite_2020_TheWaldTestOf_10_1017_pan_2020",
   uk_photovoltaic        = "DataCite_2015_RegionalDistributionOfPhotovoltaic_10_1016_j_eneco_",
   mammals_sr_pd          = "DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299",
-  arequipa_climate       = "DataCite_2021_HowDoIndigenousAnd_10_5751_es_12481",
   beta0_gwr              = "DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20",
   pm25_grid              = "DataCite_2019_AnEnsembleBasedModel_10_1016_j_envint",
   o3_grid                = "DataCite_2020_AnEnsembleLearningApproach_10_1021_acs_est_",
@@ -84,41 +83,127 @@ FORMULA_OVERRIDES <- list(
   ),
   cluster_detection = list(
     formula_pub = "mu_i = beta0 + beta1*x_i (hors cluster) ; mu_i = (beta0+theta_j0) + (beta1+theta_j1)*x_i (dans le cluster C_j)",
-    source_ref = "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) — modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer."
+    source_ref = "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer."
   ),
   medicago = list(
     formula_pub = "richness ~ f(Quaternary climate change, environmental energy) via geographically weighted regression (GWR)",
-    source_ref = "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 — GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
+    source_ref = "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
   ),
   regulatory_convergence = list(
     formula_pub = "adoption_Basel_II ~ spatial lag (interdependance banques/regulateurs/investisseurs transfrontaliere), spatial lag model",
-    source_ref = "Jones & Zeitz (2019), International Studies Quarterly — modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet."
+    source_ref = "Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet."
   ),
   waste_site = list(
     formula_pub = "elas ~ meta-regression (WLS/REML) sur 727 estimations, correction du biais de publication (PET-PEESE)",
-    source_ref = "Schutt (2021), Environmental and Resource Economics 78:381-416 — meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
+    source_ref = "Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
   ),
   pallid_bat = list(
-    formula_pub = "body_size ~ net_primary_productivity + heat_conservation (temperature) [spatial autoregressive model, SAR]",
-    source_ref = "Kelly, Friedman & Santana (2018), Functional Ecology — test de la regle de Bergmann chez Antrozous pallidus via modele autoregressif spatial (SAR) ; la productivite primaire nette explique la variation de taille corporelle mieux que la conservation de chaleur ou la saisonnalite. Note : notre variable 'centroid_size' (derivee des landmarks TPS 2D) est un proxy geometrique-morphometrique, pas la mesure de taille exacte utilisee par les auteurs."
+    formula_pub = "body_size ~ NPP + MinWinTemp + TempSeas [top SAR error model]",
+    formula_used = "centroid_size ~ NPP + MinWinTemp + TempSeas",
+    formula_candidate_formula = "centroid_size ~ NPP + MinWinTemp + TempSeas",
+    y_term_pub = "cranium centroid size / body size proxy",
+    x_terms_pub = c("NPP", "MinWinTemp", "MaxSumTemp", "TempSeas", "PrecSeas"),
+    source_ref = "Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy."
   ),
   mammals_sr_pd = list(
     formula_pub = "SR ~ 0.47*AET + 0.31*Mean_annual_temperature (R2=0.75) ; PD ~ 0.95*SR - 0.37*LGM_velocity + 0.12*Mean_elevation (R2=0.97)",
     formula_used = "SR ~ AET + Temp",
-    source_ref = "Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 — modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres."
+    source_ref = "Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres."
+  ),
+  pm25_grid = list(
+    formula_pub = "PM2.5 ~ f(selected predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
+    formula_used = "pending",
+    formula_candidate_formula = "pending",
+    y_term_pub = "monitored PM2.5 concentration",
+    x_terms_pub = c("spatially_lagged_PM2.5", "CMAQ_PM2.5", "CMAQ_PM2.5_sulfate", "CMAQ_PM2.5_elemental_carbon", "CMAQ_PM2.5_organic_carbon", "AOD_related_variables", "road_density", "longitude", "latitude", "elevation_sd", "NLCD_developed_area"),
+    ml_formula = "monitored_PM2.5 ~ selected predictor variables ranked by learner-specific variable importance",
+    ml_response = "monitored PM2.5 concentration",
+    ml_predictors = c("spatially_lagged_PM2.5", "CMAQ_PM2.5", "CMAQ_PM2.5_sulfate", "CMAQ_PM2.5_elemental_carbon", "CMAQ_PM2.5_organic_carbon", "AOD_related_variables", "road_density", "longitude", "latitude", "elevation_sd", "NLCD_developed_area", "soil_moisture", "NLCD_tree_canopy", "NLCD_planted_land", "CMAQ_NO2", "daily_max_air_temperature", "MODIS_daytime_surface_temperature", "OMI_NO2_column_concentration", "MERRA2_sulfate_aerosol"),
+    ml_source_ref = "Di et al. (2019), Environment International, abstract, sections 1.3-1.5 and Table 4: the authors trained neural network, random forest and gradient boosting learners, ranked predictor contributions, then combined learner predictions with a geographically weighted generalized additive model. Table 4 lists the top 20 variable-importance contributors by learner.",
+    ml_estimator_context = c("random_forest", "gradient_boosting", "neural_network", "gam_spatial", "gwr"),
+    ml_status = "confirmed_feature_groups",
+    source_ref = "Di et al. (2019), Environment International, abstract, sections 1.3-1.5 and Table 4. The current local grid .rds contains final predicted PM2.5 values only; it does not contain the full learner training matrix.",
+    equation_family = "ensemble_ml_geographically_weighted_gam",
+    model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
+  ),
+  no2_grid = list(
+    formula_pub = "NO2 ~ f(selected predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
+    formula_used = "pending",
+    formula_candidate_formula = "pending",
+    y_term_pub = "monitored daily NO2 concentration at AQS sites",
+    x_terms_pub = c("spatially_lagged_NO2", "temporally_lagged_NO2", "meteorological_variables", "OMI_NO2", "GEOS_Chem_NO2", "CMAQ_NO2", "NLCD_land_cover", "truck_traffic", "road_density", "restaurant_density", "elevation", "NDVI", "nighttime_light", "aerosol_variables", "cloud_cover", "surface_albedo", "MODIS_reflectance", "CAMS_NO2"),
+    ml_formula = "monitored_NO2 ~ selected predictor variables from satellite, CTM, meteorology, land-cover and spatial/temporal lag families",
+    ml_response = "monitored daily NO2 concentration",
+    ml_predictors = c("spatially_lagged_NO2", "temporally_lagged_NO2", "meteorological_variables", "OMI_NO2", "GEOS_Chem_NO2", "CMAQ_NO2", "NLCD_land_cover", "truck_traffic", "road_density", "restaurant_density", "elevation", "NDVI", "nighttime_light", "aerosol_variables", "cloud_cover", "surface_albedo", "MODIS_reflectance", "CAMS_NO2"),
+    ml_source_ref = "Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358: abstract and Sections 2.1-3.5 describe monitored NO2 as the response, spatial/temporal lagged NO2, meteorology, OMI, GEOS-Chem, CMAQ, land-cover, traffic, elevation, NDVI, nighttime light, aerosols, cloud and albedo predictors, and neural network, random forest, gradient boosting plus geographically weighted GAM ensemble. The current local grid .rds contains final predicted NO2 values only; it does not contain the monitor-level training matrix.",
+    ml_estimator_context = c("random_forest", "gradient_boosting", "neural_network", "gam_spatial", "gwr"),
+    ml_status = "confirmed_feature_groups",
+    source_ref = "Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.",
+    equation_family = "ensemble_ml_geographically_weighted_gam",
+    model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
+  ),
+  o3_grid = list(
+    formula_pub = "O3 ~ f(169 predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
+    formula_used = "pending",
+    formula_candidate_formula = "pending",
+    y_term_pub = "daily maximum 8 h O3 concentration at monitoring sites",
+    x_terms_pub = c("meteorological_variables", "chemical_transport_model_outputs", "remote_sensing_observations", "land_use_variables", "CMAQ", "GEOS_Chem", "spatiotemporally_lagged_O3", "nearby_monitor_weighted_O3", "AOD", "NDVI", "road_density", "tree_canopy", "developed_area"),
+    ml_formula = "monitored_O3 ~ 169 predictor variables from weather, CTM, remote sensing, land-use and spatiotemporal lag families",
+    ml_response = "daily maximum 8 h O3 concentration",
+    ml_predictors = c("meteorological_variables", "chemical_transport_model_outputs", "remote_sensing_observations", "land_use_variables", "CMAQ", "GEOS_Chem", "spatiotemporally_lagged_O3", "nearby_monitor_weighted_O3", "AOD", "NDVI", "road_density", "tree_canopy", "developed_area"),
+    ml_source_ref = "Requia et al. (2020), Environmental Science & Technology, DOI 10.1021/acs.est.0c01791: Sections 2.1-2.5 describe monitored daily maximum 8 h O3 as the response, 169 predictors consolidated from weather, CTM outputs, remote sensing and land-use data, random-forest imputation, neural network, random forest, gradient boosting, and a geographically weighted GAM ensemble. The current local grid .rds contains final predicted O3 values only; it does not contain the monitor-level training matrix.",
+    ml_estimator_context = c("random_forest", "gradient_boosting", "neural_network", "gam_spatial", "gwr"),
+    ml_status = "confirmed_feature_groups",
+    source_ref = "Requia et al. (2020), Environmental Science & Technology, DOI 10.1021/acs.est.0c01791. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.",
+    equation_family = "ensemble_ml_geographically_weighted_gam",
+    model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
+  ),  biomass_rainforest = list(
+    formula_pub = "AGB_plot(s) = mu + sum_e gamma_e * x_e(s) + k(s) [kriging-regression model, Eq. 4]",
+    formula_used = "AGB_mean ~ area_ha + n_stems + mean_wsg + HAND + LOG + ALT + SLO",
+    formula_candidate_formula = "AGB_plot ~ LANDScapes + HAND + LOG + GEOL + VEGET + ALT + SLO + spatial_kriging_residual",
+    y_term_pub = "AGB_plot / above-ground biomass per hectare",
+    x_terms_pub = c("LANDScapes", "HAND", "LOG", "GEOL", "VEGET", "ALT", "SLO", "spatial_kriging_residual"),
+    source_ref = "Guitet et al. (2015), PLOS ONE, DOI 10.1371/journal.pone.0138456; Dryad 10.5061/dryad.38578. The paper computes plot-level AGB from DBH class, simulated height, wood specific gravity and plot area (Eq. 1-2), then models AGB with GLM selected by AIC and adds a kriged residual spatial component k(s) (Eq. 4-5). Selected effects reported in Results are LANDScapes, HAND, LOG, GEOL, VEGET, ALT and SLO; LANDForms, DRY and RAIN were excluded. The current local artifact now reconstructs AGB_mean from the PLOS S1_Dataset_AGB.xlsx supplement and exposes plot area, stem counts, mean WSG and the reconstructed numeric environmental covariates HAND, LOG, ALT and SLO. LANDScapes, GEOL and VEGET remain documented from the paper sources but are not joined locally, so formula_used is still a reduced local executable benchmark formula rather than the full published GLM/KR specification.",
+    yx_selection_note = "Pour `biomass_rainforest`, la reponse publiee n'est pas `mean_wsg` ni `n_stems`, mais `AGB_plot` / above-ground biomass per hectare. Le papier calcule d'abord AGB a partir des classes DBH, de la hauteur simulee, du WSG et de l'aire de placette, puis ajuste un GLM selectionne par AIC avec composante spatiale de krigeage des residus. Dans l'artefact local actuel, `AGB_mean` est reconstruit depuis le supplement PLOS S1_Dataset_AGB.xlsx et sert de reponse locale executable. `area_ha`, `n_stems`, `mean_wsg`, `HAND`, `LOG`, `ALT` et `SLO` sont les covariables locales disponibles. Elles ne remplacent pas la specification complete du papier, car `LANDScapes`, `GEOL`, `VEGET` et la composante de krigeage des residus restent documentees mais non jointes au .rds. Les coordonnees (`Xutm`, `Yutm`), identifiants (`ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : local_reduced_formula ; la promotion package doit signaler que formula_used est une specification locale reduite, distincte de la formule publication complete.",
+    equation_family = "kriging_regression_glm_plus_spatial_residual",
+    model_family = "above-ground biomass/carbon mapping with GLM and ordinary kriging"
   ),
   wald_test = list(
     formula_pub = "change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par",
     formula_used = "change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par",
-    source_ref = "Juhl (2021), Political Analysis — Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
+    source_ref = "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
   ),
-  uk_photovoltaic = list(
-    formula_pub = "PV_uptake ~ rho*W*PV_uptake + X*beta + W*X*theta + u (Spatial Durbin Model, eq. 1) ; X = demande electrique, densite population, pollution, niveau education, type logement",
-    source_ref = "Balta-Ozkan, Yildirim & Connor (2015), Energy Economics — famille de modeles econometriques spatiaux (SAR/SEM/SDM) sur le deploiement PV domestique par region NUTS3 en Grande-Bretagne ; le SDM est retenu par tests du multiplicateur de Lagrange."
+  swiss_rainfall = list(
+    formula_pub = "rainfall ~ oblique_geographic_coordinates [random forest / OGC spatial covariates]",
+    formula_used = "rainfall ~ ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150",
+    formula_candidate_formula = "rainfall ~ ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150",
+    y_term_pub = "rainfall on 8 May 1986",
+    x_terms_pub = c("oblique geographic coordinates", "ordinary kriging", "EDFs", "RFsp"),
+    source_ref = "Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Section 2.3.2 and Appendix A compare purely spatial methods on the Swiss rainfall dataset, including OGCs as explicit coordinate covariates. The local loader generates six oblique coordinate covariates from the point geometry, making formula_used executable as an OGC benchmark variant rather than a conventional environmental regression."
+  ),
+  vindum = list(
+    formula_pub = "SOM ~ oblique_geographic_coordinates + auxiliary_data [random forest / OGC spatial covariates]",
+    formula_used = "SOM ~ aspect_cos + aspect_sin + bluespot + curvature_plan + curvature_prof + DEM + DVI + ECa + flow_accu + midslope + MRVBF + NDVI + RVI + SAGAWI + SAVI + SL + slope_gradient + TWI + valleydepth + ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150",
+    formula_candidate_formula = "SOM ~ aspect_cos + aspect_sin + bluespot + curvature_plan + curvature_prof + DEM + DVI + ECa + flow_accu + midslope + MRVBF + NDVI + RVI + SAGAWI + SAVI + SL + slope_gradient + TWI + valleydepth + ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150",
+    y_term_pub = "soil organic matter (SOM)",
+    x_terms_pub = c("aspect_cos", "aspect_sin", "bluespot", "curvature_plan", "curvature_prof", "DEM", "DVI", "ECa", "flow_accu", "midslope", "MRVBF", "NDVI", "RVI", "SAGAWI", "SAVI", "SL", "slope_gradient", "TWI", "valleydepth", "oblique geographic coordinates"),
+    source_ref = "Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.",
+    yx_selection_note = "Pour `vindum`, la reponse `SOM` vient des observations Vindum_SOM du package OGC cite par Moller et al. (2020). Les covariables X retenues combinent les 19 couches auxiliaires publiees dans le package OGC (`aspect_cos`, `aspect_sin`, `bluespot`, `curvature_plan`, `curvature_prof`, `DEM`, `DVI`, `ECa`, `flow_accu`, `midslope`, `MRVBF`, `NDVI`, `RVI`, `SAGAWI`, `SAVI`, `SL`, `slope_gradient`, `TWI`, `valleydepth`) et les six coordonnees geographiques obliques generees localement (`ogc_000` a `ogc_150`). Les identifiants, geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready_ogc_aux_spatial_covariates ; la promotion package reste conditionnee au bloc benchmark_readiness."
+  ),  uk_photovoltaic = list(
+    formula_pub = "PV_uptake ~ rho*W*PV_uptake + X*beta + W*X*theta + u (Spatial Durbin Model, eq. 1)",
+    formula_used = "pending",
+    formula_candidate_formula = "PV_uptake ~ Lnypc + Density + Detached + Ownedshare + Lnelectricity + QL2 + Avehousehold + Irradiation + CO2",
+    y_term_pub = "PV uptake, measured by accumulated capacity and number of installations at Great Britain NUTS3 level",
+    x_terms_pub = c("Lnypc", "Density", "Detached", "Ownedshare", "Lnelectricity", "QL2", "Avehousehold", "Irradiation", "CO2"),
+    source_ref = "Balta-Ozkan, Yildirim & Connor (2015), Energy Economics, DOI 10.1016/j.eneco.2015.08.003: Section 5.2 lists explanatory variables and sources; Section 5.3 gives the spatial econometric specification; Table 8 reports OLS spatial-dependence tests; Table 9 reports SDM/SAR/SEM/GS-2SLS estimates using Lnypc, Density, Detached, Ownedshare, Lnelectricity, QL2, Avehousehold, Irradiation and CO2. Current local .rds has LAD-level PV aggregates only, so the NUTS3 covariate matrix from the paper still has to be reconstructed before formula_used can be executable."
   ),
   hummingbird_sdm = list(
     formula_pub = "log(lambda_PO) = alpha_PO + beta*x + g(s) ; logit(lambda_PA) = alpha_PA + beta*x + g(s) [modele integre PO+PA, effet spatial latent partage g(s)]",
-    source_ref = "Makinen, Merow & Jetz (2023), Global Ecology and Biogeography, Table 1 — SDM integre combinant donnees presence-seule (GBIF) et presence-absence (checklists Andes du Nord) pour 71 especes de colibris, via un processus de Poisson log-lineaire (PO) et un modele Bernoulli (PA) partageant un effet spatial latent g(s)."
+    formula_used = "log1p_species_richness ~ annual_mean_temperature + mean_diurnal_range + annual_precipitation + precipitation_seasonality + evi_annual",
+    formula_candidate_formula = "log1p_species_richness ~ annual_mean_temperature + mean_diurnal_range + annual_precipitation + precipitation_seasonality + evi_annual",
+    y_term_pub = "presence-only intensity, presence-absence occurrence probability, and stacked species richness predictions for 71 hummingbird species",
+    x_terms_pub = c("annual mean temperature", "mean diurnal range", "annual precipitation", "precipitation seasonality", "intra-annual cloud cover variation", "EVI", "TRI"),
+    source_ref = "Makinen, Merow & Jetz (2023), Global Ecology and Biogeography, Section 2.1 and Table 1: SDM integre combinant donnees presence-seule (GBIF) et presence-absence (checklists Andes du Nord) pour 71 especes de colibris, via un processus de Poisson log-lineaire (PO) et un modele Bernoulli (PA) partageant un effet spatial latent g(s). Le README Dryad local fournit CHELSA et EVI ; cloud cover et TRI sont cites par le papier/README mais doivent etre recuperes depuis leurs sources originales avant reproduction complete. formula_used utilise log1p_species_richness, une reponse derivee continue construite depuis le comptage local par cellule ; c est une reconstruction executable partielle au niveau cellule, pas la formule complete des SDM du papier."
   ),
   teles_decapod_biodiversity_brazil = list(
     formula_pub = "Random Forest models for SR, PD.SES and PE.SES using environmental covariates; SR mainly driven by salinity, light availability and primary productivity; PD by bottom temperature, primary productivity and current velocity; PE by temperature and primary productivity.",
@@ -211,11 +296,11 @@ PAPER_READINESS <- list(
     reason = "La reponse crop type est categorielle multiclasse."
   ),
   uk_photovoltaic = list(
-    benchmark_status = "needs_preprocessing",
+    benchmark_status = "needs_covariate_join_and_nuts3_reconciliation",
     benchmark_task = "regression_spatial_econometrics",
     package_include = "no",
-    missing_items = "reconcilier les NUTS3 du papier avec le LAD extrait et joindre les covariables du SDM",
-    reason = "Le papier modelise 134 regions NUTS3, alors que l'extraction actuelle contient 380 LAD et pas les covariables du papier."
+    missing_items = "reconcilier les NUTS3 du papier avec le LAD extrait, joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3",
+    reason = "Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux."
   ),
   medicago = list(
     benchmark_status = "needs_model_specification_review",
@@ -232,11 +317,11 @@ PAPER_READINESS <- list(
     reason = "Dataset pedologique principalement categoriel; la formule systeme actuelle ne reproduit pas la methode du papier."
   ),
   hummingbird_sdm = list(
-    benchmark_status = "not_ready_current_package",
-    benchmark_task = "species_distribution_model",
-    package_include = "no",
-    missing_items = "route SDM presence-only/presence-absence et covariables environnementales completes",
-    reason = "Le modele du papier est un SDM integre, pas une regression continue standard."
+    benchmark_status = "almost_ready_derived_regression",
+    benchmark_task = "derived_continuous_species_richness_regression",
+    package_include = "manual_review",
+    missing_items = "documenter que la reponse log1p_species_richness est derivee; le benchmark ne reproduit pas les SDM PO/PA complets du papier et n inclut pas cloud cover/TRI",
+    reason = "Y derivee continue, covariables CHELSA/EVI locales et coordonnees disponibles; utilisable pour benchmark comparatif avec reserve scientifique explicite."
   ),
   crane = list(
     benchmark_status = "not_ready_current_package",
@@ -287,13 +372,6 @@ PAPER_READINESS <- list(
     missing_items = "retrouver le dataset empirique original et ses covariables",
     reason = "La reponse est un coefficient beta0 derive d'une GWR, pas une variable empirique brute."
   ),
-  arequipa_climate = list(
-    benchmark_status = "not_ready_relevance_check",
-    benchmark_task = "climate_grid_product",
-    package_include = "no",
-    missing_items = "verifier le lien exact entre la grille extraite et l'analyse empirique du papier",
-    reason = "La grille climatique ne contient pas encore un couple Y/X de regression spatiale conforme au papier."
-  ),
   ethiopia_clusters = list(
     benchmark_status = "not_ready_derived_clusters",
     benchmark_task = "cluster_detection_output",
@@ -302,32 +380,63 @@ PAPER_READINESS <- list(
     reason = "Le fichier contient des clusters SaTScan derives, pas les observations de malnutrition utilisees pour la GWR."
   ),
   pallid_bat = list(
-    benchmark_status = "needs_covariate_join",
-    benchmark_task = "regression_spatial_sar",
-    package_include = "no",
-    missing_items = "joindre NPP et variables climatiques mentionnees dans le papier",
-    reason = "La formule SAR est confirmee, mais les covariables principales du papier ne sont pas dans l'extraction actuelle."
+    benchmark_status = "almost_ready",
+    benchmark_task = "regression_continuous_spatial_sar",
+    package_include = "manual_review",
+    missing_items = "documenter que centroid_size est derive des landmarks TPS et verifier l alignement exact lateral/ventral avec la mesure privilegiee dans le papier",
+    reason = "Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille."
   ),
   swiss_rainfall = list(
-    benchmark_status = "not_ready_geostatistical_univariate",
-    benchmark_task = "geostatistical_interpolation",
-    package_include = "no",
-    missing_items = "ajouter des covariables ou traiter comme kriging/interpolation",
-    reason = "Dataset geostatistique univarie sans covariables X."
+    benchmark_status = "almost_ready_ogc_spatial_covariates",
+    benchmark_task = "regression_continuous_ogc_spatial_covariates",
+    package_include = "manual_review",
+    missing_items = "documenter que les X sont des covariables spatiales construites par OGC, pas des covariables environnementales; choisir le nombre d angles si tuning souhaite",
+    reason = "Le papier Moller et al. (2020) compare explicitement OGCs, EDFs, RFsp et kriging sur Swiss rainfall; le loader genere maintenant des covariables OGC depuis la geometrie."
   ),
   vindum = list(
-    benchmark_status = "not_ready_geostatistical_univariate",
-    benchmark_task = "geostatistical_interpolation",
-    package_include = "no",
-    missing_items = "ajouter des covariables ou traiter comme kriging/interpolation",
-    reason = "Dataset geostatistique univarie sans covariables X."
+    benchmark_status = "almost_ready_ogc_aux_spatial_covariates",
+    benchmark_task = "regression_continuous_ogc_aux_spatial_covariates",
+    package_include = "manual_review",
+    missing_items = "valider le niveau d inclusion package et documenter que les X combinent auxiliaires publiees du package OGC et covariables OGC generees localement",
+    reason = "Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires; le loader extrait maintenant les 19 covariables auxiliaires Vindum_covariates du package OGC cite par le papier et ajoute six covariables OGC reproductibles."
   ),
-  biomass_rainforest = list(
-    benchmark_status = "needs_response_reconstruction",
+  no2_grid = list(
+    formula_pub = "NO2 ~ f(selected predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
+    formula_used = "pending",
+    formula_candidate_formula = "pending",
+    y_term_pub = "monitored daily NO2 concentration at AQS sites",
+    x_terms_pub = c("spatially_lagged_NO2", "temporally_lagged_NO2", "meteorological_variables", "OMI_NO2", "GEOS_Chem_NO2", "CMAQ_NO2", "NLCD_land_cover", "truck_traffic", "road_density", "restaurant_density", "elevation", "NDVI", "nighttime_light", "aerosol_variables", "cloud_cover", "surface_albedo", "MODIS_reflectance", "CAMS_NO2"),
+    ml_formula = "monitored_NO2 ~ selected predictor variables from satellite, CTM, meteorology, land-cover and spatial/temporal lag families",
+    ml_response = "monitored daily NO2 concentration",
+    ml_predictors = c("spatially_lagged_NO2", "temporally_lagged_NO2", "meteorological_variables", "OMI_NO2", "GEOS_Chem_NO2", "CMAQ_NO2", "NLCD_land_cover", "truck_traffic", "road_density", "restaurant_density", "elevation", "NDVI", "nighttime_light", "aerosol_variables", "cloud_cover", "surface_albedo", "MODIS_reflectance", "CAMS_NO2"),
+    ml_source_ref = "Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358: abstract and Sections 2.1-3.5 describe monitored NO2 as the response, spatial/temporal lagged NO2, meteorology, OMI, GEOS-Chem, CMAQ, land-cover, traffic, elevation, NDVI, nighttime light, aerosols, cloud and albedo predictors, and neural network, random forest, gradient boosting plus geographically weighted GAM ensemble. The current local grid .rds contains final predicted NO2 values only; it does not contain the monitor-level training matrix.",
+    ml_estimator_context = c("random_forest", "gradient_boosting", "neural_network", "gam_spatial", "gwr"),
+    ml_status = "confirmed_feature_groups",
+    source_ref = "Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.",
+    equation_family = "ensemble_ml_geographically_weighted_gam",
+    model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
+  ),
+  o3_grid = list(
+    formula_pub = "O3 ~ f(169 predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
+    formula_used = "pending",
+    formula_candidate_formula = "pending",
+    y_term_pub = "daily maximum 8 h O3 concentration at monitoring sites",
+    x_terms_pub = c("meteorological_variables", "chemical_transport_model_outputs", "remote_sensing_observations", "land_use_variables", "CMAQ", "GEOS_Chem", "spatiotemporally_lagged_O3", "nearby_monitor_weighted_O3", "AOD", "NDVI", "road_density", "tree_canopy", "developed_area"),
+    ml_formula = "monitored_O3 ~ 169 predictor variables from weather, CTM, remote sensing, land-use and spatiotemporal lag families",
+    ml_response = "daily maximum 8 h O3 concentration",
+    ml_predictors = c("meteorological_variables", "chemical_transport_model_outputs", "remote_sensing_observations", "land_use_variables", "CMAQ", "GEOS_Chem", "spatiotemporally_lagged_O3", "nearby_monitor_weighted_O3", "AOD", "NDVI", "road_density", "tree_canopy", "developed_area"),
+    ml_source_ref = "Requia et al. (2020), Environmental Science & Technology, DOI 10.1021/acs.est.0c01791: Sections 2.1-2.5 describe monitored daily maximum 8 h O3 as the response, 169 predictors consolidated from weather, CTM outputs, remote sensing and land-use data, random-forest imputation, neural network, random forest, gradient boosting, and a geographically weighted GAM ensemble. The current local grid .rds contains final predicted O3 values only; it does not contain the monitor-level training matrix.",
+    ml_estimator_context = c("random_forest", "gradient_boosting", "neural_network", "gam_spatial", "gwr"),
+    ml_status = "confirmed_feature_groups",
+    source_ref = "Requia et al. (2020), Environmental Science & Technology, DOI 10.1021/acs.est.0c01791. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.",
+    equation_family = "ensemble_ml_geographically_weighted_gam",
+    model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
+  ),  biomass_rainforest = list(
+    benchmark_status = "local_reduced_formula",
     benchmark_task = "regression_continuous",
     package_include = "no",
-    missing_items = "reconstruire ou extraire AGB/AGC et joindre DBH/H ou covariables environnementales",
-    reason = "L'extraction actuelle contient des composantes de l'allometrie, mais pas la variable cible AGB/AGC du papier."
+    missing_items = "joindre LANDScapes/GEOL/VEGET et reconstruire la composante de krigeage des residus pour reproduire le GLM/KR complet",
+    reason = "AGB_mean est reconstruit depuis le supplement PLOS; HAND, LOG, ALT et SLO sont maintenant joints localement, mais LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent absents."
   )
 )
 
@@ -350,13 +459,14 @@ for (r in kg$records) {
 }
 
 # -- Helpers de typologie (repris de export_sf_metadata.R, forme minimale) ---
-classify_typology <- function(col) {
+classify_typology <- function(col, name = "") {
   if (!is.atomic(col)) return(list(typology = "unknown", range = NA_character_))
   cls <- class(col)[1]
   if (cls %in% c("factor", "character")) return(list(typology = "categorical", range = NA_character_))
   if (!cls %in% c("numeric", "double", "integer", "logical")) return(list(typology = "unknown", range = NA_character_))
   vals <- suppressWarnings(range(col, na.rm = TRUE))
   n_uniq <- length(unique(stats::na.omit(col)))
+  nm <- tolower(name)
   if (cls == "logical" || all(stats::na.omit(col) %in% c(0, 1)))
     return(list(typology = "binary", range = "{0, 1}"))
   if (cls %in% c("numeric", "double")) {
@@ -364,8 +474,15 @@ classify_typology <- function(col) {
       return(list(typology = "rate", range = paste0("[", round(vals[1], 4), ", ", round(vals[2], 4), "]")))
     return(list(typology = "continuous", range = paste0("[", round(vals[1], 4), ", ", round(vals[2], 4), "]")))
   }
-  if (cls == "integer")
+  if (cls == "integer") {
+    # Some paper datasets store measured continuous variables as integer
+    # values. Keep true event/count variables as counts, but avoid classifying
+    # rainfall or similar physical measures as count processes.
+    if (grepl("rain|precip|temperature|temp|capacity|biomass|agb|carbon|yield|elev|alt|slope", nm)) {
+      return(list(typology = "continuous", range = paste0("[", vals[1], ", ", vals[2], "]")))
+    }
     return(list(typology = "count", range = paste0("[", vals[1], ", ", vals[2], "]")))
+  }
   list(typology = "unknown", range = NA_character_)
 }
 
@@ -428,6 +545,12 @@ pct_na_col <- function(col) {
   round(100 * sum(is.na(col)) / length(col), 1)
 }
 
+extract_formula_response <- function(formula_text) {
+  if (is.null(formula_text) || !nzchar(formula_text) || formula_text == "pending") return("pending")
+  if (!grepl("~", formula_text, fixed = TRUE)) return("pending")
+  lhs <- trimws(strsplit(formula_text, "~", fixed = TRUE)[[1]][1])
+  if (!nzchar(lhs)) "pending" else lhs
+}
 extract_formula_terms <- function(formula_text, available_vars = character(0)) {
   if (is.null(formula_text) || !nzchar(formula_text) || !grepl("~", formula_text, fixed = TRUE)) return(character(0))
   rhs <- trimws(strsplit(formula_text, "~", fixed = TRUE)[[1]][2])
@@ -439,30 +562,34 @@ extract_formula_terms <- function(formula_text, available_vars = character(0)) {
   unique(terms)
 }
 
-infer_yx_selection_rationale <- function(record_id, paper_title, y_vars, x_vars, coord_vars, id_vars, readiness, selected_x = NULL) {
+infer_yx_selection_rationale <- function(record_id, paper_title, y_vars, x_vars, coord_vars, id_vars, readiness, selected_x = NULL, published_x = NULL, coord_label = NULL) {
   y_txt <- if (length(y_vars)) fmt_bt(y_vars) else "aucune variable reponse candidate"
   selected_x <- selected_x[!is.na(selected_x) & nzchar(selected_x)]
   shown_x <- if (length(selected_x)) selected_x else utils::head(x_vars, 12)
-  x_txt <- if (length(shown_x)) fmt_bt(shown_x) else "aucune covariable explicative"
+  published_x <- published_x[!is.na(published_x) & nzchar(published_x)]
+  x_txt <- if (length(shown_x)) fmt_bt(shown_x) else "aucune covariable explicative locale"
+  published_txt <- if (!length(shown_x) && length(published_x)) {
+    sprintf(" ; cependant le papier documente les covariables publiees %s, non presentes dans le .rds actuel", fmt_bt(published_x))
+  } else ""
   more_txt <- if (length(selected_x)) {
     extra <- setdiff(x_vars, selected_x)
     if (length(extra)) sprintf(" ; %d autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used", length(extra)) else ""
   } else if (length(x_vars) > 12) {
     sprintf(" ; %d autres covariables restent listees dans Detail X", length(x_vars) - 12)
   } else ""
-  coord_txt <- if (length(coord_vars)) fmt_bt(coord_vars) else "les coordonnees detectees"
+  coord_txt <- if (length(coord_vars)) fmt_bt(coord_vars) else if (!is.null(coord_label) && nzchar(coord_label)) coord_label else "geometrie sf"
   id_txt <- if (length(id_vars)) fmt_bt(id_vars) else "les identifiants detectes"
   status_txt <- if (!is.null(readiness) && !is.null(readiness$benchmark_status)) readiness$benchmark_status else "pending"
   sprintf(
-    "Pour `%s`, la ou les reponses %s viennent du loader papier et/ou des preuves de l article `%s`. Les covariables X retenues sont %s%s. Les coordonnees (%s), identifiants (%s), geometries et champs techniques sont exclus de X. Statut benchmark actuel : %s ; la promotion package reste conditionnee au bloc benchmark_readiness.",
-    record_id, y_txt, paper_title, x_txt, more_txt, coord_txt, id_txt, status_txt
+    "Pour `%s`, la ou les reponses %s viennent du loader papier et/ou des preuves de l article `%s`. Les covariables X retenues sont %s%s%s. Les coordonnees (%s), identifiants (%s), geometries et champs techniques sont exclus de X. Statut benchmark actuel : %s ; la promotion package reste conditionnee au bloc benchmark_readiness.",
+    record_id, y_txt, paper_title, x_txt, more_txt, published_txt, coord_txt, id_txt, status_txt
   )
 }
 
 # -- Description heuristique (topic/observation_unit), meme esprit que
 # infer_dataset_description_fields() dans generate_fiches.py mais appliquee
 # au titre du papier + au nom du loader plutot qu'a la doc de package. -------
-infer_description_fields <- function(record_id, paper_title, geom_type, data_type) {
+infer_description_fields <- function(record_id, paper_title, geom_type, data_type, kg_rec = NULL) {
   text <- tolower(paste(record_id, paper_title))
   topic <- NULL; unit <- NULL; population <- NULL
   if (grepl("pollinat|bee|flower|hummingbird|colibri", text)) {
@@ -517,10 +644,6 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
     topic <- "qualite de l'air / modele ensembliste ML"
     unit <- "point de grille 1km"
     population <- "Etats-Unis contigus"
-  } else if (grepl("climate change|indigenous|climate maps", text)) {
-    topic <- "climatologie regionale / savoirs autochtones"
-    unit <- "cellule de grille climatique 1km"
-    population <- "bassin versant Arequipa/Colca, Perou"
   } else if (grepl("species distribution|sampling bias", text)) {
     topic <- "modeles de distribution d'especes integres"
     unit <- "occurrence d'espece / cellule de grille"
@@ -529,6 +652,42 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
     topic <- "methodologie statistique / detection de cluster spatial"
     unit <- "cellule de grille spatiale simulee"
     population <- "donnees simulees (illustration methodologique)"
+  } else if (grepl("crash|traffic|road safety|offcrsh|gsvcm", text)) {
+    topic <- "transport / securite routiere"
+    unit <- "zone spatiale de comptage des accidents"
+    population <- "accidents routiers et facteurs socio-demographiques locaux"
+  } else if (grepl("agricultural technology|land use|soy|brazilian municipalities", text)) {
+    topic <- "agriculture / adoption technologique et usage des sols"
+    unit <- "municipalite bresilienne"
+    population <- "municipalites agricoles du Bresil"
+  } else if (grepl("decapod|bycatch|marine|biodiversity", text)) {
+    topic <- "biodiversite marine / captures accessoires"
+    unit <- "cellule ou point d'observation marin"
+    population <- "decapodes marins captures en peche accessoire"
+  } else if (grepl("swiss_rainfall|sic97|rainfall|precipitation", text)) {
+    topic <- "climat / precipitation"
+    unit <- "station ou point de mesure pluviometrique"
+    population <- "mesures de pluie en Suisse, Spatial Interpolation Comparison 1997 / SIC97"
+  } else if (grepl("vindum|soil organic matter|som", text)) {
+    topic <- "sol / matiere organique"
+    unit <- "point d'echantillonnage pedologique"
+    population <- "observations de matiere organique du sol du jeu de donnees Vindum"
+  } else if (grepl("eberg|soil", text)) {
+    topic <- "sol / cartographie pedologique numerique"
+    unit <- "observation pedologique ponctuelle"
+    population <- "observations de sol du jeu de donnees Ebergoetzen / plotKML"
+  }
+
+  kg_theme <- kg_rec$theme %||% ""
+  kg_evidence <- kg_rec$evidence %||% ""
+  kg_dataset_name <- kg_rec$dataset_name_in_paper %||% ""
+  if (is.null(topic) && nzchar(kg_theme)) topic <- kg_theme
+  if (is.null(population) && nzchar(kg_evidence)) {
+    first_sentence <- trimws(strsplit(kg_evidence, "\\.|\\|")[[1]][1])
+    if (nzchar(first_sentence)) population <- first_sentence
+  }
+  if (is.null(unit) && nzchar(kg_dataset_name)) {
+    unit <- sprintf("observation spatiale du dataset \"%s\"", kg_dataset_name)
   }
   list(
     topic = if (is.null(topic)) sprintf("dataset spatial %s", data_type) else topic,
@@ -539,7 +698,11 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
 
 # -- Formules candidates (meme structure que build_formula_candidates_block()
 # dans generate_fiches.py, version simplifiee pour la famille papers). ------
-formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published, source_ref = "pending") {
+formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published, source_ref = "pending",
+                                     ml_formula = NULL, ml_response = NULL, ml_predictors = NULL,
+                                     ml_source_ref = NULL, ml_status = "confirmed",
+                                     ml_source_type = "scientific_publication",
+                                     ml_estimator_context = c("random_forest", "xgboost", "gamboost", "spboost")) {
   fmt_entry <- function(role, formula = "pending", response = "pending", predictors = character(0),
                         source_type = "none_found", status = "unavailable", source_ref = "pending",
                         estimator_context = character(0)) {
@@ -577,7 +740,14 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
     )
   }
   ml_candidate <- fmt_entry("ml_candidate_features")
-  if (formula != "pending" && !is_published) {
+  if (!is.null(ml_formula) && !is.null(ml_response) && length(ml_predictors)) {
+    ml_candidate <- fmt_entry(
+      "ml_candidate_features", ml_formula, ml_response, ml_predictors,
+      ml_source_type, ml_status,
+      ml_source_ref %||% source_ref,
+      ml_estimator_context
+    )
+  } else if (formula != "pending" && !is_published) {
     ml_candidate <- fmt_entry(
       "ml_candidate_features", formula, y_term, x_terms_vec,
       "generated_system_formula", "generated",
@@ -593,9 +763,62 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
   )
 }
 
+
+estimator_eligibility_block <- function(record_id, readiness, formula_used, x_terms_vec, is_published) {
+  status <- readiness$benchmark_status %||% "needs_manual_review"
+  has_formula <- !is.na(formula_used) && nzchar(formula_used) && formula_used != "pending"
+  has_x <- length(x_terms_vec) > 0
+  is_ready_like <- grepl("^(ready|almost_ready|manual_review)", status)
+  is_not_ready <- grepl("^not_ready", status)
+  eligible <- character(0)
+  conditional <- character(0)
+  ineligible_reason <- ""
+
+  if (is_ready_like && has_formula && has_x) {
+    eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
+    if (is_published) eligible <- c(eligible, "sar_lag", "sem_error", "sdm_mixed", "gwr")
+  } else if (grepl("needs_original_W", status)) {
+    eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
+    conditional <- c("sar_lag", "sem_error", "sdm_mixed")
+    ineligible_reason <- "spatial econometric estimators require the original paper W or an explicitly accepted proxy W"
+  } else if (grepl("needs_covariate_join|needs_preprocessing|needs_model_specification_review", status)) {
+    conditional <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr")
+    ineligible_reason <- "paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table"
+  } else if (is_not_ready) {
+    ineligible_reason <- "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  } else if (has_formula && has_x) {
+    conditional <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
+    ineligible_reason <- "manual review required before package promotion"
+  } else {
+    ineligible_reason <- "missing executable formula_used and/or covariates in the local artifact"
+  }
+
+  yaml_vec <- function(x) paste0("[", paste(sprintf('\"%s\"', x), collapse = ", "), "]")
+  paste(
+    "## Estimator eligibility", "",
+    "```yaml", "estimator_eligibility:",
+    sprintf('  status: "%s"', status),
+    sprintf('  eligible_estimators: %s', yaml_vec(eligible)),
+    sprintf('  conditionally_eligible_estimators: %s', yaml_vec(conditional)),
+    sprintf('  ineligible_reason: "%s"', gsub('"', "'", ineligible_reason)),
+    '  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"',
+    "```",
+    sep = "\n"
+  )
+}
+
 # -- Boucle principale ---------------------------------------------------------
 n_ok <- 0L
-for (record_id in names(LOADER_TO_DIR)) {
+target_records <- commandArgs(trailingOnly = TRUE)
+if (length(target_records)) {
+  unknown <- setdiff(target_records, names(LOADER_TO_DIR))
+  if (length(unknown)) stop("Record_id inconnu(s): ", paste(unknown, collapse = ", "), call. = FALSE)
+  records_to_generate <- target_records
+} else {
+  records_to_generate <- names(LOADER_TO_DIR)
+}
+
+for (record_id in records_to_generate) {
   rds_path <- file.path(SF_DIR, paste0("paper_", record_id, ".rds"))
   if (!file.exists(rds_path)) { cat("SKIP (rds absent):", record_id, "\n"); next }
 
@@ -645,7 +868,7 @@ for (record_id in names(LOADER_TO_DIR)) {
                                time_info$T_var)
   }
 
-  y_vars_str <- if (length(y_vars)) paste(sprintf("`%s`", y_vars), collapse = ", ") else "not identified — manual review required"
+  y_vars_str <- if (length(y_vars)) paste(sprintf("`%s`", y_vars), collapse = ", ") else "not identified - manual review required"
   x_vars_str <- if (length(x_vars)) paste(sprintf("`%s`", x_vars), collapse = ", ") else
     "no additional covariates beyond coordinates/identifiers (raster or grid dataset)"
 
@@ -664,7 +887,7 @@ for (record_id in names(LOADER_TO_DIR)) {
   } else "pending"
 
   formula_pub <- "pending"
-  formula_note <- "formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source — a confirmer par revue manuelle."
+  formula_note <- if (formula_used == "pending" && length(y_vars) && !length(x_vars)) "reponse identifiee dans le loader, mais aucune covariable X locale executable n est disponible dans le .rds actuel." else if (formula_used == "pending") "aucune formule Y ~ X utilisable : aucune variable reponse confirmee ou aucune covariable exploitable n est disponible." else "formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle."
   ov <- FORMULA_OVERRIDES[[record_id]]
   if (!is.null(ov)) {
     if (!is.null(ov$formula_used)) formula_used <- ov$formula_used
@@ -672,9 +895,9 @@ for (record_id in names(LOADER_TO_DIR)) {
     formula_note <- paste0("Formule/reference verifiee par lecture directe du papier source (session du ", TODAY, "). ", ov$source_ref)
   }
 
-  y_typologies <- if (length(y_vars)) unique(sapply(y_vars, function(v) classify_typology(df[[v]])$typology)) else character(0)
+  y_typologies <- if (length(y_vars)) unique(sapply(y_vars, function(v) classify_typology(df[[v]], v)$typology)) else character(0)
   x_typologies <- if (length(x_vars)) unique(sapply(x_vars, function(v) {
-    t <- classify_typology(df[[v]])$typology
+    t <- classify_typology(df[[v]], v)$typology
     switch(t, count = "continuous", binary = "categorical", rate = "continuous", t)
   })) else character(0)
   y_typ_str <- if (length(y_typologies)) paste(y_typologies, collapse = ", ") else "unknown"
@@ -682,14 +905,14 @@ for (record_id in names(LOADER_TO_DIR)) {
 
   y_rows <- if (length(y_vars)) paste(sprintf("| `%s` | `%s` | %s | %s | %s%% |", y_vars,
     sapply(y_vars, function(v) class(df[[v]])[1]),
-    sapply(y_vars, function(v) classify_typology(df[[v]])$typology),
-    sapply(y_vars, function(v) md_escape(classify_typology(df[[v]])$range)),
+    sapply(y_vars, function(v) classify_typology(df[[v]], v)$typology),
+    sapply(y_vars, function(v) md_escape(classify_typology(df[[v]], v)$range)),
     sapply(y_vars, function(v) pct_na_col(df[[v]]))), collapse = "\n")
   else "| -- | -- | aucun candidat | -- | -- |"
 
   x_rows <- if (length(x_vars)) paste(sprintf("| `%s` | `%s` | %s | %s%% |", x_vars,
     sapply(x_vars, function(v) class(df[[v]])[1]),
-    sapply(x_vars, function(v) classify_typology(df[[v]])$typology),
+    sapply(x_vars, function(v) classify_typology(df[[v]], v)$typology),
     sapply(x_vars, function(v) pct_na_col(df[[v]]))), collapse = "\n")
   else "| -- | -- | aucun candidat | -- |"
 
@@ -710,7 +933,16 @@ for (record_id in names(LOADER_TO_DIR)) {
   } else paper_title
 
   tags <- sprintf("[dataset, paper-derived, spatial, %s]", tolower(gsub("[^A-Za-z]", "", geom_type)))
-  desc <- infer_description_fields(record_id, paper_title, geom_type, time_info$data_type)
+  desc <- infer_description_fields(record_id, paper_title, geom_type, time_info$data_type, kg_rec = kg_rec)
+  coord_display <- if (length(coord_vars)) fmt_bt(coord_vars) else sprintf("geometrie sf `%s` (%s)", geom_col, geom_type)
+  kg_spatial_context <- kg_rec$spatial_characterization %||% ""
+  kg_spatial_is_generic <- grepl("^Spatiality is indicated by DataCite/OpenAlex", kg_spatial_context)
+  geographic_context <- if (nzchar(kg_spatial_context) && !kg_spatial_is_generic) {
+    kg_spatial_context
+  } else {
+    sprintf("etendue sf: x [%s, %s], y [%s, %s]", md_escape(bbox["xmin"]), md_escape(bbox["xmax"]), md_escape(bbox["ymin"]), md_escape(bbox["ymax"]))
+  }
+  description_confidence <- if (!is.null(kg_rec$confidence) && nzchar(kg_rec$confidence)) kg_rec$confidence else if (!is.null(ov)) "medium" else "low"
 
   high_na <- character(0)
   for (v in vars) {
@@ -723,23 +955,35 @@ for (record_id in names(LOADER_TO_DIR)) {
   is_published <- !is.null(ov) && !is.null(ov$formula_pub)
   formula_x_terms <- extract_formula_terms(formula_used, x_vars)
   x_for_yaml <- if (length(formula_x_terms)) formula_x_terms else if (length(x_vars) > 12) x_vars[1:12] else x_vars
+  formula_candidate_formula <- if (!is.null(ov) && !is.null(ov$formula_candidate_formula)) ov$formula_candidate_formula else formula_used
+  y_pub_display <- if (!is.null(ov) && !is.null(ov$y_term_pub)) ov$y_term_pub else if (formula_used != "pending" && length(y_vars)) y_vars[1] else "pending"
+  x_pub_display <- if (!is.null(ov) && !is.null(ov$x_terms_pub)) paste(ov$x_terms_pub, collapse = ", ") else if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
+  x_used_display <- if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
+  y_used_display <- extract_formula_response(formula_used)
   modeling_source_ref <- if (!is.null(ov)) ov$source_ref else "data/raw/papers (loader-derived, no published equation located)"
   fcb <- formula_candidates_block(
-    formula_used,
-    if (length(y_vars)) y_vars[1] else "pending",
-    x_for_yaml,
+    formula_candidate_formula,
+    y_pub_display,
+    if (!is.null(ov) && !is.null(ov$x_terms_pub)) ov$x_terms_pub else x_for_yaml,
     is_published,
-    modeling_source_ref
+    modeling_source_ref,
+    ml_formula = if (!is.null(ov)) ov$ml_formula else NULL,
+    ml_response = if (!is.null(ov)) ov$ml_response else NULL,
+    ml_predictors = if (!is.null(ov)) ov$ml_predictors else NULL,
+    ml_source_ref = if (!is.null(ov)) ov$ml_source_ref else NULL,
+    ml_status = if (!is.null(ov) && !is.null(ov$ml_status)) ov$ml_status else "confirmed",
+    ml_source_type = if (!is.null(ov) && !is.null(ov$ml_source_type)) ov$ml_source_type else "scientific_publication",
+    ml_estimator_context = if (!is.null(ov) && !is.null(ov$ml_estimator_context)) ov$ml_estimator_context else c("random_forest", "xgboost", "gamboost", "spboost")
   )
 
   modeling_existing <- if (is_published) "true" else "false"
-  modeling_source_type <- if (is_published) "scientific_publication_or_package_documentation" else "generated_system_formula"
+  modeling_source_type <- if (is_published) "scientific_publication_or_package_documentation" else if (formula_used != "pending") "generated_system_formula" else "none_found"
   modeling_evidence_block <- paste(
     "```yaml", "modeling_evidence:",
     sprintf("  existing_model_found: %s", modeling_existing),
     sprintf('  equation_text: "%s"', gsub('"', "'", formula_pub)),
-    sprintf("  equation_family: %s", if (is_published) "paper_empirical_or_dataset_specific" else "generated_system_candidate"),
-    sprintf("  model_family: %s", if (is_published) "spatial_or_paper_specific_regression" else "unknown"),
+    sprintf("  equation_family: %s", if (is_published && !is.null(ov$equation_family)) ov$equation_family else if (is_published) "paper_empirical_or_dataset_specific" else "generated_system_candidate"),
+    sprintf("  model_family: %s", if (is_published && !is.null(ov$model_family)) ov$model_family else if (is_published) "spatial_or_paper_specific_regression" else "unknown"),
     sprintf("  source_type: %s", modeling_source_type),
     sprintf('  source_ref: "%s"', gsub('"', "'", modeling_source_ref)),
     sprintf("  confidence: %s", if (is_published) "medium" else "low"),
@@ -750,8 +994,14 @@ for (record_id in names(LOADER_TO_DIR)) {
   variables_status <- if (length(y_vars) && length(x_vars)) "OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes)."
     else if (length(y_vars)) "WARN - Y identifiee, mais aucune covariable X detectee (grille/raster sans covariable additionnelle)."
     else "WARN - Y non identifiee automatiquement ; revue manuelle requise."
-  formula_status <- if (is_published) "OK - formule publication renseignee (verifiee par lecture directe du papier)."
-    else "PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place)."
+  regression_status <- if (is_published && formula_used != "pending") "resolu" else if (is_published) "resolu_publication_non_executable" else "pending"
+  evidence_level <- if (is_published) "publication" else "n/a"
+  estimation_method <- if (is_published && formula_used != "pending") "formule publication confirmee et utilisee" else if (is_published) "modele/formule publication confirme, non executable avec le .rds actuel" else "n/a"
+  formula_status <- if (is_published && formula_used != "pending") "OK - formule publication renseignee et formula_used executable."
+    else if (is_published) "OK - preuve de modele/formule publication renseignee ; formula_used reste pending car le .rds local ne contient pas le tableau Y/X requis."
+    else if (formula_used != "pending") "PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place)."
+    else if (length(y_vars) && !length(x_vars)) "PENDING - reponse identifiee, mais aucune covariable X locale executable n est disponible."
+    else "PENDING - aucune formule Y ~ X utilisable ; aucune reponse confirmee ou aucune covariable exploitable n est disponible."
   crs_status <- if (epsg != "unknown") sprintf("OK - CRS renseigne dans le Bloc 5 (%s).", epsg)
     else "WARN - CRS absent du sf source et non resolu automatiquement."
   geometry_status <- sprintf("OK - type geometrique controle (%s).", geom_type)
@@ -763,44 +1013,54 @@ for (record_id in names(LOADER_TO_DIR)) {
   )
 
   description_block <- sprintf(
-    "## Description du jeu de donnees\n\n- Topic: %s\n- Observation unit: %s\n- Observed population: %s\n- Geographic context: a preciser depuis l'etendue spatiale (voir Bloc 5)\n- Temporal context: %s\n- Source description: %s\n- Description source: paper_dataset_uses.json + lecture directe du papier\n- Description confidence: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Local raw dir: `data/raw/papers/%s/`\n- Local sf output: `data/final_datasets/sf/paper_%s.rds`",
-    desc$topic, desc$observation_unit, desc$observed_population,
+    "## Description du jeu de donnees\n\n- Topic: %s\n- Observation unit: %s\n- Observed population: %s\n- Geographic context: %s\n- Temporal context: %s\n- Source description: %s\n- Description source: paper_dataset_uses.json + lecture directe du papier\n- Description confidence: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Local raw dir: `data/raw/papers/%s/`\n- Local sf output: `data/final_datasets/sf/paper_%s.rds`",
+    desc$topic, desc$observation_unit, desc$observed_population, geographic_context,
     if (time_info$T == 1) "none (cross-sectional)" else temporal_res,
-    paper_title, if (!is.null(ov)) "medium" else "low",
+    paper_title, description_confidence,
     paper_doi, dataset_doi, source_url, local_raw_dir, record_id
   )
 
   readiness <- PAPER_READINESS[[record_id]]
   if (is.null(readiness)) readiness <- default_readiness(record_id)
-  yx_rationale <- infer_yx_selection_rationale(record_id, paper_title, y_vars, x_vars, coord_vars, id_vars, readiness, selected_x = x_for_yaml)
+  yx_rationale <- if (!is.null(ov) && !is.null(ov$yx_selection_note)) {
+    ov$yx_selection_note
+  } else {
+    infer_yx_selection_rationale(
+      record_id, paper_title, y_vars, x_vars, coord_vars, id_vars, readiness,
+      selected_x = x_for_yaml,
+      published_x = if (!is.null(ov) && !is.null(ov$x_terms_pub)) ov$x_terms_pub else character(0),
+      coord_label = coord_display
+    )
+  }
 
   bloc1_block <- sprintf(
-    "## Bloc 1 — Formule et variables\n\n### Variables (niveau systeme — inspection directe du sf)\n\n- Candidate Y variables: %s\n- Candidate Y typology: %s\n- Candidate X variables: %s\n- Candidate X count: %d\n- Candidate X typology: %s\n- Coordinates (x, y — excluded from X candidates): %s\n- Identifier columns (excluded from X candidates): %s\n- Variables inspected: yes (auto — generate_fiches_papers.R)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%%) |\n|---|---|---|---|---|\n%s\n\n> Selection Y/X (paper-loader/curated evidence) : %s\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%%) |\n|---|---|---|---|\n%s\n\n### Formule — niveau publication\n\n- formula_pub: %s\n- x_terms_pub: %s\n- y_term_pub: %s\n- Reference publication: %s\n\n### Statut regression canonique\n\n- Statut: %s\n- Niveau de preuve: %s\n- Methode d estimation: %s\n- Correspondance Python/R: aucune identifiee\n- Note: %s\n\n### Formule — niveau systeme\n\n- formula_used: %s\n- x_terms_used: %s\n- y_term_used: %s\n- Note: %s\n\n### Formules candidates\n\n%s",
+    "## Bloc 1 - Formule et variables\n\n### Variables (niveau systeme - inspection directe du sf)\n\n- Candidate Y variables: %s\n- Candidate Y typology: %s\n- Candidate X variables in local artifact: %s\n- Candidate X count in local artifact: %d\n- Candidate X typology: %s\n- Published X variables from paper: %s\n- Published X count: %d\n- Coordinates (x, y - excluded from X candidates): %s\n- Identifier columns (excluded from X candidates): %s\n- Variables inspected: yes (auto - generate_fiches_papers.R)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%%) |\n|---|---|---|---|---|\n%s\n\n> Selection Y/X (paper-loader / curated evidence) : %s\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%%) |\n|---|---|---|---|\n%s\n\n### Formule - niveau publication\n\n- formula_pub: %s\n- x_terms_pub: %s\n- y_term_pub: %s\n- Reference publication: %s\n\n### Statut regression canonique\n\n- Statut: %s\n- Niveau de preuve: %s\n- Methode d estimation: %s\n- Correspondance Python/R: aucune identifiee\n- Note: %s\n\n### Formule - niveau systeme\n\n- formula_used: %s\n- x_terms_used: %s\n- y_term_used: %s\n- Note: %s\n\n### Formules candidates\n\n%s",
     y_vars_str, y_typ_str, x_vars_str, length(x_vars), x_typ_str,
-    fmt_bt(coord_vars), fmt_bt(id_vars),
+    x_pub_display, if (!is.null(ov) && !is.null(ov$x_terms_pub)) length(ov$x_terms_pub) else 0L,
+    coord_display, fmt_bt(id_vars),
     y_rows, yx_rationale, x_rows,
     formula_pub,
-    if (length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending",
-    if (length(y_vars)) y_vars[1] else "pending",
-    if (!is.null(ov)) ov$source_ref else "pending",
-    if (is_published) "resolu" else "pending",
-    if (is_published) "publication" else "n/a",
-    if (is_published) "formule publication confirmee et utilisee" else "n/a",
+    x_pub_display,
+    y_pub_display,
+    if (!is.null(ov)) ov$source_ref else kg_rec$source_ref %||% "pending",
+    regression_status,
+    evidence_level,
+    estimation_method,
     if (is_published) formula_note else "n/a",
     formula_used,
-    if (length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending",
-    if (length(y_vars)) y_vars[1] else "pending",
+    x_used_display,
+    y_used_display,
     formula_note,
     fcb
   )
 
   bloc2_block <- sprintf(
-    "## Bloc 2 — Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: unknown",
+    "## Bloc 2 - Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: unknown",
     record_id, dataset_name, paper_title, paper_doi, dataset_doi, source_url
   )
 
   bloc3_block <- sprintf(
-    "## Bloc 3 — Typologie des modeles\n\n- Modele niveau 1 (tache): %s\n- Modele niveau 2 (famille): pending\n- Modele niveau 3 (variante): pending\n\n%s",
+    "## Bloc 3 - Typologie des modeles\n\n- Modele niveau 1 (tache): %s\n- Modele niveau 2 (famille): pending\n- Modele niveau 3 (variante): pending\n\n%s",
     if (is_published) "regression / modele spatial (voir formula_pub)" else "pending",
     modeling_evidence_block
   )
@@ -818,21 +1078,21 @@ for (record_id in names(LOADER_TO_DIR)) {
   )
 
   bloc4_block <- sprintf(
-    "## Bloc 4 — Typologie des donnees\n\n- Data type: %s\n- Structure: %s\n- N observations: %d\n- k variables: %d\n- T periods: %d\n- Variable temporelle: %s\n- N/T profile: %s",
+    "## Bloc 4 - Typologie des donnees\n\n- Data type: %s\n- Structure: %s\n- N observations: %d\n- k variables: %d\n- T periods: %d\n- Variable temporelle: %s\n- N/T profile: %s",
     time_info$data_type, time_info$structure, N, k, time_info$T,
     md_escape(time_info$T_var), profil_nt(N, time_info$T)
   )
 
   bloc5_block <- sprintf(
-    "## Bloc 5 — Resolution et etendue\n\n- Type de geometrie: %s\n- Spatial resolution: %s\n- Temporal resolution: %s\n- CRS EPSG: %s\n- CRS nom: %s\n- Spatial extent: x [%s, %s], y [%s, %s]\n- Time range: %s\n- CRS analyse recommande: %s",
+    "## Bloc 5 - Resolution et etendue\n\n- Type de geometrie: %s\n- Spatial resolution: %s\n- Temporal resolution: %s\n- CRS EPSG: %s\n- CRS nom: %s\n- Spatial extent: x [%s, %s], y [%s, %s]\n- Time range: %s\n- CRS analyse recommande: %s",
     geom_type, spatial_res, temporal_res, epsg, crs_name,
     md_escape(bbox["xmin"]), md_escape(bbox["xmax"]), md_escape(bbox["ymin"]), md_escape(bbox["ymax"]),
     time_range_str,
-    if (ca$label != "pending") sprintf("%s (%s) — %s", ca$epsg, ca$label, ca$note) else sprintf("pending — %s", ca$note)
+    if (ca$label != "pending") sprintf("%s (%s) - %s", ca$epsg, ca$label, ca$note) else sprintf("pending - %s", ca$note)
   )
 
   bloc6_block <- sprintf(
-    "## Bloc 6 — Reproductibilite\n\n- License present: unknown\n- License name: unknown\n- License URL: unknown\n- License open: unknown\n- Reproducibility status: %s\n- Code available: yes (loader `%s` dans `code/r_catalog/build_sf_datasets_papers.R`)\n- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)",
+    "## Bloc 6 - Reproductibilite\n\n- License present: unknown\n- License name: unknown\n- License URL: unknown\n- License open: unknown\n- Reproducibility status: %s\n- Code available: yes (loader `%s` dans `code/r_catalog/build_sf_datasets_papers.R`)\n- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)",
     reproducibility_status, record_id
   )
 
@@ -846,8 +1106,11 @@ for (record_id in names(LOADER_TO_DIR)) {
     paper_title
   )
 
+  estimator_eligibility <- estimator_eligibility_block(record_id, readiness, formula_used, x_for_yaml, is_published)
+
   content <- paste(header_block, "", description_block, "", bloc1_block, "", bloc2_block, "",
-                    bloc3_block, "", benchmark_readiness_block, "", bloc4_block, "", bloc5_block, "", bloc6_block, "",
+                    bloc3_block, "", benchmark_readiness_block, "", estimator_eligibility, "",
+                    bloc4_block, "", bloc5_block, "", bloc6_block, "",
                     qc_block, "", related_block, "", sep = "\n")
 
   out_path <- file.path(OUT_DIR, paste0("paper_", record_id, ".md"))
@@ -857,5 +1120,6 @@ for (record_id in names(LOADER_TO_DIR)) {
               if (length(y_vars)) paste(y_vars, collapse = "+") else "?"))
 }
 
-cat(sprintf("\n=== BILAN === %d fiches generees / %d loaders\n", n_ok, length(LOADER_TO_DIR)))
+cat(sprintf("\n=== BILAN === %d fiches generees / %d cible(s)\n", n_ok, length(records_to_generate)))
+
 

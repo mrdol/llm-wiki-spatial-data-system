@@ -82,6 +82,12 @@ OPENALEX_ENRICH_LIMIT <- 1200L
 
 SCREENING_VERSION <- "datacite_harvest_v2"
 
+# Taille minimale du depot DataCite lorsque DataCite renseigne `sizes`.
+# Les tailles inconnues passent encore le filtre, car beaucoup de depots ne
+# publient pas ce champ. Le seuil evite surtout les depots "code only" de
+# quelques Ko, comme un simple script sans table de donnees.
+MIN_DATASET_SIZE_BYTES <- 50L * 1024L
+
 # Pour cette passe, on vise d'abord des jeux de donnees spatiaux de
 # regression/econometrie spatiale. Les jeux spatio-temporels restent utiles au
 # projet, mais ils seront traites dans une passe separee.
@@ -120,6 +126,16 @@ cli_int <- function(args, name, default) {
   if (is.null(value) || isTRUE(value)) return(default)
   parsed <- suppressWarnings(as.integer(value))
   if (is.na(parsed) || parsed <= 0L) {
+    stop("Argument --", name, " invalide: ", value, call. = FALSE)
+  }
+  parsed
+}
+
+cli_nonnegative_int <- function(args, name, default) {
+  value <- args[[name]]
+  if (is.null(value) || isTRUE(value)) return(default)
+  parsed <- suppressWarnings(as.integer(value))
+  if (is.na(parsed) || parsed < 0L) {
     stop("Argument --", name, " invalide: ", value, call. = FALSE)
   }
   parsed
@@ -320,6 +336,29 @@ parent_article_doi <- function(rel) {
   if (nrow(df) == 0L) NA_character_ else tolower(df$id[1])
 }
 
+parse_datacite_sizes <- function(sizes) {
+  size_text <- paste(unlist(sizes %||% character()), collapse = " ")
+  if (!nzchar(size_text)) return(NA_real_)
+
+  matches <- str_match_all(
+    size_text,
+    regex("([0-9]+(?:\\.[0-9]+)?)\\s*(bytes?|b|kb|kib|mb|mib|gb|gib)?", ignore_case = TRUE)
+  )[[1]]
+  if (nrow(matches) == 0L) return(NA_real_)
+
+  values <- suppressWarnings(as.numeric(matches[, 2]))
+  units <- tolower(matches[, 3] %||% "bytes")
+  units[is.na(units) | units == ""] <- "bytes"
+  multipliers <- case_when(
+    units %in% c("gb", "gib") ~ 1024^3,
+    units %in% c("mb", "mib") ~ 1024^2,
+    units %in% c("kb", "kib") ~ 1024,
+    TRUE ~ 1
+  )
+  total <- sum(values * multipliers, na.rm = TRUE)
+  if (is.na(total) || total <= 0) NA_real_ else total
+}
+
 flatten_record <- function(rec) {
   a <- rec$attributes
   tibble(
@@ -337,9 +376,7 @@ flatten_record <- function(rec) {
     subjects      = paste(map_chr(a$subjects %||% list(),
                                   ~ .x$subject %||% NA_character_),
                           collapse = ";"),
-    size_bytes    = suppressWarnings(as.numeric(
-      str_extract(paste(unlist(a$sizes %||% ""), collapse = " "),
-                  "\\d+"))),
+    size_bytes    = parse_datacite_sizes(a$sizes),
     url           = a$url %||% NA_character_,
     publication_doi = parent_article_doi(a$relatedIdentifiers %||% list())
   )
@@ -389,6 +426,15 @@ SCIENCEDB_RX <- regex("scidb\\.cn|sciencedb\\.cn|cstr\\.cn.*sciencedb", ignore_c
 is_sciencedb <- function(url, publisher, dataset_doi) {
   str_detect(paste(url %||% "", publisher %||% "", dataset_doi %||% ""), SCIENCEDB_RX) |
     str_detect(dataset_doi %||% "", regex("^10\\.57760/", ignore_case = TRUE))
+}
+
+passes_min_dataset_size <- function(size_bytes,
+                                    min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES) {
+  if (is.null(min_dataset_size_bytes) || is.na(min_dataset_size_bytes) || min_dataset_size_bytes <= 0) {
+    return(rep(TRUE, length(size_bytes)))
+  }
+  size <- suppressWarnings(as.numeric(size_bytes))
+  is.na(size) | size >= min_dataset_size_bytes
 }
 
 ## 3d. Heuristique stricte "benchmark de regression spatiale".
@@ -651,7 +697,7 @@ candidate_column <- function(rows, name, default = NA_character_) {
   rep(default, nrow(rows))
 }
 
-screen_candidate_rows <- function(rows) {
+screen_candidate_rows <- function(rows, min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES) {
   if (nrow(rows) == 0L) return(rows)
 
   rows <- rows |>
@@ -663,6 +709,10 @@ screen_candidate_rows <- function(rows) {
       candidate_column(rows, "data_access_url"),
       candidate_column(rows, "publisher"),
       candidate_column(rows, "dataset_doi")
+    )) |>
+    filter(passes_min_dataset_size(
+      candidate_column(rows, "size_bytes", default = NA_real_),
+      min_dataset_size_bytes
     ))
   if (nrow(rows) == 0L) return(rows)
 
@@ -706,7 +756,8 @@ screen_candidate_rows <- function(rows) {
         "; article_is_oa=", coalesce(article_is_oa, FALSE),
         "; target_scope=", flag_target_scope,
         "; spatiotemporal=", flag_spatiotemporal,
-        "; non_benchmark_product=", flag_non_benchmark_product
+        "; non_benchmark_product=", flag_non_benchmark_product,
+        "; min_size_bytes=", min_dataset_size_bytes
       )
     ) |>
     filter(screening_tier != "low_reject", flag_target_scope)
@@ -739,10 +790,12 @@ dedupe_candidate_rows <- function(rows) {
     select(-any_of(c("dedupe_key", "score_rank", "citation_rank", "screened_rank")))
 }
 
-merge_candidate_outputs <- function(new_rows, existing_path = OUTPUT_EXCEL_CSV) {
+merge_candidate_outputs <- function(new_rows,
+                                    existing_path = OUTPUT_EXCEL_CSV,
+                                    min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES) {
   old_rows <- read_existing_candidates(existing_path)
   combined <- bind_rows(old_rows, new_rows) |>
-    screen_candidate_rows()
+    screen_candidate_rows(min_dataset_size_bytes = min_dataset_size_bytes)
 
   dedupe_candidate_rows(combined)
 }
@@ -775,6 +828,7 @@ harvest <- function(min_citations = MIN_CITATIONS,
                     target_candidates = TARGET_CANDIDATES,
                     openalex_enrich_limit = OPENALEX_ENRICH_LIMIT,
                     crossref_workers = 1L,
+                    min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES,
                     profiles = DEFAULT_PROFILES,
                     verbose = TRUE,
                     existing_path = PATH_EXISTING,
@@ -823,7 +877,8 @@ harvest <- function(min_citations = MIN_CITATIONS,
               ignore_case = TRUE)),
       has_parent      = !is.na(publication_doi)
     ) |>
-    filter(!flag_scielo_mirror, !flag_sciencedb)
+    filter(!flag_scielo_mirror, !flag_sciencedb) |>
+    filter(passes_min_dataset_size(size_bytes, min_dataset_size_bytes))
   
   if (verbose) {
     message("  avec geometrie   : ", sum(cand$flag_geometry, na.rm = TRUE))
@@ -885,7 +940,8 @@ harvest <- function(min_citations = MIN_CITATIONS,
         "; article_is_oa=", coalesce(article_is_oa, FALSE),
         "; target_scope=", flag_target_scope,
         "; spatiotemporal=", flag_spatiotemporal,
-        "; non_benchmark_product=", flag_non_benchmark_product
+        "; non_benchmark_product=", flag_non_benchmark_product,
+        "; min_size_bytes=", min_dataset_size_bytes
       ),
       already_covered = is_already_covered(title, publication_doi, keys)
     ) |>
@@ -992,6 +1048,8 @@ if (sys.nframe() == 0L) {
   target_candidates <- cli_int(cli, "target", TARGET_CANDIDATES)
   openalex_limit <- cli_int(cli, "openalex-limit", OPENALEX_ENRICH_LIMIT)
   crossref_workers <- cli_int(cli, "crossref-workers", 1L)
+  min_dataset_size_kb <- cli_nonnegative_int(cli, "min-dataset-size-kb", MIN_DATASET_SIZE_BYTES / 1024L)
+  min_dataset_size_bytes <- as.numeric(min_dataset_size_kb) * 1024
   profiles <- cli[["profiles"]]
   if (is.null(profiles) || isTRUE(profiles)) profiles <- DEFAULT_PROFILES
 
@@ -1000,6 +1058,7 @@ if (sys.nframe() == 0L) {
     "; target=", target_candidates,
     "; openalex_limit=", openalex_limit,
     "; crossref_workers=", crossref_workers,
+    "; min_dataset_size_kb=", min_dataset_size_kb,
     "; profiles=", profiles
   )
 
@@ -1008,9 +1067,10 @@ if (sys.nframe() == 0L) {
     target_candidates = target_candidates,
     openalex_enrich_limit = openalex_limit,
     crossref_workers = crossref_workers,
+    min_dataset_size_bytes = min_dataset_size_bytes,
     profiles = profiles
   )
-  res <- merge_candidate_outputs(new_res, existing_path = OUTPUT_EXCEL_CSV)
+  res <- merge_candidate_outputs(new_res, existing_path = OUTPUT_EXCEL_CSV, min_dataset_size_bytes = min_dataset_size_bytes)
   write_candidate_outputs(res)
   message("Nouveaux candidats du run : ", nrow(new_res))
   message("Candidats cumules dedoublonnes : ", nrow(res))
