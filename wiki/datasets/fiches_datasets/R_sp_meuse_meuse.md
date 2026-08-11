@@ -1,11 +1,10 @@
 ---
 title: R_sp_meuse_meuse
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
-  - data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -91,8 +90,8 @@ formula_candidates:
     response: "log(zinc)"
     predictors: ["sqrt(dist)"]
     role: "simple_baseline"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
     estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
     status: "confirmed"
 
@@ -137,11 +136,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: log(zinc) ~ sqrt(dist)
+  equation_text: "log(zinc) ~ sqrt(dist)"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
   confidence: medium
 ```
 
@@ -176,27 +175,22 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
-## Fusion des sources et variantes
+## Benchmark readiness
 
-Cette fiche est la fiche canonique du cas d'etude Meuse. Elle fusionne la source R `sp::meuse` et la source R `gstat::meuse.all`, qui portent des variantes d'un meme cas d'etude sur la pollution des sols dans la plaine alluviale de la Meuse.
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
 
-### Sources fusionnees
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
 
-| Ancienne fiche | Source package | Objet source | Artefact local | Role |
-|---|---|---|---|---|
-| `R_sp_meuse_meuse` | sp | `meuse` | `data/final_datasets/sf/R_sp_meuse_meuse.rds` | fiche canonique conservee |
-| `R_gstat_meuse.all_meuse.all` | gstat | `meuse.all` | `data/final_datasets/sf/R_gstat_meuse.all_meuse.all.rds` | variante integree puis retiree comme fiche separee |
-
-### Elements communs
-
-- Meme theme: concentrations de metaux lourds dans les sols.
-- Meme famille d'usage: interpolation spatiale, geostatistique et modelisation spatiale.
-- Meme territoire general: plaine alluviale de la Meuse aux Pays-Bas.
-
-### Elements non communs
-
-- `sp::meuse` est la table d'exemple canonique la plus frequente.
-- `gstat::meuse.all` fournit une variante plus complete pour certains exemples geostatistiques.
 
 ## Quality Control
 
@@ -206,7 +200,7 @@ Cette fiche est la fiche canonique du cas d'etude Meuse. Elle fusionne la source
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:28992 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: FUSED - fiche commune pour `R_sp_meuse_meuse` et `R_gstat_meuse.all_meuse.all`.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
 ## Related Pages

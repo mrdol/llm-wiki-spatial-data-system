@@ -1,8 +1,8 @@
 ---
 title: R_spaMM_Leuca_Leuca
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_spaMM_Leuca_Leuca.rds
 tags: [dataset, r-package, spatial, point]
@@ -75,7 +75,7 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 ### Formule — niveau systeme
 
 - formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
-- x_terms_used: sex + Matern(1|x+y %in% sex)
+- x_terms_used: sex, Matern(1|x+y %in% sex)
 - y_term_used: fec_div
 
 ### Formules candidates
@@ -95,10 +95,10 @@ formula_candidates:
   multivariate_constrained:
     formula: "fec_div ~ sex + Matern(1|x+y %in% sex)"
     response: "fec_div"
-    predictors: ["sex", "Matern(1|x", "y %in% sex)"]
+    predictors: ["sex, Matern(1|x", "y %in% sex)"]
     role: "paper_main_specification"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -133,11 +133,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: fec_div ~ sex + Matern(1|x+y %in% sex)
+  equation_text: "fec_div ~ sex + Matern(1|x+y %in% sex)"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
   confidence: medium
 ```
 
@@ -171,6 +171,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spaMM`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

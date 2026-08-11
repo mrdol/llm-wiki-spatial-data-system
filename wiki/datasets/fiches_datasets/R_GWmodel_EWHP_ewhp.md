@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_EWHP_ewhp
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -68,11 +68,12 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Statut regression canonique
 
-- Statut: generated_system_formula
-- Niveau de preuve: system_generated
-- Methode d'estimation: formule candidate generee par le systeme
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
+- Note: n/a
+
 ### Formule — niveau systeme
 
 - formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
@@ -134,11 +135,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+  equation_text: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea"
   equation_family: regression_candidate
-  model_family: spatial_regression_candidate
+  model_family: "regression_candidate"
   source_type: generated_system_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -173,6 +174,22 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+
 ## Estimator eligibility
 
 ```yaml
@@ -197,11 +214,12 @@ estimator_eligibility:
     source_ref: "GWmodel EWHP documentation / project formula."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

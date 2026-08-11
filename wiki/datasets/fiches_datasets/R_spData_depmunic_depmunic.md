@@ -1,8 +1,8 @@
 ---
 title: R_spData_depmunic_depmunic
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_spData_depmunic_depmunic.rds
 tags: [dataset, r-package, spatial, point]
@@ -71,33 +71,33 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ### Formule — niveau systeme
 
-- formula_used: airbnb ~ museums + population + greensp + area
-- x_terms_used: museums + population + greensp + area
-- y_term_used: airbnb
+- formula_used: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
+- x_terms_used: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
+- y_term_used: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
+    formula: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
+    response: "y_{i,j} (outcome for lower-level unit i in higher-level unit j)"
+    predictors: ["x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "simple_baseline"
+    role: "paper_main_specification"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
-
-  multivariate_constrained:
-    formula: "airbnb ~ museums + population + greensp + area"
-    response: "airbnb"
-    predictors: ["museums", "population", "greensp", "area"]
-    role: "paper_main_specification"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -130,11 +130,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: airbnb ~ museums + population + greensp + area
+  equation_text: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
   confidence: medium
 ```
 
@@ -168,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spData`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_too_small"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "n < 10 observations"
+  reason: "Le jeu est trop petit pour une validation spatiale stable."
+```
+
+- Decision: not_ready_too_small
+- Manque principal: n < 10 observations
+- Raison: Le jeu est trop petit pour une validation spatiale stable.
+
 
 ## Quality Control
 

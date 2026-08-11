@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_spdata.boston
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.boston.rds
 tags: [dataset, python-package, spatial, point]
@@ -143,11 +143,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B
+  equation_text: "log(CMEDV) ~ CRIM + I(RM^2) + log(LSTAT) + TAX + ZN + INDUS + CHAS + I(NOX^2) + AGE + log(DIS) + log(RAD) + PTRATIO + B"
   equation_family: regression
-  model_family: published_or_manual_regression
+  model_family: "regression"
   source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -181,6 +181,22 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
 
 ## Estimator eligibility
 
@@ -240,11 +256,12 @@ estimator_eligibility:
     source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication ou formule manuelle renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4267).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

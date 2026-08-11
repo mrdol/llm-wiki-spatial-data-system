@@ -1,11 +1,10 @@
 ---
 title: R_gstat_jura_jura.val
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
-  - data/final_datasets/sf/R_gstat_jura_jura.pred.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -67,11 +66,12 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 
 ### Statut regression canonique
 
-- Statut: generated_system_formula
-- Niveau de preuve: system_generated
-- Methode d'estimation: formule candidate generee par le systeme
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
+- Note: n/a
+
 ### Formule — niveau systeme
 
 - formula_used: Cd ~ Landuse + Rock
@@ -133,11 +133,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: Cd ~ Landuse + Rock
+  equation_text: "Cd ~ Landuse + Rock"
   equation_family: regression_candidate
-  model_family: spatial_regression_candidate
+  model_family: "regression_candidate"
   source_type: generated_system_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -172,41 +172,37 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
-## Fusion des sources et variantes
+## Benchmark readiness
 
-Cette fiche est la fiche canonique du cas d'etude Jura. Elle fusionne les objets `jura.val` et `jura.pred` du package `gstat`, qui forment deux volets complementaires d'un meme cas d'etude geostatistique.
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
 
-### Sources fusionnees
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
 
-| Ancienne fiche | Source package | Objet source | Artefact local | Role |
-|---|---|---|---|---|
-| `R_gstat_jura_jura.val` | gstat | `jura.val` | `data/final_datasets/sf/R_gstat_jura_jura.val.rds` | fiche canonique conservee |
-| `R_gstat_jura_jura.pred` | gstat | `jura.pred` | `data/final_datasets/sf/R_gstat_jura_jura.pred.rds` | grille ou volet de prediction integre |
-
-### Elements communs
-
-- Meme source package: `gstat`.
-- Meme cas d'etude Jura pour des exemples geostatistiques.
-- Les deux objets servent ensemble a l'apprentissage et/ou a la prediction spatiale.
-
-### Elements non communs
-
-- `jura.val` porte les observations de validation.
-- `jura.pred` porte le support de prediction; ce n'est pas un dataset empirique independant.
 
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: FUSED - fiche commune pour `R_gstat_jura_jura.val` et `R_gstat_jura_jura.pred`; autres fichiers apparentes non fusionnes ici: R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat.
+- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
 
 - Source: package R `gstat`
+- Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
 - Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]

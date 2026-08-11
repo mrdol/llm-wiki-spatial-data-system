@@ -1,8 +1,8 @@
 ---
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_gstat_DE_RB_2005_DE_RB_2005.rds
 tags: [dataset, r-package, spatial, point]
@@ -72,7 +72,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ### Formule — niveau systeme
 
 - formula_used: PM10 ~ 1
-- x_terms_used: 1
+- x_terms_used: pending
 - y_term_used: PM10
 
 ### Formules candidates
@@ -130,11 +130,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: PM10 ~ 1
+  equation_text: "PM10 ~ 1"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218"
   confidence: medium
 ```
 
@@ -168,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `gstat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_no_covariates"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "au moins une covariable X locale est requise"
+  reason: "Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment."
+```
+
+- Decision: not_ready_no_covariates
+- Manque principal: au moins une covariable X locale est requise
+- Raison: Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment.
+
 
 ## Quality Control
 

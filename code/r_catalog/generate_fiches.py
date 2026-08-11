@@ -137,11 +137,12 @@ def load_cache(path: Path) -> dict[str, Any]:
 
 
 def load_generated_formula_audit(root: Path) -> dict[str, dict[str, str]]:
-    """Charge les formules systeme generees par la passe d'audit.
+    """Charge les formules de l audit package.
 
-    Ces formules ne sont pas des formules publiees. Elles servent de
-    propositions reproductibles quand aucune source scientifique ou
-    documentation ne fournit d'equation canonique.
+    Le fichier contient deux cas utiles :
+    - generated_formula_candidates : proposition systeme, a revoir ;
+    - existing_published_or_manual_formula : formule deja validee dans une
+      passe precedente et a preserver lors des regenerations.
     """
     path = root / "data" / "manifests" / "datasets" / "proposed_formula_used_audit.csv"
     if not path.exists():
@@ -152,7 +153,9 @@ def load_generated_formula_audit(root: Path) -> dict[str, dict[str, str]]:
             did = (row.get("dataset_id") or "").strip()
             formula = (row.get("formula_used") or "").strip()
             source = (row.get("source") or "").strip()
-            if not did or not formula or source != "generated_formula_candidates":
+            if not did or not formula:
+                continue
+            if source not in {"generated_formula_candidates", "existing_published_or_manual_formula"}:
                 continue
             out[did] = row
     return out
@@ -447,6 +450,184 @@ def build_formula_candidates_block(
     ])
 
 
+def formula_has_nonstandard_response(formula: str) -> bool:
+    """Detecte les formules qui ne sont pas des regressions Y numerique ~ X simples."""
+    text = str(formula or "").lower()
+    return any(token in text for token in ("cbind(", "matern(", "surv(", "event ~", "winner ~"))
+
+
+VALIDATED_PACKAGE_GENERATED_FORMULAS = {
+    "Python_geodatasets_geoda.guerry",
+    "Python_geodatasets_spdata.boston",
+    "Python_geodatasets_spdata.columbus",
+    "Python_geodatasets_spdata.nydata",
+    "Python_geodatasets_spdata.wheat",
+    "Python_libpysal_Baltimore",
+    "Python_libpysal_georgia",
+    "R_GWmodel_EWHP_ewhp",
+    "R_gstat_jura_jura.val",
+    "R_spData_house_house",
+}
+
+
+def infer_package_benchmark_readiness(
+    *,
+    did: str,
+    package: str,
+    n_obs: Any,
+    t_periods: Any,
+    y_types: list[str],
+    x_vars: list[str],
+    coord_cands: list[dict[str, Any]],
+    used_formula: str,
+    used_y_term: str,
+    modeling_source_type: str,
+    data_type: str,
+    structure: str,
+    geom_type: str,
+) -> dict[str, str]:
+    """Classe prudemment une fiche package pour le benchmark.
+
+    La regle est volontairement conservatrice : on promeut seulement les jeux
+    avec formule executable, Y numerique, X locales et support spatial. Les
+    jeux multivaries ade4, binomiaux, classification/survie, trop petits ou
+    sans formule restent hors benchmark regression continue.
+    """
+    try:
+        n_value = int(float(n_obs))
+    except (TypeError, ValueError):
+        n_value = 0
+    try:
+        t_value = int(float(t_periods))
+    except (TypeError, ValueError):
+        t_value = 1
+
+    formula = str(used_formula or "").strip()
+    response = str(used_y_term or "").strip()
+    y_type_set = {str(v).lower() for v in (y_types or [])}
+    package_l = str(package or "").lower()
+    did_l = str(did or "").lower()
+    geom_l = str(geom_type or "").lower()
+    data_l = str(data_type or "").lower()
+    structure_l = str(structure or "").lower()
+
+    def result(status: str, task: str, include: str, missing: str, reason: str) -> dict[str, str]:
+        return {
+            "benchmark_status": status,
+            "benchmark_task": task,
+            "package_include": include,
+            "missing_items": missing,
+            "reason": reason,
+        }
+
+    if package_l == "ade4":
+        return result(
+            "not_ready_multivariate_ecology",
+            "not_current_regression_benchmark",
+            "no",
+            "definir une reponse scalaire Y et une formule regression depuis une etude source",
+            "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.",
+        )
+    if not formula or formula == "pending" or not response or response == "pending":
+        return result(
+            "not_ready_missing_formula",
+            "not_current_regression_benchmark",
+            "no",
+            "formule Y ~ X executable manquante",
+            "Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package.",
+        )
+    if not x_vars or formula.endswith("~ 1") or re.search(r"~\s*1\s*$", formula):
+        return result(
+            "not_ready_no_covariates",
+            "not_current_regression_benchmark",
+            "no",
+            "au moins une covariable X locale est requise",
+            "Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment.",
+        )
+    if not coord_cands and "point" not in geom_l and "polygon" not in geom_l:
+        return result(
+            "not_ready_missing_spatial_support",
+            "not_current_regression_benchmark",
+            "no",
+            "coordonnees ou geometrie sf exploitable manquantes",
+            "Le benchmark spatial requiert une geometrie ou des coordonnees pour construire les resamples et les voisinages.",
+        )
+    if formula_has_nonstandard_response(formula) or y_type_set.intersection({"binary", "categorical", "timestamp", "identifier", "geometry"}):
+        return result(
+            "not_ready_non_continuous_response",
+            "not_current_regression_benchmark",
+            "no",
+            "route classification/binomiale/survie ou transformation continue explicite requise",
+            "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.",
+        )
+    if n_value and n_value < 10:
+        return result(
+            "not_ready_too_small",
+            "not_current_regression_benchmark",
+            "no",
+            "n < 10 observations",
+            "Le jeu est trop petit pour une validation spatiale stable.",
+        )
+    if t_value > 1 or "panel" in structure_l or "spatio" in data_l:
+        return result(
+            "almost_ready_cross_section_or_panel_reduction",
+            "regression_spatial_requires_temporal_policy",
+            "manual_review",
+            "choisir une coupe temporelle ou une politique panel explicite avant benchmark package",
+            "Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle.",
+        )
+    if n_value and n_value < 30:
+        return result(
+            "almost_ready_small_n",
+            "regression_spatial_small_sample",
+            "manual_review",
+            "valider un schema CV adapte aux petits echantillons",
+            "La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs.",
+        )
+
+    if modeling_source_type == "scientific_publication_or_package_documentation":
+        return result(
+            "ready",
+            "regression_spatial_package_formula",
+            "yes",
+            "aucun blocage automatique detecte",
+            "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.",
+        )
+    if did in VALIDATED_PACKAGE_GENERATED_FORMULAS:
+        return result(
+            "ready",
+            "regression_spatial_validated_generated_formula",
+            "yes",
+            "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv",
+            "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.",
+        )
+    return result(
+        "almost_ready_generated_formula",
+        "regression_spatial_generated_formula",
+        "manual_review",
+        "valider la formule generee avant inclusion automatique dans le package",
+        "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.",
+    )
+
+
+def render_benchmark_readiness_block(readiness: dict[str, str]) -> str:
+    return "\n".join([
+        "## Benchmark readiness",
+        "",
+        "```yaml",
+        "benchmark_readiness:",
+        f"  benchmark_status: {yaml_quote(readiness['benchmark_status'])}",
+        f"  benchmark_task: {yaml_quote(readiness['benchmark_task'])}",
+        f"  package_include: {yaml_quote(readiness['package_include'])}",
+        "  has_local_rds: true",
+        f"  missing_items: {yaml_quote(readiness['missing_items'])}",
+        f"  reason: {yaml_quote(readiness['reason'])}",
+        "```",
+        "",
+        f"- Decision: {readiness['benchmark_status']}",
+        f"- Manque principal: {readiness['missing_items']}",
+        f"- Raison: {readiness['reason']}",
+    ])
 def first_existing(paths: list[Path]) -> Path | None:
     for path in paths:
         if path.exists():
@@ -918,12 +1099,19 @@ def make_fiche(
         used_formula = generated.get("formula_used") or generated.get("formula_candidate_1") or "pending"
         used_x_terms = generated.get("x_terms_used") or "pending"
         used_y_term = generated.get("y_term_used") or "pending"
-        modeling_existing = "false"
         modeling_equation = used_formula
-        modeling_family = "regression_candidate"
-        modeling_source_type = "generated_system_formula"
+        source_kind = generated.get("source") or "generated_formula_candidates"
+        if source_kind == "existing_published_or_manual_formula":
+            modeling_existing = "true"
+            modeling_family = "regression"
+            modeling_source_type = "published_or_manual_formula"
+            modeling_confidence = "medium"
+        else:
+            modeling_existing = "false"
+            modeling_family = "regression_candidate"
+            modeling_source_type = "generated_system_formula"
+            modeling_confidence = "medium"
         modeling_source_ref = "data/manifests/datasets/proposed_formula_used_audit.csv"
-        modeling_confidence = "medium"
     else:
         used_formula = "pending"
         used_x_terms = "pending"
@@ -942,6 +1130,22 @@ def make_fiche(
         source_type=modeling_source_type,
         source_ref=modeling_source_ref,
     )
+    benchmark_readiness = infer_package_benchmark_readiness(
+        did=did,
+        package=package,
+        n_obs=N,
+        t_periods=T,
+        y_types=y_types,
+        x_vars=x_vars,
+        coord_cands=coord_cands,
+        used_formula=used_formula,
+        used_y_term=used_y_term,
+        modeling_source_type=modeling_source_type,
+        data_type=data_type,
+        structure=structure,
+        geom_type=geom_type,
+    )
+    benchmark_readiness_block = render_benchmark_readiness_block(benchmark_readiness)
 
     return f"""\
 ---
@@ -1075,6 +1279,8 @@ modeling_evidence:
 - Reproducibility status: available via {source_label}
 - Code available: yes (package examples and vignettes)
 - Repository: {source_family}
+
+{benchmark_readiness_block}
 
 {estimator_eligibility_block + chr(10) + chr(10) if estimator_eligibility_block else ""}
 ## Quality Control

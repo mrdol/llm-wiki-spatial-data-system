@@ -1,11 +1,10 @@
 ---
 title: R_surveillance_hagelloch_hagelloch
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
-  - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds
 tags: [dataset, r-package, spatial, point]
 ---
 
@@ -45,7 +44,7 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 > Note doc : number of cases in family
 
-> **Note** - Version spatio-temporelle : 188 cas individuels x plusieurs pas de temps (N=70 500 lignes). Complementaire a `hagelloch.df`, version spatiale pure (N=188).
+> **Note** - Fiche canonique fusionnee : l'objet `hagelloch.df` est une variante tabulaire integree dans cette fiche, pas une fiche dataset separee.
 
 > Selection Y/X (claude-sonnet-4-6) : Dans un modèle twinSIR d'épidémie, 'event' (nouvelle infection) et 'Revent' (rétablissement) sont les variables réponse naturelles de l'analyse de survie/point process ; les covariables explicatives incluent l'âge, le sexe, la classe scolaire (CL), le nombre de contacts intra- et extra-ménage (household, nothousehold), les compteurs spatiaux de voisinage (c1, c2), ainsi que les variables de fenêtre temporelle (start, stop) et l'indicateur de risque (atRiskY) typiques du format counting-process. BLOCK, x.loc et y.loc sont des identifiants/coordonnées déjà exclus en amont ou redondants.
 
@@ -82,33 +81,33 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Formule — niveau systeme
 
-- formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
-- x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
-- y_term_used: event
+- formula_used: ~ household + cox(AGE)
+- x_terms_used: household, cox(AGE)
+- y_term_used: pending
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
+    formula: "~ household + cox(AGE)"
+    response: "pending"
+    predictors: ["household, cox(AGE)"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "simple_baseline"
+    role: "paper_main_specification"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
-
-  multivariate_constrained:
-    formula: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
-    response: "event"
-    predictors: ["start", "stop", "atRiskY", "AGE", "SEX", "CL", "household", "nothousehold"]
-    role: "paper_main_specification"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -141,11 +140,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+  equation_text: "~ household + cox(AGE)"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
   confidence: medium
 ```
 
@@ -180,26 +179,22 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
-## Fusion des sources et variantes
+## Benchmark readiness
 
-Cette fiche est la fiche canonique du cas d'etude Hagelloch. Elle fusionne l'objet spatial `hagelloch` et la variante tabulaire `hagelloch.df` du package `surveillance`.
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_missing_formula"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "formule Y ~ X executable manquante"
+  reason: "Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package."
+```
 
-### Sources fusionnees
+- Decision: not_ready_missing_formula
+- Manque principal: formule Y ~ X executable manquante
+- Raison: Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package.
 
-| Ancienne fiche | Source package | Objet source | Artefact local | Role |
-|---|---|---|---|---|
-| `R_surveillance_hagelloch_hagelloch` | surveillance | `hagelloch` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds` | fiche canonique conservee |
-| `R_surveillance_hagelloch_hagelloch.df` | surveillance | `hagelloch.df` | `data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.df.rds` | variante tabulaire integree |
-
-### Elements communs
-
-- Meme source package et meme cas d'etude epidemiologique.
-- Meme objet empirique sous deux representations.
-
-### Elements non communs
-
-- `hagelloch` porte la representation principale retenue par le pipeline.
-- `hagelloch.df` est une version data.frame utile pour certains exemples non spatiaux directs.
 
 ## Quality Control
 
@@ -209,9 +204,10 @@ Cette fiche est la fiche canonique du cas d'etude Hagelloch. Elle fusionne l'obj
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: FUSED - fiche commune pour `R_surveillance_hagelloch_hagelloch` et `R_surveillance_hagelloch_hagelloch.df`.
+- Duplicates: WARN - groupe de versions suspectes `hagelloch`; autres versions: R_surveillance_hagelloch_hagelloch.df
 - Reproducibility: OK - source package et licence renseignes (GPL-2).
 
 ## Related Pages
 
 - Source: package R `surveillance`
+- Duplicate/version candidate: [[R_surveillance_hagelloch_hagelloch.df]]

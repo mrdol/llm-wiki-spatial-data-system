@@ -1,8 +1,8 @@
 ---
 title: R_ade4_doubs_doubs
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_ade4_doubs_doubs.rds
 tags: [dataset, r-package, spatial, point]
@@ -131,10 +131,10 @@ formula_candidates:
 modeling_evidence:
   existing_model_found: false
   equation_text: "null"
-  equation_family: unknown
+  equation_family: n/a
   model_family: "n/a"
-  source_type: unknown
-  source_ref: "Verneaux, J. (1973) Cours d'eau de Franche-Comté (Massif du Jura). Recherches écologiques sur le réseau hydrographique du Doubs. Essai de biotypologie. Thèse d'état, Université de Besançon, Besançon. 1–257."
+  source_type: none_found
+  source_ref: "null"
   confidence: low
 ```
 
@@ -168,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `ade4`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_multivariate_ecology"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "definir une reponse scalaire Y et une formule regression depuis une etude source"
+  reason: "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression."
+```
+
+- Decision: not_ready_multivariate_ecology
+- Manque principal: definir une reponse scalaire Y et une formule regression depuis une etude source
+- Raison: Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.
+
 
 ## Quality Control
 

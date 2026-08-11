@@ -1,8 +1,8 @@
 ---
 title: R_agridat_ortiz.tomato.covs_ortiz.tomato.covs
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_agridat_ortiz.tomato.covs_ortiz.tomato.covs.rds
 tags: [dataset, r-package, spatial, point]
@@ -74,11 +74,12 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 
 ### Statut regression canonique
 
-- Statut: generated_system_formula
-- Niveau de preuve: system_generated
-- Methode d'estimation: formule candidate generee par le systeme
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
+- Note: n/a
+
 ### Formule — niveau systeme
 
 - formula_used: Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
@@ -140,11 +141,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
+  equation_text: "Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT"
   equation_family: regression_candidate
-  model_family: spatial_regression_candidate
+  model_family: "regression_candidate"
   source_type: generated_system_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -179,11 +180,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_small_n"
+  benchmark_task: "regression_spatial_small_sample"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider un schema CV adapte aux petits echantillons"
+  reason: "La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs."
+```
+
+- Decision: almost_ready_small_n
+- Manque principal: valider un schema CV adapte aux petits echantillons
+- Raison: La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

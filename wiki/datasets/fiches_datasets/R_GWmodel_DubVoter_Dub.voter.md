@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_DubVoter_Dub.voter
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_GWmodel_DubVoter_Dub.voter.rds
 tags: [dataset, r-package, spatial, point]
@@ -75,7 +75,7 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 ### Formule — niveau systeme
 
 - formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
-- x_terms_used: DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- x_terms_used: DiffAdd, LARent, SC1, Unempl, LowEduc, Age18_24, Age25_44, Age45_64
 - y_term_used: GenEl2004
 
 ### Formules candidates
@@ -83,24 +83,24 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 ```yaml
 formula_candidates:
   univariate:
+    formula: "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64"
+    response: "GenEl2004"
+    predictors: ["DiffAdd, LARent, SC1, Unempl, LowEduc, Age18_24, Age25_44, Age45_64"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "simple_baseline"
+    role: "paper_main_specification"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
-
-  multivariate_constrained:
-    formula: "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64"
-    response: "GenEl2004"
-    predictors: ["DiffAdd", "LARent", "SC1", "Unempl", "LowEduc", "Age18_24", "Age25_44", "Age45_64"]
-    role: "paper_main_specification"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -133,11 +133,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+  equation_text: "GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Kavanagh A (2006) Turnout or turned off? Electoral participation in Dublin in the early 21st Century. Journal of Irish Urban Studies, 3(2):1-24"
   confidence: medium
 ```
 
@@ -172,6 +172,22 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+
 ## Estimator eligibility
 
 ```yaml
@@ -190,6 +206,7 @@ estimator_eligibility:
     basis: benchmark_use
     source_ref: "GWmodel DubVoter documentation and GWR examples."
 ```
+
 
 ## Quality Control
 

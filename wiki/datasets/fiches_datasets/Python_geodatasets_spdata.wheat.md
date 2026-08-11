@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_spdata.wheat
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.wheat.rds
 tags: [dataset, python-package, spatial, point]
@@ -41,14 +41,14 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 | `yield` | `numeric` | continuous | [2.73, 5.16] | 0% |
 
 
-> Selection Y/X corrigee depuis la documentation source : `yield` est la variable reponse naturelle. `r` et `c` decrivent les lignes et colonnes des centres de parcelles; elles sont donc des covariables de position/grille utiles pour capter un effet spatial de champ. `lat1` conserve le gradient nord-sud transforme de la documentation. Les coordonnees `lon`/`lat1` restent aussi disponibles comme coordonnees spatiales pour les estimateurs qui les utilisent directement.
+> Selection Y/X (claude-sonnet-4-6) : Selection Y/X corrigee depuis la documentation source : `yield` est la variable reponse naturelle. `r` et `c` decrivent les lignes et colonnes des centres de parcelles; elles sont donc des covariables de position/grille utiles pour capter un effet spatial de champ. `lat1` conserve le gradient nord-sud transforme de la documentation.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `r` | `factor` | categorical | 0% |
-| `c` | `factor` | categorical | 0% |
+| `r` | `character` | categorical | 0% |
+| `c` | `character` | categorical | 0% |
 | `lat1` | `numeric` | continuous | 0% |
 
 
@@ -61,11 +61,11 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 
 ### Statut regression canonique
 
-- Statut: generated_system_formula
-- Niveau de preuve: system_generated
-- Methode d'estimation: formule candidate generee par le systeme
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
+- Note: n/a
 
 ### Formule — niveau systeme
 
@@ -128,11 +128,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: yield ~ r + c + lat1
+  equation_text: "yield ~ r + c + lat1"
   equation_family: regression_candidate
-  model_family: spatial_regression_candidate
+  model_family: "regression_candidate"
   source_type: generated_system_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -167,11 +167,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

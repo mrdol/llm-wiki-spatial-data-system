@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.home_sales
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.home_sales.rds
 tags: [dataset, python-package, spatial, point]
@@ -73,11 +73,12 @@ Dataset spatial issu du package Python `geodatasets` (`home_sales`).
 
 ### Statut regression canonique
 
-- Statut: generated_system_formula
-- Niveau de preuve: system_generated
-- Methode d'estimation: formule candidate generee par le systeme
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Aucune formule publiee n'a ete confirmee; deux formules candidates ont ete produites par le systeme et la formule recommandee est reportee dans formula_used.
+- Note: n/a
+
 ### Formule — niveau systeme
 
 - formula_used: price ~ bedrooms + bathrooms + sqft_liv + sqft_lot + floors + waterfront + view + condition
@@ -139,11 +140,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: price ~ bedrooms + bathrooms + sqft_liv + sqft_lot + floors + waterfront + view + condition
+  equation_text: "price ~ bedrooms + bathrooms + sqft_liv + sqft_lot + floors + waterfront + view + condition"
   equation_family: regression_candidate
-  model_family: spatial_regression_candidate
+  model_family: "regression_candidate"
   source_type: generated_system_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -178,11 +179,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_cross_section_or_panel_reduction"
+  benchmark_task: "regression_spatial_requires_temporal_policy"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "choisir une coupe temporelle ou une politique panel explicite avant benchmark package"
+  reason: "Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle."
+```
+
+- Decision: almost_ready_cross_section_or_panel_reduction
+- Manque principal: choisir une coupe temporelle ou une politique panel explicite avant benchmark package
+- Raison: Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: CANDIDATE - formule systeme proposee, sans source publication confirmee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

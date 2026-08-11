@@ -1777,9 +1777,11 @@
       "yield"
     ],
     "x_candidates": [
+      "r",
+      "c",
       "lat1"
     ],
-    "rationale": "yield (rendement en blé) est la variable réponse naturelle pour un dataset agricole spatial. lat1 est une covariable spatiale continue exploitable (position/gradient spatial). SP_ID_1, r et c sont des identifiants ou codes de grille (ligne/colonne) purement administratifs, sans valeur explicative directe."
+    "rationale": "Selection Y/X corrigee depuis la documentation source : `yield` est la variable reponse naturelle. `r` et `c` decrivent les lignes et colonnes des centres de parcelles; elles sont donc des covariables de position/grille utiles pour capter un effet spatial de champ. `lat1` conserve le gradient nord-sud transforme de la documentation."
   },
   "Python_libpysal_Baltimore::1cbf694331f1cb19": {
     "y_candidates": [

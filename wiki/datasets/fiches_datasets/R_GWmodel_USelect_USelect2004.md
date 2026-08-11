@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_USelect_USelect2004
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_GWmodel_USelect_USelect2004.rds
 tags: [dataset, r-package, spatial, point]
@@ -72,7 +72,7 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 ### Formule — niveau systeme
 
 - formula_used: winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE
-- x_terms_used: unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+- x_terms_used: unemploy, pctcoled, PEROVER65, pcturban, WHITE
 - y_term_used: winner
 
 ### Formules candidates
@@ -80,24 +80,24 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 ```yaml
 formula_candidates:
   univariate:
+    formula: "winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE"
+    response: "winner"
+    predictors: ["unemploy, pctcoled, PEROVER65, pcturban, WHITE"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Robinson, A. C. (2013) Geovisualization of the 2004 Presidential Election. Penn State / National Institutes of Health (web resource)"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "simple_baseline"
+    role: "paper_main_specification"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
-
-  multivariate_constrained:
-    formula: "winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE"
-    response: "winner"
-    predictors: ["unemploy", "pctcoled", "PEROVER65", "pcturban", "WHITE"]
-    role: "paper_main_specification"
-    source_type: "published_or_manual_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -130,11 +130,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+  equation_text: "winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE"
   equation_family: regression
-  model_family: published_or_manual_regression
-  source_type: published_or_manual_formula
-  source_ref: data/manifests/datasets/proposed_formula_used_audit.csv
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Robinson, A. C. (2013) Geovisualization of the 2004 Presidential Election. Penn State / National Institutes of Health (web resource)"
   confidence: medium
 ```
 
@@ -168,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

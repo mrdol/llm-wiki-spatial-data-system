@@ -1,8 +1,8 @@
 ---
 title: R_ade4_avijons_avijons
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-11
+updated: 2026-08-11
 sources:
   - data/final_datasets/sf/R_ade4_avijons_avijons.rds
 tags: [dataset, r-package, spatial, point]
@@ -129,10 +129,10 @@ formula_candidates:
 modeling_evidence:
   existing_model_found: false
   equation_text: "null"
-  equation_family: unknown
+  equation_family: n/a
   model_family: "n/a"
-  source_type: unknown
-  source_ref: "Thioulouse, J., Chessel, D. and Champely, S. (1995) Multivariate analysis of spatial patterns: a unified approach to local and global structures. Environmental and Ecological Statistics, 2, 1-14. // Source primaire des données : Bournaud, M., Amoros, C., Chessel, D., Coulet, M., Doledec, S., Michelot, J.L., Pautou, G., Rostan, J.C., Tachet, H. and Thioulouse, J. (1990) Peuplements d'oiseaux et propriétés des écocomplexes de la plaine du Rhône : descripteurs de fonctionnement global et gestion des berges. Rapport programme S.R.E.T.I.E., Ministère de l'Environnement CORA et URA CNRS 367, Univ. Lyon 1."
+  source_type: none_found
+  source_ref: "null"
   confidence: low
 ```
 
@@ -166,6 +166,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `ade4`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_multivariate_ecology"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "definir une reponse scalaire Y et une formule regression depuis une etude source"
+  reason: "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression."
+```
+
+- Decision: not_ready_multivariate_ecology
+- Manque principal: definir une reponse scalaire Y et une formule regression depuis une etude source
+- Raison: Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.
+
 
 ## Quality Control
 
