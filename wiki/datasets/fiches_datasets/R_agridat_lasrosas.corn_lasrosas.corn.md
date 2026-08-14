@@ -56,10 +56,10 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau publication
 
-- formula_pub: yield ~ 1 + nitro + I(nitro^2) (referencee dans catalogue)
-- x_terms_pub: 1, nitro, I(nitro^2)
+- formula_pub: yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo (referencee dans catalogue)
+- x_terms_pub: nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo
 - y_term_pub: yield
-- Reference publication: Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture.
+- Reference publication: Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783).
 
 ### Statut regression canonique
 
@@ -71,8 +71,8 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 
 ### Formule — niveau systeme
 
-- formula_used: yield ~ 1 + nitro + I(nitro^2)
-- x_terms_used: 1, nitro, I(nitro^2)
+- formula_used: yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo
+- x_terms_used: nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo
 - y_term_used: yield
 
 ### Formules candidates
@@ -80,39 +80,40 @@ Yield monitor data for a corn field in Argentina with variable nitrogen.
 ```yaml
 formula_candidates:
   univariate:
-    formula: "yield ~ 1 + nitro + I(nitro^2)"
-    response: "yield"
-    predictors: ["1, nitro, I(nitro^2)"]
+    formula: "pending"
+    response: "pending"
+    predictors: []
     role: "simple_baseline"
-    source_type: "scientific_publication_or_package_documentation"
-    source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
-    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
-    status: "confirmed"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo"
+    response: "yield"
+    predictors: ["nitro", "I(nitro^2)", "topo", "nitro:topo", "I(nitro^2):topo"]
     role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783)."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
 
   ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
-    role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    formula: "yield ~ nitro + bv"
+    response: "yield"
+    predictors: ["nitro", "bv"]
+    role: "package_benchmark_default"
+    source_type: "project_curated"
+    source_ref: "agridat::lasrosas.corn documentation / current spatialtidymodels benchmark"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost", "mgwrsar_gwr"]
+    status: "confirmed_executable"
 ```
 
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_agridat_lasrosas.corn_lasrosas.corn`
+- Dataset aliases: `lasrosas`, `lasrosas.corn`, `Python_geodatasets_geoda.lasrosas`, `python_geodatasets_geoda_lasrosas`
 - Dataset name: agridat::lasrosas.corn
 - Source family: r-package
 - Source: package R `agridat` (version 1.26)
@@ -130,11 +131,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "yield ~ 1 + nitro + I(nitro^2)"
+  equation_text: "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo"
   equation_family: regression
   model_family: "formule publication confirmee et utilisee"
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Bongiovanni and Lowenberg-DeBoer (2000). Nitrogen management in corn with a spatial regression model. Proceedings of the Fifth International Conference on Precision Agriculture."
+  source_ref: "Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783)."
   confidence: medium
 ```
 
@@ -173,17 +174,17 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready_cross_section_or_panel_reduction"
-  benchmark_task: "regression_spatial_requires_temporal_policy"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_paper_and_package_formulas"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "choisir une coupe temporelle ou une politique panel explicite avant benchmark package"
-  reason: "Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle."
+  missing_items: "aucun blocage automatique detecte; formule papier complete et formule benchmark package documentees"
+  reason: "Dataset Las Rosas reconcilie: agridat::lasrosas.corn est la fiche canonique, Python_geodatasets_geoda.lasrosas est un alias, et les formules papier/package sont conservees comme roles distincts."
 ```
 
-- Decision: almost_ready_cross_section_or_panel_reduction
-- Manque principal: choisir une coupe temporelle ou une politique panel explicite avant benchmark package
-- Raison: Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; formule papier complete et formule benchmark package documentees
+- Raison: Dataset Las Rosas reconcilie: agridat::lasrosas.corn est la fiche canonique, Python_geodatasets_geoda.lasrosas est un alias, et les formules papier/package sont conservees comme roles distincts.
 
 ## Estimator eligibility
 

@@ -1,8 +1,8 @@
 ---
 title: paper_beta0_gwr
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_beta0_gwr.rds
   - DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20

@@ -86,12 +86,24 @@ SCREENING_VERSION <- "datacite_harvest_v2"
 # Les tailles inconnues passent encore le filtre, car beaucoup de depots ne
 # publient pas ce champ. Le seuil evite surtout les depots "code only" de
 # quelques Ko, comme un simple script sans table de donnees.
-MIN_DATASET_SIZE_BYTES <- 50L * 1024L
+# Releve de 50 Ko a 200 Ko le 2026-08-13 apres verification manuelle : a 50 Ko,
+# des enregistrements de quelques Ko passaient encore le filtre (ex. Zenodo
+# 10.5281/zenodo.15159899, une fiche de traitement taxonomique Plazi de
+# ~16 Ko -- table.html + XML, pas un jeu de donnees). 200 Ko reste sous la
+# taille de la plupart des tableurs/CSV/shapefiles legitimes de ce projet,
+# mais exclut les stubs de metadonnees/code seul les plus flagrants.
+MIN_DATASET_SIZE_BYTES <- 200L * 1024L
 
 # Pour cette passe, on vise d'abord des jeux de donnees spatiaux de
 # regression/econometrie spatiale. Les jeux spatio-temporels restent utiles au
 # projet, mais ils seront traites dans une passe separee.
-STRICT_SPATIAL_ONLY <- FALSE
+STRICT_SPATIAL_ONLY <- TRUE
+
+# Le harvest doit ramener moins de jeux issus d'ecologie des especes/SDM
+# (presence/absence, niche, habitat suitability, biodiversity, phenology, etc.).
+# Ils restent documentables, mais ils ne sont plus prioritaires pour le
+# benchmark courant de regression continue.
+EXCLUDE_ECOLOGY_SDM <- TRUE
 
 # On ne rejette pas systematiquement un candidat lorsque l'article parent n'a
 # pas de version ouverte signalee par OpenAlex : cela serait trop restrictif.
@@ -141,6 +153,13 @@ cli_nonnegative_int <- function(args, name, default) {
   parsed
 }
 
+cli_flag <- function(args, name, default = FALSE) {
+  value <- args[[name]]
+  if (is.null(value)) return(default)
+  if (isTRUE(value)) return(TRUE)
+  tolower(as.character(value)) %in% c("1", "true", "yes", "oui")
+}
+
 
 ## ---- 1. Requetes DataCite ----------------------------------------------
 ## La syntaxe `query` de DataCite est un query_string Elasticsearch :
@@ -177,7 +196,6 @@ THEME_PROFILES <- list(
   natural_hazards = c('flood', 'wildfire', 'fire', 'earthquake', 'landslide', 'natural hazard', 'risk'),
   education_inequality = c('education', 'school', 'inequality', 'income', 'poverty', 'segregation'),
   agriculture_economic = c('crop yield', 'agriculture', 'farmland', 'land value', 'farm', 'soil productivity'),
-  marine_littoral = c('fishery', 'fisheries', 'marine', 'coastal', 'littoral', 'aquaculture'),
   urban_services = c('urban services', 'retail', 'commerce', 'amenity', 'facility', 'public service'),
   public_policy_governance = c('public policy', 'tax', 'fiscal', 'governance', 'municipal', 'local government')
 )
@@ -279,7 +297,21 @@ datacite_search <- function(query,
       req_retry(max_tries = 3, backoff = ~ 2^.x) |>
       req_throttle(rate = 30 / 60)  # 30 req/min, courtoisie
     
-    resp <- req_perform(req)
+    resp <- tryCatch(
+      req_perform(req),
+      error = function(e) {
+        warning(
+          "DataCite request failed on page ", i,
+          " for query: ", substr(query, 1L, 160L),
+          if (nchar(query) > 160L) "..." else "",
+          "\n  -> ", conditionMessage(e),
+          "\n  Partial results for this query will be kept; harvest continues.",
+          call. = FALSE
+        )
+        NULL
+      }
+    )
+    if (is.null(resp)) break
     js   <- resp_body_json(resp, simplifyVector = FALSE)
     
     if (length(js$data) == 0L) break
@@ -466,9 +498,71 @@ NON_BENCHMARK_DATA_PRODUCT_RX <- regex(
 
 SPATIOTEMP_TEXT_RX <- regex(
   "time series|spatio-temporal|spatiotemporal|spatial-temporal|
-   monthly|daily|seasonal|through time|temporal|longitudinal|
+   monthly|daily|seasonal|through time|temporal|longitudinal|panel\\b|
+   repeated measures|multi[- ]?year|multiannual|annual records|
+   \\b(19|20)[0-9]{2}\\s*(-|–|to|a)\\s*(19|20)[0-9]{2}\\b|
    1990-2020|1998-2016|1998-2021|2014-2017",
   ignore_case = TRUE)
+
+ECOLOGY_SDM_RX <- regex(
+  "species distribution|species distribution model|\\bSDM\\b|habitat suitability|
+   ecological niche|niche model|maxent|presence[- ]?absence|presence only|
+   occurrence|occupancy|biodiversity|species richness|phylogenetic diversity|
+   conservation ecology|plants?|animals?|flowering|phenology|range-wide|
+   invasive species|species occurrence|habitat model",
+  ignore_case = TRUE)
+
+CONTINUOUS_RESPONSE_HINT_RX <- regex(
+  "continuous response|response variable|dependent variable|yield|price|rent|
+   house value|property value|income|wage|mortality rate|rate\\b|
+   concentration|pollution|PM2\\.5|NO2|O3|zinc|lead|copper|cadmium|
+   biomass|carbon stock|AGB|crop yield|soil organic matter|baseflow|
+   severity|temperature|precipitation|rainfall|capacity|density",
+  ignore_case = TRUE)
+
+BINARY_CLASS_HINT_RX <- regex(
+  "binary|logistic|presence[- ]?absence|presence only|classification|
+   class label|case-control|occupied|unoccupied|disease presence|
+   suitable habitat|habitat suitability",
+  ignore_case = TRUE)
+
+COUNT_HINT_RX <- regex("count data|counts?|number of|incidence|prevalence|abundance|installations", ignore_case = TRUE)
+
+DATA_FILE_FORMAT_RX <- regex(
+  "csv|tsv|xlsx?|ods|dta|sav|rds|rda|rdata|parquet|feather|sqlite|dbf|
+   shapefile|shp|gpkg|geopackage|geojson|gdb|kml|gml|tif|tiff|nc\\b|
+   netcdf|asc|grid|raster|zip|tar|gz|7z|dat\\b|mat\\b",
+  ignore_case = TRUE)
+
+DOCUMENT_ONLY_FORMAT_RX <- regex("pdf|docx?|html|xml|txt|readme", ignore_case = TRUE)
+
+has_data_file_format <- function(formats, description, url) {
+  text <- paste(formats %||% "", description %||% "", url %||% "")
+  str_detect(text, DATA_FILE_FORMAT_RX)
+}
+
+is_document_only_format <- function(formats, description, url) {
+  text <- paste(formats %||% "", description %||% "", url %||% "")
+  has_doc <- str_detect(text, DOCUMENT_ONLY_FORMAT_RX)
+  has_data <- str_detect(text, DATA_FILE_FORMAT_RX)
+  has_doc & !has_data
+}
+
+classify_candidate_task_type <- function(text,
+                                         flag_spatiotemporal = FALSE,
+                                         flag_ecology_sdm = FALSE,
+                                         flag_non_benchmark_product = FALSE) {
+  case_when(
+    flag_spatiotemporal ~ "panel_or_spatiotemporal",
+    flag_non_benchmark_product ~ "prediction_or_map_product",
+    flag_ecology_sdm ~ "classification_or_sdm",
+    str_detect(text, CONTINUOUS_RESPONSE_HINT_RX) ~ "likely_continuous_regression",
+    str_detect(text, COUNT_HINT_RX) ~ "count_response",
+    str_detect(text, BINARY_CLASS_HINT_RX) ~ "binary_or_classification",
+    str_detect(text, REG_TEXT_RX) ~ "unclear_regression_candidate",
+    TRUE ~ "unclear"
+  )
+}
 
 ## ---- 4. Enrichissement OpenAlex (citations de l'article parent) --------
 
@@ -697,7 +791,10 @@ candidate_column <- function(rows, name, default = NA_character_) {
   rep(default, nrow(rows))
 }
 
-screen_candidate_rows <- function(rows, min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES) {
+screen_candidate_rows <- function(rows,
+                                  min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES,
+                                  strict_spatial_only = STRICT_SPATIAL_ONLY,
+                                  exclude_ecology_sdm = EXCLUDE_ECOLOGY_SDM) {
   if (nrow(rows) == 0L) return(rows)
 
   rows <- rows |>
@@ -742,12 +839,35 @@ screen_candidate_rows <- function(rows, min_dataset_size_bytes = MIN_DATASET_SIZ
       flag_benchmark_model = str_detect(text_blob, MODEL_STRONG_RX) | current_screening,
       flag_non_benchmark_product = str_detect(text_blob, NON_BENCHMARK_DATA_PRODUCT_RX),
       flag_spatiotemporal = str_detect(text_blob, SPATIOTEMP_TEXT_RX),
+      flag_ecology_sdm = str_detect(text_blob, ECOLOGY_SDM_RX),
+      flag_data_file_format = has_data_file_format(
+        candidate_column(rows, "formats"),
+        candidate_column(rows, "datacite_description", candidate_column(rows, "description")),
+        candidate_column(rows, "data_access_url", candidate_column(rows, "url"))
+      ),
+      flag_document_only_format = is_document_only_format(
+        candidate_column(rows, "formats"),
+        candidate_column(rows, "datacite_description", candidate_column(rows, "description")),
+        candidate_column(rows, "data_access_url", candidate_column(rows, "url"))
+      ),
       flag_open_article = !REQUIRE_OPEN_ACCESS_ARTICLE | coalesce(article_is_oa, FALSE),
       flag_target_scope = !flag_non_benchmark_product &
-        (!STRICT_SPATIAL_ONLY | !flag_spatiotemporal),
+        !flag_document_only_format &
+        (!strict_spatial_only | !flag_spatiotemporal) &
+        (!exclude_ecology_sdm | !flag_ecology_sdm),
+      candidate_task_type = classify_candidate_task_type(
+        text_blob,
+        flag_spatiotemporal = flag_spatiotemporal,
+        flag_ecology_sdm = flag_ecology_sdm,
+        flag_non_benchmark_product = flag_non_benchmark_product
+      ),
       screening_tier = case_when(
-        flag_benchmark_model & coalesce(article_is_oa, FALSE) & !flag_spatiotemporal ~ "high_open_spatial_regression",
-        flag_benchmark_model & !flag_spatiotemporal ~ "medium_spatial_regression_article_not_oa",
+        flag_benchmark_model & candidate_task_type == "likely_continuous_regression" &
+          coalesce(article_is_oa, FALSE) & !flag_spatiotemporal ~ "high_open_continuous_spatial_regression",
+        flag_benchmark_model & candidate_task_type == "likely_continuous_regression" &
+          !flag_spatiotemporal ~ "medium_continuous_spatial_regression_article_not_oa",
+        flag_benchmark_model & candidate_task_type %in% c("count_response", "binary_or_classification") &
+          !flag_spatiotemporal ~ "medium_transformable_response_review",
         flag_benchmark_model & flag_spatiotemporal ~ "medium_spatiotemporal_review",
         TRUE ~ "low_reject"
       ),
@@ -756,7 +876,11 @@ screen_candidate_rows <- function(rows, min_dataset_size_bytes = MIN_DATASET_SIZ
         "; article_is_oa=", coalesce(article_is_oa, FALSE),
         "; target_scope=", flag_target_scope,
         "; spatiotemporal=", flag_spatiotemporal,
+        "; ecology_sdm=", flag_ecology_sdm,
+        "; data_file_format=", flag_data_file_format,
+        "; document_only_format=", flag_document_only_format,
         "; non_benchmark_product=", flag_non_benchmark_product,
+        "; candidate_task_type=", candidate_task_type,
         "; min_size_bytes=", min_dataset_size_bytes
       )
     ) |>
@@ -792,10 +916,16 @@ dedupe_candidate_rows <- function(rows) {
 
 merge_candidate_outputs <- function(new_rows,
                                     existing_path = OUTPUT_EXCEL_CSV,
-                                    min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES) {
+                                    min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES,
+                                    strict_spatial_only = STRICT_SPATIAL_ONLY,
+                                    exclude_ecology_sdm = EXCLUDE_ECOLOGY_SDM) {
   old_rows <- read_existing_candidates(existing_path)
   combined <- bind_rows(old_rows, new_rows) |>
-    screen_candidate_rows(min_dataset_size_bytes = min_dataset_size_bytes)
+    screen_candidate_rows(
+      min_dataset_size_bytes = min_dataset_size_bytes,
+      strict_spatial_only = strict_spatial_only,
+      exclude_ecology_sdm = exclude_ecology_sdm
+    )
 
   dedupe_candidate_rows(combined)
 }
@@ -830,6 +960,8 @@ harvest <- function(min_citations = MIN_CITATIONS,
                     crossref_workers = 1L,
                     min_dataset_size_bytes = MIN_DATASET_SIZE_BYTES,
                     profiles = DEFAULT_PROFILES,
+                    strict_spatial_only = STRICT_SPATIAL_ONLY,
+                    exclude_ecology_sdm = EXCLUDE_ECOLOGY_SDM,
                     verbose = TRUE,
                     existing_path = PATH_EXISTING,
                     require_parent = TRUE) {
@@ -868,6 +1000,15 @@ harvest <- function(min_citations = MIN_CITATIONS,
       flag_model_signal = str_detect(screening_text_raw, MODEL_STRONG_RX),
       flag_non_benchmark_product = str_detect(screening_text_raw, NON_BENCHMARK_DATA_PRODUCT_RX),
       flag_spatiotemporal = str_detect(screening_text_raw, SPATIOTEMP_TEXT_RX),
+      flag_ecology_sdm = str_detect(screening_text_raw, ECOLOGY_SDM_RX),
+      flag_data_file_format = has_data_file_format(formats, description, url),
+      flag_document_only_format = is_document_only_format(formats, description, url),
+      candidate_task_type = classify_candidate_task_type(
+        screening_text_raw,
+        flag_spatiotemporal = flag_spatiotemporal,
+        flag_ecology_sdm = flag_ecology_sdm,
+        flag_non_benchmark_product = flag_non_benchmark_product
+      ),
       flag_open_lic   = str_detect(paste(license_name, license_uri),
                                    OPEN_LICENSE_RX),
       flag_scielo_mirror = is_scielo_supplement_mirror(url, publisher),
@@ -896,10 +1037,17 @@ harvest <- function(min_citations = MIN_CITATIONS,
         if_else(flag_regression, 1, 0) +
         if_else(flag_open_lic, 1, 0) +
         if_else(flag_priority_repo, 3, 0) +
-        if_else(flag_spatiotemporal, -1, 0) +
-        if_else(flag_non_benchmark_product, -4, 0)
+        if_else(candidate_task_type == "likely_continuous_regression", 4, 0) +
+        if_else(candidate_task_type %in% c("count_response", "binary_or_classification"), 1, 0) +
+        if_else(flag_spatiotemporal, -6, 0) +
+        if_else(flag_ecology_sdm, -6, 0) +
+        if_else(flag_document_only_format, -5, 0) +
+        if_else(flag_non_benchmark_product, -6, 0)
     ) |>
     filter(has_parent | !require_parent, pre_screen_score > 0) |>
+    filter(!strict_spatial_only | !flag_spatiotemporal) |>
+    filter(!exclude_ecology_sdm | !flag_ecology_sdm) |>
+    filter(!flag_document_only_format) |>
     arrange(desc(pre_screen_score)) |>
     slice_head(n = openalex_enrich_limit)
   
@@ -925,12 +1073,27 @@ harvest <- function(min_citations = MIN_CITATIONS,
       flag_benchmark_model = str_detect(screening_text, MODEL_STRONG_RX),
       flag_non_benchmark_product = str_detect(screening_text, NON_BENCHMARK_DATA_PRODUCT_RX),
       flag_spatiotemporal = str_detect(screening_text, SPATIOTEMP_TEXT_RX),
+      flag_ecology_sdm = str_detect(screening_text, ECOLOGY_SDM_RX),
+      flag_data_file_format = has_data_file_format(formats, description, url),
+      flag_document_only_format = is_document_only_format(formats, description, url),
+      candidate_task_type = classify_candidate_task_type(
+        screening_text,
+        flag_spatiotemporal = flag_spatiotemporal,
+        flag_ecology_sdm = flag_ecology_sdm,
+        flag_non_benchmark_product = flag_non_benchmark_product
+      ),
       flag_open_article = !REQUIRE_OPEN_ACCESS_ARTICLE | coalesce(article_is_oa, FALSE),
       flag_target_scope = !flag_non_benchmark_product &
-        (!STRICT_SPATIAL_ONLY | !flag_spatiotemporal),
+        !flag_document_only_format &
+        (!strict_spatial_only | !flag_spatiotemporal) &
+        (!exclude_ecology_sdm | !flag_ecology_sdm),
       screening_tier = case_when(
-        flag_benchmark_model & coalesce(article_is_oa, FALSE) & !flag_spatiotemporal ~ "high_open_spatial_regression",
-        flag_benchmark_model & !flag_spatiotemporal ~ "medium_spatial_regression_article_not_oa",
+        flag_benchmark_model & candidate_task_type == "likely_continuous_regression" &
+          coalesce(article_is_oa, FALSE) & !flag_spatiotemporal ~ "high_open_continuous_spatial_regression",
+        flag_benchmark_model & candidate_task_type == "likely_continuous_regression" &
+          !flag_spatiotemporal ~ "medium_continuous_spatial_regression_article_not_oa",
+        flag_benchmark_model & candidate_task_type %in% c("count_response", "binary_or_classification") &
+          !flag_spatiotemporal ~ "medium_transformable_response_review",
         flag_benchmark_model & flag_spatiotemporal ~ "medium_spatiotemporal_review",
         flag_regression & coalesce(article_is_oa, FALSE) ~ "medium_open_weak_model_signal",
         TRUE ~ "low_reject"
@@ -940,7 +1103,11 @@ harvest <- function(min_citations = MIN_CITATIONS,
         "; article_is_oa=", coalesce(article_is_oa, FALSE),
         "; target_scope=", flag_target_scope,
         "; spatiotemporal=", flag_spatiotemporal,
+        "; ecology_sdm=", flag_ecology_sdm,
+        "; data_file_format=", flag_data_file_format,
+        "; document_only_format=", flag_document_only_format,
         "; non_benchmark_product=", flag_non_benchmark_product,
+        "; candidate_task_type=", candidate_task_type,
         "; min_size_bytes=", min_dataset_size_bytes
       ),
       already_covered = is_already_covered(title, publication_doi, keys)
@@ -965,6 +1132,8 @@ harvest <- function(min_citations = MIN_CITATIONS,
         if_else(flag_open_lic, 2, 0) +
         if_else(coalesce(article_is_oa, FALSE), 2, 0) +
         if_else(flag_benchmark_model, 2, 0) +
+        if_else(candidate_task_type == "likely_continuous_regression", 4, 0) +
+        if_else(candidate_task_type %in% c("count_response", "binary_or_classification"), 1, 0) +
         if_else(flag_priority_repo, 3, 0) +
         if_else(!is.na(size_bytes) & size_bytes > 5e6, 2, 0) +
         pmin(coalesce(cited_by_count, 0L) / 50, 3),
@@ -978,6 +1147,7 @@ harvest <- function(min_citations = MIN_CITATIONS,
       article_access_status = if_else(coalesce(article_is_oa, FALSE),
                                       "open_access",
                                       "not_open_or_unknown"),
+      candidate_task_type = candidate_task_type,
       formula_status = "not_found",
       formula_pub = "pending_grobid_kg",
       data_access_url = url,
@@ -999,7 +1169,7 @@ harvest <- function(min_citations = MIN_CITATIONS,
     select(-output_dedupe_key) |>
     select(
       metadata_schema, discovery_source, candidate_status,
-      selection_tier, citation_threshold,
+      selection_tier, citation_threshold, candidate_task_type,
       dataset_doi, title, publisher, year,
       datacite_description, datacite_subjects,
       publication_doi, article_title, article_venue, article_year,
@@ -1052,6 +1222,10 @@ if (sys.nframe() == 0L) {
   min_dataset_size_bytes <- as.numeric(min_dataset_size_kb) * 1024
   profiles <- cli[["profiles"]]
   if (is.null(profiles) || isTRUE(profiles)) profiles <- DEFAULT_PROFILES
+  strict_spatial_only <- cli_flag(cli, "strict-spatial-only", STRICT_SPATIAL_ONLY)
+  include_spatiotemporal <- cli_flag(cli, "include-spatiotemporal", FALSE)
+  if (include_spatiotemporal) strict_spatial_only <- FALSE
+  exclude_ecology_sdm <- !cli_flag(cli, "include-ecology-sdm", FALSE)
 
   message(
     "Parametres harvest : min_citations=", min_citations,
@@ -1059,7 +1233,9 @@ if (sys.nframe() == 0L) {
     "; openalex_limit=", openalex_limit,
     "; crossref_workers=", crossref_workers,
     "; min_dataset_size_kb=", min_dataset_size_kb,
-    "; profiles=", profiles
+    "; profiles=", profiles,
+    "; strict_spatial_only=", strict_spatial_only,
+    "; exclude_ecology_sdm=", exclude_ecology_sdm
   )
 
   new_res <- harvest(
@@ -1068,9 +1244,17 @@ if (sys.nframe() == 0L) {
     openalex_enrich_limit = openalex_limit,
     crossref_workers = crossref_workers,
     min_dataset_size_bytes = min_dataset_size_bytes,
-    profiles = profiles
+    profiles = profiles,
+    strict_spatial_only = strict_spatial_only,
+    exclude_ecology_sdm = exclude_ecology_sdm
   )
-  res <- merge_candidate_outputs(new_res, existing_path = OUTPUT_EXCEL_CSV, min_dataset_size_bytes = min_dataset_size_bytes)
+  res <- merge_candidate_outputs(
+    new_res,
+    existing_path = OUTPUT_EXCEL_CSV,
+    min_dataset_size_bytes = min_dataset_size_bytes,
+    strict_spatial_only = strict_spatial_only,
+    exclude_ecology_sdm = exclude_ecology_sdm
+  )
   write_candidate_outputs(res)
   message("Nouveaux candidats du run : ", nrow(new_res))
   message("Candidats cumules dedoublonnes : ", nrow(res))

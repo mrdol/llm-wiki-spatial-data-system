@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
 import json
 import re
 from collections import Counter, defaultdict
@@ -21,6 +22,7 @@ from typing import Any
 DEFAULT_OUTPUT_CSV = Path("data/manifests/papers/paper_dataset_benchmark_candidates.csv")
 DEFAULT_OUTPUT_JSON = Path("data/manifests/papers/paper_dataset_benchmark_candidates.json")
 DEFAULT_OUTPUT_MD = Path("wiki/analyses/paper_dataset_benchmark_candidates_2026-08.md")
+DEFAULT_OUTPUT_HTML = Path("wiki/analyses/paper_dataset_benchmark_candidates_2026-08.html")
 DEFAULT_MEDIUM_REVIEW_MD = Path("wiki/analyses/paper_dataset_medium_review_2026-08.md")
 DEFAULT_LOW_REVIEW_MD = Path("wiki/analyses/paper_dataset_low_archive_2026-08.md")
 
@@ -439,6 +441,7 @@ def write_report(path: Path, records: list[dict[str, Any]], csv_path: Path, json
         "",
         f"- CSV Excel (`;`) : `{csv_path.as_posix()}`",
         f"- JSON : `{json_path.as_posix()}`",
+        "- HTML interactif : `wiki/analyses/paper_dataset_benchmark_candidates_2026-08.html`",
         "",
         "## Bilan",
         "",
@@ -463,6 +466,356 @@ def write_report(path: Path, records: list[dict[str, Any]], csv_path: Path, json
             )
         )
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def html_link(value: str, *, kind: str = "auto") -> str:
+    text = clean(value)
+    if not text:
+        return ""
+    if kind == "doi":
+        doi = doi_key(text)
+        if doi:
+            return f'<a href="https://doi.org/{html.escape(doi)}" target="_blank" rel="noopener">{html.escape(text)}</a>'
+    if text.startswith(("http://", "https://")):
+        return f'<a href="{html.escape(text)}" target="_blank" rel="noopener">{html.escape(text)}</a>'
+    if re.search(r"\.(md|pdf|csv|json|rds|gpkg|zip)$", text, flags=re.I) or "/" in text or "\\" in text:
+        href = "../../" + text.replace("\\", "/")
+        return f'<a href="{html.escape(href)}" target="_blank" rel="noopener">{html.escape(text)}</a>'
+    return html.escape(text)
+
+
+def write_interactive_html(path: Path, records: list[dict[str, Any]], csv_path: Path, json_path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    priority_counts = Counter(clean(row.get("curation_priority")) for row in records)
+    status_counts = Counter(clean(row.get("benchmark_status")) for row in records)
+    display_columns = [
+        "curation_priority",
+        "benchmark_status",
+        "package_include",
+        "dataset_name",
+        "paper_title",
+        "paper_doi",
+        "dataset_doi",
+        "download_status",
+        "response_variable",
+        "candidate_y_status",
+        "candidate_x_status",
+        "formula_status",
+        "main_gap",
+        "required_next_step",
+        "wiki_path",
+        "local_artifact",
+        "local_pdf",
+    ]
+    records_json = json.dumps(
+        [{column: clean(row.get(column)) for column in COLUMNS} for row in records],
+        ensure_ascii=False,
+    )
+    columns_json = json.dumps(display_columns, ensure_ascii=False)
+    html_text = f"""<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Dataset Benchmark Candidates</title>
+  <style>
+    :root {{
+      color-scheme: light;
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #5f6b7a;
+      --line: #d9dee7;
+      --accent: #1f6feb;
+      --high: #d9480f;
+      --medium: #b7791f;
+      --low: #4a5568;
+      --ready: #137333;
+    }}
+    * {{ box-sizing: border-box; }}
+    body {{
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+    }}
+    header {{
+      padding: 18px 22px 12px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }}
+    h1 {{ margin: 0 0 8px; font-size: 22px; letter-spacing: 0; }}
+    .meta {{ color: var(--muted); display: flex; flex-wrap: wrap; gap: 12px; }}
+    .toolbar {{
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) repeat(4, minmax(150px, 190px)) auto auto;
+      gap: 10px;
+      align-items: end;
+      margin-top: 14px;
+    }}
+    label {{ display: grid; gap: 4px; color: var(--muted); font-size: 12px; }}
+    input, select, button {{
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px 9px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }}
+    button {{ cursor: pointer; white-space: nowrap; }}
+    button.primary {{ background: var(--accent); border-color: var(--accent); color: #fff; }}
+    main {{ padding: 16px 22px 30px; }}
+    .cards {{ display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }}
+    .card {{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      min-width: 145px;
+    }}
+    .card b {{ display: block; font-size: 20px; }}
+    .card span {{ color: var(--muted); font-size: 12px; }}
+    .table-wrap {{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: auto;
+      max-height: calc(100vh - 210px);
+    }}
+    table {{ border-collapse: collapse; min-width: 1900px; width: 100%; }}
+    th, td {{ border-bottom: 1px solid var(--line); padding: 7px 8px; vertical-align: top; }}
+    th {{
+      position: sticky;
+      top: 0;
+      background: #eef2f7;
+      text-align: left;
+      z-index: 2;
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+    }}
+    td {{ max-width: 260px; overflow-wrap: anywhere; }}
+    td.small {{ max-width: 130px; }}
+    a {{ color: var(--accent); text-decoration: none; }}
+    a:hover {{ text-decoration: underline; }}
+    .pill {{
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      background: #edf2f7;
+      color: #2d3748;
+    }}
+    .pill.high {{ color: #fff; background: var(--high); }}
+    .pill.medium {{ color: #fff; background: var(--medium); }}
+    .pill.low {{ color: #fff; background: var(--low); }}
+    .pill.ready {{ color: #fff; background: var(--ready); }}
+    .muted {{ color: var(--muted); }}
+    @media (max-width: 1100px) {{
+      .toolbar {{ grid-template-columns: 1fr 1fr; }}
+      .table-wrap {{ max-height: none; }}
+    }}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Paper Dataset Benchmark Candidates</h1>
+    <div class="meta">
+      <span>{len(records)} candidats consolides</span>
+      <span>CSV: {html.escape(csv_path.as_posix())}</span>
+      <span>JSON: {html.escape(json_path.as_posix())}</span>
+    </div>
+    <div class="toolbar">
+      <label>Recherche
+        <input id="search" type="search" placeholder="dataset, papier, DOI, gap...">
+      </label>
+      <label>Priorite
+        <select id="priority"><option value="">Toutes</option></select>
+      </label>
+      <label>Statut benchmark
+        <select id="status"><option value="">Tous</option></select>
+      </label>
+      <label>Package
+        <select id="package"><option value="">Tous</option></select>
+      </label>
+      <label>Formule
+        <select id="formula"><option value="">Toutes</option></select>
+      </label>
+      <button id="clear">Reset</button>
+      <button id="export" class="primary">Exporter selection</button>
+    </div>
+  </header>
+  <main>
+    <section class="cards">
+      <div class="card"><b id="visibleCount">0</b><span>lignes visibles</span></div>
+      <div class="card"><b id="selectedCount">0</b><span>cases cochees</span></div>
+      <div class="card"><b>{priority_counts.get("high", 0)}</b><span>priorite high</span></div>
+      <div class="card"><b>{priority_counts.get("medium", 0)}</b><span>priorite medium</span></div>
+      <div class="card"><b>{status_counts.get("ready", 0)}</b><span>ready</span></div>
+    </section>
+    <div class="table-wrap">
+      <table id="table">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+  <script>
+    const records = {records_json};
+    const columns = {columns_json};
+    const stateKey = "paper_dataset_benchmark_candidates_checked_v1";
+    let checked = new Set(JSON.parse(localStorage.getItem(stateKey) || "[]"));
+    let sortColumn = "curation_priority";
+    let sortDirection = 1;
+
+    const filters = {{
+      search: document.getElementById("search"),
+      priority: document.getElementById("priority"),
+      status: document.getElementById("status"),
+      package: document.getElementById("package"),
+      formula: document.getElementById("formula"),
+    }};
+
+    function uniqueValues(column) {{
+      return [...new Set(records.map(row => row[column]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+    }}
+
+    function fillSelect(id, column) {{
+      const select = filters[id];
+      uniqueValues(column).forEach(value => {{
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      }});
+    }}
+
+    function candidateId(row) {{
+      return row.candidate_id || row.dataset_doi || row.dataset_id || row.dataset_name;
+    }}
+
+    function linkify(value, column) {{
+      if (!value) return "";
+      const escaped = value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+      if (column.endsWith("_doi") && value) {{
+        const doi = value.replace(/^https?:\\/\\/(dx\\.)?doi\\.org\\//i, "");
+        return `<a href="https://doi.org/${{encodeURI(doi)}}" target="_blank" rel="noopener">${{escaped}}</a>`;
+      }}
+      if (/^https?:\\/\\//i.test(value)) {{
+        return `<a href="${{escaped}}" target="_blank" rel="noopener">${{escaped}}</a>`;
+      }}
+      if ((/\\.(md|pdf|csv|json|rds|gpkg|zip)$/i.test(value) || /[\\\\/]/.test(value)) && !value.includes(";")) {{
+        const href = "../../" + value.replaceAll("\\\\", "/");
+        return `<a href="${{href}}" target="_blank" rel="noopener">${{escaped}}</a>`;
+      }}
+      return escaped;
+    }}
+
+    function pill(value) {{
+      const cls = String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "_");
+      const priority = ["high", "medium", "low"].includes(cls) ? cls : "";
+      const ready = cls === "ready" ? "ready" : "";
+      return `<span class="pill ${{priority || ready}}">${{value || ""}}</span>`;
+    }}
+
+    function filteredRows() {{
+      const query = filters.search.value.trim().toLowerCase();
+      return records.filter(row => {{
+        if (filters.priority.value && row.curation_priority !== filters.priority.value) return false;
+        if (filters.status.value && row.benchmark_status !== filters.status.value) return false;
+        if (filters.package.value && row.package_include !== filters.package.value) return false;
+        if (filters.formula.value && row.formula_status !== filters.formula.value) return false;
+        if (!query) return true;
+        return columns.some(column => String(row[column] || "").toLowerCase().includes(query));
+      }}).sort((a, b) => {{
+        const av = String(a[sortColumn] || "");
+        const bv = String(b[sortColumn] || "");
+        return sortDirection * av.localeCompare(bv, undefined, {{numeric: true, sensitivity: "base"}});
+      }});
+    }}
+
+    function render() {{
+      const rows = filteredRows();
+      const thead = document.querySelector("#table thead");
+      const tbody = document.querySelector("#table tbody");
+      thead.innerHTML = "<tr><th>select</th>" + columns.map(column => `<th data-column="${{column}}">${{column}}</th>`).join("") + "</tr>";
+      tbody.innerHTML = rows.map(row => {{
+        const id = candidateId(row);
+        const cells = columns.map(column => {{
+          const cls = ["curation_priority", "benchmark_status", "package_include", "formula_status", "candidate_y_status", "candidate_x_status"].includes(column) ? "small" : "";
+          const value = ["curation_priority", "benchmark_status"].includes(column) ? pill(row[column]) : linkify(row[column], column);
+          return `<td class="${{cls}}" title="${{String(row[column] || "").replaceAll('"', "&quot;")}}">${{value}}</td>`;
+        }}).join("");
+        return `<tr><td class="small"><input type="checkbox" data-id="${{id.replaceAll('"', "&quot;")}}" ${{checked.has(id) ? "checked" : ""}}></td>${{cells}}</tr>`;
+      }}).join("");
+      document.getElementById("visibleCount").textContent = rows.length;
+      document.getElementById("selectedCount").textContent = checked.size;
+      document.querySelectorAll("th[data-column]").forEach(th => {{
+        th.addEventListener("click", () => {{
+          const column = th.dataset.column;
+          if (sortColumn === column) sortDirection *= -1;
+          else {{
+            sortColumn = column;
+            sortDirection = 1;
+          }}
+          render();
+        }});
+      }});
+      document.querySelectorAll("input[type=checkbox][data-id]").forEach(input => {{
+        input.addEventListener("change", event => {{
+          const id = event.target.dataset.id;
+          if (event.target.checked) checked.add(id);
+          else checked.delete(id);
+          localStorage.setItem(stateKey, JSON.stringify([...checked]));
+          document.getElementById("selectedCount").textContent = checked.size;
+        }});
+      }});
+    }}
+
+    function exportRows() {{
+      const visible = filteredRows();
+      const selectedVisible = visible.filter(row => checked.has(candidateId(row)));
+      const rows = selectedVisible.length ? selectedVisible : visible;
+      const outColumns = ["selected"].concat(columns);
+      const escapeCsv = value => `"${{String(value || "").replaceAll('"', '""')}}"`;
+      const csv = [
+        outColumns.join(";"),
+        ...rows.map(row => outColumns.map(column => column === "selected" ? (checked.has(candidateId(row)) ? "yes" : "no") : escapeCsv(row[column])).join(";"))
+      ].join("\\n");
+      const blob = new Blob([csv], {{type: "text/csv;charset=utf-8"}});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "paper_dataset_benchmark_candidates_selection.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    }}
+
+    fillSelect("priority", "curation_priority");
+    fillSelect("status", "benchmark_status");
+    fillSelect("package", "package_include");
+    fillSelect("formula", "formula_status");
+    Object.values(filters).forEach(input => input.addEventListener("input", render));
+    document.getElementById("clear").addEventListener("click", () => {{
+      Object.values(filters).forEach(input => input.value = "");
+      render();
+    }});
+    document.getElementById("export").addEventListener("click", exportRows);
+    render();
+  </script>
+</body>
+</html>
+"""
+    path.write_text(html_text, encoding="utf-8")
 
 
 def write_priority_review(
@@ -524,21 +877,36 @@ def build_manifest(repo_root: Path) -> list[dict[str, Any]]:
     return records
 
 
+def load_records_from_json(path: Path) -> list[dict[str, Any]]:
+    payload = read_json(path, {"records": []})
+    records = payload.get("records", []) if isinstance(payload, dict) else []
+    return [{column: clean(row.get(column)) for column in COLUMNS} for row in records]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, default=Path.cwd())
     parser.add_argument("--csv", type=Path, default=DEFAULT_OUTPUT_CSV)
     parser.add_argument("--json", type=Path, default=DEFAULT_OUTPUT_JSON)
     parser.add_argument("--report", type=Path, default=DEFAULT_OUTPUT_MD)
+    parser.add_argument("--html", type=Path, default=DEFAULT_OUTPUT_HTML)
+    parser.add_argument("--html-only", action="store_true", help="Generate only the interactive HTML from the existing JSON manifest.")
     parser.add_argument("--medium-review", type=Path, default=DEFAULT_MEDIUM_REVIEW_MD)
     parser.add_argument("--low-review", type=Path, default=DEFAULT_LOW_REVIEW_MD)
     args = parser.parse_args()
 
     repo_root = args.repo_root.resolve()
+    if args.html_only:
+        records = load_records_from_json(repo_root / args.json)
+        write_interactive_html(repo_root / args.html, records, args.csv, args.json)
+        print(f"HTML: {repo_root / args.html}")
+        return
+
     records = build_manifest(repo_root)
     write_csv(repo_root / args.csv, records)
     write_json(repo_root / args.json, records)
     write_report(repo_root / args.report, records, args.csv, args.json)
+    write_interactive_html(repo_root / args.html, records, args.csv, args.json)
     write_priority_review(
         repo_root / args.medium_review,
         records,
@@ -571,6 +939,7 @@ def main() -> None:
     print(f"CSV: {repo_root / args.csv}")
     print(f"JSON: {repo_root / args.json}")
     print(f"Report: {repo_root / args.report}")
+    print(f"HTML: {repo_root / args.html}")
     print(f"Medium review: {repo_root / args.medium_review}")
     print(f"Low archive: {repo_root / args.low_review}")
 

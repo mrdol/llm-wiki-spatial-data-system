@@ -1,8 +1,8 @@
 ---
 title: paper_mammals_sr_pd
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_mammals_sr_pd.rds
   - DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299
@@ -96,14 +96,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
 
 ### Formule - niveau systeme
 
 - formula_used: SR ~ AET + Temp
 - x_terms_used: AET, Temp
 - y_term_used: SR
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
 
 ### Formules candidates
 

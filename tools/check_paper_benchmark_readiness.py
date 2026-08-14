@@ -78,7 +78,11 @@ def parse_block(block: str | None) -> dict[str, str]:
 
 
 def has_nonempty_bullet(text: str, label: str) -> bool:
-    match = re.search(rf"(?im)^\s*-\s+{re.escape(label)}:\s*(.+?)\s*$", text)
+    # Deux gabarits de fiche coexistent dans le wiki avec des libelles
+    # legerement differents pour le meme champ (ex. "Candidate X variables"
+    # vs "Candidate X variables in local artifact" pour generate_fiches_papers.R) --
+    # on accepte tout libelle qui commence par `label` avant les deux points.
+    match = re.search(rf"(?im)^\s*-\s+{re.escape(label)}[^:\n]*:\s*(.+?)\s*$", text)
     if not match:
         return False
     value = clean_scalar(match.group(1))
@@ -109,6 +113,11 @@ def check_fiche(path: Path) -> list[str]:
         errors.append(f"manual_review status is inconsistent with {status}")
 
     if package_include == "yes":
+        if "## Estimator eligibility" not in text:
+            errors.append("package_include=yes but missing Estimator eligibility block")
+        if "Selection Y/X" not in text:
+            errors.append("package_include=yes but missing Selection Y/X block")
+
         required_bullets = [
             "formula_used",
             "y_term_used",

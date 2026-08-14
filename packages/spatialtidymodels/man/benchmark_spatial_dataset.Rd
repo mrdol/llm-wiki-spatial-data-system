@@ -9,6 +9,7 @@ benchmark_spatial_dataset(
   estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
   data_dir = NULL,
   use_recommended_grids = TRUE,
+  formula_role = "default",
   ...
 )
 }
@@ -22,6 +23,12 @@ prepared \code{.rds} files.}
 
 \item{use_recommended_grids}{If \code{TRUE}, fill missing tuning grids from the
 dataset registry for complex estimators such as native mixed MGWRSAR.}
+
+\item{formula_role}{Formula role to use when the dataset exposes several
+candidate formulas. Use \code{"default"} or \code{"package_default"} for the
+package benchmark formula, \code{"paper_main_specification"} or
+\code{"multivariate_constrained"} for the main published formula, and
+\code{"ml_or_selected"} for the ML-oriented candidate when available.}
 
 \item{...}{Arguments passed to \code{benchmark_spatial()}, such as
 \code{cv_scheme = "near_prediction"}, \code{tune = TRUE}, or \code{tuning_grids = ...}.}

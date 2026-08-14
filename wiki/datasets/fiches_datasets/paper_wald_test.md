@@ -1,8 +1,8 @@
 ---
 title: paper_wald_test
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_wald_test.rds
   - DataCite_2020_TheWaldTestOf_10_1017_pan_2020
@@ -17,7 +17,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Observation unit: observation parti x election
 - Observed population: partis politiques, democraties occidentales
 - Geographic context: etendue sf: x [-110.243807777161, 176.516596816029], y [-38.30531015, 79.958143]
-- Temporal context: none (cross-sectional)
+- Temporal context: 306 distinct periods (variable: ts)
 - Source description: The Wald Test of Common Factors in Spatial Model Specification Search Strategies
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
@@ -92,14 +92,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
 
 ### Formule - niveau systeme
 
 - formula_used: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
 - x_terms_used: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_used: change
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
 
 ### Formules candidates
 
@@ -194,23 +194,23 @@ estimator_eligibility:
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel_ou_series
 - N observations: 1428
 - k variables: 31
-- T periods: 1
-- Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- T periods: 306
+- Variable temporelle: ts
+- N/T profile: N_grand_T_grand
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: 306 distinct periods (variable: ts)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-110.243807777161, 176.516596816029], y [-38.30531015, 79.958143]
-- Time range: not applicable (cross-sectional dataset)
+- Time range: 1952-06-25 to 2005-05-05 (variable: ts)
 - CRS analyse recommande: pending - multi-zones (span=286.8deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite

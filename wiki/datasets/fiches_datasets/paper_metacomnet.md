@@ -1,8 +1,8 @@
 ---
 title: paper_metacomnet
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_metacomnet.rds
   - DataCite_2021_MetacomnetARandomForest_10_1111_2041_210

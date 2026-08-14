@@ -2,7 +2,7 @@
 title: Papiers du corpus avec datasets spatiaux non encore ingérés
 type: metadata
 created: 2026-07-27
-updated: 2026-08-10
+updated: 2026-08-13
 sources: [inst/kg/paper_dataset_uses.json]
 tags: [metadata, kg, papers, datasets, ingestion, gaps]
 ---
@@ -21,7 +21,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Replication data for: A Rational Expectations Approach to Hedonic Price Regressions with Time-Varying Unobserved Product Attributes: The Price of Pollution | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.3886/e112541; Publication DOI 10.1257/aer.102.5.1898 | Régression hédonique spatiale (prix immobilier/pollution), 168 citations, domaine housing/pollution prioritaire, méthode économétrique spatiale attendue. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Replication data for: A Rational Expectations Approach to Hedonic Price Regressions with Time-Varying Unobserved Product Attributes: The Price of Pollution | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.3886/e112541; Publication DOI 10.1257/aer.102.5.1898 | RÃ©gression hÃ©donique spatiale (prix immobilier/pollution), 168 citations, domaine housing/pollution prioritaire, mÃ©thode Ã©conomÃ©trique spatiale attendue. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## A bootstrap test for constant coefficients in geographically weighted regression models
 
@@ -30,7 +30,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| A bootstrap test for constant coefficients in geographically weighted regression models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.3189004; Publication DOI 10.1080/13658816.2016.1149181 | Test bootstrap pour coefficients constants dans GWR, 55 citations, méthode GWR explicite, inférence spatiale. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| A bootstrap test for constant coefficients in geographically weighted regression models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.3189004; Publication DOI 10.1080/13658816.2016.1149181 | Test bootstrap pour coefficients constants dans modÃ¨les GWR. Article mÃ©thodologique sur GWR, mÃ©thode explicite, dataset empirique pour validation du test. Contribution mÃ©thodologique importante pour dÃ©tection de non-stationnaritÃ© spatiale. |
+
+## A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces
+
+- DOI papier : `10.1111/ddi.13046`
+- BibTeX key : `DataCite_2020_AGapAnalysisModelling_10_1111_ddi_1304`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.866t1g1n0; Publication DOI 10.1111/ddi.13046 | ModÃ©lisation de distribution spatiale de variÃ©tÃ©s traditionnelles de haricot commun ; gap analysis avec prÃ©dicteurs environnementaux et socioÃ©conomiques ; domaine agriculture/conservation ex situ ; 35 citations |
 
 ## A global dataset of air temperature derived from satellite remote sensing and weather stations
 
@@ -58,6 +67,24 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Agricultural technology adoption and land use: evidence for Brazilian municipalities | `converted_to_sf` |  | 5507 | None | DataCite dataset DOI 10.6084/m9.figshare.11492220; Publication DOI 10.1080/1747423x.2019.1707312 | DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics |
+
+## Air pollution slows down surface warming over the Tibetan Plateau
+
+- DOI papier : `10.5194/acp-20-881-2020`
+- BibTeX key : `DataCite_2020_AirPollutionSlowsDown_10_5194_acp_20_8`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Long-term surface downward surface radiation dataset over the Tibetan Plateau | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.1594/pangaea.902049; Publication DOI 10.5194/acp-20-881-2020 | Dataset radiation Tibet 1850-2015 avec rÃ©gression NNLS (non-negative least squares) spatiale ; 27 citations ; domaine climat/pollution ; mÃ©thode de fusion spatiale CMIP5. |
+
+## An Application of Geographically Weighted Quantile Lasso to Weather Index Insurance Design
+
+- DOI papier : `10.1590/1982-7849rac2022200387.en`
+- BibTeX key : `DataCite_2022_AnApplicationOfGeographically_10_1590_1982_784`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Replication Data for: An application of geographically weighted quantile LASSO to weather index insurance design published by RAC-Revista de AdministraÃ§Ã£o ContemporÃ¢nea | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/uezmjt; Publication DOI 10.1590/1982-7849rac2022200387.en | Application de geographically weighted quantile LASSO (GWQlasso) pour assurance indicielle mÃ©tÃ©o au BrÃ©sil ; donnÃ©es de rendement soja et prÃ©cipitations (SPI) ; mÃ©thode GWR avec LASSO et rÃ©gression quantile ; correspond exactement au pÃ©rimÃ¨tre GWR / spatially varying coefficients / agriculture / crop yield / weather index |
 
 ## An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States
 
@@ -102,7 +129,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Bayesian Model Averaging for Spatial Autoregressive Models Based on Convex Combinations of Different Types of Connectivity Matrices | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.13143129; Publication DOI 10.1080/07350015.2020.1840993 | Bayesian model averaging pour SAR avec combinaisons convexes de matrices W, 52 citations, méthode SAR/spatial autoregressive explicite, économétrie spatiale centrale. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Bayesian Model Averaging for Spatial Autoregressive Models Based on Convex Combinations of Different Types of Connectivity Matrices | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.13143129; Publication DOI 10.1080/07350015.2020.1840993 | Bayesian model averaging pour SAR avec combinaisons convexes de matrices W, 52 citations, mÃ©thode SAR/spatial autoregressive explicite, Ã©conomÃ©trie spatiale centrale. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+
+## Bias from Network Misspecification Under Spatial Dependence
+
+- DOI papier : `10.1017/pan.2020.26`
+- BibTeX key : `DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Replication Data for: Bias due to network misspecification under spatial dependence | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.7910/dvn/adifov; Publication DOI 10.1017/pan.2020.26 | Article mÃ©thodologique Political Analysis sur biais de mauvaise spÃ©cification de la matrice W sous dÃ©pendance spatiale. Dataset Dataverse code simulations + donnÃ©es cigarette sales 46 Ã©tats USA 1963-1992. Domaine Ã©conomÃ©trie spatiale mÃ©thodologique, 5 citations, correspond exactement au pÃ©rimÃ¨tre spatial econometrics + W matrix specification. / Statut avance vers raw_data_downloaded le 2026-08-12 : Archive PAN-archive complete (PAN-archive_full_dataverse_files.zip) confirmee. |
 
 ## Building use-inspired species distribution models: Using multiple data types to examine and improve model performance
 
@@ -111,7 +147,25 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Integrating diverse data for robust species distribution models in a dynamic ocean | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.7sqv9s51c; Publication DOI 10.1002/eap.2893 | Species distribution models (SDM) avec INLA et BRT, 32 citations, données spatiotemporelles océan Atlantique, méthode INLA (CAR/spatial random effects) explicite. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Data from: Integrating diverse data for robust species distribution models in a dynamic ocean | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.7sqv9s51c; Publication DOI 10.1002/eap.2893 | Species distribution models (SDM) avec INLA et BRT, 32 citations, donnÃ©es spatiotemporelles ocÃ©an Atlantique, mÃ©thode INLA (CAR/spatial random effects) explicite. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+
+## Climate and competition effects on tree growth in Rocky Mountain forests
+
+- DOI papier : `10.1111/1365-2745.12782`
+- BibTeX key : `DataCite_2017_ClimateAndCompetitionEffects_10_1111_1365_274`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Climate and competition effects on tree growth in Rocky Mountain forests | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.fv322; Publication DOI 10.1111/1365-2745.12782 | RÃ©gression non linÃ©aire pour croissance d'arbres avec effets climatiques et compÃ©tition spatiale (neighborhood crowding) ; donnÃ©es de carottes d'arbres avec coordonnÃ©es ; domaine forÃªt/climat ; 105 citations |
+
+## Climate limits vegetation green-up more than slope, soil erodibility, and immediate precipitation following high-severity wildfire
+
+- DOI papier : `10.1186/s42408-024-00264-0`
+- BibTeX key : `DataCite_2024_ClimateLimitsVegetationGreen_10_1186_s42408_0`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Climate is more influential to vegetation green-up than factors that contribute to erosion following high-severity wildfire | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.mw6m9063p; Publication DOI 10.1186/s42408-024-00264-0 | Ã‰tude sur la rÃ©cupÃ©ration de la vÃ©gÃ©tation post-feu dans le sud-ouest USA avec Random Forest, donnÃ©es Landsat multi-temporelles, variables topographiques/sol/climat. Domaine feu/vÃ©gÃ©tation/climat pertinent, mÃ©thode Random Forest spatiale. |
 
 ## Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests
 
@@ -120,7 +174,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.kd51c5bdc; Publication DOI 10.1111/1365-2664.14606 | Spatial prediction de populations d'insectes en forêt boréale avec covariables climatiques et de gestion forestière; modèle spatial explicite pour prédiction à 3 ans; domaine écologie/foresterie pertinent pour benchmark spatial / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Data for: Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.kd51c5bdc; Publication DOI 10.1111/1365-2664.14606 | Spatial prediction de populations d'insectes en forÃªt borÃ©ale avec covariables climatiques et de gestion forestiÃ¨re; modÃ¨le spatial explicite pour prÃ©diction Ã  3 ans; domaine Ã©cologie/foresterie pertinent pour benchmark spatial / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+
+## Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species
+
+- DOI papier : `10.1371/journal.pone.0249633`
+- BibTeX key : `DataCite_2021_ClimaticChangeAndExtinction_10_1371_journal_`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Research data supporting ''Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species'' | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.17863/cam.65907; Publication DOI 10.1371/journal.pone.0249633 | Species Distribution Models (SDM) pour oiseaux endÃ©miques Ã‰thiopie avec projections climatiques ; 31 citations ; domaine biodiversitÃ©/climate change ; SDM est une forme de modÃ©lisation spatiale prÃ©dictive. / Statut avance vers raw_data_downloaded le 2026-08-12 : 8 fichiers .rda (nest records, background points, segments, true absences) confirmes. |
 
 ## Cluster detection of spatial regression coefficients
 
@@ -131,14 +194,23 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Dataset for: Cluster Detection of Spatial Regression Coefficients | `converted_to_sf` |  | 616 | None | DataCite dataset DOI 10.6084/m9.figshare.4126881; Publication DOI 10.1002/sim.7172 | yes - Cluster Detection of Spatial Regression Coefficients : titre explicite sur coefficients de regression spatiale |
 
-## Construção de um índice de desenvolvimento sustentável e análise espacial das desigualdades nos municípios cearenses
+## Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys
+
+- DOI papier : `10.1002/ece3.7059`
+- BibTeX key : `DataCite_2021_ConsistentConcentrationsOfCritically_10_1002_ece3_705`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.9p8cz8wdz; Publication DOI 10.1002/ece3.7059 | Ã‰cologie marine spatiale : distribution Balearic shearwaters, GAM et Random Forest pour prÃ©diction prÃ©sence, variables ocÃ©anographiques, coordonnÃ©es gÃ©ographiques. |
+
+## ConstruÃ§Ã£o de um Ã­ndice de desenvolvimento sustentÃ¡vel e anÃ¡lise espacial das desigualdades nos municÃ­pios cearenses
 
 - DOI papier : `10.1590/0034-7612163114`
 - BibTeX key : `DataCite_2018_ConstruODeUm_10_1590_0034_761`
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Building a sustainable development index and spacial assessment of municipalities inequalities in the state of Ceará | `rejected_supplement_mirror_no_raw_data` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6008072; Publication DOI 10.1590/0034-7612163114 | yes - Analyse spatiale des inegalites municipales (indice de developpement), domaine revenu/inegalite prioritaire |
+| Building a sustainable development index and spacial assessment of municipalities inequalities in the state of CearÃ¡ | `rejected_supplement_mirror_no_raw_data` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.6008072; Publication DOI 10.1590/0034-7612163114 | yes - Analyse spatiale des inegalites municipales (indice de developpement), domaine revenu/inegalite prioritaire |
 
 ## Cost estimation using ANFIS
 
@@ -147,7 +219,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Cost estimation using ANFIS | `pdf_not_accessible_needs_manual_retrieval` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.1626651; Publication DOI 10.1080/0013791x.2015.1104568 | Article compare ANFIS, MLR, Taylor Kriging et ANN pour estimation de coûts; Taylor Kriging est méthode de régression spatiale/interpolation; domaine engineering economics mais méthode kriging pertinente pour benchmark spatial prediction / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=rejected_not_spatial_econometrics). |
+| Cost estimation using ANFIS | `rejected_user_excluded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.1626651; Publication DOI 10.1080/0013791x.2015.1104568 | Estimation de coÃ»t avec ANFIS, comparaison avec MLR, Taylor Kriging (TK), ANN ; kriging est une mÃ©thode de prÃ©diction spatiale, pertinent pour benchmark. |
 
 ## Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors
 
@@ -156,7 +228,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.21082235; Publication DOI 10.1080/01621459.2022.2123333 | Article utilisant Bayesian spatially varying coefficient models (BSVCM) pour prédiction de rendement agricole (corn yield) avec prédicteurs fonctionnels (température, précipitation), 17 citations, domaine agriculture, méthode spatiale avancée. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.21082235; Publication DOI 10.1080/01621459.2022.2123333 | ModÃ¨le bayÃ©sien Ã  coefficients spatialement variables pour prÃ©diction de rendement agricole (corn yield) dans 5 Ã©tats du Midwest USA. PrÃ©dicteurs fonctionnels (prÃ©cipitation, tempÃ©rature). Domaine agriculture/crop yield prioritaire, mÃ©thode spatiale avancÃ©e (BSVFM), dataset empirique avec coordonnÃ©es comtÃ©s, variable rÃ©ponse (yield), covariables climatiques. / Statut avance vers raw_data_downloaded le 2026-08-12 : MidwestData.RData (35.7 Mo) confirme dans le zip supplement JASA. |
 
 ## Data and R code for: Biogeography and conservation of bycatch decapods
 
@@ -165,7 +237,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data and R code for: Biogeography and conservation of bycatch decapods | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.0zpc8678d; Publication DOI 10.1111/jbi.70076 | Article de biogéographie marine utilisant des modèles de régression spatiale pour analyser la richesse spécifique, diversité phylogénétique et endémisme phylogénétique de décapodes en fonction de variables environnementales (température, salinité, productivité primaire, courants). Correspond au périmètre biodiversité + spatial regression models. |
+| Data and R code for: Biogeography and conservation of bycatch decapods | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.0zpc8678d; Publication DOI 10.1111/jbi.70076 | Article de biogÃ©ographie marine utilisant des modÃ¨les de rÃ©gression spatiale pour analyser la richesse spÃ©cifique, diversitÃ© phylogÃ©nÃ©tique et endÃ©misme phylogÃ©nÃ©tique de dÃ©capodes en fonction de variables environnementales (tempÃ©rature, salinitÃ©, productivitÃ© primaire, courants). Correspond au pÃ©rimÃ¨tre biodiversitÃ© + spatial regression models. |
 
 ## Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model
 
@@ -176,6 +248,60 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Determinants and spatial dependence of innovation in Brazilian regions: evidence from a Spatial Tobit Model | `rejected_supplement_mirror_no_raw_data` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.9986387; Publication DOI 10.1590/0103-6351/4456 | yes - Spatial Tobit Model explicite, econometrie regionale (innovation), domaine economique prioritaire |
 
+## Disentangling biotic interactions, environmental filters, and dispersal limitation as drivers of species co-occurrence
+
+- DOI papier : `10.1111/ecog.03148`
+- BibTeX key : `DataCite_2017_DisentanglingBioticInteractionsEnvironmental_10_1111_ecog_031`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Disentangling biotic interactions, environmental filters, and dispersal limitation as drivers of species co-occurrence | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.8mv11; Publication DOI 10.1111/ecog.03148 | CommunautÃ©s vÃ©gÃ©tales alpines, null models et JSDM (joint species distribution models) pour co-occurrence, filtres environnementaux et limitation de dispersion : modÃ¨le spatial explicite (JSDM), domaine Ã©cologie vÃ©gÃ©tale. |
+
+## Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918
+
+- DOI papier : `10.1073/pnas.1612838113`
+- BibTeX key : `DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918 | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.48nv3; Publication DOI 10.1073/pnas.1612838113 | Analyse spatiotemporelle de la mortalitÃ© grippale Ã  Chicago en 1918 avec modÃ¨les Poisson GEE ; facteurs sociodÃ©mographiques (illettrisme, propriÃ©tÃ©, chÃ´mage) ; clustering spatiotemporel ; correspond au pÃ©rimÃ¨tre health / mortality / epidemiology / spatial autocorrelation / urban studies / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip Dryad correspondant exactement au dataset_doi (doi_10_5061_dryad_48nv3). |
+
+## Distributed Heterogeneity Learning for Generalized Partially Linear Models with Spatially Varying Coefficients
+
+- DOI papier : `10.1080/01621459.2024.2359131`
+- BibTeX key : `DataCite_2024_DistributedHeterogeneityLearningFor_10_1080_01621459`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Distributed Heterogeneity Learning for Generalized Partially Linear Models with Spatially Varying Coefficients 1 | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.25897766; Publication DOI 10.1080/01621459.2024.2359131 | RÃ©gression spatiale explicite : modÃ¨le partiellement linÃ©aire gÃ©nÃ©ralisÃ© avec coefficients spatialement variables (spatially varying coefficients), spline bivariÃ©, hÃ©tÃ©rogÃ©nÃ©itÃ© spatiale. |
+
+## Early-season biomass and weather enable robust cereal rye cover crop biomass predictions
+
+- DOI papier : `10.1002/ael2.20121`
+- BibTeX key : `DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Early-season biomass and weather enable robust cereal rye cover crop biomass predictions | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.ngf1vhj1r; Publication DOI 10.1002/ael2.20121 | Ã‰tude agriculture (cover crop biomass) avec random forest spatial. Dataset Dryad multi-Ã©tats USA 2016-2020, biomasse cereal rye, mÃ©tÃ©o, coordonnÃ©es sites. Domaine agriculture/precision agriculture, 6 citations, correspond au pÃ©rimÃ¨tre spatial random forest + agriculture. / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip Dryad correspondant exactement au dataset_doi (doi_10_5061_dryad_ngf1vhj1r). |
+
+## Ectothermy and the macroecology of home range scaling in snakes
+
+- DOI papier : `10.1111/geb.13225`
+- BibTeX key : `DataCite_2020_EctothermyAndTheMacroecology_10_25338_b85g98`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Ectothermy and the macroecology of home range scaling in snakes | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.25338/b85g98; Publication DOI 10.1111/geb.13225 | Etude macroecologique du home range chez les serpents, modeles spatiaux mentionnes (SAR), donnees telemetrie radio / MCP / kernel density (rapport de verification DataCite, idx 32, needs_manual_check promu en keep pour applicabilite GAM/formule). |
+
+## Enhancing performance of multi-temporal tropical river landform classification through downscaling approaches
+
+- DOI papier : `10.1080/01431161.2022.2139164`
+- BibTeX key : `DataCite_2022_EnhancingPerformanceOfMulti_10_1080_01431161`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Enhancing performance of multi-temporal tropical river landform classification through downscaling approaches | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.21571608; Publication DOI 10.1080/01431161.2022.2139164 | Classification de formes fluviales par tÃ©lÃ©dÃ©tection ; downscaling spatial (ATPRK = area to point regression kriging) ; domaine gÃ©omorphologie/tÃ©lÃ©dÃ©tection. |
+
 ## Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals
 
 - DOI papier : `10.1111/geb.12999`
@@ -185,6 +311,24 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals | `converted_to_sf` |  | 17151 | None | DataCite dataset DOI 10.5061/dryad.nq8hg19; Publication DOI 10.1111/geb.12999 | partial - Macroecologie mammiferes, SEM/path analysis mais pas econometrie spatiale au sens du projet / Telecharge manuellement le 2026-08-07 (API Dryad bloquee, token requis). |
 
+## Environmental factors influencing spotted hyena and lion population biomass across Africa
+
+- DOI papier : `10.1002/ece3.8359`
+- BibTeX key : `DataCite_2021_EnvironmentalFactorsInfluencingSpotted_10_1002_ece3_835`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Predator biomass, prey biomass landcover and climate data from spotted hyaena and lion sites in Africa | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.prr4xgxmj; Publication DOI 10.1002/ece3.8359 | Ã‰tude sur la biomasse de prÃ©dateurs (hyÃ¨nes, lions) en Afrique avec rÃ©gression PLS (Partial Least Squares) spatiale, variables climatiques et de vÃ©gÃ©tation, donnÃ©es multi-sites avec coordonnÃ©es. Domaine biodiversitÃ©/climat pertinent. |
+
+## Estimation and Inference of Quantile Spatially Varying Coefficient Models Over Complicated Domains
+
+- DOI papier : `10.1080/01621459.2025.2480867`
+- BibTeX key : `DataCite_2025_EstimationAndInferenceOf_10_1080_01621459`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Estimation and Inference of Quantile Spatially Varying Coefficient Models Over Complicated Domains | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.28678415; Publication DOI 10.1080/01621459.2025.2480867 | ModÃ¨le de rÃ©gression quantile Ã  coefficients spatialement variables (QSVCM) sur domaines complexes avec splines pÃ©nalisÃ©es bivariÃ©es en triangulation ; correspond exactement au pÃ©rimÃ¨tre quantile regression / spatially varying coefficients / spatial nonstationarity / penalized splines |
+
 ## Estimation and inference in spatially varying coefficient models
 
 - DOI papier : `10.1002/env.2485`
@@ -192,7 +336,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Dataset for: Estimation and inference in spatially varying coefficient models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.5544445; Publication DOI 10.1002/env.2485 | Article méthodologique sur spatially varying coefficient models (SVCM) avec bivariate splines, 50 citations, domaine environnement, méthode alternative à GWR pour domaines complexes, avec application empirique environnementale. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Dataset for: Estimation and inference in spatially varying coefficient models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.5544445; Publication DOI 10.1002/env.2485 | Article mÃ©thodologique sur spatially varying coefficient models (SVCM) avec bivariate splines, 50 citations, domaine environnement, mÃ©thode alternative Ã  GWR pour domaines complexes, avec application empirique environnementale. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
 
 ## Examining the effects of green infrastructure on residential sales prices in Omaha, Nebraska
 
@@ -201,7 +345,25 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Omaha Property Values and GI | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.23719/1504128; Publication DOI 10.1016/j.ufug.2020.126778 | Repeat-sales model + spatial lag ML pour prix immobiliers (infrastructure verte Omaha), 27 citations, domaine housing/urban prioritaire, méthode spatial lag explicite. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Omaha Property Values and GI | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.23719/1504128; Publication DOI 10.1016/j.ufug.2020.126778 | Analyse hÃ©donique des prix immobiliers rÃ©sidentiels Ã  Omaha (Nebraska) avec infrastructure verte (GI). ModÃ¨le repeat-sales et spatial lag Maximum Likelihood Estimation. Domaine immobilier/housing prices prioritaire, mÃ©thode Ã©conomÃ©trie spatiale (spatial lag), dataset empirique avec ventes immobiliÃ¨res 2000-2018, variables dÃ©mographiques (race, income). / Statut avance vers raw_data_downloaded le 2026-08-12 : RepeatSalesModel_RegressionData_FINAL.xlsx confirme (donnees de regression reelles). |
+
+## Fast Nonseparable Gaussian Stochastic Process With Application to Methylation Level Interpolation
+
+- DOI papier : `10.1080/10618600.2019.1665534`
+- BibTeX key : `DataCite_2019_FastNonseparableGaussianStochastic_10_1080_10618600`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Fast Nonseparable Gaussian Stochastic Process With Application to Methylation Level Interpolation | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.9805397; Publication DOI 10.1080/10618600.2019.1665534 | Processus gaussien non sÃ©parable pour interpolation spatiale de niveaux de mÃ©thylation ; mÃ©thode de kriging/prÃ©diction spatiale avec calcul rapide O(n) ; application Ã©pigÃ©nÃ©tique avec coordonnÃ©es gÃ©nomiques ; correspond au pÃ©rimÃ¨tre spatial interpolation / spatial prediction / Gaussian process |
+
+## Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States
+
+- DOI papier : `10.1111/jbi.14708`
+- BibTeX key : `DataCite_2023_ForestsOnTheMove_10_1111_jbi_1470`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.ncjsxkszw; Publication DOI 10.1111/jbi.14708 | Analyse spatiale de changements de limite forestiÃ¨re alpine avec rÃ©gression linÃ©aire multiple sur variables topographiques/climatiques, donnÃ©es empiriques gÃ©orÃ©fÃ©rencÃ©es (White Mountain, Baxter State Park). |
 
 ## Generalized Spatially Varying Coefficient Models
 
@@ -210,7 +372,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Generalized Spatially Varying Coefficient Models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.12156975; Publication DOI 10.1080/10618600.2020.1754225 | Article méthodologique sur generalized spatially varying coefficient models (GSVCM) avec penalized splines, 27 citations, méthode non-paramétrique pour domaines complexes, avec algorithme PIRLS et application empirique. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Generalized Spatially Varying Coefficient Models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.12156975; Publication DOI 10.1080/10618600.2020.1754225 | Article mÃ©thodologique sur generalized spatially varying coefficient models (GSVCM) avec penalized splines, 27 citations, mÃ©thode non-paramÃ©trique pour domaines complexes, avec algorithme PIRLS et application empirique. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
 
 ## Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity
 
@@ -219,7 +381,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.11506803; Publication DOI 10.1080/13658816.2019.1707834 | Méthode GNNWR (neural network weighted regression géographique), 181 citations, modèle spatial non-stationnaire, domaine environnement côtier, méthode GWR étendue. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.11506803; Publication DOI 10.1080/13658816.2019.1707834 | MÃ©thode GNNWR (neural network weighted regression gÃ©ographique), 181 citations, modÃ¨le spatial non-stationnaire, domaine environnement cÃ´tier, mÃ©thode GWR Ã©tendue. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Global Patterns of Taxonomic Uncertainty and its Impacts on Biodiversity Research
 
@@ -228,7 +390,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Global patterns of taxonomic uncertainty and its impacts on biodiversity research | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.5x69p8d9z; Publication DOI 10.1093/sysbio/syaf010 | Analyse macroécologique globale de diversité taxonomique avec modèles multi-modèles et assemblage-level spatial models; domaine biodiversité; méthodes inférences spatiales sur vertébrés terrestres; dataset global avec coordonnées / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Global patterns of taxonomic uncertainty and its impacts on biodiversity research | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.5x69p8d9z; Publication DOI 10.1093/sysbio/syaf010 | Analyse macroÃ©cologique globale de diversitÃ© taxonomique avec modÃ¨les multi-modÃ¨les et assemblage-level spatial models; domaine biodiversitÃ©; mÃ©thodes infÃ©rences spatiales sur vertÃ©brÃ©s terrestres; dataset global avec coordonnÃ©es / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Global distribution maps of the leishmaniases
 
@@ -237,7 +399,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Global distribution maps of the Leishmaniases | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.05f5h; Publication DOI 10.7554/elife.02851 | Article de cartographie de maladies (leishmaniases) utilisant boosted regression tree (BRT) pour modélisation spatiale de risque environnemental, 289 citations, domaine santé/épidémiologie, données géoréférencées avec covariables environnementales. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Data from: Global distribution maps of the Leishmaniases | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.05f5h; Publication DOI 10.7554/elife.02851 | Article de cartographie de maladies (leishmaniases) utilisant boosted regression tree (BRT) pour modÃ©lisation spatiale de risque environnemental, 289 citations, domaine santÃ©/Ã©pidÃ©miologie, donnÃ©es gÃ©orÃ©fÃ©rencÃ©es avec covariables environnementales. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Global diversity of island floras from a macroecological perspective
 
@@ -246,7 +408,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Table 1 in Global diversity of island floras from a macroecological perspective | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5281/zenodo.15159899; Publication DOI 10.1111/j.1461-0248.2007.01129.x | Étude macroécologique sur la diversité florale insulaire avec modèles SAR (Simultaneous Autoregressive) explicites mentionnés dans la description du dataset ; domaine biodiversité/écologie mais méthode SAR clairement identifiée ; 387 citations. |
+| Table 1 in Global diversity of island floras from a macroecological perspective | `rejected_user_excluded` |  | None | None | DataCite dataset DOI 10.5281/zenodo.15159899; Publication DOI 10.1111/j.1461-0248.2007.01129.x | Article macroÃ©cologique sur la diversitÃ© florale des Ã®les avec modÃ¨les SAR (Simultaneous Autoregressive) explicites, donnÃ©es multi-Ã®les avec aire/prÃ©cipitation/tempÃ©rature/Ã©lÃ©vation/distance. MÃ©thode SAR spatiale explicite, domaine biodiversitÃ© pertinent, 387 citations. |
 
 ## Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints
 
@@ -255,7 +417,25 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.05qfttf8t; Publication DOI 10.1111/geb.13762 | Analyse macroécologique globale oiseaux avec path analysis et modèles spatiaux; domaine biodiversité prioritaire; >17000 assemblages géoréférenciés; méthodes incluent null models écologiquement informés et analyses spatiales latitude/élévation / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Data from: Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.05qfttf8t; Publication DOI 10.1111/geb.13762 | Analyse macroÃ©cologique globale oiseaux avec path analysis et modÃ¨les spatiaux; domaine biodiversitÃ© prioritaire; >17000 assemblages gÃ©orÃ©fÃ©renciÃ©s; mÃ©thodes incluent null models Ã©cologiquement informÃ©s et analyses spatiales latitude/Ã©lÃ©vation / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+
+## Harbour porpoise responses to pile-driving diminish over time
+
+- DOI papier : `10.1098/rsos.190335`
+- BibTeX key : `DataCite_2019_HarbourPorpoiseResponsesTo_10_1098_rsos_190`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Harbour porpoise responses to pile-driving diminish over time | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.5qg30sd; Publication DOI 10.1098/rsos.190335 | RÃ©ponses comportementales de marsouins au bruit de battage de pieux ; dÃ©tecteurs d'Ã©cholocation et enregistreurs de bruit avec coordonnÃ©es spatiales ; rÃ©gression pour probabilitÃ© de rÃ©ponse en fonction de la distance ; 75 citations |
+
+## How do Indigenous and local knowledge systems respond to climate change?
+
+- DOI papier : `10.5751/es-12481-260327`
+- BibTeX key : `DataCite_2021_HowDoIndigenousAnd_10_5751_es_12481`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Arequipa Climate Maps - Normals (Version 1) | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.4231/490d-hc66; Publication DOI 10.5751/es-12481-260327 | Dataset de cartes climatiques (prÃ©cipitation, tempÃ©rature) pour Arequipa (PÃ©rou) crÃ©Ã© par Regression Kriging explicite. Description mentionne covariables topographiques (ALOS DEM), stations mÃ©tÃ©o SENAMHI/NOAA, modÃ¨les de rÃ©gression spatiaux. Domaine climat/agriculture, 13 citations, mÃ©thode RK correspond au pÃ©rimÃ¨tre spatial interpolation/prediction. / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip dataset Arequipa (purr_490d-hc66_data.zip) confirme. |
 
 ## Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation
 
@@ -264,7 +444,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.zgmsbcch5; Publication DOI 10.1111/ecog.06391 | Article méthodologique sur integrated species distribution models (iSDM) avec INLA-SPDE, 25 citations, domaine écologie/biodiversité, évalue paramétrage de mesh pour Gaussian random field spatial, application sur chauve-souris en Grande-Bretagne. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Data from: Integrated species distribution models fitted in INLA are sensitive to mesh parameterisation | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.zgmsbcch5; Publication DOI 10.1111/ecog.06391 | Article mÃ©thodologique sur integrated species distribution models (iSDM) avec INLA-SPDE, 25 citations, domaine Ã©cologie/biodiversitÃ©, Ã©value paramÃ©trage de mesh pour Gaussian random field spatial, application sur chauve-souris en Grande-Bretagne. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Integrated species distribution models to account for sampling biases and improve range-wide occurrence predictions
 
@@ -275,6 +455,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Integrated species distribution models to account for sampling biases and improve range wide occurrence predictions | `converted_to_sf` |  | 275 | None | DataCite dataset DOI 10.5061/dryad.k98sf7mdg; Publication DOI 10.1111/geb.13792 | partial - SDM INLA sampling bias, meme famille que #11 / Telecharge manuellement le 2026-08-07 (API Dryad bloquee, token requis). |
 
+## Is environment destiny? Spatial analysis of the relationship between geographic factors and obesity in TÃ¼rkiye
+
+- DOI papier : `10.1080/09603123.2023.2248016`
+- BibTeX key : `DataCite_2023_IsEnvironmentDestinySpatial_10_1080_09603123`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Is environment destiny? Spatial analysis of the relationship between geographic factors and obesity in TÃ¼rkiye | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.23978349; Publication DOI 10.1080/09603123.2023.2248016 | Ã‰tude santÃ© Turquie sur relation facteurs gÃ©ographiques (prÃ©cipitation, pente, pollution air, Ã©lÃ©vation) et obÃ©sitÃ© avec OLS et GWR explicites. Dataset Figshare provinces turques. Domaine santÃ©/obÃ©sitÃ©, 5 citations, mÃ©thode GWR correspond exactement au pÃ©rimÃ¨tre GWR + health. |
+
 ## Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial
 
 - DOI papier : `10.1111/ecog.01243`
@@ -282,7 +471,43 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.gq264; Publication DOI 10.1111/ecog.01243 | Modèle SAR (simultaneous autoregressive) pour variation géographique de taille corporelle; domaine écologie/biogéographie; méthode SAR explicite; dataset empirique marsupial australien avec coordonnées et covariables environnementales / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Data from: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.gq264; Publication DOI 10.1111/ecog.01243 | ModÃ¨le SAR (simultaneous autoregressive) pour variation gÃ©ographique de taille corporelle; domaine Ã©cologie/biogÃ©ographie; mÃ©thode SAR explicite; dataset empirique marsupial australien avec coordonnÃ©es et covariables environnementales / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+
+## Learning from wildfires: A scalable framework to evaluate treatment effects on burn severity
+
+- DOI papier : `10.1002/ecs2.70073`
+- BibTeX key : `DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Learning from wildfires: a scalable framework to evaluate treatment effects on burn severity | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.mcvdnck6c; Publication DOI 10.1002/ecs2.70073 | Ã‰valuation de l'efficacitÃ© des traitements de rÃ©duction de combustible sur la sÃ©vÃ©ritÃ© des incendies, machine learning et modÃ¨les de rÃ©gression spatiale : mÃ©thode spatial regression modeling explicite, domaine Ã©cologie forestiÃ¨re/incendies. / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip Dryad 2.15 Go correspondant exactement au dataset_doi (doi_10_5061_dryad_mcvdnck6c). |
+
+## Local niche differences predict genotype associations in sister taxa of desert tortoise
+
+- DOI papier : `10.1111/ddi.12927`
+- BibTeX key : `DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Local ecological niche models, genotype associations and environmental data for desert tortoises. | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5066/p91v2s8c; Publication DOI 10.1111/ddi.12927 | ModÃ¨les de niche Ã©cologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du dÃ©sert. Covariables environnementales PCA-rÃ©duites, associations gÃ©notype-environnement. Domaine Ã©cologie/biogÃ©ographie. MÃ©thode MGWR explicitement mentionnÃ©e. / Statut avance vers raw_data_downloaded le 2026-08-12 : Structure ScienceBase complete confirmee (env/genotype/modele, ~23 Mo, 20 fichiers). |
+
+## Lower bumblebee colony reproductive success in agricultural compared with urban environments
+
+- DOI papier : `10.1098/rspb.2018.0807`
+- BibTeX key : `DataCite_2018_LowerBumblebeeColonyReproductive_10_1098_rspb_201`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Lower bumblebee colony reproductive success in agricultural compared to urban environments | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.c68cj62; Publication DOI 10.1098/rspb.2018.0807 | SuccÃ¨s reproductif de colonies de bourdons en fonction de l'urbanisation ; analyse de cluster d'utilisation du sol ; sites avec coordonnÃ©es ; domaine Ã©cologie urbaine/pollinisateurs ; 122 citations |
+
+## MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction
+
+- DOI papier : `10.1080/01621459.2016.1261710`
+- BibTeX key : `DataCite_2016_MwpcrMultiscaleWeightedPrincipal_10_1080_01621459`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4478390; Publication DOI 10.1080/01621459.2016.1261710 | RÃ©gression haute dimension avec composantes spatiales (spatial features, smoothness, correlation), MWPCR intÃ¨gre PCA et mÃ©thodes kernel pour prÃ©diction avec features spatiales (imagerie biomÃ©dicale). |
 
 ## MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 
@@ -300,7 +525,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Method of the Geographically Weighted Regression and an Example for its Application | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/djvxeh; Publication DOI 10.15196/rs04105 | Article méthodologique GWR avec exemple d'application; méthode GWR explicite (geographically weighted regression); dataset empirique avec régression locale; pertinent pour benchmark GWR |
+| Method of the Geographically Weighted Regression and an Example for its Application | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/djvxeh; Publication DOI 10.15196/rs04105 | Article mÃ©thodologique sur la mÃ©thode GWR (geographically weighted regression) avec exemple d'application. MÃ©thode GWR explicite, dataset empirique pour dÃ©monstration, approche locale de rÃ©gression spatiale. |
 
 ## Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback
 
@@ -309,7 +534,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Mistletoes could moderate drought impacts on woodland birds, but are themselves susceptible to drought-induced dieback | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.76hdr7sxp; Publication DOI 10.1098/rspb.2022.0358 | Article écologie utilisant modèles spatiaux (PGLS, SAR mentionnés dans description) pour impacts de sécheresse sur oiseaux et gui, 16 citations, domaine écologie/climat, données sur >350,000 km² avec comptages et covariables environnementales. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Mistletoes could moderate drought impacts on woodland birds, but are themselves susceptible to drought-induced dieback | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.76hdr7sxp; Publication DOI 10.1098/rspb.2022.0358 | Article Ã©cologie utilisant modÃ¨les spatiaux (PGLS, SAR mentionnÃ©s dans description) pour impacts de sÃ©cheresse sur oiseaux et gui, 16 citations, domaine Ã©cologie/climat, donnÃ©es sur >350,000 kmÂ² avec comptages et covariables environnementales. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+
+## Model estimated baseflow for streams with endangered Atlantic Salmon in Maine, USA
+
+- DOI papier : `10.1002/rra.3835`
+- BibTeX key : `DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Spatial Coverage for Estimated Baseflow for Streams Containing Endangered Atlantic Salmon in Maine, USA (version 1.1, June 2022) | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5066/p9krsnu7; Publication DOI 10.1002/rra.3835 | ModÃ¨le de rÃ©gression pour estimer le dÃ©bit de base (baseflow) dans les cours d'eau du Maine. Ã‰quation explicite fournie: BFaug = -0.623 + 0.00988*AQ + 0.241*JULYAVEPRE. Variables: AQ (% aquifÃ¨res sable/gravier), JULYAVEPRE (prÃ©cipitation juillet). RÃ©seau hydrographique NHDPlusHR avec attributs spatiaux. Domaine hydrologie/Ã©cologie aquatique. / Statut avance vers raw_data_downloaded le 2026-08-12 : Fichiers Maine Baseflow (carte + metadonnees XML) confirmes. |
 
 ## Model selection and model averaging for matrix exponential spatial models
 
@@ -327,7 +561,34 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: Modeling of spatial pattern and influencing factors of cultivated land quality based on spatial-temporal big data (PONE-D-21-21084R1) | `converted_to_sf` |  | 143 | None | DataCite dataset DOI 10.5061/dryad.v6wwpzgz0; Publication DOI 10.1371/journal.pone.0265613 | Jeu de données empirique réel (qualité des terres cultivées, Henan) avec modèle autorégressif spatial (SAR) et Moran's I, correspond au périmètre agriculture/sol et régression spatiale. |
+| Data for: Modeling of spatial pattern and influencing factors of cultivated land quality based on spatial-temporal big data (PONE-D-21-21084R1) | `converted_to_sf` |  | 143 | None | DataCite dataset DOI 10.5061/dryad.v6wwpzgz0; Publication DOI 10.1371/journal.pone.0265613 | Jeu de donnÃ©es empirique rÃ©el (qualitÃ© des terres cultivÃ©es, Henan) avec modÃ¨le autorÃ©gressif spatial (SAR) et Moran's I, correspond au pÃ©rimÃ¨tre agriculture/sol et rÃ©gression spatiale. |
+
+## Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics
+
+- DOI papier : `10.1111/eva.12161`
+- BibTeX key : `DataCite_2014_ModellingTheDispersalOf_10_1111_eva_1216`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.jr66k; Publication DOI 10.1111/eva.12161 | GÃ©nÃ©tique du paysage pour modÃ©liser la dispersion de ratons laveurs et mouffettes (hÃ´tes de la rage) ; Multiple Regression on Distance Matrices (MRDM) avec distance gÃ©nÃ©tique vs gÃ©ographique et variables paysagÃ¨res ; 49 citations |
+
+## Multiple stressors and the cause of amphibian abnormalities
+
+- DOI papier : `10.1890/09-0879.1`
+- BibTeX key : `DataCite_2010_MultipleStressorsAndThe_10_1890_09_0879_`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Multiple stressors and the cause of amphibian abnormalities | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.sq72d; Publication DOI 10.1890/09-0879.1 | RÃ©gression logistique pour prÃ©dire anomalies chez grenouilles en Alaska ; 21 zones humides avec coordonnÃ©es ; variables contaminants, prÃ©dateurs, parasites ; comparaison de modÃ¨les AIC ; 33 citations |
+
+## New trajectories of the Hungarian regional development: balanced and rush growth of territorial capital
+
+- DOI papier : `10.15196/rs05107`
+- BibTeX key : `DataCite_2015_NewTrajectoriesOfThe_10_15196_rs05107`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| New trajectories of the Hungarian regional development: balanced and rush growth of territorial capital | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/clatvy; Publication DOI 10.15196/rs05107 | Article sur dÃ©veloppement rÃ©gional hongrois avec mÃ©thode Ã©conomÃ©trie spatiale explicite (penalty for bottleneck). Dataset Dataverse micro-rÃ©gions hongroises 2004-2010, capital territorial. Domaine dÃ©veloppement rÃ©gional/inÃ©galitÃ©s, 8 citations, correspond au pÃ©rimÃ¨tre spatial econometrics. |
 
 ## Niche conservatism limits the distribution of Medicago in the tropics
 
@@ -338,7 +599,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Niche conservatism limits the distribution of Medicago in the tropics | `converted_to_sf` |  | 8297 | None | DataCite dataset DOI 10.5061/dryad.280gb5mrw; Publication DOI 10.1111/ecog.06085 | partial - GWR mentionne dans les subjects pour modelisation de niche (biogeographie), domaine eloigne des priorites / Telecharge manuellement le 2026-08-07 (API Dryad bloquee, token requis). |
 
-## O impacto das cooperativas na produção agropecuária brasileira: uma análise econométrica espacial
+## O impacto das cooperativas na produÃ§Ã£o agropecuÃ¡ria brasileira: uma anÃ¡lise economÃ©trica espacial
 
 - DOI papier : `10.1590/1806-9479.2019.187145`
 - BibTeX key : `DataCite_2019_OImpactoDasCooperativas_10_1590_1806_947`
@@ -358,6 +619,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Swiss rainfall | `converted_to_sf` | Climate/precipitation | 467 | None | Dubois et al. (2003), Swiss rainfall benchmark; Moller et al. (2020), Sect. 2.1.2 | partial - 476 mesures de pluie du 8 mai 1986 en Suisse (Spatial Interpolation Comparison 97, Dubois et al. 2003, DOI 10.1016/s0167-1987(03)00042-4). Verifie: pas dans le package automap (cite dans le meme papier). Aucune source de redistribution publique confirmee a ce stade. / Source trouvee le 2026-08-07 : nom complet 'Spatial Interpolation Comparison 1997 data set: Swiss Rainfall' (SIC97), Dubois, Malczewski et De Cort (2003). Disponible librement dans plusieurs packages R (gstat::sic97, geostatsp::swissRain, geoR::SIC). Package source gstat_2.1-6.tar.gz telecharge depuis le CRAN. |
 | Vindum | `converted_to_sf` | Soil | 285 | 19 | Pouladi et al. (2019); Moller et al. (2020), Sect. 2.1.1 | yes - Declaration explicite 'Code and data availability' dans le papier (Moller et al. 2020): le package contient les observations SOM et donnees auxiliaires de Vindum, archive publiquement sur Zenodo (OGC_R_code_v2.zip, 46 Mo). |
 
+## On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )
+
+- DOI papier : `10.1002/ece3.71650`
+- BibTeX key : `DataCite_2025_OnTheBrinkMapping_10_1002_ece3_716`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: On the brink: Mapping the last strongholds of the critically endangered flapper skate ( Dipturus intermedius ) | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.w0vt4b954; Publication DOI 10.1002/ece3.71650 | Ã‰cologie marine spatiale : distribution flapper skate, Bayesian spatial binomial GAMM, covariables environnementales, pression de pÃªche, coordonnÃ©es gÃ©ographiques. |
+
 ## On the determinants of Airbnb location and its spatial distribution
 
 - DOI papier : `10.1177/1354816618825415`
@@ -374,7 +644,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: On the use of Hedonic Regression Models to Measure the Effect of Energy Efficiency on Residential Property Transaction Prices: Evidence for Portugal and Selected Data Issues | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.17632/mhgdnc6f5w.1; Publication DOI 10.1016/j.eneco.2020.104699 | Modèles de régression hédonique pour prix immobilier résidentiel au Portugal; domaine housing prices prioritaire; méthode hedonic regression avec efficacité énergétique; dataset transactions immobilières avec attributs logements / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Data for: On the use of Hedonic Regression Models to Measure the Effect of Energy Efficiency on Residential Property Transaction Prices: Evidence for Portugal and Selected Data Issues | `rejected_supplement_mirror_no_raw_data` |  | None | None | DataCite dataset DOI 10.17632/mhgdnc6f5w.1; Publication DOI 10.1016/j.eneco.2020.104699 | ModÃ¨les de rÃ©gression hÃ©donique pour mesurer l'effet de l'efficacitÃ© Ã©nergÃ©tique sur les prix de transactions immobiliÃ¨res rÃ©sidentielles au Portugal. Domaine real estate/housing prices prioritaire, mÃ©thode Ã©conomÃ©trie spatiale (hedonic regression), dataset empirique avec prix de transactions et attributs des logements. / Statut avance vers rejected_supplement_mirror_no_raw_data le 2026-08-12 : Contenu verifie : seulement 8_Supplemental Appendix.docx (formule/variables/resultats mais pas de microdonnees brutes). Decision utilisateur du 2026-08-12 (session precedente) de laisser ce dataset de cote, confirmee par inspection de contenu. |
 
 ## Patterns of livestock activity on heterogeneous subalpine pastures reveal distinct responses to spatial autocorrelation, environment and management
 
@@ -383,7 +653,25 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Additional file 3: of Patterns of livestock activity on heterogeneous subalpine pastures reveal distinct responses to spatial autocorrelation, environment and management | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.c.3627593_d4; Publication DOI 10.1186/s40462-015-0053-6 | Article utilisant INLA pour régression spatiale sur données de pâturage (livestock activity), avec autocorrélation spatiale explicite, domaine agriculture/écologie, 51 citations, open access, dataset contient code R pour INLA. |
+| Additional file 3: of Patterns of livestock activity on heterogeneous subalpine pastures reveal distinct responses to spatial autocorrelation, environment and management | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.c.3627593_d4; Publication DOI 10.1186/s40462-015-0053-6 | Article utilisant INLA pour rÃ©gression spatiale sur donnÃ©es de pÃ¢turage (livestock activity), avec autocorrÃ©lation spatiale explicite, domaine agriculture/Ã©cologie, 51 citations, open access, dataset contient code R pour INLA. |
+
+## Predicting climate change impacts on critical fisheries species in Fijian marine systems and its implications for protected area spatial planning
+
+- DOI papier : `10.1111/ddi.13709`
+- BibTeX key : `DataCite_2023_PredictingClimateChangeImpacts_10_1111_ddi_1370`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Fijian habitat and invertebrate species distribution modelling | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.2v6wwpzr8; Publication DOI 10.1111/ddi.13709 | ModÃ¨les de distribution d'espÃ¨ces (SDM) pour habitats marins aux Fidji avec MaxEnt, GAM et Boosted Regression Trees ; prÃ©dictions sous changement climatique ; correspond au pÃ©rimÃ¨tre boosting spatial / climate / biodiversity / spatial prediction / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip Dryad correspondant exactement au dataset_doi (doi_10_5061_dryad_2v6wwpzr8). / CORRECTION 2026-08-12 : avancement du 2026-08-12 annule apres verification du contenu reel du zip Dryad (doi_10_5061_dryad_2v6wwpzr8) -- 73 fichiers, exclusivement des scripts .R (code danalyse par espece : Andara, Bargus, Hedulis, Mangrove, Scylla, Seagrass, Tgigas, Tmaxima, Tsquamosa), aucune donnee brute (pas de csv/rds/dta/shp). Statut remis a pdf_present_pending_grobid. |
+
+## Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?
+
+- DOI papier : `10.1111/gcb.16389`
+- BibTeX key : `DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Climate change effects on deep-water corals - habitat suitability model input data | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.41ns1rnht; Publication DOI 10.1111/gcb.16389 | ModÃ¨les de suitabilitÃ© d'habitat (HSM) pour coraux profonds en Nouvelle-ZÃ©lande avec Random Forests et Boosted Regression Trees ; prÃ©dictions spatiales sous changement climatique ; correspond au pÃ©rimÃ¨tre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction / Statut avance vers raw_data_downloaded le 2026-08-12 : 12 CSV par espece + README confirmes. |
 
 ## Primary productivity explains size variation across the Pallid bat's western geographic range
 
@@ -393,6 +681,24 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: Primary productivity explains size variation across the Pallid bat's (Antrozous pallidus) western geographic range | `converted_to_sf` |  | 182 | None | DataCite dataset DOI 10.5061/dryad.c5805; Publication DOI 10.1111/1365-2435.13092 | partial - Spatial Autoregressive Model (SAR) explicite dans subjects, mais applique a la morphologie d'une chauve-souris (domaine tres eloigne) / Telecharge manuellement le 2026-08-07 (API Dryad bloquee, token requis). |
+
+## Rangeland Fractional Components Across the Western United States from 1985 to 2018
+
+- DOI papier : `10.3390/rs13040813`
+- BibTeX key : `DataCite_2021_RangelandFractionalComponentsAcross_10_3390_rs130408`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Rangeland Condition Monitoring Assessment and Projection (RCMAP) Fractional Component Time-Series Across the Western U.S. 1985-2021 | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5066/p9odazhc; Publication DOI 10.3390/rs13040813 | RCMAP fractional components rangeland US 1985-2021 avec neural networks ; 50 citations ; domaine land use/tÃ©lÃ©dÃ©tection ; modÃ¨le ML spatial (neural networks Keras) pour prÃ©diction couverture vÃ©gÃ©tale. |
+
+## Reconstructing 120 years of climate change impacts on Joshua tree flowering
+
+- DOI papier : `10.1111/ele.14478`
+- BibTeX key : `DataCite_2024_Reconstructing120YearsOf_10_1111_ele_1447`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Reconstructing 120 years of climate change impacts on Joshua tree flowering | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.9kd51c5rr; Publication DOI 10.1111/ele.14478 | Ã‰tude sur la floraison de Joshua trees avec Bayesian Additive Regression Trees (BART) pour prÃ©diction spatiale Ã  partir de donnÃ©es iNaturalist et mÃ©tÃ©o. MÃ©thode BART spatiale explicite, donnÃ©es gÃ©orÃ©fÃ©rencÃ©es, domaine climat/biodiversitÃ© pertinent. |
 
 ## Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach
 
@@ -421,6 +727,24 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Relationships between the distribution of wildlife and livestock diversity | `converted_to_sf` |  | 5324 | None | DataCite dataset DOI 10.5061/dryad.0gb5mkkzd; Publication DOI 10.1111/ddi.13133 | DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics |
 
+## Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs
+
+- DOI papier : `10.1111/ddi.13297`
+- BibTeX key : `DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data associated with ecological niche models and post-ENM statistical analyses for Trillium species distributions | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.6m905qg03; Publication DOI 10.1111/ddi.13297 | Ã‰tude sur les modÃ¨les de niche Ã©cologique (ENM) pour Trillium en AmÃ©rique du Nord de l'Est, donnÃ©es d'occurrence gÃ©orÃ©fÃ©rencÃ©es, analyses post-ENM avec traits reproductifs. Domaine biodiversitÃ© pertinent, mÃ©thodes ENM spatiales. |
+
+## Soybean yield is positively linked to organic matter, but planting date remains more influential
+
+- DOI papier : `10.1002/saj2.20779`
+- BibTeX key : `DataCite_2024_SoybeanYieldIsPositively_10_1002_saj2_2077`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Soybean yield is positively linked to organic matter, but planting date remains more influential | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.34tmpg4v8; Publication DOI 10.1002/saj2.20779 | Rendement de soja lie a la matiere organique du sol, regression lineaire simple et multiple, 457 champs dans 4 etats americains (rapport de verification DataCite, idx 28, needs_manual_check promu en keep). |
+
 ## Spatial Structure of Above-Ground Biomass Limits Accuracy of Carbon Mapping in Rainforest but Large Scale Forest Inventories Can Help to Overcome
 
 - DOI papier : `10.1371/journal.pone.0138456`
@@ -439,6 +763,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5061/dryad.pm86c; Publication DOI 10.1111/2041-210x.12448 | DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics |
 
+## Spatial distribution and determinants of HIV high burden in the Southern African sub-region
+
+- DOI papier : `10.1371/journal.pone.0301850`
+- BibTeX key : `DataCite_2024_SpatialDistributionAndDeterminants_10_1371_journal_`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Spatial distribution and determinants of HIV high burden in the Southern African sub-region | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.25413/sun.26976469; Publication DOI 10.1371/journal.pone.0301850 | Distribution spatiale et dÃ©terminants du fardeau VIH en Afrique australe. MÃ©thode: rÃ©gression multivariÃ©e, analyse d'autocorrÃ©lation spatiale, dÃ©tection de hotspots. DonnÃ©es DHS avec coordonnÃ©es gÃ©ographiques. Domaine santÃ© publique/Ã©pidÃ©miologie. Analyse spatiale explicite mentionnÃ©e. |
+
 ## Spatial distribution of wood volume in Brazilian savannas
 
 - DOI papier : `10.1590/0001-3765201920180666`
@@ -456,6 +789,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Maipo | `converted_to_sf` | Agriculture | 7713 | 48 | Pena and Brenning (2015); Brenning (2023), Case study description: the Maipo dataset | yes - Depot GitHub public cite dans le papier (spdiag) contient les resultats et donnees Maipo (code_data/maipo_*.rda, wrp_maipo.rda), 400 champs / 4 cultures fruitieres, Chili. |
+
+## Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method
+
+- DOI papier : `10.1002/ece3.11605`
+- BibTeX key : `DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data for: Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.0rxwdbs8t; Publication DOI 10.1002/ece3.11605 | PrÃ©diction spatiale d'invasion de plantes avec hybridation de machine learning (BRT, LASSO) et krigeage ordinaire (OK) ; donnÃ©es d'invasion dans l'est des Ã‰tats-Unis ; correspond exactement au pÃ©rimÃ¨tre spatial prediction / boosting spatial / kriging / machine learning / spatial interpolation / Statut avance vers raw_data_downloaded le 2026-08-12 : Zip Dryad correspondant exactement au dataset_doi (doi_10_5061_dryad_0rxwdbs8t). |
 
 ## Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis
 
@@ -482,7 +824,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Spatio-temporal Bayesian model selection for disease mapping | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.3753288; Publication DOI 10.1002/env.2410 | Modèle bayésien spatio-temporel pour disease mapping; domaine santé/épidémiologie prioritaire; méthode bayésienne spatiale avec sélection de modèle; dataset empirique santé publique / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=manual_downloaded). |
+| Data from: Spatio-temporal Bayesian model selection for disease mapping | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.3753288; Publication DOI 10.1002/env.2410 | SÃ©lection de modÃ¨les bayÃ©siens spatiotemporels pour disease mapping. MÃ©thode INLA, variables lifestyle/socio-Ã©conomiques/environnementales. Domaine santÃ©/Ã©pidÃ©miologie prioritaire, approche spatiotemporelle, dataset empirique avec donnÃ©es de santÃ© par petites zones. / Statut avance vers raw_data_downloaded le 2026-08-12 : 5simsS3forEnvironmetrics.xlsx ouvert et verifie : table county x annee (1998-2007) exploitable, malgre un nom de fichier trompeur ('sims/S3'). |
 
 ## Structure identification and variable selection in geographically weighted regression models
 
@@ -491,7 +833,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Structure identification and variable selection in geographically weighted regression models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4836836; Publication DOI 10.1080/00949655.2017.1311896 | Sélection de variables et identification de structure dans modèles GWR; méthode GWGlasso pour identifier coefficients spatialement variables vs constants; article méthodologique GWR avec dataset Dublin voter turnout; pertinent pour benchmark GWR / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Structure identification and variable selection in geographically weighted regression models | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4836836; Publication DOI 10.1080/00949655.2017.1311896 | SÃ©lection de variables et identification de structure dans modÃ¨les GWR; mÃ©thode GWGlasso pour identifier coefficients spatialement variables vs constants; article mÃ©thodologique GWR avec dataset Dublin voter turnout; pertinent pour benchmark GWR / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
 
@@ -527,7 +869,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| The Importance of Scale in Spatially Varying Coefficient Modeling | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.7492280; Publication DOI 10.1080/24694452.2018.1462691 | Importance de l'échelle dans modèles SVC (GWR, FB-GWR, ESF, RE-ESF), 91 citations, méthode spatially varying coefficients centrale, benchmark Monte Carlo. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| The Importance of Scale in Spatially Varying Coefficient Modeling | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.7492280; Publication DOI 10.1080/24694452.2018.1462691 | Importance de l'Ã©chelle dans modÃ¨les SVC (GWR, FB-GWR, ESF, RE-ESF), 91 citations, mÃ©thode spatially varying coefficients centrale, benchmark Monte Carlo. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+
+## The Improbable Nature of the Implied Correlation Matrix from Spatial Regression Models
+
+- DOI papier : `10.15196/rs04101`
+- BibTeX key : `DataCite_2014_TheImprobableNatureOf_10_15196_rs04101`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| The Improbable Nature of the Implied Correlation Matrix from Spatial Regression Models | `rejected_user_excluded` |  | None | None | DataCite dataset DOI 10.7910/dvn/gy65tp; Publication DOI 10.15196/rs04101 | Article mÃ©thodologique sur la structure de corrÃ©lation implicite des modÃ¨les SAR, avec donnÃ©es cigarettes (46 Ã©tats US, 1963-1992). Spatial econometrics, SAR, weight matrix, variance-covariance. Dataset empirique panel spatial. |
 
 ## The Role of Nonfarm Influences in Ricardian Estimates of Climate Change Impacts on US Agriculture
 
@@ -536,7 +887,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| The Role of Nonfarm Influences in Ricardian Estimates of Climate Change Impacts on U.S. Agriculture | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6077/2dhd-f934; Publication DOI 10.1093/ajae/aaz047 | Article Ricardien sur impacts climatiques en agriculture US, 88 citations, shapefile spatial, domaine agriculture/climat prioritaire, estimateurs économétriques spatiaux attendus. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| The Role of Nonfarm Influences in Ricardian Estimates of Climate Change Impacts on U.S. Agriculture | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6077/2dhd-f934; Publication DOI 10.1093/ajae/aaz047 | Article Ricardien sur impacts climatiques en agriculture US, 88 citations, shapefile spatial, domaine agriculture/climat prioritaire, estimateurs Ã©conomÃ©triques spatiaux attendus. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## The Wald Test of Common Factors in Spatial Model Specification Search Strategies
 
@@ -555,6 +906,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data for: Assessing the impact of energy price on China's carbon emissions: A spatial econometric method | `converted_to_sf` |  | 30 | None | DataCite dataset DOI 10.17632/hm29shxmfc.1; Publication DOI 10.1016/j.scitotenv.2019.135942 | DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics |
+
+## Time-Lag in Responses of Birds to Atlantic Forest Fragmentation: Restoration Opportunity and Urgency
+
+- DOI papier : `10.1371/journal.pone.0147909`
+- BibTeX key : `DataCite_2016_TimeLagInResponses_10_1371_journal_`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Time-lag in responses of birds to Atlantic Forest fragmentation: restoration opportunity and urgency | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.f180j; Publication DOI 10.1371/journal.pone.0147909 | Ã‰tude sur les rÃ©ponses temporelles des oiseaux Ã  la fragmentation de la forÃªt atlantique brÃ©silienne, donnÃ©es multi-temporelles (1956-2003) avec aire/isolation des fragments. Domaine biodiversitÃ©/dÃ©forestation pertinent, analyse spatiale temporelle explicite. |
 
 ## Top-down scale approaches for multiscale GWR with locally adaptive bandwidths
 
@@ -577,7 +937,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.msbcc2fvt; Publication DOI 10.1111/1365-2664.13699 | Modèle bayésien hiérarchique d'occupancy pour oiseaux dans paysages agricoles; domaine biodiversité/agriculture prioritaire; 197 espèces, 234 plots; covariables intensité agricole et contexte paysager; méthode bayésienne spatiale explicite / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.5061/dryad.msbcc2fvt; Publication DOI 10.1111/1365-2664.13699 | ModÃ¨le bayÃ©sien hiÃ©rarchique d'occupancy pour oiseaux dans paysages agricoles; domaine biodiversitÃ©/agriculture prioritaire; 197 espÃ¨ces, 234 plots; covariables intensitÃ© agricole et contexte paysager; mÃ©thode bayÃ©sienne spatiale explicite / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression
 
@@ -586,7 +946,25 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | `pdf_not_accessible_needs_manual_retrieval` |  | None | None | DataCite dataset DOI 10.25384/sage.18902846.v1; Publication DOI 10.1177/23998083211063885 | Modèle hiérarchique linéaire + GWR pour prix immobiliers, 22 citations, domaine real estate prioritaire, méthode GWR explicite. / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | `rejected_user_excluded` |  | None | None | DataCite dataset DOI 10.25384/sage.18902846.v1; Publication DOI 10.1177/23998083211063885 | ModÃ¨le combinÃ© HLM + GWR pour hÃ©tÃ©rogÃ©nÃ©itÃ© spatiale des prix immobiliers, donnÃ©es empiriques rÃ©elles, mÃ©thode explicite dans le titre. |
+
+## Understanding different dominance patterns in western Amazonian forests
+
+- DOI papier : `10.1111/ele.14351`
+- BibTeX key : `DataCite_2023_UnderstandingDifferentDominancePatterns_10_1111_ele_1435`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Understanding different dominance patterns in western Amazonian forests | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.pk0p2ngsd; Publication DOI 10.1111/ele.14351 | ModÃ¨les de rÃ©gression beta pour analyser les patterns de dominance spatiale d'espÃ¨ces d'arbres en Amazonie ; 503 parcelles d'inventaire forestier avec coordonnÃ©es ; relation abondance-occupation spatiale ; courbes d'agrÃ©gation spatiale |
+
+## Vegetation cover in relation to socioeconomic factors in a tropical city assessed from sub-meter resolution imagery
+
+- DOI papier : `10.1002/eap.1673`
+- BibTeX key : `DataCite_2018_VegetationCoverInRelation_10_1002_eap_1673`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Vegetation cover in relation to socioeconomic factors in a tropical city assessed from sub-meter resolution imagery | `needs_data_retrieval` |  | None | None | DataCite dataset DOI 10.5061/dryad.3vh79; Publication DOI 10.1002/eap.1673 | Couverture vegetale urbaine a San Juan (Porto Rico), imagerie sub-metrique et classification orientee objet, relations socio-ecologiques (rapport de verification DataCite, idx 22, needs_manual_check promu en keep). Dataset jamais telecharge -- aucun fichier recupere sous data/raw/papers a ce jour ; PDF de la publication recupere manuellement et confirme dans corpus/papers/raw_pdf. |
 
 ## Women's political empowerment and welfare policy decisions: a spatial analysis of European countries
 
@@ -595,7 +973,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Women's political empowerment and welfare policy decisions: a spatial analysis of European countries | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.14401694; Publication DOI 10.1080/17421772.2021.1905173 | Analyse économétrique spatiale (Spatial Economic Analysis) de politiques de bien-être en Europe; présence de dépendance spatiale et spillovers; domaine politique/inégalités; méthode économétrie spatiale explicite / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
+| Women's political empowerment and welfare policy decisions: a spatial analysis of European countries | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.14401694; Publication DOI 10.1080/17421772.2021.1905173 | Analyse Ã©conomÃ©trique spatiale (Spatial Economic Analysis) de politiques de bien-Ãªtre en Europe; prÃ©sence de dÃ©pendance spatiale et spillovers; domaine politique/inÃ©galitÃ©s; mÃ©thode Ã©conomÃ©trie spatiale explicite / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). / PDF screening: no automated OA PDF found (status=not_downloaded). |
 
 ## dataset:warehouse:10_14288_1_0448471
 
@@ -757,7 +1135,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: An application of geographically weighted quantile LASSO to weather index insurance design published by RAC-Revista de Administração Contemporânea | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.17632/jycfnxxysp (no associated publication - Bloc 3) | depot 'mendeley' non verifiable automatiquement - a controler manuellement |
+| Data for: An application of geographically weighted quantile LASSO to weather index insurance design published by RAC-Revista de AdministraÃ§Ã£o ContemporÃ¢nea | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.17632/jycfnxxysp (no associated publication - Bloc 3) | depot 'mendeley' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_17632_jycfnxxysp_1
 
@@ -766,7 +1144,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data for: An application of geographically weighted quantile LASSO to weather index insurance design published by RAC-Revista de Administração Contemporânea | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.17632/jycfnxxysp.1 (no associated publication - Bloc 3) | depot 'mendeley' non verifiable automatiquement - a controler manuellement |
+| Data for: An application of geographically weighted quantile LASSO to weather index insurance design published by RAC-Revista de AdministraÃ§Ã£o ContemporÃ¢nea | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.17632/jycfnxxysp.1 (no associated publication - Bloc 3) | depot 'mendeley' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_17632_kd5xprhv65
 
@@ -856,7 +1234,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Testing for spatial group‑wise heteroskedasticity in spatial autocorrelation regression models: Lagrange multiplier scan tests [Data set and code] | `converted_to_sf` |  | 886 | None | DataCite dataset DOI 10.23728/b2share.018e440e8b9548a79991ec7deb231308 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Testing for spatial groupâ€‘wise heteroskedasticity in spatial autocorrelation regression models: Lagrange multiplier scan tests [Data set and code] | `converted_to_sf` |  | 886 | None | DataCite dataset DOI 10.23728/b2share.018e440e8b9548a79991ec7deb231308 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_23728_b2share_4066171faa9b48329daf3c03de04305e
 
@@ -1063,7 +1441,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Arboviral Disease Cases in Recife, Brazil (2013–2025): Clean and Geocoded Dataset | `superseded_by_better_version` |  | None | None | DataCite dataset DOI 10.5281/zenodo.17849495 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Arboviral Disease Cases in Recife, Brazil (2013â€“2025): Clean and Geocoded Dataset | `superseded_by_better_version` |  | None | None | DataCite dataset DOI 10.5281/zenodo.17849495 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_5281_zenodo_17849496
 
@@ -1072,7 +1450,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Dengue Cases in Recife, Brazil (2015–2024): Clean and Geocoded Dataset | `converted_to_sf` |  | 64344 | None | DataCite dataset DOI 10.5281/zenodo.17849496 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Dengue Cases in Recife, Brazil (2015â€“2024): Clean and Geocoded Dataset | `converted_to_sf` |  | 64344 | None | DataCite dataset DOI 10.5281/zenodo.17849496 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_5281_zenodo_19203552
 
@@ -1099,7 +1477,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Dengue Cases in Recife, Brazil (2013–2025): Clean and Geocoded Dataset | `superseded_by_better_version` |  | None | None | DataCite dataset DOI 10.5281/zenodo.19397264 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement / Superseded by street-level geocoded version: Warehouse_2026_ArboviralDiseaseCasesIn_10_5281_zenodo_1.gpkg (same N=110640, higher resolution). |
+| Dengue Cases in Recife, Brazil (2013â€“2025): Clean and Geocoded Dataset | `superseded_by_better_version` |  | None | None | DataCite dataset DOI 10.5281/zenodo.19397264 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement / Superseded by street-level geocoded version: Warehouse_2026_ArboviralDiseaseCasesIn_10_5281_zenodo_1.gpkg (same N=110640, higher resolution). |
 
 ## dataset:warehouse:10_5281_zenodo_19397485
 
@@ -1108,7 +1486,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Arboviral Disease Cases in Recife, Brazil (2013–2025): Clean and Geocoded Dataset | `converted_to_sf` |  | 110640 | None | DataCite dataset DOI 10.5281/zenodo.19397485 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Arboviral Disease Cases in Recife, Brazil (2013â€“2025): Clean and Geocoded Dataset | `converted_to_sf` |  | 110640 | None | DataCite dataset DOI 10.5281/zenodo.19397485 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_5281_zenodo_19566932
 
@@ -1126,7 +1504,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Hepatitis E in the Republic of Korea, 2020–2025: reproducibility package (data, scripts, intermediate outputs, tables, figures) | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5281/zenodo.20097376 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Hepatitis E in the Republic of Korea, 2020â€“2025: reproducibility package (data, scripts, intermediate outputs, tables, figures) | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5281/zenodo.20097376 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_5281_zenodo_20097377
 
@@ -1135,7 +1513,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Hepatitis E in the Republic of Korea, 2020–2025: reproducibility package (data, scripts, intermediate outputs, tables, figures) | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5281/zenodo.20097377 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Hepatitis E in the Republic of Korea, 2020â€“2025: reproducibility package (data, scripts, intermediate outputs, tables, figures) | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5281/zenodo.20097377 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_5281_zenodo_20533621
 
@@ -1225,7 +1603,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Digital Government Construction；Regional Innovation | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.57760/sciencedb.34375 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Digital Government Constructionï¼›Regional Innovation | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.57760/sciencedb.34375 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_57760_sciencedb_35354
 
@@ -1234,7 +1612,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Downscaled temperature and precipitation dataset for the Qilian Mountains region (1961–2022) | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.57760/sciencedb.35354 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
+| Downscaled temperature and precipitation dataset for the Qilian Mountains region (1961â€“2022) | `warehouse_download_skipped_unsupported_repo` |  | None | None | DataCite dataset DOI 10.57760/sciencedb.35354 (no associated publication - Bloc 3) | depot 'unknown' non verifiable automatiquement - a controler manuellement |
 
 ## dataset:warehouse:10_57760_sciencedb_35399
 
@@ -1387,7 +1765,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Sports industry raw data 、Digital-real integration raw data | `raw_data_downloaded_needs_manual_conversion` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.29578211 (no associated publication - Bloc 3) | listing ambigu (formats non reconnus) - verification manuelle recommandee |
+| Sports industry raw data ã€Digital-real integration raw data | `raw_data_downloaded_needs_manual_conversion` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.29578211 (no associated publication - Bloc 3) | listing ambigu (formats non reconnus) - verification manuelle recommandee |
 
 ## dataset:warehouse:10_6084_m9_figshare_29942044_v1
 

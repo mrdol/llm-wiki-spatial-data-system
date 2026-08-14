@@ -75,6 +75,35 @@ add_oblique_geographic_coordinates <- function(sf_obj, angles_deg = c(0, 30, 60,
   }
   sf_obj
 }
+
+find_paper_raw_dir <- function(pattern) {
+  dirs <- list.dirs(file.path(REPO_ROOT, "data", "raw", "papers"),
+                    recursive = FALSE, full.names = TRUE)
+  hit <- dirs[grepl(pattern, basename(dirs), ignore.case = TRUE)]
+  if (!length(hit)) stop("Raw paper directory not found for pattern: ", pattern, call. = FALSE)
+  hit[1]
+}
+
+zip_member_by_basename <- function(zip_path, file_name) {
+  members <- utils::unzip(zip_path, list = TRUE)$Name
+  hit <- members[basename(members) == file_name]
+  if (!length(hit)) stop("File not found in zip: ", file_name, call. = FALSE)
+  hit[1]
+}
+
+read_excel_sheet_with_header <- function(path, sheet, header_row = 3) {
+  if (!requireNamespace("readxl", quietly = TRUE)) {
+    stop("Le package 'readxl' est requis pour lire ", basename(path), ".", call. = FALSE)
+  }
+  raw <- as.data.frame(readxl::read_excel(path, sheet = sheet, col_names = FALSE))
+  header <- as.character(unlist(raw[header_row, ]))
+  empty <- is.na(header) | !nzchar(header)
+  header[empty] <- paste0("col", which(empty))
+  df <- raw[-seq_len(header_row), , drop = FALSE]
+  names(df) <- make.names(header, unique = TRUE)
+  df[] <- lapply(df, function(x) suppressWarnings(type.convert(as.character(x), as.is = TRUE)))
+  df
+}
 # data/raw/papers/DataCite_2021_MetacomnetARandomForest_10_1111_2041_210/
 #   Site_locations.shp            -> geometrie point des 16 sites
 #   Sydenham_et_al_MetaComNet_data_frame.csv -> table Y/X (jointure sur Site)
@@ -939,6 +968,196 @@ load_hummingbird_sdm <- function() {
   )
 }
 
+# --- Loader Trillium SDM presence/background (Miller et al. 2021) -----------
+# Le papier publie surtout une analyse espece-niveau PO ~ traits reproductifs
+# apres ENM climatique. Les fichiers Dryad locaux exposent les occurrences
+# georeferencees par espece, pas les surfaces ENM finales ni ClimateNA. Ce
+# loader construit donc un benchmark SDM executable : presences auteur +
+# background pseudo-absences deterministes + covariables WorldClim publiques.
+load_trillium_presence_background <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329")
+  files <- list.files(dir, pattern = "\\.csv$", full.names = TRUE)
+  files <- files[basename(files) != "Trillium_LifeHistoryTraits.csv"]
+  if (!length(files)) {
+    stop("Aucun fichier d'occurrences Trillium trouve dans ", dir, call. = FALSE)
+  }
+
+  read_occurrence_file <- function(path) {
+    df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+    names(df) <- trimws(tolower(names(df)))
+    required <- c("species", "longitude", "latitude")
+    if (!all(required %in% names(df))) {
+      stop("Colonnes species/longitude/latitude introuvables dans ", basename(path),
+           call. = FALSE)
+    }
+    out <- data.frame(
+      species = trimws(as.character(df$species)),
+      longitude = suppressWarnings(as.numeric(df$longitude)),
+      latitude = suppressWarnings(as.numeric(df$latitude)),
+      source_file = basename(path),
+      stringsAsFactors = FALSE
+    )
+    out <- out[nzchar(out$species) & is.finite(out$longitude) & is.finite(out$latitude), ]
+    out
+  }
+
+  pres <- do.call(rbind, lapply(files, read_occurrence_file))
+  pres <- unique(pres)
+  pres <- pres[pres$longitude >= -100 & pres$longitude <= -50 &
+                 pres$latitude >= 20 & pres$latitude <= 55, ]
+  if (!nrow(pres)) stop("Aucune occurrence Trillium exploitable apres filtrage.", call. = FALSE)
+
+  set.seed(13297)
+  bg_list <- lapply(split(pres, pres$species), function(sp) {
+    n <- nrow(sp)
+    lon_rng <- range(sp$longitude, na.rm = TRUE)
+    lat_rng <- range(sp$latitude, na.rm = TRUE)
+    lon_pad <- max(1, diff(lon_rng) * 0.10)
+    lat_pad <- max(1, diff(lat_rng) * 0.10)
+    data.frame(
+      species = sp$species[1],
+      longitude = stats::runif(n, lon_rng[1] - lon_pad, lon_rng[2] + lon_pad),
+      latitude = stats::runif(n, lat_rng[1] - lat_pad, lat_rng[2] + lat_pad),
+      source_file = "generated_background_worldclim_bbox",
+      stringsAsFactors = FALSE
+    )
+  })
+  bg <- do.call(rbind, bg_list)
+  bg$background_id <- seq_len(nrow(bg))
+  pres$background_id <- NA_integer_
+  pres$presence <- 1L
+  bg$presence <- 0L
+
+  sf_obj <- rbind(pres[, c("species", "longitude", "latitude", "source_file", "background_id", "presence")],
+                  bg[, c("species", "longitude", "latitude", "source_file", "background_id", "presence")])
+  sf_obj$record_type <- ifelse(sf_obj$presence == 1L, "presence", "background")
+  sf_obj <- sf::st_as_sf(sf_obj, coords = c("longitude", "latitude"),
+                         crs = 4326, remove = FALSE)
+
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis pour extraire WorldClim.", call. = FALSE)
+  }
+  if (!requireNamespace("geodata", quietly = TRUE)) {
+    stop("Le package 'geodata' est requis pour telecharger WorldClim.", call. = FALSE)
+  }
+
+  wc_dir <- file.path(REPO_ROOT, "data", "data_retrievals", "worldclim")
+  dir.create(wc_dir, recursive = TRUE, showWarnings = FALSE)
+  bio <- tryCatch(
+    geodata::worldclim_global(var = "bio", res = 10, path = wc_dir),
+    error = function(e) e
+  )
+  if (inherits(bio, "error") || terra::nlyr(bio) == 0) {
+    stop(
+      "Covariables WorldClim absentes et telechargement indisponible. ",
+      "Preparer le cache local avec geodata::worldclim_global(var='bio', res=10, path='",
+      wc_dir, "') puis relancer le loader Trillium.",
+      call. = FALSE
+    )
+  }
+  wanted <- c(1, 4, 5, 6, 12, 15)
+  layer_names <- vapply(wanted, function(i) {
+    hit <- grep(paste0("bio_?", i, "$"), names(bio), value = TRUE, ignore.case = TRUE)
+    if (!length(hit)) NA_character_ else hit[1]
+  }, character(1))
+  if (anyNA(layer_names)) {
+    stop("Couches WorldClim bioclimatiques introuvables : ",
+         paste(wanted[is.na(layer_names)], collapse = ", "), call. = FALSE)
+  }
+  bio_sel <- bio[[layer_names]]
+  names(bio_sel) <- c(
+    "bio1_annual_mean_temperature",
+    "bio4_temperature_seasonality",
+    "bio5_max_temperature_warmest_month",
+    "bio6_min_temperature_coldest_month",
+    "bio12_annual_precipitation",
+    "bio15_precipitation_seasonality"
+  )
+
+  pts <- terra::vect(sf_obj)
+  env_values <- as.data.frame(terra::extract(bio_sel, pts, ID = FALSE))
+  temp_cols <- c("bio1_annual_mean_temperature",
+                 "bio5_max_temperature_warmest_month",
+                 "bio6_min_temperature_coldest_month")
+  for (col in intersect(temp_cols, names(env_values))) {
+    if (stats::median(abs(env_values[[col]]), na.rm = TRUE) > 100) {
+      env_values[[col]] <- env_values[[col]] / 10
+    }
+  }
+  sf_obj <- cbind(sf_obj, env_values)
+  sf_obj <- sf_obj[stats::complete.cases(sf::st_drop_geometry(sf_obj)[, names(env_values), drop = FALSE]), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "species,source_file,background_id,record_type",
+      datetime_columns = "",
+      candidate_y_variables = "presence"
+    )
+  )
+}
+
+# Miller et al. (2021), Diversity and Distributions. Continuous species-level
+# companion dataset for the paper's beta-regression step: proportional
+# occupancy (PO) explained by reproductive traits after ENM/MaxEnt modelling.
+load_trillium_proportional_occupancy <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329")
+  traits <- utils::read.csv(file.path(dir, "Trillium_LifeHistoryTraits.csv"),
+                            stringsAsFactors = FALSE, check.names = TRUE)
+  names(traits) <- make.names(names(traits), unique = TRUE)
+  names(traits)[names(traits) == "Seed_weight."] <- "Seed_weight"
+  traits$species <- trimws(tolower(as.character(traits$species)))
+
+  occurrence_files <- list.files(dir, pattern = "\\.csv$", full.names = TRUE)
+  occurrence_files <- occurrence_files[basename(occurrence_files) != "Trillium_LifeHistoryTraits.csv"]
+  read_occ <- function(path) {
+    df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = TRUE)
+    names(df) <- tolower(names(df))
+    data.frame(
+      species = trimws(tolower(as.character(df$species))),
+      Longitude = suppressWarnings(as.numeric(df$longitude)),
+      Latitude = suppressWarnings(as.numeric(df$latitude)),
+      stringsAsFactors = FALSE
+    )
+  }
+  occ <- do.call(rbind, lapply(occurrence_files, read_occ))
+  occ <- occ[is.finite(occ$Longitude) & is.finite(occ$Latitude), ]
+  centroids <- aggregate(
+    cbind(Longitude, Latitude) ~ species,
+    data = occ,
+    FUN = function(x) mean(x, na.rm = TRUE)
+  )
+  observed_occ <- aggregate(
+    list(observed_occurrences_local = occ$species),
+    by = list(species = occ$species),
+    FUN = length
+  )
+
+  df <- merge(traits, centroids, by = "species", all.x = TRUE)
+  df <- merge(df, observed_occ, by = "species", all.x = TRUE)
+  keep_cols <- c("PO", "No_ovules", "Seed_weight", "Flower_Type",
+                 "Biomass", "No_seeds_plant", "Seed_setting_rate",
+                 "Longitude", "Latitude")
+  for (col in intersect(keep_cols, names(df))) {
+    df[[col]] <- suppressWarnings(as.numeric(df[[col]]))
+  }
+  df <- df[stats::complete.cases(df[, c("PO", "No_ovules", "Seed_weight",
+                                        "Flower_Type", "Longitude", "Latitude")]), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "species,NatServe_Status",
+      datetime_columns = "",
+      candidate_y_variables = "PO"
+    )
+  )
+}
+
 
 # --- Loader spruce bark beetle (Gohli et al. 2024) --------------------------
 # Dryad 10.5061/dryad.kd51c5bdc : 1 731 pheromone-trap observations in
@@ -1014,6 +1233,546 @@ load_possum_body_size <- function() {
     )
   )
 }
+
+# --- Loader coraux d'eau profonde Nouvelle-Zelande (Anderson et al. 2022) --
+# README.txt (Dryad) documente 12 fichiers CSV, un par taxon, colonnes
+# identiques : lat/lon (WGS84 decimal), pa (presence=1/absence=0), puis 12
+# covariables environnementales nommees (depth, mud, carbonate, bpi_fine,
+# slope_per, smtfinal, OXY_C, SFR_OARG_C, OM_CAL3_C, BEN_N_C, DETFLUX3_C,
+# SO_C). Un loader partage parametre par nom de fichier espece, comme
+# load_pollution_grid() plus haut. Les grilles environnementales completes
+# (Present_ENV.csv et scenarios futurs, ~4.86 Go) n'ont pas ete telechargees
+# (hors scope benchmark) ; seules les 12 tables presence/absence servent ici.
+load_deepwater_coral <- function(species_file) {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638")
+  df <- utils::read.csv(file.path(dir, species_file), stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "",
+      datetime_columns = "",
+      candidate_y_variables = "pa"
+    )
+  )
+}
+
+load_coral_bathypathes <- function() load_deepwater_coral("Bathypathes.csv")
+load_coral_corallium <- function() load_deepwater_coral("Corallium.csv")
+load_coral_enallopsammia <- function() load_deepwater_coral("Enallopsammia.csv")
+load_coral_errina <- function() load_deepwater_coral("Errina.csv")
+load_coral_goniocorella <- function() load_deepwater_coral("Goniocorella.csv")
+load_coral_isididae <- function() load_deepwater_coral("Isididae.csv")
+load_coral_leiopathes <- function() load_deepwater_coral("Leiopathes.csv")
+load_coral_madrepora <- function() load_deepwater_coral("Madrepora.csv")
+load_coral_paragorgia <- function() load_deepwater_coral("Paragorgia.csv")
+load_coral_primnoa <- function() load_deepwater_coral("Primnoa.csv")
+load_coral_solenosmilia <- function() load_deepwater_coral("Solenosmilia.csv")
+load_coral_stylaster <- function() load_deepwater_coral("Stylaster.csv")
+
+# --- Loader cereal rye cover crop biomass (Huddell et al. 2024) ------------
+# data_dictionary.csv (Dryad) documente chaque colonne. On utilise le fichier
+# joint experimental_and_weather_data.csv (recommande par le README) :
+# reponse = late_bm_kg_ha (biomasse au moment de la terminaison tardive, la
+# variable predite d'apres le titre du papier) ; predicteurs = early_bm_kg_ha
+# + variables meteo cumulees (CGDD, PAR, precipitations) entre les dates.
+load_early_season_biomass <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201", "extracted")
+  zip_path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                        "DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201",
+                        "doi_10_5061_dryad_ngf1vhj1r__v20240121.zip")
+  if (!dir.exists(dir)) {
+    utils::unzip(zip_path, exdir = dir)
+  }
+  df <- utils::read.csv(file.path(dir, "experimental_and_weather_data.csv"),
+                        stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "state,block,site,early_plot,late_plot",
+      datetime_columns = "plant_date,early_term_date,late_term_date,year",
+      candidate_y_variables = "late_bm_kg_ha"
+    )
+  )
+}
+
+# --- Loader mortalite grippe Chicago 1918 (Grantz et al. 2016) -------------
+# tracts.csv est un panel tract x semaine (496 tracts x 7 semaines = 3472
+# lignes) avec `counts` (deces grippe/pneumonie) et covariables socio-
+# demographiques (illit, den.r, unemployed.pct, ho.pct, agecat1-7, pop comme
+# exposition). shapefile.zip contient les polygones de tract IL avec un champ
+# GISJOIN qui correspond exactement a gisjoin dans tracts.csv (verifie :
+# meme format de cle). points.csv (localisations individuelles de cas,
+# coordonnees projetees en metres) existe aussi mais n'est pas utilise ici --
+# le panel tract est la table de regression spatiale principale du papier.
+load_influenza_mortality_chicago <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161")
+  extracted <- file.path(dir, "extracted")
+  if (!dir.exists(extracted)) {
+    utils::unzip(file.path(dir, "doi_10_5061_dryad_48nv3__v20171101.zip"), exdir = extracted)
+  }
+  shp_dir <- file.path(extracted, "shapefile_extracted")
+  if (!dir.exists(shp_dir)) {
+    utils::unzip(file.path(extracted, "shapefile.zip"), exdir = shp_dir,
+                 junkpaths = TRUE)
+  }
+  tracts <- utils::read.csv(file.path(extracted, "tracts.csv"), stringsAsFactors = FALSE,
+                            colClasses = c(gisjoin = "character"))
+  polys <- sf::st_read(file.path(shp_dir, "IL_tract_a.shp"), quiet = TRUE)
+  polys$GISJOIN <- as.character(polys$GISJOIN)
+
+  merged <- merge(polys[, c("GISJOIN", "geometry")], tracts,
+                  by.x = "GISJOIN", by.y = "gisjoin")
+  sf_obj <- sf::st_as_sf(merged)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "GISJOIN",
+      datetime_columns = "week",
+      candidate_y_variables = "counts"
+    )
+  )
+}
+
+# --- Loader invasion vegetale FIA (Shen et al. 2024) ------------------------
+# README.md documente LAT/LON (degres decimaux) et 41 variables ecologiques
+# auxiliaires. Reponse : InvTotalCover ("Sum of cover estimates for all
+# invasive plants") et InvSpRichness, toutes deux explicitement definies dans
+# le README -- correspond au titre du papier (prediction spatiale de
+# l'invasion vegetale).
+load_plant_invasion_fia <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116", "extracted")
+  zip_path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                        "DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116",
+                        "doi_10_5061_dryad_0rxwdbs8t__v20260410.zip")
+  if (!dir.exists(dir)) {
+    utils::unzip(zip_path, exdir = dir)
+  }
+  df <- utils::read.csv(file.path(dir, "newinvasion.csv"), stringsAsFactors = FALSE)
+  # Shen et al. (2024) p.4: "After excluding plots with missing values, we
+  # eventually got 42,314 samples for analyses" (sur 46,071 placettes FIA
+  # forestieres brutes). Reproduit ici via complete.cases() sur l'ensemble
+  # des colonnes du CSV -- donne N=42612, tres proche du N publie (42314,
+  # ecart residuel de 298 lignes probablement du a un controle qualite
+  # supplementaire non detaille dans les 4 pages consultees du papier).
+  df <- df[stats::complete.cases(df), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("LON", "LAT"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "LON,LAT",
+      identifier_variables = "STATEAB,FIPS,county",
+      datetime_columns = "MEASYEAR",
+      candidate_y_variables = "InvTotalCover,InvSpRichness"
+    )
+  )
+}
+
+# --- Loader debit de base Maine (Lombard et al. 2021) -----------------------
+# Shapefile de reseau hydrographique NHDPlus (LINESTRING, 42449 troncons).
+# Attributs au format standard USGS/NHDPlus : DASQMI (surface de drainage),
+# SANDGRAVAF (aquifere sable/gravier), JULYAVPRE (precipitation moyenne de
+# juillet), AUGAVGBF (debit de base moyen d'aout -- reponse, correspond
+# exactement au titre du papier), OOB_* (indicateurs out-of-bag du modele
+# random forest original), REGULATED.
+load_maine_baseflow <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835")
+  extracted <- file.path(dir, "extracted")
+  if (!dir.exists(extracted)) {
+    utils::unzip(file.path(dir, "Maine_Mean_August_Baseflow_Map.zip"), exdir = extracted)
+  }
+  sf_obj <- sf::st_read(file.path(extracted, "Maine_Mean_August_Baseflow.shp"), quiet = TRUE)
+  sf_obj <- sf::st_zm(sf_obj, drop = TRUE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "GNIS_Name,ReachCode,NHDPlusID",
+      datetime_columns = "",
+      candidate_y_variables = "AUGAVGBF"
+    )
+  )
+}
+
+# --- Loader rendement mais Midwest (Park, Li & Li 2022) --------------------
+# MidwestData.RData (dans le zip supplement JASA) fournit regdat : Year,
+# State, County (noms complets en toutes lettres, pas d'index opaque),
+# CountyI, Yield (reponse), avgPRCP (covariable), Area. Jointure vers de
+# vraies frontieres de comte US via tigris::counties() (TIGER Census), verifie
+# a 98.9% de correspondance directe (6271/6340) ; les 5 cas restants sont de
+# simples variantes d'espacement documentees ci-dessous (DeKalb, DuPage,
+# O'Brien), pas des inventions.
+load_midwest_crop_yield <- function() {
+  if (!requireNamespace("tigris", quietly = TRUE)) {
+    stop("Le package 'tigris' est requis (install.packages('tigris')).", call. = FALSE)
+  }
+  options(tigris_use_cache = TRUE)
+
+  zip_path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                        "DataCite_2022_CropYieldPredictionUsing_10_1080_01621459",
+                        "UASA_A_2123333_supplement.zip")
+  inner <- "UASA_A_2123333_supplement/jasa-a_cs-2021-0348-20220907220449/suppl_data/MidwestData.RData"
+  tmp <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2022_CropYieldPredictionUsing_10_1080_01621459", "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp, inner))) {
+    utils::unzip(zip_path, files = inner, exdir = tmp)
+  }
+  e <- new.env()
+  load(file.path(tmp, inner), envir = e)
+  regdat <- e$regdat
+
+  state_abb <- c(ILLINOIS = "IL", INDIANA = "IN", IOWA = "IA", KANSAS = "KS", MISSOURI = "MO")
+  regdat$state_abb <- state_abb[regdat$State]
+
+  norm_county <- function(x) {
+    x <- toupper(trimws(x))
+    x <- gsub("[^A-Z]", "", x)  # strip spaces/punctuation entirely for a robust key
+    x
+  }
+  regdat$county_key <- norm_county(regdat$County)
+
+  counties_sf <- tigris::counties(state = unname(state_abb), cb = TRUE, year = 2020, class = "sf")
+  counties_sf$county_key <- norm_county(counties_sf$NAME)
+
+  merged <- merge(counties_sf[, c("STUSPS", "county_key", "geometry")], regdat,
+                  by.x = c("STUSPS", "county_key"), by.y = c("state_abb", "county_key"))
+  sf_obj <- sf::st_as_sf(merged)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "State,County,CountyI",
+      datetime_columns = "Year",
+      candidate_y_variables = "Yield"
+    )
+  )
+}
+
+# --- Loader elections/reseaux (Betz, Cook & Hollenbach 2020) ---------------
+# KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) : panel pays x
+# annee electorale, 22 pays OCDE, noms de pays en toutes lettres (Australia,
+# Austria, ... United Kingdom). Jointure directe et exacte (22/22) vers
+# rnaturalearth::ne_countries(scale="medium")$name. Reponse : votelead (part
+# de vote du parti sortant/en tete) -- coherent avec la litterature du "vote
+# economique" (croissance, chomage) que le jeu de covariables documente
+# (gr_*, unem_*).
+load_network_misspecification_elections <- function() {
+  if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
+    stop("Le package 'rnaturalearth' est requis (install.packages('rnaturalearth')).", call. = FALSE)
+  }
+  if (!requireNamespace("haven", quietly = TRUE)) {
+    stop("Le package 'haven' est requis (install.packages('haven')).", call. = FALSE)
+  }
+  zip_path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                        "DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020",
+                        "PAN-archive_full_dataverse_files.zip")
+  tmp <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020", "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  inner <- "PAN-archive/data/KP2012_Benchmarking_Agg_Data.dta"
+  if (!file.exists(file.path(tmp, inner))) {
+    utils::unzip(zip_path, files = inner, exdir = tmp)
+  }
+  df <- as.data.frame(haven::read_dta(file.path(tmp, inner)))
+
+  world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+  merged <- merge(world[, c("name", "geometry")], df, by.x = "name", by.y = "country")
+  sf_obj <- sf::st_as_sf(merged)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "name,ccode,key1",
+      datetime_columns = "elecyr",
+      candidate_y_variables = "votelead"
+    )
+  )
+}
+
+# --- Loader oiseaux endemiques ethiopiens (Bladon et al. 2021) -------------
+# Les .rda Dryad ne contiennent que des points (presence, absence, fond) en
+# WGS84, sans aucune covariable. Le papier (p.3, Materials and methods) cite
+# explicitement 5 variables bioclimatiques WorldClim standard (pas de
+# definition Ethiopie sur mesure) : maximum temperature of the warmest month
+# (BIO5), temperature seasonality (BIO4), annual temperature range (BIO7),
+# precipitation of the wettest quarter (BIO16), precipitation of the driest
+# quarter (BIO17). Telechargees via geodata::worldclim_global(res=2.5),
+# recadrees sur la zone d'etude du papier (1.86-6.87N, 33.17-43.67E) et
+# mises en cache dans data/raw/papers/.../worldclim/ethiopia_bio_subset.tif.
+# On combine presence (nest records, pa=1) et vraies absences (transects,
+# pa=0) -- les points de fond (background, projection differente non WGS84)
+# ne sont pas utilises, une vraie absence etant plus defendable qu'un
+# pseudo-absence pour ce type de reponse.
+load_ethiopia_bird_sdm <- function(species_prefix, presence_file, absence_file, absence_obj_name) {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2021_ClimaticChangeAndExtinction_10_1371_journal_")
+  raster_path <- file.path(dir, "worldclim", "ethiopia_bio_subset.tif")
+  if (!file.exists(raster_path)) {
+    stop("Rasters WorldClim non trouves : lancer d'abord le telechargement (geodata::worldclim_global).",
+         call. = FALSE)
+  }
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis.", call. = FALSE)
+  }
+
+  e_pres <- new.env()
+  load(file.path(dir, presence_file), envir = e_pres)
+  pres_obj <- get(ls(e_pres)[1], envir = e_pres)
+  pres_xy <- as.data.frame(sp::coordinates(pres_obj))
+  names(pres_xy) <- c("lon", "lat")
+  pres_xy$pa <- 1L
+
+  e_abs <- new.env()
+  load(file.path(dir, absence_file), envir = e_abs)
+  abs_obj <- get(absence_obj_name, envir = e_abs)
+  abs_xy <- as.data.frame(sp::coordinates(abs_obj))
+  names(abs_xy) <- c("lon", "lat")
+  abs_xy$pa <- 0L
+
+  df <- rbind(pres_xy, abs_xy)
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+
+  bio <- terra::rast(raster_path)
+  pts <- terra::vect(sf_obj)
+  env_values <- terra::extract(bio, pts, ID = FALSE)
+  sf_obj <- cbind(sf_obj, env_values)
+  sf_obj <- sf_obj[stats::complete.cases(sf::st_drop_geometry(sf_obj)[, names(env_values), drop = FALSE]), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "",
+      datetime_columns = "",
+      candidate_y_variables = "pa"
+    )
+  )
+}
+
+load_ethiopia_bushcrow_sdm <- function() {
+  load_ethiopia_bird_sdm("bushcrow", "Bush-crow+nest_records_2005-2015.rda",
+                         "Bush-crow_true_absences.rda", "BC_N_abs_1km")
+}
+
+load_ethiopia_whitetailed_swallow_sdm <- function() {
+  load_ethiopia_bird_sdm("wts", "White-tailed_Swallow+nest_records_2005-2015.rda",
+                         "White-tailed_Swallow_true_absenses.rda", "WTS_abs")
+}
+
+# --- Loader tortue du desert genotype x niche (Inman et al. 2019) ----------
+# Le depot Dryad ne contient que des surfaces raster deja modelisees (11
+# grilles .asc parfaitement co-enregistrees, meme dim 1180x1037, meme
+# resolution ~1km, meme etendue) : 9 variables environnementales explicatives
+# (CLIM1, CLIM3, LC, PHYS1, PHYS2, SOIL2, SOIL3, VEG1, VEG3) et 2 surfaces de
+# sortie du modele de niche local (GenAssociation, Clusters). Pas de points
+# d'echantillon brut. Meme logique que load_pollution_grid() plus haut (deja
+# accepte dans ce fichier pour des surfaces modelisees PM2.5/O3/NO2) :
+# reponse = GenAssociation (correspond au titre du papier -- association
+# genotype x niche), covariables = les 9 grilles environnementales,
+# agregation par facteur 8 pour revenir a un nombre de points raisonnable
+# pour un jeu de benchmark (~19k cellules).
+load_desert_tortoise_genotype_niche <- function() {
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis.", call. = FALSE)
+  }
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+
+  layer_zips <- c(
+    GenAssociation = "Habitat_Genotype_Association/GenAssociation.zip",
+    CLIM1 = "Environmental_Explanatory_Variables/CLIM1.zip",
+    CLIM3 = "Environmental_Explanatory_Variables/CLIM3.zip",
+    LC = "Environmental_Explanatory_Variables/LC.zip",
+    PHYS1 = "Environmental_Explanatory_Variables/PHYS1.zip",
+    PHYS2 = "Environmental_Explanatory_Variables/PHYS2.zip",
+    SOIL2 = "Environmental_Explanatory_Variables/SOIL2.zip",
+    SOIL3 = "Environmental_Explanatory_Variables/SOIL3.zip",
+    VEG1 = "Environmental_Explanatory_Variables/VEG1.zip",
+    VEG3 = "Environmental_Explanatory_Variables/VEG3.zip"
+  )
+
+  layers <- list()
+  for (nm in names(layer_zips)) {
+    asc_path <- file.path(tmp, paste0(nm, ".asc"))
+    if (!file.exists(asc_path)) {
+      utils::unzip(file.path(dir, layer_zips[[nm]]), exdir = tmp)
+    }
+    layers[[nm]] <- terra::rast(asc_path)
+  }
+  stack <- terra::rast(layers)
+  names(stack) <- names(layer_zips)
+
+  agg <- terra::aggregate(stack, fact = 8, fun = "mean", na.rm = TRUE)
+  pts <- terra::as.points(agg, na.rm = TRUE)
+  sf_obj <- sf::st_as_sf(pts)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "",
+      datetime_columns = "",
+      candidate_y_variables = "GenAssociation"
+    )
+  )
+}
+
+# --- Loader feux de foret / severite de brulure (Chamberlain et al. 2024) --
+# README.md (Dryad) documente : reponse = RdNBR (relativized differenced
+# normalized burn ratio, 30m) dans severity/. csvs/predictor_variables*.csv
+# (fourni par les auteurs) liste les vraies covariables du modele du papier
+# -- 35 pour Bootleg, 34 pour Schneider Springs. Verifie le 2026-08-12 :
+# 3 couches documentees dans ce CSV (aspect_10res, ecostress_pet,
+# ecostress_esi) sont absentes du depot Dryad public pour les DEUX incendies
+# (recherche exhaustive dans l'archive, aucun fichier correspondant) --
+# probablement retirees du depot public (droits ECOSTRESS ?). Elles restent
+# documentees comme manquantes plutot que devinees. forest_mask/
+# ownership_mask existent comme fichiers mais NE SONT PAS dans
+# predictor_variables.csv : ce sont des masques de zone d'etude, pas des
+# covariables du modele -- inclus dans le .rds (utile pour filtrer) mais
+# exclus de formula_used.
+# Rasters dans des CRS/resolutions tres heterogenes (WGS84, UTM10N
+# NAD83(2011), Albers 5070, NAD83 geo, quelques-uns sans CRS attache) :
+# reprojetes vers une grille commune (Albers EPSG:5070, ~250m -- compromis
+# entre la finesse des predicteurs 9-30m et la grossierete de gedi/
+# windninja 429-1000m), rebond bilineaire pour les continues, plus-proche-
+# voisin pour les masques.
+load_wildfire_severity <- function(fire_dirname, severity_file, response_layer_name) {
+  if (!requireNamespace("terra", quietly = TRUE)) {
+    stop("Le package 'terra' est requis.", call. = FALSE)
+  }
+  base <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700",
+                    "extracted", fire_dirname)
+  if (!dir.exists(base)) {
+    stop("Rasters wildfire non trouves : extraire d'abord ", fire_dirname, " du zip Dryad.", call. = FALSE)
+  }
+
+  target_crs <- "EPSG:5070"
+  target_res <- 250
+
+  sev <- terra::rast(file.path(base, "severity", severity_file))
+  sev_proj <- terra::project(sev, target_crs, res = target_res, method = "bilinear")
+  names(sev_proj) <- response_layer_name
+
+  pred_files <- list.files(file.path(base, "predictors"), pattern = "\\.(tif|img)$",
+                           recursive = TRUE, full.names = TRUE)
+  pred_files <- pred_files[!grepl("\\.ovr$", pred_files, ignore.case = TRUE)]
+  mask_layers <- c("forest_mask", "ownership_mask")
+
+  aligned <- list()
+  for (p in pred_files) {
+    lyr_name <- tools::file_path_sans_ext(basename(p))
+    method <- if (lyr_name %in% mask_layers) "near" else "bilinear"
+    r <- terra::rast(p)
+    if (is.na(terra::crs(r))) {
+      # Quelques rasters (frs, gedi, masks) n'ont pas de CRS attache dans le
+      # fichier source ; d'apres le README ils partagent la meme zone
+      # d'etude que les autres couches, on assume donc la projection
+      # UTM10N/NAD83(2011) (EPSG:6339) dominante parmi les predicteurs de
+      # meme origine pour ce site.
+      terra::crs(r) <- "EPSG:6339"
+    }
+    r_aligned <- terra::project(r, sev_proj, method = method)
+    aligned[[lyr_name]] <- r_aligned
+  }
+
+  stack <- c(sev_proj, terra::rast(aligned))
+  pts <- terra::as.points(stack, na.rm = TRUE)
+  sf_obj <- sf::st_as_sf(pts)
+  sf_obj <- sf_obj[!is.na(sf_obj[[response_layer_name]]), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "",
+      datetime_columns = "",
+      candidate_y_variables = response_layer_name
+    )
+  )
+}
+
+load_wildfire_bootleg_severity <- function() {
+  load_wildfire_severity("bootleg_datasets", "2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif", "rdnbr")
+}
+
+load_wildfire_schneider_springs_severity <- function() {
+  load_wildfire_severity("schneider_springs_datasets",
+                         "2021_SchneiderSprings_rdnbr_w_offset_DATESADJUSTED.tif", "rdnbr")
+}
+
+# Reeves et al. (2010), Ecological Monographs (DOI 10.1890/09-0879.1).
+# Le Y publie dans l'article (Table 1) est une prevalence de malformations
+# par site (2004-2006, seuil >=50 metamorphes par site pour que la stats soit
+# jugee fiable par les auteurs). Le depot Dryad complet (10.5061/dryad.sq72d)
+# etend cette meme surveillance USFWS jusqu'a 2000-2012 : FrogAbnormalities.csv
+# contient 9011 individus avec des indicateurs binaires (ABNORMAL/SKEL_AB/
+# EYE_AB/SURF_AB/BLEEDING_INJ). On reproduit ici la meme logique de prevalence
+# que le Table 1 de l'article (agregation par site + seuil n>=50), mais sur
+# toute la periode disponible localement plutot que sur le seul sous-ensemble
+# 2004-2006 du papier -> version continue derivee, pas une reproduction exacte
+# de Table 1. Coordonnees jointes depuis SiteLocations.csv (SITE commun).
+load_amphibian_malformation_prevalence <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2010_MultipleStressorsAndThe_10_1890_09_0879_")
+  frogs <- utils::read.csv(file.path(dir, "FrogAbnormalities.csv"), stringsAsFactors = FALSE)
+  sites <- utils::read.csv(file.path(dir, "SiteLocations.csv"), stringsAsFactors = FALSE)
+  roads <- utils::read.csv(file.path(dir, "RoadsInfo.csv"), stringsAsFactors = FALSE)
+
+  ab_cols <- c("ABNORMAL", "SKEL_AB", "EYE_AB", "SURF_AB", "BLEEDING_INJ")
+  for (col in ab_cols) frogs[[col]] <- suppressWarnings(as.numeric(frogs[[col]]))
+  frogs <- frogs[!is.na(frogs$SITE) & nzchar(frogs$SITE), ]
+
+  n_frogs <- stats::aggregate(FROG_ID ~ SITE, data = frogs, FUN = length)
+  names(n_frogs)[2] <- "n_frogs"
+  agg <- n_frogs
+  for (col in ab_cols) {
+    a <- stats::aggregate(stats::as.formula(paste(col, "~ SITE")), data = frogs,
+                          FUN = function(x) sum(x, na.rm = TRUE))
+    agg[[paste0("prevalence_", tolower(col))]] <-
+      100 * a[[col]][match(agg$SITE, a$SITE)] / agg$n_frogs
+  }
+
+  # Meme seuil de fiabilite que le Table 1 de l'article (footnote : "Statistics
+  # compiled only from sampling events at which 50 or more frogs were examined").
+  agg <- agg[agg$n_frogs >= 50, ]
+
+  names(sites)[names(sites) == "Site"] <- "SITE"
+  agg <- merge(agg, sites[, c("SITE", "LATITUDE", "LONGITUDE")], by = "SITE", all.x = TRUE)
+  agg <- agg[!is.na(agg$LATITUDE) & !is.na(agg$LONGITUDE), ]
+
+  names(roads)[names(roads) == "Site"] <- "SITE"
+  agg <- merge(agg, roads[, c("SITE", "ROADDISTANCE", "RoadType")], by = "SITE", all.x = TRUE)
+
+  sf_obj <- sf::st_as_sf(agg, coords = c("LONGITUDE", "LATITUDE"), crs = 4326, remove = FALSE)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "LONGITUDE,LATITUDE",
+      identifier_variables = "SITE",
+      datetime_columns = "",
+      candidate_y_variables = paste0("prevalence_", tolower(ab_cols), collapse = ",")
+    )
+  )
+}
+
 # --- Loaders candidats high promus au benchmark -----------------------------
 # Ces trois jeux de donnees ont d'abord ete convertis par la couche warehouse
 # en GeoPackage. On reutilise ces GeoPackages comme source stabilisee, puis on
@@ -1075,6 +1834,388 @@ load_teles_decapod_biodiversity_brazil <- function() {
     )
   )
 }
+
+# Jones (2021), Ecology and Evolution. 30 site-year observations across
+# 14 African sites; the paper explicitly uses PLS regression with log10
+# predator biomass responses and transformed prey, climate, and vegetation X.
+load_hyena_lion_biomass_africa <- function() {
+  dir <- find_paper_raw_dir("EnvironmentalFactorsInfluencingSpotted")
+  xlsx <- file.path(dir, "Predator_biomass__prey_biomass__landcover_and_climate_data_across_Africa.xlsx")
+  transformed <- read_excel_sheet_with_header(xlsx, "Transformed data", header_row = 3)
+  climate <- read_excel_sheet_with_header(xlsx, "Climate data", header_row = 3)
+
+  coords <- climate[, c("Site", "Year", "Median.lat", "Median.long")]
+  df <- merge(transformed, coords, by = c("Site", "Year"), all.x = TRUE)
+  rename <- c(
+    Spotted.hyaena.biomass.Log10 = "spotted_hyaena_biomass_log10",
+    Lion.biomass.Log10 = "lion_biomass_log10",
+    Leopard..cheetah..brown.hyaena..wild.dog.biomass.Log10 = "other_predator_biomass_log10",
+    Total.biomass.very.small.prey.Log10 = "prey_very_small_biomass_log10",
+    Total.biomass.small.prey.Log10 = "prey_small_biomass_log10",
+    Total.biomass.medium.prey.Log10 = "prey_medium_biomass_log10",
+    Total.biomass.large.prey.Log10 = "prey_large_biomass_log10",
+    Total.biomass.very.large.prey.Log10 = "prey_very_large_biomass_log10",
+    Bio4...Temperature.seasonality.Log10 = "temperature_seasonality_log10",
+    Bio5....Max..temperature.warmest.month.Log10 = "max_temperature_warmest_month_log10",
+    Bio6...Min..temperature.coolest.month.Log10 = "min_temperature_coolest_month_log10",
+    Bio13...Precipitation.wettest.month.Log10 = "precipitation_wettest_month_log10",
+    Bio14...Precipitation.driest.month.Log10 = "precipitation_driest_month_log10",
+    Bio15...Precipitation.seasonality.Log10 = "precipitation_seasonality_log10",
+    Closed.vegetation.centered.logratio = "closed_vegetation_clr",
+    Semi.open.vegetation.centered.logratio = "semi_open_vegetation_clr",
+    Open.vegetation.centered.logratio = "open_vegetation_clr",
+    Median.lat = "latitude",
+    Median.long = "longitude"
+  )
+  for (old in names(rename)) {
+    if (old %in% names(df)) names(df)[names(df) == old] <- rename[[old]]
+  }
+  df <- df[is.finite(df$longitude) & is.finite(df$latitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "Site,Year",
+      datetime_columns = "",
+      candidate_y_variables = "spotted_hyaena_biomass_log10,lion_biomass_log10"
+    )
+  )
+}
+
+# Samuelson et al. (2018), Proceedings B. Colony-level dataset; the raw
+# columns named Lat/Lon are inverted numerically for southern England, so
+# longitude is taken from Lat and latitude from Lon.
+load_bumblebee_colony_reproduction <- function() {
+  dir <- find_paper_raw_dir("LowerBumblebeeColonyReproductive")
+  df <- utils::read.csv(file.path(dir, "ASamuelson_UrbanBumblebee_ColonyData.csv"),
+                        stringsAsFactors = FALSE, check.names = TRUE)
+  df$longitude <- as.numeric(df$Lat)
+  df$latitude <- as.numeric(df$Lon)
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude,Lat,Lon",
+      identifier_variables = "Col,Site,LU750,LU500,LU250,LU100",
+      datetime_columns = "",
+      candidate_y_variables = "Tot_rep,Countave,Tot_male,Tot_gyne"
+    )
+  )
+}
+
+# Buechling et al. (2017), Journal of Ecology. The paper is temporal/tree-level;
+# this executable benchmark collapses yearly ring measurements to one spatial
+# observation per sampled tree and keeps local competition summaries from the
+# neighbour table.
+load_rocky_mountain_tree_growth <- function() {
+  dir <- find_paper_raw_dir("ClimateAndCompetitionEffects")
+  growth <- utils::read.csv(file.path(dir, "sample tree growth data with locations.csv"),
+                            stringsAsFactors = FALSE, check.names = TRUE)
+  neigh <- utils::read.csv(file.path(dir, "neighbor tree location and size data.csv"),
+                           stringsAsFactors = FALSE, check.names = TRUE)
+  names(growth) <- make.names(names(growth), unique = TRUE)
+  names(neigh) <- make.names(names(neigh), unique = TRUE)
+
+  comp_count <- aggregate(
+    list(neighbor_count = neigh$Neighbor.tree.DBH..cm.),
+    by = list(Sample.tree.ID = neigh$Sample.tree.ID),
+    FUN = length
+  )
+  comp_dbh <- aggregate(
+    list(neighbor_dbh_sum = neigh$Neighbor.tree.DBH..cm.),
+    by = list(Sample.tree.ID = neigh$Sample.tree.ID),
+    FUN = function(x) sum(x, na.rm = TRUE)
+  )
+  comp_dist <- aggregate(
+    list(neighbor_distance_mean = neigh$Distance.to.neighbor.tree..m.),
+    by = list(Sample.tree.ID = neigh$Sample.tree.ID),
+    FUN = function(x) mean(x, na.rm = TRUE)
+  )
+  comp <- Reduce(function(x, y) merge(x, y, by = "Sample.tree.ID", all = TRUE),
+                 list(comp_count, comp_dbh, comp_dist))
+
+  static_cols <- c("Sample.tree.ID", "Species", "Site", "Longitude", "Latitude",
+                   "Elevation..m.", "Aspect..degrees.", "Terrain.slope....")
+  stat <- growth[!duplicated(growth$Sample.tree.ID), static_cols]
+  agg <- aggregate(
+    cbind(mean_ring_width_mm = growth$Ring.width..mm.,
+          mean_stem_diameter_cm = growth$Stem.diameter..cm.,
+          mean_age_years = growth$Age..years.) ~ growth$Sample.tree.ID,
+    FUN = mean,
+    na.rm = TRUE
+  )
+  names(agg)[1] <- "Sample.tree.ID"
+  df <- merge(stat, agg, by = "Sample.tree.ID", all.x = TRUE)
+  df <- merge(df, comp, by = "Sample.tree.ID", all.x = TRUE)
+  names(df)[names(df) == "Elevation..m."] <- "elevation_m"
+  names(df)[names(df) == "Aspect..degrees."] <- "aspect_degrees"
+  names(df)[names(df) == "Terrain.slope...."] <- "terrain_slope_pct"
+  df <- df[is.finite(df$Longitude) & is.finite(df$Latitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Sample.tree.ID,Species,Site",
+      datetime_columns = "",
+      candidate_y_variables = "mean_ring_width_mm"
+    )
+  )
+}
+
+# Graham et al. (2019), Royal Society Open Science. The published model is a
+# binomial probit GLMM for response/no-response; for the current regression
+# package we expose the continuous 24h proportional DPH change with the same
+# exposure covariates and CPOD coordinates.
+load_harbour_porpoise_response <- function() {
+  dir <- find_paper_raw_dir("HarbourPorpoiseResponses")
+  resp <- utils::read.csv(file.path(dir, "Graham_BOWL_cMMMP_Porpoise_responses_to_construction_data_2019-05-01.csv"),
+                          stringsAsFactors = FALSE, check.names = TRUE)
+  pod <- utils::read.csv(file.path(dir, "Graham_BOWL_cMMMP_POD_deployment_data_2019-01-18.csv"),
+                         stringsAsFactors = FALSE, check.names = TRUE)
+  names(pod)[names(pod) == "Dep_no"] <- "dep_no"
+  df <- merge(resp, pod[, c("dep_no", "POD_number", "Location_ID", "Latitude", "Longitude")],
+              by = "dep_no", all.x = TRUE)
+  df <- df[is.finite(df$Longitude) & is.finite(df$Latitude) & is.finite(df$prop24), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "dep_no,turbine,location,pod,POD_number,Location_ID,ADD",
+      datetime_columns = "",
+      candidate_y_variables = "prop24,prop12,resp24_50,resp12_50"
+    )
+  )
+}
+
+# Matas Granados et al. (2023), Ecology Letters. The paper's best-fit beta
+# regression is species/habitat-level: mean local abundance as a function of
+# regional frequency and habitat type for dominant tree species.
+load_amazon_tree_dominance <- function() {
+  dir <- find_paper_raw_dir("UnderstandingDifferentDominancePatterns")
+  raw <- utils::read.csv(file.path(dir, "Raw_to_ecology3.csv"),
+                         sep = ";", dec = ".", stringsAsFactors = FALSE,
+                         check.names = TRUE)
+  meta <- utils::read.csv(file.path(dir, "Metadata4.csv"),
+                          sep = ";", dec = ".", stringsAsFactors = FALSE,
+                          check.names = TRUE)
+  raw$Cod_plot <- trimws(as.character(raw$Cod_plot))
+  raw$Species <- trimws(as.character(raw$Species))
+  meta$Cod_plot <- trimws(as.character(meta$Cod_plot))
+  raw <- merge(raw, meta[, c("Cod_plot", "Longitude", "Latitude", "Forest_type", "Country")],
+               by = "Cod_plot", all.x = TRUE, suffixes = c("", ".meta"))
+  raw$Forest_type <- ifelse(nzchar(raw$Forest_type), raw$Forest_type, raw$Forest_type.meta)
+  raw <- raw[nzchar(raw$Species) & nzchar(raw$Forest_type) &
+               is.finite(raw$Longitude) & is.finite(raw$Latitude), ]
+
+  plot_totals <- aggregate(
+    list(plot_n_individuals = raw$Species),
+    by = list(Cod_plot = raw$Cod_plot, Forest_type = raw$Forest_type),
+    FUN = length
+  )
+  species_plot <- aggregate(
+    list(n_ij = raw$Species),
+    by = list(Forest_type = raw$Forest_type, Cod_plot = raw$Cod_plot,
+              Species = raw$Species),
+    FUN = length
+  )
+  species_plot <- merge(species_plot, plot_totals, by = c("Forest_type", "Cod_plot"))
+  species_plot$p_ij <- species_plot$n_ij / species_plot$plot_n_individuals
+
+  dominance_by_habitat <- aggregate(
+    list(total_dominance = species_plot$p_ij),
+    by = list(Forest_type = species_plot$Forest_type, Species = species_plot$Species),
+    FUN = sum
+  )
+  dominant_keys <- do.call(rbind, lapply(split(dominance_by_habitat, dominance_by_habitat$Forest_type), function(x) {
+    x <- x[order(x$total_dominance, decreasing = TRUE), ]
+    threshold <- 0.5 * sum(x$total_dominance, na.rm = TRUE)
+    before <- c(0, head(cumsum(x$total_dominance), -1))
+    x[before < threshold, c("Forest_type", "Species")]
+  }))
+  dominant_keys$key <- paste(dominant_keys$Forest_type, dominant_keys$Species, sep = "\r")
+  species_plot$key <- paste(species_plot$Forest_type, species_plot$Species, sep = "\r")
+  species_plot <- species_plot[species_plot$key %in% dominant_keys$key, ]
+
+  n_plots_by_habitat <- aggregate(
+    list(n_total_plots_habitat = meta$Cod_plot),
+    by = list(Forest_type = meta$Forest_type),
+    FUN = function(x) length(unique(x))
+  )
+  stats <- aggregate(
+    cbind(mean_local_relative_abundance = p_ij,
+          total_individuals = n_ij,
+          n_presence_plots = n_ij) ~ Forest_type + Species,
+    data = species_plot,
+    FUN = function(x) c(mean = mean(x, na.rm = TRUE), sum = sum(x, na.rm = TRUE), n = length(x))
+  )
+  stats <- data.frame(
+    Forest_type = stats$Forest_type,
+    Species = stats$Species,
+    mean_local_relative_abundance = stats$mean_local_relative_abundance[, "mean"],
+    total_individuals = stats$total_individuals[, "sum"],
+    n_presence_plots = stats$n_presence_plots[, "n"],
+    stringsAsFactors = FALSE
+  )
+  stats <- merge(stats, n_plots_by_habitat, by = "Forest_type", all.x = TRUE)
+  stats$regional_frequency <- stats$n_presence_plots / stats$n_total_plots_habitat
+  stats$habitat_floodplain <- as.integer(stats$Forest_type == "Floodplain")
+  stats$habitat_swamp <- as.integer(stats$Forest_type == "Swamp")
+  stats$habitat_white_sand <- as.integer(stats$Forest_type == "White sand")
+
+  coords <- aggregate(
+    cbind(Longitude, Latitude) ~ Forest_type + Species,
+    data = merge(species_plot, raw[, c("Cod_plot", "Species", "Forest_type", "Longitude", "Latitude")],
+                 by = c("Cod_plot", "Species", "Forest_type")),
+    FUN = function(x) mean(x, na.rm = TRUE)
+  )
+  df <- merge(stats, coords, by = c("Forest_type", "Species"), all.x = TRUE)
+  df <- df[is.finite(df$Longitude) & is.finite(df$Latitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Species,Forest_type",
+      datetime_columns = "",
+      candidate_y_variables = "mean_local_relative_abundance"
+    )
+  )
+}
+
+# Yoder et al. (2024), Ecology Letters. The paper trains BART on binary
+# flowering observations, then publishes continuous hindcast summaries. For
+# the current regression package, use the continuous number of flowering years
+# predicted for each grid cell/timeframe and the associated climate deltas.
+load_joshua_tree_flowering <- function() {
+  dir <- find_paper_raw_dir("Reconstructing120YearsOf")
+  zip_path <- file.path(dir, "output.zip")
+  member <- zip_member_by_basename(zip_path, "jotr_flowering_predictors_change.csv")
+  long <- utils::read.csv(unz(zip_path, member), stringsAsFactors = FALSE, check.names = TRUE)
+  long$predictor_key <- make.names(long$predictor, unique = FALSE)
+  wide <- stats::reshape(
+    long[, c("lon", "lat", "timeframe", "ri.model", "flyrs", "predictor_key", "pred_value")],
+    idvar = c("lon", "lat", "timeframe", "ri.model", "flyrs"),
+    timevar = "predictor_key",
+    direction = "wide"
+  )
+  names(wide) <- sub("^pred_value\\.", "", names(wide))
+  names(wide) <- make.names(names(wide), unique = TRUE)
+  wide <- wide[wide$ri.model == FALSE, ]
+  sf_obj <- sf::st_as_sf(wide, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "timeframe,ri.model",
+      datetime_columns = "",
+      candidate_y_variables = "flyrs"
+    )
+  )
+}
+
+# Crockett et al. (2024), Fire Ecology. Full train_nbr5 has 1.38M pixels; this
+# package artifact keeps a deterministic 50k spatial/response-stratified subset
+# and documents the full N.
+stratified_spatial_response_sample <- function(df, sample_n, x_col, y_col, response_col,
+                                               grid_n = 20L, response_bins = 5L,
+                                               seed = 42408L) {
+  if (nrow(df) <= sample_n) return(df)
+
+  make_quantile_bin <- function(x, n_bins) {
+    probs <- seq(0, 1, length.out = n_bins + 1L)
+    breaks <- unique(stats::quantile(x, probs = probs, na.rm = TRUE, names = FALSE))
+    if (length(breaks) < 3L) {
+      return(rep.int(1L, length(x)))
+    }
+    as.integer(cut(x, breaks = breaks, include.lowest = TRUE, labels = FALSE))
+  }
+
+  x_bin <- make_quantile_bin(df[[x_col]], grid_n)
+  y_bin <- make_quantile_bin(df[[y_col]], grid_n)
+  response_bin <- make_quantile_bin(df[[response_col]], response_bins)
+  strata <- interaction(x_bin, y_bin, response_bin, drop = TRUE, lex.order = TRUE)
+  split_idx <- split(seq_len(nrow(df)), strata)
+  sizes <- lengths(split_idx)
+
+  target_raw <- sample_n * sizes / sum(sizes)
+  allocation <- pmin(sizes, pmax(1L, floor(target_raw)))
+
+  remaining <- sample_n - sum(allocation)
+  if (remaining > 0L) {
+    can_add <- which(allocation < sizes)
+    remainder_order <- can_add[order(target_raw[can_add] - floor(target_raw[can_add]),
+                                     decreasing = TRUE)]
+    while (remaining > 0L && length(remainder_order)) {
+      for (i in remainder_order) {
+        if (remaining <= 0L) break
+        if (allocation[i] < sizes[i]) {
+          allocation[i] <- allocation[i] + 1L
+          remaining <- remaining - 1L
+        }
+      }
+      remainder_order <- remainder_order[allocation[remainder_order] < sizes[remainder_order]]
+    }
+  } else if (remaining < 0L) {
+    can_drop <- which(allocation > 1L)
+    drop_order <- can_drop[order(allocation[can_drop], decreasing = TRUE)]
+    while (remaining < 0L && length(drop_order)) {
+      for (i in drop_order) {
+        if (remaining >= 0L) break
+        if (allocation[i] > 1L) {
+          allocation[i] <- allocation[i] - 1L
+          remaining <- remaining + 1L
+        }
+      }
+      drop_order <- drop_order[allocation[drop_order] > 1L]
+    }
+  }
+
+  set.seed(seed)
+  selected <- unlist(Map(function(idx, n) {
+    if (length(idx) <= n) idx else sample(idx, n)
+  }, split_idx, allocation), use.names = FALSE)
+  selected <- sort(unique(selected))
+
+  df <- df[selected, , drop = FALSE]
+  df$sample_tile_x <- x_bin[selected]
+  df$sample_tile_y <- y_bin[selected]
+  df$sample_response_bin <- response_bin[selected]
+  df$sample_strategy <- sprintf("spatial_response_stratified_%dx%d_%dbins_seed%d",
+                                grid_n, grid_n, response_bins, seed)
+  df
+}
+
+load_wildfire_greenup_nbr5 <- function(sample_n = 50000L) {
+  dir <- find_paper_raw_dir("ClimateLimitsVegetationGreen")
+  e <- new.env()
+  load(file.path(dir, "train_nbr15.rdata"), envir = e)
+  df <- e[["train_nbr5"]]
+  needed <- c("nbr_5_year", "postfire_precipitation_total",
+              "postfire_precipitation_coefvar", "ls_factor", "KFACTWS_DC",
+              "nbr_0_year", "vpd5", "def5", "ppt5", "tmax5", "month", "x", "y", "name")
+  df <- df[stats::complete.cases(df[, needed]), needed]
+  df$raw_full_n <- nrow(df)
+  if (nrow(df) > sample_n) {
+    df <- stratified_spatial_response_sample(
+      df, sample_n = sample_n, x_col = "x", y_col = "y",
+      response_col = "nbr_5_year", grid_n = 20L, response_bins = 5L,
+      seed = 42408L
+    )
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "x,y",
+      identifier_variables = "name,raw_full_n,sample_tile_x,sample_tile_y,sample_response_bin,sample_strategy",
+      datetime_columns = "none",
+      candidate_y_variables = "nbr_5_year"
+    )
+  )
+}
 PAPER_DATASET_LOADERS <- list(
   metacomnet = load_metacomnet,
   cluster_detection = load_cluster_detection,
@@ -1102,7 +2243,40 @@ PAPER_DATASET_LOADERS <- list(
   teles_decapod_biodiversity_brazil = load_teles_decapod_biodiversity_brazil,
   spruce_bark_beetle = load_spruce_bark_beetle,
   florida_crash_gsvcm = load_florida_crash_gsvcm,
-  possum_body_size = load_possum_body_size
+  possum_body_size = load_possum_body_size,
+  coral_bathypathes = load_coral_bathypathes,
+  coral_corallium = load_coral_corallium,
+  coral_enallopsammia = load_coral_enallopsammia,
+  coral_errina = load_coral_errina,
+  coral_goniocorella = load_coral_goniocorella,
+  coral_isididae = load_coral_isididae,
+  coral_leiopathes = load_coral_leiopathes,
+  coral_madrepora = load_coral_madrepora,
+  coral_paragorgia = load_coral_paragorgia,
+  coral_primnoa = load_coral_primnoa,
+  coral_solenosmilia = load_coral_solenosmilia,
+  coral_stylaster = load_coral_stylaster,
+  early_season_biomass = load_early_season_biomass,
+  influenza_mortality_chicago = load_influenza_mortality_chicago,
+  plant_invasion_fia = load_plant_invasion_fia,
+  maine_baseflow = load_maine_baseflow,
+  midwest_crop_yield = load_midwest_crop_yield,
+  network_misspecification_elections = load_network_misspecification_elections,
+  ethiopia_bushcrow_sdm = load_ethiopia_bushcrow_sdm,
+  ethiopia_whitetailed_swallow_sdm = load_ethiopia_whitetailed_swallow_sdm,
+  desert_tortoise_genotype_niche = load_desert_tortoise_genotype_niche,
+  trillium_presence_background = load_trillium_presence_background,
+  trillium_proportional_occupancy = load_trillium_proportional_occupancy,
+  wildfire_bootleg_severity = load_wildfire_bootleg_severity,
+  wildfire_schneider_springs_severity = load_wildfire_schneider_springs_severity,
+  amphibian_malformation_prevalence = load_amphibian_malformation_prevalence,
+  hyena_lion_biomass_africa = load_hyena_lion_biomass_africa,
+  bumblebee_colony_reproduction = load_bumblebee_colony_reproduction,
+  rocky_mountain_tree_growth = load_rocky_mountain_tree_growth,
+  harbour_porpoise_response = load_harbour_porpoise_response,
+  amazon_tree_dominance = load_amazon_tree_dominance,
+  joshua_tree_flowering = load_joshua_tree_flowering,
+  wildfire_greenup_nbr5 = load_wildfire_greenup_nbr5
 )
 
 convert_paper_dataset <- function(record_id, verbose = TRUE) {
@@ -1140,5 +2314,3 @@ convert_all_registered <- function(verbose = TRUE) {
 if (sys.nframe() == 0) {
   convert_all_registered()
 }
-
-

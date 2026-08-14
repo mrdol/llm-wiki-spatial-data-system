@@ -1,8 +1,8 @@
 ---
 title: paper_cluster_detection
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_cluster_detection.rds
   - DataCite_2016_ClusterDetectionOfSpatial_10_1002_sim_7172
@@ -70,14 +70,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
 
 ### Formule - niveau systeme
 
 - formula_used: y_response_simulated ~ x_covariate_simulated
 - x_terms_used: x_covariate_simulated
 - y_term_used: y_response_simulated
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
 
 ### Formules candidates
 

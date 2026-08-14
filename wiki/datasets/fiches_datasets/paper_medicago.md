@@ -1,8 +1,8 @@
 ---
 title: paper_medicago
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_medicago.rds
   - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
@@ -95,14 +95,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
 
 ### Formule - niveau systeme
 
 - formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ... (12 covariables au total, voir Candidate X variables)
 - x_terms_used: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
 - y_term_used: richness
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
 
 ### Formules candidates
 

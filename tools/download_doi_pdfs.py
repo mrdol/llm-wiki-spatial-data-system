@@ -12,6 +12,7 @@ import csv
 import re
 import time
 from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 
@@ -53,7 +54,22 @@ UA = {
         "Chrome/126.0 Safari/537.36"
     ),
     "Accept": "application/pdf,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    # En-tetes supplementaires realistes -- plusieurs pare-feux anti-bot
+    # (Wiley/Cloudflare, Royal Society) laissent passer une requete qui
+    # ressemble a une navigation normale (Referer depuis la page resolue du
+    # DOI, Accept-Language, Sec-Fetch-*) mais bloquent un GET nu sans Referer.
+    "Accept-Language": "en-US,en;q=0.9,fr;q=0.8",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "same-origin",
+    "Upgrade-Insecure-Requests": "1",
 }
+
+MAX_RETRIES = 2
+RETRY_BACKOFF_SECONDS = 2.0
+
+PDF_HREF_RE = re.compile(r'href="([^"]*\.pdf[^"]*)"', re.IGNORECASE)
+META_REFRESH_RE = re.compile(r'<meta[^>]+http-equiv=["\']refresh["\'][^>]+content=["\'][^;]*;\s*url=([^"\']+)', re.IGNORECASE)
 
 
 def clean_filename(doi: str) -> str:
@@ -96,13 +112,55 @@ def unpaywall_candidates(session: requests.Session, doi: str) -> tuple[list[str]
                 pmc = re.search(r"pmc/articles/(?:PMC)?(\d+)", value, re.IGNORECASE)
                 if pmc:
                     pmcid = pmc.group(1)
+                    # oa.fcgi = API officielle NCBI pour le bulk-download OA,
+                    # ne subit pas le blocage anti-bot des pages HTML
+                    # pmc.ncbi.nlm.nih.gov (403 frequent sur GET nu).
                     for derived in (
+                        f"https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC{pmcid}",
                         f"https://pmc.ncbi.nlm.nih.gov/articles/PMC{pmcid}/pdf/",
                         f"https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC{pmcid}&blobtype=pdf",
                     ):
                         if derived not in candidates:
                             candidates.insert(0, derived)
     return candidates, "" if candidates else "Unpaywall OA mais sans URL exploitable"
+
+
+def resolve_referer(session: requests.Session, doi: str) -> str:
+    """Resout le DOI vers sa page d'accueil finale, utilisee comme Referer.
+
+    Plusieurs pare-feux anti-bot (Wiley/Cloudflare, Royal Society) laissent
+    passer une requete PDF qui arrive avec un Referer coherent (page article
+    deja visitee) mais bloquent un GET direct sans Referer.
+    """
+    try:
+        response = session.get(f"https://doi.org/{doi}", timeout=30, allow_redirects=True)
+        return response.url
+    except requests.RequestException:
+        return ""
+
+
+def extract_pdf_link_from_html(html: str, base_url: str) -> str:
+    """Cherche un lien PDF ou une redirection meta-refresh dans une page HTML.
+
+    Utile quand l'URL Unpaywall renvoie une page d'atterrissage (200
+    text/html) au lieu du PDF direct (ex. springeropen.com/counter/pdf/...,
+    resolveurs institutionnels).
+    """
+    match = META_REFRESH_RE.search(html)
+    if match:
+        return urljoin(base_url, match.group(1).strip())
+    match = PDF_HREF_RE.search(html)
+    if match:
+        return urljoin(base_url, match.group(1))
+    return ""
+
+
+def oa_fcgi_pdf_link(xml_text: str) -> str:
+    """Extrait le lien href du premier <link format="pdf"> dans la reponse oa.fcgi."""
+    match = re.search(r'<link[^>]+format="pdf"[^>]+href="([^"]+)"', xml_text, re.IGNORECASE)
+    if match:
+        return match.group(1).replace("ftp://", "https://")
+    return ""
 
 
 def download_one(session: requests.Session, doi: str) -> dict[str, str]:
@@ -117,25 +175,65 @@ def download_one(session: requests.Session, doi: str) -> dict[str, str]:
     if not urls:
         return {**base, "status": "no_oa_url", "note": note}
 
+    # Referer coherent (page article deja "visitee") -- plusieurs pare-feux
+    # anti-bot (Wiley/Cloudflare, Royal Society) bloquent un GET nu sans lui,
+    # meme sur une URL techniquement open access.
+    referer = resolve_referer(session, doi)
+    extra_headers = {"Referer": referer} if referer else {}
+
     attempts = []
-    for url in urls:
-        try:
-            response = session.get(url, timeout=90, allow_redirects=True)
-            content_type = response.headers.get("content-type", "")
-            attempts.append(f"{response.status_code} {content_type} {url}")
-            if response.status_code == 200 and looks_like_pdf(response.content, content_type):
-                destination.write_bytes(response.content)
-                return {
-                    **base,
-                    "status": "downloaded",
-                    "local_path": str(destination.relative_to(ROOT)),
-                    "source_url": response.url,
-                    "http_status": str(response.status_code),
-                    "content_type": content_type,
-                    "note": "",
-                }
-        except requests.RequestException as exc:
-            attempts.append(f"ERROR {type(exc).__name__}: {url}")
+    seen_urls: set[str] = set()
+    queue = list(urls)
+    while queue:
+        url = queue.pop(0)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+
+        response = None
+        for attempt_n in range(1, MAX_RETRIES + 1):
+            try:
+                response = session.get(url, timeout=90, allow_redirects=True, headers=extra_headers)
+                break
+            except requests.RequestException as exc:
+                attempts.append(f"ERROR {type(exc).__name__} (essai {attempt_n}/{MAX_RETRIES}): {url}")
+                if attempt_n < MAX_RETRIES:
+                    time.sleep(RETRY_BACKOFF_SECONDS)
+        if response is None:
+            continue
+
+        content_type = response.headers.get("content-type", "")
+        attempts.append(f"{response.status_code} {content_type} {url}")
+        if response.status_code != 200:
+            continue
+
+        if looks_like_pdf(response.content, content_type):
+            destination.write_bytes(response.content)
+            return {
+                **base,
+                "status": "downloaded",
+                "local_path": str(destination.relative_to(ROOT)),
+                "source_url": response.url,
+                "http_status": str(response.status_code),
+                "content_type": content_type,
+                "note": "",
+            }
+
+        # oa.fcgi (API NCBI) repond en XML avec le vrai lien PDF/tarball.
+        if "oa.fcgi" in url and "xml" in content_type.lower():
+            derived = oa_fcgi_pdf_link(response.text)
+            if derived and derived not in seen_urls:
+                queue.insert(0, derived)
+                attempts.append(f"oa.fcgi -> {derived}")
+            continue
+
+        # Page d'atterrissage HTML au lieu du PDF direct : cherche un lien
+        # PDF ou une redirection meta-refresh dans la page.
+        if "html" in content_type.lower():
+            derived = extract_pdf_link_from_html(response.text, response.url)
+            if derived and derived not in seen_urls:
+                queue.insert(0, derived)
+                attempts.append(f"lien PDF trouve dans HTML -> {derived}")
 
     return {
         **base,

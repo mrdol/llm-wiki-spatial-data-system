@@ -15,14 +15,74 @@ comme un "dataset", independamment de l'existence d'une vraie microdonnee).
 
 from __future__ import annotations
 
+import os
 import re
 import urllib.parse
+from pathlib import Path
 from typing import Any
 
 import requests
 
 
 UA = {"User-Agent": "llm-wiki-spatial-data-system/0.1 (johnny.d-oliveira@inrae.fr)"}
+ROOT = Path(__file__).resolve().parent.parent
+_DRYAD_TOKEN_CACHE: str | None = None
+
+
+def load_local_env() -> None:
+    """Load local .env files without overriding the process environment."""
+    for env_name in (".env", "2.env"):
+        env_path = ROOT / env_name
+        if not env_path.exists():
+            continue
+        for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+def dryad_access_token() -> str | None:
+    """Return a Dryad bearer token, using either a provided token or OAuth."""
+    global _DRYAD_TOKEN_CACHE
+    load_local_env()
+    token = os.environ.get("DRYAD_ACCESS_TOKEN") or os.environ.get("DRYAD_API_TOKEN")
+    if token:
+        return token
+    if _DRYAD_TOKEN_CACHE:
+        return _DRYAD_TOKEN_CACHE
+
+    client_id = os.environ.get("DRYAD_CLIENT_ID")
+    client_secret = os.environ.get("DRYAD_CLIENT_SECRET")
+    if not client_id or not client_secret:
+        return None
+
+    resp = requests.post(
+        "https://datadryad.org/oauth/token",
+        data={
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "grant_type": "client_credentials",
+        },
+        headers={"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8", **UA},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    _DRYAD_TOKEN_CACHE = resp.json().get("access_token")
+    return _DRYAD_TOKEN_CACHE
+
+
+def request_headers(repo: str | None = None) -> dict[str, str]:
+    headers = dict(UA)
+    if repo == "dryad":
+        token = dryad_access_token()
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+    return headers
 
 # Fichiers qui sont presque toujours des figures/tableaux d'article republies
 # comme "dataset" (obligation de data availability des revues), pas une
@@ -227,12 +287,13 @@ def pangaea_files(dataset_doi: str) -> list[dict[str, Any]]:
 
 def dryad_files(dataset_doi: str) -> list[dict[str, Any]]:
     enc = urllib.parse.quote(f"doi:{dataset_doi}", safe="")
-    r = requests.get(f"https://datadryad.org/api/v2/datasets/{enc}", timeout=30, headers=UA)
+    headers = request_headers("dryad")
+    r = requests.get(f"https://datadryad.org/api/v2/datasets/{enc}", timeout=30, headers=headers)
     r.raise_for_status()
     ver_link = r.json().get("_links", {}).get("stash:version", {}).get("href")
     if not ver_link:
         return []
-    r2 = requests.get(f"https://datadryad.org{ver_link}/files", timeout=30, headers=UA)
+    r2 = requests.get(f"https://datadryad.org{ver_link}/files", timeout=30, headers=headers)
     r2.raise_for_status()
     out = []
     for f in r2.json().get("_embedded", {}).get("stash:files", []):

@@ -61,6 +61,12 @@ CONFIRMED_DISCARD = {
     "R_GWmodel_LondonBorough_londonborough",
     "R_gstat_meuse.all_meuse.all",
     "R_spdep_oldcol_COL.OLD",
+    # Resolus le 2026-08-14 (reindexation des 26 orphelins) :
+    "R_GWmodel_Georgia_Gedu.df",   # meme dataset GWR Georgia que Python_libpysal_georgia (deja fiche, k=16 vs k=13)
+    "R_spgwr_georgia_gSRDF",       # idem, meme dataset (k=14 vs k=16 pour la version deja retenue)
+    "R_spData_boston_boston.c",    # meme Boston housing que Python_geodatasets_spdata.boston (deja fiche, k=38 vs k=22)
+    "R_gstat_jura_jura.grid",      # grille de prediction (5957 pts, Landuse/Rock seulement, aucun metal mesure) -- meme categorie que jura.pred/prediction.dat/validation.dat deja ecartes
+    "R_gstat_jura_juragrid.dat",   # idem jura.grid, coordonnees en unites locales au lieu de long/lat
 }
 
 DATASET_NOTES = {
@@ -90,6 +96,15 @@ GENERATED_FORMULA_OVERRIDES = {
         "y_term_used": "yield",
     }
 }
+
+LASROSAS_CANONICAL_ID = "R_agridat_lasrosas.corn_lasrosas.corn"
+LASROSAS_PAPER_FORMULA = "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo"
+LASROSAS_PACKAGE_FORMULA = "yield ~ nitro + bv"
+LASROSAS_SOURCE_REF = (
+    "Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and "
+    "Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); "
+    "Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783)."
+)
 
 ADE4_NOTE = (
     "> **ade4** - Donnees ecologiques multivariees. La variable reponse Y et la formule "
@@ -519,6 +534,15 @@ def infer_package_benchmark_readiness(
             "missing_items": missing,
             "reason": reason,
         }
+
+    if did == LASROSAS_CANONICAL_ID:
+        return result(
+            "ready",
+            "regression_spatial_validated_paper_and_package_formulas",
+            "yes",
+            "aucun blocage automatique detecte; formule papier complete et formule benchmark package documentees",
+            "Dataset Las Rosas reconcilie: agridat::lasrosas.corn est la fiche canonique, Python_geodatasets_geoda.lasrosas est un alias, et les formules papier/package sont conservees comme roles distincts.",
+        )
 
     if package_l == "ade4":
         return result(
@@ -1084,6 +1108,12 @@ def make_fiche(
         related_lines.append(f"- Duplicate/version candidate: [[{page}]]")
     related_block = "\n".join(related_lines)
 
+    if did == LASROSAS_CANONICAL_ID:
+        pub_formula = LASROSAS_PAPER_FORMULA
+        pub_x_terms = "nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo"
+        pub_y_term = "yield"
+        pub_ref = LASROSAS_SOURCE_REF
+
     if pub_formula != "pending":
         used_formula = pub_formula
         used_x_terms = pub_x_terms
@@ -1130,6 +1160,38 @@ def make_fiche(
         source_type=modeling_source_type,
         source_ref=modeling_source_ref,
     )
+    if did == LASROSAS_CANONICAL_ID:
+        formula_candidates_block = "\n".join([
+            "```yaml",
+            "formula_candidates:",
+            "  univariate:",
+            formula_candidate_entry(role="simple_baseline"),
+            "",
+            "  multivariate_constrained:",
+            formula_candidate_entry(
+                formula=LASROSAS_PAPER_FORMULA,
+                response="yield",
+                predictors=["nitro", "I(nitro^2)", "topo", "nitro:topo", "I(nitro^2):topo"],
+                role="paper_main_specification",
+                source_type="scientific_publication",
+                source_ref=LASROSAS_SOURCE_REF,
+                estimator_context=["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"],
+                status="confirmed",
+            ),
+            "",
+            "  ml_or_selected:",
+            formula_candidate_entry(
+                formula=LASROSAS_PACKAGE_FORMULA,
+                response="yield",
+                predictors=["nitro", "bv"],
+                role="package_benchmark_default",
+                source_type="project_curated",
+                source_ref="agridat::lasrosas.corn documentation / current spatialtidymodels benchmark",
+                estimator_context=["random_forest", "xgboost", "gamboost", "spboost", "mgwrsar_gwr"],
+                status="confirmed_executable",
+            ),
+            "```",
+        ])
     benchmark_readiness = infer_package_benchmark_readiness(
         did=did,
         package=package,
@@ -1146,6 +1208,9 @@ def make_fiche(
         geom_type=geom_type,
     )
     benchmark_readiness_block = render_benchmark_readiness_block(benchmark_readiness)
+    alias_line = ""
+    if did == LASROSAS_CANONICAL_ID:
+        alias_line = "- Dataset aliases: `lasrosas`, `lasrosas.corn`, `Python_geodatasets_geoda.lasrosas`, `python_geodatasets_geoda_lasrosas`\n"
 
     return f"""\
 ---
@@ -1224,7 +1289,7 @@ tags: {tags}
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `{did}`
-- Dataset name: {package}::{dataset}
+{alias_line}- Dataset name: {package}::{dataset}
 - Source family: {source_family}
 - Source: {source_label_versioned}
 - Source URL: {source_url}

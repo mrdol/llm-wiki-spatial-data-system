@@ -1,8 +1,8 @@
 ---
 title: paper_uk_photovoltaic
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_uk_photovoltaic.rds
   - DataCite_2015_RegionalDistributionOfPhotovoltaic_10_1016_j_eneco_
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Regional d
 | `n_installations` | `numeric` | continuous | [2, 8586] | 0% |
 | `total_capacity_kw` | `numeric` | continuous | [4.2, 28145.06] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `uk_photovoltaic`, la ou les reponses `n_installations`, `total_capacity_kw` viennent du loader papier et/ou des preuves de l article `Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach`. Les covariables X retenues sont aucune covariable explicative locale ; cependant le papier documente les covariables publiees `Lnypc`, `Density`, `Detached`, `Ownedshare`, `Lnelectricity`, `QL2`, `Avehousehold`, `Irradiation`, `CO2`, non presentes dans le .rds actuel. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`LAD13CD`, `LAD13NM`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_covariate_join_and_nuts3_reconciliation ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `uk_photovoltaic`, la ou les reponses `n_installations`, `total_capacity_kw` viennent du loader papier et/ou des preuves de l article `Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach`. Les covariables X retenues sont aucune covariable explicative locale ; cependant le papier documente les covariables publiees `Lnypc`, `Density`, `Detached`, `Ownedshare`, `Lnelectricity`, `QL2`, `Avehousehold`, `Irradiation`, `CO2`, non presentes dans le .rds actuel. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`LAD13CD`, `LAD13NM`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_covariate_join ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -71,14 +71,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Regional d
 - Niveau de preuve: publication
 - Methode d estimation: modele/formule publication confirme, non executable avec le .rds actuel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Balta-Ozkan, Yildirim & Connor (2015), Energy Economics, DOI 10.1016/j.eneco.2015.08.003: Section 5.2 lists explanatory variables and sources; Section 5.3 gives the spatial econometric specification; Table 8 reports OLS spatial-dependence tests; Table 9 reports SDM/SAR/SEM/GS-2SLS estimates using Lnypc, Density, Detached, Ownedshare, Lnelectricity, QL2, Avehousehold, Irradiation and CO2. Current local .rds has LAD-level PV aggregates only, so the NUTS3 covariate matrix from the paper still has to be reconstructed before formula_used can be executable.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Balta-Ozkan, Yildirim & Connor (2015), Energy Economics, DOI 10.1016/j.eneco.2015.08.003: Section 5.2 lists explanatory variables and sources; Section 5.3 gives the spatial econometric specification; Table 8 reports OLS spatial-dependence tests; Table 9 reports SDM/SAR/SEM/GS-2SLS estimates using Lnypc, Density, Detached, Ownedshare, Lnelectricity, QL2, Avehousehold, Irradiation and CO2. Current local .rds has LAD-level PV aggregates only, so the NUTS3 covariate matrix from the paper still has to be reconstructed before formula_used can be executable.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Balta-Ozkan, Yildirim & Connor (2015), Energy Economics, DOI 10.1016/j.eneco.2015.08.003: Section 5.2 lists explanatory variables and sources; Section 5.3 gives the spatial econometric specification; Table 8 reports OLS spatial-dependence tests; Table 9 reports SDM/SAR/SEM/GS-2SLS estimates using Lnypc, Density, Detached, Ownedshare, Lnelectricity, QL2, Avehousehold, Irradiation and CO2. Current local .rds has LAD-level PV aggregates only, so the NUTS3 covariate matrix from the paper still has to be reconstructed before formula_used can be executable.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Balta-Ozkan, Yildirim & Connor (2015), Energy Economics, DOI 10.1016/j.eneco.2015.08.003: Section 5.2 lists explanatory variables and sources; Section 5.3 gives the spatial econometric specification; Table 8 reports OLS spatial-dependence tests; Table 9 reports SDM/SAR/SEM/GS-2SLS estimates using Lnypc, Density, Detached, Ownedshare, Lnelectricity, QL2, Avehousehold, Irradiation and CO2. Current local .rds has LAD-level PV aggregates only, so the NUTS3 covariate matrix from the paper still has to be reconstructed before formula_used can be executable.
 
 ### Formules candidates
 
@@ -148,23 +148,23 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "needs_covariate_join_and_nuts3_reconciliation"
+  benchmark_status: "needs_covariate_join"
   benchmark_task: "regression_spatial_econometrics"
   package_include: "no"
   has_local_rds: true
-  missing_items: "reconcilier les NUTS3 du papier avec le LAD extrait, joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3"
-  reason: "Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux."
+  missing_items: "reconcilier les NUTS3 du papier avec le LAD extrait (0 covariable locale actuellement, formula_used=pending), joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3"
+  reason: "Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux (0 covariable explicative, non executable) -- statut normalise depuis needs_covariate_join_and_nuts3_reconciliation (2026-08-12)."
 ```
 
-- Decision: needs_covariate_join_and_nuts3_reconciliation
-- Manque principal: reconcilier les NUTS3 du papier avec le LAD extrait, joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3
-- Raison: Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux.
+- Decision: needs_covariate_join
+- Manque principal: reconcilier les NUTS3 du papier avec le LAD extrait (0 covariable locale actuellement, formula_used=pending), joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3
+- Raison: Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux (0 covariable explicative, non executable) -- statut normalise depuis needs_covariate_join_and_nuts3_reconciliation (2026-08-12).
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "needs_covariate_join_and_nuts3_reconciliation"
+  status: "needs_covariate_join"
   eligible_estimators: []
   conditionally_eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   ineligible_reason: "paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table"

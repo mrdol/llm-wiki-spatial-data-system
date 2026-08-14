@@ -122,7 +122,61 @@ benchmark_dataset_registry <- function() {
   )) {
     if (!field %in% names(out)) out[[field]] <- NA_character_
   }
+  for (field in c(
+    "formula_pub", "formula_used", "formula_default_role",
+    "formula_paper_main_specification", "formula_ml_or_selected"
+  )) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
+  if (!"formula_roles" %in% names(out)) {
+    out$formula_roles <- I(rep(list("default"), nrow(out)))
+  }
   out
+}
+
+first_available_formula <- function(...) {
+  values <- list(...)
+  for (value in values) {
+    if (!is.null(value) && length(value) > 0L && !is.na(value[[1L]]) && nzchar(value[[1L]]) && !identical(value[[1L]], "pending")) {
+      return(value[[1L]])
+    }
+  }
+  NA_character_
+}
+
+select_benchmark_dataset_formula <- function(spec, formula_role = "default") {
+  role <- formula_role %||% "default"
+  if (length(role) != 1L || is.na(role) || !nzchar(role)) role <- "default"
+  value <- switch(role,
+    default = spec$formula[[1]],
+    package_default = spec$formula[[1]],
+    paper_main_specification = first_available_formula(spec$formula_paper_main_specification[[1]], spec$formula_pub[[1]]),
+    multivariate_constrained = first_available_formula(spec$formula_paper_main_specification[[1]], spec$formula_pub[[1]]),
+    ml_or_selected = first_available_formula(spec$formula_ml_or_selected[[1]], spec$formula[[1]]),
+    stop(
+      sprintf(
+        "Unknown formula_role for dataset %s: %s",
+        spec$dataset[[1]], role
+      ),
+      call. = FALSE
+    )
+  )
+  if (is.null(value) || is.na(value) || !nzchar(value) || identical(value, "pending")) {
+    stop(
+      sprintf(
+        "Formula role '%s' is not available for dataset %s.",
+        role, spec$dataset[[1]]
+      ),
+      call. = FALSE
+    )
+  }
+  vars <- all.vars(stats::as.formula(value))
+  list(
+    role = role,
+    formula = value,
+    response = vars[[1L]],
+    predictors = vars[-1L]
+  )
 }
 
 find_benchmark_repo_root <- function(start = getwd()) {
@@ -209,7 +263,7 @@ get_benchmark_dataset_spec <- function(dataset) {
   registry[registry$dataset == dataset, , drop = FALSE]
 }
 
-load_benchmark_dataset <- function(dataset, data_dir = NULL) {
+load_benchmark_dataset <- function(dataset, data_dir = NULL, formula_role = "default") {
   # Charge le .rds, conserve uniquement Y/X/coords, puis applique complete.cases
   # sur les colonnes utiles au modele.
   spec <- get_benchmark_dataset_spec(dataset)
@@ -221,9 +275,10 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
     path <- resolve_benchmark_data_path(spec$rds[[1]], data_dir = data_dir)
     dat <- as.data.frame(readRDS(path))
   }
-  predictors <- unlist(spec$predictors[[1]], use.names = FALSE)
+  selected_formula <- select_benchmark_dataset_formula(spec, formula_role = formula_role)
+  predictors <- selected_formula$predictors
   coords <- unlist(spec$coords[[1]], use.names = FALSE)
-  needed <- unique(c(spec$response[[1]], predictors, coords))
+  needed <- unique(c(selected_formula$response, predictors, coords))
   missing <- setdiff(needed, names(dat))
   if (length(missing) > 0L) {
     stop(sprintf("Colonnes absentes du dataset %s: %s", dataset, paste(missing, collapse = ", ")), call. = FALSE)
@@ -232,7 +287,8 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL) {
   dat <- dat[stats::complete.cases(dat[, needed, drop = FALSE]), , drop = FALSE]
   list(
     data = dat,
-    formula = stats::as.formula(spec$formula[[1]]),
+    formula = stats::as.formula(selected_formula$formula),
+    formula_role = selected_formula$role,
     coords = coords,
     spec = spec,
     path = path
@@ -283,6 +339,11 @@ recommended_benchmark_tuning_grids <- function(dataset, estimators, data) {
 #'   prepared `.rds` files.
 #' @param use_recommended_grids If `TRUE`, fill missing tuning grids from the
 #'   dataset registry for complex estimators such as native mixed MGWRSAR.
+#' @param formula_role Formula role to use when the dataset exposes several
+#'   candidate formulas. Use `"default"` or `"package_default"` for the
+#'   package benchmark formula, `"paper_main_specification"` or
+#'   `"multivariate_constrained"` for the main published formula, and
+#'   `"ml_or_selected"` for the ML-oriented candidate when available.
 #' @param ... Arguments passed to `benchmark_spatial()`, such as
 #'   `cv_scheme = "near_prediction"`, `tune = TRUE`, or `tuning_grids = ...`.
 #'
@@ -292,8 +353,9 @@ benchmark_spatial_dataset <- function(dataset,
                                       estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                                       data_dir = NULL,
                                       use_recommended_grids = TRUE,
+                                      formula_role = "default",
                                       ...) {
-  loaded <- load_benchmark_dataset(dataset, data_dir = data_dir)
+  loaded <- load_benchmark_dataset(dataset, data_dir = data_dir, formula_role = formula_role)
   dots <- list(...)
   if (isTRUE(dots$tune %||% FALSE) && isTRUE(use_recommended_grids)) {
     recommended <- recommended_benchmark_tuning_grids(dataset, estimators, loaded$data)
@@ -315,6 +377,7 @@ benchmark_spatial_dataset <- function(dataset,
   )
   bench$dataset <- dataset
   bench$dataset_spec <- loaded$spec
+  bench$formula_role <- loaded$formula_role
   bench$data_path <- loaded$path
   bench
 }
@@ -329,9 +392,10 @@ benchmark_spatial_dataset <- function(dataset,
 benchmark_spatial_registered_datasets <- function(datasets,
                                                   estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                                                   data_dir = NULL,
+                                                  formula_role = "default",
                                                   ...) {
   specs <- lapply(datasets, function(dataset) {
-    loaded <- load_benchmark_dataset(dataset, data_dir = data_dir)
+    loaded <- load_benchmark_dataset(dataset, data_dir = data_dir, formula_role = formula_role)
     spatial_dataset_spec(dataset, loaded$data, loaded$formula, loaded$coords)
   })
   names(specs) <- datasets

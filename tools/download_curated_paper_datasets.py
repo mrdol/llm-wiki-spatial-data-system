@@ -23,12 +23,13 @@ import csv
 import json
 import re
 import sys
+import time
 from pathlib import Path
 from typing import Any
 
 import requests
 
-from dataset_manifest_check import UA, classify_file_manifest, list_files, repo_from_url
+from dataset_manifest_check import classify_file_manifest, list_files, repo_from_url, request_headers
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -71,6 +72,8 @@ def download_record(
     max_size_mb: float,
     dry_run: bool,
     file_pattern: str | None = None,
+    sleep_sec: float = 0,
+    retry_429_sec: float = 0,
 ) -> dict[str, Any]:
     dataset_doi = record.get("dataset_doi") or ""
     url = record.get("data_access_url") or ""
@@ -134,7 +137,17 @@ def download_record(
             downloaded += 1
             continue
         try:
-            resp = requests.get(f["url"], timeout=180, headers=UA, allow_redirects=True)
+            if sleep_sec > 0:
+                time.sleep(sleep_sec)
+            resp = requests.get(f["url"], timeout=180, headers=request_headers(repo), allow_redirects=True)
+            if resp.status_code == 429 and retry_429_sec > 0:
+                retry_after = resp.headers.get("Retry-After")
+                wait_sec = retry_429_sec
+                if retry_after and retry_after.isdigit():
+                    wait_sec = max(wait_sec, float(retry_after))
+                print(f"      429 Dryad: attente {wait_sec:.0f}s avant nouvel essai pour {f['name']}", flush=True)
+                time.sleep(wait_sec)
+                resp = requests.get(f["url"], timeout=180, headers=request_headers(repo), allow_redirects=True)
             resp.raise_for_status()
             dest.write_bytes(resp.content)
             downloaded += 1
@@ -167,6 +180,8 @@ def main() -> None:
         default=None,
         help="Regex : ne telecharger que les fichiers dont le nom matche (utile pour un sous-ensemble d'un dataset volumineux, ex. '^annual-dat').",
     )
+    parser.add_argument("--sleep-sec", type=float, default=0, help="Pause entre deux telechargements de fichiers.")
+    parser.add_argument("--retry-429-sec", type=float, default=0, help="Attente avant un unique nouvel essai apres HTTP 429.")
     args = parser.parse_args()
 
     records = load_records()
@@ -183,12 +198,19 @@ def main() -> None:
     rows = []
     for index, record in enumerate(candidates, start=1):
         print(f"[{index}/{len(candidates)}] {record.get('paper_doi')} -> {record.get('dataset_doi')}", flush=True)
-        row = download_record(record, args.max_size_mb, dry_run=args.list_only, file_pattern=args.file_pattern)
+        row = download_record(
+            record,
+            args.max_size_mb,
+            dry_run=args.list_only,
+            file_pattern=args.file_pattern,
+            sleep_sec=args.sleep_sec,
+            retry_429_sec=args.retry_429_sec,
+        )
         print(f"    {row['status']}  {row.get('total_size_mb','?')} Mo  {row.get('n_files','?')} fichiers  {row.get('note','')}")
         rows.append(row)
         record["dataset_download_status"] = row.get("status", "")
         record["dataset_download_note"] = row.get("note", "")
-        if row.get("target_dir"):
+        if row.get("target_dir") and row["status"] in {"downloaded", "partial"}:
             record["local_raw_dir"] = row.get("target_dir", "")
         if row["status"] == "downloaded":
             record["ingestion_status"] = "raw_data_downloaded"

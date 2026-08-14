@@ -1,356 +1,238 @@
-﻿---
+---
 title: Pipeline d'ingestion des jeux de donnees issus de papiers
 type: metadata
 created: 2026-08-06
-updated: 2026-08-09
+updated: 2026-08-12
 sources: []
 tags: [metadata, pipeline, kg, papers, ingestion]
 ---
 
 # Pipeline d'ingestion des jeux de donnees issus de papiers
 
-Date : 2026-08-06
+Date : 2026-08-12 (actualise -- version precedente obsolete, numerotation
+divergente de celle reellement suivie en session)
 
-Ce document decrit le cheminement a suivre lorsqu'un papier scientifique, une source DataCite, Zenodo, Figshare, Dryad, Dataverse, GitHub ou une autre source externe pointe vers un jeu de donnees potentiellement exploitable pour le projet `llm-wiki-spatial-data-system`.
+Ce document decrit le cheminement reellement suivi, en 14 phases, lorsqu'un
+lot de candidats papier-dataset (typiquement issu d'une moisson DataCite) est
+transforme en fiches wiki benchmarkables. Il fait foi sur la numerotation :
+toute divergence avec un autre document doit etre corrigee au profit de
+celui-ci.
 
-L'objectif n'est pas de creer directement une fiche dataset definitive. L'objectif est de faire passer chaque candidat par un sas de verification : bibliographie, PDF, TEI, KG, audit, curation, telechargement, preprocessing, fiche wiki, puis metadata package.
-
-## Vue d'ensemble
+## Vue d'ensemble (14 phases)
 
 ```text
-Recherche bibliographique / DataCite harvest
-  -> candidats papier-dataset
-  -> validation bibliographique
-  -> PDF local legal/open access
-  -> GROBID TEI
-  -> parse TEI + lecture dirigee
-  -> audit model evidence
-  -> candidats KG
-  -> rapport de revue
-  -> curation humaine
-  -> telechargement dataset
-  -> preprocessing + conversion sf
-  -> fiche dataset complete
-  -> export metadata package
-  -> spatialtidymodels
+Phase 1  - Consulter la moisson DataCite / le manifeste de candidats
+Phase 2  - Telecharger automatiquement les PDF
+Phase 3  - Recuperer manuellement les PDF non accessibles automatiquement
+Phase 4  - Telecharger les datasets valides
+Phase 5  - Produire le BibTeX depuis PDF (Biblio_from_pdf)
+Phase 6  - Fusionner les references dans corpus/bib/references.bib
+Phase 7  - Convertir les PDF en TEI (GROBID)
+Phase 8  - Reconstruire le knowledge graph (KG)
+Phase 9  - Explorer les preuves extraites du KG
+Phase 10 - Generer le rapport d'audit des candidats
+Phase 11 - Construire le manifeste de curation
+Phase 12 - Ecrire/completer les loaders R (conversion sf)
+Phase 13 - Generer les fiches dataset
+Phase 13bis - Verifier chaque fiche contre le papier source (OBLIGATOIRE)
+Phase 14 - Controler la promotion package et exporter les metadata
 ```
 
-## Phase 1 - Rechercher des papiers et datasets candidats
+## Phase 1 - Consulter la moisson DataCite / le manifeste de candidats
 
-But : trouver des papiers qui utilisent ou publient des jeux de donnees spatiaux exploitables.
+But : partir d'un lot de candidats deja identifies (recherche DataCite ou
+autre source) plutot que de relancer une recherche bibliographique a
+l'aveugle.
 
 Scripts et fichiers responsables :
 
-- `tools/search_bib.md` : prompt de recherche bibliographique ciblee.
-- `code/pipeline_lit/search_bib_candidates.py` : recherche bibliographique assistee quand disponible.
 - `tools/harvest_datacite.R` : collecte DataCite de datasets candidats.
-- `tools/run_datacite_harvest_pipeline.py` : lance la collecte, la verification et l'application des corrections si le pipeline DataCite est utilise.
-- `tools/verify_datacite_candidates.py` : verification automatique/LLM des candidats DataCite.
-- `tools/apply_datacite_verification.R` : applique les decisions de verification aux sorties DataCite.
+- `tools/run_datacite_harvest_pipeline.py` : orchestre collecte + verification.
+- `tools/verify_datacite_candidates.py` : verification automatique/LLM des candidats.
+- `tools/apply_datacite_verification.R` : applique les decisions de verification.
 
 Sorties a consulter :
 
-- `gg/regression_article_search_*.md`
-- `gg/regression_article_search_*.csv`
-- `data/manifests/papers/datacite_spatial_dataset_candidates.csv`
 - `data/manifests/papers/datacite_spatial_dataset_candidates.json`
-- fichiers de verification manuelle dans `data/manifests/papers/`
+- `data/manifests/papers/datacite_verification_report_2026-08.md`
+- `data/manifests/papers/datacite_verified_ingestion_manifest.json`
 
-Decision attendue :
+Decision attendue : garder/rejeter/verifier manuellement chaque candidat du lot.
 
-- garder comme candidat ;
-- rejeter ;
-- demander verification manuelle ;
-- chercher une meilleure source de donnees.
+## Phase 2 - Telecharger automatiquement les PDF
 
-## Phase 2 - Valider bibliographiquement les papiers
+But : recuperer les PDF open access via DOI avant toute intervention manuelle.
 
-But : separer les candidats bruts des papiers qu'on accepte de suivre dans le projet.
+Scripts responsables :
 
-Scripts et fichiers responsables :
-
-- `gg/regression_article.bib` : bibliographie de travail des articles relies a des datasets.
-- `gg/datacite_from_pdf_2026-08.bib` : bibliographie produite depuis PDF, si `Biblio_from_pdf` est utilise.
-- `tools/stage_biblio_from_pdf_datacite.py` : staging entre les PDF DataCite et le flux `Biblio_from_pdf`.
-- `tools/download_doi_pdfs.py` : tentative de recuperation des PDF open access a partir des DOI.
-- `code/package_metadata/download_regression_article_pdfs.py` : telechargement ou audit des PDF associes aux references de travail.
+- `tools/pdf_resolver.py` : route recommandee pour les nouveaux lots. Il
+  applique l'ordre `DOI -> PMC ID Converter -> NCBI S3 pmc-oa-opendata ->
+  Unpaywall/OpenAlex -> Playwright optionnel`, ignore les DOI marques
+  `rejected_user_excluded`, et ne sauvegarde un fichier que si ses octets
+  commencent par `%PDF-`.
+- `tools/download_doi_pdfs.py`
+- `code/package_metadata/download_regression_article_pdfs.py`
 
 Sorties a consulter :
 
-- `gg/regression_article.bib`
-- `gg/regression_article_pdf_download_manifest_2026-08.tsv`
-- `gg/regression_article_missing_pdf_download_manifest_2026-08.tsv`
+- `gg/doi_pdf_resolver_manifest_2026-08.tsv`
 - `gg/doi_pdf_download_manifest_2026-08.tsv`
+- `corpus/papers/raw_pdf/` (PDF recuperes)
 
-Decision attendue :
-
-- papier valide bibliographiquement ;
-- PDF local disponible ;
-- papier payant/non accessible, donc a rejeter ou a garder uniquement comme reference bibliographique ;
-- papier sans dataset exploitable, donc a rejeter du flux dataset.
-
-## Phase 3 - Promouvoir les papiers dans le corpus general
-
-But : faire entrer uniquement les papiers valides dans le corpus principal du KG.
-
-Scripts et fichiers responsables :
-
-- `corpus/bib/references.bib` : bibliographie generale du corpus.
-- `corpus/papers/raw_pdf/` : PDF locaux a traiter.
-- `tools/kg/01_extract_bib.py` : extrait les references BibTeX vers le KG.
-
-Sorties a consulter :
-
-- `.kg/extracted/bib_nodes.jsonl`
-- `.kg/extracted/bib_edges.jsonl`
-
-Commande typique :
+Commande recommandee pour un lot explicite, sans navigateur :
 
 ```powershell
-python tools/kg/01_extract_bib.py
+python tools/pdf_resolver.py --doi 10.xxxx/yyyy --doi 10.zzzz/wwww
 ```
 
-Decision attendue :
+Ajouter `--use-playwright` seulement apres echec des routes API/OA stables.
+Le fallback navigateur sait maintenant construire des routes editeur courantes
+(`doi.org`, Wiley `/doi/`, `/doi/epdf/`, `/doi/pdfdirect/`, Taylor & Francis
+`/doi/pdf/`, Royal Society `/doi/pdf/`) puis chercher des indices visibles
+comme `PDF`, `Download`, `href` contenant `pdf`, et verifier les reponses reseau
+ou evenements de telechargement. Il ne conserve le fichier que si les octets
+commencent par `%PDF-`.
 
-- le papier est present dans `references.bib` ;
-- le champ `file` pointe vers un PDF local ;
-- le papier peut passer a GROBID.
+Commande navigateur headless :
 
-## Phase 4 - Convertir les PDF en TEI avec GROBID
+```powershell
+python tools/pdf_resolver.py `
+  --doi 10.1111/ele.14478 `
+  --use-playwright `
+  --playwright-timeout 20 `
+  --max-browser-clicks 8
+```
 
-But : transformer les PDF en XML TEI afin que les scripts puissent lire les sections, tableaux, references, formules et mentions de datasets.
+Commande navigateur visible avec profil persistant, utile quand l'editeur laisse
+passer une session interactive mais bloque un navigateur automatise neuf :
 
-Scripts et fichiers responsables :
+```powershell
+python tools/pdf_resolver.py `
+  --doi 10.1111/ele.14478 `
+  --use-playwright `
+  --playwright-headed `
+  --browser-profile data/browser_profiles/wiley_oa `
+  --manual-browser-wait 90 `
+  --playwright-timeout 30
+```
+
+Le dossier `data/browser_profiles/` est local et ignore par Git, car il peut
+contenir des cookies de navigation. Si une page demande captcha, login ou acces
+institutionnel, la decision correcte est `MANUAL_ACTION_REQUIRED` /
+`CAPTCHA_OR_LOGIN_REQUIRED`, pas une tentative de contournement.
+
+Decision attendue : PDF local disponible, ou passage en Phase 3.
+
+## Phase 3 - Recuperer manuellement les PDF non accessibles automatiquement
+
+But : traiter les papiers payants ou non indexes correctement, dont le PDF a
+ete recupere a la main (portail editeur, acces institutionnel, etc.).
+
+Script responsable :
+
+- `tools/ingest_manual_downloads.py` : enregistre et rattache un PDF depose
+  manuellement au bon enregistrement du manifeste.
+
+Decision attendue : PDF present et rattache au bon DOI/bib_key, ou papier
+marque non accessible et exclu du flux dataset.
+
+## Phase 4 - Telecharger les datasets valides
+
+But : recuperer les donnees brutes (pas seulement le PDF) une fois le papier
+valide bibliographiquement.
+
+Dossier cible : `data/raw/papers/<bib_key>/` (zip, csv, shapefile, raster,
+README/data_dictionary tels que fournis par les auteurs).
+
+Decision attendue : donnees telechargees, lisibles, source identifiee ;
+`local_raw_dir` renseigne dans le KG (`inst/kg/paper_dataset_uses.json`).
+
+## Phase 5 - Produire le BibTeX depuis PDF (Biblio_from_pdf)
+
+But : generer une entree BibTeX propre pour chaque PDF retenu.
+
+Scripts responsables :
+
+- `Biblio_from_pdf/` (outil dedie, execution PDF -> `.bib`)
+- `tools/stage_biblio_from_pdf_datacite.py` : staging entre les PDF DataCite
+  et le flux `Biblio_from_pdf` (phases `dedupe-dry-run` / `dedupe-apply`
+  incluses pour eviter les doublons de cle).
+- `tools/sync_manual_retrievals_status.py` : synchronise le statut des
+  recuperations manuelles (Phase 3) avec le manifeste ; limitation connue :
+  le matching par titre casse si les PDF ont deja ete renommes en citekey
+  (Phase 6) -- verifier directement le champ `local_pdf` en cas de doute
+  plutot que de faire confiance au rapport du script.
+
+Sortie a consulter : `Biblio_from_pdf/llm_wiki_datacite_*.bib`
+
+Decision attendue : entree `.bib` correcte (titre, auteurs, annee, DOI, champ
+`file` pointant vers le PDF local).
+
+## Phase 6 - Fusionner les references dans corpus/bib/references.bib
+
+But : faire entrer uniquement les entrees validees dans la bibliographie
+generale du corpus.
+
+Les articles de datasets papiers passent par Biblio_from_pdf (Phase 5) PUIS
+directement dans `corpus/bib/references.bib` -- il n'y a pas de detour par
+`gg/regression_article.bib` pour ce flux (tranche explicitement le
+2026-08-12 : le routage via regression_article.bib avait ete envisage puis
+abandonne).
+
+Script responsable :
+
+- `Biblio_from_pdf/tools/import_to_llm_wiki.py`
+
+Decision attendue : le papier est present dans `references.bib`, le champ
+`file` pointe vers un PDF local, aucune collision de cle.
+
+## Phase 7 - Convertir les PDF en TEI (GROBID)
+
+But : transformer les PDF en XML TEI pour que les scripts puissent lire
+sections, tableaux, references, formules et mentions de datasets.
+
+Scripts responsables :
 
 - `tools/kg/02_run_grobid.py`
-- `corpus/papers/raw_pdf/`
-- `corpus/papers/tei/`
 
-Sorties a consulter :
+Sorties a consulter : `corpus/papers/tei/*.tei.xml`
 
-- `corpus/papers/tei/*.tei.xml`
-- logs de GROBID dans la console
-
-Commandes typiques :
+Commande typique :
 
 ```powershell
 python tools/kg/02_run_grobid.py --from-bib
 ```
 
-ou via le pipeline complet :
+## Phase 8 - Reconstruire le knowledge graph (KG)
+
+But : relancer la chaine complete d'extraction KG (bib, TEI, evidence,
+paper-dataset uses, graphe) sans dupliquer ni ecraser le travail existant.
+
+Script responsable :
+
+- `tools/kg/run_all.py` (orchestre 01_extract_bib -> 02_run_grobid [optionnel]
+  -> 03_parse_tei -> 04_extract_dataset_catalogs -> 04_extract_web_sources ->
+  export_spatialtidymodels_metadata -> 08_extract_model_evidence ->
+  09_extract_paper_dataset_uses -> 09b_llm_disambiguate [optionnel] ->
+  10_make_audit_candidate_review -> 04_build_graph -> 06_make_summaries ->
+  07_export_agent_index)
+
+Important : `inst/kg/paper_dataset_uses.json` est une entree lue par ces
+scripts pour le rattachement dataset-papier, pas ecrasee integralement --
+verifier le docstring du script avant de le relancer si un doute existe sur
+la conservation du travail deja fait (statuts `raw_data_downloaded`,
+`local_raw_dir`, etc.).
+
+Commande typique :
 
 ```powershell
 python tools/kg/run_all.py --run-grobid --from-bib
 ```
 
-Decision attendue :
+## Phase 9 - Explorer les preuves extraites du KG
 
-- TEI cree ;
-- TEI deja existant et saute ;
-- PDF impossible a traiter ;
-- OCR necessaire si le PDF est scanne.
-
-## Phase 5 - Parser les TEI et produire l'audit de lecture dirigee
-
-But : extraire les structures utiles du TEI sans confondre les equations generiques d'estimateur avec les formules empiriques appliquees aux donnees.
-
-Scripts et fichiers responsables :
-
-- `tools/kg/03_parse_tei.py`
-- `tools/kg/section_role_rules.yml`
-- `tools/kg/section_role.py`
-
-Le parseur score les sections et tableaux selon leur role probable :
-
-- `data_source`
-- `preprocessing`
-- `empirical_model`
-- `results_model`
-- `variable_tables`
-- `model_tables`
-- `generic_theory`
-- `simulation`
-
-Sorties a consulter :
-
-- `.kg/extracted/tei_nodes.jsonl`
-- `.kg/extracted/tei_edges.jsonl`
-- `.kg/summaries/tei_parse_summary.md`
-- `data/manifests/papers/model_evidence_audit.csv`
-
-Commande typique :
-
-```powershell
-python tools/kg/03_parse_tei.py
-```
-
-Decision attendue :
-
-- reperer les sections a forte priorite ;
-- identifier les tableaux de variables ;
-- bloquer les formules generiques ;
-- conserver les formules candidates en statut `extracted_needs_review`.
-
-## Phase 6 - Transformer l'audit en candidats KG
-
-But : rendre les signaux issus de l'audit interrogeables dans le KG sans les valider automatiquement.
-
-Scripts et fichiers responsables :
-
-- `tools/kg/audit_reader.py`
-- `tools/kg/08_extract_model_evidence.py`
-- `tools/kg/09_extract_paper_dataset_uses.py`
-
-Types de noeuds crees :
-
-- `FormulaCandidate`
-- `GenericEstimatorFormulaCandidate`
-- `DataSourceCandidate`
-- `VariableTableCandidate`
-- `ModelTableCandidate`
-- `ModelEvidenceCandidate`
-- `PaperDatasetUseCandidate`
-
-Sorties a consulter :
-
-- `.kg/extracted/model_evidence_nodes.jsonl`
-- `.kg/extracted/model_evidence_edges.jsonl`
-- `.kg/extracted/paper_dataset_use_nodes.jsonl`
-- `.kg/extracted/paper_dataset_use_edges.jsonl`
-
-Commandes typiques :
-
-```powershell
-python tools/kg/08_extract_model_evidence.py
-python tools/kg/09_extract_paper_dataset_uses.py
-```
-
-Decision attendue :
-
-- ne pas promouvoir automatiquement ;
-- isoler les candidats a relire ;
-- conserver le statut :
-  - `extracted_needs_review`
-  - `blocked_needs_manual_review`
-  - `rejected_generic_formula`
-
-## Phase 6bis - Desambiguiser par LLM les candidats prioritaires (optionnel)
-
-But : filtrer les faux positifs theoriques qui restent dans la zone
-prioritaire (`review_for_dataset_use`/`review_for_model_evidence`) apres le
-filtre a mots-cles. Le score a mots-cles (Phase 5) reste le premier passage,
-gratuit, sur tout le corpus ; ce n'est que sur les candidats deja retenus
-comme prioritaires que Claude est appele, car c'est la que le cout d'un faux
-positif pour un relecteur humain est le plus eleve (ex. un chapitre
-theorique d'Anselin 1988 qui franchissait le score sans dataset empirique).
-
-Script responsable :
-
-- `tools/kg/09b_llm_disambiguate_candidates.py`
-
-Sortie a consulter :
-
-- `data/manifests/papers/llm_candidate_disambiguation_cache.json`
-
-Commande typique :
-
-```powershell
-python tools/kg/09b_llm_disambiguate_candidates.py
-```
-
-Fonctionnement :
-
-- necessite `ANTHROPIC_API_KEY` (modele par defaut : `claude-haiku-4-5-20251001`,
-  configurable via `EVAL_MODEL`) ; si absente, le script s'arrete proprement
-  et `10_make_audit_candidate_review.py` retombe sur le seul score a
-  mots-cles ;
-- verdict `"empirical"` / `"theoretical"` / `"uncertain"` + confiance, mis en
-  cache par candidat (hash paper+section+debut du texte) pour ne jamais
-  repayer un appel sur un candidat inchange ;
-- le LLM ne peut que **retirer** un candidat de la zone prioritaire
-  (`verdict="theoretical"` avec confiance >= 0.6), jamais en **ajouter** : le
-  filtre a mots-cles reste seul juge de ce qui entre dans cette zone.
-
-Decision attendue :
-
-- les candidats declasses apparaissent dans la section "Candidats declasses
-  par verification LLM" du rapport (Phase 7), avec la justification du LLM ;
-- une justification `"theoretical"` reste indicative, pas une verite
-  absolue : en cas de doute, consulter le TEI/PDF source.
-
-## Phase 7 - Produire le rapport de revue des candidats
-
-But : fournir un document humain qui liste les passages prioritaires par papier.
-
-Scripts et fichiers responsables :
-
-- `tools/kg/10_make_audit_candidate_review.py`
-
-Sortie a consulter :
-
-- `wiki/analyses/model_evidence_candidates_review_2026-08.md`
-
-Commande typique :
-
-```powershell
-python tools/kg/10_make_audit_candidate_review.py
-```
-
-Le rapport propose des actions :
-
-- `review_for_dataset_use`
-- `review_for_model_evidence`
-- `reject_generic`
-- `low_priority_review`
-
-Decision attendue :
-
-- selectionner les vrais datasets exploitables ;
-- identifier les passages qui donnent la source de donnees ;
-- identifier les variables Y/X ;
-- identifier la formule ou la specification empirique ;
-- rejeter les candidats theoriques ou trop vagues.
-
-## Phase 7bis - Construire le manifeste central de curation
-
-But : eviter de creer directement des fiches definitives depuis des signaux
-bruts. Cette phase consolide les candidats issus des fiches `paper_*`, des
-manifestes DataCite verifies, des relations `PaperDatasetUse` du KG et de
-l'audit TEI dans un seul tableau de decision.
-
-Script responsable :
-
-- `tools/build_paper_dataset_curation_manifest.py`
-
-Sorties a consulter :
-
-- `data/manifests/papers/paper_dataset_benchmark_candidates.csv` : CSV Excel
-  avec separateur `;` ;
-- `data/manifests/papers/paper_dataset_benchmark_candidates.json` : version
-  structuree ;
-- `wiki/analyses/paper_dataset_benchmark_candidates_2026-08.md` : synthese par
-  priorite et statut.
-
-Commande typique :
-
-```powershell
-python tools/build_paper_dataset_curation_manifest.py
-```
-
-Decision attendue :
-
-- `high` : candidat presque directement exploitable, a controler puis brancher
-  vers preprocessing/package ;
-- `medium` : dataset concret mais reconciliation, formule, W, CRS, preprocessing
-  ou telechargement encore necessaire ;
-- `low` : signal utile pour le KG ou la veille, mais pas a transformer en fiche
-  definitive sans revue manuelle.
-
-Aucun candidat `tei_audit` seul ne doit etre promu : l'audit TEI signale une
-piste, pas un dataset benchmarkable.
-## Phase 8 - Interroger le KG
-
-But : explorer rapidement les candidats par papier, type ou statut.
+But : verifier concretement ce que le KG a extrait pour un papier donne avant
+de passer a la curation.
 
 Script responsable :
 
@@ -360,166 +242,125 @@ Commandes utiles :
 
 ```powershell
 python tools/kg/query_kg.py --audit-candidates --limit 20
-python tools/kg/query_kg.py --audit-candidates --audit-paper Yang2022Niche --limit 10
-python tools/kg/query_kg.py --audit-candidates --audit-kind DataSourceCandidate --limit 10
-python tools/kg/query_kg.py --audit-candidates --audit-status extracted_needs_review --limit 10
 python tools/kg/query_kg.py --paper-dataset-gaps
-python tools/kg/query_kg.py --paper-dataset-uses 10.1007/s10109-025-00481-4
+python tools/kg/query_kg.py --paper-dataset-uses 10.xxxx/xxxxx
 ```
 
-Sorties a consulter :
+## Phase 10 - Generer le rapport d'audit des candidats
 
-- affichage console ;
-- `.kg/graph.sqlite` si une requete SQLite plus fine est necessaire.
+But : produire un document humain qui liste, par papier, les passages
+prioritaires (source de donnees, variables Y/X, formule) releves par le KG.
 
-Decision attendue :
+Script responsable : `tools/kg/10_make_audit_candidate_review.py`
 
-- prioriser les papiers/datasets a curer ;
-- reperer les faux positifs ;
-- preparer la phase de telechargement des donnees.
+Sortie a consulter : `wiki/analyses/model_evidence_candidates_review_2026-08.md`
 
-## Phase 9 - Reconstruire le graphe SQLite
+## Phase 11 - Construire le manifeste de curation
 
-But : rendre toutes les sorties JSONL interrogeables dans une base unique.
+But : consolider candidats fiches `paper_*`, manifestes DataCite verifies,
+relations `PaperDatasetUse` du KG et audit TEI dans un seul tableau de
+decision (`choose_priority()`), pour eviter de creer directement des fiches
+definitives depuis des signaux bruts.
 
-Scripts responsables :
-
-- `tools/kg/04_build_graph.py`
-- `tools/kg/06_make_summaries.py`
-- `tools/kg/07_export_agent_index.py`
+Script responsable : `tools/build_paper_dataset_curation_manifest.py`
 
 Sorties a consulter :
 
-- `.kg/graph.sqlite`
-- `.kg/summaries/`
-- index agent exporte par `07_export_agent_index.py`
+- `data/manifests/papers/paper_dataset_benchmark_candidates.json`
+- `wiki/analyses/paper_dataset_benchmark_candidates_2026-08.md`
 
-Commandes typiques :
+Decision attendue : priorite `high` / `medium` / `low` par dataset candidat.
+
+## Phase 12 - Ecrire/completer les loaders R (conversion sf)
+
+But : produire, pour chaque dataset valide, un loader R reexecutable qui
+convertit les donnees brutes en objet `sf` unifie.
+
+Script responsable : `code/r_catalog/build_sf_datasets_papers.R`
+(`PAPER_DATASET_LOADERS`, une entree `record_id -> load_xxx()` par dataset ;
+chaque loader retourne `list(obj=<sf>, row=list(coordinate_columns=,
+identifier_variables=, datetime_columns=, candidate_y_variables=))`).
+
+Sortie : `data/final_datasets/sf/paper_<record_id>.rds`
+
+Checks minimaux avant de passer en Phase 13 : nombre d'observations,
+variable reponse, covariables, geometrie/CRS, valeurs manquantes, doublons,
+coherence avec le papier source (ne pas se fier au seul nom de fichier --
+verifier le contenu reel).
+
+## Phase 13 - Generer les fiches dataset
+
+But : produire une fiche `wiki/datasets/fiches_datasets/paper_<id>.md`
+(format Bloc 1-6) par dataset converti en sf.
+
+Script responsable : `code/r_catalog/generate_fiches_papers.R`
+(dictionnaires `LOADER_TO_DIR`, `FORMULA_OVERRIDES`, `PAPER_READINESS` a
+completer a la main pour chaque nouveau `record_id` ; sans entree,
+retombe sur des heuristiques generiques -- `infer_description_fields()`,
+`is_temporal_candidate()` -- qui peuvent se tromper sur des noms de
+variables ambigus ou generiques, voir Phase 13bis).
+
+Commande :
 
 ```powershell
-python tools/kg/04_build_graph.py
-python tools/kg/06_make_summaries.py
-python tools/kg/07_export_agent_index.py stats
+Rscript code/r_catalog/generate_fiches_papers.R [record_id ...]
 ```
 
-Decision attendue :
+## Phase 13bis - Verifier chaque fiche contre le papier source (OBLIGATOIRE)
 
-- verifier le nombre de noeuds/edges ;
-- verifier que les nouveaux candidats apparaissent dans le KG ;
-- verifier que les relations `HAS_AUDIT_CANDIDATE` et `HAS_PAPER_DATASET_USE_CANDIDATE` existent.
+But : `generate_fiches_papers.R` derive la majorite du contenu d'une fiche
+par des heuristiques automatiques (typologie, N/T, description, estimateurs
+eligibles) qui peuvent se tromper silencieusement -- confusion nom de
+variable/temps, description copiee depuis un autre dataset partageant un mot-cle,
+covariable citee dans le papier mais qui n'en est en realite pas une (poids
+de variance, critere d'exclusion, masque de zone d'etude), etc. Ces erreurs
+ne sont pas detectees par Tier 1 (structurel) ni par un Tier 2 generique : il
+faut relire le papier.
 
-## Phase 10 - Telecharger les datasets candidats valides
+Cette phase est **obligatoire** immediatement apres toute execution de
+`generate_fiches_papers.R` portant sur un ou plusieurs `record_id`, avant de
+passer a la Phase 14. Ne pas la sauter meme si le lot semble petit.
 
-But : recuperer les donnees seulement apres avoir etabli qu'elles sont probablement exploitables.
+Pour chaque fiche generee ou regeneree :
 
-Ordre recommande :
+1. Relire le papier source (`corpus/papers/raw_pdf/<bib_key>.pdf`, sections
+   Methods/Data/Results, ou a defaut le README/data_dictionary du depot de
+   donnees) -- pas seulement le README deja consulte au moment d'ecrire le
+   loader.
+2. Comparer point par point avec la fiche :
+   - `formula_pub`/`formula_used` : chaque covariable listee correspond-elle
+     a une covariable de la moyenne du modele publie, et non a un poids de
+     variance, un critere d'exclusion de donnees ou un masque de zone d'etude ?
+   - Bloc 4 (N/T, structure) : la variable temporelle detectee est-elle
+     vraiment un temps (pas une covariable bioclimatique/numerique dont le
+     nom contient un token type "month"/"year") ? Un panel declare par le
+     loader (`row$datetime_columns`) est-il bien reflete ?
+   - Bloc "Description du jeu de donnees" (Topic/Observation unit/Observed
+     population) : correspond-il au bon papier, ou a-t-il pu etre confondu
+     avec un autre dataset partageant un mot-cle du titre/record_id ?
+   - `benchmark_readiness`/`estimator_eligibility` : les estimateurs proposes
+     sont-ils compatibles avec le type de Y (une reponse binaire ne doit pas
+     recevoir `ols`/`sar_lag`/`sem_error`/`sdm_mixed` -- verifier le registre
+     reel du package, `packages/spatialtidymodels/R/13-benchmark-spatial.R`,
+     avant d'assumer qu'un estimateur listе est reellement executable) ?
+   - N observations : correspond-il a l'echantillon d'analyse du papier
+     (apres apurement des valeurs manquantes documente par les auteurs), ou
+     au fichier brut avant nettoyage ?
+3. Documenter toute divergence trouvee (fichier, ligne, nature de l'erreur,
+   citation du papier qui contredit la fiche) avant de corriger quoi que ce
+   soit -- ne jamais corriger silencieusement une fiche sans le signaler.
+4. Corriger la fiche (ou le script generateur si l'erreur est systemique,
+   i.e. affecte plusieurs `record_id` via la meme heuristique) et
+   regenerer.
 
-```text
-audit KG
-  -> fiche candidate courte ou ligne de manifeste
-  -> telechargement dataset
-  -> inspection locale
-  -> preprocessing
-  -> fiche definitive
-```
+Ne pas promouvoir une fiche en Phase 14 tant que cette verification n'a pas
+ete faite au moins une fois sur sa version courante.
 
-Le telechargement ne doit pas attendre la fiche definitive, mais il doit attendre une validation minimale :
+## Phase 14 - Controler la promotion package et exporter les metadata
 
-- source de donnees identifiable ;
-- donnees accessibles legalement ;
-- lien de telechargement fonctionnel ;
-- objet spatial probable ;
-- papier ou documentation associee.
-
-Dossiers cibles recommandes :
-
-- donnees brutes : `data/raw/papers/<paper_or_dataset_slug>/`
-- scripts de preprocessing : `code/paper_datasets/<dataset_slug>/`
-- donnees finales : `data/final_datasets/sf/`
-
-Sorties a consulter :
-
-- manifest de telechargement a creer pour chaque vague ;
-- logs de telechargement ;
-- fichiers bruts conserves ;
-- fichiers `.rds` ou `.gpkg` preprocesses.
-
-Decision attendue :
-
-- donnees telechargees ;
-- format lisible ;
-- taille raisonnable ;
-- presence de coordonnees, geometrie, raster ou matrice W ;
-- variables Y/X presentes ou reconstructibles.
-
-## Phase 11 - Pretraiter et convertir en sf
-
-But : produire une version propre et benchmarkable du dataset.
-
-Scripts responsables :
-
-- scripts dedies a creer dans `code/paper_datasets/<dataset_slug>/`
-- scripts de conversion sf deja utilises pour les datasets packages si reutilisables
-- fonctions communes du package `spatialtidymodels` si elles deviennent stables
-
-Sorties a consulter :
-
-- `data/final_datasets/sf/<source>_<dataset>.rds`
-- eventuellement `.gpkg` pour conserver une version geospatiale standard
-- logs de preprocessing
-
-Checks minimaux :
-
-- nombre d'observations ;
-- variable reponse ;
-- covariables ;
-- geometrie ou coordonnees ;
-- CRS ;
-- valeurs manquantes ;
-- doublons ;
-- coherence avec le papier source ;
-- formule ou specification empirique.
-
-## Phase 12 - Creer ou actualiser les fiches datasets
-
-But : transformer un dataset valide en metadata lisible par humain et exploitable par le package.
-
-Scripts responsables :
-
-- scripts de generation de fiches datasets existants dans le projet ;
-- `code/package_metadata/export_spatialtidymodels_metadata.py` pour l'export package ;
-- fichiers schema dans `wiki/metadata/`.
-
-Sorties a consulter :
-
-- `wiki/datasets/fiches_datasets/<dataset>.md`
-- `packages/spatialtidymodels/inst/metadata/datasets.json`
-
-La fiche definitive doit contenir au minimum :
-
-- description du dataset et topic ;
-- source papier/donnees ;
-- DOI papier ou URL source ;
-- acces donnees ;
-- nombre d'observations ;
-- variables ;
-- formule candidate ou publiee ;
-- type spatial ;
-- CRS/geometrie/coordonnees ;
-- quality control ;
-- relation aux estimateurs eligibles.
-
-Decision attendue :
-
-- fiche validee ;
-- dataset exporte dans les metadata package ;
-- dataset listable depuis `spatialtidymodels`.
-
-## Phase 12bis - Controler la promotion vers le package
-
-But : separer clairement une fiche dataset documentee d'un dataset reellement
-utilisable par `spatialtidymodels`. Une fiche papier peut rester utile pour le
-KG et le wiki meme si elle n'est pas encore benchmarkable.
+But : separer une fiche dataset documentee d'un dataset reellement utilisable
+par `spatialtidymodels`, puis exporter les metadata consommees par le
+package.
 
 Bloc obligatoire pour les fiches `paper_*.md` :
 
@@ -527,21 +368,21 @@ Bloc obligatoire pour les fiches `paper_*.md` :
 benchmark_readiness:
   benchmark_status: ready | almost_ready | needs_preprocessing | needs_covariate_join | needs_original_W | manual_review | not_ready_*
   package_include: yes | no | manual_review
-  blocking_reason: "raison courte"
-  required_next_step: "action concrete"
+  missing_items: "raison courte"
+  reason: "justification"
 ```
 
 Scripts responsables :
 
-- `tools/check_paper_benchmark_readiness.py` : controle les statuts et bloque
-  les promotions incoherentes ;
-- `code/package_metadata/export_spatialtidymodels_metadata.py` : exporte toutes
-  les fiches en metadata, mais ne marque `benchmark_ready = true` que si
-  `package_include: "yes"` et `benchmark_status: ready` sont presents ;
-- `packages/spatialtidymodels/inst/metadata/datasets.json` : metadata consommee
-  par le package.
+- `tools/check_paper_benchmark_readiness.py` : controle les statuts et
+  bloque les promotions incoherentes.
+- `code/package_metadata/export_spatialtidymodels_metadata.py` : exporte
+  toutes les fiches en metadata, ne marque `benchmark_ready = true` que si
+  `package_include: "yes"` et `benchmark_status: ready`.
+- `packages/spatialtidymodels/inst/metadata/datasets.json` : metadata
+  consommee par le package.
 
-Commande de controle :
+Commandes :
 
 ```powershell
 python tools/check_paper_benchmark_readiness.py
@@ -551,120 +392,30 @@ python code/package_metadata/export_spatialtidymodels_metadata.py
 Regles de promotion :
 
 - `package_include: "yes"` est interdit si `benchmark_status` n'est pas `ready` ;
-- un dataset papier ne doit pas entrer dans les benchmarks package sans variable
-  reponse, covariables, support spatial, formule ou specification defendable, et
-  artefact local final (`.rds` ou `.gpkg`) ;
-- les statuts `almost_ready`, `needs_*`, `manual_review` et `not_ready_*` restent
-  visibles dans les metadata pour guider le travail, mais ne sont pas proposes
-  comme datasets benchmarkables par defaut.
-
-Decision attendue :
-
-- corriger la fiche si la promotion est trop optimiste ;
-- laisser `package_include: "no"` ou `manual_review` tant que le dataset n'est pas
-  effectivement utilisable ;
+- un dataset papier ne doit pas entrer dans les benchmarks package sans
+  variable reponse, covariables, support spatial, formule ou specification
+  defendable, et artefact local final (`.rds`) ;
 - documenter l'etape manquante plutot que fabriquer une formule ou une source.
-## Phase 13 - Rendre le dataset utilisable dans spatialtidymodels
-
-But : rendre les datasets propres appelables par les fonctions du package.
-
-Scripts responsables :
-
-- `code/package_metadata/export_spatialtidymodels_metadata.py`
-- `packages/spatialtidymodels/R/benchmark-datasets.R`
-- `packages/spatialtidymodels/inst/metadata/datasets.json`
-- fonctions package :
-  - `available_benchmark_datasets()`
-  - `benchmark_spatial_dataset()`
-  - `explain_dataset()`
-  - `explain_estimator()`
-
-Sorties a consulter :
-
-- `packages/spatialtidymodels/inst/metadata/datasets.json`
-- sortie R de `available_benchmark_datasets()`
-- sortie R de `explain_dataset("<dataset>")`
-- premiers benchmarks de validation.
-
-Commandes R typiques :
-
-```r
-library(spatialtidymodels)
-
-available_benchmark_datasets()
-explain_dataset("nom_dataset")
-
-bench <- benchmark_spatial_dataset(
-  "nom_dataset",
-  estimators = c("ols", "random_forest", "sar_lag"),
-  cv_scheme = "near_prediction",
-  near_n_reps = 3,
-  near_test_size = 100
-)
-
-bench$results
-bench$resample_results
-```
-
-## Pipeline complet
-
-Commande KG complete, sans relancer GROBID :
-
-```powershell
-python tools/kg/run_all.py
-```
-
-Commande KG complete avec GROBID :
-
-```powershell
-python tools/kg/run_all.py --run-grobid --from-bib
-```
-
-Commande KG complete avec desambiguisation LLM des candidats prioritaires
-(voir Phase 6bis, appels API payants) :
-
-```powershell
-python tools/kg/run_all.py --llm-disambiguate
-```
-
-Ordre des etapes dans `run_all.py` :
-
-```text
-01_extract_bib.py
-02_run_grobid.py                  optionnel
-03_parse_tei.py
-04_extract_dataset_catalogs.py
-04_extract_web_sources.py
-export_spatialtidymodels_metadata.py
-08_extract_model_evidence.py
-09_extract_paper_dataset_uses.py
-09b_llm_disambiguate_candidates.py   optionnel (--llm-disambiguate)
-10_make_audit_candidate_review.py
-04_build_graph.py
-06_make_summaries.py
-07_export_agent_index.py stats
-```
 
 ## Regle importante
 
-Un candidat extrait automatiquement ne doit jamais devenir directement une fiche dataset definitive.
-
-Il doit passer par au moins ces validations :
+Un candidat extrait automatiquement ne doit jamais devenir directement une
+fiche dataset definitive. Il doit passer par :
 
 1. le papier utilise vraiment un dataset empirique ;
 2. le dataset est spatial ;
 3. la source de telechargement fonctionne ;
-4. les donnees sont lisibles localement ;
+4. les donnees sont lisibles localement (contenu verifie, pas seulement le nom de fichier) ;
 5. les variables Y/X ou la specification empirique sont identifiees ;
 6. le preprocessing est documente ;
-7. une version finale benchmarkable existe.
+7. la fiche generee a ete verifiee contre le papier source (Phase 13bis) ;
+8. une version finale benchmarkable existe.
 
-Le KG sert donc de sas de curation. Les fiches wiki et le package ne doivent consommer que les elements valides ou explicitement marques comme candidats.
+Le KG sert de sas de curation. Les fiches wiki et le package ne doivent
+consommer que les elements valides ou explicitement marques comme candidats.
 
 ## Related Pages
 
 - [[model_evidence_candidates_review_2026-08]]
 - [[catalog_registry_schema_v3]]
 - [[quality_pedigree_schema_v1]]
-
-

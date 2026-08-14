@@ -52,7 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--min-dataset-size-kb",
         type=int,
-        default=50,
+        default=200,
         help="Minimum DataCite deposit size in KB when size metadata is available. Use 0 to disable.",
     )
     parser.add_argument(
@@ -75,6 +75,21 @@ def parse_args() -> argparse.Namespace:
         help="Do not overwrite the current monthly verification report.",
     )
     parser.add_argument("--skip-api-checks", action="store_true")
+    parser.add_argument(
+        "--strict-spatial-only",
+        action="store_true",
+        help="Exclude candidates flagged as spatio-temporal during the DataCite harvest.",
+    )
+    parser.add_argument(
+        "--include-spatiotemporal",
+        action="store_true",
+        help="Allow panel/spatio-temporal candidates during the DataCite harvest.",
+    )
+    parser.add_argument(
+        "--include-ecology-sdm",
+        action="store_true",
+        help="Allow ecology species-distribution/presence-absence candidates during the DataCite harvest.",
+    )
     return parser.parse_args()
 
 
@@ -125,6 +140,9 @@ def main() -> int:
                 str(args.min_dataset_size_kb),
                 "--profiles",
                 args.profiles,
+                *(["--strict-spatial-only"] if args.strict_spatial_only else []),
+                *(["--include-spatiotemporal"] if args.include_spatiotemporal else []),
+                *(["--include-ecology-sdm"] if args.include_ecology_sdm else []),
             ],
             cwd=repo_root,
         )

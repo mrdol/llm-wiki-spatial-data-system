@@ -253,16 +253,68 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
     "R_agridat_lasrosas.corn_lasrosas.corn": {
         "dataset": "lasrosas",
         "data_object": "lasrosas",
+        "aliases": [
+            "lasrosas.corn",
+            "Python_geodatasets_geoda.lasrosas",
+            "python_geodatasets_geoda_lasrosas",
+        ],
         "rds": "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds",
         "formula": "yield ~ nitro + bv",
+        "formula_default_role": "package_default",
+        "formula_paper_main_specification": "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo",
+        "formula_ml_or_selected": "yield ~ nitro + bv",
+        "formula_roles": ["package_default", "paper_main_specification", "multivariate_constrained", "ml_or_selected"],
+        "formula_candidates": {
+            "package_default": {
+                "formula": "yield ~ nitro + bv",
+                "response": "yield",
+                "predictors": ["nitro", "bv"],
+                "role": "package_benchmark_default",
+                "source_type": "project_curated",
+                "source_ref": "agridat::lasrosas.corn documentation / current spatialtidymodels benchmark",
+                "status": "confirmed_executable",
+            },
+            "paper_main_specification": {
+                "formula": "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo",
+                "response": "yield",
+                "predictors": ["nitro", "I(nitro^2)", "topo", "nitro:topo", "I(nitro^2):topo"],
+                "role": "paper_main_specification",
+                "source_type": "scientific_publication",
+                "source_ref": "Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783).",
+                "status": "confirmed",
+            },
+            "multivariate_constrained": {
+                "formula": "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo",
+                "response": "yield",
+                "predictors": ["nitro", "I(nitro^2)", "topo", "nitro:topo", "I(nitro^2):topo"],
+                "role": "paper_main_specification",
+                "source_type": "scientific_publication",
+                "source_ref": "Bongiovanni and Lowenberg-DeBoer (2000); Anselin, Bongiovanni and Lowenberg-DeBoer (2004, DOI 10.1111/j.0002-9092.2004.00610.x); Rakshit et al. (2020, DOI 10.1016/j.fcr.2020.107783).",
+                "status": "confirmed",
+            },
+            "ml_or_selected": {
+                "formula": "yield ~ nitro + bv",
+                "response": "yield",
+                "predictors": ["nitro", "bv"],
+                "role": "ml_candidate_features",
+                "source_type": "project_curated",
+                "source_ref": "agridat::lasrosas.corn documentation / current spatialtidymodels benchmark",
+                "status": "confirmed_executable",
+            },
+        },
         "response": "yield",
         "predictors": ["nitro", "bv"],
         "coords": ["X", "Y"],
         "coords_crs": "EPSG:32720",
         "coords_source": "prepared projected coordinates",
         "formula_status": "used",
-        "source_ref": "agridat lasrosas.corn project regression formula",
-        "notes": "Formule simplifiee continue; dataset plus grand.",
+        "source_ref": "Las Rosas corn nitrogen response papers / agridat lasrosas.corn project benchmark formula",
+        "notes": "Dataset canonique reconcilie avec Python_geodatasets_geoda.lasrosas; formule package par defaut et formule papier complete conservees.",
+        "benchmark_status": "ready",
+        "benchmark_task": "regression_spatial_validated_paper_and_package_formulas",
+        "package_include": "yes",
+        "benchmark_missing_items": "aucun blocage automatique detecte; formule papier complete et formule benchmark package documentees",
+        "benchmark_readiness_reason": "Dataset Las Rosas reconcilie: agridat::lasrosas.corn est la fiche canonique, Python_geodatasets_geoda.lasrosas est un alias, et les formules papier/package sont conservees comme roles distincts.",
         "estimator_evidence": [
             evidence(name, "benchmark_use", "agridat lasrosas.corn documentation / project regression formula.")
             for name in ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "spboost_bspa_sar_ml", "spboost_bspa_sar_cfe", "mgwrsar_gwr", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv"]
@@ -712,6 +764,56 @@ def parse_benchmark_readiness(body: str) -> dict[str, Any]:
             out[target] = value
     return out
 
+
+def is_pending_value(value: Any) -> bool:
+    if value is None:
+        return True
+    text = str(value).strip().strip("`").strip().lower()
+    return text in {"", "pending", "none", "unknown", "n/a", "na", "unavailable", "not_found"}
+
+
+def package_promotion_blockers(
+    *,
+    body: str,
+    benchmark_readiness: dict[str, Any],
+    formula_used: str | None,
+    response: str | None,
+    predictors: list[str],
+    local_artifact: str | None,
+    source_url: str | None,
+    source_ref: str | None,
+) -> list[str]:
+    """Return blockers that prevent a fiche from becoming package benchmark-ready.
+
+    This is deliberately stricter than the wiki fiche parser: the wiki can
+    document partial/pending candidates, but `spatialtidymodels` should only
+    expose records that have an executable local Y/X benchmark.
+    """
+    blockers: list[str] = []
+    if benchmark_readiness.get("package_include") != "yes":
+        blockers.append("package_include_not_yes")
+    if benchmark_readiness.get("benchmark_status") != "ready":
+        blockers.append("benchmark_status_not_ready")
+    if is_pending_value(formula_used):
+        blockers.append("formula_used_missing_or_pending")
+    if is_pending_value(response):
+        blockers.append("response_missing")
+    if not predictors:
+        blockers.append("predictors_missing")
+    if is_pending_value(local_artifact):
+        blockers.append("local_artifact_missing")
+    if is_pending_value(source_url) and is_pending_value(source_ref):
+        blockers.append("source_missing")
+    if "## Estimator eligibility" not in body:
+        blockers.append("estimator_eligibility_block_missing")
+    if "Selection Y/X" not in body:
+        blockers.append("selection_yx_block_missing")
+    task = str(benchmark_readiness.get("benchmark_task") or "").lower()
+    if any(token in task for token in ("classification", "presence_absence", "binary_panel")):
+        blockers.append("current_package_regression_only")
+    return blockers
+
+
 def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     text = path.read_text(encoding="utf-8", errors="replace")
     body = strip_front_matter(text)
@@ -738,6 +840,18 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         None,
     )
     local_rds = next(iter(re.findall(r"data/final_datasets/sf/[^\s\]]+\.rds", text)), None)
+    source_url = bullet_value(body, "Source URL")
+    source_ref = _source_ref(body)
+    promotion_blockers = package_promotion_blockers(
+        body=body,
+        benchmark_readiness=benchmark_readiness,
+        formula_used=formula_used,
+        response=response,
+        predictors=predictors or backtick_list(bullet_value(body, "Candidate X variables")),
+        local_artifact=local_artifact,
+        source_url=source_url,
+        source_ref=source_ref,
+    )
     record = {
         "dataset": re.sub(r"[^A-Za-z0-9]+", "_", dataset_id).strip("_").lower(),
         "dataset_id": dataset_id,
@@ -768,8 +882,8 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         "mode": "regression",
         "formula_status": _formula_status(body, formula_used, formula_pub),
         "source_family": bullet_value(body, "Source family"),
-        "source_ref": _source_ref(body),
-        "source_url": bullet_value(body, "Source URL"),
+        "source_ref": source_ref,
+        "source_url": source_url,
         "dataset_doi": _none_to_null(bullet_value(body, "Dataset DOI")),
         "publication_doi": _none_to_null(bullet_value(body, "Publication DOI")),
         "license_name": bullet_value(body, "License name"),
@@ -777,13 +891,11 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         "structure": bullet_value(body, "Structure"),
         "n_observations": _int_or_none(bullet_value(body, "N observations")),
         "t_periods": _int_or_none(bullet_value(body, "T periods")),
-        "benchmark_ready": (
-            benchmark_readiness.get("package_include") == "yes"
-            and benchmark_readiness.get("benchmark_status") == "ready"
-        ),
+        "benchmark_ready": len(promotion_blockers) == 0,
         "benchmark_status": benchmark_readiness.get("benchmark_status"),
         "benchmark_task": benchmark_readiness.get("benchmark_task"),
         "package_include": benchmark_readiness.get("package_include"),
+        "package_promotion_blockers": promotion_blockers,
         "benchmark_missing_items": benchmark_readiness.get("benchmark_missing_items"),
         "benchmark_readiness_reason": benchmark_readiness.get("benchmark_readiness_reason"),
         "eligible_estimators": [],

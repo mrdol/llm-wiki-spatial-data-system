@@ -1,8 +1,8 @@
 ---
 title: paper_regulatory_convergence
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_regulatory_convergence.rds
   - DataCite_2019_RegulatoryConvergenceInThe_10_1093_isq_sqz0
@@ -2340,14 +2340,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Regulatory
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet.
 
 ### Formule - niveau systeme
 
 - formula_used: net_bcbs ~ bank_abr + bankcon + fbanks + eu + privcredit + gdp_pc_const + gdp_const + fdi_in_gdp + fitch_rating + fincrisis + reg_eap + reg_eca + ... (2259 covariables au total, voir Candidate X variables)
 - x_terms_used: bank_abr, bankcon, fbanks, eu, privcredit, gdp_pc_const, gdp_const, fdi_in_gdp, fitch_rating, fincrisis, reg_eap, reg_eca
 - y_term_used: net_bcbs
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet.
 
 ### Formules candidates
 

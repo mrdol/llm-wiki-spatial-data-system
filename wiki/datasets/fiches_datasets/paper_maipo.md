@@ -1,8 +1,8 @@
 ---
 title: paper_maipo
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_maipo.rds
   - Brenning_2023_SpatialMLDiagnostics_maipo

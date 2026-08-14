@@ -4,7 +4,7 @@ Je veux lancer une recherche bibliographique ciblée pour enrichir mon projet ll
 
 ## Objectif
 
-Trouver environ 200 articles scientifiques qui utilisent ou publient des jeux de données exploitables pour des benchmarks de régression spatiale / économétrie spatiale. Les articles doivent idéalement avoir au moins 20 citations et ne pas déjà être présents dans mon corpus local.
+Trouver environ 200 articles scientifiques qui utilisent ou publient des jeux de données exploitables pour des benchmarks de régression spatiale / économétrie spatiale. Les articles doivent idéalement avoir au moins 5 citations dans le harvest courant et ne pas déjà être présents dans mon corpus local.
 
 ## Contexte du projet
 
@@ -50,7 +50,7 @@ Chercher des articles autour de :
 
 ## Critères de sélection
 
-1. Article idéalement avec ≥ 20 citations, sauf si article très récent mais central.
+1. Article idéalement avec ≥ 5 citations dans le harvest courant, sauf si article très récent mais central. Le nombre de citations sert à prioriser, pas à rejeter automatiquement un candidat pertinent.
 2. Article non déjà présent dans mon corpus local.
 3. Article contenant au moins un jeu de données spatial clairement identifiable.
 4. Priorité aux articles avec formule, équation, modèle ou liste claire de variables.

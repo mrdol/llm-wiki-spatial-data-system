@@ -1,8 +1,8 @@
 ---
 title: paper_crane
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_crane.rds
   - DataCite_2022_BalancingStructuralComplexityWith_10_1111_2041_210
@@ -17,7 +17,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 - Observation unit: observation ponctuelle de presence
 - Observed population: population reintroduite de grues (Grus grus)
 - Geographic context: etendue sf: x [233643.173683893, 862162.495815702], y [22773.8203577613, 626978.465950806]
-- Temporal context: none (cross-sectional)
+- Temporal context: 5 distinct periods (variable: ti)
 - Source description: Balancing structural complexity with ecological insight in Spatio-temporal species distribution models
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
@@ -175,23 +175,23 @@ estimator_eligibility:
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel_ou_series
 - N observations: 12630
 - k variables: 12
-- T periods: 1
-- Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- T periods: 5
+- Variable temporelle: ti
+- N/T profile: N_grand_T_moyen
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: 5 distinct periods (variable: ti)
 - CRS EPSG: unknown
 - CRS nom: unknown
 - Spatial extent: x [233643.173683893, 862162.495815702], y [22773.8203577613, 626978.465950806]
-- Time range: not applicable (cross-sectional dataset)
+- Time range: 1 to 5 (variable: ti)
 - CRS analyse recommande: pending - CRS source non geographique ou inconnu
 
 ## Bloc 6 - Reproductibilite

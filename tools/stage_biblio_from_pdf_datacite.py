@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import os
 import re
 import shutil
@@ -29,9 +30,11 @@ DEFAULT_MANIFEST = (
     / "papers"
     / "datacite_verified_pdf_download_manifest.csv"
 )
+DEFAULT_KG = REPO_ROOT / "inst" / "kg" / "paper_dataset_uses.json"
 DEFAULT_BATCH = "llm_wiki_datacite_2026_08"
 READY_STATUS = "pdf_present_pending_grobid"
 MAX_STAGED_STEM_CHARS = 90
+RAW_PDF_REL = Path("corpus") / "papers" / "raw_pdf"
 
 
 @dataclass(frozen=True)
@@ -256,6 +259,122 @@ def run_import_back(biblio_root: Path, batch: str, apply: bool) -> int:
     return run_command(cmd, biblio_root)
 
 
+def read_batch_bib_dois(biblio_root: Path, batch: str) -> dict[str, str]:
+    """Associe chaque citekey du .bib du lot a son DOI (en minuscules)."""
+    bib_path = biblio_root / f"{batch}.bib"
+    if not bib_path.exists():
+        raise FileNotFoundError(f".bib du lot introuvable: {bib_path}")
+    text = bib_path.read_text(encoding="utf-8", errors="replace")
+    result: dict[str, str] = {}
+    for entry_match in re.finditer(r"@\w+\{\s*([^,\s]+)\s*,(.*?)\n\}", text, flags=re.DOTALL):
+        citekey = entry_match.group(1)
+        body = entry_match.group(2)
+        doi_match = re.search(r"doi\s*=\s*\{([^}]+)\}", body, flags=re.IGNORECASE)
+        if doi_match:
+            result[citekey] = doi_match.group(1).strip().lower()
+    return result
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with open(windows_long_path(path), "rb") as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def dedupe_after_import(
+    biblio_root: Path,
+    batch: str,
+    manifest_path: Path,
+    kg_path: Path,
+    apply: bool,
+) -> None:
+    """Supprime les anciens PDF (nom descriptif) une fois la copie citekey
+    importee et verifiee identique, et resynchronise CSV/KG sur le nouveau nom.
+
+    Sans cette etape, `import-apply` laisse deux copies du meme PDF dans
+    `corpus/papers/raw_pdf/` (l'original depose en Phase 2-3, et la copie
+    renommee par pdf2bib) -- voir la discussion du 2026-08-12.
+    """
+    citekey_by_doi = {doi: key for key, doi in read_batch_bib_dois(biblio_root, batch).items()}
+
+    with manifest_path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle, delimiter=";")
+        rows = list(reader)
+        fieldnames = reader.fieldnames or []
+
+    raw_pdf_dir = REPO_ROOT / RAW_PDF_REL
+    renamed: list[tuple[str, str, str]] = []  # doi, old_name, citekey
+    unchanged: list[str] = []
+    problems: list[str] = []
+
+    for row in rows:
+        pdoi = (row.get("publication_doi") or "").strip().lower()
+        citekey = citekey_by_doi.get(pdoi)
+        if not citekey:
+            continue
+        old_local = (row.get("local_pdf") or "").strip()
+        if not old_local:
+            continue
+        old_name = Path(old_local).name
+        if old_name == f"{citekey}.pdf":
+            unchanged.append(pdoi)
+            continue
+
+        old_path = raw_pdf_dir / old_name
+        new_path = raw_pdf_dir / f"{citekey}.pdf"
+        if not new_path.exists():
+            problems.append(f"{pdoi}: copie citekey absente ({new_path.name}), rien fait")
+            continue
+        if not old_path.exists():
+            problems.append(f"{pdoi}: ancien fichier deja absent ({old_name}), CSV/KG resynchronises quand meme")
+        elif old_path.stat().st_size != new_path.stat().st_size or sha256_file(old_path) != sha256_file(new_path):
+            problems.append(f"{pdoi}: contenu different entre '{old_name}' et '{citekey}.pdf' -- suppression annulee")
+            continue
+
+        renamed.append((pdoi, old_name, citekey))
+        if apply:
+            if old_path.exists():
+                os.remove(windows_long_path(old_path))
+            row["local_pdf"] = str(RAW_PDF_REL / f"{citekey}.pdf")
+            row["note"] = (row.get("note") or "") + f" | dedup: renomme {citekey}.pdf via pdf2bib, ancien '{old_name}' supprime"
+
+    if apply and renamed:
+        with manifest_path.open("w", encoding="utf-8-sig", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fieldnames, delimiter=";")
+            writer.writeheader()
+            writer.writerows(rows)
+
+    kg_updates: list[str] = []
+    if kg_path.exists():
+        kg = json.loads(kg_path.read_text(encoding="utf-8-sig"))
+        for rec in kg.get("records", []):
+            pdoi = (rec.get("paper_doi") or "").strip().lower()
+            citekey = citekey_by_doi.get(pdoi)
+            if not citekey:
+                continue
+            new_rel = str(RAW_PDF_REL / f"{citekey}.pdf")
+            if rec.get("local_pdf") != new_rel:
+                kg_updates.append(f"{rec.get('bib_key')} -> {citekey}.pdf")
+                if apply:
+                    rec["local_pdf"] = new_rel
+        if apply and kg_updates:
+            kg_path.write_text(json.dumps(kg, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+    mode = "apply" if apply else "dry-run"
+    print(f"[dedupe:{mode}] doublons a traiter: {len(renamed)}")
+    for pdoi, old_name, citekey in renamed:
+        print(f"  {pdoi}: {old_name} -> {citekey}.pdf")
+    print(f"[dedupe:{mode}] deja au bon nom: {len(unchanged)}")
+    print(f"[dedupe:{mode}] problemes: {len(problems)}")
+    for message in problems:
+        print(f"  ! {message}")
+    print(f"[dedupe:{mode}] entrees KG a resynchroniser: {len(kg_updates)}")
+    for message in kg_updates:
+        print(f"  {message}")
+
+
 def print_commands(biblio_root: Path, batch: str) -> None:
     """Affiche les commandes manuelles correspondant aux cinq phases."""
     script = "tools/stage_biblio_from_pdf_datacite.py"
@@ -265,6 +384,8 @@ def print_commands(biblio_root: Path, batch: str) -> None:
     print(f"python {script} --phase pdf2bib-apply")
     print(f"python {script} --phase import-dry-run")
     print(f"python {script} --phase import-apply")
+    print(f"python {script} --phase dedupe-dry-run")
+    print(f"python {script} --phase dedupe-apply")
     print("")
     print("Commandes equivalentes depuis Biblio_from_pdf:")
     print(f"cd \"{biblio_root}\"")
@@ -287,11 +408,14 @@ def parse_args() -> argparse.Namespace:
             "pdf2bib-apply",
             "import-dry-run",
             "import-apply",
+            "dedupe-dry-run",
+            "dedupe-apply",
         ),
         default="commands",
         help="Phase a executer.",
     )
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--kg", type=Path, default=DEFAULT_KG)
     parser.add_argument("--biblio-root", type=Path, default=DEFAULT_BIBLIO_ROOT)
     parser.add_argument("--batch", default=DEFAULT_BATCH)
     parser.add_argument("--status", default=READY_STATUS)
@@ -336,6 +460,14 @@ def main() -> int:
 
     if args.phase == "import-apply":
         return run_import_back(biblio_root, args.batch, apply=True)
+
+    if args.phase == "dedupe-dry-run":
+        dedupe_after_import(biblio_root, args.batch, args.manifest.resolve(), args.kg.resolve(), apply=False)
+        return 0
+
+    if args.phase == "dedupe-apply":
+        dedupe_after_import(biblio_root, args.batch, args.manifest.resolve(), args.kg.resolve(), apply=True)
+        return 0
 
     raise AssertionError(f"Phase non geree: {args.phase}")
 

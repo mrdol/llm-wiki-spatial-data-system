@@ -53,6 +53,17 @@ metadata_dataset_registry <- function() {
   )) {
     out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
   }
+  for (field in c(
+    "formula_pub", "formula_used", "formula_default_role",
+    "formula_paper_main_specification", "formula_ml_or_selected"
+  )) {
+    out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
+  }
+  if ("formula_roles" %in% names(records)) {
+    out$formula_roles <- as_character_list_column(records$formula_roles)
+  } else {
+    out$formula_roles <- I(rep(list("default"), nrow(out)))
+  }
   out$predictors <- as_character_list_column(out$predictors)
   out$coords <- as_character_list_column(out$coords)
   out$recommended_cv <- as_character_list_column(out$recommended_cv)

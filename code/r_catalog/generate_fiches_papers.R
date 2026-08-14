@@ -56,7 +56,41 @@ LOADER_TO_DIR <- c(
   teles_decapod_biodiversity_brazil = "DataCite_2026_DataAndRCode_10_1111_jbi_7007",
   spruce_bark_beetle = "DataCite_2024_ClimaticAndManagementRelated_10_1111_1365_266",
   florida_crash_gsvcm = "DataCite_2020_GeneralizedSpatiallyVaryingCoefficient_10_1080_10618600",
-  possum_body_size = "DataCite_2015_LeanSeasonPrimaryProductivity_10_1111_ecog_012"
+  possum_body_size = "DataCite_2015_LeanSeasonPrimaryProductivity_10_1111_ecog_012",
+  # -- Lot DataCite 2026-08 (harvest verifie, session du 2026-08-12) --------
+  coral_bathypathes = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_corallium = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_enallopsammia = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_errina = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_goniocorella = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_isididae = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_leiopathes = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_madrepora = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_paragorgia = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_primnoa = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_solenosmilia = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  coral_stylaster = "DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638",
+  early_season_biomass = "DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201",
+  influenza_mortality_chicago = "DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161",
+  plant_invasion_fia = "DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116",
+  maine_baseflow = "DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835",
+  midwest_crop_yield = "DataCite_2022_CropYieldPredictionUsing_10_1080_01621459",
+  network_misspecification_elections = "DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020",
+  ethiopia_bushcrow_sdm = "DataCite_2021_ClimaticChangeAndExtinction_10_1371_journal_",
+  ethiopia_whitetailed_swallow_sdm = "DataCite_2021_ClimaticChangeAndExtinction_10_1371_journal_",
+  desert_tortoise_genotype_niche = "DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292",
+  trillium_presence_background = "DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329",
+  trillium_proportional_occupancy = "DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329",
+  wildfire_bootleg_severity = "DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700",
+  wildfire_schneider_springs_severity = "DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700",
+  amphibian_malformation_prevalence = "DataCite_2010_MultipleStressorsAndThe_10_1890_09_0879_",
+  hyena_lion_biomass_africa = "DataCite_2021_EnvironmentalFactorsInfluencingSpotted_10_1002_ece3_835",
+  bumblebee_colony_reproduction = "DataCite_2018_LowerBumblebeeColonyReproductive_10_1098_rspb_201",
+  rocky_mountain_tree_growth = "DataCite_2017_ClimateAndCompetitionEffects_10_1111_1365_274",
+  harbour_porpoise_response = "DataCite_2019_HarbourPorpoiseResponsesTo_10_1098_rsos_190",
+  amazon_tree_dominance = "DataCite_2023_UnderstandingDifferentDominancePatterns_10_1111_ele_1435",
+  joshua_tree_flowering = "DataCite_2024_Reconstructing120YearsOf_10_1111_ele_1447",
+  wildfire_greenup_nbr5 = "DataCite_2024_ClimateLimitsVegetationGreen_10_1186_s42408_0"
 )
 
 # -- Formules et notes verifiees par lecture directe du papier source --------
@@ -209,6 +243,179 @@ FORMULA_OVERRIDES <- list(
     formula_pub = "Random Forest models for SR, PD.SES and PE.SES using environmental covariates; SR mainly driven by salinity, light availability and primary productivity; PD by bottom temperature, primary productivity and current velocity; PE by temperature and primary productivity.",
     formula_used = "SR ~ sal + light + pp + tempmean + curvel + fishing_effort",
     source_ref = "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort."
+  ),
+  # -- Lot DataCite 2026-08 (harvest verifie, session du 2026-08-12) --------
+  coral_bathypathes = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    source_ref = "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge)."
+  ),
+  early_season_biomass = list(
+    formula_pub = "late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term",
+    formula_used = "late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term",
+    source_ref = "Huddell et al. (2024), Agricultural & Environmental Letters, DOI 10.1002/ael2.20121; data_dictionary.csv (Dryad 10.5061/dryad.ngf1vhj1r) definit late_bm_kg_ha comme biomasse au moment de la terminaison tardive -- la variable predite d'apres le titre du papier (early-season biomass and weather enable ... biomass predictions)."
+  ),
+  influenza_mortality_chicago = list(
+    formula_pub = "counts ~ illit + den.r + unemployed.pct + ho.pct + agecat1 + agecat2 + agecat3 + agecat4 + agecat5 + agecat6 + agecat7, offset=pop",
+    formula_used = "counts ~ illit + den.r + unemployed.pct + ho.pct + agecat1 + agecat2 + agecat3 + agecat4 + agecat5 + agecat6 + agecat7",
+    source_ref = "Grantz, Rane, Salje, Glass, Schachterle & Cummings (2016), PNAS, DOI 10.1073/pnas.1612838113; tracts.csv (Dryad 10.5061/dryad.48nv3) documente un panel tract x semaine (496 tracts x 7 semaines) avec deces (counts), population (pop, exposition) et covariables sociodemographiques ; jointure verifiee a la geometrie via GISJOIN du shapefile IL_tract_a.shp."
+  ),
+  plant_invasion_fia = list(
+    formula_pub = "InvTotalCover ~ 41 predicteurs ecologiques (climat, sol, diversite/phylogenie des arbres) [Random Forest spatial]",
+    formula_used = "InvTotalCover ~ Mean_Annual_Temp + annual_Precip + Seasonability + alt + PLT_TPA + Tpha + RelDen + prpfor + plt_drybio_adj + native_spp + PD_all + PSV_all + PSR_all + anmeantemp + anprecip + soilcarbon",
+    source_ref = "Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605; README.md (Dryad 10.5061/dryad.0rxwdbs8t) definit LAT/LON et 41 variables ecologiques auxiliaires, avec InvTotalCover explicitement documente comme 'sum of cover estimates for all invasive plants'. Papier p.4: apurement applique dans le loader via complete.cases() sur les 46071 placettes brutes ('after excluding plots with missing values, we eventually got 42,314 samples for analyses') -> N=42612 localement, ecart residuel de 298 lignes vs le N publie probablement du a un controle qualite supplementaire non detaille dans les pages consultees."
+  ),
+  maine_baseflow = list(
+    formula_pub = "AUGAVGBF ~ SANDGRAVAF + JULYAVPRE [BFaug = -0.006765 + 0.0010074*AQ + 0.0001033*JULAVEPRE, Eq. 1 p.1258]",
+    formula_used = "AUGAVGBF ~ SANDGRAVAF + JULYAVPRE",
+    source_ref = "Lombard, Dudley, Collins, Saunders & Atkinson (2021), River Research and Applications, DOI 10.1002/rra.3835, Eq. (1) p.1258: BFaug = -0.006765 + 0.0010074*AQ + 0.0001033*JULAVEPRE (AQ = pourcentage d'aquiferes sable/gravier du bassin, JULAVEPRE = precipitation moyenne de juillet). DASQMI (surface du bassin) sert uniquement a normaliser la reponse (baseflow par km2, section 2.3), ce n'est pas une covariable du modele publie. REGULATED n'apparait dans aucune equation du texte -- c'est un attribut d'exclusion de bassins regules herite du shapefile NHDPlus (section 2.1: 'basins ... minimal human alterations such as dams or withdrawals'), pas une covariable de regression. Les champs OOB_* sont des indicateurs de validation out-of-bag et restent exclus de X.",
+    ml_formula = "AUGAVGBF ~ DASQMI + SANDGRAVAF + JULYAVPRE + REGULATED",
+    ml_response = "AUGAVGBF",
+    ml_predictors = c("DASQMI", "SANDGRAVAF", "JULYAVPRE", "REGULATED"),
+    ml_source_type = "generated_system_formula",
+    ml_status = "generated",
+    ml_source_ref = "Superset genere par le systeme a partir des champs numeriques/binaires disponibles dans le shapefile local (Maine_Mean_August_Baseflow.shp), au-dela des 2 predicteurs de l'equation publiee -- DASQMI et REGULATED n'ont pas de statut de covariable confirme par le papier, a traiter comme features ML exploratoires seulement.",
+    ml_estimator_context = c("random_forest", "xgboost", "gamboost")
+  ),
+  midwest_crop_yield = list(
+    formula_pub = "Yield ~ avgPRCP [Z(s) scalaire du modele Eq.1-2 p.3-4 ; Area = omega(s) sert de poids de variance heteroscedastique e(s)~N(0, sigma2/omega(s)), pas de covariable de la moyenne]",
+    formula_used = "Yield ~ avgPRCP",
+    source_ref = "Park, Li & Li (2022), JASA, DOI 10.1080/01621459.2022.2123333, section 2 p.3 et Eq. (1) p.3-4: le seul covariable scalaire Z(s) du modele est la precipitation annuelle (avgPRCP) ; la taille de terre recoltee (Area, notee omega(s)) est explicitement utilisee comme poids de la variance de l'erreur de sondage (e(s) ~ N(0, sigma_e^2/omega(s))), pas comme predicteur de la moyenne. Le vrai pouvoir predictif du papier vient de trajectoires fonctionnelles de temperature (FPCA), non reproduites localement. MidwestData.RData (supplement JASA) fournit regdat avec Year, State, County (noms complets), Yield et avgPRCP ; jointure verifiee a 98.9% vers tigris::counties().",
+    ml_formula = "Yield ~ avgPRCP + Area",
+    ml_response = "Yield",
+    ml_predictors = c("avgPRCP", "Area"),
+    ml_source_type = "generated_system_formula",
+    ml_status = "generated",
+    ml_source_ref = "Area est ajoute ici uniquement comme feature ML exploratoire supplementaire disponible localement ; le papier ne le traite pas comme une covariable de la moyenne (voir source_ref principal).",
+    ml_estimator_context = c("random_forest", "xgboost", "gamboost")
+  ),
+  network_misspecification_elections = list(
+    formula_pub = "votelead ~ gr_an + gr_loc_med_an + gr_glob_med_an + unem_an + unem_loc_med_an + unem_glob_med_an + coalsize + pop + enep [SAR/SLX sous differentes specifications de reseau -- objet methodologique principal du papier]",
+    formula_used = "votelead ~ gr_an + unem_an + coalsize + pop + enep",
+    source_ref = "Betz, Cook & Hollenbach (2020), Political Analysis, DOI 10.1017/pan.2020.26; KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) est un panel pays x annee electorale (22 pays OCDE, noms de pays en toutes lettres), covariables de vote economique (croissance/chomage a divers niveaux d'agregation). Le papier etudie explicitement le biais de mauvaise specification du reseau spatial -- formula_used est une specification simplifiee, pas la comparaison complete de specifications W du papier."
+  ),
+  ethiopia_bushcrow_sdm = list(
+    formula_pub = "pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter [BRT, meilleur modele pour le bush-crow d'apres l'etude anterieure citee]",
+    formula_used = "pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter",
+    source_ref = "Bladon, Donald, Collar, Denge, Dadacha, Wondafrash & Green (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: 5 variables bioclimatiques WorldClim standard (BIO5, BIO4, BIO7, BIO16, BIO17) nommees explicitement. Les .rda Dryad ne contiennent que des points (presence/absence WGS84) sans covariable ; les 5 rasters WorldClim (geodata::worldclim_global, res=2.5 arcmin) ont ete telecharges et extraits localement le 2026-08-12, resolution plus grossiere que celle utilisee dans le papier."
+  ),
+  ethiopia_whitetailed_swallow_sdm = list(
+    formula_pub = "pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter [MaxEnt/GLM/GAM]",
+    formula_used = "pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter",
+    source_ref = "Bladon et al. (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: memes 5 variables WorldClim que le bush-crow, memes reserves sur la resolution et l'origine externe des covariables (telechargees le 2026-08-12)."
+  ),
+  desert_tortoise_genotype_niche = list(
+    formula_pub = "GenAssociation ~ CLIM1 + CLIM3 + LC + PHYS1 + PHYS2 + SOIL2 + SOIL3 + VEG1 + VEG3 [surface de sortie du modele de niche local original, pas une regression brute]",
+    formula_used = "pending",
+    y_term_pub = "association genotype-habitat (surface derivee du modele de niche local)",
+    x_terms_pub = c("CLIM1", "CLIM3", "LC", "PHYS1", "PHYS2", "SOIL2", "SOIL3", "VEG1", "VEG3"),
+    source_ref = "Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier."
+  ),
+  trillium_presence_background = list(
+    formula_pub = "PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]",
+    formula_used = "presence ~ bio1_annual_mean_temperature + bio4_temperature_seasonality + bio5_max_temperature_warmest_month + bio6_min_temperature_coldest_month + bio12_annual_precipitation + bio15_precipitation_seasonality",
+    y_term_pub = "proportional occupancy of predicted suitable distribution (PO); presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response",
+    x_terms_pub = c("Flower_Type", "No_ovules", "Seed_weight"),
+    formula_candidate_formula = "PO ~ Flower_Type + No_ovules + Seed_weight",
+    ml_formula = "presence ~ bio1_annual_mean_temperature + bio4_temperature_seasonality + bio5_max_temperature_warmest_month + bio6_min_temperature_coldest_month + bio12_annual_precipitation + bio15_precipitation_seasonality",
+    ml_response = "presence",
+    ml_predictors = c("bio1_annual_mean_temperature", "bio4_temperature_seasonality", "bio5_max_temperature_warmest_month", "bio6_min_temperature_coldest_month", "bio12_annual_precipitation", "bio15_precipitation_seasonality"),
+    ml_source_type = "derived_from_scientific_publication_plus_public_covariates",
+    ml_status = "extracted_needs_review",
+    ml_estimator_context = c("random_forest", "xgboost", "gamboost"),
+    ml_source_ref = "Executable SDM-style reconstruction from Dryad occurrence CSVs (10.5061/dryad.6m905qg03) plus WorldClim v2.1 bioclimatic rasters. Background pseudo-absences are generated deterministically within species-specific occurrence bounding boxes expanded by one degree. This is a reproducible benchmark surrogate because the paper used ClimateNA ENMs and predicted suitable areas, but the ClimateNA raster stack and final ENM surfaces are not redistributed in the local Dryad files.",
+    equation_family = "beta_regression_plus_sdm_reconstruction",
+    model_family = "species_distribution_modeling",
+    source_ref = "Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297. TEI/PDF methods and abstract state that fundamental niches and predicted suitable distributions were estimated using climate-calibrated ecological niche models; PO = occupied distribution area / predicted suitable area; reproductive traits (ovule number, seed set, number of seeds per plant, seed mass, adult biomass, flower type) were related to PO using beta regression and AICc. The local Dryad folder contains occurrence CSVs and Trillium_LifeHistoryTraits.csv, but not the full ClimateNA ENM raster stack; formula_used is therefore a documented executable SDM reconstruction, not a claim to reproduce the final beta-regression exactly."
+  ),
+  trillium_proportional_occupancy = list(
+    formula_pub = "PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]",
+    formula_used = "PO ~ No_ovules + Seed_weight + Flower_Type",
+    formula_candidate_formula = "PO ~ reproductive traits",
+    y_term_pub = "proportional occupancy of predicted suitable distribution (PO)",
+    x_terms_pub = c("Flower_Type", "No_ovules", "Seed_weight", "Seed_setting_rate", "No_seeds_plant", "Biomass"),
+    ml_formula = "PO ~ No_ovules + Seed_weight + Flower_Type",
+    ml_response = "PO",
+    ml_predictors = c("No_ovules", "Seed_weight", "Flower_Type"),
+    ml_estimator_context = c("ols", "gam_spatial", "random_forest", "xgboost", "gamboost"),
+    ml_status = "confirmed_continuous_response",
+    source_ref = "Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background."
+  ),
+  wildfire_bootleg_severity = list(
+    formula_pub = "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501 [modele SAR complet du papier, matching de traitement -- non reproduit ici, benchmark sur les predicteurs bruts]",
+    formula_used = "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501",
+    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques)."
+  ),
+  wildfire_schneider_springs_severity = list(
+    formula_pub = "rdnbr ~ Annual_AET_V2_1981_2010 + Annual_Deficit_V2_1981_2010 + Annual_PET_1981_2010 + Annual_PPT_anl_total_1981_2010 + Annual_Tave_anl_mean_1981_2010 + Annual_Tmin_anl_mean_1981_2010 + distance_to_roads_20221021 + distance_to_strms_and_wetlands + distance_to_trt_edge + frs_ss_clipped + gedi_rh100_mean + gedi_rh100_sd + SS_erc + SS_fm100 + SS_fm1000 + SS_minrh + SS_tmmx_celsius + SS_vpd + LF2019_CBD + LF2019_CC + LF2019_CH + scf_20221011 + sdd_20221011 + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230314 + mx_speed_20230310 + northsouthness_mx_speed_direction_20230314 [meme modele SAR que Bootleg, second incendie du papier]",
+    formula_used = "rdnbr ~ Annual_AET_V2_1981_2010 + Annual_Deficit_V2_1981_2010 + Annual_PET_1981_2010 + Annual_PPT_anl_total_1981_2010 + Annual_Tave_anl_mean_1981_2010 + Annual_Tmin_anl_mean_1981_2010 + distance_to_roads_20221021 + distance_to_strms_and_wetlands + distance_to_trt_edge + frs_ss_clipped + gedi_rh100_mean + gedi_rh100_sd + SS_erc + SS_fm100 + SS_fm1000 + SS_minrh + SS_tmmx_celsius + SS_vpd + LF2019_CBD + LF2019_CC + LF2019_CH + scf_20221011 + sdd_20221011 + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230314 + mx_speed_20230310 + northsouthness_mx_speed_direction_20230314",
+    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables_20221108.csv (Dryad 10.5061/dryad.mcvdnck6c) documentent RdNBR (severity/2021_SchneiderSprings_rdnbr_w_offset_DATESADJUSTED.tif, 30m) et 34 predicteurs pour le second incendie (Washington, 2021). Memes 2 couches ecostress absentes du depot public (verifie le 2026-08-12) ; aspect_10res egalement absent. forest_mask present mais exclu de formula_used (masque de zone d'etude). Noms de fichiers legerement differents de Bootleg (versions/dates dans le nom) mais memes categories de variables."
+  ),
+  amphibian_malformation_prevalence = list(
+    formula_pub = "skeletal_abnormality_prevalence ~ dragonfly_abundance + organic_contaminants + inorganic_contaminants [regression logistique individuelle + selection AIC, Reeves et al. 2010 ; X publies (predateurs, contaminants, UVB, temperature) non presents dans le depot Dryad brut]",
+    formula_used = "prevalence_abnormal ~ ROADDISTANCE + RoadType [X partiel : seul le sous-ensemble route/contamination humaine du papier est present dans le depot brut, disponible pour 32/54 sites]",
+    source_ref = "Reeves et al. (2010), Ecological Monographs 80(3):423-440, DOI 10.1890/09-0879.1 ; verifie le 2026-08-13 sur le texte integral (corpus/papers/raw_pdf/Reeves2010Multiple.pdf, remplace ce jour apres correction d'un PDF errone). Le Table 1 de l'article publie une prevalence de malformations par site (2004-2006, seuil >=50 metamorphes) et documente aussi la distance a la route et le type de route par site (colonnes 'Distance to road (km)'/'Road type', memes champs que RoadsInfo.csv). Les autres X du modele logistique publie (dragonflies, contaminants organiques/inorganiques, UVB, temperature) ne sont PAS dans le depot Dryad 10.5061/dryad.sq72d telecharge (celui-ci contient les donnees individuelles FrogAbnormalities.csv, les coordonnees SiteLocations.csv et RoadsInfo.csv, pas les mesures de contaminants/predateurs/UVB par site). prevalence_abnormal/prevalence_skel_ab/prevalence_eye_ab sont agreges depuis 9011 individus (2000-2012, fenetre plus large que 2004-2006 dans le papier) en reprenant le seuil de fiabilite n>=50 du Table 1. Le texte de l'introduction du papier motive explicitement ROADDISTANCE/RoadType comme covariable pertinente ('abnormality frequency was higher... at road-accessible sites', Reeves et al. 2008 cite dans l'intro)."
+  ),
+  hyena_lion_biomass_africa = list(
+    formula_pub = "spotted_hyaena_biomass_log10 / lion_biomass_log10 ~ prey biomass classes + other predator biomass + WorldClim temperature/precipitation + vegetation cover [PLS regression]",
+    formula_used = "spotted_hyaena_biomass_log10 ~ other_predator_biomass_log10 + prey_very_small_biomass_log10 + prey_small_biomass_log10 + prey_medium_biomass_log10 + prey_large_biomass_log10 + prey_very_large_biomass_log10 + min_temperature_coolest_month_log10 + max_temperature_warmest_month_log10 + precipitation_wettest_month_log10 + precipitation_driest_month_log10 + precipitation_seasonality_log10 + semi_open_vegetation_clr + open_vegetation_clr + closed_vegetation_clr",
+    formula_candidate_formula = "spotted_hyaena_biomass_log10 ~ prey biomass classes + other predator biomass + climate + vegetation cover",
+    y_term_pub = "spotted hyena and lion population biomass density, base-10 log transformed",
+    x_terms_pub = c("other predator biomass", "very small prey biomass", "small prey biomass", "medium prey biomass", "large prey biomass", "very large prey biomass", "minimum temperature of coolest month", "maximum temperature of warmest month", "temperature seasonality", "precipitation wettest month", "precipitation driest month", "precipitation seasonality", "closed vegetation cover", "semi-open vegetation cover", "open vegetation cover"),
+    source_ref = "Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader."
+  ),
+  bumblebee_colony_reproduction = list(
+    formula_pub = "colony reproductive output ~ weather + floral cover + urban/land-use metrics [GLM/GLMM model-selection context]",
+    formula_used = "Tot_rep ~ Ave_temp + Ave_hum + Sum_prec + Prop_flower500 + Prop_imp500 + Prop_urb500 + Prop_open500 + Prop_tree500 + Prop_ag500 + Prop_gard500 + Prop_road500 + X500PC1 + X500PC2",
+    formula_candidate_formula = "Tot_rep ~ weather + floral cover + land-use composition around colony sites",
+    y_term_pub = "colony reproductive output: total males plus gynes produced",
+    x_terms_pub = c("temperature", "humidity", "precipitation", "flower cover", "impervious surface", "urban cover", "open cover", "tree cover", "agricultural cover", "garden cover", "road cover", "land-use PCA axes"),
+    source_ref = "Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader."
+  ),
+  rocky_mountain_tree_growth = list(
+    formula_pub = "annual tree growth / ring width ~ climate + competition + topography [mixed-effects tree-growth model]",
+    formula_used = "mean_ring_width_mm ~ elevation_m + aspect_degrees + terrain_slope_pct + mean_stem_diameter_cm + mean_age_years + neighbor_count + neighbor_dbh_sum + neighbor_distance_mean",
+    formula_candidate_formula = "mean_ring_width_mm ~ topography + tree size/age + local neighbour competition",
+    y_term_pub = "annual radial growth / ring width",
+    x_terms_pub = c("climate", "neighbour competition", "stem diameter", "age", "elevation", "aspect", "slope"),
+    source_ref = "Buechling et al. (2017), Journal of Ecology, DOI 10.1111/1365-2745.12782: the paper models tree growth using climate and competition effects. The local benchmark collapses annual ring-width observations to one spatial record per sampled tree and joins neighbour-count/DBH summaries; climate time series are not reconstructed in this loader."
+  ),
+  harbour_porpoise_response = list(
+    formula_pub = "response_24h ~ log(distance_to_piling) * cumulative_piling_order + received_SEL + ADD + piling_duration + vessel_activity + random_effect(CPOD_site/POD) [binomial probit GLMM]",
+    formula_used = "prop24 ~ distance + vessels24_1km + duration + piling_order + Unweighted_SS_SEL + NOAA_SS_SEL + Southall_SS_SEL + Aud_SS_SEL",
+    formula_candidate_formula = "prop24 ~ distance + vessel activity + piling duration/order + sound exposure levels",
+    y_term_pub = "binary behavioural response and proportional DPH change after piling",
+    x_terms_pub = c("distance", "received sound exposure level", "cumulative piling order", "ADD use", "piling duration", "vessel activity"),
+    source_ref = "Graham et al. (2019), Royal Society Open Science, DOI 10.1098/rsos.190335: Material and methods model binary response with probit GLMM; distance/log distance and received SEL are used in separate models, with cumulative piling order, ADD, duration and vessel activity. The current regression benchmark uses the continuous proportional 24h DPH change prop24 from the same response table, joined to CPOD coordinates."
+  ),
+  amazon_tree_dominance = list(
+    formula_pub = "mean local abundance ~ regional frequency + habitat type [beta regression for dominant species]",
+    formula_used = "mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand",
+    formula_candidate_formula = "mean_local_relative_abundance ~ regional_frequency + habitat type",
+    y_term_pub = "dominant-species mean local abundance / dominance pattern",
+    x_terms_pub = c("regional frequency", "habitat type"),
+    source_ref = "Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction."
+  ),
+  joshua_tree_flowering = list(
+    formula_pub = "flowering indicator ~ annual precipitation + maximum/minimum temperature + vapor-pressure-deficit predictors [BART classification]; hindcast flowering years ~ selected climate deltas [continuous model output]",
+    formula_used = "flyrs ~ Delta.Y1.2..PPT..mm. + Delta.Y0.1..PPT..mm. + Max.VPD.Y0...hPa. + Delta.Y0.1..Min.VPD..hPa. + Delta.Y0.1..Max.Temp..degree.C. + Min.Temp.Y0...degree.C.",
+    formula_candidate_formula = "flyrs ~ selected annual weather deltas from the BART hindcast",
+    y_term_pub = "binary flowering event indicator for model training; predicted number of flowering years for hindcast summaries",
+    x_terms_pub = c("Delta[Y1-2]*PPT", "Delta[Y0-1]*PPT", "Max VPD[Y0]", "Delta[Y0-1]*Min VPD", "Delta[Y0-1]*Max Temp", "Min Temp[Y0]"),
+    ml_formula = "flyrs ~ selected climate deltas",
+    ml_response = "flyrs",
+    ml_predictors = c("Delta.Y1.2..PPT..mm.", "Delta.Y0.1..PPT..mm.", "Max.VPD.Y0...hPa.", "Delta.Y0.1..Min.VPD..hPa.", "Delta.Y0.1..Max.Temp..degree.C.", "Min.Temp.Y0...degree.C."),
+    ml_estimator_context = c("random_forest", "xgboost", "gamboost"),
+    ml_status = "confirmed_continuous_hindcast_response",
+    source_ref = "Yoder et al. (2024), Ecology Letters, DOI 10.1111/ele.14478: Sections Data compilation, Predictor selection and Hindcasting state that binary flowering observations were modelled with BART and then hindcast to 1900. The Dryad output archive contains jotr_flowering_predictors_change.csv, which reports continuous predicted flowering years (flyrs) by 4 km grid cell/timeframe with the six selected climate-change predictors. formula_used uses this continuous hindcast output, not the raw binary flr training response."
+  ),
+  wildfire_greenup_nbr5 = list(
+    formula_pub = "NBR_year5 ~ postfire precipitation total + precipitation coefficient of variation + slope length factor + soil erodibility + fire-year NBR + growing-season VPD + climatic water deficit + precipitation + maximum temperature + fire month [random forest]",
+    formula_used = "nbr_5_year ~ postfire_precipitation_total + postfire_precipitation_coefvar + ls_factor + KFACTWS_DC + nbr_0_year + vpd5 + def5 + ppt5 + tmax5 + month",
+    formula_candidate_formula = "nbr_5_year ~ year-of-fire erosion factors + year-5 growing-season climate",
+    y_term_pub = "Normalized Burn Ratio five years after fire, proxy for post-fire greenness",
+    x_terms_pub = c("postfire_precipitation_total", "postfire_precipitation_coefvar", "ls_factor", "KFACTWS_DC", "nbr_0_year", "vpd5", "def5", "ppt5", "tmax5", "month"),
+    source_ref = "Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale."
   )
 )
 
@@ -296,11 +503,11 @@ PAPER_READINESS <- list(
     reason = "La reponse crop type est categorielle multiclasse."
   ),
   uk_photovoltaic = list(
-    benchmark_status = "needs_covariate_join_and_nuts3_reconciliation",
+    benchmark_status = "needs_covariate_join",
     benchmark_task = "regression_spatial_econometrics",
     package_include = "no",
-    missing_items = "reconcilier les NUTS3 du papier avec le LAD extrait, joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3",
-    reason = "Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux."
+    missing_items = "reconcilier les NUTS3 du papier avec le LAD extrait (0 covariable locale actuellement, formula_used=pending), joindre les covariables publiees de Table 6/Table 9, puis reconstruire W NUTS3",
+    reason = "Le papier modelise 134 regions NUTS3 avec un tableau X documente, alors que l'extraction actuelle contient 380 LAD et seulement les agregats PV locaux (0 covariable explicative, non executable) -- statut normalise depuis needs_covariate_join_and_nuts3_reconciliation (2026-08-12)."
   ),
   medicago = list(
     benchmark_status = "needs_model_specification_review",
@@ -317,11 +524,11 @@ PAPER_READINESS <- list(
     reason = "Dataset pedologique principalement categoriel; la formule systeme actuelle ne reproduit pas la methode du papier."
   ),
   hummingbird_sdm = list(
-    benchmark_status = "almost_ready_derived_regression",
+    benchmark_status = "ready",
     benchmark_task = "derived_continuous_species_richness_regression",
-    package_include = "manual_review",
-    missing_items = "documenter que la reponse log1p_species_richness est derivee; le benchmark ne reproduit pas les SDM PO/PA complets du papier et n inclut pas cloud cover/TRI",
-    reason = "Y derivee continue, covariables CHELSA/EVI locales et coordonnees disponibles; utilisable pour benchmark comparatif avec reserve scientifique explicite."
+    package_include = "yes",
+    missing_items = "reponse log1p_species_richness derivee (agregation continue de comptages d'occurrence reels, pas une sortie de modele) ; ne reproduit pas les SDM PO/PA integres complets du papier et n'inclut pas cloud cover/TRI",
+    reason = "Y derive mais defendable (transformation d'un comptage empirique reel), covariables CHELSA/EVI locales et coordonnees disponibles, artefact local utilisable -- promu sans revue manuelle (2026-08-12), statut normalise depuis almost_ready_derived_regression."
   ),
   crane = list(
     benchmark_status = "not_ready_current_package",
@@ -387,18 +594,18 @@ PAPER_READINESS <- list(
     reason = "Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille."
   ),
   swiss_rainfall = list(
-    benchmark_status = "almost_ready_ogc_spatial_covariates",
+    benchmark_status = "ready",
     benchmark_task = "regression_continuous_ogc_spatial_covariates",
-    package_include = "manual_review",
-    missing_items = "documenter que les X sont des covariables spatiales construites par OGC, pas des covariables environnementales; choisir le nombre d angles si tuning souhaite",
-    reason = "Le papier Moller et al. (2020) compare explicitement OGCs, EDFs, RFsp et kriging sur Swiss rainfall; le loader genere maintenant des covariables OGC depuis la geometrie."
+    package_include = "yes",
+    missing_items = "X = covariables spatiales construites par OGC (pas des covariables environnementales) ; nombre d'angles fixe a 6, pas de tuning",
+    reason = "Le papier Moller et al. (2020) compare explicitement OGCs, EDFs, RFsp et kriging sur Swiss rainfall (benchmark SIC97 classique) ; le loader genere des covariables OGC reproductibles depuis la geometrie. Y continu, X defendable (technique explicitement testee par le papier), artefact local utilisable -- promu sans revue manuelle (2026-08-12), statut normalise depuis almost_ready_ogc_spatial_covariates."
   ),
   vindum = list(
-    benchmark_status = "almost_ready_ogc_aux_spatial_covariates",
+    benchmark_status = "ready",
     benchmark_task = "regression_continuous_ogc_aux_spatial_covariates",
-    package_include = "manual_review",
-    missing_items = "valider le niveau d inclusion package et documenter que les X combinent auxiliaires publiees du package OGC et covariables OGC generees localement",
-    reason = "Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires; le loader extrait maintenant les 19 covariables auxiliaires Vindum_covariates du package OGC cite par le papier et ajoute six covariables OGC reproductibles."
+    package_include = "yes",
+    missing_items = "X combine 19 auxiliaires publiees du package OGC (Vindum_covariates) et 6 covariables OGC generees localement -- documenter cette composition mixte lors de l'usage",
+    reason = "Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires ; le loader extrait les 19 covariables auxiliaires Vindum_covariates du package OGC cite explicitement par le papier et ajoute six covariables OGC reproductibles. Y continu, X defendables (source publiee + technique testee par le papier), N=285 confirmes, artefact local utilisable -- promu sans revue manuelle (2026-08-12), statut normalise depuis almost_ready_ogc_aux_spatial_covariates."
   ),
   no2_grid = list(
     formula_pub = "NO2 ~ f(selected predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
@@ -432,11 +639,208 @@ PAPER_READINESS <- list(
     equation_family = "ensemble_ml_geographically_weighted_gam",
     model_family = "neural network + random forest + gradient boosting ensemble via geographically weighted GAM"
   ),  biomass_rainforest = list(
-    benchmark_status = "local_reduced_formula",
+    benchmark_status = "needs_covariate_join",
     benchmark_task = "regression_continuous",
     package_include = "no",
-    missing_items = "joindre LANDScapes/GEOL/VEGET et reconstruire la composante de krigeage des residus pour reproduire le GLM/KR complet",
-    reason = "AGB_mean est reconstruit depuis le supplement PLOS; HAND, LOG, ALT et SLO sont maintenant joints localement, mais LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent absents."
+    missing_items = "joindre LANDScapes/GEOL/VEGET (3 des 7 effets retenus par le papier, AIC) et reconstruire la composante de krigeage des residus pour reproduire le GLM/KR complet",
+    reason = "AGB_mean est reconstruit depuis le supplement PLOS; HAND, LOG, ALT et SLO sont maintenant joints localement, mais LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent absents -- 3 des 7 covariables du modele AIC selectionne par le papier manquent encore, gap trop important pour promotion (2026-08-12), statut normalise depuis local_reduced_formula."
+  ),
+  # -- Lot DataCite 2026-08 (harvest verifie, session du 2026-08-12) --------
+  coral_bathypathes = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review",
+    missing_items = "confirmer le choix de Random Forest/BRT comme estimateurs de reference pour ce type de benchmark presence/absence",
+    reason = "pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV)."
+  ),
+  coral_corallium = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes (README Dryad commun aux 12 taxons)."
+  ),
+  coral_enallopsammia = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_errina = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_goniocorella = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_isididae = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_leiopathes = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_madrepora = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_paragorgia = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_primnoa = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_solenosmilia = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  coral_stylaster = list(
+    benchmark_status = "ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review", missing_items = "idem coral_bathypathes",
+    reason = "Meme source/structure que coral_bathypathes."
+  ),
+  early_season_biomass = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun bloquant identifie",
+    reason = "late_bm_kg_ha continu, 5 covariables meteo/agronomiques documentees dans data_dictionary.csv, coordonnees WGS84, N=512 confirmes par contenu reel. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  influenza_mortality_chicago = list(
+    benchmark_status = "ready", benchmark_task = "regression_count_spatiotemporal",
+    package_include = "yes",
+    missing_items = "structure panel tract x semaine (T=7) documentee ; a surveiller si le schema de CV du package suppose des observations independantes",
+    reason = "counts, offset pop, covariables sociodemographiques et geometrie polygone (jointure GISJOIN verifiee) tous confirmes ; structure spatio-temporelle (496 tracts x 7 semaines). Y defendable (count + offset), X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  plant_invasion_fia = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "InvTotalCover retenu comme reponse principale (formula_used) ; InvSpRichness reste une reponse alternative candidate dans le meme artefact",
+    reason = "41 covariables ecologiques documentees dans README.md, LAT/LON confirmes, N=42612 apres apurement complete.cases() (papier: N=42314 apres exclusion des placettes a valeurs manquantes, p.4) -- le plus grand jeu du lot. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  maine_baseflow = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "geometrie source LINESTRING (reseau hydrographique) ; deja convertie en POINT (geom_point, st_point_on_surface) dans l'artefact local via build_unified_sf(), famille geom_family='ligne' geree nativement -- pas un blocage",
+    reason = "AUGAVGBF et covariables NHDPlus (SANDGRAVAF, JULYAVPRE) confirmees par l'equation publiee (Eq.1 p.1258). Y continu, X defendables, artefact local deja en POINT et utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  midwest_crop_yield = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "une seule covariable numerique locale (avgPRCP, le seul Z(s) scalaire reel du papier) ; les predicteurs fonctionnels/spline (trajectoires de temperature FPCA) ne sont pas reproduits localement",
+    reason = "Yield continu, jointure comte verifiee a 98.9% (tigris), formula_used = formule exacte du papier (le seul covariable scalaire reel, Area est un poids de variance non un predicteur). Y continu, X defendable (correspond exactement au papier), artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  network_misspecification_elections = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous_panel",
+    package_include = "yes",
+    missing_items = "le papier etudie la mauvaise specification du reseau spatial W comme objet methodologique principal ; formula_used est une specification simplifiee documentee, pas la comparaison complete de specifications W du papier",
+    reason = "votelead continu et covariables de vote economique confirmees (panel pays x annee, 22 pays, T=65 annees electorales distinctes). Y continu, X defendables (issus du jeu KP2012 reel), artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  ethiopia_bushcrow_sdm = list(
+    benchmark_status = "almost_ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review",
+    missing_items = "covariables WorldClim ajoutees localement le 2026-08-12 a une resolution (2.5 arcmin) plus grossiere que celle utilisee dans le papier ; points de fond (pseudo-absences) non utilises",
+    reason = "pa binaire et 5 variables bioclimatiques nommees dans le papier confirmees, mais les covariables viennent d'une source externe (WorldClim) rajoutee cette session, pas du depot Dryad original."
+  ),
+  ethiopia_whitetailed_swallow_sdm = list(
+    benchmark_status = "almost_ready", benchmark_task = "classification_binary_presence_absence",
+    package_include = "manual_review",
+    missing_items = "idem ethiopia_bushcrow_sdm",
+    reason = "Meme source/reserve que ethiopia_bushcrow_sdm."
+  ),
+  desert_tortoise_genotype_niche = list(
+    benchmark_status = "not_ready_derived_response", benchmark_task = "derived_model_output",
+    package_include = "no",
+    missing_items = "retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees)",
+    reason = "GenAssociation est une sortie du modele de niche local original (surface interpolee), pas des observations genotype-habitat brutes -- meme categorie que beta0_gwr dans ce fichier."
+  ),
+  trillium_presence_background = list(
+    benchmark_status = "almost_ready",
+    benchmark_task = "classification_binary_presence_absence_sdm",
+    package_include = "manual_review",
+    missing_items = "le registre spatialtidymodels doit accepter un mode classification/binomial avant inclusion package ; verifier que le schema de background pseudo-absence convient a l'objectif benchmark",
+    reason = "Occurrences Trillium Dryad et covariables WorldClim publiques sont disponibles dans l'artefact local ; la formule executable est une reconstruction SDM presence/background. Le papier publie toutefois une beta-regression espece-niveau PO ~ traits reproductifs, donc la fiche documente clairement l'ecart entre analyse publiee et benchmark executable."
+  ),
+  wildfire_bootleg_severity = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "grille reechantillonnee a 250m Albers depuis des sources heterogenes (9m a 1000m) -- compromis de resolution documente, pas la resolution native de chaque couche ; 3 couches documentees dans predictor_variables.csv du papier (aspect_10res, ecostress_pet, ecostress_esi) absentes du depot Dryad public",
+    reason = "rdnbr continu et 34 des 35 predicteurs documentes par les auteurs (csvs/predictor_variables.csv) confirmes et alignes (2026-08-12). Y continu, X defendables (liste exacte des auteurs, ecart documente pas invente), artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  wildfire_schneider_springs_severity = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "meme reserve que wildfire_bootleg_severity : grille reechantillonnee a 250m Albers, 3 couches du papier absentes du depot public",
+    reason = "Meme source/structure que wildfire_bootleg_severity, second incendie (Washington 2021) du meme papier. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  ),
+  amphibian_malformation_prevalence = list(
+    benchmark_status = "ready", benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "X limite a ROADDISTANCE/RoadType (32/54 sites, NA ailleurs) -- les contaminants/predateurs/UVB du modele publie ne sont pas dans le depot Dryad brut ; version continue derivee du Y binaire individuel, pas une reproduction exacte du Table 1 de l'article (fenetre temporelle plus large, 2000-2012 vs 2004-2006)",
+    reason = "Y continu et defendable (prevalence_abnormal/prevalence_skel_ab/prevalence_eye_ab agreges depuis 9011 individus, seuil n>=50/site repris du Table 1 de Reeves et al. 2010), coordonnees reelles (SiteLocations.csv), X partiel mais reel et motive par le papier (ROADDISTANCE/RoadType), artefact local utilisable -- promu le 2026-08-13 apres correction du PDF errone et telechargement complet du depot Dryad (85 fichiers, dont FrogAbnormalities.csv absent du telechargement initial partiel)."
+  ),
+  hyena_lion_biomass_africa = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous_small_n",
+    package_include = "yes",
+    missing_items = "petit N=30 a signaler dans les comparaisons ; le papier travaille lui-meme sur 30 observations site-annee, donc ce n'est pas un defaut de reconstruction",
+    reason = "Le papier et le workbook Dryad fournissent 30 observations site-annee avec coordonnees medianes, Y continues log10 et 15 X transformees. Le petit N est conforme a l'analyse publiee et documente comme benchmark small-N."
+  ),
+  bumblebee_colony_reproduction = list(
+    benchmark_status = "almost_ready",
+    benchmark_task = "regression_count_small_n",
+    package_include = "manual_review",
+    missing_items = "N=38 seulement ; verifier si Tot_rep doit etre traite comme regression continue ou comptage",
+    reason = "ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Benchmark utile mais petit et non strictement gaussien."
+  ),
+  rocky_mountain_tree_growth = list(
+    benchmark_status = "almost_ready",
+    benchmark_task = "regression_continuous_reduced_cross_section",
+    package_include = "manual_review",
+    missing_items = "climat temporel du modele publie non reconstruit ; artefact local agrégé par arbre",
+    reason = "Le loader produit une coupe spatiale par arbre avec ring width moyen et competition locale. C'est executable, mais reduit par rapport au modele temporel climat x competition du papier."
+  ),
+  harbour_porpoise_response = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "la reponse publiee principale est binaire ; formula_used utilise prop24 continu pour le package de regression",
+    reason = "Le tableau local fournit prop24 continu, coordonnees CPOD, distance, exposition sonore, ordre/duree de battage et activite navire. Version continue defendable et tracee."
+  ),
+  amazon_tree_dominance = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous_proportion",
+    package_include = "yes",
+    missing_items = "coordonnees = centroide des occurrences de l'espece dans l'habitat, car l'unite statistique publiee est espece/habitat et non un point individuel unique",
+    reason = "Le loader reconstruit la table espece/habitat du papier depuis les arbres bruts et les metadonnees de parcelles : mean local abundance, regional frequency et habitat type. La reponse est continue dans (0,1), compatible avec un benchmark de regression avec reserve sur l'unite spatiale centroide."
+  ),
+  joshua_tree_flowering = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous_model_output",
+    package_include = "yes",
+    missing_items = "la reponse locale flyrs est une sortie continue du hindcast BART, pas l'observation binaire brute flr ; conserver cette nuance dans toute interpretation benchmark",
+    reason = "Le papier entraine un BART sur flr binaire, puis publie des sorties continues de hindcast par cellule et periode. Le loader utilise flyrs et les six predicteurs climatiques de changement fournis dans l'archive, ce qui cree une version continue documentee sans transformer arbitrairement flr."
+  ),
+  trillium_proportional_occupancy = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous_proportion",
+    package_include = "yes",
+    missing_items = "petit nombre d'especes apres complete.cases ; coordonnees = centroide des occurrences par espece, car l'unite statistique du papier est espece-niveau",
+    reason = "PO est une reponse continue dans (0,1) directement fournie dans Trillium_LifeHistoryTraits.csv, avec traits reproductifs publies. Cette fiche suit la beta-regression finale du papier mieux que la version presence/background."
+  ),
+  wildfire_greenup_nbr5 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "artefact package sous-echantillonne deterministiquement a 50000 lignes sur 1382557 par tuiles spatiales 20x20 et quantiles de NBR ; utiliser le raw complet pour analyses lourdes",
+    reason = "Y continu NBR annee 5, X climatiques/sol/topographie documentees dans README et papier, coordonnees lon/lat. Sous-echantillonnage spatialement stratifie et stratifie par reponse pour eviter un benchmark package trop lourd tout en gardant la couverture spatiale et le gradient de NBR."
   )
 )
 
@@ -512,12 +916,44 @@ recommend_crs_analyse <- function(crs_epsg, bbox) {
 is_temporal_candidate <- function(name, col) {
   nm <- tolower(name)
   if (grepl("years?_lost|candidates?_total|pct|percent|rate|score|index|income|price|value", nm)) return(FALSE)
+  # Exclut les covariables bioclimatiques/climatiques dont le nom contient un
+  # token temporel (ex. max_temp_warmest_month, precip_driest_quarter) mais
+  # qui ne sont PAS une variable temps -- bug observe sur les fiches SDM
+  # ethiopia_bushcrow_sdm / ethiopia_whitetailed_swallow_sdm (session 2026-08-12).
+  if (grepl("warmest|coldest|wettest|driest|seasonality|isotherm|bioclim|_bio\\d", nm)) return(FALSE)
   if (!grepl("(^|[_.])(date|datetime|time|timestamp|year|month|week|day|period|season)([_.]|$)|^date$|^time$|^year$|^yr$|^month$",
              nm, perl = TRUE)) return(FALSE)
+  exact_time_name <- grepl("^(date|datetime|time|timestamp|year|yr|month|week|day|period|season)$",
+                           nm, perl = TRUE)
+  values <- col[!is.na(col)]
+  if (!exact_time_name && is.numeric(values) && length(values)) {
+    unique_ratio <- length(unique(values)) / length(values)
+    non_integer <- any(abs(values - round(values)) > sqrt(.Machine$double.eps), na.rm = TRUE)
+    if (non_integer && unique_ratio > 0.2) return(FALSE)
+  }
   inherits(col, c("Date", "POSIXt")) || is.character(col) || is.factor(col) || is.integer(col) || is.numeric(col)
 }
 
-infer_T <- function(df, vars) {
+infer_T <- function(df, vars, declared_datetime = NULL) {
+  # Priorite au champ datetime_columns declare par le loader (row$datetime_columns)
+  # -- ex. "elecyr" (network_misspecification_elections), "MEASYEAR"
+  # (plant_invasion_fia) : ces noms ne matchent pas le regex heuristique
+  # ci-dessous (pas de separateur avant "yr"/"year") et etaient donc ignores,
+  # forcant a tort une structure coupe_transversale/T=1 sur des panels reels
+  # (bug observe sur paper_network_misspecification_elections, session
+  # 2026-08-12). Le declaratif du loader est une source de verite plus fiable
+  # que le heuristique par nom de colonne.
+  declared_datetime <- trimws(unlist(strsplit(declared_datetime %||% "", ",")))
+  if (any(tolower(declared_datetime) %in% c("none", "aucun", "no", "false"))) {
+    return(list(T = 1L, T_var = NA_character_, structure = "coupe_transversale", data_type = "spatial"))
+  }
+  declared_datetime <- declared_datetime[nzchar(declared_datetime) & declared_datetime %in% vars]
+  if (length(declared_datetime)) {
+    cand <- declared_datetime[1]
+    values <- df[[cand]]
+    T_val <- length(unique(values[!is.na(values)]))
+    if (T_val > 1L) return(list(T = T_val, T_var = cand, structure = "panel_ou_series", data_type = "spatio-temporel"))
+  }
   candidates <- vars[vapply(vars, function(v) is_temporal_candidate(v, df[[v]]), logical(1))]
   if (!length(candidates)) return(list(T = 1L, T_var = NA_character_, structure = "coupe_transversale", data_type = "spatial"))
   for (cand in candidates) {
@@ -592,7 +1028,15 @@ infer_yx_selection_rationale <- function(record_id, paper_title, y_vars, x_vars,
 infer_description_fields <- function(record_id, paper_title, geom_type, data_type, kg_rec = NULL) {
   text <- tolower(paste(record_id, paper_title))
   topic <- NULL; unit <- NULL; population <- NULL
-  if (grepl("pollinat|bee|flower|hummingbird|colibri", text)) {
+  if (grepl("wildfire|green-up|greenup|nbr_5|post-fire|postfire|fire ecology", text)) {
+    topic <- "risques naturels / recuperation post-incendie"
+    unit <- "pixel spatial echantillonne depuis une grille de feu de haute severite"
+    population <- "pixels d'incendies de haute severite aux Etats-Unis, avec NBR post-feu et covariables climat/sol/topographie"
+  } else if (grepl("trillium", text)) {
+    topic <- "ecologie vegetale / modeles de distribution d'especes"
+    unit <- "point d'occurrence ou pseudo-absence background"
+    population <- "occurrences georeferencees de 19 especes de Trillium en Amerique du Nord orientale, completees par un background SDM reconstruit"
+  } else if (grepl("pollinat|bee|flower|hummingbird|colibri", text)) {
     topic <- "ecologie / interactions plantes-pollinisateurs"
     unit <- "site d'observation ou cellule de grille d'occurrence"
     population <- "communautes de pollinisateurs ou d'oiseaux nectarivores"
@@ -628,6 +1072,10 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
     topic <- "sante publique / geographie de la malnutrition"
     unit <- "cluster spatial significatif (SaTScan)"
     population <- "enfants de moins de 5 ans, Ethiopie"
+  } else if (grepl("cover crop|cereal rye|early.season.biomass|cgdd", text)) {
+    topic <- "agronomie / biomasse de culture de couverture"
+    unit <- "placette experimentale (site-annee)"
+    population <- "essais de seigle d'hiver (cereal rye) sur 11 etats du centre-est/sud-est des Etats-Unis"
   } else if (grepl("biomass|carbon|forest", text)) {
     topic <- "ecologie forestiere / inventaire de biomasse"
     unit <- "placette d'inventaire forestier"
@@ -702,7 +1150,8 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
                                      ml_formula = NULL, ml_response = NULL, ml_predictors = NULL,
                                      ml_source_ref = NULL, ml_status = "confirmed",
                                      ml_source_type = "scientific_publication",
-                                     ml_estimator_context = c("random_forest", "xgboost", "gamboost", "spboost")) {
+                                     ml_estimator_context = c("random_forest", "xgboost", "gamboost", "spboost"),
+                                     is_binary_task = FALSE) {
   fmt_entry <- function(role, formula = "pending", response = "pending", predictors = character(0),
                         source_type = "none_found", status = "unavailable", source_ref = "pending",
                         estimator_context = character(0)) {
@@ -732,11 +1181,19 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
   }
   multivariate <- fmt_entry("paper_main_specification")
   if (formula != "pending" && is_published && length(x_terms_vec) >= 2) {
+    multivariate_context <- if (is_binary_task) {
+      # reponse binaire : ols/sar_lag/sem_error/sdm_mixed/gwr supposent une
+      # erreur gaussienne continue et ne s'appliquent pas ; seuls les
+      # estimateurs que le papier a reellement utilises (RF/BRT) sont notes.
+      c("random_forest", "gamboost", "xgboost")
+    } else {
+      c("ols", "sar_lag", "sem_error", "sdm_mixed", "gwr")
+    }
     multivariate <- fmt_entry(
       "paper_main_specification", formula, y_term, x_terms_vec,
       "scientific_publication", "confirmed",
       source_ref,
-      c("ols", "sar_lag", "sem_error", "sdm_mixed", "gwr")
+      multivariate_context
     )
   }
   ml_candidate <- fmt_entry("ml_candidate_features")
@@ -766,15 +1223,29 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
 
 estimator_eligibility_block <- function(record_id, readiness, formula_used, x_terms_vec, is_published) {
   status <- readiness$benchmark_status %||% "needs_manual_review"
+  task <- readiness$benchmark_task %||% ""
   has_formula <- !is.na(formula_used) && nzchar(formula_used) && formula_used != "pending"
   has_x <- length(x_terms_vec) > 0
   is_ready_like <- grepl("^(ready|almost_ready|manual_review)", status)
   is_not_ready <- grepl("^not_ready", status)
+  # Y binaire (SDM presence/absence, etc.) : le registre du package
+  # (packages/spatialtidymodels/R/13-benchmark-spatial.R) code en dur
+  # mode="regression" pour TOUS les estimateurs automatiques (ols/gam_spatial/
+  # gamboost/random_forest*/xgboost*/sar_lag/sem_error/sdm_mixed) -- aucun ne
+  # supporte actuellement une reponse binomiale/classification. Verifie le
+  # 2026-08-12 par lecture directe du registre. eligible_estimators doit donc
+  # rester vide pour une tache binaire ; seuls les estimateurs que le papier a
+  # reellement utilises (random forest / boosting) sont notes conditionnels,
+  # en attente d'un mode classification dans le registre.
+  is_binary_task <- grepl("classification|binary_panel|presence_absence", task, ignore.case = TRUE)
   eligible <- character(0)
   conditional <- character(0)
   ineligible_reason <- ""
 
-  if (is_ready_like && has_formula && has_x) {
+  if (is_binary_task && is_ready_like) {
+    conditional <- c("random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial")
+    ineligible_reason <- "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
+  } else if (is_ready_like && has_formula && has_x) {
     eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
     if (is_published) eligible <- c(eligible, "sar_lag", "sem_error", "sdm_mixed", "gwr")
   } else if (grepl("needs_original_W", status)) {
@@ -844,7 +1315,7 @@ for (record_id in records_to_generate) {
   bbox <- sf::st_bbox(obj)
   geom_type <- as.character(sf::st_geometry_type(obj, by_geometry = FALSE))
   N <- nrow(obj); k <- length(vars)
-  time_info <- infer_T(df, vars)
+  time_info <- infer_T(df, vars, declared_datetime = row_meta$datetime_columns)
   ca <- recommend_crs_analyse(epsg, bbox)
 
   gt_up <- toupper(geom_type)
@@ -961,6 +1432,8 @@ for (record_id in records_to_generate) {
   x_used_display <- if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
   y_used_display <- extract_formula_response(formula_used)
   modeling_source_ref <- if (!is.null(ov)) ov$source_ref else "data/raw/papers (loader-derived, no published equation located)"
+  readiness <- PAPER_READINESS[[record_id]]
+  if (is.null(readiness)) readiness <- default_readiness(record_id)
   fcb <- formula_candidates_block(
     formula_candidate_formula,
     y_pub_display,
@@ -973,7 +1446,8 @@ for (record_id in records_to_generate) {
     ml_source_ref = if (!is.null(ov)) ov$ml_source_ref else NULL,
     ml_status = if (!is.null(ov) && !is.null(ov$ml_status)) ov$ml_status else "confirmed",
     ml_source_type = if (!is.null(ov) && !is.null(ov$ml_source_type)) ov$ml_source_type else "scientific_publication",
-    ml_estimator_context = if (!is.null(ov) && !is.null(ov$ml_estimator_context)) ov$ml_estimator_context else c("random_forest", "xgboost", "gamboost", "spboost")
+    ml_estimator_context = if (!is.null(ov) && !is.null(ov$ml_estimator_context)) ov$ml_estimator_context else c("random_forest", "xgboost", "gamboost", "spboost"),
+    is_binary_task = grepl("classification|binary_panel|presence_absence", readiness$benchmark_task %||% "", ignore.case = TRUE)
   )
 
   modeling_existing <- if (is_published) "true" else "false"
@@ -1020,8 +1494,6 @@ for (record_id in records_to_generate) {
     paper_doi, dataset_doi, source_url, local_raw_dir, record_id
   )
 
-  readiness <- PAPER_READINESS[[record_id]]
-  if (is.null(readiness)) readiness <- default_readiness(record_id)
   yx_rationale <- if (!is.null(ov) && !is.null(ov$yx_selection_note)) {
     ov$yx_selection_note
   } else {
@@ -1121,5 +1593,3 @@ for (record_id in records_to_generate) {
 }
 
 cat(sprintf("\n=== BILAN === %d fiches generees / %d cible(s)\n", n_ok, length(records_to_generate)))
-
-

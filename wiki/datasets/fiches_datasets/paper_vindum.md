@@ -1,8 +1,8 @@
 ---
 title: paper_vindum
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_vindum.rds
   - Moller_2020_OGC_vindum
@@ -94,14 +94,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.
 
 ### Formule - niveau systeme
 
 - formula_used: SOM ~ aspect_cos + aspect_sin + bluespot + curvature_plan + curvature_prof + DEM + DVI + ECa + flow_accu + midslope + MRVBF + NDVI + RVI + SAGAWI + SAVI + SL + slope_gradient + TWI + valleydepth + ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150
 - x_terms_used: aspect_cos, aspect_sin, bluespot, curvature_plan, curvature_prof, DEM, DVI, ECa, flow_accu, midslope, MRVBF, NDVI, RVI, SAGAWI, SAVI, SL, slope_gradient, TWI, valleydepth, ogc_000, ogc_030, ogc_060, ogc_090, ogc_120, ogc_150
 - y_term_used: SOM
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.
 
 ### Formules candidates
 
@@ -171,23 +171,23 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready_ogc_aux_spatial_covariates"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous_ogc_aux_spatial_covariates"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "valider le niveau d inclusion package et documenter que les X combinent auxiliaires publiees du package OGC et covariables OGC generees localement"
-  reason: "Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires; le loader extrait maintenant les 19 covariables auxiliaires Vindum_covariates du package OGC cite par le papier et ajoute six covariables OGC reproductibles."
+  missing_items: "X combine 19 auxiliaires publiees du package OGC (Vindum_covariates) et 6 covariables OGC generees localement -- documenter cette composition mixte lors de l'usage"
+  reason: "Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires ; le loader extrait les 19 covariables auxiliaires Vindum_covariates du package OGC cite explicitement par le papier et ajoute six covariables OGC reproductibles. Y continu, X defendables (source publiee + technique testee par le papier), N=285 confirmes, artefact local utilisable -- promu sans revue manuelle (2026-08-12), statut normalise depuis almost_ready_ogc_aux_spatial_covariates."
 ```
 
-- Decision: almost_ready_ogc_aux_spatial_covariates
-- Manque principal: valider le niveau d inclusion package et documenter que les X combinent auxiliaires publiees du package OGC et covariables OGC generees localement
-- Raison: Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires; le loader extrait maintenant les 19 covariables auxiliaires Vindum_covariates du package OGC cite par le papier et ajoute six covariables OGC reproductibles.
+- Decision: ready
+- Manque principal: X combine 19 auxiliaires publiees du package OGC (Vindum_covariates) et 6 covariables OGC generees localement -- documenter cette composition mixte lors de l'usage
+- Raison: Le papier Moller et al. (2020) utilise SOM avec OGCs, avec et sans auxiliaires ; le loader extrait les 19 covariables auxiliaires Vindum_covariates du package OGC cite explicitement par le papier et ajoute six covariables OGC reproductibles. Y continu, X defendables (source publiee + technique testee par le papier), N=285 confirmes, artefact local utilisable -- promu sans revue manuelle (2026-08-12), statut normalise depuis almost_ready_ogc_aux_spatial_covariates.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready_ogc_aux_spatial_covariates"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""

@@ -1,8 +1,8 @@
 ---
 title: paper_eberg
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-13
+updated: 2026-08-13
 sources:
   - data/final_datasets/sf/paper_eberg.rds
   - Moller_2020_OGC_eberg
