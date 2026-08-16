@@ -2,15 +2,17 @@
 title: Pipeline d'ingestion des jeux de donnees issus de papiers
 type: metadata
 created: 2026-08-06
-updated: 2026-08-12
+updated: 2026-08-17
 sources: []
 tags: [metadata, pipeline, kg, papers, ingestion]
 ---
 
 # Pipeline d'ingestion des jeux de donnees issus de papiers
 
-Date : 2026-08-12 (actualise -- version precedente obsolete, numerotation
-divergente de celle reellement suivie en session)
+Date : 2026-08-17 (actualise -- ajout de la voie dataset-first, de la
+recherche bibliographique post-hoc, de l'integration de covariables
+externes et du verificateur de coherence inter-blocs ; version precedente
+du 2026-08-12 ne couvrait que la voie "on part d'un papier connu")
 
 Ce document decrit le cheminement reellement suivi, en 14 phases, lorsqu'un
 lot de candidats papier-dataset (typiquement issu d'une moisson DataCite) est
@@ -18,9 +20,10 @@ transforme en fiches wiki benchmarkables. Il fait foi sur la numerotation :
 toute divergence avec un autre document doit etre corrigee au profit de
 celui-ci.
 
-## Vue d'ensemble (14 phases)
+## Vue d'ensemble (14 phases + voie alternative)
 
 ```text
+[Voie alternative] Dataset-first : partir du dataset (Dryad/Zenodo), pas du papier
 Phase 1  - Consulter la moisson DataCite / le manifeste de candidats
 Phase 2  - Telecharger automatiquement les PDF
 Phase 3  - Recuperer manuellement les PDF non accessibles automatiquement
@@ -34,9 +37,65 @@ Phase 10 - Generer le rapport d'audit des candidats
 Phase 11 - Construire le manifeste de curation
 Phase 12 - Ecrire/completer les loaders R (conversion sf)
 Phase 13 - Generer les fiches dataset
-Phase 13bis - Verifier chaque fiche contre le papier source (OBLIGATOIRE)
+Phase 13bis    - Verifier chaque fiche contre le papier source (OBLIGATOIRE)
+Phase 13ter    - Recherche bibliographique post-hoc + covariables externes legitimes
+Phase 13quater - Verifier la coherence inter-blocs (deterministe, cross_block_consistency.py)
 Phase 14 - Controler la promotion package et exporter les metadata
 ```
+
+## Voie alternative : dataset-first (partir du dataset, pas du papier)
+
+Les Phases 1-3 ci-dessous supposent qu'on part d'un papier deja identifie
+(DataCite, journal, ou candidat manuel) pour retrouver son dataset. Une
+voie symetrique, **dataset-first**, part du sens inverse : chercher
+directement dans Dryad/Zenodo des depots correspondant a des mots-cles de
+modelisation spatiale, puis lire la publication liee (si elle existe) dans
+les metadonnees du depot lui-meme (`relatedWorks`/`related_identifiers`),
+sans scanner le texte integral d'aucun papier pour deviner un lien.
+
+Origine (session 2026-08-15) : la voie journal-first ne donnait qu'environ
+4% de rendement (3/68 papiers avec un lien dataset extractible) sur les
+revues d'econometrie spatiale/science regionale -- ces domaines utilisent
+souvent des microdonnees restreintes non deposees avec un DOI. La voie
+DataCite-first ramene beaucoup de bruit de collision de mots-cles (elle
+agrege tous les depots du monde, y compris IRM/EEG/chimie qui utilisent
+par hasard le mot "spatial"). Dryad et Zenodo exposent chacun une API de
+recherche par mots-cles/sujet, et chaque fiche de depot porte un lien
+structure vers sa publication liee -- chercher directement le dataset,
+sans deviner depuis un texte de papier, court-circuite le probleme.
+
+Scripts responsables :
+
+- `tools/harvest_dataset_first.py` : interroge les API Dryad/Zenodo avec
+  une liste de mots-cles de modelisation spatiale (`DEFAULT_QUERIES`),
+  deduplique contre tout ce qui est deja connu (KG, manifeste de
+  curation, accumulateurs journal-first et dataset-first), verifie
+  l'existence de fichiers reels telechargeables, lit le DOI de
+  publication liee directement dans les metadonnees du depot et le
+  resout via OpenAlex (titre/venue/annee/PDF OA), puis telecharge le PDF
+  et lance GROBID si le score de pertinence du dataset franchit le seuil.
+- `tools/ingest_dataset_first_candidates.py` : pont symetrique de
+  `tools/ingest_journal_first_candidates.py` -- ingere dans
+  `inst/kg/paper_dataset_uses.json` uniquement les enregistrements avec
+  `verified=True` (fichiers reels confirmes via l'API Dryad/Zenodo),
+  jamais un candidat `needs_manual_retrieval` ou `skipped_too_small`. Un
+  dataset sans aucune publication liee dans ses propres metadonnees reste
+  ingerable (utile pour le package meme sans papier source) mais avec
+  `formula_status: no_linked_publication` et `package_include: manual_review`
+  explicite. Ne telecharge rien, n'ecrit aucune fiche, ne genere aucun
+  `.rds` -- seulement le pont vers le KG.
+- `tools/harvest_journal_first.py` / `tools/ingest_journal_first_candidates.py` :
+  variante symetrique qui part d'une liste de revues plutot que de
+  mots-cles de depot, gardee pour les domaines ou elle reste rentable.
+
+Sortie a consulter : `data/manifests/papers/dataset_first_candidates.json`
+(accumulateur persistant, un enregistrement par depot trouve, retrouve ou
+non).
+
+Une fois un candidat dataset-first ingere dans le KG (`verified=True`),
+il rejoint le meme flux que les Phases 4 et suivantes : telechargement
+des donnees (deja fait au moment de la verification Dryad/Zenodo),
+loader R, fiche, verification, promotion package.
 
 ## Phase 1 - Consulter la moisson DataCite / le manifeste de candidats
 
@@ -355,6 +414,124 @@ Pour chaque fiche generee ou regeneree :
 
 Ne pas promouvoir une fiche en Phase 14 tant que cette verification n'a pas
 ete faite au moins une fois sur sa version courante.
+
+## Phase 13ter - Recherche bibliographique post-hoc et correction de formule
+
+But : pour un dataset dataset-first sans publication liee resolue (aucun
+DOI dans les metadonnees du depot, ou candidat marque
+`manual_review`/`no_linked_publication`), chercher activement le papier
+apres coup plutot que de laisser `formula_used` comme une simple
+proposition du curateur sans verification externe.
+
+Methode (session 2026-08-16/17, remplace la recherche via 3 agents en
+arriere-plan par une recherche directe -- plus fiable quand la limite de
+session/semaine approche) :
+
+1. `WebSearch` sur le titre exact du depot ou des mots-cles distinctifs
+   des donnees (noms de colonnes rares, methode citee dans le README).
+2. Si un papier candidat est trouve, `WebFetch` sur le DOI/la page editeur
+   pour le texte integral ou l'abstract. Si l'editeur bloque
+   (paywall, 403, anti-bot type Anubis, cookie-gate) : **ne jamais
+   contourner** -- essayer une source alternative legitime (depot
+   institutionnel, preprint arXiv, PMC, page officielle du journal) avant
+   d'abandonner et de documenter l'acces comme non disponible.
+3. Comparer la formule/les variables du papier avec `formula_used` de la
+   fiche :
+   - `CONFIRMED` : le papier confirme que la formule proposee est
+     raisonnable (memes variables, meme sens causal) -- documenter la
+     reference, garder `formula_used`.
+   - `REVISE` : le papier revele une specification differente (variables
+     manquantes, sens causal invers, ou une covariable proposee s'avere
+     etre en realite un poids/critere d'exclusion, cf. Phase 13bis) --
+     corriger `formula_used`/`formula_pub`/`x_terms_pub` et documenter le
+     changement dans `source_ref` (garder trace de l'ancienne
+     proposition et de la raison de la correction).
+   - `UNRESOLVED` : rien trouve malgre une recherche serieuse -- garder
+     `formula_used` telle quelle, documenter l'echec de recherche.
+4. Un dataset peut rester `package_include: manual_review` meme apres un
+   `CONFIRMED` ou un `REVISE` si la vraie specification du papier (ex.
+   modele bayesien hierarchique, processus gaussien, SEM) n'est pas
+   reproductible par une regression lineaire simple -- documenter cette
+   limite plutot que de fabriquer une equivalence.
+
+### Integration de covariables/geometrie externes legitimes
+
+Quand le depot local n'a ni geometrie ni covariables reelles mais que la
+fiche a une cle geographique exploitable (noms de communes/municipalites,
+coordonnees), une source publique legitime peut combler le manque --
+jamais une valeur inventee :
+
+- **Geometrie administrative absente** : jointure par nom normalise
+  (majuscules, accents retires) a une couche publique en licence ouverte
+  (`geoBoundaries`, CC0/CC-BY, https://www.geoboundaries.org -- couvre
+  tous les pays, niveau ADM2 typiquement). Toujours documenter le taux
+  d'appariement reel et exclure les cles ambigues (homonymes entre
+  regions) plutot que de les joindre au hasard.
+- **Covariables climatiques absentes** : normales climatiques `CHELSA`
+  V2.1 (CC-BY-4.0, https://chelsa-climate.org), lues directement en
+  streaming via GDAL `/vsicurl/` (pas de telechargement du raster
+  mondial complet) puis extraites par moyenne zonale sur les polygones
+  deja disponibles. Verifier la plage de valeurs obtenue est
+  geographiquement plausible pour la region avant de l'utiliser (ex.
+  temperature en degres C coherente avec le climat local, pas des
+  valeurs de dixiemes de Kelvin non converties).
+- Documenter systematiquement dans `source_ref` : la source externe
+  exacte (URL, licence), la methode de jointure/extraction, et le fait
+  que ce sont des normales/moyennes -- pas les covariables exactes de la
+  periode d'etude du papier si celui-ci utilise des donnees mensuelles.
+
+## Phase 13quater - Verification de coherence inter-blocs (deterministe)
+
+But : la Phase 13bis verifie une fiche CONTRE le papier source (fidelite
+externe). Cette phase verifie qu'une fiche est coherente AVEC ELLE-MEME
+(les differents blocs Bloc 1/Bloc 4/benchmark_readiness/
+estimator_eligibility/Quality Control ne se contredisent pas) -- un type
+d'erreur que ni le validateur Tier 1 (presence/validite d'un champ pris
+isolement) ni le validateur Tier 2 (LLM-as-judge, fidelite au papier) ne
+detectent.
+
+Script responsable : `LLM-wiki-Assessment/eval/cross_block_consistency.py`
+(deterministe, aucun appel LLM, n'ecrit rien -- produit une synthese
+markdown, ne modifie aucune fiche).
+
+Regles verifiees :
+
+- **R1** : chaque variable citee dans `formula_used` doit apparaitre
+  parmi les candidats Y/X/coordonnees/identifiants declares dans le
+  Bloc 1 (sinon la formule reference une colonne absente de l'artefact).
+- **R2** : `package_include: "yes"` ne doit jamais coexister avec
+  `formula_used: "pending"` ou `formula_status: "not_found"`.
+- **R3** : le "N observations" du Bloc 4 doit correspondre a tout "N=X"
+  mentionne ailleurs dans le texte de la fiche (source_ref/reason), sauf
+  si l'ecart est deja explicitement documente comme tel (N brut vs N
+  filtre, ecart de millesime, etc.).
+- **R4** : `estimator_eligibility.status` et
+  `benchmark_readiness.benchmark_status` ne doivent pas se contredire.
+- **R5** : le tableau Quality Control ne doit pas afficher "OK" pour un
+  champ dont la valeur amont est `pending`/`unknown`/`not_found`, sauf si
+  la ligne elle-meme explique la nuance (ex. "OK -- preuve de formule
+  publication renseignee ; formula_used reste pending").
+
+Commande :
+
+```powershell
+python LLM-wiki-Assessment/eval/cross_block_consistency.py
+python LLM-wiki-Assessment/eval/cross_block_consistency.py --fiche wiki/datasets/fiches_datasets/paper_x.md
+```
+
+Sortie : `.eval/consistency_reports/<date>.md`. Sur 249-252 fiches, la
+premiere passe (avant nettoyage des faux positifs du script lui-meme --
+libelles avec tiret cadratin non reconnus, annotations tronquees mal
+parsees, deux schemas YAML differents pour `estimator_eligibility`,
+fonctions R comme `Matern`/`offset` prises pour des variables) en avait
+signale 133 ; apres correction du script, 4 restaient, dont un vrai bug
+(colonne `T` en collision avec la convention `TIME_VAR <- "T"` du
+pipeline partage, corrigee en renommant la colonne dans le loader).
+
+Cette phase est complementaire de la Phase 13bis, pas un remplacement --
+elle n'a pas besoin du papier source pour tourner, donc elle est bon
+marche a relancer regulierement (apres tout batch de fiches), mais elle
+ne detecte que ce qu'on lui a explicitement dit de verifier.
 
 ## Phase 14 - Controler la promotion package et exporter les metadata
 
