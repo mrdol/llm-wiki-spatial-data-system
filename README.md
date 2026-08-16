@@ -22,7 +22,10 @@ conditions comparables.
   `main`, `dev` et `ma-modif`, recuperer les modifications de l'autre et
   ouvrir/fusionner des Pull Requests.
 - `README_INSTALL.md` decrit l'installation et la reinstallation des outils
-  Python, R, PDF/OCR, GROBID et `spatialtidymodels`.
+  Python, R, PDF/OCR, GROBID et `spatialtidymodels`, ainsi que les
+  serveurs MCP locaux (`mcp_servers/`).
+- `wiki/metadata/paper_dataset_ingestion_pipeline_2026-08.md` decrit en
+  detail le pipeline datasets papiers (14 phases + voie dataset-first).
 - `tools/setup_project_environment.ps1` fournit un script PowerShell de
   reinstallation ordonnee.
 
@@ -44,13 +47,16 @@ Le projet distingue trois familles de sources de jeux de donnees.
 
 | Famille | Role | Etat actuel |
 |---|---|---|
-| Packages R/Python | Premiere source exploree : datasets embarques dans des librairies de statistique spatiale, econometrie spatiale, SIG ou apprentissage | pipeline le plus avance |
-| Articles scientifiques avec donnees ouvertes | Papiers de statistique/econometrie spatiale qui publient leurs donnees, code ou supplements | pipeline bibliographique en construction |
-| Banques et entrepots de donnees | Zenodo, Dryad, Dataverse, Figshare, data.gouv, INSEE, Eurostat, OECD, World Bank, etc. | scrapers et manifests deja presents |
+| Packages R/Python | Premiere source exploree : datasets embarques dans des librairies de statistique spatiale, econometrie spatiale, SIG ou apprentissage | ~136 datasets consolides |
+| Articles scientifiques avec donnees ouvertes | Papiers de statistique/econometrie spatiale/ecologie qui publient leurs donnees, code ou supplements, trouves soit en partant du papier (DataCite/journal) soit en partant du depot Dryad/Zenodo (dataset-first) | pipeline mature : ~398 candidats consolides (curation `high`/`medium`/`low`), 116+ fiches construites |
+| Banques et entrepots de donnees | Zenodo, Dryad, Dataverse, Figshare, data.gouv, INSEE, Eurostat, OECD, World Bank, etc. | scrapers et manifests deja presents ; sert aussi de source de covariables/geometrie externes legitimes (geoBoundaries, CHELSA) quand un depot papier n'en fournit pas |
 
 Les packages R/Python ne sont donc pas l'objectif final : ils constituent une
 premiere entree plus controlee pendant que les deux autres familles sont
-structurees.
+structurees. Les deux flux convergent vers le meme package final,
+`spatialtidymodels` (`packages/spatialtidymodels/`), dont
+`inst/metadata/datasets.json` liste chaque dataset avec son statut de
+promotion (`package_include: yes | manual_review | no`).
 
 ## Architecture principale
 
@@ -140,6 +146,53 @@ Sorties principales :
 - `wiki/datasets/r_package_docs/<package>/<package>.md`
 - `wiki/datasets/r_package_docs/<package>/topics/<dataset>.md`
 
+## Pipeline datasets papiers
+
+La couche papiers part soit d'un papier connu (DataCite, liste de revues),
+soit directement d'un depot Dryad/Zenodo (dataset-first, plus rentable sur
+les domaines a microdonnees peu deposees) pour produire des fiches
+`wiki/datasets/fiches_datasets/paper_<id>.md` benchmarkables.
+
+```text
+harvest (DataCite / journal-first / dataset-first)
+-> ingestion KG (inst/kg/paper_dataset_uses.json)
+-> manifeste de curation (priorite high/medium/low)
+-> loader R (conversion sf)
+-> fiche dataset (Bloc 1-6)
+-> verification contre le papier source (obligatoire)
+-> recherche bibliographique post-hoc si publication non liee automatiquement
+-> verification de coherence inter-blocs (deterministe)
+-> controle de promotion package + export metadata
+```
+
+Guide detaille (14 phases + voie dataset-first) :
+`wiki/metadata/paper_dataset_ingestion_pipeline_2026-08.md`.
+
+Scripts principaux :
+
+- `tools/harvest_datacite.R`, `tools/harvest_journal_first.py`,
+  `tools/harvest_dataset_first.py` : trois voies de decouverte de
+  candidats papier-dataset.
+- `tools/build_paper_dataset_curation_manifest.py` : consolide tous les
+  signaux (fiches existantes, DataCite, KG, audit TEI) en un manifeste de
+  decision unique.
+- `code/r_catalog/build_sf_datasets_papers.R` : un loader R par dataset
+  (`PAPER_DATASET_LOADERS`), convertit les donnees brutes en objet `sf`.
+- `code/r_catalog/generate_fiches_papers.R` : genere la fiche Bloc 1-6 a
+  partir du `.rds` et des dictionnaires `FORMULA_OVERRIDES`/
+  `PAPER_READINESS` completes a la main pour chaque dataset.
+- `LLM-wiki-Assessment/eval/cross_block_consistency.py` : verificateur
+  deterministe de coherence entre les blocs d'une meme fiche (formule vs
+  variables declarees, statut de promotion vs formule, etc.).
+- `code/package_metadata/export_spatialtidymodels_metadata.py` : exporte
+  les fiches vers `packages/spatialtidymodels/inst/metadata/datasets.json`.
+
+Sorties principales :
+
+- `data/manifests/papers/paper_dataset_benchmark_candidates.json` (manifeste de curation)
+- `wiki/datasets/fiches_datasets/paper_*.md`
+- `packages/spatialtidymodels/inst/metadata/datasets.json`
+
 ## Corpus, JabRef et GROBID
 
 JabRef ou BibDesk gere `corpus/bib/references.bib` : metadonnees, DOI, URL,
@@ -214,6 +267,7 @@ formules dans le KG.
 | Tier 1 | Structure, frontmatter, liens internes | 0 token |
 | Tier 2 | Evaluation semantique LLM-as-judge | tokens |
 | Tier 3 | File de revue manuelle | 0 token |
+| Cross-block | Coherence entre les blocs d'une meme fiche (formule vs variables declarees, statut de promotion vs formule, etc.) -- `cross_block_consistency.py` | 0 token |
 
 Commandes utiles :
 
