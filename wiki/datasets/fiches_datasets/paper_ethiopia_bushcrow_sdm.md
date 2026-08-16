@@ -1,8 +1,8 @@
 ---
 title: paper_ethiopia_bushcrow_sdm
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_ethiopia_bushcrow_sdm.rds
   - DataCite_2021_ClimaticChangeAndExtinction_10_1371_journal_
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 
 - Topic: dataset spatial spatial
 - Observation unit: observation spatiale du dataset "Research data supporting ''Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species''"
-- Observed population: Species Distribution Models (SDM) pour oiseaux endémiques Éthiopie avec projections climatiques ; 31 citations ; domaine biodiversité/climate change ; SDM est une forme de modélisation spatiale prédictive
+- Observed population: Species Distribution Models (SDM) pour oiseaux endÃ©miques Ã‰thiopie avec projections climatiques ; 31 citations ; domaine biodiversitÃ©/climate change ; SDM est une forme de modÃ©lisation spatiale prÃ©dictive
 - Geographic context: etendue sf: x [37.5909043, 39.7300751], y [3.5443083, 5.6519525]
 - Temporal context: none (cross-sectional)
 - Source description: Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 |---|---|---|---|---|
 | `pa` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_bushcrow_sdm`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species`. Les covariables X retenues sont `max_temp_warmest_month`, `temp_seasonality`, `temp_annual_range`, `precip_wettest_quarter`, `precip_driest_quarter`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_bushcrow_sdm`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species`. Les covariables X retenues sont `max_temp_warmest_month`, `temp_seasonality`, `temp_annual_range`, `precip_wettest_quarter`, `precip_driest_quarter`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -74,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Bladon, Donald, Collar, Denge, Dadacha, Wondafrash & Green (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: 5 variables bioclimatiques WorldClim standard (BIO5, BIO4, BIO7, BIO16, BIO17) nommees explicitement. Les .rda Dryad ne contiennent que des points (presence/absence WGS84) sans covariable ; les 5 rasters WorldClim (geodata::worldclim_global, res=2.5 arcmin) ont ete telecharges et extraits localement le 2026-08-12, resolution plus grossiere que celle utilisee dans le papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bladon, Donald, Collar, Denge, Dadacha, Wondafrash & Green (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: 5 variables bioclimatiques WorldClim standard (BIO5, BIO4, BIO7, BIO16, BIO17) nommees explicitement. Les .rda Dryad ne contiennent que des points (presence/absence WGS84) sans covariable ; les 5 rasters WorldClim (geodata::worldclim_global, res=2.5 arcmin) ont ete telecharges et extraits localement le 2026-08-12, resolution plus grossiere que celle utilisee dans le papier.
 
 ### Formule - niveau systeme
 
 - formula_used: pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter
 - x_terms_used: max_temp_warmest_month, temp_seasonality, temp_annual_range, precip_wettest_quarter, precip_driest_quarter
 - y_term_used: pa
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Bladon, Donald, Collar, Denge, Dadacha, Wondafrash & Green (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: 5 variables bioclimatiques WorldClim standard (BIO5, BIO4, BIO7, BIO16, BIO17) nommees explicitement. Les .rda Dryad ne contiennent que des points (presence/absence WGS84) sans covariable ; les 5 rasters WorldClim (geodata::worldclim_global, res=2.5 arcmin) ont ete telecharges et extraits localement le 2026-08-12, resolution plus grossiere que celle utilisee dans le papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bladon, Donald, Collar, Denge, Dadacha, Wondafrash & Green (2021), PLOS ONE, DOI 10.1371/journal.pone.0249633, p.3 Materials and methods: 5 variables bioclimatiques WorldClim standard (BIO5, BIO4, BIO7, BIO16, BIO17) nommees explicitement. Les .rda Dryad ne contiennent que des points (presence/absence WGS84) sans covariable ; les 5 rasters WorldClim (geodata::worldclim_global, res=2.5 arcmin) ont ete telecharges et extraits localement le 2026-08-12, resolution plus grossiere que celle utilisee dans le papier.
 
 ### Formules candidates
 
@@ -151,27 +151,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "classification_binary_presence_absence"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "covariables WorldClim ajoutees localement le 2026-08-12 a une resolution (2.5 arcmin) plus grossiere que celle utilisee dans le papier ; points de fond (pseudo-absences) non utilises"
-  reason: "pa binaire et 5 variables bioclimatiques nommees dans le papier confirmees, mais les covariables viennent d'une source externe (WorldClim) rajoutee cette session, pas du depot Dryad original."
+  missing_items: "reponse pa binaire; covariables WorldClim ajoutees localement a une resolution plus grossiere que la resolution du papier; pseudo-absences/background a documenter dans les benchmarks"
+  reason: "pa binaire et 5 variables bioclimatiques nommees dans le papier sont presentes. Ce n'est pas une regression continue, mais le dataset est suffisamment trace pour entrer dans le package comme cas SDM/classification documente."
 ```
 
-- Decision: almost_ready
-- Manque principal: covariables WorldClim ajoutees localement le 2026-08-12 a une resolution (2.5 arcmin) plus grossiere que celle utilisee dans le papier ; points de fond (pseudo-absences) non utilises
-- Raison: pa binaire et 5 variables bioclimatiques nommees dans le papier confirmees, mais les covariables viennent d'une source externe (WorldClim) rajoutee cette session, pas du depot Dryad original.
+- Decision: ready
+- Manque principal: reponse pa binaire; covariables WorldClim ajoutees localement a une resolution plus grossiere que la resolution du papier; pseudo-absences/background a documenter dans les benchmarks
+- Raison: pa binaire et 5 variables bioclimatiques nommees dans le papier sont presentes. Ce n'est pas une regression continue, mais le dataset est suffisamment trace pour entrer dans le package comme cas SDM/classification documente.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: []
   conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
   ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

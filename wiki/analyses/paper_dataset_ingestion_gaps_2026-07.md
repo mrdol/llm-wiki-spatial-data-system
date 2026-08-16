@@ -2,7 +2,7 @@
 title: Papiers du corpus avec datasets spatiaux non encore ingérés
 type: metadata
 created: 2026-07-27
-updated: 2026-08-13
+updated: 2026-08-15
 sources: [inst/kg/paper_dataset_uses.json]
 tags: [metadata, kg, papers, datasets, ingestion, gaps]
 ---
@@ -39,7 +39,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.866t1g1n0; Publication DOI 10.1111/ddi.13046 | ModÃ©lisation de distribution spatiale de variÃ©tÃ©s traditionnelles de haricot commun ; gap analysis avec prÃ©dicteurs environnementaux et socioÃ©conomiques ; domaine agriculture/conservation ex situ ; 35 citations |
+| A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces | `converted_to_sf` |  | None | None | DataCite dataset DOI 10.5061/dryad.866t1g1n0; Publication DOI 10.1111/ddi.13046 | ModÃ©lisation de distribution spatiale de variÃ©tÃ©s traditionnelles de haricot commun ; gap analysis avec prÃ©dicteurs environnementaux et socioÃ©conomiques ; domaine agriculture/conservation ex situ ; 35 citations |
 
 ## A global dataset of air temperature derived from satellite remote sensing and weather stations
 
@@ -201,7 +201,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.9p8cz8wdz; Publication DOI 10.1002/ece3.7059 | Ã‰cologie marine spatiale : distribution Balearic shearwaters, GAM et Random Forest pour prÃ©diction prÃ©sence, variables ocÃ©anographiques, coordonnÃ©es gÃ©ographiques. |
+| Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys | `blocked_raw_training_data_on_request` |  | None | None | DataCite dataset DOI 10.5061/dryad.9p8cz8wdz; Publication DOI 10.1002/ece3.7059 | Ã‰cologie marine spatiale : distribution Balearic shearwaters, GAM et Random Forest pour prÃ©diction prÃ©sence, variables ocÃ©anographiques, coordonnÃ©es gÃ©ographiques. |
 
 ## ConstruÃ§Ã£o de um Ã­ndice de desenvolvimento sustentÃ¡vel e anÃ¡lise espacial das desigualdades nos municÃ­pios cearenses
 
@@ -363,7 +363,16 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.ncjsxkszw; Publication DOI 10.1111/jbi.14708 | Analyse spatiale de changements de limite forestiÃ¨re alpine avec rÃ©gression linÃ©aire multiple sur variables topographiques/climatiques, donnÃ©es empiriques gÃ©orÃ©fÃ©rencÃ©es (White Mountain, Baxter State Park). |
+| Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States | `blocked_missing_coordinates` |  | None | None | DataCite dataset DOI 10.5061/dryad.ncjsxkszw; Publication DOI 10.1111/jbi.14708 | Analyse spatiale de changements de limite forestiÃ¨re alpine avec rÃ©gression linÃ©aire multiple sur variables topographiques/climatiques, donnÃ©es empiriques gÃ©orÃ©fÃ©rencÃ©es (White Mountain, Baxter State Park). |
+
+## GWRBoost: A geographically weighted gradient boosting method for explainable quantification of spatially-varying relationships
+
+- DOI papier : `10.48550/arXiv.2212.05814`
+- BibTeX key : `GeoDaLab_2017_NYCCensus2000_geodacenter_data_and_lab`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| NYC education data set (NYC-Census-2000, GeoDa Lab) | `raw_data_downloaded` | socio-economic | 2216 | 6 | Wang, H., Huang, Z., Yin, G., Bao, Y., Zhou, X. and Gao, Y. (2022) arXiv:2212.05814 (preprint). | Section 4.3 'Empirical case study' cite explicitement le dataset et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000). Table 2 documente exactement les 6 variables independantes + mean_inc en reponse. Table 3-4 rapportent les resultats OLS/GWR/GWRBoost (R2 = 0.557/0.825/0.882). Shapefile telecharge directement depuis GeoDa Lab, N=2216 identique au papier -- pas une reconstruction. |
 
 ## Generalized Spatially Varying Coefficient Models
 
@@ -507,7 +516,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4478390; Publication DOI 10.1080/01621459.2016.1261710 | RÃ©gression haute dimension avec composantes spatiales (spatial features, smoothness, correlation), MWPCR intÃ¨gre PCA et mÃ©thodes kernel pour prÃ©diction avec features spatiales (imagerie biomÃ©dicale). |
+| MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction | `blocked_non_geographic_neuroimaging_adni_restricted` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.4478390; Publication DOI 10.1080/01621459.2016.1261710 | RÃ©gression haute dimension avec composantes spatiales (spatial features, smoothness, correlation), MWPCR intÃ¨gre PCA et mÃ©thodes kernel pour prÃ©diction avec features spatiales (imagerie biomÃ©dicale). |
 
 ## MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 
@@ -526,6 +535,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Method of the Geographically Weighted Regression and an Example for its Application | `pdf_present_pending_grobid` |  | None | None | DataCite dataset DOI 10.7910/dvn/djvxeh; Publication DOI 10.15196/rs04105 | Article mÃ©thodologique sur la mÃ©thode GWR (geographically weighted regression) avec exemple d'application. MÃ©thode GWR explicite, dataset empirique pour dÃ©monstration, approche locale de rÃ©gression spatiale. |
+
+## Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013
+
+- DOI papier : `10.3133/sir20215015`
+- BibTeX key : `DataCite_2021_MethodsForEstimatingRegional_10_3133_sir20215`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5066/p9pgal0d; Publication DOI 10.3133/sir20215015 | Régression B-WLS/B-GLS pour skewness de flood flows (hydrologie), 183 streamgages New York/Pennsylvania, basin characteristics. Méthode spatial regression (B-WLS/B-GLS), domaine hydrologie (proche climate/precipitation), correspond au périmètre méthodologique. |
 
 ## Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback
 
@@ -570,7 +588,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.jr66k; Publication DOI 10.1111/eva.12161 | GÃ©nÃ©tique du paysage pour modÃ©liser la dispersion de ratons laveurs et mouffettes (hÃ´tes de la rage) ; Multiple Regression on Distance Matrices (MRDM) avec distance gÃ©nÃ©tique vs gÃ©ographique et variables paysagÃ¨res ; 49 citations |
+| Data from: Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | `blocked_landscape_genetics_dyadic` |  | None | None | DataCite dataset DOI 10.5061/dryad.jr66k; Publication DOI 10.1111/eva.12161 | GÃ©nÃ©tique du paysage pour modÃ©liser la dispersion de ratons laveurs et mouffettes (hÃ´tes de la rage) ; Multiple Regression on Distance Matrices (MRDM) avec distance gÃ©nÃ©tique vs gÃ©ographique et variables paysagÃ¨res ; 49 citations |
 
 ## Multiple stressors and the cause of amphibian abnormalities
 
@@ -580,6 +598,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: Multiple stressors and the cause of amphibian abnormalities | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.sq72d; Publication DOI 10.1890/09-0879.1 | RÃ©gression logistique pour prÃ©dire anomalies chez grenouilles en Alaska ; 21 zones humides avec coordonnÃ©es ; variables contaminants, prÃ©dateurs, parasites ; comparaison de modÃ¨les AIC ; 33 citations |
+
+## Natural Attraction and Driving Forces: Analyzing the Impact of Parkland on Residential Prices and Typological Difference*
+
+- DOI papier : `10.1080/10549811.2025.2513228`
+- BibTeX key : `DataCite_2025_NaturalAttractionAndDriving_10_1080_10549811`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Natural Attraction and Driving Forces: Analyzing the Impact of Parkland on Residential Prices and Typological Difference* | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.29210301; Publication DOI 10.1080/10549811.2025.2513228 | Impact de parcs urbains sur prix résidentiels à Shenzhen. OLS et GWR (geographically weighted regression). Domaine housing prices/real estate (prioritaire). Méthode GWR (périmètre scientifique). |
 
 ## New trajectories of the Hungarian regional development: balanced and rush growth of territorial capital
 
@@ -626,7 +653,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: On the brink: Mapping the last strongholds of the critically endangered flapper skate ( Dipturus intermedius ) | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.w0vt4b954; Publication DOI 10.1002/ece3.71650 | Ã‰cologie marine spatiale : distribution flapper skate, Bayesian spatial binomial GAMM, covariables environnementales, pression de pÃªche, coordonnÃ©es gÃ©ographiques. |
+| Data from: On the brink: Mapping the last strongholds of the critically endangered flapper skate ( Dipturus intermedius ) | `converted_to_sf` |  | None | None | DataCite dataset DOI 10.5061/dryad.w0vt4b954; Publication DOI 10.1002/ece3.71650 | Ã‰cologie marine spatiale : distribution flapper skate, Bayesian spatial binomial GAMM, covariables environnementales, pression de pÃªche, coordonnÃ©es gÃ©ographiques. |
 
 ## On the determinants of Airbnb location and its spatial distribution
 
@@ -914,7 +941,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Time-lag in responses of birds to Atlantic Forest fragmentation: restoration opportunity and urgency | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.f180j; Publication DOI 10.1371/journal.pone.0147909 | Ã‰tude sur les rÃ©ponses temporelles des oiseaux Ã  la fragmentation de la forÃªt atlantique brÃ©silienne, donnÃ©es multi-temporelles (1956-2003) avec aire/isolation des fragments. Domaine biodiversitÃ©/dÃ©forestation pertinent, analyse spatiale temporelle explicite. |
+| Data from: Time-lag in responses of birds to Atlantic Forest fragmentation: restoration opportunity and urgency | `blocked_missing_site_geometry_join_key` |  | None | None | DataCite dataset DOI 10.5061/dryad.f180j; Publication DOI 10.1371/journal.pone.0147909 | Ã‰tude sur les rÃ©ponses temporelles des oiseaux Ã  la fragmentation de la forÃªt atlantique brÃ©silienne, donnÃ©es multi-temporelles (1956-2003) avec aire/isolation des fragments. Domaine biodiversitÃ©/dÃ©forestation pertinent, analyse spatiale temporelle explicite. |
 
 ## Top-down scale approaches for multiscale GWR with locally adaptive bandwidths
 
@@ -946,7 +973,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | `rejected_user_excluded` |  | None | None | DataCite dataset DOI 10.25384/sage.18902846.v1; Publication DOI 10.1177/23998083211063885 | ModÃ¨le combinÃ© HLM + GWR pour hÃ©tÃ©rogÃ©nÃ©itÃ© spatiale des prix immobiliers, donnÃ©es empiriques rÃ©elles, mÃ©thode explicite dans le titre. |
+| sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.25384/sage.18902846.v1; Publication DOI 10.1177/23998083211063885 | Article sur GWR + modèle hiérarchique pour prix immobiliers (real estate prices), domaine prioritaire, méthode spatiale explicite (GWR), dataset CSV disponible, 22 citations > seuil 10. |
 
 ## Understanding different dominance patterns in western Amazonian forests
 
@@ -955,7 +982,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Understanding different dominance patterns in western Amazonian forests | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5061/dryad.pk0p2ngsd; Publication DOI 10.1111/ele.14351 | ModÃ¨les de rÃ©gression beta pour analyser les patterns de dominance spatiale d'espÃ¨ces d'arbres en Amazonie ; 503 parcelles d'inventaire forestier avec coordonnÃ©es ; relation abondance-occupation spatiale ; courbes d'agrÃ©gation spatiale |
+| Understanding different dominance patterns in western Amazonian forests | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.pk0p2ngsd; Publication DOI 10.1111/ele.14351 | ModÃ¨les de rÃ©gression beta pour analyser les patterns de dominance spatiale d'espÃ¨ces d'arbres en Amazonie ; 503 parcelles d'inventaire forestier avec coordonnÃ©es ; relation abondance-occupation spatiale ; courbes d'agrÃ©gation spatiale |
 
 ## Vegetation cover in relation to socioeconomic factors in a tropical city assessed from sub-meter resolution imagery
 
@@ -965,6 +992,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: Vegetation cover in relation to socioeconomic factors in a tropical city assessed from sub-meter resolution imagery | `needs_data_retrieval` |  | None | None | DataCite dataset DOI 10.5061/dryad.3vh79; Publication DOI 10.1002/eap.1673 | Couverture vegetale urbaine a San Juan (Porto Rico), imagerie sub-metrique et classification orientee objet, relations socio-ecologiques (rapport de verification DataCite, idx 22, needs_manual_check promu en keep). Dataset jamais telecharge -- aucun fichier recupere sous data/raw/papers a ce jour ; PDF de la publication recupere manuellement et confirme dans corpus/papers/raw_pdf. |
+
+## What dictates income in New York City? SHAP analysis of income estimation based on Socio-economic and Spatial Information Gaussian Processes (SSIG)
+
+- DOI papier : `10.1057/s41599-023-01548-7`
+- BibTeX key : `DataCite_2023_WhatDictatesIncomeIn_10_1057_s41599_023_0`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Tract-level and ZIP-level income (per-capita and median household), ACS 2015-2019 5-year via Census Reporter | `raw_data_reconstructed` | socio-economic | 2199 | 10 | Bai, R., Lam, J.C.K. and Li, V.O.K. (2023) Humanities and Social Sciences Communications 10:60. | Modele Gaussian Process (noyau Matern-3/2) + SHAP pour estimer le revenu par tract/ZIP a partir de 10 variables socio-economiques ACS et des coordonnees du centroide. Depot du papier non public (donnees sur demande) ; reconstruit depuis Census Reporter (ACS 2020-2024 5-year, millesime le plus recent disponible sans cle API Census Bureau) + TIGER/Line 2023 pour la geometrie. |
 
 ## Women's political empowerment and welfare policy decisions: a spatial analysis of European countries
 

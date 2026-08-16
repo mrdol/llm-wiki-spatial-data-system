@@ -1378,13 +1378,34 @@ load_plant_invasion_fia <- function() {
 }
 
 # --- Loader debit de base Maine (Lombard et al. 2021) -----------------------
-# Shapefile de reseau hydrographique NHDPlus (LINESTRING, 42449 troncons).
-# Attributs au format standard USGS/NHDPlus : DASQMI (surface de drainage),
-# SANDGRAVAF (aquifere sable/gravier), JULYAVPRE (precipitation moyenne de
-# juillet), AUGAVGBF (debit de base moyen d'aout -- reponse, correspond
-# exactement au titre du papier), OOB_* (indicateurs out-of-bag du modele
-# random forest original), REGULATED.
+# CORRIGE le 2026-08-15 : le shapefile Dryad/ScienceBase (Maine_Mean_August_
+# Baseflow_Map, LINESTRING, 42449 troncons NHDPlus) n'est PAS une table
+# d'apprentissage Y~X -- c'est la carte de PREDICTION du modele applique a
+# tout le reseau hydrographique de l'Etat (papier, section 2.4 "Mapping"),
+# pas 42449 observations independantes. Utiliser ce produit comme s'il avait
+# N=42449 avait fait passer la fiche package_include=yes a tort.
+# La vraie table de calibration (N=31, Table 1 p.1257 du papier, Equation 1
+# p.1258 : BFaug = -0.006765 + 0.0001074*AQ + 0.0001033*JULAVEPRE, R2=0.78)
+# est transcrite dans table1_gage_stations.csv (voir README_table1_gage_
+# stations.txt pour la provenance complete : valeurs Table 1 + coordonnees
+# USGS NWIS Site Service pour les 31 stations de jaugeage reelles).
 load_maine_baseflow <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835")
+  df <- utils::read.csv(file.path(dir, "table1_gage_stations.csv"), stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("dec_long", "dec_lat"), crs = 4326, remove = FALSE)
+  return(list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "dec_long,dec_lat",
+      identifier_variables = "id,site_no,streamgage_name_paper,streamgage_name_usgs",
+      datetime_columns = "",
+      candidate_y_variables = "aug_baseflow_m3s_km2"
+    )
+  ))
+}
+
+load_maine_baseflow_prediction_surface_UNUSED <- function() {
   dir <- file.path(REPO_ROOT, "data", "raw", "papers",
                    "DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835")
   extracted <- file.path(dir, "extracted")
@@ -2216,6 +2237,1476 @@ load_wildfire_greenup_nbr5 <- function(sample_n = 50000L) {
     )
   )
 }
+
+load_flapper_skate_presence <- function() {
+  dir <- find_paper_raw_dir("OnTheBrinkMapping")
+  zip_path <- file.path(dir, "doi_10_5061_dryad_w0vt4b954__v20260427.zip")
+  if (!file.exists(zip_path)) stop("Archive Dryad flapper skate introuvable.", call. = FALSE)
+
+  member <- zip_member_by_basename(zip_path, "full_dataset.csv")
+  df <- utils::read.csv(unz(zip_path, member), sep = ";", stringsAsFactors = FALSE, check.names = TRUE)
+  names(df) <- make.names(names(df), unique = TRUE)
+
+  needed <- c("present", "current", "dcoast", "bath", "btemp", "fishing_hours",
+              "pp_mean", "haul_dur", "year", "quarter", "lon", "lat")
+  missing <- setdiff(needed, names(df))
+  if (length(missing)) stop("Colonnes flapper skate manquantes : ", paste(missing, collapse = ", "), call. = FALSE)
+
+  df <- df[stats::complete.cases(df[, needed]), , drop = FALSE]
+  df <- df[is.finite(df$lon) & is.finite(df$lat), , drop = FALSE]
+  df <- df[is.finite(df$bath) & df$bath >= -1000, , drop = FALSE]
+  df <- df[is.finite(df$haul_dur) & df$haul_dur <= 80, , drop = FALSE]
+  df <- df[is.finite(df$fishing_hours) & df$fishing_hours <= 100, , drop = FALSE]
+  df$present_01 <- as.integer(df$present > 0)
+  df$survey <- as.factor(df$survey)
+  df$ship <- as.factor(df$ship)
+
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "survey,ship,year,quarter",
+      datetime_columns = "none",
+      candidate_y_variables = "present_01"
+    )
+  )
+}
+
+load_bean_landrace_gap_sdm <- function() {
+  dir <- find_paper_raw_dir("AGapAnalysisModelling")
+  xlsx <- file.path(dir, "dataset_s1_revised2.xlsx")
+  if (!file.exists(xlsx)) stop("Fichier Excel haricot/landrace introuvable.", call. = FALSE)
+  if (!requireNamespace("readxl", quietly = TRUE)) {
+    stop("Package 'readxl' requis.", call. = FALSE)
+  }
+
+  df <- as.data.frame(readxl::read_excel(xlsx, sheet = "bean_predicted_bd_americas"))
+  names(df) <- make.names(names(df), unique = TRUE)
+  needed <- c("status", "genepool", "latitude", "longitude",
+              "bio_1", "bio_12", "alt", "PETa", "popdens", "access",
+              "distgp1", "rivers", "irri", "aharv", "prod", "yield")
+  missing <- setdiff(needed, names(df))
+  if (length(missing)) stop("Colonnes landrace manquantes : ", paste(missing, collapse = ", "), call. = FALSE)
+
+  df$status_H_01 <- as.integer(df$status == "H")
+  df$genepool_andean_01 <- as.integer(df$genepool == "andean")
+  formula_cols <- c("status_H_01", "bio_1", "bio_12", "alt", "PETa", "popdens",
+                    "access", "distgp1", "rivers", "irri", "aharv", "prod", "yield",
+                    "latitude", "longitude")
+  df <- df[stats::complete.cases(df[, formula_cols]), , drop = FALSE]
+  df <- df[is.finite(df$longitude) & is.finite(df$latitude), , drop = FALSE]
+
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "source,status,genepool,ethnic",
+      datetime_columns = "none",
+      candidate_y_variables = "status_H_01"
+    )
+  )
+}
+# --- Loader revenu par tract NYC (Bai, Lam & Li 2023, SSIG) -----------------
+# Le depot du papier n'est pas public (donnees sur demande). Reconstruit
+# depuis les sources publiques citees par le papier (ACS via Census Reporter,
+# geometrie TIGER/Line), millesime le plus recent disponible sans cle API
+# Census Bureau (ACS 2020-2024 5-year au lieu de 2015-2019 -- decision
+# utilisateur 2026-08-15, cf. README_nyc_tract_income.txt pour le detail
+# complet de la reconstruction et les 10 definitions exactes de Table 2).
+load_nyc_tract_income_ssig <- function() {
+  dir <- find_paper_raw_dir("WhatDictatesIncomeIn")
+  df <- utils::read.csv(file.path(dir, "nyc_tract_income_acs2024_5yr.csv"), stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("INTPTLON", "INTPTLAT"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "INTPTLON,INTPTLAT",
+      identifier_variables = "GEOID,COUNTYFP,TRACTCE",
+      datetime_columns = "",
+      candidate_y_variables = "per_capita_income,median_household_income"
+    )
+  )
+}
+
+# --- Loader NYC Census 2000 (Wang et al. 2022, GWRBoost) --------------------
+# Shapefile original du dataset utilise par le cas d'etude empirique du
+# papier (section 4.3), telecharge directement depuis GeoDa Lab (pas une
+# reconstruction -- N=2216, colonnes identiques a Table 2 du papier).
+load_nyc_census2000_gwrboost <- function() {
+  dir <- find_paper_raw_dir("NYCCensus2000")
+  sf_obj <- sf::st_read(file.path(dir, "NYC_2000Census.shp"), quiet = TRUE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "POLY_ID,CTLabel,BoroCode,BoroName,CT2000,BoroCT2000,NTACode,NTANAme,PUMA",
+      datetime_columns = "",
+      candidate_y_variables = "mean_inc"
+    )
+  )
+}
+
+load_hiv_southern_africa <- function() {
+  dir <- file.path(find_paper_raw_dir("SpatialDistributionHIVSouthernAfrica"),
+                    "Spatial distribution datasets")
+  files <- c(hivmw15 = "Malawi", hivmz15 = "Mozambique", hivnm13 = "Namibia",
+             hivza17 = "South Africa", hivzm18 = "Zambia", hivzw15 = "Zimbabwe")
+  parts <- lapply(names(files), function(f) {
+    df <- utils::read.csv(file.path(dir, paste0(f, ".csv")), fileEncoding = "UTF-8-BOM",
+                          stringsAsFactors = FALSE)
+    df$country <- files[[f]]
+    if (!"DHSYEAR" %in% names(df)) {
+      df$DHSYEAR <- as.integer(substr(df$DHSID, 3, 6))
+    }
+    region <- if ("ADM1NAME" %in% names(df)) df$ADM1NAME else df$DHSREGNA
+    keep <- c("DHSID", "country", "DHSYEAR", "URBAN_RURA", "LATNUM", "LONGNUM",
+              "NEG", "POS", "TOT", "PER")
+    df <- df[, keep]
+    df$region <- region
+    df
+  })
+  combined <- do.call(rbind, parts)
+  combined <- combined[!is.na(combined$PER), ]
+  sf_obj <- sf::st_as_sf(combined, coords = c("LONGNUM", "LATNUM"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "LONGNUM,LATNUM",
+      identifier_variables = "DHSID,country,region",
+      datetime_columns = "DHSYEAR",
+      candidate_y_variables = "PER"
+    )
+  )
+}
+
+# --- Loader GWQLasso (Miquelluti, Ozaki & Miquelluti, 2022) -----------------
+# Le depot Dataverse (10.7910/DVN/UEZMJT) contient les donnees brutes (1030
+# municipalites sur 3 Etats, 78 stations meteo) plus larges que l'echantillon
+# exact du papier (41 stations/41 municipalites du Parana non identifiees
+# dans les metadonnees). Sur decision utilisateur 2026-08-15 : utiliser les
+# 1030 municipalites completes plutot que deviner le sous-echantillon du
+# papier, decoupees par Etat (PR/RS/MT, chacun < 30000 lignes) plutot que
+# sous-echantillonnees. Geocodage des municipalites via la reference publique
+# IBGE (kelvins/Municipios-Brasileiros, 44591/44592 municipalites matchees),
+# precipitation annuelle assignee par station la plus proche (proxy simplifie
+# du SPI publie, pas une reproduction exacte -- voir README_source.txt).
+load_gwqlasso_state <- function(state_code) {
+  dir <- find_paper_raw_dir("GeographicallyWeightedQuantileLasso")
+  df <- utils::read.csv(file.path(dir, sprintf("gwqlasso_yield_precip_%s.csv", state_code)),
+                        stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("muni_lon", "muni_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "muni_lon,muni_lat",
+      identifier_variables = "Municipality,State,station_id",
+      datetime_columns = "Year",
+      candidate_y_variables = "Yield_kg_ha"
+    )
+  )
+}
+load_gwqlasso_pr <- function() load_gwqlasso_state("PR")
+load_gwqlasso_rs <- function() load_gwqlasso_state("RS")
+load_gwqlasso_mt <- function() load_gwqlasso_state("MT")
+
+# --- Loader USGS flood skew (Veilleux & Wagner, 2021) -----------------------
+# Shapefile original telecharge directement depuis ScienceBase (item enfant
+# 5ea08b8e82cefae35a13fe2b, HU02basins.zip), pas une reconstruction --
+# N=183 bassins versants identique au depot source.
+load_usgs_flood_skew <- function() {
+  dir <- find_paper_raw_dir("MethodsForEstimatingRegional")
+  sf_obj <- sf::st_read(file.path(dir, "extracted", "HU02basins.shp"), quiet = TRUE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "LONG_CENT,LAT_CENT",
+      identifier_variables = "IndexNo,site_no,station_nm,state_cd,huc_cd",
+      datetime_columns = "BegYear,EndYear",
+      candidate_y_variables = "UnbiasSkew,EMAskew"
+    )
+  )
+}
+
+# --- Loader red deer top-down effects (van Beeck Calkoen et al., 2023) ------
+# CSV original telecharge depuis Dryad via l'API OAuth (data/raw/papers/...
+# extracted/SvBC_2023_RedDeer/Data/Data_SvBC_RedDeer.csv), pas une
+# reconstruction -- N=534 sites d'etude identique au depot source.
+load_red_deer_topdown <- function() {
+  dir <- find_paper_raw_dir("NumericalTopdownEffectsOn")
+  df <- utils::read.csv(
+    file.path(dir, "extracted", "SvBC_2023_RedDeer", "Data", "Data_SvBC_RedDeer.csv"),
+    stringsAsFactors = FALSE
+  )
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Country,Study_area",
+      datetime_columns = "Year_publ",
+      candidate_y_variables = "Deer_density"
+    )
+  )
+}
+
+# --- Loader fire/forest loss Dominican Republic (Martinez Batlle, 2021) ----
+# Fichier "long-term approach" du depot Zenodo (grd_zonal_statistics.RDS,
+# extrait du zip forest-loss-fire-reproducible.zip, sans reconstruction),
+# grille hexagonale de 482 cellules (~100km2 chacune, >=45% de terre ferme).
+# NFIRESM6_PSQKM_PYR (densite de feux MODIS M6) est NA quand aucun point de
+# feu ne tombe dans la cellule -- verifie : aucune valeur exacte de 0
+# n'existe ailleurs dans la colonne (min non-NA = 1), donc NA = 0 feu ici,
+# pas une donnee manquante ; impute a 0 en suivant la definition de densite
+# du papier (nombre de points / aire / annees).
+load_fire_forest_loss_dominican_republic <- function() {
+  dir <- find_paper_raw_dir("zenodo_6990803")
+  sf_obj <- readRDS(file.path(dir, "extracted", "grd_zonal_statistics.RDS"))
+  sf_obj$NFIRESM6_PSQKM_PYR[is.na(sf_obj$NFIRESM6_PSQKM_PYR)] <- 0
+  centroids <- sf::st_coordinates(sf::st_centroid(sf::st_geometry(sf_obj)))
+  sf_obj$CENTROID_X_UTM19N <- centroids[, "X"]
+  sf_obj$CENTROID_Y_UTM19N <- centroids[, "Y"]
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "CENTROID_X_UTM19N,CENTROID_Y_UTM19N",
+      identifier_variables = "ENLACE",
+      datetime_columns = "",
+      candidate_y_variables = "LOSS0118_PCT_PYR,LOSS0118_PUA_PYR,LOSS0118_AREASQM_PYR"
+    )
+  )
+}
+
+# --- Loader amphibian abnormality hotspots (Gray et al., 2013) -------------
+# CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites
+# apres dedoublonnage sur SITE_ID -- 4 sites dupliques dans le depot source,
+# on garde la ligne avec coordonnees valides quand elle existe) via site_id.
+# "NULL" est une chaine litterale dans les colonnes de coordonnees du depot
+# (pas une vraie NA R) -- lue explicitement comme telle. 77 evenements sans
+# coordonnee valide (site protege/liste federalement, cf. README_for_Site.txt)
+# sont exclus, pas imputes.
+load_amphibian_abnormality_hotspots <- function() {
+  dir <- find_paper_raw_dir("dryad_dc25r")
+  na_strings <- c("NA", "NULL", "")
+  site <- utils::read.csv(file.path(dir, "Site.csv"), fileEncoding = "latin1",
+                           stringsAsFactors = FALSE, na.strings = na_strings)
+  core <- utils::read.csv(file.path(dir, "CoreDataset.csv"), fileEncoding = "latin1",
+                           stringsAsFactors = FALSE, na.strings = na_strings)
+  site$Corrected_LATITUDE <- as.numeric(site$Corrected_LATITUDE)
+  site$Corrected_LONGITUDE <- as.numeric(site$Corrected_LONGITUDE)
+  site <- site[order(site$SITE_ID, is.na(site$Corrected_LATITUDE)), ]
+  site <- site[!duplicated(site$SITE_ID), ]
+
+  merged <- merge(core, site, by.x = "site_id", by.y = "SITE_ID", all.x = TRUE)
+  merged <- merged[!is.na(merged$Corrected_LATITUDE) & !is.na(merged$Corrected_LONGITUDE), ]
+  # sampling_date reste une variable attribut (675 evenements de collecte
+  # independants sur 462 sites, 412 dates distinctes -- pas un panel equilibre
+  # site x date) ; convertie en Date pour un tri chronologique correct. Une
+  # chaine vide pour datetime_columns ne suffit PAS a desactiver la
+  # classification panel : generate_fiches_papers.R::infer_T() retombe alors
+  # sur une detection heuristique par nom de colonne qui capte quand meme
+  # "sampling_date" (regex sur '_date$') -- il faut le sentinel explicite
+  # "none" pour forcer coupe_transversale.
+  merged$sampling_date <- as.Date(merged$sampling_date, format = "%m/%d/%Y")
+
+  sf_obj <- sf::st_as_sf(merged, coords = c("Corrected_LONGITUDE", "Corrected_LATITUDE"),
+                          crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Corrected_LONGITUDE,Corrected_LATITUDE",
+      identifier_variables = "collection_id,site_id,REFUGE,REGION",
+      datetime_columns = "none",
+      candidate_y_variables = "all_ab_percent,sk_ab_percent,eye_ab_percent,disease_percent"
+    )
+  )
+}
+
+# --- Loader COVID-19 mortality sociodemographic risk (Seamon et al., 2023) -
+# Shapefile de comtes CONUS (UScounties_conus.shp, depot Dryad original) joint
+# a une table de covariables construite par
+# data/raw/papers/.../build_county_covid_table.py -- script qui NE FAIT QUE
+# joindre par FIPS des fichiers deja presents dans le zip Dryad (svi.csv,
+# voting_nationwide_liberal.csv, vaccinationrate.csv filtre au 2022-04-27,
+# population_density.csv, broadband.csv, age65_over.csv, countyrankings_
+# refined.csv, population depuis sevenday_combined_1+2.zip -- le fichier est
+# scinde en 2 dans le depot source, README du depot l'indique), rien n'est
+# invente. Le papier definit 3 modeles par vague pandemique (Alpha/Delta/
+# Omicron) ; ce loader utilise la coupe transversale cumulee en fin de
+# periode commune aux sources (2022-04-27) plutot que les 3 vagues separees
+# -- reduction de perimetre assumee et documentee, pas une reconstruction.
+load_covid_sociodemographic_risk <- function() {
+  dir <- find_paper_raw_dir("dryad_4j0zpc8j1")
+  shp <- sf::st_read(file.path(dir, "extracted", "counties", "UScounties_conus.shp"), quiet = TRUE)
+  shp$FIPS <- sprintf("%05d", as.integer(as.character(shp$FIPS)))
+
+  covars <- utils::read.csv(file.path(dir, "extracted", "county_covid_sociodemographic_risk.csv"),
+                             colClasses = c(FIPS = "character"), stringsAsFactors = FALSE)
+
+  sf_obj <- merge(shp, covars, by = "FIPS", all.x = FALSE)
+  sf_obj <- sf_obj[!is.na(sf_obj$death_rate_per_100k), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "FIPS,NAME,STATE_NAME",
+      datetime_columns = "none",
+      candidate_y_variables = "death_rate_per_100k,cumulative_deaths"
+    )
+  )
+}
+
+# --- Loader Fusarium head blight ensembling (Shah et al., 2021) -----------
+# EnsemblesMainData.csv (999 observations, 340 variables meteo, depot Dryad
+# original) -- aucune coordonnee dans le depot source (verifie : ni CSV ni
+# script Rmd), donc les 80 couples (state, location) uniques ont ete
+# geocodes via l'API publique Nominatim/OpenStreetMap (data/raw/papers/...
+# extracted/location_coordinates.csv, script geocode_locations.py +
+# geocode_retry.py, 69/80 localites resolues, 14 lignes exclues faute de
+# coordonnee -- jamais de coordonnee inventee).
+load_fhb_ensembling <- function() {
+  dir <- find_paper_raw_dir("dryad_fn2z34trv")
+  df <- utils::read.csv(file.path(dir, "EnsemblesMainData.csv"), stringsAsFactors = FALSE)
+  coords <- utils::read.csv(file.path(dir, "extracted", "location_coordinates.csv"), stringsAsFactors = FALSE)
+  merged <- merge(df, coords, by = c("state", "location"), all.x = TRUE)
+  merged <- merged[!is.na(merged$lat) & !is.na(merged$lon), ]
+  sf_obj <- sf::st_as_sf(merged, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "id,state,location",
+      datetime_columns = "year",
+      candidate_y_variables = "S,Class"
+    )
+  )
+}
+
+# --- Loader snake home range macroecology (Todd & Nowakowski, 2021) -------
+# CSV original du depot DataCite (todd_and_nowakowski_snake_home_range_full_
+# dataset.csv), pas une reconstruction -- N=113 especes, coordonnees reelles.
+load_snake_home_range <- function() {
+  dir <- find_paper_raw_dir("EctothermyAndTheMacroecology")
+  zf <- list.files(dir, pattern = "\\.zip$", full.names = TRUE)[1]
+  csv_name <- "todd_and_nowakowski_snake_home_range_full_dataset.csv"
+  tmp <- tempfile(fileext = ".csv")
+  utils::unzip(zf, files = csv_name, exdir = dirname(tmp))
+  df <- utils::read.csv(file.path(dirname(tmp), csv_name), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Longitude) & !is.na(df$Latitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Citation,Family,TreeTaxon,StudySpeciesName",
+      datetime_columns = "none",
+      candidate_y_variables = "X100MCP,X95MCP,X100KD,X95KD"
+    )
+  )
+}
+
+# --- Loader amphibian functional diversity New World (Ochoa-Ochoa et al., 2019)
+# CSV original du depot Dryad (Appendix S3), pas une reconstruction --
+# N=4065 cellules de grille, coordonnees reelles.
+load_amphibian_functional_diversity <- function() {
+  dir <- find_paper_raw_dir("dryad_nk0bj96")
+  df <- utils::read.csv(file.path(dir, "Ochoa-Ochoa_etal_Appendix_S3_Data.csv"), stringsAsFactors = FALSE)
+  # La colonne source "T" (temperature annuelle moyenne, une covariable
+  # ecologique reelle) entre en collision avec TIME_VAR <- "T" du pipeline
+  # partage (build_sf_datasets.R), qui traite toute colonne nommee "T"
+  # comme variable temporelle technique et l'exclut donc automatiquement
+  # des candidats X. Renommee pour lever l'ambiguite -- meme donnee, pas
+  # une reconstruction.
+  names(df)[names(df) == "T"] <- "MeanAnnualTemp"
+  sf_obj <- sf::st_as_sf(df, coords = c("X", "Y"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "X,Y",
+      identifier_variables = "UNIQUE_ID,Regions",
+      datetime_columns = "none",
+      candidate_y_variables = "H0,Richness,Shannon,Gini_Simp"
+    )
+  )
+}
+
+# --- Loader dragonfly colour lightness (Pinkert, Brandl & Zeuss, 2016) ----
+# CSV original (pooled NA+Europe, depot Dryad), pas une reconstruction.
+load_dragonfly_colour_lightness <- function() {
+  dir <- find_paper_raw_dir("dryad_72tp3")
+  zf <- list.files(dir, pattern = "\\.zip$", full.names = TRUE)[1]
+  csv_name <- "Assemblage_NA_Eur_pooled(comp_slopes)_-_Pinkert_et_al_2016.csv"
+  tmp_dir <- tempfile()
+  dir.create(tmp_dir)
+  utils::unzip(zf, files = csv_name, exdir = tmp_dir)
+  # Convention europeenne : ";" separateur de champs, "," separateur decimal.
+  df <- utils::read.csv2(file.path(tmp_dir, csv_name), stringsAsFactors = FALSE)
+  sf_obj <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lng,lat",
+      identifier_variables = "Cont",
+      datetime_columns = "none",
+      candidate_y_variables = "meanRGB"
+    )
+  )
+}
+
+# --- Loader Alaskan groundfish CPUE (Correia, 2018) ------------------------
+load_groundfish_cpue <- function() {
+  dir <- find_paper_raw_dir("dryad_s23g7bc")
+  df <- utils::read.csv(file.path(dir, "stema_data.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Latitude) & !is.na(df$Longitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Station,Area,Species",
+      datetime_columns = "Year",
+      candidate_y_variables = "CPUE"
+    )
+  )
+}
+
+# --- Loader Cape Floristic Region soil properties (Cramer & Verboom, 2019) -
+load_dougfir_sdm <- function() {
+  dir <- find_paper_raw_dir("dryad_737gk")
+  zip_path <- file.path(dir, "ECOG-02881.R1.zip")
+  inner <- "Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData"
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp, inner))) {
+    utils::unzip(zip_path, files = inner, exdir = tmp)
+  }
+  e <- new.env()
+  load(file.path(tmp, inner), envir = e)
+  df <- e$tr
+  sf_obj <- sf::st_as_sf(df, coords = c("Long", "Lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Long,Lat",
+      identifier_variables = "ID,X,x,y",
+      datetime_columns = "none",
+      candidate_y_variables = "PRES"
+    )
+  )
+}
+
+load_goa_trawl_demersal <- function() {
+  dir <- find_paper_raw_dir("dryad_j3t86")
+  outer_zip <- file.path(dir, "Data_Scripts_and_Shapefiles.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  inner_zip_rel <- "Csv data files.zip"
+  if (!file.exists(file.path(tmp, inner_zip_rel))) {
+    utils::unzip(outer_zip, files = inner_zip_rel, exdir = tmp)
+  }
+  csv_rel <- "goa_trawl_albers.csv"
+  if (!file.exists(file.path(tmp, csv_rel))) {
+    utils::unzip(file.path(tmp, inner_zip_rel), files = csv_rel, exdir = tmp)
+  }
+  df <- utils::read.csv(file.path(tmp, csv_rel), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Lat) & !is.na(df$Lon), ]
+  df$log.BottomDepth2 <- df$log.BottomDepth^2
+  keep_cols <- c("Lat", "Lon", "Station", "Year", "Stratum", "BottomDepth", "BottomTemp",
+                 "SurfTemp", "log.BottomDepth", "log.BottomDepth2", "Atheresthesstomias")
+  df <- df[, keep_cols]
+  sf_obj <- sf::st_as_sf(df, coords = c("Lon", "Lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Lon,Lat",
+      identifier_variables = "Station,Stratum",
+      datetime_columns = "Year",
+      candidate_y_variables = "Atheresthesstomias"
+    )
+  )
+}
+
+load_mimulus_sdm <- function() {
+  dir <- find_paper_raw_dir("dryad_xsj3tx9g1")
+  zip_path <- file.path(dir, "WiBB-data.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  occ_rel <- "empirical_dataset/mimulus_occ_var.csv"
+  bg_rel <- "empirical_dataset/background_pts_var.csv"
+  if (!file.exists(file.path(tmp, occ_rel))) {
+    utils::unzip(zip_path, files = c(occ_rel, bg_rel), exdir = tmp)
+  }
+  occ <- utils::read.csv(file.path(tmp, occ_rel), stringsAsFactors = FALSE)
+  bg <- utils::read.csv(file.path(tmp, bg_rel), stringsAsFactors = FALSE)
+  occ$presence <- 1L
+  occ$species <- NULL
+  bg$presence <- 0L
+  df <- rbind(occ, bg)
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "",
+      datetime_columns = "none",
+      candidate_y_variables = "presence"
+    )
+  )
+}
+
+load_song_sparrow_breeding_date <- function() {
+  dir <- find_paper_raw_dir("dryad_n0513")
+  lines <- readLines(file.path(dir, "Main_Dataset.txt"), encoding = "UTF-8")
+  header_idx <- which(grepl("^nestrec\t", lines))[1]
+  df <- utils::read.delim(text = paste(lines[header_idx:length(lines)], collapse = "\n"),
+                          stringsAsFactors = FALSE)
+  df <- df[!is.na(df$UTM_X) & !is.na(df$UTM_Y), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("UTM_X", "UTM_Y"), crs = 32610, remove = FALSE)
+  sf_obj <- sf::st_transform(sf_obj, 4326)
+  coords <- sf::st_coordinates(sf_obj)
+  sf_obj$lon <- coords[, 1]
+  sf_obj$lat <- coords[, 2]
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "nestrec,female.animal_Num,female.factor_Num,male.animal_Num,male.factor_Num,female_father_Num,female_mother_Num,Cell_ID_16mDiam,UTM_X,UTM_Y",
+      datetime_columns = "year",
+      candidate_y_variables = "Breeding_Date"
+    )
+  )
+}
+
+load_houston_lst_landcover <- function() {
+  dir <- find_paper_raw_dir("dryad_fbg79cnt2")
+  zip_path <- file.path(dir, "Phoenix_Houston_LST_Dryad.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  base_rel <- "Phoenix_Houston_LST_Dryad/Houston_Data_Dryad"
+  temp_rel <- file.path(base_rel, "Houston_Temp_2014-07-01_22:06.csv")
+  needed <- c(file.path(base_rel, "Houston_lat.csv"), file.path(base_rel, "Houston_long.csv"),
+             file.path(base_rel, "Houston_Land_Cover.csv"), temp_rel)
+  if (!file.exists(file.path(tmp, temp_rel))) {
+    utils::unzip(zip_path, files = needed, exdir = tmp)
+  }
+  lat_m <- as.matrix(utils::read.csv(file.path(tmp, base_rel, "Houston_lat.csv"), header = FALSE))
+  lon_m <- as.matrix(utils::read.csv(file.path(tmp, base_rel, "Houston_long.csv"), header = FALSE))
+  lc_m <- as.matrix(utils::read.csv(file.path(tmp, base_rel, "Houston_Land_Cover.csv"), header = FALSE,
+                                    stringsAsFactors = FALSE))
+  lst_m <- as.matrix(utils::read.csv(file.path(tmp, temp_rel), header = FALSE))
+  df <- data.frame(
+    lat = as.vector(lat_m), lon = as.vector(lon_m),
+    land_cover = as.vector(lc_m), LST_kelvin = as.vector(lst_m),
+    stringsAsFactors = FALSE
+  )
+  df <- df[!is.na(df$LST_kelvin), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "",
+      datetime_columns = "none",
+      candidate_y_variables = "LST_kelvin"
+    )
+  )
+}
+
+load_chaco_bird_richness <- function() {
+  dir <- find_paper_raw_dir("TradeOffsBetweenBiodiversity")
+  zip_path <- file.path(dir, "dryad_msbcc2fvt_v20200622.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  needed <- c("covas_sitios_03012018.csv", "species_sitios_03012018.csv")
+  if (!file.exists(file.path(tmp, needed[1]))) {
+    utils::unzip(zip_path, files = needed, exdir = tmp)
+  }
+  covas <- utils::read.csv(file.path(tmp, "covas_sitios_03012018.csv"), stringsAsFactors = FALSE,
+                           fileEncoding = "latin1")
+  species <- utils::read.csv(file.path(tmp, "species_sitios_03012018.csv"), stringsAsFactors = FALSE,
+                             fileEncoding = "latin1")
+  richness <- stats::aggregate(species ~ site, data = species, FUN = function(x) length(unique(x)))
+  names(richness)[2] <- "species_richness"
+  df <- merge(covas, richness, by = "site", all.x = TRUE)
+  df$species_richness[is.na(df$species_richness)] <- 0L
+  df <- df[!is.na(df$lat) & !is.na(df$lon), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "site,source",
+      datetime_columns = "year",
+      candidate_y_variables = "species_richness"
+    )
+  )
+}
+
+load_kodiak_puffin_density <- function() {
+  dir <- find_paper_raw_dir("zenodo_17128171")
+  df <- utils::read.csv(file.path(dir, "puffin_data_at_sea_Stoner.et.al.csv"), stringsAsFactors = FALSE)
+  df$X <- NULL
+  df <- df[!is.na(df$latitude) & !is.na(df$longitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "pi,local_date_time,day,doy",
+      datetime_columns = "year",
+      candidate_y_variables = "density"
+    )
+  )
+}
+
+load_macropod_body_size <- function() {
+  dir <- find_paper_raw_dir("dryad_c3tc6")
+  df <- utils::read.csv(file.path(dir, "ProwseEtAl_MacropodData.csv"), stringsAsFactors = FALSE)
+  df <- df[df$Species == "Macropus rufogriseus", ]
+  df <- df[!is.na(df$Longitude) & !is.na(df$Latitude) & !is.na(df$CL), ]
+  df$Species <- NULL
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Island,gridLongitude,gridLatitude",
+      datetime_columns = "Year",
+      candidate_y_variables = "CL"
+    )
+  )
+}
+
+load_sugarglider_occupancy <- function() {
+  dir <- find_paper_raw_dir("dryad_4xgxd259g")
+  df <- utils::read.csv(file.path(dir, "Sugarglider.csv"), stringsAsFactors = FALSE)
+  survey_cols <- c("survey1", "survey2", "survey3", "survey4", "survey5")
+  df$n_detections <- rowSums(df[, survey_cols], na.rm = TRUE)
+  df <- df[!is.na(df$easting) & !is.na(df$northing), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("easting", "northing"), crs = 32755, remove = FALSE)
+  sf_obj <- sf::st_transform(sf_obj, 4326)
+  coords <- sf::st_coordinates(sf_obj)
+  sf_obj$lon <- coords[, 1]
+  sf_obj$lat <- coords[, 2]
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "site,easting,northing,survey1,survey2,survey3,survey4,survey5,d1,d2,d3,d4,d5,temp1,temp2,temp3,temp4,temp5,wind1,wind2,wind3,wind4,wind5,moon1,moon2,moon3,moon4,moon5,owl1,owl2,owl3,owl4,owl5",
+      datetime_columns = "none",
+      candidate_y_variables = "n_detections"
+    )
+  )
+}
+
+load_checkerspot_phenology <- function() {
+  dir <- find_paper_raw_dir("dryad_rr4xgxdhk")
+  df <- utils::read.csv(file.path(dir, "bcbformattedFINAL.csv"), stringsAsFactors = FALSE)
+  df$decimalLatitude <- suppressWarnings(as.numeric(df$decimalLatitude))
+  df$decimalLongitude <- suppressWarnings(as.numeric(df$decimalLongitude))
+  df$startDayOfYear <- suppressWarnings(as.numeric(df$startDayOfYear))
+  df <- df[!is.na(df$decimalLatitude) & !is.na(df$decimalLongitude) & !is.na(df$startDayOfYear), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("decimalLongitude", "decimalLatitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "decimalLongitude,decimalLatitude",
+      identifier_variables = "ocurrenceID,collectionCode,database,recordedBy,id,lat2,lon2",
+      datetime_columns = "year",
+      candidate_y_variables = "startDayOfYear"
+    )
+  )
+}
+
+load_pacific_atoll_coconut <- function() {
+  dir <- find_paper_raw_dir("dryad_0k6djhb7x")
+  df <- utils::read.csv(file.path(dir, "master-atoll-database-2024-04-16.csv"), stringsAsFactors = FALSE,
+                        check.names = FALSE)
+  names(df) <- make.names(names(df))
+  df <- df[!is.na(df$Lat) & !is.na(df$Lon), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Lon", "Lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Lon,Lat",
+      identifier_variables = "Atoll,Alternative.names,Country,Group,Subgroup,Copra.reference",
+      datetime_columns = "none",
+      candidate_y_variables = "cocos."
+    )
+  )
+}
+
+load_alps_floristic_legacy <- function() {
+  dir <- find_paper_raw_dir("dryad_w9ghx3g12")
+  zip_path <- file.path(dir, "Supplementary_data.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  csv_rel <- "Supplementary_data/Data/Supplementary_data_legacy.csv"
+  if (!file.exists(file.path(tmp, csv_rel))) {
+    utils::unzip(zip_path, files = csv_rel, exdir = tmp)
+  }
+  df <- utils::read.csv(file.path(tmp, csv_rel), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$coords.X) & !is.na(df$coords.Y), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("coords.X", "coords.Y"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "coords.X,coords.Y",
+      identifier_variables = "Code",
+      datetime_columns = "none",
+      candidate_y_variables = "Standardised_SR"
+    )
+  )
+}
+
+load_uk_linear_features_birds <- function() {
+  dir <- find_paper_raw_dir("dryad_m5g04")
+  lf <- utils::read.csv(file.path(dir, "Linear features length around survey sites.csv"),
+                        stringsAsFactors = FALSE)
+  ab <- utils::read.csv(file.path(dir, "Species_abundance_data_Sullivan.csv"), stringsAsFactors = FALSE)
+  ab_bbs <- ab[ab$survey == "BBS", ]
+  agg <- stats::aggregate(count ~ site, data = ab_bbs, FUN = sum)
+  names(agg) <- c("SiteID", "total_bird_abundance")
+  df <- merge(lf, agg, by = "SiteID")
+  df <- df[!duplicated(df$SiteID), ]
+  osg <- rnrfa::osg_parse(df$GridSquare1km)
+  df$easting <- osg$easting
+  df$northing <- osg$northing
+  sf_obj <- sf::st_as_sf(df, coords = c("easting", "northing"), crs = 27700, remove = FALSE)
+  sf_obj <- sf::st_transform(sf_obj, 4326)
+  coords <- sf::st_coordinates(sf_obj)
+  sf_obj$lon <- coords[, 1]
+  sf_obj$lat <- coords[, 2]
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "SiteID,GridSquare1km,Survey,easting,northing",
+      datetime_columns = "none",
+      candidate_y_variables = "total_bird_abundance"
+    )
+  )
+}
+
+load_sfbay_contaminated_sites <- function() {
+  dir <- find_paper_raw_dir("10_6078_d15x4n")
+  extract_dir <- file.path(dir, "sites_extract")
+  keep_cols <- c("FID_DTSC_S", "COUNTY", "SITE_TYPE", "ACRES", "STATUS", "RESTRICTED",
+                 "LATITUDE", "LONGITUDE", "gridcode", "FID_Rise_S")
+  closed <- sf::st_read(file.path(extract_dir, "ClosedSites_Kh1_SLR1m_RGWorInund.shp"), quiet = TRUE)
+  open_s <- sf::st_read(file.path(extract_dir, "OpenSites_Kh1_SLR1m_RGWorInund.shp"), quiet = TRUE)
+  closed <- sf::st_drop_geometry(closed)[, keep_cols]
+  open_s <- sf::st_drop_geometry(open_s)[, keep_cols]
+  closed$is_open_case <- 0L
+  open_s$is_open_case <- 1L
+  df <- rbind(closed, open_s)
+  df <- df[!is.na(df$LATITUDE) & !is.na(df$LONGITUDE), ]
+  df <- df[!duplicated(df$FID_DTSC_S), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("LONGITUDE", "LATITUDE"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "LONGITUDE,LATITUDE",
+      identifier_variables = "FID_DTSC_S",
+      datetime_columns = "none",
+      candidate_y_variables = "is_open_case"
+    )
+  )
+}
+
+load_shark_longline_catch <- function() {
+  dir <- find_paper_raw_dir("10_25349_d9789w")
+  df <- utils::read.csv(file.path(dir, "ICCAT_ll_untuned_final_predict.csv"), stringsAsFactors = FALSE)
+  keep_cols <- c("latitude", "longitude", "year", "catch", "pres_abs", "species_commonname",
+                 "species_sciname", "mean_sst", "mean_chla", "mean_ssh", "sdm",
+                 "target_effort", "median_price_species", "median_price_group")
+  df <- df[, keep_cols]
+  df <- df[!is.na(df$latitude) & !is.na(df$longitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "species_sciname,pres_abs",
+      datetime_columns = "year",
+      candidate_y_variables = "catch"
+    )
+  )
+}
+
+load_danajon_coral_distribution <- function() {
+  dir <- find_paper_raw_dir("dryad_z34tmpgpt")
+  zip_path <- file.path(dir, "habitat.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  shp_base <- "habitat/db_full_area/habitat_full_area_rs_lek_reclass_20250615_union_with_fa2"
+  needed <- paste0(shp_base, c(".shp", ".shx", ".dbf", ".prj", ".cpg"))
+  if (!file.exists(file.path(tmp, paste0(shp_base, ".shp")))) {
+    utils::unzip(zip_path, files = needed, exdir = tmp, junkpaths = FALSE)
+  }
+  hab <- sf::st_read(file.path(tmp, paste0(shp_base, ".shp")), quiet = TRUE)
+  drop_classes <- c("Cloud", "NA", "Deep", "DeepWater", "No Class")
+  hab <- hab[!(hab$Hab_Paper %in% drop_classes) & !is.na(hab$Hab_Paper), ]
+  hab$is_coral <- as.integer(hab$Hab_Paper == "Coral")
+  hab$area_m2 <- as.numeric(sf::st_area(hab))
+  centroids <- sf::st_centroid(sf::st_geometry(hab))
+  hab_df <- sf::st_drop_geometry(hab)[, c("Hab_Paper", "Geomorphic", "Location", "Map", "reclass", "is_coral", "area_m2")]
+  sf_obj <- sf::st_sf(hab_df, geometry = centroids, crs = sf::st_crs(hab))
+  sf_obj <- sf::st_transform(sf_obj, 4326)
+  coords <- sf::st_coordinates(sf_obj)
+  sf_obj$lon <- coords[, 1]
+  sf_obj$lat <- coords[, 2]
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lon,lat",
+      identifier_variables = "Hab_Paper",
+      datetime_columns = "none",
+      candidate_y_variables = "is_coral"
+    )
+  )
+}
+
+load_ltar_crop_rotation_yield <- function() {
+  dir <- find_paper_raw_dir("10_6078_d1h409")
+  df <- utils::read.csv(file.path(dir, "ltar.data.csv"), stringsAsFactors = FALSE)
+  # Coordonnees des 11 sites LTAR lues directement dans le Tableau 1 du papier
+  # (Macchi et al. 2020, One Earth, doi:10.1016/j.oneear.2020.02.007) -- pas une
+  # estimation, chaque valeur correspond exactement au lat/lon publie.
+  site_coords <- data.frame(
+    site = c("CO", "SD", "MN", "NE", "ON1", "OH1", "MI", "ON2", "OH2", "PA", "MD"),
+    site_lat = c(40.2, 44.4, 44.2, 41.1, 42.2, 41.2, 42.4, 43.6, 40.8, 40.7, 39.0),
+    site_lon = c(-103.1, -96.8, -95.3, -96.5, -82.7, -83.8, -85.4, -80.4, -81.9, -78.0, -76.9),
+    site_name = c("Akron CO", "Brookings SD", "Lamberton MN", "Mead NE", "Woodslee ON",
+                  "Hoytville OH", "Hickory Corners MI", "Elora ON", "Wooster OH",
+                  "Rock Springs PA", "Beltsville MD"),
+    stringsAsFactors = FALSE
+  )
+  df <- merge(df, site_coords, by = "site")
+  df <- df[!is.na(df$site_lat) & !is.na(df$site_lon), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("site_lon", "site_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "site_lon,site_lat",
+      identifier_variables = "X,site,site_name,plot,block",
+      datetime_columns = "year",
+      candidate_y_variables = "yield_kg_ha"
+    )
+  )
+}
+
+load_seshat_social_complexity <- function() {
+  dir <- find_paper_raw_dir("10_17916_p6159w")
+  df <- utils::read.csv(file.path(dir, "SCdat.csv"), stringsAsFactors = FALSE)
+  df <- df[df$NGA != "Macrostates MidEast", ]
+  vars <- c("Polity Population", "Polity territory", "Administrative levels", "Settlement hierarchy")
+  df <- df[df$Variable %in% vars, ]
+  df$val <- suppressWarnings(as.numeric(df$Value.From))
+  df <- df[!is.na(df$val), ]
+  # Agrege chaque variable a une valeur par NGA x Polity (maximum enregistre,
+  # les niveaux de complexite sociale de Seshat sont typiquement croissants ou
+  # stables sur la duree de vie d'une polite) -- simplification documentee du
+  # format long (NGA/Polity/Variable/Date) vers une table large.
+  agg <- stats::aggregate(val ~ NGA + Polity + Variable, data = df, FUN = max)
+  wide <- stats::reshape(agg, idvar = c("NGA", "Polity"), timevar = "Variable", direction = "wide")
+  names(wide) <- gsub("^val\\.", "", names(wide))
+  names(wide) <- gsub(" ", "_", names(wide))
+  nga_coords <- jsonlite::fromJSON(file.path(dir, "nga_coords.json"))
+  coord_df <- data.frame(
+    NGA = names(nga_coords),
+    nga_lat = vapply(nga_coords, function(x) x$lat, numeric(1)),
+    nga_lon = vapply(nga_coords, function(x) x$lon, numeric(1)),
+    stringsAsFactors = FALSE
+  )
+  wide <- merge(wide, coord_df, by = "NGA")
+  wide <- wide[!is.na(wide$Polity_Population), ]
+  sf_obj <- sf::st_as_sf(wide, coords = c("nga_lon", "nga_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "nga_lon,nga_lat",
+      identifier_variables = "NGA,Polity",
+      datetime_columns = "none",
+      candidate_y_variables = "Polity_Population"
+    )
+  )
+}
+
+load_airbnb_europe_prices <- function() {
+  dir <- find_paper_raw_dir("zenodo_4446043")
+  cities <- c("amsterdam", "athens", "barcelona", "berlin", "budapest", "lisbon",
+             "london", "paris", "rome", "vienna")
+  periods <- c("weekdays", "weekends")
+  keep_cols <- c("realSum", "room_type", "room_shared", "room_private", "person_capacity",
+                "host_is_superhost", "multi", "biz", "cleanliness_rating",
+                "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist",
+                "attr_index", "rest_index", "lng", "lat")
+  all_rows <- list()
+  for (city in cities) {
+    for (period in periods) {
+      f <- file.path(dir, paste0(city, "_", period, ".csv"))
+      part <- utils::read.csv(f, stringsAsFactors = FALSE)
+      part <- part[, keep_cols]
+      part$city <- city
+      part$period <- period
+      all_rows[[paste(city, period)]] <- part
+    }
+  }
+  df <- do.call(rbind, all_rows)
+  df$log_price <- log(df$realSum)
+  df <- df[!is.na(df$lng) & !is.na(df$lat), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("lng", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "lng,lat",
+      identifier_variables = "city,period,realSum",
+      datetime_columns = "none",
+      candidate_y_variables = "log_price"
+    )
+  )
+}
+
+load_stwr_precip_isotope <- function() {
+  dir <- find_paper_raw_dir("^MediumPriorityRetry_10_5281_zenodo_3637689$")
+  zip_path <- file.path(dir, "quexiang", "STWR-v1.0.zip")
+  csv_rel <- "quexiang-STWR-e29544f/Data_STWR/RealWorldData/precip_isotope_D3.csv"
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp, csv_rel))) {
+    utils::unzip(zip_path, files = csv_rel, exdir = tmp)
+  }
+  df <- utils::read.csv(file.path(tmp, csv_rel), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Longitude) & !is.na(df$Latitude), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "timestamp",
+      datetime_columns = "none",
+      candidate_y_variables = "d2h"
+    )
+  )
+}
+
+load_mistletoe_bird_abundance <- function() {
+  dir <- find_paper_raw_dir("MistletoesCouldModerateDrought")
+  zip_path <- file.path(dir, "dryad_76hdr7sxp_v20220711.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp, "Bird_data.csv"))) {
+    utils::unzip(zip_path, files = "Bird_data.csv", exdir = tmp)
+  }
+  df <- utils::read.csv(file.path(tmp, "Bird_data.csv"), stringsAsFactors = FALSE,
+                        fileEncoding = "latin1")
+  keep_cols <- c("Lat", "Long", "Region", "Season", "Total_abundance",
+                "total_live_mistletoe", "total_dead_mistletoe", "canopy_cover",
+                "shrub_cover", "large_old_tree_total")
+  df <- df[, keep_cols]
+  df$Lat <- suppressWarnings(as.numeric(df$Lat))
+  df$Long <- suppressWarnings(as.numeric(df$Long))
+  df$Total_abundance <- suppressWarnings(as.numeric(df$Total_abundance))
+  df <- df[!is.na(df$Lat) & !is.na(df$Long) & !is.na(df$Total_abundance), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Long", "Lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Long,Lat",
+      identifier_variables = "Region",
+      datetime_columns = "Season",
+      candidate_y_variables = "Total_abundance"
+    )
+  )
+}
+
+load_leishmaniasis_occurrence <- function() {
+  dir <- find_paper_raw_dir("GlobalDistributionMapsOf")
+  zip_path <- file.path(dir, "dryad_05f5h_v20150627.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  needed <- c("CL_final_dataset.xlsx", "VL_final_dataset.xlsx")
+  if (!file.exists(file.path(tmp, needed[1]))) {
+    utils::unzip(zip_path, files = needed, exdir = tmp)
+  }
+  cl <- readxl::read_excel(file.path(tmp, "CL_final_dataset.xlsx"), sheet = 1)
+  vl <- readxl::read_excel(file.path(tmp, "VL_final_dataset.xlsx"), sheet = 1)
+  cl <- as.data.frame(cl); vl <- as.data.frame(vl)
+  cl <- cl[cl$LOCATION_TYPE == "point", ]
+  vl <- vl[vl$LOCATION_TYPE == "point", ]
+  df <- rbind(cl, vl)
+  df <- df[!is.na(df$X) & !is.na(df$Y), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("X", "Y"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "X,Y",
+      identifier_variables = "OCCURRENCE_ID,LOCATION_TYPE",
+      datetime_columns = "YEAR",
+      candidate_y_variables = "DISEASE"
+    )
+  )
+}
+
+load_gcfr_soil <- function() {
+  dir <- find_paper_raw_dir("dryad_37qc017")
+  df <- utils::read.csv(file.path(dir, "GCFR_soil.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Lat_deg) & !is.na(df$Lon_deg), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Lon_deg", "Lat_deg"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Lon_deg,Lat_deg",
+      identifier_variables = "",
+      datetime_columns = "none",
+      candidate_y_variables = "N_total_."
+    )
+  )
+}
+
+# --- Loader European dragonfly diversity patterns (Dryad 78j8g) -----------
+# Pinkert et al. (2017), Ecography (manuscript ECOG-03137), "Evolutionary
+# processes, dispersal limitation and climatic history shape current
+# diversity patterns of European dragonflies". CSV original (assemblage-
+# level data) telecharge directement depuis Dryad -- pas une reconstruction.
+# Convention europeenne : ";" separateur de champs, "," separateur decimal.
+load_dragonfly_diversity_europe <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5061_dryad_78j8g")
+  zf <- file.path(dir, "Data_files_-_ECOG03137_Pinkert_et_al_2017.zip")
+  csv_name <- "Assemblage-level_data_-_ECOG03137_Pinkert_et_al_2017.csv"
+  tmp_dir <- file.path(dir, "extracted")
+  dir.create(tmp_dir, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp_dir, csv_name))) {
+    utils::unzip(zf, files = csv_name, exdir = tmp_dir)
+  }
+  df <- utils::read.csv2(file.path(tmp_dir, csv_name), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$center_lng) & !is.na(df$center_lat) & !is.na(df$sp_rich), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("center_lng", "center_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "center_lng,center_lat",
+      identifier_variables = "X,ID",
+      datetime_columns = "none",
+      candidate_y_variables = "sp_rich"
+    )
+  )
+}
+
+# --- Loader Brisbane urban vegetation vertical structure (Dryad 3bh66) ----
+# Mitchell, Wu, Johansen, Maron, McAlpine & Rhodes (2016), 'Landscape
+# structure influences urban vegetation vertical structure', OpenAlex-linked
+# publication doi:10.1111/1365-2664.12741. CSV original (1ha resolution)
+# telecharge directement depuis Dryad -- pas une reconstruction. Formule
+# confirmee par lecture directe du script R original des auteurs
+# (Mitchell_etal_2016_1ha_analysis_20160624.R, present dans le meme depot) :
+# meilleur modele combine pour la strate de vegetation 0.15-1m est
+# log(dens_015_1+0.01) ~ poly(tree_area,2) + poly(aspect_cos,2) +
+# poly(aspect_sin,2) + poly(slope,2), un modele SAR mixte (lagsarlm, poids
+# de voisinage a 150m). formula_used simplifie les termes polynomiaux en
+# lineaire (executable sans reconstruire la matrice de poids spatiaux).
+load_brisbane_urban_vegetation <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5061_dryad_3bh66")
+  df <- utils::read.csv(file.path(dir, "Mitchell_etal_data_1ha_20160627.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$x) & !is.na(df$y) & !is.na(df$dens_015_1) &
+             !is.na(df$tree_area) & !is.na(df$aspect_cos) &
+             !is.na(df$aspect_sin) & !is.na(df$slope), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 28356, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "x,y",
+      identifier_variables = "cell",
+      datetime_columns = "none",
+      candidate_y_variables = "dens_015_1"
+    )
+  )
+}
+
+# --- Loader Banff stream temperature (Dryad crjdfn391) --------------------
+# Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), 'Statistical
+# stream temperature modelling with SSN and INLA: an introduction for
+# conservation practitioners', Canadian Journal of Fisheries and Aquatic
+# Science 81(4):417-232. CSV original (bnp_data_June2022_V5.csv) telecharge
+# directement depuis Dryad -- pas une reconstruction. README confirme
+# UTM Zone 11N pour Easting/Northing.
+load_banff_stream_temperature <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5061_dryad_crjdfn391")
+  df <- utils::read.csv(file.path(dir, "bnp_data_June2022_V5.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Easting) & !is.na(df$Northing) & !is.na(df$WaterTemp), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Easting", "Northing"), crs = 32611, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Easting,Northing",
+      identifier_variables = "ID,LoggerID,S_N,WSf,Waterbody,HUC10",
+      datetime_columns = "Year_",
+      candidate_y_variables = "WaterTemp"
+    )
+  )
+}
+
+# --- Loader Global NEE geographically weighted XGBoost (Zenodo 21635729) --
+# Titre du depot : 'Dataset and Code for "Estimating Global Site-Level Net
+# Ecosystem Exchange with a Geographically Weighted XGBoost Framework"'.
+# Aucun DOI de publication resolu (recherche web, session 2026-08-17 :
+# aucune correspondance exacte trouvee, papier probablement pas encore
+# indexe). Data1_387_sites.csv telecharge directement depuis Zenodo -- pas
+# une reconstruction. Encodage latin1 (symbole degre mal encode dans les
+# en-tetes Latitude/Longitude d'origine).
+load_global_nee_gwxgboost <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_21635729")
+  df <- utils::read.csv(file.path(dir, "Data1_387_sites.csv"), stringsAsFactors = FALSE,
+                        fileEncoding = "latin1")
+  names(df)[3:4] <- c("Latitude", "Longitude")
+  df <- df[!is.na(df$Latitude) & !is.na(df$Longitude) & !is.na(df$NEE.g.C.m.2.day.1.), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "Site.Name,IGBP",
+      datetime_columns = "Year,Day.of.Year",
+      candidate_y_variables = "NEE.g.C.m.2.day.1."
+    )
+  )
+}
+
+# --- Loader California wildfire daily growth (Zenodo 7569337) -------------
+# Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire
+# Growth in California', Master's Thesis, San Jose State University,
+# doi:10.31979/etd.5znn-tm8p. Modele Random Forest sur 16013 jours-incendie
+# CA 2003-2020, variables meteo (WRF), combustible et topographie. CSV
+# original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une
+# reconstruction.
+load_california_wildfire_growth <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_7569337")
+  df <- utils::read.csv(file.path(dir, "Fire_03_20.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Ignition_lat) & !is.na(df$Ignition_lon) &
+             !is.na(df$Final_size_perimeter), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Ignition_lon", "Ignition_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Ignition_lon,Ignition_lat",
+      identifier_variables = "Fire_ID,Agency_Name,Agency_ID",
+      datetime_columns = "Date",
+      candidate_y_variables = "Final_size_perimeter"
+    )
+  )
+}
+
+# --- Loader Swiss heat exposure mortality (Zenodo 16923676) ---------------
+# Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the
+# spatially varying nonlinear effects of heat exposure', Journal of the
+# Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint
+# arXiv:2502.20745). Modele bayesien BYM2 non-lineaire sur mortalite toutes
+# causes en Suisse. RDS originaux (data_60_open.rds, panel deces ; et
+# Swiss_new_open.rds, geometrie communale avec covariables NDVI/greenspace)
+# telecharges directement depuis Zenodo -- pas une reconstruction, jointure
+# par id_region (cle deja partagee entre les deux fichiers, verifiee
+# identique).
+load_swiss_heat_exposure <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_16923676")
+  d <- readRDS(file.path(dir, "data_60_open.rds"))
+  shp <- readRDS(file.path(dir, "Swiss_new_open.rds"))
+  # Centroide calcule AVANT la jointure avec le panel (2.3M lignes) --
+  # joindre directement le polygone complexe aurait duplique sa geometrie
+  # ~1100 fois par commune (N panel / N communes), saturant la memoire.
+  shp_pts <- sf::st_centroid(shp[, c("id_region", "urbanicity", "greenspace")])
+
+  d <- d[!is.na(d$deaths) & !is.na(d$temperature), ]
+  sf_obj <- merge(shp_pts, d, by = "id_region", all.y = FALSE)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "id_region,region,KANTONSNUM,id_doy,id_year,daily_date",
+      datetime_columns = "year,month,day",
+      candidate_y_variables = "deaths"
+    )
+  )
+}
+
+# --- Loader Serengeti wildebeest environmental covariates (Dryad 5tb2rbp76) --
+# Paun et al., Inferring spatially-varying animal movement characteristics
+# using a hierarchical continuous-time velocity model. CSV original
+# (wildebeest_env_data.csv) telecharge directement depuis Dryad -- pas une
+# reconstruction. Coordonnees en UTM 36S (README precise "X - longitude
+# (UTM)", "Y - latitude (UTM)" -- libelles trompeurs mais unites coherentes
+# avec le Serengeti, Tanzanie).
+load_wildebeest_movement_env <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5061_dryad_5tb2rbp76")
+  df <- utils::read.csv(file.path(dir, "wildebeest_env_data.csv"), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$x) & !is.na(df$y) & !is.na(df$NDVI), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 32736, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "x,y",
+      identifier_variables = "X,AID",
+      datetime_columns = "Date",
+      candidate_y_variables = "NDVI"
+    )
+  )
+}
+
+# --- Loader Korean hedonic housing prices (Zenodo 14715630) ---------------
+# Aucune publication resolue pour ce candidat dataset-first. 4 fichiers
+# xlsx (Busan/Daegu/Daejeon/Gwangju) telecharges directement depuis Zenodo
+# -- pas une reconstruction, concatenes avec un indicateur de ville.
+load_korea_hedonic_housing <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_14715630")
+  cities <- c("Busan", "Daegu", "Daejeon", "Gwangju")
+  dfs <- lapply(cities, function(city) {
+    d <- as.data.frame(readxl::read_excel(file.path(dir, paste0(city, ".xlsx"))))
+    names(d) <- make.names(names(d))
+    d$City <- city
+    d
+  })
+  df <- do.call(rbind, dfs)
+  df <- df[!is.na(df$Longitude) & !is.na(df$Latitude) & !is.na(df$Housing.price), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "Year",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+# --- Loader Spatial confounding diabetes areal (Zenodo 21300380) ----------
+# Aucun papier associe identifie (candidat dataset-first sans DOI de
+# publication resolu). RDA_data.csv (2984 comtes americains, source US HHS
+# County Level Area Health Resources Files) joint par FIPS au shapefile
+# officiel Census cb_2017_us_county_500k pour la geometrie -- pas une
+# reconstruction, donnees et geometrie toutes deux telles que fournies dans
+# le depot. formula_used est proposee par le curateur (pas de papier a
+# verifier), documentee comme telle dans generate_fiches_papers.R.
+load_spatial_confounding_diabetes <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_21300380")
+  zip_path <- file.path(dir, "cb_2017_us_county_500k.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  if (!file.exists(file.path(tmp, "cb_2017_us_county_500k", "cb_2017_us_county_500k.shp"))) {
+    utils::unzip(zip_path, exdir = tmp)
+  }
+  shp <- sf::st_read(file.path(tmp, "cb_2017_us_county_500k", "cb_2017_us_county_500k.shp"), quiet = TRUE)
+  shp$fips <- as.character(shp$GEOID)
+
+  covars <- utils::read.csv(file.path(dir, "RDA_data.csv"), stringsAsFactors = FALSE)
+  covars$fips <- sprintf("%05d", as.integer(covars$fips))
+
+  sf_obj <- merge(shp, covars, by = "fips", all.x = FALSE)
+  sf_obj <- sf_obj[!is.na(sf_obj$diabetes_pct_est), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "fips,NAME,State,County",
+      datetime_columns = "none",
+      candidate_y_variables = "diabetes_pct_est"
+    )
+  )
+}
+
+# --- Loader Antarctic biodiversity inventory completeness (Zenodo 13988131) -
+# Aucun DOI de publication resolu dans le KG, mais le README du depot
+# identifie clairement la source : Pertierra et al. (2024), "Advances and
+# shortfalls in the knowledge of Antarctic terrestrial biodiversity", Science.
+# CSV brut (grille Antarctique, indices KnowBR de completude d'inventaire)
+# telecharge directement depuis Zenodo -- pas une reconstruction. VERIFICATION
+# EMPIRIQUE (session 2026-08-16) : les colonnes "Latitude"/"Longitude" du CSV
+# source sont INVERSEES (la colonne "Latitude" varie sur [-175,176], une
+# plage de longitude ; la colonne "Longitude" varie sur [-89.6,-60.2], une
+# plage de latitude coherente avec l'Antarctique) -- corrige ci-dessous en
+# utilisant Longitude=vraie latitude et Latitude=vraie longitude.
+load_antarctic_biodiversity_completeness <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_13988131")
+  path <- file.path(dir, "SUPPORTING FILE 3 Antarctic Inventories Spatial Completeness.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE)
+  df <- df[!is.na(df$Latitude) & !is.na(df$Longitude), ]
+  df$true_lat <- df$Longitude
+  df$true_lon <- df$Latitude
+  sf_obj <- sf::st_as_sf(df, coords = c("true_lon", "true_lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "true_lon,true_lat",
+      identifier_variables = "OBJECTID,PagNmbr,OID_,PageNam,FID_1,ORIG_FID,Latitude,Longitude",
+      datetime_columns = "none",
+      candidate_y_variables = "Cmpltns"
+    )
+  )
+}
+
+# --- Loader Pollinator urbanization meta-analysis effect sizes (Dryad dv41ns23r) --
+# Aucun DOI de publication resolu dans le KG (candidat dataset-first). CSV
+# original (Appendix S1.1, tailles d'effet Hedges' d de l'urbanisation sur
+# l'abondance des pollinisateurs, par etude/espece) telecharge directement
+# depuis Dryad -- pas une reconstruction.
+load_pollinator_urbanization_meta <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5061_dryad_dv41ns23r")
+  path <- file.path(dir, "Appendix_S1.1_effect_size_pollinator_abundance.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, fileEncoding = "latin1")
+  df <- df[!is.na(df$Longitude) & !is.na(df$Latitude) & !is.na(df$d) & !is.na(df$Vd), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "ID,Reference,Title,DOI,Location,Species",
+      datetime_columns = "none",
+      candidate_y_variables = "d"
+    )
+  )
+}
+
+# --- Loader Portugal COVID-19 incidence municipale (Zenodo 11222023) -------
+# Aucun DOI de publication resolu dans le KG (candidat dataset-first).
+# dgs_data_concelhos_new.csv (panel journalier des 308 concelhos portugais,
+# DGS/PyCoa) telecharge directement depuis Zenodo -- pas une reconstruction.
+# Geometrie : aucun shapefile inclus dans le depot -- jointe par nom de
+# concelho normalise (majuscules, accents retires) a la couche ADM2 publique
+# geoBoundaries (source ouverte CC0, https://www.geoboundaries.org, PRT/ADM2,
+# 311 unites), verifiee empiriquement : 298/308 concelhos apparies (96.8%),
+# les 10 non apparies etant des ambiguites de denomination attendues (deux
+# concelhos nommes "Lagoa" -- Acores/Algarve -- ou "Calheta" -- Madere/
+# Acores -- au Portugal), documentees et exclues plutot qu'approximees.
+load_portugal_covid_municipal <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_11222023")
+  geo_path <- file.path(dir, "extracted", "geoBoundaries-PRT-ADM2.geojson")
+  shp <- sf::st_read(geo_path, quiet = TRUE)
+
+  norm_name <- function(x) {
+    x <- toupper(x)
+    x <- iconv(x, from = "UTF-8", to = "ASCII//TRANSLIT")
+    x <- gsub("[^A-Z, .]", "", x)
+    trimws(x)
+  }
+  shp$key <- norm_name(shp$shapeName)
+
+  df <- utils::read.csv(file.path(dir, "dgs_data_concelhos_new.csv"),
+                        fileEncoding = "UTF-8", stringsAsFactors = FALSE)
+  df$key <- norm_name(df$concelho)
+  df <- df[!is.na(df$incidencia) & !is.na(df$population) &
+             !is.na(df$densidade_populacional), ]
+
+  sf_obj <- merge(shp[, c("key", "shapeName", "geometry")], df, by = "key", all.x = FALSE)
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "key,shapeName,concelho,dicofre,distrito,ars",
+      datetime_columns = "data",
+      candidate_y_variables = "incidencia"
+    )
+  )
+}
+
+# --- Loader Colombie leptospirose : risque spatial + tendance (Zenodo 17104058) --
+# Aucun DOI de publication resolu dans le KG (candidat dataset-first).
+# Sup_materials_lepto.xlsx telecharge directement depuis Zenodo -- pas une
+# reconstruction. Feuilles "5. sp effect" (risque relatif spatial RR, sortie
+# du modele BYM spatio-temporel du papier par municipalite) et "8. emerging
+# trend" (statistique de Mann-Kendall et significativite de la tendance
+# temporelle, meme modele) jointes par municipalite -- toutes deux des
+# SORTIES DE MODELE reelles du papier, pas une reconstruction. Geometrie :
+# aucun shapefile inclus -- jointe par nom de municipalite normalise a la
+# couche ADM2 publique geoBoundaries (source officielle DANE, CC BY 4.0,
+# https://www.geoboundaries.org, COL/ADM2, 1122 unites), verifiee
+# empiriquement : 987/1036 municipalites uniques appariees par nom (95.3%),
+# puis 65 noms ambigus (homonymes entre departements colombiens, ex.
+# "Albania" existe dans 3 departements -- aucune colonne departement dans
+# les donnees leptospirose pour desambiguiser) retires plutot que joints de
+# facon incertaine, pour eviter d'associer un taux a la mauvaise geometrie.
+# Covariables climatiques (session 2026-08-16, recherche demandee par
+# l'utilisateur) : temperature annuelle moyenne et precipitation annuelle
+# totale (normales climatiques CHELSA V2.1, 1981-2010, https://chelsa-climate.org,
+# licence CC-BY-4.0) extraites par moyenne zonale sur les polygones
+# municipaux -- source externe publique legitime, pas une reconstruction
+# des valeurs elles-memes. p_value retiree des covariables (erreur
+# methodologique signalee par l'utilisateur : la significativite d'un test
+# statistique n'est pas une variable explicative independante, elle mesure
+# l'incertitude sur MannKendall lui-meme -- meme famille d'erreur que la
+# circularite deja corrigee pour antarctic_biodiversity_completeness).
+load_colombia_leptospirosis_risk <- function() {
+  dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_17104058")
+  geo_path <- file.path(dir, "extracted", "geoBoundaries-COL-ADM2_simplified.geojson")
+  shp <- sf::st_read(geo_path, quiet = TRUE)
+
+  norm_name <- function(x) {
+    x <- toupper(x)
+    x <- iconv(x, from = "UTF-8", to = "ASCII//TRANSLIT")
+    x <- gsub("[^A-Z]", "", x)
+    trimws(x)
+  }
+  shp$key <- norm_name(shp$shapeName)
+  key_counts <- table(shp$key)
+  ambiguous_keys <- names(key_counts)[key_counts > 1]
+  shp <- shp[!(shp$key %in% ambiguous_keys), ]
+
+  clim <- utils::read.csv(file.path(dir, "extracted", "colombia_municipal_climate_normals.csv"),
+                          stringsAsFactors = FALSE)
+  shp <- merge(shp, clim[, c("key", "mean_annual_temp_c", "annual_precip_mm")], by = "key", all.x = TRUE)
+
+  xlsx <- file.path(dir, "Sup_materials_lepto.xlsx")
+  sp_eff <- as.data.frame(readxl::read_excel(xlsx, sheet = "5. sp effect"))
+  trend <- as.data.frame(readxl::read_excel(xlsx, sheet = "8. emerging trend"))
+  names(trend) <- c("Municipality", "MannKendall", "p_value", "emerging_trend", "significance_95")
+  trend$p_value <- NULL
+
+  df <- merge(sp_eff, trend, by = "Municipality", all = FALSE)
+  df$key <- norm_name(df$Municipality)
+  df <- df[!is.na(df$RR) & !is.na(df$MannKendall), ]
+
+  sf_obj <- merge(shp[, c("key", "shapeName", "mean_annual_temp_c", "annual_precip_mm", "geometry")],
+                   df, by = "key", all.x = FALSE)
+  sf_obj <- sf_obj[!is.na(sf_obj$mean_annual_temp_c) & !is.na(sf_obj$annual_precip_mm), ]
+
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "key,shapeName,Municipality,significance_95",
+      datetime_columns = "none",
+      candidate_y_variables = "RR"
+    )
+  )
+}
+
+load_avian_phylo_functional_distance <- function() {
+  dir <- find_paper_raw_dir("DataCite_2023_GlobalVariationInThe_10_1111_geb_1376")
+  zip_path <- file.path(dir, "dryad_05qfttf8t_v20230915.zip")
+  tmp <- file.path(dir, "extracted")
+  dir.create(tmp, showWarnings = FALSE, recursive = TRUE)
+  needed <- "standerdised_effect_sizes.csv"
+  if (!file.exists(file.path(tmp, needed))) {
+    utils::unzip(zip_path, files = needed, exdir = tmp)
+  }
+  df <- utils::read.csv(file.path(tmp, needed), stringsAsFactors = FALSE)
+  df <- df[!is.na(df$lat) & !is.na(df$long) & !is.na(df$PDses) & !is.na(df$MPFDses), ]
+  sf_obj <- sf::st_as_sf(df, coords = c("long", "lat"), crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "long,lat",
+      identifier_variables = "site,site_num",
+      datetime_columns = "none",
+      candidate_y_variables = "PDses"
+    )
+  )
+}
+
 PAPER_DATASET_LOADERS <- list(
   metacomnet = load_metacomnet,
   cluster_detection = load_cluster_detection,
@@ -2276,8 +3767,65 @@ PAPER_DATASET_LOADERS <- list(
   harbour_porpoise_response = load_harbour_porpoise_response,
   amazon_tree_dominance = load_amazon_tree_dominance,
   joshua_tree_flowering = load_joshua_tree_flowering,
-  wildfire_greenup_nbr5 = load_wildfire_greenup_nbr5
+  wildfire_greenup_nbr5 = load_wildfire_greenup_nbr5,
+  flapper_skate_presence = load_flapper_skate_presence,
+  bean_landrace_gap_sdm = load_bean_landrace_gap_sdm,
+  nyc_tract_income_ssig = load_nyc_tract_income_ssig,
+  nyc_census2000_gwrboost = load_nyc_census2000_gwrboost,
+  hiv_southern_africa = load_hiv_southern_africa,
+  gwqlasso_pr = load_gwqlasso_pr,
+  gwqlasso_rs = load_gwqlasso_rs,
+  gwqlasso_mt = load_gwqlasso_mt,
+  usgs_flood_skew = load_usgs_flood_skew,
+  red_deer_topdown = load_red_deer_topdown,
+  fire_forest_loss_dominican_republic = load_fire_forest_loss_dominican_republic,
+  amphibian_abnormality_hotspots = load_amphibian_abnormality_hotspots,
+  covid_sociodemographic_risk = load_covid_sociodemographic_risk,
+  fhb_ensembling = load_fhb_ensembling,
+  snake_home_range = load_snake_home_range,
+  amphibian_functional_diversity = load_amphibian_functional_diversity,
+  dragonfly_colour_lightness = load_dragonfly_colour_lightness,
+  groundfish_cpue = load_groundfish_cpue,
+  gcfr_soil = load_gcfr_soil,
+  dougfir_sdm = load_dougfir_sdm,
+  goa_trawl_demersal = load_goa_trawl_demersal,
+  mimulus_sdm = load_mimulus_sdm,
+  song_sparrow_breeding_date = load_song_sparrow_breeding_date,
+  houston_lst_landcover = load_houston_lst_landcover,
+  chaco_bird_richness = load_chaco_bird_richness,
+  kodiak_puffin_density = load_kodiak_puffin_density,
+  macropod_body_size = load_macropod_body_size,
+  sugarglider_occupancy = load_sugarglider_occupancy,
+  checkerspot_phenology = load_checkerspot_phenology,
+  pacific_atoll_coconut = load_pacific_atoll_coconut,
+  alps_floristic_legacy = load_alps_floristic_legacy,
+  uk_linear_features_birds = load_uk_linear_features_birds,
+  sfbay_contaminated_sites = load_sfbay_contaminated_sites,
+  shark_longline_catch = load_shark_longline_catch,
+  danajon_coral_distribution = load_danajon_coral_distribution,
+  ltar_crop_rotation_yield = load_ltar_crop_rotation_yield,
+  seshat_social_complexity = load_seshat_social_complexity,
+  airbnb_europe_prices = load_airbnb_europe_prices,
+  stwr_precip_isotope = load_stwr_precip_isotope,
+  mistletoe_bird_abundance = load_mistletoe_bird_abundance,
+  leishmaniasis_occurrence = load_leishmaniasis_occurrence,
+  avian_phylo_functional_distance = load_avian_phylo_functional_distance,
+  spatial_confounding_diabetes = load_spatial_confounding_diabetes,
+  antarctic_biodiversity_completeness = load_antarctic_biodiversity_completeness,
+  pollinator_urbanization_meta = load_pollinator_urbanization_meta,
+  portugal_covid_municipal = load_portugal_covid_municipal,
+  colombia_leptospirosis_risk = load_colombia_leptospirosis_risk,
+  korea_hedonic_housing = load_korea_hedonic_housing,
+  wildebeest_movement_env = load_wildebeest_movement_env,
+  dragonfly_diversity_europe = load_dragonfly_diversity_europe,
+  brisbane_urban_vegetation = load_brisbane_urban_vegetation,
+  banff_stream_temperature = load_banff_stream_temperature,
+  global_nee_gwxgboost = load_global_nee_gwxgboost,
+  california_wildfire_growth = load_california_wildfire_growth,
+  swiss_heat_exposure = load_swiss_heat_exposure
 )
+
+
 
 convert_paper_dataset <- function(record_id, verbose = TRUE) {
   loader <- PAPER_DATASET_LOADERS[[record_id]]

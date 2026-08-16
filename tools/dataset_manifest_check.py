@@ -46,13 +46,9 @@ def load_local_env() -> None:
                 os.environ[key] = value
 
 
-def dryad_access_token() -> str | None:
-    """Return a Dryad bearer token, using either a provided token or OAuth."""
+def dryad_oauth_token() -> str | None:
+    """Fetch (and cache) a fresh Dryad bearer token via client-credentials OAuth."""
     global _DRYAD_TOKEN_CACHE
-    load_local_env()
-    token = os.environ.get("DRYAD_ACCESS_TOKEN") or os.environ.get("DRYAD_API_TOKEN")
-    if token:
-        return token
     if _DRYAD_TOKEN_CACHE:
         return _DRYAD_TOKEN_CACHE
 
@@ -74,6 +70,22 @@ def dryad_access_token() -> str | None:
     resp.raise_for_status()
     _DRYAD_TOKEN_CACHE = resp.json().get("access_token")
     return _DRYAD_TOKEN_CACHE
+
+
+def dryad_access_token() -> str | None:
+    """Return a Dryad bearer token.
+
+    A static DRYAD_ACCESS_TOKEN/DRYAD_API_TOKEN can expire (Dryad tokens are
+    short-lived, ~2h) with no signal to the caller other than a 401 on the
+    next request. When client-credentials are available we always mint a
+    fresh OAuth token instead, since that never goes stale; the static token
+    is only a fallback for when no client_id/client_secret is configured.
+    """
+    load_local_env()
+    oauth_token = dryad_oauth_token()
+    if oauth_token:
+        return oauth_token
+    return os.environ.get("DRYAD_ACCESS_TOKEN") or os.environ.get("DRYAD_API_TOKEN")
 
 
 def request_headers(repo: str | None = None) -> dict[str, str]:
@@ -375,7 +387,15 @@ def classify_file_manifest(files: list[dict[str, Any]]) -> tuple[bool, str]:
             "data-availability (ex. SciELO/figshare), pas une microdonnee"
         )
 
-    return True, "listing ambigu (formats non reconnus) - verification manuelle recommandee"
+    # Ancien comportement : `return True` ici -- un depot ne contenant qu'un
+    # PDF/format non reconnu (pas de format donnee reelle, pas un pattern
+    # supplement reconnu) etait marque "verifie" et auto-telecharge sans
+    # jamais recevoir la revue manuelle que le message reclame. Observe sur
+    # cette session : 19 depots ne contenant qu'un seul PDF generique (pas
+    # nomme sm1.pdf/supplement.pdf) sont passes au travers -- corrige pour
+    # exiger une revue manuelle explicite plutot que de presumer une donnee
+    # reelle par defaut.
+    return False, "listing ambigu (formats non reconnus) - verification manuelle recommandee"
 
 
 def check_dataset_doi(

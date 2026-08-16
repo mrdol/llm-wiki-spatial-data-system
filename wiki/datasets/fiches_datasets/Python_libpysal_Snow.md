@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_Snow
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_libpysal_Snow.rds
 tags: [dataset, python-package, spatial, point]

@@ -76,8 +76,16 @@ of the following are true:
   formula as system-generated;
 - spatial support is usable: geometry, coordinates, raster support, or an
   original/reconstructible `W`;
-- CRS, distance, neighbor construction, or original `W` are documented well
-  enough for the relevant estimators;
+- the absence of a local `W` object is not blocking when the dataset has
+  usable coordinates or geometry and the benchmark can build a documented
+  neighbor/weights structure from them (`k_neighbors`, distance threshold,
+  contiguity for polygons, style `W`, `zero_policy`, etc.);
+- `W` becomes blocking only when the paper relies on a non-geographic or
+  source-specific weights matrix that cannot be reconstructed defensibly from
+  the local spatial support (for example political, institutional, trade,
+  network or bespoke economic proximity matrices);
+- CRS, distance, neighbor construction, or original/source-specific `W` are
+  documented well enough for the relevant estimators;
 - preprocessing choices are documented and consistent with the paper,
   package documentation, or source data;
 - the dataset is not only a prediction product, derived coefficient surface,

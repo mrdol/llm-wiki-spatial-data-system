@@ -50,6 +50,42 @@ LLM_SYSTEM_PROMPT = (
 CONFIRMED_KEEP = {
     "R_surveillance_hagelloch_hagelloch",
     "R_gstat_jura_jura.val",
+    # Ajoute 2026-08-15 : status="suspect_version" (2 versions detectees :
+    # geodatasets k=38,N=506 vs spData k=22,N=506) empechait le --overwrite
+    # de regenerer cette fiche deja package_include=yes/benchmark_status=ready
+    # (elle datait d'avant l'introduction de ce garde-fou). La version spData
+    # (R_spData_boston_boston.c) est deja explicitement ecartee via
+    # CONFIRMED_DISCARD (moins de colonnes) ; celle-ci (geodatasets, colonnes
+    # completes Harrison & Rubinfeld 1978 + correction Gilley & Pace 1996) est
+    # la version definitive a conserver.
+    "Python_geodatasets_spdata.boston",
+    # Meme garde-fou, meme date : status="suspect_version" (3 versions :
+    # libpysal k=16,N=159 vs GWmodel k=13,N=159 vs spgwr k=14,N=159) sur une
+    # fiche deja package_include=yes/benchmark_status=ready. Les 2 autres
+    # versions (R_GWmodel_Georgia_Gedu.df, R_spgwr_georgia_gSRDF) sont deja
+    # explicitement ecartees via CONFIRMED_DISCARD ; celle-ci (libpysal, la
+    # plus riche en colonnes) est la version definitive a conserver.
+    "Python_libpysal_georgia",
+    # Decoupage annuel 2026-08-15 (politique : plusieurs coupes temporelles
+    # plutot qu'une seule) -- ces 13 fichiers partagent structurellement le
+    # meme N/k/bbox (memes blocs NYC, seules les valeurs annuelles changent),
+    # donc l'etape 1 de export_sf_metadata.R (fingerprint N+k+bbox, aveugle
+    # au contenu) les traite a tort comme des doublons exacts. Retenus tous
+    # les 13 explicitement : ce ne sont pas des doublons, ce sont 13 coupes
+    # temporelles distinctes du meme dataset LEHD (geoda.nyc_earnings).
+    "Python_geodatasets_geoda.nyc_earnings_2002",
+    "Python_geodatasets_geoda.nyc_earnings_2003",
+    "Python_geodatasets_geoda.nyc_earnings_2004",
+    "Python_geodatasets_geoda.nyc_earnings_2005",
+    "Python_geodatasets_geoda.nyc_earnings_2006",
+    "Python_geodatasets_geoda.nyc_earnings_2007",
+    "Python_geodatasets_geoda.nyc_earnings_2008",
+    "Python_geodatasets_geoda.nyc_earnings_2009",
+    "Python_geodatasets_geoda.nyc_earnings_2010",
+    "Python_geodatasets_geoda.nyc_earnings_2011",
+    "Python_geodatasets_geoda.nyc_earnings_2012",
+    "Python_geodatasets_geoda.nyc_earnings_2013",
+    "Python_geodatasets_geoda.nyc_earnings_2014",
 }
 CONFIRMED_DISCARD = {
     "R_gstat_jura_prediction.dat",
@@ -124,6 +160,27 @@ X_TYPOLOGY_TO_ROLE = {
     "binary": "categorical",
     "rate": "continuous",
 }
+
+
+def has_real_formula(pub_formula: str | None) -> bool:
+    """True si `pub_formula` est une vraie formule exploitable, pas une note explicative.
+
+    web_enrichment (cache["web_enrichment"][did]["formula_pub"]) peut contenir,
+    en plus du litteral "pending", des textes explicatifs commencant par
+    "not_applicable" (aucune regression Y~X ne s'applique, ex. pattern de
+    points, geostatistique univariee, table de localisation) ou "pending -"
+    (formule non confirmee, hypothese non verifiee). Ces deux cas doivent etre
+    traites comme "pas de formule", au meme titre que "pending" tout court,
+    sinon "Statut regression canonique", Bloc 3 (modeling_evidence) et le
+    Quality Control affichent a tort "resolu"/"OK" pour une fiche qui explique
+    justement pourquoi aucune formule ne s'applique.
+    """
+    text = str(pub_formula or "").strip()
+    if not text or text == "pending":
+        return False
+    if text.startswith("not_applicable") or text.startswith("pending"):
+        return False
+    return True
 
 
 def repo_root() -> Path:
@@ -932,7 +989,7 @@ def make_fiche(
     # ou de l'utilisateur au moment de la revue, jamais une regle de
     # similarite textuelle automatique (voir skill enrich-metadata).
     homolog_result = find_homolog_formula(did, wiki_out) if wiki_out else None
-    if homolog_result and pub_formula == "pending":
+    if homolog_result and not has_real_formula(pub_formula):
         pub_formula = homolog_result["formula"]
         pub_ref = homolog_result["source"]
         if "~" in pub_formula:
@@ -946,7 +1003,7 @@ def make_fiche(
             f"`{homolog_result['homolog_id']}` -- meme jeu de donnees sous-jacent "
             f"(propagation automatique Tache 3, a confirmer par revue manuelle)."
         )
-    elif pub_formula != "pending":
+    elif has_real_formula(pub_formula):
         regression_status = "resolu"
         regression_evidence = "publication"
         regression_method = "formule publication confirmee et utilisee"
@@ -1051,7 +1108,7 @@ def make_fiche(
     else:
         variables_status = "WARN - Y/X non identifiees automatiquement ; revue manuelle requise."
 
-    if pub_formula != "pending":
+    if has_real_formula(pub_formula):
         formula_status = "OK - formule publication renseignee."
     else:
         formula_status = "PENDING - formule publication non encore etablie."
@@ -1114,7 +1171,7 @@ def make_fiche(
         pub_y_term = "yield"
         pub_ref = LASROSAS_SOURCE_REF
 
-    if pub_formula != "pending":
+    if has_real_formula(pub_formula):
         used_formula = pub_formula
         used_x_terms = pub_x_terms
         used_y_term = pub_y_term

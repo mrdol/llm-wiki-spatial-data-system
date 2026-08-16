@@ -1,8 +1,8 @@
 ---
 title: paper_network_misspecification_elections
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_network_misspecification_elections.rds
   - DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Bias from 
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Replication Data for: Bias due to network misspecification under spatial dependence"
-- Observed population: Article méthodologique Political Analysis sur biais de mauvaise spécification de la matrice W sous dépendance spatiale
+- Observed population: Article mÃ©thodologique Political Analysis sur biais de mauvaise spÃ©cification de la matrice W sous dÃ©pendance spatiale
 - Geographic context: etendue sf: x [-110.426547008631, 176.610152085255], y [-38.00805665, 79.84211425]
 - Temporal context: 65 distinct periods (variable: elecyr)
 - Source description: Bias from Network Misspecification Under Spatial Dependence
@@ -90,14 +90,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Bias from 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Betz, Cook & Hollenbach (2020), Political Analysis, DOI 10.1017/pan.2020.26; KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) est un panel pays x annee electorale (22 pays OCDE, noms de pays en toutes lettres), covariables de vote economique (croissance/chomage a divers niveaux d'agregation). Le papier etudie explicitement le biais de mauvaise specification du reseau spatial -- formula_used est une specification simplifiee, pas la comparaison complete de specifications W du papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Betz, Cook & Hollenbach (2020), Political Analysis, DOI 10.1017/pan.2020.26; KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) est un panel pays x annee electorale (22 pays OCDE, noms de pays en toutes lettres), covariables de vote economique (croissance/chomage a divers niveaux d'agregation). Le papier etudie explicitement le biais de mauvaise specification du reseau spatial -- formula_used est une specification simplifiee, pas la comparaison complete de specifications W du papier.
 
 ### Formule - niveau systeme
 
 - formula_used: votelead ~ gr_an + unem_an + coalsize + pop + enep
 - x_terms_used: gr_an, unem_an, coalsize, pop, enep
 - y_term_used: votelead
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Betz, Cook & Hollenbach (2020), Political Analysis, DOI 10.1017/pan.2020.26; KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) est un panel pays x annee electorale (22 pays OCDE, noms de pays en toutes lettres), covariables de vote economique (croissance/chomage a divers niveaux d'agregation). Le papier etudie explicitement le biais de mauvaise specification du reseau spatial -- formula_used est une specification simplifiee, pas la comparaison complete de specifications W du papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Betz, Cook & Hollenbach (2020), Political Analysis, DOI 10.1017/pan.2020.26; KP2012_Benchmarking_Agg_Data.dta (archive PAN Dataverse) est un panel pays x annee electorale (22 pays OCDE, noms de pays en toutes lettres), covariables de vote economique (croissance/chomage a divers niveaux d'agregation). Le papier etudie explicitement le biais de mauvaise specification du reseau spatial -- formula_used est une specification simplifiee, pas la comparaison complete de specifications W du papier.
 
 ### Formules candidates
 
@@ -187,7 +187,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

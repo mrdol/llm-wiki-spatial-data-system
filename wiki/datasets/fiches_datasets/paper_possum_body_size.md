@@ -1,8 +1,8 @@
 ---
 title: paper_possum_body_size
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_possum_body_size.rds
   - DataCite_2015_LeanSeasonPrimaryProductivity_10_1111_ecog_012
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Data from: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial"
-- Observed population: Modèle SAR (simultaneous autoregressive) pour variation géographique de taille corporelle; domaine écologie/biogéographie; méthode SAR explicite; dataset empirique marsupial australien avec coordonnées et covariables environnementales
+- Observed population: ModÃ¨le SAR (simultaneous autoregressive) pour variation gÃ©ographique de taille corporelle; domaine Ã©cologie/biogÃ©ographie; mÃ©thode SAR explicite; dataset empirique marsupial australien avec coordonnÃ©es et covariables environnementales
 - Geographic context: etendue sf: x [114.8, 153.3], y [-43.15, -11.1]
 - Temporal context: 335 distinct periods (variable: Date)
 - Source description: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - Candidate X variables in local artifact: `Date`, `Island_type`, `WinterMinTemp`, `AnnualMinTemp`, `SummerWetBulbTemp`, `AnnualWetBulbTemp`, `SummerMaxTemp`, `AnnualMaxTemp`, `AnnualRain`, `P.PET`, `aaET`, `NDVI`, `CenW`, `GrowSeasRain`, `GrowSeasaaET`, `GrowSeasP.PET`, `GrowSeasNDVI`, `CVSeasRain`, `CVSeasaaET`, `CVSeasP.PET`, `CVSeasMaxTemp`, `CVSeasMinTemp`, `MinSeasRain`, `MinSeasaaET`, `MinSeasP.PET`, `MinSeasNDVI`, `Soil_nutrient_availability`, `Clay_content_0_30cm`, `Soil_bulk_density_0_30cm`
 - Candidate X count in local artifact: 29
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: WinterMinTemp, AnnualMinTemp, AnnualRain, aaET, NDVI, CenW, Soil_nutrient_availability, Clay_content_0_30cm, Soil_bulk_density_0_30cm
+- Published X variables from paper: SummerMaxTemp, MinSeasP.PET, Island_type
 - Published X count: 0
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Collection`, `Registration_number`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 |---|---|---|---|---|
 | `CBL` | `numeric` | continuous | [61.61, 99.49] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `possum_body_size`, la ou les reponses `CBL` viennent du loader papier et/ou des preuves de l article `Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial`. Les covariables X retenues sont `WinterMinTemp`, `AnnualMinTemp`, `AnnualRain`, `aaET`, `NDVI`, `CenW`, `Soil_nutrient_availability`, `Clay_content_0_30cm`, `Soil_bulk_density_0_30cm` ; 20 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Collection`, `Registration_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `possum_body_size`, la ou les reponses `CBL` viennent du loader papier et/ou des preuves de l article `Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial`. Les covariables X retenues sont `SummerMaxTemp`, `MinSeasP.PET`, `Island_type` ; 26 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Collection`, `Registration_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -87,10 +87,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 
 ### Formule - niveau publication
 
-- formula_pub: CBL ~ productivity/climate/soil covariates [body-size productivity benchmark candidate]
-- x_terms_pub: WinterMinTemp, AnnualMinTemp, AnnualRain, aaET, NDVI, CenW, Soil_nutrient_availability, Clay_content_0_30cm, Soil_bulk_density_0_30cm
+- formula_pub: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type [selected aspatial and spatial SAR model]
+- x_terms_pub: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_pub: CBL
-- Reference publication: Dryad dataset 10.5061/dryad.gq264: continuous body-size response CBL with coordinates and environmental covariates. Exact published regression formula still needs confirmation against the associated paper before source_type can be upgraded beyond dataset documentation.
+- Reference publication: Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
 
 ### Statut regression canonique
 
@@ -98,14 +98,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad dataset 10.5061/dryad.gq264: continuous body-size response CBL with coordinates and environmental covariates. Exact published regression formula still needs confirmation against the associated paper before source_type can be upgraded beyond dataset documentation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
 
 ### Formule - niveau systeme
 
-- formula_used: CBL ~ WinterMinTemp + AnnualMinTemp + AnnualRain + aaET + NDVI + CenW + Soil_nutrient_availability + Clay_content_0_30cm + Soil_bulk_density_0_30cm
-- x_terms_used: WinterMinTemp, AnnualMinTemp, AnnualRain, aaET, NDVI, CenW, Soil_nutrient_availability, Clay_content_0_30cm, Soil_bulk_density_0_30cm
+- formula_used: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type
+- x_terms_used: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_used: CBL
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad dataset 10.5061/dryad.gq264: continuous body-size response CBL with coordinates and environmental covariates. Exact published regression formula still needs confirmation against the associated paper before source_type can be upgraded beyond dataset documentation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
 
 ### Formules candidates
 
@@ -122,12 +122,12 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "CBL ~ WinterMinTemp + AnnualMinTemp + AnnualRain + aaET + NDVI + CenW + Soil_nutrient_availability + Clay_content_0_30cm + Soil_bulk_density_0_30cm"
+    formula: "CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type"
     response: "CBL"
-    predictors: ["WinterMinTemp", "AnnualMinTemp", "AnnualRain", "aaET", "NDVI", "CenW", "Soil_nutrient_availability", "Clay_content_0_30cm", "Soil_bulk_density_0_30cm"]
+    predictors: ["SummerMaxTemp", "MinSeasP.PET", "Island_type"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Dryad dataset 10.5061/dryad.gq264: continuous body-size response CBL with coordinates and environmental covariates. Exact published regression formula still needs confirmation against the associated paper before source_type can be upgraded beyond dataset documentation."
+    source_ref: "Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -163,11 +163,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "CBL ~ productivity/climate/soil covariates [body-size productivity benchmark candidate]"
+  equation_text: "CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type [selected aspatial and spatial SAR model]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Dryad dataset 10.5061/dryad.gq264: continuous body-size response CBL with coordinates and environmental covariates. Exact published regression formula still needs confirmation against the associated paper before source_type can be upgraded beyond dataset documentation."
+  source_ref: "Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
   confidence: medium
 ```
 
@@ -175,27 +175,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous_body_size"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "verifier la formule empirique exacte dans le papier et reduire les covariables si necessaire"
-  reason: "Y=CBL continu, coordonnees et covariables environnementales disponibles; la formule exacte n'est pas encore prouvee par TEI/KG."
+  missing_items: "aucun blocage package; formule_used alignee sur le modele aspatial/spatial SAR selectionne du papier"
+  reason: "Y=CBL continu, coordonnees et covariables du modele selectionne sont disponibles; Table 2 du papier confirme la specification."
 ```
 
-- Decision: almost_ready
-- Manque principal: verifier la formule empirique exacte dans le papier et reduire les covariables si necessaire
-- Raison: Y=CBL continu, coordonnees et covariables environnementales disponibles; la formule exacte n'est pas encore prouvee par TEI/KG.
+- Decision: ready
+- Manque principal: aucun blocage package; formule_used alignee sur le modele aspatial/spatial SAR selectionne du papier
+- Raison: Y=CBL continu, coordonnees et covariables du modele selectionne sont disponibles; Table 2 du papier confirme la specification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -1,8 +1,8 @@
 ---
 title: R_gstat_pcb_pcb
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_gstat_pcb_pcb.rds
 tags: [dataset, r-package, spatial, point]
@@ -61,15 +61,15 @@ PCB138 measurements in sediment at the NCP, which is the Dutch part of the North
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: pending - analyse geostatistique spatio-temporelle de PCB138 ; coast/depth sont des candidats plausibles de derive externe (universal kriging with external drift) mais aucune formule exacte confirmee dans la source (article non accessible en texte integral).
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
 
@@ -127,13 +127,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "pending - analyse geostatistique spatio-temporelle de PCB138 ; coast/depth sont des candidats plausibles de derive externe (universal kriging with external drift) mais aucune formule exacte confirmee dans la source (article non accessible en texte integral)."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Pebesma, E. J., and Duin, R. N. M. (2005). Spatial patterns of temporal change in North Sea sediment quality on different spatial scales."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -188,7 +188,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

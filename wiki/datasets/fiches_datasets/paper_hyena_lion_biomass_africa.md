@@ -1,8 +1,8 @@
 ---
 title: paper_hyena_lion_biomass_africa
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_hyena_lion_biomass_africa.rds
   - DataCite_2021_EnvironmentalFactorsInfluencingSpotted_10_1002_ece3_835
@@ -85,14 +85,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
 
 ### Formule - niveau systeme
 
 - formula_used: spotted_hyaena_biomass_log10 ~ other_predator_biomass_log10 + prey_very_small_biomass_log10 + prey_small_biomass_log10 + prey_medium_biomass_log10 + prey_large_biomass_log10 + prey_very_large_biomass_log10 + min_temperature_coolest_month_log10 + max_temperature_warmest_month_log10 + precipitation_wettest_month_log10 + precipitation_driest_month_log10 + precipitation_seasonality_log10 + semi_open_vegetation_clr + open_vegetation_clr + closed_vegetation_clr
 - x_terms_used: other_predator_biomass_log10, prey_very_small_biomass_log10, prey_small_biomass_log10, prey_medium_biomass_log10, prey_large_biomass_log10, prey_very_large_biomass_log10, min_temperature_coolest_month_log10, max_temperature_warmest_month_log10, precipitation_wettest_month_log10, precipitation_driest_month_log10, precipitation_seasonality_log10, semi_open_vegetation_clr, open_vegetation_clr, closed_vegetation_clr
 - y_term_used: spotted_hyaena_biomass_log10
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
 
 ### Formules candidates
 
@@ -182,7 +182,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

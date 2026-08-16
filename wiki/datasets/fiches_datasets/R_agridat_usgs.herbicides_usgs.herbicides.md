@@ -1,8 +1,8 @@
 ---
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_agridat_usgs.herbicides_usgs.herbicides.rds
 tags: [dataset, r-package, spatial, point]

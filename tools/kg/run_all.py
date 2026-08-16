@@ -39,6 +39,15 @@ def main() -> None:
             "appels API payants."
         ),
     )
+    parser.add_argument(
+        "--check-dataset-fiches",
+        action="store_true",
+        help=(
+            "lancer le controle bloquant des fiches datasets apres l export "
+            "metadata. Non active par defaut tant que les fiches historiques "
+            "package/paper ne sont pas toutes stabilisees."
+        ),
+    )
     args = parser.parse_args()
 
     run_step(["tools/kg/01_extract_bib.py"])
@@ -51,6 +60,8 @@ def main() -> None:
     run_step(["tools/kg/04_extract_dataset_catalogs.py"])
     run_step(["tools/kg/04_extract_web_sources.py"])
     run_step(["code/package_metadata/export_spatialtidymodels_metadata.py"])
+    if args.check_dataset_fiches:
+        run_step(["tools/check_dataset_fiche_readiness.py", "--all"])
     run_step(["tools/kg/08_extract_model_evidence.py"])
     run_step(["tools/kg/09_extract_paper_dataset_uses.py"])
     if args.llm_disambiguate:

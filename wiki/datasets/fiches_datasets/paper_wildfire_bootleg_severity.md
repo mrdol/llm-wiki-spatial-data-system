@@ -1,8 +1,8 @@
 ---
 title: paper_wildfire_bootleg_severity
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_wildfire_bootleg_severity.rds
   - DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700
@@ -13,9 +13,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Learning f
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
-- Observation unit: observation spatiale du dataset "Data from: Learning from wildfires: a scalable framework to evaluate treatment effects on burn severity"
-- Observed population: Évaluation de l'efficacité des traitements de réduction de combustible sur la sévérité des incendies, machine learning et modèles de régression spatiale : méthode spatial regression modeling explicite, domaine écologie forestière/incendies
+- Topic: risques naturels / recuperation post-incendie
+- Observation unit: pixel spatial echantillonne depuis une grille de feu de haute severite
+- Observed population: pixels d'incendies de haute severite aux Etats-Unis, avec NBR post-feu et covariables climat/sol/topographie
 - Geographic context: etendue sf: x [-2051367.72382883, -1994117.72382883], y [2421979.97446648, 2479729.97446648]
 - Temporal context: none (cross-sectional)
 - Source description: Learning from wildfires: A scalable framework to evaluate treatment effects on burn severity
@@ -105,14 +105,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Learning f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques).
 
 ### Formule - niveau systeme
 
 - formula_used: rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501
 - x_terms_used: annual_aet_1981_2010, annual_deficit_1981_2010, annual_pet_1981_2010, annual_ppt_anl_total_1981_2010, annual_tmmean_anl_mean_1981_2010, annual_tmmin_anl_mean_1981_2010, distance_to_roads, distance_to_streams_wetlands, distance_to_trt_edge, frs, gedi_rh100_mean, gedi_rh100_sd, erc, fm100, fm1000, minrh, tmmx, vpd, LF2020_CBD, LF2020_CC, LF2020_CH, scf, sdd, elevation_10res, hli_10res, slope_10res, sri_10res, tpi_10res_2010win, tpi_10res_410win, tpi_10res_8010win, tri_10res_410win, eastwestness_mx_speed_direction_20230501, mx_speed_20230501, northsouthness_mx_speed_direction_20230501
 - y_term_used: rdnbr
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques).
 
 ### Formules candidates
 
@@ -202,7 +202,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

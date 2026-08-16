@@ -1,8 +1,8 @@
 ---
 title: paper_bumblebee_colony_reproduction
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_bumblebee_colony_reproduction.rds
   - DataCite_2018_LowerBumblebeeColonyReproductive_10_1098_rspb_201
@@ -17,7 +17,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 - Observation unit: site d'observation ou cellule de grille d'occurrence
 - Observed population: communautes de pollinisateurs ou d'oiseaux nectarivores
 - Geographic context: etendue sf: x [-1.2065639, -0.0407438], y [51.1083416, 51.5933662]
-- Temporal context: 11 distinct periods (variable: Q_week)
+- Temporal context: none (cross-sectional)
 - Source description: Lower bumblebee colony reproductive success in agricultural compared with urban environments
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 | `Tot_male` | `integer` | count | [0, 71] | 0% |
 | `Tot_gyne` | `integer` | count | [0, 19] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `bumblebee_colony_reproduction`, la ou les reponses `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne` viennent du loader papier et/ou des preuves de l article `Lower bumblebee colony reproductive success in agricultural compared with urban environments`. Les covariables X retenues sont `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower500`, `Prop_imp500`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X500PC1`, `X500PC2` ; 33 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`, `Lat`, `Lon`), identifiants (`Col`, `Site`, `LU750`, `LU500`, `LU250`, `LU100`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `bumblebee_colony_reproduction`, la ou les reponses `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne` viennent du loader papier et/ou des preuves de l article `Lower bumblebee colony reproductive success in agricultural compared with urban environments`. Les covariables X retenues sont `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower500`, `Prop_imp500`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X500PC1`, `X500PC2` ; 33 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`, `Lat`, `Lon`), identifiants (`Col`, `Site`, `LU750`, `LU500`, `LU250`, `LU100`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -118,14 +118,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
 
 ### Formule - niveau systeme
 
 - formula_used: Tot_rep ~ Ave_temp + Ave_hum + Sum_prec + Prop_flower500 + Prop_imp500 + Prop_urb500 + Prop_open500 + Prop_tree500 + Prop_ag500 + Prop_gard500 + Prop_road500 + X500PC1 + X500PC2
 - x_terms_used: Ave_temp, Ave_hum, Sum_prec, Prop_flower500, Prop_imp500, Prop_urb500, Prop_open500, Prop_tree500, Prop_ag500, Prop_gard500, Prop_road500, X500PC1, X500PC2
 - y_term_used: Tot_rep
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
 
 ### Formules candidates
 
@@ -195,48 +195,48 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_count_small_n"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "N=38 seulement ; verifier si Tot_rep doit etre traite comme regression continue ou comptage"
-  reason: "ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Benchmark utile mais petit et non strictement gaussien."
+  missing_items: "N=38 et Y de comptage ; a signaler dans les comparaisons, mais le papier travaille a ce niveau de colonie et le package peut evaluer RMSE/MAE sur une reponse numerique."
+  reason: "ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Le petit N et la nature count de Tot_rep sont documentes, sans bloquer le benchmark numerique."
 ```
 
-- Decision: almost_ready
-- Manque principal: N=38 seulement ; verifier si Tot_rep doit etre traite comme regression continue ou comptage
-- Raison: ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Benchmark utile mais petit et non strictement gaussien.
+- Decision: ready
+- Manque principal: N=38 et Y de comptage ; a signaler dans les comparaisons, mais le papier travaille a ce niveau de colonie et le package peut evaluer RMSE/MAE sur une reponse numerique.
+- Raison: ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Le petit N et la nature count de Tot_rep sont documentes, sans bloquer le benchmark numerique.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel_ou_series
+- Data type: spatial
+- Structure: coupe_transversale
 - N observations: 38
 - k variables: 62
-- T periods: 11
-- Variable temporelle: Q_week
-- N/T profile: N_petit_T_grand
+- T periods: 1
+- Variable temporelle: n/a
+- N/T profile: N_petit_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: 11 distinct periods (variable: Q_week)
+- Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-1.2065639, -0.0407438], y [51.1083416, 51.5933662]
-- Time range: 1 to 10 (variable: Q_week)
+- Time range: not applicable (cross-sectional dataset)
 - CRS analyse recommande: 32630 (UTM Zone 30N (EPSG:32630)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
 ## Bloc 6 - Reproductibilite

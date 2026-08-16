@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-14",
-  "n_datasets_inspected": 137,
+  "generated_at": "2026-08-15",
+  "n_datasets_inspected": 161,
   "n_exact_duplicates": 1,
   "n_suspect_versions": 9,
-  "n_ok": 113,
+  "n_ok": 137,
   "source_index": "C:/Users/jdoliveira/SynologyDrive/johnny D'OLIVEIRA/Travaux stages/llm-wiki-karpathy/data/Final_datasets/sf/catalogue_sf_index.RData",
   "schema_ref": "wiki/metadata/catalog_registry_schema_v3.md",
   "exact_duplicate_groups": [
@@ -36151,6 +36151,4024 @@
         "crs_missing": true,
         "geom_complex": false,
         "fingerprint": "159|14|-85.5|-81.1|30.7|34.9"
+      }
+    },
+    {
+      "dataset_id": "R_spDataLarge_census_de_census_de",
+      "record_id": "R::spDataLarge::census_de::census_de",
+      "rds_path": "data/final_datasets/sf/R_spDataLarge_census_de_census_de.rds",
+      "source_lang": "R",
+      "package": "spDataLarge",
+      "dataset": "census_de",
+      "dataset_norm": "censusde",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "pop",
+            "class": "integer",
+            "typology": "count",
+            "range": "[3, 24164]",
+            "n_unique": 6292,
+            "pct_na": 0
+          },
+          {
+            "name": "women",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 100]",
+            "n_unique": 2714,
+            "pct_na": 7.7
+          },
+          {
+            "name": "mean_age",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[8.5, 104.43]",
+            "n_unique": 6288,
+            "pct_na": 0
+          },
+          {
+            "name": "hh_size",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1, 143.88]",
+            "n_unique": 440,
+            "pct_na": 7
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "x",
+            "class": "integer",
+            "pct_na": 0
+          },
+          {
+            "name": "y",
+            "class": "integer",
+            "pct_na": 0
+          },
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 210556,
+        "T": 1,
+        "T_var": null,
+        "k": 8,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": null,
+        "bbox": {
+          "xmin": 4031500,
+          "xmax": 4671500,
+          "ymin": 2689500,
+          "ymax": 3547500
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "210556|8|4031500|4671500|2689500|3547500"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2002",
+      "record_id": "Python::geodatasets::nyc_earnings::2002",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2002.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2002",
+      "dataset_norm": "nycearnings2002",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1961]",
+            "n_unique": 768,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 609]",
+            "n_unique": 289,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1044]",
+            "n_unique": 441,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2003",
+      "record_id": "Python::geodatasets::nyc_earnings::2003",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2003.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2003",
+      "dataset_norm": "nycearnings2003",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2048]",
+            "n_unique": 767,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 557]",
+            "n_unique": 278,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1015]",
+            "n_unique": 458,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2004",
+      "record_id": "Python::geodatasets::nyc_earnings::2004",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2004.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2004",
+      "dataset_norm": "nycearnings2004",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2014]",
+            "n_unique": 763,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 638]",
+            "n_unique": 276,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1009]",
+            "n_unique": 467,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2005",
+      "record_id": "Python::geodatasets::nyc_earnings::2005",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2005.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2005",
+      "dataset_norm": "nycearnings2005",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2087]",
+            "n_unique": 772,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 614]",
+            "n_unique": 271,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 979]",
+            "n_unique": 466,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2006",
+      "record_id": "Python::geodatasets::nyc_earnings::2006",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2006.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2006",
+      "dataset_norm": "nycearnings2006",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2028]",
+            "n_unique": 773,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 575]",
+            "n_unique": 269,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1112]",
+            "n_unique": 494,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2007",
+      "record_id": "Python::geodatasets::nyc_earnings::2007",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2007.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2007",
+      "dataset_norm": "nycearnings2007",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1891]",
+            "n_unique": 734,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 566]",
+            "n_unique": 246,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1245]",
+            "n_unique": 468,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2008",
+      "record_id": "Python::geodatasets::nyc_earnings::2008",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2008.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2008",
+      "dataset_norm": "nycearnings2008",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1946]",
+            "n_unique": 777,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 522]",
+            "n_unique": 255,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1541]",
+            "n_unique": 491,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2009",
+      "record_id": "Python::geodatasets::nyc_earnings::2009",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2009.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2009",
+      "dataset_norm": "nycearnings2009",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2560]",
+            "n_unique": 768,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 521]",
+            "n_unique": 228,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2142]",
+            "n_unique": 511,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2010",
+      "record_id": "Python::geodatasets::nyc_earnings::2010",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2010.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2010",
+      "dataset_norm": "nycearnings2010",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2773]",
+            "n_unique": 813,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 520]",
+            "n_unique": 248,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2234]",
+            "n_unique": 536,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2011",
+      "record_id": "Python::geodatasets::nyc_earnings::2011",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2011.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2011",
+      "dataset_norm": "nycearnings2011",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2816]",
+            "n_unique": 1003,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 559]",
+            "n_unique": 319,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1368]",
+            "n_unique": 641,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2012",
+      "record_id": "Python::geodatasets::nyc_earnings::2012",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2012.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2012",
+      "dataset_norm": "nycearnings2012",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2677]",
+            "n_unique": 1020,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 593]",
+            "n_unique": 331,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1389]",
+            "n_unique": 635,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2013",
+      "record_id": "Python::geodatasets::nyc_earnings::2013",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2013.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2013",
+      "dataset_norm": "nycearnings2013",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2442]",
+            "n_unique": 1039,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 524]",
+            "n_unique": 338,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1381]",
+            "n_unique": 660,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.nyc_earnings_2014",
+      "record_id": "Python::geodatasets::nyc_earnings::2014",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.nyc_earnings_2014.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "nyc_earnings_2014",
+      "dataset_norm": "nycearnings2014",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "GEOID10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 108487,
+            "pct_na": 0
+          },
+          {
+            "name": "STATEFP10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1,
+            "pct_na": 0
+          },
+          {
+            "name": "COUNTYFP10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[5, 119]",
+            "n_unique": 9,
+            "pct_na": 0
+          },
+          {
+            "name": "TRACTCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 2055,
+            "pct_na": 0
+          },
+          {
+            "name": "BLOCKCE10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 845,
+            "pct_na": 0
+          },
+          {
+            "name": "ALAND10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 16486870]",
+            "n_unique": 48540,
+            "pct_na": 0
+          },
+          {
+            "name": "AWATER10",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 30263540]",
+            "n_unique": 1728,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLAT10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107287,
+            "pct_na": 0
+          },
+          {
+            "name": "INTPTLON10",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 107904,
+            "pct_na": 0
+          },
+          {
+            "name": "total_jobs",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 2561]",
+            "n_unique": 1047,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_low",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 520]",
+            "n_unique": 321,
+            "pct_na": 0
+          },
+          {
+            "name": "jobs_earnings_high",
+            "class": "integer",
+            "typology": "count",
+            "range": "[0, 1587]",
+            "n_unique": 663,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "jobs_earnings_mid",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": false,
+        "has_formule_modele": false
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 108487,
+        "T": 1,
+        "T_var": null,
+        "k": 15,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "USA_Contiguous_Albers_Equal_Area_Conic",
+        "bbox": {
+          "xmin": 1796851.3485,
+          "xmax": 1990735.0438,
+          "ymin": 544218.8337,
+          "ymax": 675975.4403
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "108487|15|1796851.3|1990735|544218.8|675975.4"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.ncovr_1960",
+      "record_id": "Python::geodatasets::ncovr::1960",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.ncovr_1960.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "ncovr_1960",
+      "dataset_norm": "ncovr1960",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1786,
+            "pct_na": 0
+          },
+          {
+            "name": "STATE_NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 49,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[1001, 56045]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "SOUTH",
+            "class": "integer",
+            "typology": "binary",
+            "range": "{0, 1}",
+            "n_unique": 2,
+            "pct_na": 0
+          },
+          {
+            "name": "homicide_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 92.9368]",
+            "n_unique": 2189,
+            "pct_na": 0
+          },
+          {
+            "name": "resource_deprivation",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-2.1848, 3.4535]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "population_structure",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-3.7183, 4.86]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "median_age",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[17.2, 44.9]",
+            "n_unique": 253,
+            "pct_na": 0
+          },
+          {
+            "name": "unemployment_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 21.3]",
+            "n_unique": 166,
+            "pct_na": 0
+          },
+          {
+            "name": "divorce_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 10.8108]",
+            "n_unique": 3050,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 3085,
+        "T": 1,
+        "T_var": null,
+        "k": 13,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -124.209,
+          "xmax": -67.5544,
+          "ymin": 25.5386,
+          "ymax": 48.8643
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "multi-zones (span=56.7deg) -- projection nationale recommandee"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "3085|13|-124.2|-67.6|25.5|48.9"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.ncovr_1970",
+      "record_id": "Python::geodatasets::ncovr::1970",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.ncovr_1970.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "ncovr_1970",
+      "dataset_norm": "ncovr1970",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1786,
+            "pct_na": 0
+          },
+          {
+            "name": "STATE_NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 49,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[1001, 56045]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "SOUTH",
+            "class": "integer",
+            "typology": "binary",
+            "range": "{0, 1}",
+            "n_unique": 2,
+            "pct_na": 0
+          },
+          {
+            "name": "homicide_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 71.8391]",
+            "n_unique": 2343,
+            "pct_na": 0
+          },
+          {
+            "name": "resource_deprivation",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-2.7622, 4.4277]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "population_structure",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-3.5791, 4.5953]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "median_age",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[17.3, 57.6]",
+            "n_unique": 274,
+            "pct_na": 0
+          },
+          {
+            "name": "unemployment_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 18]",
+            "n_unique": 151,
+            "pct_na": 0
+          },
+          {
+            "name": "divorce_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0.3785, 18.8374]",
+            "n_unique": 3058,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 3085,
+        "T": 1,
+        "T_var": null,
+        "k": 13,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -124.209,
+          "xmax": -67.5544,
+          "ymin": 25.5386,
+          "ymax": 48.8643
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "multi-zones (span=56.7deg) -- projection nationale recommandee"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "3085|13|-124.2|-67.6|25.5|48.9"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.ncovr_1980",
+      "record_id": "Python::geodatasets::ncovr::1980",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.ncovr_1980.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "ncovr_1980",
+      "dataset_norm": "ncovr1980",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1786,
+            "pct_na": 0
+          },
+          {
+            "name": "STATE_NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 49,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[1001, 56045]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "SOUTH",
+            "class": "integer",
+            "typology": "binary",
+            "range": "{0, 1}",
+            "n_unique": 2,
+            "pct_na": 0
+          },
+          {
+            "name": "homicide_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 59.1339]",
+            "n_unique": 2511,
+            "pct_na": 0
+          },
+          {
+            "name": "resource_deprivation",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-2.2595, 5.005]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "population_structure",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-4.0709, 4.3694]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "median_age",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[19.2, 57.1]",
+            "n_unique": 240,
+            "pct_na": 0
+          },
+          {
+            "name": "unemployment_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 27.5343]",
+            "n_unique": 3079,
+            "pct_na": 0
+          },
+          {
+            "name": "divorce_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0.7174, 18.3673]",
+            "n_unique": 3066,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 3085,
+        "T": 1,
+        "T_var": null,
+        "k": 13,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -124.209,
+          "xmax": -67.5544,
+          "ymin": 25.5386,
+          "ymax": 48.8643
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "multi-zones (span=56.7deg) -- projection nationale recommandee"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "3085|13|-124.2|-67.6|25.5|48.9"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.ncovr_1990",
+      "record_id": "Python::geodatasets::ncovr::1990",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.ncovr_1990.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "ncovr_1990",
+      "dataset_norm": "ncovr1990",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 1786,
+            "pct_na": 0
+          },
+          {
+            "name": "STATE_NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 49,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[1001, 56045]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "SOUTH",
+            "class": "integer",
+            "typology": "binary",
+            "range": "{0, 1}",
+            "n_unique": 2,
+            "pct_na": 0
+          },
+          {
+            "name": "homicide_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 71.3776]",
+            "n_unique": 2431,
+            "pct_na": 0
+          },
+          {
+            "name": "resource_deprivation",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-2.4103, 5.5831]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "population_structure",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[-3.8351, 4.2135]",
+            "n_unique": 3085,
+            "pct_na": 0
+          },
+          {
+            "name": "median_age",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[20, 55.4]",
+            "n_unique": 238,
+            "pct_na": 0
+          },
+          {
+            "name": "unemployment_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 30.5341]",
+            "n_unique": 3078,
+            "pct_na": 0
+          },
+          {
+            "name": "divorce_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[2.0755, 17.1901]",
+            "n_unique": 3076,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 3085,
+        "T": 1,
+        "T_var": null,
+        "k": 13,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -124.209,
+          "xmax": -67.5544,
+          "ymin": 25.5386,
+          "ymax": 48.8643
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "multi-zones (span=56.7deg) -- projection nationale recommandee"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "3085|13|-124.2|-67.6|25.5|48.9"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_spdata.auckland",
+      "record_id": "Python::geodatasets::spdata::auckland",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_spdata.auckland.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "auckland",
+      "dataset_norm": "auckland",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "M77_85",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 38]",
+            "n_unique": 28,
+            "pct_na": 0
+          },
+          {
+            "name": "Und5_81",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[6, 1407]",
+            "n_unique": 119,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "Easting",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Northing",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 167,
+        "T": 1,
+        "T_var": null,
+        "k": 6,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_moyen_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": 15.9525,
+          "xmax": 82,
+          "ymin": -2.15,
+          "ymax": 85.65
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "multi-zones (span=66deg) -- projection nationale recommandee"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "167|6|16|82|-2.1|85.7"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.sids_1974",
+      "record_id": "Python::geodatasets::sids::1974",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.sids_1974.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "sids_1974",
+      "dataset_norm": "sids1974",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[37001, 37199]",
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "births",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[248, 21588]",
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "sids_deaths",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 44]",
+            "n_unique": 23,
+            "pct_na": 0
+          },
+          {
+            "name": "nonwhite_births",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1, 8027]",
+            "n_unique": 93,
+            "pct_na": 0
+          },
+          {
+            "name": "sids_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 9.5541]",
+            "n_unique": 88,
+            "pct_na": 0
+          },
+          {
+            "name": "nonwhite_birth_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1.4903, 772.7273]",
+            "n_unique": 100,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "CRESS_ID",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 100,
+        "T": 1,
+        "T_var": null,
+        "k": 11,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_moyen_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -84.0558,
+          "xmax": -75.8728,
+          "ymin": 34.0966,
+          "ymax": 36.474
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "32617",
+          "label": "UTM Zone 17N (EPSG:32617)",
+          "note": "calcul auto depuis centroide bbox -- normalisation WGS84 uniquement"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "100|11|-84.1|-75.9|34.1|36.5"
+      }
+    },
+    {
+      "dataset_id": "Python_geodatasets_geoda.sids_1979",
+      "record_id": "Python::geodatasets::sids::1979",
+      "rds_path": "data/final_datasets/sf/Python_geodatasets_geoda.sids_1979.rds",
+      "source_lang": "Python",
+      "package": "geodatasets",
+      "dataset": "sids_1979",
+      "dataset_norm": "sids1979",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "NAME",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "FIPSNO",
+            "class": "integer",
+            "typology": "count",
+            "range": "[37001, 37199]",
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "births",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[319, 30757]",
+            "n_unique": 100,
+            "pct_na": 0
+          },
+          {
+            "name": "sids_deaths",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 57]",
+            "n_unique": 28,
+            "pct_na": 0
+          },
+          {
+            "name": "nonwhite_births",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[3, 11631]",
+            "n_unique": 98,
+            "pct_na": 0
+          },
+          {
+            "name": "sids_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 6.1139]",
+            "n_unique": 92,
+            "pct_na": 0
+          },
+          {
+            "name": "nonwhite_birth_rate",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[3.2397, 759.2165]",
+            "n_unique": 100,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [
+          {
+            "name": "CRESS_ID",
+            "class": "integer",
+            "pct_na": 0
+          }
+        ],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 100,
+        "T": 1,
+        "T_var": null,
+        "k": 11,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_moyen_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "4326",
+        "crs_name": "WGS 84",
+        "bbox": {
+          "xmin": -84.0558,
+          "xmax": -75.8728,
+          "ymin": 34.0966,
+          "ymax": 36.474
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "32617",
+          "label": "UTM Zone 17N (EPSG:32617)",
+          "note": "calcul auto depuis centroide bbox -- normalisation WGS84 uniquement"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": false,
+        "geom_complex": false,
+        "fingerprint": "100|11|-84.1|-75.9|34.1|36.5"
+      }
+    },
+    {
+      "dataset_id": "R_spData_elect80_elect80",
+      "record_id": "R::spData::elect80::elect80",
+      "rds_path": "data/final_datasets/sf/R_spData_elect80_elect80.rds",
+      "source_lang": "R",
+      "package": "spData",
+      "dataset": "elect80",
+      "dataset_norm": "elect80",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "FIPS",
+            "class": "character",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 3107,
+            "pct_na": 0
+          },
+          {
+            "name": "pc_turnout",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0.047, 1.1053]",
+            "n_unique": 3105,
+            "pct_na": 0
+          },
+          {
+            "name": "pc_college",
+            "class": "numeric",
+            "typology": "rate",
+            "range": "[0.2087, 0.8466]",
+            "n_unique": 3106,
+            "pct_na": 0
+          },
+          {
+            "name": "pc_homeownership",
+            "class": "numeric",
+            "typology": "rate",
+            "range": "[0.0296, 0.4567]",
+            "n_unique": 3105,
+            "pct_na": 0
+          },
+          {
+            "name": "pc_income",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[4.3224, 24.962]",
+            "n_unique": 3107,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 3107,
+        "T": 1,
+        "T_var": null,
+        "k": 7,
+        "data_type": "spatial",
+        "structure": "coupe_transversale",
+        "profil_nt": "N_grand_T_1",
+        "temporal_note": "aucune variable temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": "unknown",
+        "bbox": {
+          "xmin": -124.2299,
+          "xmax": -67.61,
+          "ymin": 25.1171,
+          "ymax": 48.8337
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "NA",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "3107|7|-124.2|-67.6|25.1|48.8"
+      }
+    },
+    {
+      "dataset_id": "R_gstat_fulmar_fulmar",
+      "record_id": "R::gstat::fulmar::fulmar",
+      "rds_path": "data/final_datasets/sf/R_gstat_fulmar_fulmar.rds",
+      "source_lang": "R",
+      "package": "gstat",
+      "dataset": "fulmar",
+      "dataset_norm": "fulmar",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "year",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1998, 1999]",
+            "n_unique": 2,
+            "pct_na": 0
+          },
+          {
+            "name": "depth",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1, 54]",
+            "n_unique": 51,
+            "pct_na": 0
+          },
+          {
+            "name": "coast",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1.0243, 263.2054]",
+            "n_unique": 731,
+            "pct_na": 0
+          },
+          {
+            "name": "fulmar",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 46.4866]",
+            "n_unique": 230,
+            "pct_na": 0
+          },
+          {
+            "name": "T",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[1998, 1999]",
+            "n_unique": 2,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "x",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "y",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 1324,
+        "T": 2,
+        "T_var": "year",
+        "k": 9,
+        "data_type": "spatio-temporel",
+        "structure": "panel",
+        "profil_nt": "N_grand_T_moyen",
+        "temporal_note": "dimension temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": null,
+        "bbox": {
+          "xmin": 476209.6,
+          "xmax": 739041.8,
+          "ymin": 5694947,
+          "ymax": 6150942
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "pending_inspection",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "1324|9|476209.6|739041.8|5694947|6150942"
+      }
+    },
+    {
+      "dataset_id": "R_spatstat.data_clmfires_clmfires",
+      "record_id": "R::spatstat.data::clmfires::clmfires",
+      "rds_path": "data/final_datasets/sf/R_spatstat.data_clmfires_clmfires.rds",
+      "source_lang": "R",
+      "package": "spatstat.data",
+      "dataset": "clmfires",
+      "dataset_norm": "clmfires",
+      "status": "ok",
+      "duplicate_of": null,
+      "bloc1": {
+        "variables": [
+          {
+            "name": "cause",
+            "class": "factor",
+            "typology": "categorical",
+            "range": null,
+            "n_unique": 4,
+            "pct_na": 0
+          },
+          {
+            "name": "burnt.area",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[0, 12887.37]",
+            "n_unique": 641,
+            "pct_na": 0
+          },
+          {
+            "name": "date",
+            "class": "Date",
+            "typology": "unknown",
+            "range": null,
+            "n_unique": 2041,
+            "pct_na": 0
+          },
+          {
+            "name": "julian.date",
+            "class": "numeric",
+            "typology": "continuous",
+            "range": "[6, 3651]",
+            "n_unique": 2041,
+            "pct_na": 0
+          },
+          {
+            "name": "T",
+            "class": "Date",
+            "typology": "unknown",
+            "range": null,
+            "n_unique": 2041,
+            "pct_na": 0
+          }
+        ],
+        "coordinate_columns": [
+          {
+            "name": "x",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "y",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "X",
+            "class": "numeric",
+            "pct_na": 0
+          },
+          {
+            "name": "Y",
+            "class": "numeric",
+            "pct_na": 0
+          }
+        ],
+        "identifier_columns": [],
+        "formula_pub": null,
+        "formula_used": null,
+        "has_formule_in_catalogue": true,
+        "has_formule_modele": true
+      },
+      "bloc2": {
+        "doi_dataset": null,
+        "doi_publication": null,
+        "url_script": null,
+        "url_source": null
+      },
+      "bloc3": {
+        "model_level1": null,
+        "model_level2": null,
+        "model_level3": null
+      },
+      "bloc4": {
+        "N": 8488,
+        "T": 2041,
+        "T_var": "date",
+        "k": 9,
+        "data_type": "spatio-temporel",
+        "structure": "panel",
+        "profil_nt": "N_grand_T_grand",
+        "temporal_note": "dimension temporelle structurelle detectee"
+      },
+      "bloc5": {
+        "geom_type": "POINT",
+        "crs_epsg": "NA_pending_lookup",
+        "crs_name": null,
+        "bbox": {
+          "xmin": 8.248,
+          "xmax": 385.343,
+          "ymin": 24.221,
+          "ymax": 377.175
+        },
+        "spatial_resolution": null,
+        "temporal_resolution": "pending_inspection",
+        "temporal_extent": null,
+        "crs_analyse_recommande": {
+          "epsg": "pending",
+          "label": "pending",
+          "note": "CRS source non geographique ou inconnu"
+        }
+      },
+      "bloc6": {
+        "script_url": null,
+        "licence": null,
+        "depot": null
+      },
+      "qc": {
+        "vars_high_na": [],
+        "crs_missing": true,
+        "geom_complex": false,
+        "fingerprint": "8488|9|8.2|385.3|24.2|377.2"
       }
     }
   ]

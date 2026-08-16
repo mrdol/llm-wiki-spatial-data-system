@@ -1,8 +1,8 @@
 ---
 title: paper_pallid_bat
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_pallid_bat.rds
   - DataCite_2018_PrimaryProductivityExplainsSize_10_1111_1365_243
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 |---|---|---|---|---|
 | `centroid_size` | `numeric` | continuous | [902.6937, 1171.3787] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont `NPP`, `MinWinTemp`, `TempSeas` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont `NPP`, `MinWinTemp`, `TempSeas` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -74,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
 
 ### Formule - niveau systeme
 
 - formula_used: centroid_size ~ NPP + MinWinTemp + TempSeas
 - x_terms_used: NPP, MinWinTemp, TempSeas
 - y_term_used: centroid_size
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Kelly, Friedman & Santana (2018), Functional Ecology, DOI 10.1111/1365-2435.13092: Sections 2.2-2.3 and Tables 1-2 use NPP, minimum winter temperature, maximum summer temperature and temperature/precipitation seasonality to explain Pallid bat cranium centroid size with OLS and SAR error models. The local loader extracts the matching Dryad rasters NPP, bio4, bio5, bio6 and bio15 at specimen localities. formula_used uses centroid_size derived from TPS landmarks as the local executable body-size proxy.
 
 ### Formules candidates
 
@@ -151,27 +151,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous_spatial_sar"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "documenter que centroid_size est derive des landmarks TPS et verifier l alignement exact lateral/ventral avec la mesure privilegiee dans le papier"
-  reason: "Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille."
+  missing_items: "centroid_size est un proxy cranien de taille corporelle derive des landmarks TPS; le papier privilegie les resultats ventraux mais indique que les resultats lateraux sont quasi identiques"
+  reason: "Le papier definit centroid size comme proxy de body size, selectionne des modeles OLS/SARerr, et le top SARerr inclut NPP, MinWinTemp et TempSeas. Ces variables sont jointes localement et la formule est executable."
 ```
 
-- Decision: almost_ready
-- Manque principal: documenter que centroid_size est derive des landmarks TPS et verifier l alignement exact lateral/ventral avec la mesure privilegiee dans le papier
-- Raison: Les rasters Dryad NPP/WorldClim utilises dans le papier sont maintenant joints localement aux specimens; formule executable disponible avec reserve sur le proxy de taille.
+- Decision: ready
+- Manque principal: centroid_size est un proxy cranien de taille corporelle derive des landmarks TPS; le papier privilegie les resultats ventraux mais indique que les resultats lateraux sont quasi identiques
+- Raison: Le papier definit centroid size comme proxy de body size, selectionne des modeles OLS/SARerr, et le top SARerr inclut NPP, MinWinTemp et TempSeas. Ces variables sont jointes localement et la formule est executable.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -1,8 +1,8 @@
 ---
 title: paper_desert_tortoise_genotype_niche
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_desert_tortoise_genotype_niche.rds
   - DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 
 - Topic: dataset spatial spatial
 - Observation unit: observation spatiale du dataset "Local ecological niche models, genotype associations and environmental data for desert tortoises."
-- Observed population: Modèles de niche écologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du désert
+- Observed population: ModÃ¨les de niche Ã©cologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du dÃ©sert
 - Geographic context: etendue sf: x [-1814729.18202096, -1462765.51510254], y [1243443.86900469, 1619405.05866755]
 - Temporal context: none (cross-sectional)
 - Source description: Local niche differences predict genotype associations in sister taxa of desert tortoise
@@ -78,14 +78,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 - Niveau de preuve: publication
 - Methode d estimation: modele/formule publication confirme, non executable avec le .rds actuel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
 
 ### Formules candidates
 
@@ -175,7 +175,7 @@ estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: []
   ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

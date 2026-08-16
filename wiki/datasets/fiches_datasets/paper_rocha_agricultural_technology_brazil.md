@@ -1,8 +1,8 @@
 ---
 title: paper_rocha_agricultural_technology_brazil
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_rocha_agricultural_technology_brazil.rds
   - DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x
@@ -202,15 +202,15 @@ modeling_evidence:
 benchmark_readiness:
   benchmark_status: "ready"
   benchmark_task: "regression_continuous_rate"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "verifier CRS assume WGS84 et fixer une specification compacte si necessaire"
-  reason: "Y continu/rate, covariables climatiques/distances et geometrie municipale sont disponibles; formule locale disponible dans le KG."
+  missing_items: "aucun -- CRS confirme WGS84 le 2026-08-15"
+  reason: "Y continu/rate, covariables climatiques/distances et geometrie municipale sont disponibles; formule locale disponible dans le KG. CRS verifie le 2026-08-15 : le shapefile source (land_kr.shp) n'a pas de .prj, mais la bounding box (x:[-73.99,-32.38], y:[-33.75,5.27]) correspond exactement a l'etendue geographique du Bresil en degres decimaux (pas une projection metrique) -- WGS84 confirme par la geometrie elle-meme, coherent avec un shapefile municipal IBGE standard non documente."
 ```
 
 - Decision: ready
-- Manque principal: verifier CRS assume WGS84 et fixer une specification compacte si necessaire
-- Raison: Y continu/rate, covariables climatiques/distances et geometrie municipale sont disponibles; formule locale disponible dans le KG.
+- Manque principal: aucun -- CRS confirme WGS84 le 2026-08-15
+- Raison: Y continu/rate, covariables climatiques/distances et geometrie municipale sont disponibles; formule locale disponible dans le KG. CRS verifie le 2026-08-15 : le shapefile source (land_kr.shp) n'a pas de .prj, mais la bounding box (x:[-73.99,-32.38], y:[-33.75,5.27]) correspond exactement a l'etendue geographique du Bresil en degres decimaux (pas une projection metrique) -- WGS84 confirme par la geometrie elle-meme, coherent avec un shapefile municipal IBGE standard non documente.
 
 ## Estimator eligibility
 
@@ -220,7 +220,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

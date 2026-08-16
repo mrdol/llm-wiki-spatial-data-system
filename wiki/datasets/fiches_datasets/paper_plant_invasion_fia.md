@@ -1,8 +1,8 @@
 ---
 title: paper_plant_invasion_fia
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_plant_invasion_fia.rds
   - DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Data for: Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method"
-- Observed population: Prédiction spatiale d'invasion de plantes avec hybridation de machine learning (BRT, LASSO) et krigeage ordinaire (OK) ; données d'invasion dans l'est des États-Unis ; correspond exactement au périmètre spatial prediction / boosting spatial / kriging / machine learning / spatial interpolation
+- Observed population: PrÃ©diction spatiale d'invasion de plantes avec hybridation de machine learning (BRT, LASSO) et krigeage ordinaire (OK) ; donnÃ©es d'invasion dans l'est des Ã‰tats-Unis ; correspond exactement au pÃ©rimÃ¨tre spatial prediction / boosting spatial / kriging / machine learning / spatial interpolation
 - Geographic context: etendue sf: x [-98.720006, -67.04813], y [24.665524, 49.319755]
 - Temporal context: 13 distinct periods (variable: MEASYEAR)
 - Source description: Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method
@@ -121,14 +121,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605; README.md (Dryad 10.5061/dryad.0rxwdbs8t) definit LAT/LON et 41 variables ecologiques auxiliaires, avec InvTotalCover explicitement documente comme 'sum of cover estimates for all invasive plants'. Papier p.4: apurement applique dans le loader via complete.cases() sur les 46071 placettes brutes ('after excluding plots with missing values, we eventually got 42,314 samples for analyses') -> N=42612 localement, ecart residuel de 298 lignes vs le N publie probablement du a un controle qualite supplementaire non detaille dans les pages consultees.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605; README.md (Dryad 10.5061/dryad.0rxwdbs8t) definit LAT/LON et 41 variables ecologiques auxiliaires, avec InvTotalCover explicitement documente comme 'sum of cover estimates for all invasive plants'. Papier p.4: apurement applique dans le loader via complete.cases() sur les 46071 placettes brutes ('after excluding plots with missing values, we eventually got 42,314 samples for analyses') -> N=42612 localement, ecart residuel de 298 lignes vs le N publie probablement du a un controle qualite supplementaire non detaille dans les pages consultees.
 
 ### Formule - niveau systeme
 
 - formula_used: InvTotalCover ~ Mean_Annual_Temp + annual_Precip + Seasonability + alt + PLT_TPA + Tpha + RelDen + prpfor + plt_drybio_adj + native_spp + PD_all + PSV_all + PSR_all + anmeantemp + anprecip + soilcarbon
 - x_terms_used: Mean_Annual_Temp, annual_Precip, Seasonability, alt, PLT_TPA, Tpha, RelDen, prpfor, plt_drybio_adj, native_spp, PD_all, PSV_all, PSR_all, anmeantemp, anprecip, soilcarbon
 - y_term_used: InvTotalCover
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605; README.md (Dryad 10.5061/dryad.0rxwdbs8t) definit LAT/LON et 41 variables ecologiques auxiliaires, avec InvTotalCover explicitement documente comme 'sum of cover estimates for all invasive plants'. Papier p.4: apurement applique dans le loader via complete.cases() sur les 46071 placettes brutes ('after excluding plots with missing values, we eventually got 42,314 samples for analyses') -> N=42612 localement, ecart residuel de 298 lignes vs le N publie probablement du a un controle qualite supplementaire non detaille dans les pages consultees.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605; README.md (Dryad 10.5061/dryad.0rxwdbs8t) definit LAT/LON et 41 variables ecologiques auxiliaires, avec InvTotalCover explicitement documente comme 'sum of cover estimates for all invasive plants'. Papier p.4: apurement applique dans le loader via complete.cases() sur les 46071 placettes brutes ('after excluding plots with missing values, we eventually got 42,314 samples for analyses') -> N=42612 localement, ecart residuel de 298 lignes vs le N publie probablement du a un controle qualite supplementaire non detaille dans les pages consultees.
 
 ### Formules candidates
 
@@ -218,7 +218,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

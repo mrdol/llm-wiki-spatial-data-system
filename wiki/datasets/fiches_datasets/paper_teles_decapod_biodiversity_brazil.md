@@ -1,8 +1,8 @@
 ---
 title: paper_teles_decapod_biodiversity_brazil
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_teles_decapod_biodiversity_brazil.rds
   - DataCite_2026_DataAndRCode_10_1111_jbi_7007
@@ -36,8 +36,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Candidate X variables in local artifact: `ph`, `chlomean`, `chloRange`, `chloSS`, `curvel`, `O2`, `O2range`, `O2Lmax`, `nit`, `phosp`, `sal`, `salrange`, `salLmax`, `tempmean`, `temprange`, `bathym`, `iron`, `pp`, `sil`, `tempSS`, `SalSS`, `light`, `carbophyto`, `carbophytoLmax`, `carbophytorange`, `calcite`, `carbophytoSS`, `ppSS`, `pprange`, `tempLmax`, `WE`, `ED`, `PD.SES`, `WE.SES`, `PE.SES`, `ED.SES`, `fishing_effort`
 - Candidate X count in local artifact: 37
 - Candidate X typology: continuous
-- Published X variables from paper: sal, light, pp, tempmean, curvel, fishing_effort
-- Published X count: 0
+- Published X variables from paper: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
+- Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -51,7 +51,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 | `PD` | `numeric` | continuous | [0.0594, 29.6888] | 0% |
 | `PE` | `numeric` | continuous | [0.0024, 2.7711] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `teles_decapod_biodiversity_brazil`, la ou les reponses `SR`, `PD`, `PE` viennent du loader papier et/ou des preuves de l article `Data and R code for: Biogeography and conservation of bycatch decapods`. Les covariables X retenues sont `sal`, `light`, `pp`, `tempmean`, `curvel`, `fishing_effort` ; 31 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `teles_decapod_biodiversity_brazil`, la ou les reponses `SR`, `PD`, `PE` viennent du loader papier et/ou des preuves de l article `Data and R code for: Biogeography and conservation of bycatch decapods`. Les covariables X retenues sont `tempmean`, `pp`, `curvel`, `sal`, `light`, `fishing_effort` ; 31 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -97,10 +97,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 
 ### Formule - niveau publication
 
-- formula_pub: Random Forest models for SR, PD.SES and PE.SES using environmental covariates; SR mainly driven by salinity, light availability and primary productivity; PD by bottom temperature, primary productivity and current velocity; PE by temperature and primary productivity.
-- x_terms_pub: sal, light, pp, tempmean, curvel, fishing_effort
-- y_term_pub: SR
-- Reference publication: Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort.
+- formula_pub: PD.SES ~ tempmean + pp + curvel [Random Forest ; PD.SES = effet standardise de diversite phylogenetique, principale reponse continue modelisee par le papier avec SR (count) et PE.SES]
+- x_terms_pub: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
+- y_term_pub: PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)
+- Reference publication: Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
 
 ### Statut regression canonique
 
@@ -108,14 +108,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
 
 ### Formule - niveau systeme
 
-- formula_used: SR ~ sal + light + pp + tempmean + curvel + fishing_effort
-- x_terms_used: sal, light, pp, tempmean, curvel, fishing_effort
-- y_term_used: SR
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort.
+- formula_used: PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort
+- x_terms_used: tempmean, pp, curvel, sal, light, fishing_effort
+- y_term_used: PD.SES
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
 
 ### Formules candidates
 
@@ -132,24 +132,24 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "SR ~ sal + light + pp + tempmean + curvel + fishing_effort"
-    response: "SR"
-    predictors: ["sal", "light", "pp", "tempmean", "curvel", "fishing_effort"]
+    formula: "PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort"
+    response: "PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)"
+    predictors: ["tempmean (temperature moyenne du fond)", "pp (productivite primaire)", "curvel (vitesse du courant)", "sal (salinite)", "light (disponibilite lumineuse)", "fishing_effort (effort de peche)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort."
+    source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes)."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
   ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort"
+    response: "PD.SES"
+    predictors: ["tempmean", "pp", "curvel", "sal", "light", "fishing_effort"]
     role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes)."
+    estimator_context: ["random_forest", "random_forest_spatial", "xgboost"]
+    status: "executable_continuous_variant"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -173,11 +173,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "Random Forest models for SR, PD.SES and PE.SES using environmental covariates; SR mainly driven by salinity, light availability and primary productivity; PD by bottom temperature, primary productivity and current velocity; PE by temperature and primary productivity."
+  equation_text: "PD.SES ~ tempmean + pp + curvel [Random Forest ; PD.SES = effet standardise de diversite phylogenetique, principale reponse continue modelisee par le papier avec SR (count) et PE.SES]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description and TEI: decapod richness and phylogenetic diversity benchmark; environmental covariates include salinity, light, primary productivity, temperature, current velocity and fishing effort."
+  source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes)."
   confidence: medium
 ```
 
@@ -187,15 +187,15 @@ modeling_evidence:
 benchmark_readiness:
   benchmark_status: "ready"
   benchmark_task: "regression_continuous_biodiversity"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "choisir entre SR, PD ou PE comme reponse principale selon l analyse benchmark"
-  reason: "Y biodiversite continue, covariables environnementales et coordonnees sont disponibles; modele RF et diagnostics Moran documentes dans le papier/supplement."
+  missing_items: "aucun -- PD.SES choisie comme reponse continue par defaut (voir FORMULA_OVERRIDES), SR/PE.SES/WE/WE.SES/ED/ED.SES documentees comme alternatives disponibles dans le .rds"
+  reason: "Y biodiversite continue (PD.SES), covariables environnementales et coordonnees sont disponibles; modele RF et diagnostics Moran documentes dans le papier/supplement. Promu package_include=yes le 2026-08-15."
 ```
 
 - Decision: ready
-- Manque principal: choisir entre SR, PD ou PE comme reponse principale selon l analyse benchmark
-- Raison: Y biodiversite continue, covariables environnementales et coordonnees sont disponibles; modele RF et diagnostics Moran documentes dans le papier/supplement.
+- Manque principal: aucun -- PD.SES choisie comme reponse continue par defaut (voir FORMULA_OVERRIDES), SR/PE.SES/WE/WE.SES/ED/ED.SES documentees comme alternatives disponibles dans le .rds
+- Raison: Y biodiversite continue (PD.SES), covariables environnementales et coordonnees sont disponibles; modele RF et diagnostics Moran documentes dans le papier/supplement. Promu package_include=yes le 2026-08-15.
 
 ## Estimator eligibility
 
@@ -205,7 +205,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

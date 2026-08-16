@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_georgia
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
 tags: [dataset, python-package, spatial, point]
@@ -219,9 +219,11 @@ estimator_eligibility:
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: WARN - groupe de versions suspectes `georgia`; autres versions: R_GWmodel_Georgia_Gedu.df, R_spgwr_georgia_gSRDF
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 
 - Source: package Python `libpysal`
+- Duplicate/version candidate: [[R_GWmodel_Georgia_Gedu.df]]
+- Duplicate/version candidate: [[R_spgwr_georgia_gSRDF]]

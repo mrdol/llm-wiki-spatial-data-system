@@ -1,8 +1,8 @@
 ---
 title: paper_coral_bathypathes
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_coral_bathypathes.rds
   - DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638
@@ -75,7 +75,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 - formula_pub: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]
 - x_terms_pub: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
 - y_term_pub: pa
-- Reference publication: Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge).
+- Reference publication: Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot.
 
 ### Statut regression canonique
 
@@ -83,14 +83,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot.
 
 ### Formule - niveau systeme
 
 - formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C
 - x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
 - y_term_used: pa
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot.
 
 ### Formules candidates
 
@@ -112,7 +112,7 @@ formula_candidates:
     predictors: ["carbonate", "mud", "sand", "bpi_fine", "depth", "slope_per", "smtfinal", "BEN_N_C", "DETFLUX3_C", "OM_CAL3_C", "OXY_C", "PBO_C", "SO_C", "SFR_OARG_C"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge)."
+    source_ref: "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
     status: "confirmed"
 
@@ -152,7 +152,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge)."
+  source_ref: "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot."
   confidence: medium
 ```
 
@@ -162,15 +162,15 @@ modeling_evidence:
 benchmark_readiness:
   benchmark_status: "ready"
   benchmark_task: "classification_binary_presence_absence"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "confirmer le choix de Random Forest/BRT comme estimateurs de reference pour ce type de benchmark presence/absence"
-  reason: "pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV)."
+  missing_items: "Y binaire (pa) uniquement -- pas de variante continue disponible ; estimateurs de reference fixes sur random_forest/random_forest_spatial (deja dans le package)"
+  reason: "pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV). Promu package_include=yes le 2026-08-15 : le seul frein etait la typologie Y binaire, pas un manque de donnees -- traitement Y-binaire dans le package a regler plus tard globalement."
 ```
 
 - Decision: ready
-- Manque principal: confirmer le choix de Random Forest/BRT comme estimateurs de reference pour ce type de benchmark presence/absence
-- Raison: pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV).
+- Manque principal: Y binaire (pa) uniquement -- pas de variante continue disponible ; estimateurs de reference fixes sur random_forest/random_forest_spatial (deja dans le package)
+- Raison: pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV). Promu package_include=yes le 2026-08-15 : le seul frein etait la typologie Y binaire, pas un manque de donnees -- traitement Y-binaire dans le package a regler plus tard globalement.
 
 ## Estimator eligibility
 
@@ -180,7 +180,7 @@ estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
   ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

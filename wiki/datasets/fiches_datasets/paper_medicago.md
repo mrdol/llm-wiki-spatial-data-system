@@ -1,8 +1,8 @@
 ---
 title: paper_medicago
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_medicago.rds
   - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
@@ -36,8 +36,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - Candidate X variables in local artifact: `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad`, `MI`, `MAP`, `PDQ`, `AET`, `WD`, `DRT`, `TSN`, `ART`, `PSN`, `MATR`, `MAPR`, `Ele_range`, `Ele_std`, `LGMmat_ano`, `LGMmap_ano`, `LGMmtcq_ano`, `MHmat_ano`, `MHmap_ano`, `MHmtcq_ano`
 - Candidate X count in local artifact: 24
 - Candidate X typology: continuous
-- Published X variables from paper: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
-- Published X count: 0
+- Published X variables from paper: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
+- Published X count: 24
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `GRIDCODE`, `Continent`, `Biome`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -51,7 +51,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 | `annual` | `numeric` | continuous | [0, 37] | 0% |
 | `perennial` | `numeric` | continuous | [0, 12] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `medicago`, la ou les reponses `richness`, `annual`, `perennial` viennent du loader papier et/ou des preuves de l article `Niche conservatism limits the distribution of Medicago in the tropics`. Les covariables X retenues sont `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad`, `MI`, `MAP`, `PDQ`, `AET`, `WD`, `DRT`, `TSN` ; 12 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GRIDCODE`, `Continent`, `Biome`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_model_specification_review ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `medicago`, la ou les reponses `richness`, `annual`, `perennial` viennent du loader papier et/ou des preuves de l article `Niche conservatism limits the distribution of Medicago in the tropics`. Les covariables X retenues sont `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GRIDCODE`, `Continent`, `Biome`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -84,10 +84,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 
 ### Formule - niveau publication
 
-- formula_pub: richness ~ f(Quaternary climate change, environmental energy) via geographically weighted regression (GWR)
-- x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
-- y_term_pub: richness
-- Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+- formula_pub: richness ~ environmental_energy_PC1 [GWR, fixed kernel, AICc bandwidth] ; richness ~ each climatic variable / environmental-category PC1 [negative binomial GLM]
+- x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
+- y_term_pub: species richness of Medicago on 100 x 100 km grid cells
+- Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
 
 ### Statut regression canonique
 
@@ -95,14 +95,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
 
 ### Formule - niveau systeme
 
-- formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ... (12 covariables au total, voir Candidate X variables)
-- x_terms_used: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN
+- formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad
+- x_terms_used: MAT, MTCQ, PET, WI, Solar_rad
 - y_term_used: richness
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
 
 ### Formules candidates
 
@@ -119,12 +119,12 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ... (12 covariables au total, voir Candidate X variables)"
-    response: "richness"
-    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN"]
+    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad"
+    response: "species richness of Medicago on 100 x 100 km grid cells"
+    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN", "ART", "PSN", "MATR", "MAPR", "Ele_range", "Ele_std", "LGMmat_ano", "LGMmap_ano", "LGMmtcq_ano", "MHmat_ano", "MHmap_ano", "MHmtcq_ano"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
+    source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -160,11 +160,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "richness ~ f(Quaternary climate change, environmental energy) via geographically weighted regression (GWR)"
+  equation_text: "richness ~ environmental_energy_PC1 [GWR, fixed kernel, AICc bandwidth] ; richness ~ each climatic variable / environmental-category PC1 [negative binomial GLM]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085 - GWR quantifiant les effets de la variation climatique quaternaire et de l'energie environnementale sur la richesse de Medicago, a l'echelle globale/continentale/biome."
+  source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula."
   confidence: medium
 ```
 
@@ -172,27 +172,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "needs_model_specification_review"
+  benchmark_status: "ready"
   benchmark_task: "regression_gwr"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "extraire la specification empirique exacte ou choisir une formule benchmark documentee"
-  reason: "GWR et covariables confirmees, mais aucune equation Y~X unique n'est encore validee pour le benchmark."
+  missing_items: "formula_used retient le bloc environmental energy du GWR; les GLM par variables individuelles et les PC1 par categories restent documentes comme variantes papier non toutes reproduites dans une formule unique"
+  reason: "Le papier confirme richesse Medicago, 24 covariables environnementales, GLM negatif binomial et GWR sur la relation richesse-energie. Les variables du bloc energie environnementale sont disponibles localement et fournissent une formule benchmark defendable."
 ```
 
-- Decision: needs_model_specification_review
-- Manque principal: extraire la specification empirique exacte ou choisir une formule benchmark documentee
-- Raison: GWR et covariables confirmees, mais aucune equation Y~X unique n'est encore validee pour le benchmark.
+- Decision: ready
+- Manque principal: formula_used retient le bloc environmental energy du GWR; les GLM par variables individuelles et les PC1 par categories restent documentes comme variantes papier non toutes reproduites dans une formule unique
+- Raison: Le papier confirme richesse Medicago, 24 covariables environnementales, GLM negatif binomial et GWR sur la relation richesse-energie. Les variables du bloc energie environnementale sont disponibles localement et fournissent une formule benchmark defendable.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "needs_model_specification_review"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  ineligible_reason: "paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

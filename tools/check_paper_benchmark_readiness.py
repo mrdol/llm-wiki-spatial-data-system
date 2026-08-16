@@ -38,6 +38,7 @@ ALLOWED_STATUSES = {
     "not_ready_geostatistical_univariate",
     "not_ready_relevance_check",
     "excluded",
+    "excluded_simulation",
     "not_assessed",
 }
 

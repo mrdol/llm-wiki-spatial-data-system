@@ -1,8 +1,8 @@
 ---
 title: paper_wildfire_greenup_nbr5
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_wildfire_greenup_nbr5.rds
   - DataCite_2024_ClimateLimitsVegetationGreen_10_1186_s42408_0
@@ -79,14 +79,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate li
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale.
 
 ### Formule - niveau systeme
 
 - formula_used: nbr_5_year ~ postfire_precipitation_total + postfire_precipitation_coefvar + ls_factor + KFACTWS_DC + nbr_0_year + vpd5 + def5 + ppt5 + tmax5 + month
 - x_terms_used: postfire_precipitation_total, postfire_precipitation_coefvar, ls_factor, KFACTWS_DC, nbr_0_year, vpd5, def5, ppt5, tmax5, month
 - y_term_used: nbr_5_year
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale.
 
 ### Formules candidates
 
@@ -176,7 +176,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

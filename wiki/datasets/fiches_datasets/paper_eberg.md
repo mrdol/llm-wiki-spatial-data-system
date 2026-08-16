@@ -1,8 +1,8 @@
 ---
 title: paper_eberg
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_eberg.rds
   - Moller_2020_OGC_eberg
@@ -191,7 +191,7 @@ estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: []
   ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -41,6 +41,7 @@ COLUMNS = [
     "dataset_url",
     "local_pdf",
     "local_artifact",
+    "local_raw_dir",
     "download_status",
     "preprocessing_status",
     "response_variable",
@@ -106,17 +107,40 @@ def slug(value: str) -> str:
     return value.strip("_")[:120] or "unknown"
 
 
+NON_DOI_SENTINELS = {"none", "not_applicable", "n/a", "na", "unknown", "null"}
+
+
 def doi_key(value: str) -> str:
     value = clean(value).lower()
     value = re.sub(r"^https?://(dx\.)?doi\.org/", "", value)
-    return value.strip()
+    value = value.strip()
+    if value in NON_DOI_SENTINELS:
+        return ""
+    return value
+
+
+def normalize_paper_dataset_id(value: str) -> str:
+    """Aligne les canonical_dataset_id KG au format "paper_<id>" (underscore)
+    utilise par les fiches wiki et les .rds, pour que candidate_key() fusionne
+    correctement les deux couches au lieu de creer deux lignes pour le meme
+    dataset. Les autres namespaces colon-separated (ex. dataset_candidate:
+    datacite:...) ne sont pas des identifiants de fiche/rds et ne doivent pas
+    etre touches ici.
+    """
+    value = clean(value)
+    if value.startswith("paper:"):
+        return "paper_" + value[len("paper:") :]
+    return value
 
 
 def candidate_key(row: dict[str, Any]) -> str:
+    source_layers = clean(row.get("source_layers")).lower()
+    dataset_id = clean(row.get("dataset_id"))
+    if ("package_metadata" in source_layers or "wiki_fiche" in source_layers) and dataset_id:
+        return f"dataset_id:{dataset_id.lower()}"
     dataset_doi = doi_key(row.get("dataset_doi", ""))
     if dataset_doi:
         return f"dataset_doi:{dataset_doi}"
-    dataset_id = clean(row.get("dataset_id"))
     if dataset_id:
         return f"dataset_id:{dataset_id.lower()}"
     paper_doi = doi_key(row.get("paper_doi", ""))
@@ -133,6 +157,8 @@ def empty_row(candidate_id: str) -> dict[str, Any]:
 def merge_row(rows: dict[str, dict[str, Any]], incoming: dict[str, Any]) -> None:
     key = candidate_key(incoming)
     row = rows.setdefault(key, empty_row(clean(incoming.get("candidate_id")) or slug(key)))
+    incoming_layers = clean(incoming.get("source_layers")).lower()
+    canonical_package_row = "package_metadata" in incoming_layers or "wiki_fiche" in incoming_layers
 
     # On conserve toutes les couches de preuve qui pointent vers le meme candidat.
     layers = set(filter(None, clean(row.get("source_layers")).split("; ")))
@@ -147,7 +173,26 @@ def merge_row(rows: dict[str, dict[str, Any]], incoming: dict[str, Any]) -> None
         if column in {"candidate_id", "source_layers", "evidence_sources"}:
             continue
         value = clean(incoming.get(column))
-        if value and not clean(row.get(column)):
+        if (
+            canonical_package_row
+            and value
+            and column in {
+                "benchmark_status",
+                "package_include",
+                "response_variable",
+                "candidate_y_status",
+                "predictors_or_covariates",
+                "candidate_x_status",
+                "formula_or_model_specification",
+                "formula_status",
+                "main_gap",
+                "required_next_step",
+                "wiki_path",
+                "verification_notes",
+            }
+        ):
+            row[column] = value
+        elif value and not clean(row.get(column)):
             row[column] = value
 
     # Les compteurs d'audit doivent s'additionner si plusieurs sources convergent.
@@ -170,7 +215,11 @@ def choose_priority(row: dict[str, Any]) -> str:
     y_status = clean(row.get("candidate_y_status")).lower()
     x_status = clean(row.get("candidate_x_status")).lower()
 
-    if candidate_status in {"rejected", "excluded", "dropped"} or status.startswith("not_ready"):
+    if (
+        candidate_status in {"rejected", "excluded", "dropped"}
+        or status in {"excluded", "excluded_simulation"}
+        or status.startswith("not_ready")
+    ):
         return "low"
     if source_layers == "tei_audit":
         return "low"
@@ -247,7 +296,24 @@ def load_audit_summary(repo_root: Path) -> dict[str, dict[str, Any]]:
             section = clean(row.get("section_title"))
             if section and section not in item["audit_top_sections"] and len(item["audit_top_sections"]) < 5:
                 item["audit_top_sections"].append(section)
+            title = clean(row.get("paper_title"))
+            if title:
+                summary[f"title:{slug(title)}"] = item
     return dict(summary)
+
+
+def load_package_dataset_dois(repo_root: Path) -> set[str]:
+    metadata_path = repo_root / "packages/spatialtidymodels/inst/metadata/datasets.json"
+    data = read_json(metadata_path, {"records": []})
+    out: set[str] = set()
+    for record in data.get("records", []):
+        dataset = clean(record.get("dataset") or record.get("dataset_id"))
+        if not dataset.startswith("paper_"):
+            continue
+        dataset_doi = doi_key(record.get("dataset_doi", ""))
+        if dataset_doi:
+            out.add(dataset_doi)
+    return out
 
 
 def add_package_metadata_rows(repo_root: Path, rows: dict[str, dict[str, Any]], audit_by_doi: dict[str, dict[str, Any]]) -> None:
@@ -261,14 +327,25 @@ def add_package_metadata_rows(repo_root: Path, rows: dict[str, dict[str, Any]], 
             continue
         status = clean(record.get("benchmark_status")) or "not_assessed"
         audit = readiness.get(dataset, {})
+        audit_status = clean(audit.get("benchmark_status"))
+        audit_package_include = clean(audit.get("package_include"))
+        record_package_include = clean(record.get("package_include"))
+        # `paper_dataset_readiness_audit.csv` is a review queue snapshot. For
+        # datasets that already have a generated fiche and package metadata, the
+        # fiche is the canonical, newer source of readiness. The audit can fill
+        # blanks, but it must not downgrade or stale-overwrite curated metadata.
+        merged_status = status or audit_status
+        merged_package_include = record_package_include or audit_package_include
+        merged_gap = clean(record.get("benchmark_missing_items")) or clean(audit.get("main_gap"))
+        merged_next_step = clean(record.get("benchmark_readiness_reason")) or clean(audit.get("next_step"))
         doi = doi_key(record.get("publication_doi", ""))
-        audit_summary = audit_by_doi.get(doi, {})
+        audit_summary = audit_by_doi.get(doi, {}) or audit_by_doi.get(f"title:{slug(record.get('publication_title', ''))}", {})
         incoming = {
             "candidate_id": dataset,
             "source_layers": "wiki_fiche; package_metadata",
             "candidate_status": "fiche_documented",
-            "benchmark_status": audit.get("benchmark_status") or status,
-            "package_include": audit.get("package_include") or record.get("package_include"),
+            "benchmark_status": merged_status,
+            "package_include": merged_package_include,
             "paper_title": record.get("source_ref") or record.get("title"),
             "paper_doi": record.get("publication_doi"),
             "dataset_name": record.get("title") or record.get("dataset_id"),
@@ -291,8 +368,8 @@ def add_package_metadata_rows(repo_root: Path, rows: dict[str, dict[str, Any]], 
             "audit_data_source_count": audit_summary.get("audit_data_source_count", 0),
             "audit_model_evidence_count": audit_summary.get("audit_model_evidence_count", 0),
             "audit_top_sections": audit_summary.get("audit_top_sections", []),
-            "main_gap": audit.get("main_gap") or record.get("benchmark_missing_items"),
-            "required_next_step": audit.get("next_step") or record.get("benchmark_readiness_reason"),
+            "main_gap": merged_gap,
+            "required_next_step": merged_next_step,
             "evidence_sources": "packages/spatialtidymodels/inst/metadata/datasets.json; data/manifests/papers/paper_dataset_readiness_audit.csv",
             "wiki_path": record.get("wiki_path"),
             "verification_notes": record.get("notes") or record.get("description_confidence"),
@@ -300,17 +377,55 @@ def add_package_metadata_rows(repo_root: Path, rows: dict[str, dict[str, Any]], 
         merge_row(rows, incoming)
 
 
-def add_datacite_rows(repo_root: Path, rows: dict[str, dict[str, Any]], audit_by_doi: dict[str, dict[str, Any]]) -> None:
+def add_datacite_rows(
+    repo_root: Path,
+    rows: dict[str, dict[str, Any]],
+    audit_by_doi: dict[str, dict[str, Any]],
+    package_dataset_dois: set[str],
+) -> None:
     path = repo_root / "data/manifests/papers/datacite_verified_ingestion_manifest.json"
     for record in read_json(path, []):
         doi = doi_key(record.get("publication_doi", ""))
-        audit_summary = audit_by_doi.get(doi, {})
+        dataset_doi = doi_key(record.get("dataset_doi", ""))
+        ingestion_status = clean(record.get("ingestion_status"))
+        candidate_status = clean(record.get("candidate_status")).lower()
+        if dataset_doi and dataset_doi in package_dataset_dois:
+            # A generated paper_* fiche/package row is the canonical state for
+            # this dataset DOI. Keeping the raw DataCite row would reintroduce
+            # stale `needs_grobid_kg_review` noise in the curation dashboard.
+            continue
+        audit_summary = audit_by_doi.get(doi, {}) or audit_by_doi.get(f"title:{slug(record.get('publication_title', ''))}", {})
+        if ingestion_status.startswith("rejected") or candidate_status in {"rejected", "excluded", "dropped"}:
+            benchmark_status = "excluded"
+            package_include = "no"
+            main_gap = "candidate rejected by user or verification; no GROBID/KG work required"
+            required_next_step = "none - keep in low archive unless the decision is explicitly reopened"
+        elif ingestion_status.startswith("blocked"):
+            benchmark_status = ingestion_status.replace("blocked", "not_ready", 1)
+            package_include = "no"
+            main_gap = clean(record.get("blocking_reason")) or "raw data or paper evidence blocks a defensible benchmark artifact"
+            required_next_step = clean(record.get("blocking_next_step")) or "keep archived until missing source data or reconciliation evidence is found"
+        elif audit_summary.get("audit_candidate_count", 0):
+            benchmark_status = "needs_preprocessing"
+            package_include = "manual_review"
+            main_gap = "TEI/KG evidence already exists; dataset still needs raw-data inspection, loader and fiche reconciliation"
+            required_next_step = "inspect/download raw data, write or update loader, then generate/reconcile paper_* fiche"
+        elif not clean(record.get("local_pdf")):
+            benchmark_status = "needs_pdf_before_grobid"
+            package_include = "manual_review"
+            main_gap = "no local legal PDF is linked yet; GROBID cannot be run for this candidate"
+            required_next_step = "retrieve a legal PDF or exclude the candidate, then run GROBID/KG"
+        else:
+            benchmark_status = "needs_grobid_kg_review"
+            package_include = "manual_review"
+            main_gap = "dataset not yet inspected/preprocessed as final sf artifact"
+            required_next_step = record.get("ingestion_next_step")
         incoming = {
             "candidate_id": f"datacite_{slug(record.get('dataset_doi') or record.get('publication_doi') or record.get('dataset_title', ''))}",
             "source_layers": "datacite_verified",
             "candidate_status": record.get("candidate_status"),
-            "benchmark_status": "needs_grobid_kg_review",
-            "package_include": "manual_review",
+            "benchmark_status": benchmark_status,
+            "package_include": package_include,
             "paper_title": record.get("publication_title"),
             "paper_doi": record.get("publication_doi"),
             "dataset_name": record.get("dataset_title"),
@@ -326,34 +441,58 @@ def add_datacite_rows(repo_root: Path, rows: dict[str, dict[str, Any]], audit_by
             "audit_data_source_count": audit_summary.get("audit_data_source_count", 0),
             "audit_model_evidence_count": audit_summary.get("audit_model_evidence_count", 0),
             "audit_top_sections": audit_summary.get("audit_top_sections", []),
-            "main_gap": "dataset not yet inspected/preprocessed as final sf artifact",
-            "required_next_step": record.get("ingestion_next_step"),
+            "main_gap": main_gap,
+            "required_next_step": required_next_step,
             "evidence_sources": "data/manifests/papers/datacite_verified_ingestion_manifest.json",
             "verification_notes": record.get("verification_notes"),
         }
         merge_row(rows, incoming)
 
 
-def add_kg_dataset_use_rows(repo_root: Path, rows: dict[str, dict[str, Any]], audit_by_doi: dict[str, dict[str, Any]]) -> None:
+def add_kg_dataset_use_rows(
+    repo_root: Path,
+    rows: dict[str, dict[str, Any]],
+    audit_by_doi: dict[str, dict[str, Any]],
+    package_dataset_dois: set[str],
+) -> None:
     data = read_json(repo_root / "inst/kg/paper_dataset_uses.json", {"records": []})
     for record in data.get("records", []):
         canonical_id = clean(record.get("canonical_dataset_id"))
         if canonical_id.startswith("dataset_candidate:warehouse"):
             continue
+        dataset_doi = doi_key(record.get("dataset_doi", ""))
+        if dataset_doi and dataset_doi in package_dataset_dois:
+            continue
         doi = doi_key(record.get("paper_doi", ""))
         audit_summary = audit_by_doi.get(doi, {})
+        ingestion_status = clean(record.get("ingestion_status"))
+        if ingestion_status.startswith("rejected"):
+            candidate_status = "rejected"
+            benchmark_status = "excluded"
+        elif ingestion_status.startswith("blocked"):
+            candidate_status = ingestion_status
+            benchmark_status = ingestion_status.replace("blocked", "not_ready", 1)
+        elif ingestion_status == "ingested":
+            candidate_status = ingestion_status
+            benchmark_status = "ready"
+        else:
+            candidate_status = ingestion_status
+            benchmark_status = "needs_reconciliation"
         incoming = {
             "candidate_id": slug(record.get("canonical_dataset_id") or f"{record.get('bib_key')}_{record.get('dataset_name_in_paper')}") ,
             "source_layers": "kg_paper_dataset_use",
-            "candidate_status": record.get("ingestion_status"),
-            "benchmark_status": "ready" if record.get("ingestion_status") == "ingested" else "needs_reconciliation",
-            "package_include": "manual_review",
+            "candidate_status": candidate_status,
+            "benchmark_status": benchmark_status,
+            "package_include": "manual_review" if not ingestion_status.startswith("rejected") else "no",
             "paper_title": record.get("paper_title"),
             "paper_doi": record.get("paper_doi"),
             "dataset_name": record.get("dataset_name_in_paper"),
-            "dataset_id": record.get("canonical_dataset_id"),
+            "dataset_id": normalize_paper_dataset_id(record.get("canonical_dataset_id")),
+            "dataset_doi": record.get("dataset_doi"),
             "dataset_url": record.get("source_url"),
             "download_status": record.get("ingestion_status"),
+            "local_pdf": record.get("local_pdf"),
+            "local_raw_dir": record.get("local_raw_dir"),
             "response_variable": "",
             "formula_or_model_specification": record.get("formula"),
             "formula_status": "explicit" if clean(record.get("formula")) else "not_found",
@@ -374,6 +513,8 @@ def add_kg_dataset_use_rows(repo_root: Path, rows: dict[str, dict[str, Any]], au
 def add_audit_only_rows(rows: dict[str, dict[str, Any]], audit_by_doi: dict[str, dict[str, Any]]) -> None:
     existing_paper_dois = {doi_key(row.get("paper_doi", "")) for row in rows.values() if row.get("paper_doi")}
     for key, item in audit_by_doi.items():
+        if key.startswith("title:"):
+            continue
         if key in existing_paper_dois:
             continue
         if item["audit_data_source_count"] == 0 or item["audit_model_evidence_count"] == 0:
@@ -424,11 +565,16 @@ def write_report(path: Path, records: list[dict[str, Any]], csv_path: Path, json
     path.parent.mkdir(parents=True, exist_ok=True)
     priority_counts = Counter(clean(row.get("curation_priority")) for row in records)
     status_counts = Counter(clean(row.get("benchmark_status")) for row in records)
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     lines = [
         "---",
         'title: "Paper Dataset Benchmark Candidates"',
         "type: analysis",
         "created: 2026-08-09",
+        f"updated: {today}",
+        "sources:",
+        "  - tools/build_paper_dataset_curation_manifest.py",
+        "  - inst/kg/paper_dataset_uses.json",
         "tags: [papers, datasets, benchmark, curation]",
         "---",
         "",
@@ -465,6 +611,7 @@ def write_report(path: Path, records: list[dict[str, Any]], csv_path: Path, json
                 next_step=clean(row.get("required_next_step"))[:120],
             )
         )
+    lines.extend(["", "## Related Pages", "", "- [[paper_dataset_ingestion_pipeline_2026-08]]"])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -827,11 +974,15 @@ def write_priority_review(
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     selected = [row for row in records if clean(row.get("curation_priority")) == priority]
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     lines = [
         "---",
         f'title: "{title}"',
         "type: analysis",
         "created: 2026-08-10",
+        f"updated: {today}",
+        "sources:",
+        "  - tools/build_paper_dataset_curation_manifest.py",
         "tags: [papers, datasets, benchmark, curation]",
         "---",
         "",
@@ -861,14 +1012,16 @@ def write_priority_review(
                 evidence=clean(row.get("evidence_sources"))[:100],
             )
         )
+    lines.extend(["", "## Related Pages", "", "- [[paper_dataset_ingestion_pipeline_2026-08]]"])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 def build_manifest(repo_root: Path) -> list[dict[str, Any]]:
     rows: dict[str, dict[str, Any]] = {}
     audit_by_doi = load_audit_summary(repo_root)
+    package_dataset_dois = load_package_dataset_dois(repo_root)
     add_package_metadata_rows(repo_root, rows, audit_by_doi)
-    add_datacite_rows(repo_root, rows, audit_by_doi)
-    add_kg_dataset_use_rows(repo_root, rows, audit_by_doi)
+    add_datacite_rows(repo_root, rows, audit_by_doi, package_dataset_dois)
+    add_kg_dataset_use_rows(repo_root, rows, audit_by_doi, package_dataset_dois)
     add_audit_only_rows(rows, audit_by_doi)
 
     records = list(rows.values())

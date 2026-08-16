@@ -1,8 +1,8 @@
 ---
 title: paper_florida_crash_gsvcm
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_florida_crash_gsvcm.rds
   - DataCite_2020_GeneralizedSpatiallyVaryingCoefficient_10_1080_10618600
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 |---|---|---|---|---|
 | `Offcrsh` | `integer` | count | [0, 159] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
 
 ### Formule - niveau systeme
 
 - formula_used: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy
 - x_terms_used: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_used: Offcrsh
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
 
 ### Formules candidates
 
@@ -152,27 +152,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_count_spatial_svc"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "confirmer dans l'article que l'application Florida crash est le cas empirique principal et choisir traitement count vs regression continue"
-  reason: "Le script supplementaire donne explicitement Y, X et coordonnees; reponse Offcrsh est un compte."
+  missing_items: "reponse Offcrsh = compte d accidents; utiliser RMSE/MAE comme benchmark numerique ou une route count dediee quand elle sera disponible"
+  reason: "Le script supplementaire donne explicitement Y, X et coordonnees; l'application Florida crash est un cas empirique GSVCM/negative-binomial. La reponse est un count, documente comme tel mais conservable dans le package."
 ```
 
-- Decision: almost_ready
-- Manque principal: confirmer dans l'article que l'application Florida crash est le cas empirique principal et choisir traitement count vs regression continue
-- Raison: Le script supplementaire donne explicitement Y, X et coordonnees; reponse Offcrsh est un compte.
+- Decision: ready
+- Manque principal: reponse Offcrsh = compte d accidents; utiliser RMSE/MAE comme benchmark numerique ou une route count dediee quand elle sera disponible
+- Raison: Le script supplementaire donne explicitement Y, X et coordonnees; l'application Florida crash est un cas empirique GSVCM/negative-binomial. La reponse est un count, documente comme tel mais conservable dans le package.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

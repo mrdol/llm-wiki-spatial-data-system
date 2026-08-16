@@ -1,8 +1,8 @@
 ---
 title: R_gstat_jura_jura.val
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
 tags: [dataset, r-package, spatial, point]
@@ -197,7 +197,7 @@ benchmark_readiness:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat
+- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat, R_gstat_jura_jura.grid, R_gstat_jura_juragrid.dat
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
@@ -206,3 +206,5 @@ benchmark_readiness:
 - Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
 - Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]
+- Duplicate/version candidate: [[R_gstat_jura_jura.grid]]
+- Duplicate/version candidate: [[R_gstat_jura_juragrid.dat]]

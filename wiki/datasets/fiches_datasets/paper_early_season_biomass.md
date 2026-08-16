@@ -1,8 +1,8 @@
 ---
 title: paper_early_season_biomass
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_early_season_biomass.rds
   - DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201
@@ -79,14 +79,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Huddell et al. (2024), Agricultural & Environmental Letters, DOI 10.1002/ael2.20121; data_dictionary.csv (Dryad 10.5061/dryad.ngf1vhj1r) definit late_bm_kg_ha comme biomasse au moment de la terminaison tardive -- la variable predite d'apres le titre du papier (early-season biomass and weather enable ... biomass predictions).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Huddell et al. (2024), Agricultural & Environmental Letters, DOI 10.1002/ael2.20121; data_dictionary.csv (Dryad 10.5061/dryad.ngf1vhj1r) definit late_bm_kg_ha comme biomasse au moment de la terminaison tardive -- la variable predite d'apres le titre du papier (early-season biomass and weather enable ... biomass predictions).
 
 ### Formule - niveau systeme
 
 - formula_used: late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term
 - x_terms_used: early_bm_kg_ha, CGDD_plant_early_term, CGDD_early_late_term, mean_PAR, cuml_precip_plant_early_term, cuml_precip_early_late_term
 - y_term_used: late_bm_kg_ha
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Huddell et al. (2024), Agricultural & Environmental Letters, DOI 10.1002/ael2.20121; data_dictionary.csv (Dryad 10.5061/dryad.ngf1vhj1r) definit late_bm_kg_ha comme biomasse au moment de la terminaison tardive -- la variable predite d'apres le titre du papier (early-season biomass and weather enable ... biomass predictions).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Huddell et al. (2024), Agricultural & Environmental Letters, DOI 10.1002/ael2.20121; data_dictionary.csv (Dryad 10.5061/dryad.ngf1vhj1r) definit late_bm_kg_ha comme biomasse au moment de la terminaison tardive -- la variable predite d'apres le titre du papier (early-season biomass and weather enable ... biomass predictions).
 
 ### Formules candidates
 
@@ -176,7 +176,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

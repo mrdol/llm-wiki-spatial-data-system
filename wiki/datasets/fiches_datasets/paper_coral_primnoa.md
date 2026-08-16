@@ -1,8 +1,8 @@
 ---
 title: paper_coral_primnoa
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_coral_primnoa.rds
   - DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 
 - Topic: dataset spatial spatial
 - Observation unit: observation spatiale du dataset "Climate change effects on deep-water corals - habitat suitability model input data"
-- Observed population: Modèles de suitabilité d'habitat (HSM) pour coraux profonds en Nouvelle-Zélande avec Random Forests et Boosted Regression Trees ; prédictions spatiales sous changement climatique ; correspond au périmètre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction
+- Observed population: ModÃ¨les de suitabilitÃ© d'habitat (HSM) pour coraux profonds en Nouvelle-ZÃ©lande avec Random Forests et Boosted Regression Trees ; prÃ©dictions spatiales sous changement climatique ; correspond au pÃ©rimÃ¨tre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction
 - Geographic context: etendue sf: x [-179.978836, 179.9785], y [-56.2439167, -28.583333]
 - Temporal context: none (cross-sectional)
 - Source description: Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?
@@ -162,14 +162,14 @@ modeling_evidence:
 benchmark_readiness:
   benchmark_status: "ready"
   benchmark_task: "classification_binary_presence_absence"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "idem coral_bathypathes"
+  missing_items: "idem coral_bathypathes (Y binaire uniquement, estimateurs fixes sur random_forest/random_forest_spatial)"
   reason: "Meme source/structure que coral_bathypathes."
 ```
 
 - Decision: ready
-- Manque principal: idem coral_bathypathes
+- Manque principal: idem coral_bathypathes (Y binaire uniquement, estimateurs fixes sur random_forest/random_forest_spatial)
 - Raison: Meme source/structure que coral_bathypathes.
 
 ## Estimator eligibility
@@ -180,7 +180,7 @@ estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
   ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

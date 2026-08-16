@@ -428,6 +428,12 @@ def _check_quality_review_gate(body: str, warnings: list[str]) -> None:
 def _check_dataset_non_null_fields(body: str, errors: list[str], warnings: list[str]) -> None:
     for label in DATASET_NON_NULL_FIELDS:
         value = _field_value(body, label)
+        if value is None and label == "Candidate X variables":
+            # Paper-derived fiches (generate_fiches_papers.R) label this
+            # field "... in local artifact"; package-derived fiches
+            # (generate_fiches.py) label it just "Candidate X variables".
+            # Recognise both instead of flagging paper fiches as empty.
+            value = _field_value(body, "Candidate X variables in local artifact")
         if value is None or _is_null_like(value):
             errors.append(f"Critical dataset field is empty or null: {label}")
             continue

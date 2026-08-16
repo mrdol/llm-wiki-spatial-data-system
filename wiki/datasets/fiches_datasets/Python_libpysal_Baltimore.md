@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_Baltimore
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_libpysal_Baltimore.rds
 tags: [dataset, python-package, spatial, point]

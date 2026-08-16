@@ -1,8 +1,8 @@
 ---
 title: R_surveillance_hagelloch_hagelloch
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
 tags: [dataset, r-package, spatial, point]
@@ -66,48 +66,48 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Formule — niveau publication
 
-- formula_pub: ~ household + cox(AGE)
+- formula_pub: not_applicable - twinSIR (Neal & Roberts 2004, Biostatistics 5(2):249-261, DOI 10.1093/biostatistics/5.2.249) est un modele de hasard/intensite pour processus ponctuel epidemique (classe 'epidata'/twinSIR du package surveillance, cf. https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html), pas une regression Y~X classique : la 'reponse' est la structure d'historique d'evenements SIR elle-meme (start/stop/atRiskY/event, construite par as.epidata() depuis hagelloch.df), pas une colonne scalaire. household + cox(AGE) sont les covariables du terme de hasard, pas des predicteurs d'un Y observable. N reel : 188 enfants (hagelloch.df), 56 foyers distincts (x.loc/y.loc) -- les 70500 lignes de l'objet 'epidata' hagelloch sont 188 enfants x 375 pas de temps de la fenetre a risque, pas 70500 observations spatiales independantes.
 - x_terms_pub: household, cox(AGE)
 - y_term_pub: pending
 - Reference publication: Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: ~ household + cox(AGE)
-- x_terms_used: household, cox(AGE)
-- y_term_used: pending
+- formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- y_term_used: event
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
-    formula: "~ household + cox(AGE)"
-    response: "pending"
-    predictors: ["household, cox(AGE)"]
-    role: "simple_baseline"
-    source_type: "scientific_publication_or_package_documentation"
-    source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
-    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
-    status: "confirmed"
-
-  multivariate_constrained:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "paper_main_specification"
+    role: "simple_baseline"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
+
+  multivariate_constrained:
+    formula: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
+    response: "event"
+    predictors: ["start", "stop", "atRiskY", "AGE", "SEX", "CL", "household", "nothousehold"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
 
   ml_or_selected:
     formula: "pending"
@@ -140,11 +140,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "~ household + cox(AGE)"
+  equation_text: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
   equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
+  model_family: "n/a"
+  source_type: published_or_manual_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
   confidence: medium
 ```
 
@@ -183,24 +183,24 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_missing_formula"
+  benchmark_status: "not_ready_non_continuous_response"
   benchmark_task: "not_current_regression_benchmark"
   package_include: "no"
   has_local_rds: true
-  missing_items: "formule Y ~ X executable manquante"
-  reason: "Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package."
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
 ```
 
-- Decision: not_ready_missing_formula
-- Manque principal: formule Y ~ X executable manquante
-- Raison: Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package.
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
 
 
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

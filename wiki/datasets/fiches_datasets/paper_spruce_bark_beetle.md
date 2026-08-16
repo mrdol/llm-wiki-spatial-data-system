@@ -1,8 +1,8 @@
 ---
 title: paper_spruce_bark_beetle
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_spruce_bark_beetle.rds
   - DataCite_2024_ClimaticAndManagementRelated_10_1111_1365_266
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Candidate X variables in local artifact: `year`, `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture`
 - Candidate X count in local artifact: 8
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
+- Published X variables from paper: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
 - Published X count: 0
 - Coordinates (x, y - excluded from X candidates): `east`, `north`
 - Identifier columns (excluded from X candidates): none detected
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 |---|---|---|---|---|
 | `trapcounts` | `integer` | count | [7, 36735] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `spruce_vol`, `felling_border`, `temperature`, `soil_moisture`, `veg_zone` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -66,10 +66,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 
 ### Formule - niveau publication
 
-- formula_pub: trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture
-- x_terms_pub: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
+- formula_pub: trapcounts ~ spruce_vol + felling_border_lag3 * veg_zone + temperature_lag3 + soil_moisture_lag3 + longitude + latitude + second_order_terms [negative binomial GLM]
+- x_terms_pub: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
 - y_term_pub: trapcounts
-- Reference publication: Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
+- Reference publication: Gohli et al. (2024), Journal of Applied Ecology, DOI 10.1111/1365-2664.14606: Sections 2.1.1-2.2 define trap counts and predictors; Section 2.1.5 selects a 3-year lag for clearcut edge, temperature, precipitation and soil moisture; Section 3 reports the final parsimonious negative-binomial GLM, where precipitation, altitude and sampling year are dropped, while mature spruce volume, new clearcut edge, temperature, soil moisture, vegetation zone interactions and longitude/latitude remain supported. formula_used keeps the executable non-coordinate subset available in the local .rds.
 
 ### Statut regression canonique
 
@@ -77,14 +77,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Gohli et al. (2024), Journal of Applied Ecology, DOI 10.1111/1365-2664.14606: Sections 2.1.1-2.2 define trap counts and predictors; Section 2.1.5 selects a 3-year lag for clearcut edge, temperature, precipitation and soil moisture; Section 3 reports the final parsimonious negative-binomial GLM, where precipitation, altitude and sampling year are dropped, while mature spruce volume, new clearcut edge, temperature, soil moisture, vegetation zone interactions and longitude/latitude remain supported. formula_used keeps the executable non-coordinate subset available in the local .rds.
 
 ### Formule - niveau systeme
 
-- formula_used: trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture
-- x_terms_used: masl, spruce_vol, veg_zone, felling_border, temperature, precipitation, soil_moisture
+- formula_used: trapcounts ~ spruce_vol + felling_border + temperature + soil_moisture + veg_zone
+- x_terms_used: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
 - y_term_used: trapcounts
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Gohli et al. (2024), Journal of Applied Ecology, DOI 10.1111/1365-2664.14606: Sections 2.1.1-2.2 define trap counts and predictors; Section 2.1.5 selects a 3-year lag for clearcut edge, temperature, precipitation and soil moisture; Section 3 reports the final parsimonious negative-binomial GLM, where precipitation, altitude and sampling year are dropped, while mature spruce volume, new clearcut edge, temperature, soil moisture, vegetation zone interactions and longitude/latitude remain supported. formula_used keeps the executable non-coordinate subset available in the local .rds.
 
 ### Formules candidates
 
@@ -101,12 +101,12 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture"
+    formula: "trapcounts ~ spruce_vol + felling_border + temperature + soil_moisture + veg_zone"
     response: "trapcounts"
-    predictors: ["masl", "spruce_vol", "veg_zone", "felling_border", "temperature", "precipitation", "soil_moisture"]
+    predictors: ["spruce_vol", "felling_border", "temperature", "soil_moisture", "veg_zone"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation."
+    source_ref: "Gohli et al. (2024), Journal of Applied Ecology, DOI 10.1111/1365-2664.14606: Sections 2.1.1-2.2 define trap counts and predictors; Section 2.1.5 selects a 3-year lag for clearcut edge, temperature, precipitation and soil moisture; Section 3 reports the final parsimonious negative-binomial GLM, where precipitation, altitude and sampling year are dropped, while mature spruce volume, new clearcut edge, temperature, soil moisture, vegetation zone interactions and longitude/latitude remain supported. formula_used keeps the executable non-coordinate subset available in the local .rds."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -142,11 +142,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "trapcounts ~ masl + spruce_vol + veg_zone + felling_border + temperature + precipitation + soil_moisture"
+  equation_text: "trapcounts ~ spruce_vol + felling_border_lag3 * veg_zone + temperature_lag3 + soil_moisture_lag3 + longitude + latitude + second_order_terms [negative binomial GLM]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Dryad README for Gohli et al. (2024), dataset 10.5061/dryad.kd51c5bdc: trap counts and covariates are explicitly documented in dryad.csv/README.md; empirical model specification still needs confirmation against the paper text before being marked as a published equation."
+  source_ref: "Gohli et al. (2024), Journal of Applied Ecology, DOI 10.1111/1365-2664.14606: Sections 2.1.1-2.2 define trap counts and predictors; Section 2.1.5 selects a 3-year lag for clearcut edge, temperature, precipitation and soil moisture; Section 3 reports the final parsimonious negative-binomial GLM, where precipitation, altitude and sampling year are dropped, while mature spruce volume, new clearcut edge, temperature, soil moisture, vegetation zone interactions and longitude/latitude remain supported. formula_used keeps the executable non-coordinate subset available in the local .rds."
   confidence: medium
 ```
 
@@ -154,27 +154,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_count_spatial"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "confirmer la specification empirique exacte dans le papier associe avant inclusion automatique package"
-  reason: "Y=trapcounts, covariables documentees, coordonnees WGS84 et N=1731 sont disponibles dans le README Dryad."
+  missing_items: "formula_used est une version executable sans longitude/latitude et sans interactions/quadratiques explicites du GLM negatif binomial publie"
+  reason: "Y=trapcounts, covariables retenues par le papier, coordonnees WGS84 et N=1731 sont disponibles; le papier confirme l'analyse de regression et le modele final."
 ```
 
-- Decision: almost_ready
-- Manque principal: confirmer la specification empirique exacte dans le papier associe avant inclusion automatique package
-- Raison: Y=trapcounts, covariables documentees, coordonnees WGS84 et N=1731 sont disponibles dans le README Dryad.
+- Decision: ready
+- Manque principal: formula_used est une version executable sans longitude/latitude et sans interactions/quadratiques explicites du GLM negatif binomial publie
+- Raison: Y=trapcounts, covariables retenues par le papier, coordonnees WGS84 et N=1731 sont disponibles; le papier confirme l'analyse de regression et le modele final.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--min-citations",
         type=int,
-        default=5,
+        default=2,
         help="Minimum OpenAlex citation count for the parent article.",
     )
     parser.add_argument(
@@ -52,7 +52,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--min-dataset-size-kb",
         type=int,
-        default=200,
+        default=5120,
         help="Minimum DataCite deposit size in KB when size metadata is available. Use 0 to disable.",
     )
     parser.add_argument(
@@ -110,6 +110,21 @@ def find_rscript(explicit: str | None) -> str:
     )
 
 
+def find_python(repo_root: Path) -> str:
+    # sys.executable suit l'interpreteur qui a lance ce script, ce qui peut
+    # etre un Python systeme sans les dependances du projet (ex. `anthropic`)
+    # si l'utilisateur ne l'a pas invoque depuis le venv. On privilegie donc
+    # le venv du projet quand il existe, avant de retomber sur sys.executable.
+    candidates = [
+        repo_root / ".venv" / "Scripts" / "python.exe",
+        repo_root.parent / ".venv" / "Scripts" / "python.exe",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
+    return sys.executable
+
+
 def run_step(command: list[str], cwd: Path) -> None:
     print("\n== " + " ".join(command), flush=True)
     subprocess.run(command, cwd=str(cwd), check=True)
@@ -120,6 +135,7 @@ def main() -> int:
     script_dir = Path(__file__).resolve().parent
     repo_root = Path(args.repo_root).resolve() if args.repo_root else script_dir.parent
     rscript = find_rscript(args.rscript)
+    python_exe = find_python(repo_root)
 
     if not args.skip_harvest:
         # Le harvest R garde DataCite comme source primaire, puis enrichit
@@ -149,7 +165,7 @@ def main() -> int:
 
     if not args.skip_verification:
         verify_cmd = [
-            sys.executable,
+            python_exe,
             "tools/verify_datacite_candidates.py",
             "--repo-root",
             str(repo_root),
@@ -166,7 +182,7 @@ def main() -> int:
         run_step([rscript, "tools/apply_datacite_verification.R"], cwd=repo_root)
 
     if not args.skip_ingestion:
-        run_step([sys.executable, "tools/ingest_datacite_verified.py"], cwd=repo_root)
+        run_step([python_exe, "tools/ingest_datacite_verified.py"], cwd=repo_root)
 
     print("\nPipeline DataCite termine.", flush=True)
     return 0

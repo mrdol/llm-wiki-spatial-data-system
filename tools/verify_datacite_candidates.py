@@ -158,6 +158,22 @@ def normalize_doi(value: Any) -> str:
     return text.strip()
 
 
+def load_manual_exclusions(repo_root: Path) -> dict[str, dict[str, Any]]:
+    """Charge la liste persistante de dataset_doi rejetes manuellement.
+
+    Contrairement au rapport de verification mensuel (ecrase a chaque run
+    --force), ce fichier survit d'un harvest a l'autre : un DOI deja rejete
+    manuellement ne doit plus jamais etre re-propose en `keep` par une
+    re-evaluation LLM a froid qui n'a pas la memoire de la decision passee.
+    """
+    path = repo_root / "data" / "manifests" / "papers" / "datacite_manual_exclusions.json"
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    exclusions = data.get("exclusions", {})
+    return {normalize_doi(doi): info for doi, info in exclusions.items() if doi}
+
+
 def extract_local_dois(*bib_paths: Path) -> set[str]:
     # Controle local simple: on cherche les DOI deja presents dans les .bib.
     dois: set[str] = set()
@@ -533,12 +549,61 @@ def main() -> int:
     )
     write_json(raw_path, raw_records)
 
-    client = anthropic_client()
-    verified: list[dict[str, Any]] = []
-    for start in range(0, len(raw_records), args.batch_size):
-        batch = raw_records[start : start + args.batch_size]
+    exclusions = load_manual_exclusions(paths.repo_root)
+    excluded_records = [
+        record for record in raw_records
+        if normalize_doi(record.get("dataset_doi")) in exclusions
+    ]
+    records_to_verify = [
+        record for record in raw_records
+        if normalize_doi(record.get("dataset_doi")) not in exclusions
+    ]
+    if excluded_records:
         print(
-            f"[verification] Claude batch {start + 1}-{start + len(batch)} / {len(raw_records)}",
+            f"[verification] {len(excluded_records)} candidat(s) court-circuite(s) "
+            "via la liste de decisions manuelles persistantes (pas d'appel LLM) : "
+            + ", ".join(
+                f"{record.get('dataset_doi', '')}="
+                f"{exclusions[normalize_doi(record.get('dataset_doi'))].get('action', 'reject')}"
+                for record in excluded_records
+            ),
+            flush=True,
+        )
+
+    verified: list[dict[str, Any]] = []
+    for record in excluded_records:
+        info = exclusions[normalize_doi(record.get("dataset_doi"))]
+        action = info.get("action", "reject")
+        if action not in ACTION_VALUES:
+            action = "reject"
+        verb = {"keep": "garde", "reject": "rejete", "needs_manual_check": "marque a verifier"}.get(action, "traite")
+        verified.append(
+            {
+                "idx": record["idx"],
+                "dataset_doi": record.get("dataset_doi"),
+                "publication_doi": record.get("publication_doi"),
+                "recommended_action": action,
+                "response_type_assessment": record.get("candidate_task_type") or "unclear",
+                "duplicate_in_corpus": "non",
+                "matches_search_bib_objective": (
+                    "Decision manuelle persistante (voir data/manifests/papers/"
+                    "datacite_manual_exclusions.json)."
+                ),
+                "issues_found": (
+                    f"{info.get('reason', '')} [{verb} le {info.get('excluded_on', '?')} "
+                    f"par {info.get('excluded_by', '?')}, court-circuite avant appel LLM]"
+                ),
+                "dataset_title": record.get("dataset_title"),
+                "article_title": record.get("article_title"),
+                "cited_by_count": record.get("cited_by_count"),
+            }
+        )
+
+    client = anthropic_client() if records_to_verify else None
+    for start in range(0, len(records_to_verify), args.batch_size):
+        batch = records_to_verify[start : start + args.batch_size]
+        print(
+            f"[verification] Claude batch {start + 1}-{start + len(batch)} / {len(records_to_verify)}",
             flush=True,
         )
         verified.extend(

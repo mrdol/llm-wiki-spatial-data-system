@@ -2,7 +2,7 @@
 title: Revue des candidats model evidence issus de l'audit TEI
 type: metadata
 created: 2026-08-06
-updated: 2026-08-13
+updated: 2026-08-15
 sources: [data/manifests/papers/model_evidence_audit.csv]
 tags: [metadata, kg, audit, tei, model-evidence, review]
 ---
@@ -16,34 +16,34 @@ Il sert a relire les passages candidats avant toute promotion vers les fiches da
 
 ## Synthese
 
-- Lignes d'audit lues : 6798
-- Candidats retenus dans ce rapport : 1655
-- Papiers avec au moins un candidat : 187
+- Lignes d'audit lues : 6903
+- Candidats retenus dans ce rapport : 1684
+- Papiers avec au moins un candidat : 188
 
 ### Par type
 
 | Type | Nombre |
 |---|---:|
-| `ModelEvidenceCandidate` | 985 |
-| `ModelTableCandidate` | 287 |
-| `VariableTableCandidate` | 190 |
-| `DataSourceCandidate` | 170 |
+| `ModelEvidenceCandidate` | 995 |
+| `ModelTableCandidate` | 300 |
+| `VariableTableCandidate` | 194 |
+| `DataSourceCandidate` | 172 |
 | `GenericEstimatorFormulaCandidate` | 23 |
 
 ### Par statut
 
 | Statut | Nombre |
 |---|---:|
-| `extracted_needs_review` | 1632 |
+| `extracted_needs_review` | 1661 |
 | `rejected_generic_formula` | 23 |
 
 ### Action proposee
 
 | Action | Nombre |
 |---|---:|
-| `low_priority_review` | 1088 |
-| `review_for_model_evidence` | 332 |
-| `review_for_dataset_use` | 212 |
+| `low_priority_review` | 1103 |
+| `review_for_model_evidence` | 340 |
+| `review_for_dataset_use` | 218 |
 | `reject_generic` | 23 |
 
 ## Regle de lecture
@@ -1144,13 +1144,18 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | low_priority_review | `ModelEvidenceCandidate` | 72 | Variants of geographically weighted regression | Numerous variants have been developed to improve the GWR in various aspects. Several studies focus on the improvement of optimal bandwidth selection. Generally, the choice of bandwidth is crucial to the fitting result of GWR (Fotheringham et al., 2003) . A... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 72 | Variants of geographically weighted regression | Numerous variants have been developed to improve the GWR in various aspects. Several studies focus on the improvement of optimal bandwidth selection. Generally, the choice of bandwidth is crucial to the fitting result of GWR (Fotheringham et al., 2003) . A... |
 | low_priority_review | `ModelEvidenceCandidate` | 66 | Computation of Akaike information criterion | The AIC and AICc are the most common metrics to evaluate the fit performance of the GWR model, which are an unbiased estimate of the expected Kullback-Leibler information and a trade-off between goodness of fit and the degree of freedom. In a fitting task,... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Computation of Akaike information criterion | The AIC and AICc are the most common metrics to evaluate the fit performance of the GWR model, which are an unbiased estimate of the expected Kullback-Leibler information and a trade-off between goodness of fit and the degree of freedom. In a fitting task,... |
 | low_priority_review | `ModelEvidenceCandidate` | 56 | Additive linear model for located observations | In the classic geographically weighted model, an independent linear function is applied to formulate the relationships between dependent and independent variables for each observation i at the specific location: where (u i , v i ) denotes the location of i-... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 56 | Additive linear model for located observations | In the classic geographically weighted model, an independent linear function is applied to formulate the relationships between dependent and independent variables for each observation i at the specific location: where (u i , v i ) denotes the location of i-... |
+| low_priority_review | `ModelTableCandidate` | 33 | GROBID table | Table 1 : |
+| low_priority_review | `ModelTableCandidate` | 33 | GROBID table | Table 3 : |
 | low_priority_review | `ModelTableCandidate` | 33 | GROBID table | Table 1 : |
 | low_priority_review | `ModelTableCandidate` | 33 | GROBID table | Table 3 : |
 | low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Model OLS GWR GWRBoost RSS 1639.063 ± 72.52 83.900 ± 5.049 36.797 ± 2.601 AIC 2385.642 ± 27.65 773.374 ± 36.050 225.512 ± 42.061 AICc 2385.739 ± 27.65 839.926 ± 35.383 274.817 ± 41.207 R 2 0.072 ± 0.02 0.952 ± 0.003 0.979 ± 0.002 Adjusted R 2 0.066 ± 0.02 0... |
 | low_priority_review | `ModelTableCandidate` | 32 | GROBID table | Model OLS GWR GWRBoost RSS 982.206 388.626 261.478 AIC 4499.669 3168.118 2289.994 AICc 4499.720 3315.637 2437.513 R 2 0.557 0.825 0.882 Adjusted R 2 0.556 0.790 0.858 Moran's I 0.333 0.066 -0.027 |
-| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 : |
+| low_priority_review | `truncated` |  |  | 4 autres candidats non affiches dans ce rapport |
 
 ### GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted Models
 
@@ -1635,6 +1640,24 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Multiple regression on distance matrices | MRM is derived from partial Mantel tests of matrix correlations, in which predictor matrices (in this case, landscape variables, see paragraph below and Appendix A) are used to explain variation in a response matrix (genetic distance). Because of nonindepen... |
 | low_priority_review | `ModelEvidenceCandidate` | 51 | Materials and methods |  |
 
+### Multiple stressors and the cause of amphibian abnormalities
+
+- TEI : `corpus\papers\tei\Reeves2010Multiple.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `DataSourceCandidate` | 55 | Predator exclusion experiment | Predator exclusion cages (diameter 3 depth ¼ 76.2 3 76.2 cm) were obtained from Team NuMark (Victoria, Texas, USA). Fiberglass window screen was sewn with fishing line to the sides and bottom of the cage to reduce cage mesh size and prohibit entry by invert... |
+| review_for_dataset_use | `DataSourceCandidate` | 51 | Study area and selection of study sites | The KNWR comprises 797 200 ha in south-central Alaska, including four designated wilderness areas: Mystery Hills, Swanson River, Skilak Lake, and Tustemena Lake (Wilderness Act of 1964: 16 U.S.C. 1131-1136). The refuge also contains 345 km of roads, most of... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 64 | Statistical analysis and hypothesis evaluation for field data | We used the Akaike information criterion (AIC) to determine which measured environmental variables best predicted amphibian abnormalities in the KNWR (Burnham and Anderson 2002) . We used generalized linear models (GLIM; PROC GENMOD in SAS version 9.1.3, SA... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Statistical assessment of skeletal abnormalities | Skeletal abnormalities were best predicted by a model including dragonflies, metals, and organic contaminants, along with frog size and developmental stage (Fig. 1 , Tables 2 and 3 ; Appendix D: Fig. D2 ). This model had a quasi-R 2 of 0.89, and the Hosmer-... |
+| low_priority_review | `ModelEvidenceCandidate` | 50 | Amputation experiment | Experimental animals were harvested from eight recently laid egg masses, Gosner stages 9-12, on 13 May 2008. Eggs were reared to Gosner stage 28, at which point limb amputations began. Tadpoles (n ¼ 32, Best models step 3 Metal PCA 2 þ larval dragonfly abun... |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 2 . |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 3 . |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 4 . |
+| low_priority_review | `ModelTableCandidate` | 32 | GROBID table | TABLE 5 . |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Model Likelihood Parameters Trials AIC DAIC Quasi-R 2 (%) Intercept only À780.4789 4 3744 1568.958 NA NA Saturated model À737.0573 13 3744 1500.115 NA NA Univariate models step 1 Larval dragonfly abundance À754.4664 4 3744 1516.933 0 60 Organic PCA 2 À762.6... |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Para- Quasi-R 2 Model Likelihood meters Trials AIC DAIC (%) Intercept only À351.8538 1 3744 705.7076 NA NA Saturated model À336.7327 13 3744 699.4654 NA NA Best models step 1 Larval beetle abundance À346.0375 2 3744 696.075 0 38 Developmental stage À347.044... |
+
 ### Multiplicative Interaction in Generalized Linear Models
 
 - TEI : `corpus\papers\tei\Multiplicative interaction in generalized linear models.tei.xml`
@@ -1726,13 +1749,17 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### New trajectories of the Hungarian regional development: balanced and rush growth of territorial capital
 
 - DOI : `10.15196/RS05107`
-- TEI : `corpus\papers\tei\Jona2015New.tei.xml`
+- TEI : `corpus\papers\tei\Jona2015HungarianTerritorialCapital.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Aggregated index Sub-index/ dimension Variables Total domestic income per capita Net export sales revenue per 1000 people Issued capital for 1 firm Economic Equity for 1 firm capital Total firms for 1000 residents High-tech business service per 1000 residen... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Aggregated index Sub-index/ dimension Variables Total domestic income per capita Net export sales revenue per 1000 people Issued capital for 1 firm Economic Equity for 1 firm capital Total firms for 1000 residents High-tech business service per 1000 residen... |
 | low_priority_review | `ModelEvidenceCandidate` | 54 | Results | Calculating the arithmetic average (average) between 2004 and 2010 the territorial capital as the national level was increasing by 9,66%, indicating that the annual average growth of territorial capital was 1,38%. Between 2005 and 2006, the highest accumula... |
+| low_priority_review | `ModelEvidenceCandidate` | 54 | Results | Calculating the arithmetic average (average) between 2004 and 2010 the territorial capital as the national level was increasing by 9,66%, indicating that the annual average growth of territorial capital was 1,38%. Between 2005 and 2006, the highest accumula... |
+| low_priority_review | `ModelEvidenceCandidate` | 51 | Research model and applied methods | Before beginning of operationalization, some important details need to be clarified. To date, RGTC has not been scrutinized, empirically, therefore in this study inductive methods were applied in some rare cases (Vieira-Tsotras 2013) . When researching terr... |
 | low_priority_review | `ModelEvidenceCandidate` | 51 | Research model and applied methods | Before beginning of operationalization, some important details need to be clarified. To date, RGTC has not been scrutinized, empirically, therefore in this study inductive methods were applied in some rare cases (Vieira-Tsotras 2013) . When researching terr... |
 
 ### Niche conservatism limits the distribution of Medicago in the tropics
@@ -2111,9 +2138,14 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
 | review_for_dataset_use | `DataSourceCandidate` | 50 | Data cleaning and yield detrending | We utilized the National Water Agency (ANA) daily precipitation data set, focusing only on municipalities, in the state of Paraná, with an operational weather station. The time series spans from January 20, 1979 to April 01, 2015 for 41 weather stations, on... |
+| review_for_dataset_use | `DataSourceCandidate` | 50 | Data cleaning and yield detrending | We utilized the National Water Agency (ANA) daily precipitation data set, focusing only on municipalities, in the state of Paraná, with an operational weather station. The time series spans from January 20, 1979 to April 01, 2015 for 41 weather stations, on... |
+| low_priority_review | `DataSourceCandidate` | 46 | Data pre-processing and clustering | In order to fill missing values we applied multiple imputation by chained equations (MICE) using the R software (Buuren & Groothuis-Oudshoorn, 2000) and then calculated the standardized precipitation index (SPI) with a three-month scale, thus capturing seve... |
 | low_priority_review | `DataSourceCandidate` | 46 | Data pre-processing and clustering | In order to fill missing values we applied multiple imputation by chained equations (MICE) using the R software (Buuren & Groothuis-Oudshoorn, 2000) and then calculated the standardized precipitation index (SPI) with a three-month scale, thus capturing seve... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Weather index insurance | The state of Paraná is an important producer of soybean, being the second largest producer in Brazil. In spite of the evolution in crop technology and crop management, yields are highly susceptible to drought in some regions of the state, with as much of 50... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 62 | Weather index insurance | The state of Paraná is an important producer of soybean, being the second largest producer in Brazil. In spite of the evolution in crop technology and crop management, yields are highly susceptible to drought in some regions of the state, with as much of 50... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Geographically weighted quantile lasso | A natural extension to the geographically weighted regression (GWR) is the geographically weighted quantile regression (GWQR) model, which has the following form: Revista de Administração Contemporânea, v. 26, n. 3, e-200387, 2022/ doi.org/10.1590/1982-7849... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Geographically weighted quantile lasso | A natural extension to the geographically weighted regression (GWR) is the geographically weighted quantile regression (GWQR) model, which has the following form: Revista de Administração Contemporânea, v. 26, n. 3, e-200387, 2022/ doi.org/10.1590/1982-7849... |
+| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Yield index modeling | We observe for the cluster representing the western and northern portions of Paraná that the December SPI presents the greatest impact on yields (Figures 1 and 2 ). Given that we assume, based on state reports (Secretaria da Agricultura e do Abastecimento,... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Yield index modeling | We observe for the cluster representing the western and northern portions of Paraná that the December SPI presents the greatest impact on yields (Figures 1 and 2 ). Given that we assume, based on state reports (Secretaria da Agricultura e do Abastecimento,... |
 
 ### SGWR: similarity and geographically weighted regression
@@ -2360,10 +2392,11 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 ### Spatial distribution and determinants of HIV high burden in the Southern African sub-region
 
 - DOI : `10.1371/journal.pone.0301850`
-- TEI : `corpus\papers\tei\Adetokunboh2024Spatial.tei.xml`
+- TEI : `corpus\papers\tei\Adetokunboh2024HIVSouthernAfrica.tei.xml`
 
 | Action | Type | Score | Section/table | Extrait candidat |
 |---|---|---:|---|---|
+| review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Data analysis | This study is a secondary data analysis from country-wide and community-based surveys. HIV prevalence for each included country was analyzed using the most recent DHS data. The analyses processes were as follows: a. The logistic regression analyses of assoc... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 66 | Data analysis | This study is a secondary data analysis from country-wide and community-based surveys. HIV prevalence for each included country was analyzed using the most recent DHS data. The analyses processes were as follows: a. The logistic regression analyses of assoc... |
 
 ### Spatial distribution of wood volume in Brazilian savannas
@@ -2538,19 +2571,6 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Subsample Analysis | Several moderators are not included in the baseline regression shown in column (1) due to missing observations or because these moderators only serve as replacements for explanatory variables already included. In a first step, I add these moderators to the... |
 | review_for_model_evidence | `ModelEvidenceCandidate` | 60 | Subsample Analysis | Several moderators are not included in the baseline regression shown in column (1) due to missing observations or because these moderators only serve as replacements for explanatory variables already included. In a first step, I add these moderators to the... |
 | low_priority_review | `truncated` |  |  | 12 autres candidats non affiches dans ce rapport |
-
-### TABLE OF CONTENTS LIST OF FIGURES
-
-- DOI : `10.3354/dao01831`
-- TEI : `corpus\papers\tei\Reeves2010Multiple.tei.xml`
-
-| Action | Type | Score | Section/table | Extrait candidat |
-|---|---|---:|---|---|
-| review_for_dataset_use | `DataSourceCandidate` | 53 | WaterQuality.csv | The WaterQuality.csv table describes water quality information collected by field observers during each site visit from 2010-2012. Water quality measurements were not taken as consistently during the prior study and may not be comparable, therefore are not... |
-| review_for_dataset_use | `DataSourceCandidate` | 50 | Invertebrate Community Data | Invert.csv The Invert.csv data set includes information on the invertebrate community that was collected for this effort. Invertebrates were collected based on USEPA protocols (2007). Invertebrates were collected at 10 equally spaced littoral locations arou... |
-| low_priority_review | `DataSourceCandidate` | 45 | Water Quality Measurements Concurrent with Bd in Water Sampling | WaterQualityBdFilters.csv "WaterQualityBDFilters.csv" -This table describes water quality information collected with a YSI sonde concurrent with sampling for Batrachochytrium dendrobatidis in water. See "Methods.txt" file for more information on field data... |
-| review_for_model_evidence | `ModelEvidenceCandidate` | 58 | Frog Abnormalities and Disease | FrogAbnormalities.csv The FrogAbnormalities.csv data set includes information on each of the 9,011 individual amphibians surveyed for this effort from 2000-2012. Information on data in each column follows. COLLECTION_ID -The collection ID always follows the... |
-| low_priority_review | `ModelEvidenceCandidate` | 51 | III. METHODS AND MATERIALS |  |
 
 ### THE ROLE OF NONFARM INFLUENCES IN RICARDIAN ESTIMATES OF CLIMATE CHANGE IMPACTS ON US AGRICULTURE
 
@@ -2792,6 +2812,19 @@ Ces candidats auraient obtenu une action prioritaire sur le seul score a mots-cl
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 4 . |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Dataset Summary Location ERA5 ECMWF reanalysis product https://cds.climate.copernicus.eu/cdsapp#!/home (last access: 26 August 2020) CRU TS4.03 Climate Research Unit gridded station http://data.ceda.ac.uk/badc/cru/data/cru_ts/cru_ts_4.03 observations (multi... |
 | review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Dataset attribute Details Horizontal coverage Global Horizontal resolution 0.5 • × 0.5 • Vertical coverage Surface Temporal coverage -1 January 1979 00:00:00 to 31 December 2018 23:00:00 for variables Wind, Tair, PSurf and Qair -1 January 1979 07:00:00 to 3... |
+
+### What dictates income in New York City? SHAP analysis of income estimation based on Socioeconomic and Spatial Information Gaussian Processes (SSIG)
+
+- DOI : `10.1057/s41599-023-01548-7`
+- TEI : `corpus\papers\tei\Bai2023WhatDictates.tei.xml`
+
+| Action | Type | Score | Section/table | Extrait candidat |
+|---|---|---:|---|---|
+| review_for_dataset_use | `DataSourceCandidate` | 62 | Data collection and pre-processing | Labelled data. Our study focusses on NYC, one of the most advanced global economies. In addition, Table 1 presents the Between-district Gini Coefficients (StatisticalHelp, 2022) and Decile Dispersion Ratios (the ratio between the average income of the riche... |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 1 |
+| review_for_dataset_use | `VariableTableCandidate` | 46 | GROBID table | Table 5 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 3 |
+| low_priority_review | `ModelTableCandidate` | 31 | GROBID table | Table 4 |
 
 ### Women's political empowerment and welfare policy decisions: a spatial analysis of European countries
 

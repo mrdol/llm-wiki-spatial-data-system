@@ -1,8 +1,8 @@
 ---
 title: R_spatstat.data_btb_btb
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spatstat.data_btb_btb.rds
 tags: [dataset, r-package, spatial, point]
@@ -60,15 +60,15 @@ Geospatial data of 873 farm locations with detected bovine tuberculosis in Cornw
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: not_applicable - estimation non parametrique de segregation spatiale entre types de spoligotype de tuberculose bovine, pas une regression Y~X.
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
 
@@ -126,13 +126,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "not_applicable - estimation non parametrique de segregation spatiale entre types de spoligotype de tuberculose bovine, pas une regression Y~X."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Diggle, P.J., Zheng, P. and Durr, P. (2005) Nonparametric estimation of spatial segregation in a multivariate point process: bovine tuberculosis in Cornwall, UK. Applied Statistics 54, 645-658."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -187,7 +187,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

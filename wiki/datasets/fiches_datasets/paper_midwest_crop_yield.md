@@ -1,8 +1,8 @@
 ---
 title: paper_midwest_crop_yield
 type: dataset
-created: 2026-08-12
-updated: 2026-08-12
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_midwest_crop_yield.rds
   - DataCite_2022_CropYieldPredictionUsing_10_1080_01621459
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors"
-- Observed population: Modèle bayésien à coefficients spatialement variables pour prédiction de rendement agricole (corn yield) dans 5 états du Midwest USA
+- Observed population: ModÃ¨le bayÃ©sien Ã  coefficients spatialement variables pour prÃ©diction de rendement agricole (corn yield) dans 5 Ã©tats du Midwest USA
 - Geographic context: etendue sf: x [-101.806263355221, -84.9366590770885], y [36.21377415, 43.3840075]
 - Temporal context: 22 distinct periods (variable: Year)
 - Source description: Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors
@@ -74,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Park, Li & Li (2022), JASA, DOI 10.1080/01621459.2022.2123333, section 2 p.3 et Eq. (1) p.3-4: le seul covariable scalaire Z(s) du modele est la precipitation annuelle (avgPRCP) ; la taille de terre recoltee (Area, notee omega(s)) est explicitement utilisee comme poids de la variance de l'erreur de sondage (e(s) ~ N(0, sigma_e^2/omega(s))), pas comme predicteur de la moyenne. Le vrai pouvoir predictif du papier vient de trajectoires fonctionnelles de temperature (FPCA), non reproduites localement. MidwestData.RData (supplement JASA) fournit regdat avec Year, State, County (noms complets), Yield et avgPRCP ; jointure verifiee a 98.9% vers tigris::counties().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Park, Li & Li (2022), JASA, DOI 10.1080/01621459.2022.2123333, section 2 p.3 et Eq. (1) p.3-4: le seul covariable scalaire Z(s) du modele est la precipitation annuelle (avgPRCP) ; la taille de terre recoltee (Area, notee omega(s)) est explicitement utilisee comme poids de la variance de l'erreur de sondage (e(s) ~ N(0, sigma_e^2/omega(s))), pas comme predicteur de la moyenne. Le vrai pouvoir predictif du papier vient de trajectoires fonctionnelles de temperature (FPCA), non reproduites localement. MidwestData.RData (supplement JASA) fournit regdat avec Year, State, County (noms complets), Yield et avgPRCP ; jointure verifiee a 98.9% vers tigris::counties().
 
 ### Formule - niveau systeme
 
 - formula_used: Yield ~ avgPRCP
 - x_terms_used: avgPRCP
 - y_term_used: Yield
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-12). Park, Li & Li (2022), JASA, DOI 10.1080/01621459.2022.2123333, section 2 p.3 et Eq. (1) p.3-4: le seul covariable scalaire Z(s) du modele est la precipitation annuelle (avgPRCP) ; la taille de terre recoltee (Area, notee omega(s)) est explicitement utilisee comme poids de la variance de l'erreur de sondage (e(s) ~ N(0, sigma_e^2/omega(s))), pas comme predicteur de la moyenne. Le vrai pouvoir predictif du papier vient de trajectoires fonctionnelles de temperature (FPCA), non reproduites localement. MidwestData.RData (supplement JASA) fournit regdat avec Year, State, County (noms complets), Yield et avgPRCP ; jointure verifiee a 98.9% vers tigris::counties().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Park, Li & Li (2022), JASA, DOI 10.1080/01621459.2022.2123333, section 2 p.3 et Eq. (1) p.3-4: le seul covariable scalaire Z(s) du modele est la precipitation annuelle (avgPRCP) ; la taille de terre recoltee (Area, notee omega(s)) est explicitement utilisee comme poids de la variance de l'erreur de sondage (e(s) ~ N(0, sigma_e^2/omega(s))), pas comme predicteur de la moyenne. Le vrai pouvoir predictif du papier vient de trajectoires fonctionnelles de temperature (FPCA), non reproduites localement. MidwestData.RData (supplement JASA) fournit regdat avec Year, State, County (noms complets), Yield et avgPRCP ; jointure verifiee a 98.9% vers tigris::counties().
 
 ### Formules candidates
 
@@ -171,7 +171,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

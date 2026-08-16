@@ -1,8 +1,8 @@
 ---
 title: R_agridat_gotway.hessianfly_gotway.hessianfly
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_agridat_gotway.hessianfly_gotway.hessianfly.rds
 tags: [dataset, r-package, spatial, point]

@@ -1,8 +1,8 @@
 ---
 title: R_SpatialEpi_scotland_sf_scotland_sf
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_SpatialEpi_scotland_sf_scotland_sf.rds
 tags: [dataset, r-package, spatial, point]
@@ -183,6 +183,17 @@ benchmark_readiness:
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
 - Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "formula_used may contain one published covariate plus an offset when the formula is source-backed and executable; spatial weights can be reconstructed from polygon geometry by the benchmark when an original W is not required by the source."
+```
 
 
 ## Quality Control

@@ -1,8 +1,8 @@
 ---
 title: R_spatstat.data_gorillas_gorillas
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spatstat.data_gorillas_gorillas.rds
 tags: [dataset, r-package, spatial, point]
@@ -60,16 +60,16 @@ Locations of nesting sites of gorillas, and associated covariates, in a National
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: not_applicable en l'etat pour ce projet (modele d'intensite de processus ponctuel area-interaction, pas une table Y~X ligne-par-observation) : intensity ~ elevation + slope + vegetation + aspect + waterdist [+ group + season], ajuste via ppm() sur les rasters de covariables gorillas.extra (non presents dans ce depot local, package spatstat.data seul).
-- x_terms_used: elevation, slope, vegetation, aspect, waterdist, group, season
+- formula_used: pending
+- x_terms_used: pending
 - y_term_used: pending
 
 ### Formules candidates
@@ -77,14 +77,14 @@ Locations of nesting sites of gorillas, and associated covariates, in a National
 ```yaml
 formula_candidates:
   univariate:
-    formula: "not_applicable en l'etat pour ce projet (modele d'intensite de processus ponctuel area-interaction, pas une table Y~X ligne-par-observation) : intensity ~ elevation + slope + vegetation + aspect + waterdist [+ group + season], ajuste via ppm() sur les rasters de covariables gorillas.extra (non presents dans ce depot local, package spatstat.data seul)."
+    formula: "pending"
     response: "pending"
-    predictors: ["elevation, slope, vegetation, aspect, waterdist, group, season"]
+    predictors: []
     role: "simple_baseline"
-    source_type: "scientific_publication_or_package_documentation"
-    source_ref: "Funwi-Gabga, N. and Mateu, J. (2012) Understanding the nesting spatial behaviour of gorillas in the Kagwene Sanctuary, Cameroon. Stochastic Environmental Research and Risk Assessment 26(6), 793-811."
-    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
-    status: "confirmed"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
 
   multivariate_constrained:
     formula: "pending"
@@ -126,13 +126,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "not_applicable en l'etat pour ce projet (modele d'intensite de processus ponctuel area-interaction, pas une table Y~X ligne-par-observation) : intensity ~ elevation + slope + vegetation + aspect + waterdist [+ group + season], ajuste via ppm() sur les rasters de covariables gorillas.extra (non presents dans ce depot local, package spatstat.data seul)."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Funwi-Gabga, N. and Mateu, J. (2012) Understanding the nesting spatial behaviour of gorillas in the Kagwene Sanctuary, Cameroon. Stochastic Environmental Research and Risk Assessment 26(6), 793-811."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -187,7 +187,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: WARN - X identifiees, mais Y non identifiee automatiquement.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

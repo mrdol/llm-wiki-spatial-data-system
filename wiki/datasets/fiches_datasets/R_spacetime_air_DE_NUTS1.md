@@ -1,8 +1,8 @@
 ---
 title: R_spacetime_air_DE_NUTS1
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spacetime_air_DE_NUTS1.rds
 tags: [dataset, r-package, spatial, point]
@@ -59,15 +59,15 @@ Air quality data obtained from the airBase European air quality data base. Daily
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: not_applicable - couche de polygones administratifs allemands (NUTS1/Bundeslander) utilisee pour illustrer l'agregation spatiale, sans variable reponse propre. La variable PM10 reelle vit dans l'objet separe STFDF (stations/dates/PM10), non present dans ce depot.
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
 
@@ -125,13 +125,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "not_applicable - couche de polygones administratifs allemands (NUTS1/Bundeslander) utilisee pour illustrer l'agregation spatiale, sans variable reponse propre. La variable PM10 reelle vit dans l'objet separe STFDF (stations/dates/PM10), non present dans ce depot."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "https://www.eionet.europa.eu/etcs/etc-acm/databases/airbase (gadm.org pour les polygones administratifs)"
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -186,7 +186,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20% : VARNAME_1 (NA=43.8%), NL_NAME_1 (NA=100%), CC_1 (NA=100%), REMARKS_1 (NA=100%).

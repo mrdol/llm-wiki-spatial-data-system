@@ -1,8 +1,8 @@
 ---
 title: paper_no2_grid
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_no2_grid.rds
   - DataCite_2019_AssessingNo2Concentration_10_1021_acs_est_
@@ -70,14 +70,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Assessing 
 - Niveau de preuve: publication
 - Methode d estimation: modele/formule publication confirme, non executable avec le .rds actuel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-11). Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Di et al. (2019), Environmental Science & Technology, DOI 10.1021/acs.est.9b03358. The publication documents the training response, predictor families and ensemble models, but the downloaded local grid files are prediction products, not raw Y/X training data.
 
 ### Formules candidates
 
@@ -167,7 +167,7 @@ estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: []
   ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

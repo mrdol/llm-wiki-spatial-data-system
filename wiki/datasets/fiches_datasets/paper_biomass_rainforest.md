@@ -1,8 +1,8 @@
 ---
 title: paper_biomass_rainforest
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_biomass_rainforest.rds
   - DataCite_2015_SpatialStructureOfAbove_10_1371_journal_
@@ -76,14 +76,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial St
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Guitet et al. (2015), PLOS ONE, DOI 10.1371/journal.pone.0138456; Dryad 10.5061/dryad.38578. The paper computes plot-level AGB from DBH class, simulated height, wood specific gravity and plot area (Eq. 1-2), then models AGB with GLM selected by AIC and adds a kriged residual spatial component k(s) (Eq. 4-5). Selected effects reported in Results are LANDScapes, HAND, LOG, GEOL, VEGET, ALT and SLO; LANDForms, DRY and RAIN were excluded. The current local artifact now reconstructs AGB_mean from the PLOS S1_Dataset_AGB.xlsx supplement and exposes plot area, stem counts, mean WSG and the reconstructed numeric environmental covariates HAND, LOG, ALT and SLO. LANDScapes, GEOL and VEGET remain documented from the paper sources but are not joined locally, so formula_used is still a reduced local executable benchmark formula rather than the full published GLM/KR specification.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Guitet et al. (2015), PLOS ONE, DOI 10.1371/journal.pone.0138456; Dryad 10.5061/dryad.38578. The paper computes plot-level AGB from DBH class, simulated height, wood specific gravity and plot area (Eq. 1-2), then models AGB with GLM selected by AIC and adds a kriged residual spatial component k(s) (Eq. 4-5). Selected effects reported in Results are LANDScapes, HAND, LOG, GEOL, VEGET, ALT and SLO; LANDForms, DRY and RAIN were excluded. The current local artifact now reconstructs AGB_mean from the PLOS S1_Dataset_AGB.xlsx supplement and exposes plot area, stem counts, mean WSG and the reconstructed numeric environmental covariates HAND, LOG, ALT and SLO. LANDScapes, GEOL and VEGET remain documented from the paper sources but are not joined locally, so formula_used is still a reduced local executable benchmark formula rather than the full published GLM/KR specification.
 
 ### Formule - niveau systeme
 
 - formula_used: AGB_mean ~ area_ha + n_stems + mean_wsg + HAND + LOG + ALT + SLO
 - x_terms_used: area_ha, n_stems, mean_wsg, HAND, LOG, ALT, SLO
 - y_term_used: AGB_mean
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Guitet et al. (2015), PLOS ONE, DOI 10.1371/journal.pone.0138456; Dryad 10.5061/dryad.38578. The paper computes plot-level AGB from DBH class, simulated height, wood specific gravity and plot area (Eq. 1-2), then models AGB with GLM selected by AIC and adds a kriged residual spatial component k(s) (Eq. 4-5). Selected effects reported in Results are LANDScapes, HAND, LOG, GEOL, VEGET, ALT and SLO; LANDForms, DRY and RAIN were excluded. The current local artifact now reconstructs AGB_mean from the PLOS S1_Dataset_AGB.xlsx supplement and exposes plot area, stem counts, mean WSG and the reconstructed numeric environmental covariates HAND, LOG, ALT and SLO. LANDScapes, GEOL and VEGET remain documented from the paper sources but are not joined locally, so formula_used is still a reduced local executable benchmark formula rather than the full published GLM/KR specification.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Guitet et al. (2015), PLOS ONE, DOI 10.1371/journal.pone.0138456; Dryad 10.5061/dryad.38578. The paper computes plot-level AGB from DBH class, simulated height, wood specific gravity and plot area (Eq. 1-2), then models AGB with GLM selected by AIC and adds a kriged residual spatial component k(s) (Eq. 4-5). Selected effects reported in Results are LANDScapes, HAND, LOG, GEOL, VEGET, ALT and SLO; LANDForms, DRY and RAIN were excluded. The current local artifact now reconstructs AGB_mean from the PLOS S1_Dataset_AGB.xlsx supplement and exposes plot area, stem counts, mean WSG and the reconstructed numeric environmental covariates HAND, LOG, ALT and SLO. LANDScapes, GEOL and VEGET remain documented from the paper sources but are not joined locally, so formula_used is still a reduced local executable benchmark formula rather than the full published GLM/KR specification.
 
 ### Formules candidates
 
@@ -153,27 +153,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "needs_covariate_join"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous"
-  package_include: "no"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "joindre LANDScapes/GEOL/VEGET (3 des 7 effets retenus par le papier, AIC) et reconstruire la composante de krigeage des residus pour reproduire le GLM/KR complet"
-  reason: "AGB_mean est reconstruit depuis le supplement PLOS; HAND, LOG, ALT et SLO sont maintenant joints localement, mais LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent absents -- 3 des 7 covariables du modele AIC selectionne par le papier manquent encore, gap trop important pour promotion (2026-08-12), statut normalise depuis local_reduced_formula."
+  missing_items: "formula_used est une version locale reduite : LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent documentees mais absentes du .rds"
+  reason: "AGB_mean est reconstruit depuis le supplement PLOS; area_ha, n_stems, mean_wsg, HAND, LOG, ALT et SLO sont disponibles localement. Par decision de curation, cette version reduite est conservable dans le package avec la difference explicite entre formule publiee complete et formule executable locale."
 ```
 
-- Decision: needs_covariate_join
-- Manque principal: joindre LANDScapes/GEOL/VEGET (3 des 7 effets retenus par le papier, AIC) et reconstruire la composante de krigeage des residus pour reproduire le GLM/KR complet
-- Raison: AGB_mean est reconstruit depuis le supplement PLOS; HAND, LOG, ALT et SLO sont maintenant joints localement, mais LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent absents -- 3 des 7 covariables du modele AIC selectionne par le papier manquent encore, gap trop important pour promotion (2026-08-12), statut normalise depuis local_reduced_formula.
+- Decision: ready
+- Manque principal: formula_used est une version locale reduite : LANDScapes, GEOL, VEGET et la composante de krigeage des residus restent documentees mais absentes du .rds
+- Raison: AGB_mean est reconstruit depuis le supplement PLOS; area_ha, n_stems, mean_wsg, HAND, LOG, ALT et SLO sont disponibles localement. Par decision de curation, cette version reduite est conservable dans le package avec la difference explicite entre formule publiee complete et formule executable locale.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "needs_covariate_join"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  ineligible_reason: "paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

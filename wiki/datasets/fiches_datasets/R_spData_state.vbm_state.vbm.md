@@ -1,8 +1,8 @@
 ---
 title: R_spData_state.vbm_state.vbm
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spData_state.vbm_state.vbm.rds
 tags: [dataset, r-package, spatial, point]
@@ -59,15 +59,15 @@ A SpatialPolygonsDataFrame object to plot a Visibility Based Map.
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: not_applicable - jeu de donnees purement cartographique (polygones redimensionnes pour la lisibilite visuelle), aucune variable reponse ni covariable : seulement center_x/center_y (centroides pour le placement d'etiquettes). L'exemple de la doc colore les etats avec une variable EXTERNE (state.x77) a but de demonstration graphique, pas de modelisation.
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
 
@@ -125,13 +125,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "not_applicable - jeu de donnees purement cartographique (polygones redimensionnes pour la lisibilite visuelle), aucune variable reponse ni covariable : seulement center_x/center_y (centroides pour le placement d'etiquettes). L'exemple de la doc colore les etats avec une variable EXTERNE (state.x77) a but de demonstration graphique, pas de modelisation."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Conversion S-PLUS par Greg Snow d'un cartogramme de Mark Monmonier (visibility-based map des Etats-Unis)."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -186,7 +186,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: WARN - Y/X non identifiees automatiquement ; revue manuelle requise.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

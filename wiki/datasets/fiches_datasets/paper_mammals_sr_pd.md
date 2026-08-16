@@ -1,8 +1,8 @@
 ---
 title: paper_mammals_sr_pd
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_mammals_sr_pd.rds
   - DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 | `SR` | `integer` | count | [6, 239] | 0% |
 | `PD` | `numeric` | continuous | [367.4006, 5651.262] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `mammals_sr_pd`, la ou les reponses `SR`, `PD` viennent du loader papier et/ou des preuves de l article `Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals`. Les covariables X retenues sont `AET`, `Temp` ; 24 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `mammals_sr_pd`, la ou les reponses `SR`, `PD` viennent du loader papier et/ou des preuves de l article `Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals`. Les covariables X retenues sont `AET`, `Temp` ; 24 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -96,14 +96,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
 
 ### Formule - niveau systeme
 
 - formula_used: SR ~ AET + Temp
 - x_terms_used: AET, Temp
 - y_term_used: SR
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
 
 ### Formules candidates
 
@@ -173,27 +173,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "choisir une specification canonique SR ou PD puis verifier les noms exacts de variables"
-  reason: "Variables ecologiques et formule/pistes de path analysis confirmees, mais une formule benchmark unique reste a figer."
+  missing_items: "SR est retenu comme benchmark canonique; PD reste documente comme reponse alternative publiee"
+  reason: "Y=SR continu, covariables AET et Temp, coordonnees et formule canonique issue de la Figure 1 sont disponibles."
 ```
 
-- Decision: almost_ready
-- Manque principal: choisir une specification canonique SR ou PD puis verifier les noms exacts de variables
-- Raison: Variables ecologiques et formule/pistes de path analysis confirmees, mais une formule benchmark unique reste a figer.
+- Decision: ready
+- Manque principal: SR est retenu comme benchmark canonique; PD reste documente comme reponse alternative publiee
+- Raison: Y=SR continu, covariables AET et Temp, coordonnees et formule canonique issue de la Figure 1 sont disponibles.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

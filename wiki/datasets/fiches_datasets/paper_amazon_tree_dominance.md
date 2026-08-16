@@ -1,8 +1,8 @@
 ---
 title: paper_amazon_tree_dominance
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_amazon_tree_dominance.rds
   - DataCite_2023_UnderstandingDifferentDominancePatterns_10_1111_ele_1435
@@ -76,14 +76,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
 
 ### Formule - niveau systeme
 
 - formula_used: mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand
 - x_terms_used: regional_frequency, habitat_floodplain, habitat_swamp, habitat_white_sand
 - y_term_used: mean_local_relative_abundance
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
 
 ### Formules candidates
 
@@ -173,7 +173,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -1,8 +1,8 @@
 ---
 title: paper_wald_test
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_wald_test.rds
   - DataCite_2020_TheWaldTestOf_10_1017_pan_2020
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 |---|---|---|---|---|
 | `change` | `numeric` | continuous | [-28.24, 22.73] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : needs_original_W ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -81,10 +81,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 
 ### Formule - niveau publication
 
-- formula_pub: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
+- formula_pub: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par [Spatial Durbin Model (SDM), sous-echantillon clear1=1, matrice W politique originale de Williams & Whitten 2015 attachee]
 - x_terms_pub: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_pub: change
-- Reference publication: Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Reference publication: Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs). RESOLU le 2026-08-15 : le fichier WW2015_Data.Rdata contient W_high (398x398) et W_low (1030x1030), matrices de proximite politique/institutionnelle de la replication Williams & Whitten (2015) -- verifie que W_high correspond exactement ligne a ligne au sous-echantillon clear1==1 (398 observations) et W_low au sous-echantillon clear1==0 (1030 observations). Ces matrices originales du papier (pas des voisinages geographiques reconstruits) sont desormais sauvegardees comme artefacts compagnons : data/final_datasets/sf/paper_wald_test_W_clear1.rds (398x398, correspond a formula_used sur le sous-echantillon clear1=1) et paper_wald_test_W_notclear1.rds (1030x1030).
 
 ### Statut regression canonique
 
@@ -92,14 +92,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs). RESOLU le 2026-08-15 : le fichier WW2015_Data.Rdata contient W_high (398x398) et W_low (1030x1030), matrices de proximite politique/institutionnelle de la replication Williams & Whitten (2015) -- verifie que W_high correspond exactement ligne a ligne au sous-echantillon clear1==1 (398 observations) et W_low au sous-echantillon clear1==0 (1030 observations). Ces matrices originales du papier (pas des voisinages geographiques reconstruits) sont desormais sauvegardees comme artefacts compagnons : data/final_datasets/sf/paper_wald_test_W_clear1.rds (398x398, correspond a formula_used sur le sous-echantillon clear1=1) et paper_wald_test_W_notclear1.rds (1030x1030).
 
 ### Formule - niveau systeme
 
 - formula_used: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
 - x_terms_used: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_used: change
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs). RESOLU le 2026-08-15 : le fichier WW2015_Data.Rdata contient W_high (398x398) et W_low (1030x1030), matrices de proximite politique/institutionnelle de la replication Williams & Whitten (2015) -- verifie que W_high correspond exactement ligne a ligne au sous-echantillon clear1==1 (398 observations) et W_low au sous-echantillon clear1==0 (1030 observations). Ces matrices originales du papier (pas des voisinages geographiques reconstruits) sont desormais sauvegardees comme artefacts compagnons : data/final_datasets/sf/paper_wald_test_W_clear1.rds (398x398, correspond a formula_used sur le sous-echantillon clear1=1) et paper_wald_test_W_notclear1.rds (1030x1030).
 
 ### Formules candidates
 
@@ -121,7 +121,7 @@ formula_candidates:
     predictors: ["rgdppc_growth", "growth_govt", "pm_growth", "party_shift_t", "party_shift_t1", "ciep_perc", "govt_ciep", "pm_ciep", "xregbet", "prime_dummy", "niche", "gparties", "pm_gparties", "lag_pervote", "pm_lag_pervote", "niche_lag_pervote", "eff_par"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
+    source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs). RESOLU le 2026-08-15 : le fichier WW2015_Data.Rdata contient W_high (398x398) et W_low (1030x1030), matrices de proximite politique/institutionnelle de la replication Williams & Whitten (2015) -- verifie que W_high correspond exactement ligne a ligne au sous-echantillon clear1==1 (398 observations) et W_low au sous-echantillon clear1==0 (1030 observations). Ces matrices originales du papier (pas des voisinages geographiques reconstruits) sont desormais sauvegardees comme artefacts compagnons : data/final_datasets/sf/paper_wald_test_W_clear1.rds (398x398, correspond a formula_used sur le sous-echantillon clear1=1) et paper_wald_test_W_notclear1.rds (1030x1030)."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -157,11 +157,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par"
+  equation_text: "change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par [Spatial Durbin Model (SDM), sous-echantillon clear1=1, matrice W politique originale de Williams & Whitten 2015 attachee]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs, data/raw/papers/DataCite_2020_TheWaldTestOf_10_1017_pan_2020/EmpiricalExample.R)."
+  source_ref: "Juhl (2021), Political Analysis - Spatial Durbin Model (SDM), sous-echantillon 'haute clarte de responsabilite' (clear1=1), extrait directement de EmpiricalExample.R (script de replication des auteurs). RESOLU le 2026-08-15 : le fichier WW2015_Data.Rdata contient W_high (398x398) et W_low (1030x1030), matrices de proximite politique/institutionnelle de la replication Williams & Whitten (2015) -- verifie que W_high correspond exactement ligne a ligne au sous-echantillon clear1==1 (398 observations) et W_low au sous-echantillon clear1==0 (1030 observations). Ces matrices originales du papier (pas des voisinages geographiques reconstruits) sont desormais sauvegardees comme artefacts compagnons : data/final_datasets/sf/paper_wald_test_W_clear1.rds (398x398, correspond a formula_used sur le sous-echantillon clear1=1) et paper_wald_test_W_notclear1.rds (1030x1030)."
   confidence: medium
 ```
 
@@ -169,27 +169,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "needs_original_W"
+  benchmark_status: "ready"
   benchmark_task: "regression_spatial_weights_non_geographic"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "conserver ou reconstruire la matrice W politique du papier"
-  reason: "La formule SDM est confirmee, mais W est une proximite politique et non une matrice construite depuis les coordonnees."
+  missing_items: "aucun -- matrice W originale du papier verifiee et attachee le 2026-08-15 (paper_wald_test_W_clear1.rds, 398x398, alignee sur le sous-echantillon clear1=1 utilise par formula_used)"
+  reason: "La formule SDM est confirmee, et la matrice W politique originale (non geographique, replication Williams & Whitten 2015) est desormais disponible et verifiee ligne a ligne contre le sous-echantillon clear1=1 (398 observations). Promu package_include=yes le 2026-08-15."
 ```
 
-- Decision: needs_original_W
-- Manque principal: conserver ou reconstruire la matrice W politique du papier
-- Raison: La formule SDM est confirmee, mais W est une proximite politique et non une matrice construite depuis les coordonnees.
+- Decision: ready
+- Manque principal: aucun -- matrice W originale du papier verifiee et attachee le 2026-08-15 (paper_wald_test_W_clear1.rds, 398x398, alignee sur le sous-echantillon clear1=1 utilise par formula_used)
+- Raison: La formule SDM est confirmee, et la matrice W politique originale (non geographique, replication Williams & Whitten 2015) est desormais disponible et verifiee ligne a ligne contre le sous-echantillon clear1=1 (398 observations). Promu package_include=yes le 2026-08-15.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "needs_original_W"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
-  conditionally_eligible_estimators: ["sar_lag", "sem_error", "sdm_mixed"]
-  ineligible_reason: "spatial econometric estimators require the original paper W or an explicitly accepted proxy W"
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

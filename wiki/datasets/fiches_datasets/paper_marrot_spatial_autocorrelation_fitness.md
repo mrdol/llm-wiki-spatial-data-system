@@ -1,8 +1,8 @@
 ---
 title: paper_marrot_spatial_autocorrelation_fitness
 type: dataset
-created: 2026-08-11
-updated: 2026-08-11
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds
   - DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210
@@ -17,7 +17,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Observation unit: observation spatiale du dataset "Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
 - Observed population: DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics
 - Geographic context: etendue sf: x [3.661328, 3.679321], y [43.6539548, 43.674217]
-- Temporal context: 27 distinct periods (variable: Laying_date)
+- Temporal context: 6 distinct periods (variable: Years)
 - Source description: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
@@ -36,8 +36,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Candidate X variables in local artifact: `Laying_date`, `Clutch_size`, `Incubation_duration`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: Clutch_size, Laying_date, Incubation_duration
-- Published X count: 0
+- Published X variables from paper: Clutch_size (taille de ponte), Laying_date (date de ponte), Incubation_duration (duree d'incubation)
+- Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Individuals_ID`, `Nest_boxes_ID`, `Years`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -61,10 +61,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 
 ### Formule - niveau publication
 
-- formula_pub: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
-- x_terms_pub: Clutch_size, Laying_date, Incubation_duration
-- y_term_pub: Number_of_fledglings
-- Reference publication: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- formula_pub: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration [GLS/SAR selon la structure d'autocorrelation spatiale testee]
+- x_terms_pub: Clutch_size (taille de ponte), Laying_date (date de ponte), Incubation_duration (duree d'incubation)
+- y_term_pub: Number_of_fledglings (nombre de jeunes a l'envol, seule reponse disponible -- pas de variante continue dans le depot)
+- Reference publication: Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe).
 
 ### Statut regression canonique
 
@@ -72,14 +72,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe).
 
 ### Formule - niveau systeme
 
 - formula_used: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
 - x_terms_used: Clutch_size, Laying_date, Incubation_duration
 - y_term_used: Number_of_fledglings
-- Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe).
 
 ### Formules candidates
 
@@ -97,23 +97,23 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
-    response: "Number_of_fledglings"
-    predictors: ["Clutch_size", "Laying_date", "Incubation_duration"]
+    response: "Number_of_fledglings (nombre de jeunes a l'envol, seule reponse disponible -- pas de variante continue dans le depot)"
+    predictors: ["Clutch_size (taille de ponte)", "Laying_date (date de ponte)", "Incubation_duration (duree d'incubation)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
+    source_ref: "Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe)."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
   ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
+    response: "Number_of_fledglings"
+    predictors: ["Clutch_size", "Laying_date", "Incubation_duration"]
     role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe)."
+    estimator_context: ["gls", "sar_lag", "sar_error", "pcnm", "random_forest"]
+    status: "executable_continuous_variant"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -137,11 +137,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
+  equation_text: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration [GLS/SAR selon la structure d'autocorrelation spatiale testee]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Spatial autocorrelation in fitness affects the estimation of natural selection in the wild"
+  source_ref: "Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe)."
   confidence: medium
 ```
 
@@ -151,15 +151,15 @@ modeling_evidence:
 benchmark_readiness:
   benchmark_status: "ready"
   benchmark_task: "regression_continuous_or_count"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "decider si Number_of_fledglings doit rester count ou etre traite comme regression continue pour benchmark comparatif"
-  reason: "Y/X, coordonnees et N sont confirmes; formule locale disponible dans le KG et les donnees converties en sf."
+  missing_items: "aucune reponse continue alternative disponible dans le depot -- Number_of_fledglings (compte) reste la seule variable Y"
+  reason: "Y/X, coordonnees et N sont confirmes; formule desormais dans FORMULA_OVERRIDES (Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration). Promu package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule + rds + fiche prets suffit)."
 ```
 
 - Decision: ready
-- Manque principal: decider si Number_of_fledglings doit rester count ou etre traite comme regression continue pour benchmark comparatif
-- Raison: Y/X, coordonnees et N sont confirmes; formule locale disponible dans le KG et les donnees converties en sf.
+- Manque principal: aucune reponse continue alternative disponible dans le depot -- Number_of_fledglings (compte) reste la seule variable Y
+- Raison: Y/X, coordonnees et N sont confirmes; formule desormais dans FORMULA_OVERRIDES (Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration). Promu package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule + rds + fiche prets suffit).
 
 ## Estimator eligibility
 
@@ -169,7 +169,7 @@ estimator_eligibility:
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -178,19 +178,19 @@ estimator_eligibility:
 - Structure: panel_ou_series
 - N observations: 229
 - k variables: 12
-- T periods: 27
-- Variable temporelle: Laying_date
-- N/T profile: N_moyen_T_grand
+- T periods: 6
+- Variable temporelle: Years
+- N/T profile: N_moyen_T_moyen
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: 27 distinct periods (variable: Laying_date)
+- Temporal resolution: 6 distinct periods (variable: Years)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [3.661328, 3.679321], y [43.6539548, 43.674217]
-- Time range: 30 to 58 (variable: Laying_date)
+- Time range: 2008 to 2013 (variable: Years)
 - CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) - calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
 
 ## Bloc 6 - Reproductibilite

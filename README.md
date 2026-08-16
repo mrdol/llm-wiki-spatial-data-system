@@ -16,6 +16,16 @@ L'objectif est de construire progressivement une banque de jeux de donnees
 spatiaux et spatio-temporels reutilisable pour tester des estimateurs dans des
 conditions comparables.
 
+## Guides pratiques
+
+- `README_GIT_WORKFLOW.md` explique comment travailler a plusieurs avec
+  `main`, `dev` et `ma-modif`, recuperer les modifications de l'autre et
+  ouvrir/fusionner des Pull Requests.
+- `README_INSTALL.md` decrit l'installation et la reinstallation des outils
+  Python, R, PDF/OCR, GROBID et `spatialtidymodels`.
+- `tools/setup_project_environment.ps1` fournit un script PowerShell de
+  reinstallation ordonnee.
+
 Un dataset ideal contient :
 
 - une structure spatiale explicite : coordonnees, geometrie, voisinage ou unite

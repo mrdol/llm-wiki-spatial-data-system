@@ -1,8 +1,8 @@
 ---
 title: R_MASS_npr1_npr1
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_MASS_npr1_npr1.rds
 tags: [dataset, r-package, spatial, point]
@@ -59,15 +59,15 @@ Data on the locations, porosity and permeability (a measure of oil flow) on 104 
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: pending - hypothese non verifiee par analogie avec le traitement de `topo` dans le meme livre (surface de tendance polynomiale degre 2 puis krigeage des residus, ex. por ~ poly(x,y,2)) mais texte du chapitre non accessible pour confirmer ; ne pas retenir comme fait etabli.
+- formula_used: pending
 - x_terms_used: pending
 - y_term_used: pending
 
@@ -125,13 +125,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: true
-  equation_text: "pending - hypothese non verifiee par analogie avec le traitement de `topo` dans le meme livre (surface de tendance polynomiale degre 2 puis krigeage des residus, ex. por ~ poly(x,y,2)) mais texte du chapitre non accessible pour confirmer ; ne pas retenir comme fait etabli."
-  equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S, 4th ed., Springer. Source terrain : Maher, Carter & Lantz (1975) USGS Professional Paper 912."
-  confidence: medium
+  existing_model_found: false
+  equation_text: "null"
+  equation_family: n/a
+  model_family: "n/a"
+  source_type: none_found
+  source_ref: "null"
+  confidence: low
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -186,7 +186,7 @@ benchmark_readiness:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

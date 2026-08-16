@@ -67,8 +67,9 @@ OUTPUT_EXCEL_CSV <- file.path(
 
 # Seuil de citations de l'article parent (0 = pas de filtre).
 # La recherche bibliographique du projet cible prioritairement les articles
-# ayant au moins 5 citations pour garder un compromis entre qualite et rappel.
-MIN_CITATIONS <- 5L
+# ayant au moins 2 citations pour augmenter le rappel, tout en gardant un
+# minimum de signal bibliographique.
+MIN_CITATIONS <- 2L
 
 # Nombre de candidats retenus que l'on veut remonter dans le manifeste final.
 # Le script peut interroger plus d'enregistrements bruts, puis filtre et classe
@@ -86,13 +87,11 @@ SCREENING_VERSION <- "datacite_harvest_v2"
 # Les tailles inconnues passent encore le filtre, car beaucoup de depots ne
 # publient pas ce champ. Le seuil evite surtout les depots "code only" de
 # quelques Ko, comme un simple script sans table de donnees.
-# Releve de 50 Ko a 200 Ko le 2026-08-13 apres verification manuelle : a 50 Ko,
-# des enregistrements de quelques Ko passaient encore le filtre (ex. Zenodo
-# 10.5281/zenodo.15159899, une fiche de traitement taxonomique Plazi de
-# ~16 Ko -- table.html + XML, pas un jeu de donnees). 200 Ko reste sous la
-# taille de la plupart des tableurs/CSV/shapefiles legitimes de ce projet,
-# mais exclut les stubs de metadonnees/code seul les plus flagrants.
-MIN_DATASET_SIZE_BYTES <- 200L * 1024L
+# Releve de 50 Ko a 200 Ko le 2026-08-13 puis a 5 Mo le 2026-08-14 apres
+# verification manuelle : les seuils faibles laissaient passer des depots
+# contenant seulement un script, un XML ou un PDF. Les tailles inconnues passent
+# encore le filtre, car beaucoup de depots ne publient pas ce champ.
+MIN_DATASET_SIZE_BYTES <- 5L * 1024L * 1024L
 
 # Pour cette passe, on vise d'abord des jeux de donnees spatiaux de
 # regression/econometrie spatiale. Les jeux spatio-temporels restent utiles au

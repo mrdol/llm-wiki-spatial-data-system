@@ -34,6 +34,21 @@ pkg_rank <- function(pkg) {
   if (is.na(r)) length(PKG_PRIORITY) + 1L else r
 }
 
+# Protection contre le dedoublonnage exact pour les coupes temporelles
+# (politique 2026-08-15 : decouper un gros dataset panel/spatio-temporel en
+# plusieurs jeux annuels plutot que de garder une seule coupe). Deux coupes
+# annuelles du meme dataset partagent souvent le meme N/k/bbox (memes unites
+# spatiales, seules les valeurs changent d'annee en annee) -- l'etape 1
+# fingerprint (N+k+bbox, aveugle au contenu) les traiterait sinon a tort comme
+# des doublons exacts et en supprimerait tous sauf un du catalogue. Un
+# dataset_id se terminant par un suffixe annee a 4 chiffres (ex.
+# "..._nyc_earnings_2003") est protege : jamais ecarte par cette etape, quel
+# que soit son fingerprint. Les vrais doublons inter-packages (Georgia,
+# Boston, Columbus...) ne portent pas ce suffixe et restent geres normalement.
+is_protected_from_exact_dedup <- function(dataset_id) {
+  grepl("_(19|20)[0-9]{2}$", dataset_id)
+}
+
 
 # CRS d'analyse recommande (UTM local depuis centroide bbox) ------------------
 recommend_crs_analyse <- function(crs_epsg, bbox) {
@@ -379,6 +394,21 @@ for (fp in names(dup_grps)) {
   if (length(grp) == 1) {
     keep_after_exact <- c(keep_after_exact, grp)
     next
+  }
+
+  # Coupes temporelles protegees : jamais collapsees par cette etape, meme si
+  # leur fingerprint structurel coincide (cf. is_protected_from_exact_dedup).
+  protected_idx <- grp[vapply(grp, function(i) is_protected_from_exact_dedup(catalog[[i]]$dataset_id), logical(1))]
+  if (length(protected_idx) > 0) {
+    keep_after_exact <- c(keep_after_exact, protected_idx)
+    cat(sprintf("  PROTEGE (coupe temporelle) : %s\n",
+      paste(sapply(protected_idx, function(i) catalog[[i]]$dataset_id), collapse = ", ")))
+    grp <- setdiff(grp, protected_idx)
+    if (length(grp) == 0) next
+    if (length(grp) == 1) {
+      keep_after_exact <- c(keep_after_exact, grp)
+      next
+    }
   }
 
   # Choisir le plus riche

@@ -1,8 +1,8 @@
 ---
 title: paper_rocky_mountain_tree_growth
 type: dataset
-created: 2026-08-14
-updated: 2026-08-14
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_rocky_mountain_tree_growth.rds
   - DataCite_2017_ClimateAndCompetitionEffects_10_1111_1365_274
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate an
 |---|---|---|---|---|
 | `mean_ring_width_mm` | `numeric` | continuous | [0.1522, 7.4022] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `rocky_mountain_tree_growth`, la ou les reponses `mean_ring_width_mm` viennent du loader papier et/ou des preuves de l article `Climate and competition effects on tree growth in Rocky Mountain forests`. Les covariables X retenues sont `elevation_m`, `aspect_degrees`, `terrain_slope_pct`, `mean_stem_diameter_cm`, `mean_age_years`, `neighbor_count`, `neighbor_dbh_sum`, `neighbor_distance_mean`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Sample.tree.ID`, `Species`, `Site`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `rocky_mountain_tree_growth`, la ou les reponses `mean_ring_width_mm` viennent du loader papier et/ou des preuves de l article `Climate and competition effects on tree growth in Rocky Mountain forests`. Les covariables X retenues sont `elevation_m`, `aspect_degrees`, `terrain_slope_pct`, `mean_stem_diameter_cm`, `mean_age_years`, `neighbor_count`, `neighbor_dbh_sum`, `neighbor_distance_mean`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Sample.tree.ID`, `Species`, `Site`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -77,14 +77,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate an
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Buechling et al. (2017), Journal of Ecology, DOI 10.1111/1365-2745.12782: the paper models tree growth using climate and competition effects. The local benchmark collapses annual ring-width observations to one spatial record per sampled tree and joins neighbour-count/DBH summaries; climate time series are not reconstructed in this loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Buechling et al. (2017), Journal of Ecology, DOI 10.1111/1365-2745.12782: the paper models tree growth using climate and competition effects. The local benchmark collapses annual ring-width observations to one spatial record per sampled tree and joins neighbour-count/DBH summaries; climate time series are not reconstructed in this loader.
 
 ### Formule - niveau systeme
 
 - formula_used: mean_ring_width_mm ~ elevation_m + aspect_degrees + terrain_slope_pct + mean_stem_diameter_cm + mean_age_years + neighbor_count + neighbor_dbh_sum + neighbor_distance_mean
 - x_terms_used: elevation_m, aspect_degrees, terrain_slope_pct, mean_stem_diameter_cm, mean_age_years, neighbor_count, neighbor_dbh_sum, neighbor_distance_mean
 - y_term_used: mean_ring_width_mm
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-14). Buechling et al. (2017), Journal of Ecology, DOI 10.1111/1365-2745.12782: the paper models tree growth using climate and competition effects. The local benchmark collapses annual ring-width observations to one spatial record per sampled tree and joins neighbour-count/DBH summaries; climate time series are not reconstructed in this loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Buechling et al. (2017), Journal of Ecology, DOI 10.1111/1365-2745.12782: the paper models tree growth using climate and competition effects. The local benchmark collapses annual ring-width observations to one spatial record per sampled tree and joins neighbour-count/DBH summaries; climate time series are not reconstructed in this loader.
 
 ### Formules candidates
 
@@ -154,15 +154,15 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous_reduced_cross_section"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
   missing_items: "climat temporel du modele publie non reconstruit ; artefact local agrégé par arbre"
   reason: "Le loader produit une coupe spatiale par arbre avec ring width moyen et competition locale. C'est executable, mais reduit par rapport au modele temporel climat x competition du papier."
 ```
 
-- Decision: almost_ready
+- Decision: ready
 - Manque principal: climat temporel du modele publie non reconstruit ; artefact local agrégé par arbre
 - Raison: Le loader produit une coupe spatiale par arbre avec ring width moyen et competition locale. C'est executable, mais reduit par rapport au modele temporel climat x competition du papier.
 
@@ -170,11 +170,11 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready"
+  status: "ready"
   eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

@@ -1,8 +1,8 @@
 ---
 title: paper_cluster_detection
 type: dataset
-created: 2026-08-13
-updated: 2026-08-13
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/paper_cluster_detection.rds
   - DataCite_2016_ClusterDetectionOfSpatial_10_1002_sim_7172
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 |---|---|---|---|---|
 | `y_response_simulated` | `numeric` | continuous | [-11.2008, 14.8403] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `cluster_detection`, la ou les reponses `y_response_simulated` viennent du loader papier et/ou des preuves de l article `Cluster detection of spatial regression coefficients`. Les covariables X retenues sont `x_covariate_simulated`. Les coordonnees (`long`, `lat`), identifiants (`State`, `County`, `FIPS`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : almost_ready_simulation ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `cluster_detection`, la ou les reponses `y_response_simulated` viennent du loader papier et/ou des preuves de l article `Cluster detection of spatial regression coefficients`. Les covariables X retenues sont `x_covariate_simulated`. Les coordonnees (`long`, `lat`), identifiants (`State`, `County`, `FIPS`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : excluded_simulation ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,7 +62,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - formula_pub: mu_i = beta0 + beta1*x_i (hors cluster) ; mu_i = (beta0+theta_j0) + (beta1+theta_j1)*x_i (dans le cluster C_j)
 - x_terms_pub: x_covariate_simulated
 - y_term_pub: y_response_simulated
-- Reference publication: Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
+- Reference publication: Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation.
 
 ### Statut regression canonique
 
@@ -70,14 +70,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation.
 
 ### Formule - niveau systeme
 
 - formula_used: y_response_simulated ~ x_covariate_simulated
 - x_terms_used: x_covariate_simulated
 - y_term_used: y_response_simulated
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-13). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation.
 
 ### Formules candidates
 
@@ -89,7 +89,7 @@ formula_candidates:
     predictors: ["x_covariate_simulated"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer."
+    source_ref: "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -139,7 +139,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer."
+  source_ref: "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation."
   confidence: medium
 ```
 
@@ -147,27 +147,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready_simulation"
+  benchmark_status: "excluded_simulation"
   benchmark_task: "regression_continuous_simulated"
-  package_include: "manual_review"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "confirmer que le benchmark accepte un dataset simule et non un cas empirique geographique"
-  reason: "Y/X et coordonnees disponibles, mais l'exemple principal est une simulation de coefficients spatiaux."
+  missing_items: "exclu du package benchmark empirique"
+  reason: "Y/X et coordonnees sont disponibles, mais l artefact local est un jeu simule de detection de clusters de coefficients, pas un benchmark empirique."
 ```
 
-- Decision: almost_ready_simulation
-- Manque principal: confirmer que le benchmark accepte un dataset simule et non un cas empirique geographique
-- Raison: Y/X et coordonnees disponibles, mais l'exemple principal est une simulation de coefficients spatiaux.
+- Decision: excluded_simulation
+- Manque principal: exclu du package benchmark empirique
+- Raison: Y/X et coordonnees sont disponibles, mais l artefact local est un jeu simule de detection de clusters de coefficients, pas un benchmark empirique.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "almost_ready_simulation"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors, coordinates/geometry and required W are executable in the local artifact"
+  status: "excluded_simulation"
+  eligible_estimators: []
+  conditionally_eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
+  ineligible_reason: "manual review required before package promotion"
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
 ## Bloc 4 - Typologie des donnees

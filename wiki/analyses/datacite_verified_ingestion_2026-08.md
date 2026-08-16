@@ -1,34 +1,30 @@
+---
+title: datacite_verified_ingestion_2026-08
+type: metadata
+created: 2026-08-15
+updated: 2026-08-15
+sources:
+  - tools/ingest_datacite_verified.py
+tags: [metadata, ingestion, datacite]
+---
+
 # Ingestion des candidats DataCite valides
 
-Date : 2026-08-12
+Date : 2026-08-15
 
-- Candidats `verified_candidate` traites : **21**
-- Entrees DataCite presentes dans `PaperDatasetUse` : **21**
-- Derniere execution : **12** insertion(s), **9** mise(s) a jour
+- Candidats `verified_candidate` traites : **3**
+- Entrees DataCite presentes dans `PaperDatasetUse` : **3**
+- Derniere execution : **0** insertion(s), **3** mise(s) a jour
 
 Ces lignes ne signifient pas encore que les datasets sont prets pour `spatialtidymodels`.
 Elles creent une file d'ingestion reproductible: PDF/data -> GROBID -> KG -> fiche dataset -> metadata package.
 
 | Dataset DOI | Publication DOI | Article | Dataset | Estimateurs detectes | Statut suivant |
 |---|---|---|---|---|---|
-| 10.5061/dryad.9p8cz8wdz | 10.1002/ece3.7059 | Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys | Consistent concentrations of critically endangered Balearic shearwaters in UK waters revealed by at-sea surveys | random_forest | candidate_dataset_download_pending |
-| 10.5061/dryad.w0vt4b954 | 10.1002/ece3.71650 | On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius ) | Data from: On the brink: Mapping the last strongholds of the critically endangered flapper skate ( Dipturus intermedius ) | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.prr4xgxmj | 10.1002/ece3.8359 | Environmental factors influencing spotted hyena and lion population biomass across Africa | Predator biomass, prey biomass landcover and climate data from spotted hyaena and lion sites in Africa | pending_tei | candidate_dataset_download_pending |
-| 10.6084/m9.figshare.1626651 | 10.1080/0013791x.2015.1104568 | Cost estimation using ANFIS | Cost estimation using ANFIS | kriging, OLS | rejected_user_excluded (code MATLAB seul, pas de dataset) |
-| 10.6084/m9.figshare.4478390 | 10.1080/01621459.2016.1261710 | MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction | MWPCR: Multiscale Weighted Principal Component Regression for High-Dimensional Prediction | pending_tei | candidate_dataset_download_pending |
-| 10.6084/m9.figshare.25897766 | 10.1080/01621459.2024.2359131 | Distributed Heterogeneity Learning for Generalized Partially Linear Models with Spatially Varying Coefficients | Distributed Heterogeneity Learning for Generalized Partially Linear Models with Spatially Varying Coefficients 1 | SVC | candidate_dataset_download_pending |
-| 10.5061/dryad.5qg30sd | 10.1098/rsos.190335 | Harbour porpoise responses to pile-driving diminish over time | Data from: Harbour porpoise responses to pile-driving diminish over time | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.c68cj62 | 10.1098/rspb.2018.0807 | Lower bumblebee colony reproductive success in agricultural compared with urban environments | Data from: Lower bumblebee colony reproductive success in agricultural compared to urban environments | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.fv322 | 10.1111/1365-2745.12782 | Climate and competition effects on tree growth in Rocky Mountain forests | Data from: Climate and competition effects on tree growth in Rocky Mountain forests | OLS | candidate_dataset_download_pending |
-| 10.5061/dryad.866t1g1n0 | 10.1111/ddi.13046 | A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces | A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.6m905qg03 | 10.1111/ddi.13297 | Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs | Data associated with ecological niche models and post-ENM statistical analyses for Trillium species distributions | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.pk0p2ngsd | 10.1111/ele.14351 | Understanding different dominance patterns in western Amazonian forests | Understanding different dominance patterns in western Amazonian forests | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.9kd51c5rr | 10.1111/ele.14478 | Reconstructing 120 years of climate change impacts on Joshua tree flowering | Data from: Reconstructing 120 years of climate change impacts on Joshua tree flowering | pending_tei | candidate_dataset_download_pending |
-| 10.5061/dryad.jr66k | 10.1111/eva.12161 | Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | Data from: Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | pending_tei | candidate_dataset_download_pending |
-| 10.5281/zenodo.15159899 | 10.1111/j.1461-0248.2007.01129.x | Global diversity of island floras from a macroecological perspective | Table 1 in Global diversity of island floras from a macroecological perspective | SAR | rejected_user_excluded (stub de traitement taxonomique Plazi, pas de dataset) |
-| 10.5061/dryad.ncjsxkszw | 10.1111/jbi.14708 | Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States | Forests on the move: Tracking climate-related treeline changes in mountains of the northeastern United States | OLS | candidate_dataset_download_pending |
-| 10.25384/sage.18902846.v1 | 10.1177/23998083211063885 | Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | GWR | rejected_user_excluded (dataset introuvable a l'URL sage.figshare.com) |
-| 10.5061/dryad.mw6m9063p | 10.1186/s42408-024-00264-0 | Climate limits vegetation green-up more than slope, soil erodibility, and immediate precipitation following high-severity wildfire | Climate is more influential to vegetation green-up than factors that contribute to erosion following high-severity wildfire | random_forest | candidate_dataset_download_pending |
-| 10.5061/dryad.f180j | 10.1371/journal.pone.0147909 | Time-Lag in Responses of Birds to Atlantic Forest Fragmentation: Restoration Opportunity and Urgency | Data from: Time-lag in responses of birds to Atlantic Forest fragmentation: restoration opportunity and urgency | pending_tei | candidate_dataset_download_pending |
-| 10.7910/dvn/gy65tp | 10.15196/rs04101 | The Improbable Nature of the Implied Correlation Matrix from Spatial Regression Models | The Improbable Nature of the Implied Correlation Matrix from Spatial Regression Models | SAR | rejected_user_excluded (page Dataverse introuvable, 404) |
-| 10.5061/dryad.sq72d | 10.1890/09-0879.1 | Multiple stressors and the cause of amphibian abnormalities | Data from: Multiple stressors and the cause of amphibian abnormalities | pending_tei | candidate_dataset_download_pending |
+| 10.5061/dryad.0cfxpnw7w | 10.1111/1365-2664.14526 | Numerical top-down effects on red deer ( Cervus elaphus ) are mainly shaped by humans rather than large carnivores across Europe | Data from: Numerical top-down effects on red deer (Cervus elaphus) are mainly shaped by humans rather than large carnivores across Europe | pending_tei | candidate_dataset_download_pending |
+| 10.25384/sage.18902846.v1 | 10.1177/23998083211063885 | Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | sj-csv-2-epb-10.1177_23998083211063885 - Supplemental Material for Uncovering spatial heterogeneity in real estate prices via combined hierarchical linear model and geographically weighted regression | GWR | candidate_dataset_download_pending |
+| 10.5066/p9pgal0d | 10.3133/sir20215015 | Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013 | Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania | pending_tei | candidate_dataset_download_pending |
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
