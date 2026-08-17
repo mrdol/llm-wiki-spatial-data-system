@@ -167,6 +167,21 @@ fit_custom_spatial_estimator <- function(entry, formula, data, coords) {
 }
 
 #' @export
-predict.spatialtidymodels_custom_fit <- function(object, new_data, ...) {
-  as.numeric(object$predict_fn(object$fit, new_data))
+predict.spatialtidymodels_custom_fit <- function(object, new_data = NULL, newdata = NULL, ...) {
+  # predict_vector_for_benchmark() (used during CV fold scoring) calls
+  # predict(fit, new_data = ...), the tidymodels convention; diagnose_spatial()'s
+  # internal predict_values_for_diagnostics() (used for in-sample diagnostics
+  # AND, critically, for the per-fold RMSE/MAE/Moran diagnostics computed
+  # inside CV scoring) calls predict(fit, newdata = ...), the base-R
+  # convention. Accepting only one silently breaks the other: R propagates an
+  # unmatched/missing argument through nested calls instead of erroring, so a
+  # mismatched name here doesn't fail loudly -- it falls through to
+  # predict.lm()'s no-newdata behaviour (in-sample fitted values), which is
+  # invisible for in-sample diagnostics (train == test, so it happens to look
+  # right) and silently wrong for every out-of-sample fold. Accept both names.
+  nd <- new_data %||% newdata
+  if (is.null(nd)) {
+    stop("predict.spatialtidymodels_custom_fit() requires `new_data` (or `newdata`).", call. = FALSE)
+  }
+  as.numeric(object$predict_fn(object$fit, nd))
 }
