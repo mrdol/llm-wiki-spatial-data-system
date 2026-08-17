@@ -151,6 +151,7 @@ formula_candidates:
 - Dataset DOI: 10.5281/zenodo.14715630
 - Source URL: https://doi.org/10.5281/zenodo.14715630
 - Year: unknown
+- Parent dataset: `paper_korea_hedonic_housing` (sous-ensemble temporel -- ne pas compter comme source independante, voir source_dataset_id)
 
 ## Bloc 3 - Typologie des modeles
 

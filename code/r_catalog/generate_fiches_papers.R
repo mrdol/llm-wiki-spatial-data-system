@@ -182,6 +182,25 @@ LOADER_TO_DIR <- c(
   korea_hedonic_housing_pre1989 = "DatasetFirst_10_5281_zenodo_14715630"
 )
 
+# -- Datasets derives par decoupage (splits) d'une source independante ------
+# Un split (ex. korea_hedonic_housing_2012) est un benchmark_task_id a part
+# entiere -- il a sa propre fiche, son propre .rds, son propre statut de
+# promotion -- mais ce n'est PAS une source de donnees independante : c'est
+# le meme jeu de donnees original que son parent, juste filtre sur une
+# periode. Cette table alimente le champ "Parent dataset" du Bloc 2, lu par
+# code/package_metadata/export_spatialtidymodels_metadata.py pour calculer
+# source_dataset_id (l'identite "source independante" a des fins de comptage,
+# cf. wiki/metadata/dataset_distribution_architecture_2026-08.md section M) --
+# sans cette table, chacun des 32 splits de korea_hedonic_housing compterait
+# comme une source distincte et dominerait artificiellement un verdict
+# agrege par nombre de "datasets".
+PARENT_DATASET <- (function() {
+  years <- c(1989:2019, "pre1989")
+  out <- stats::setNames(rep("korea_hedonic_housing", length(years)),
+                          paste0("korea_hedonic_housing_", years))
+  as.list(out)
+})()
+
 # -- Formules et notes verifiees par lecture directe du papier source --------
 # Contrairement au reste de la fiche (typologie/N/T/CRS calcules depuis le
 # .rds), ces entrees ne sont PAS derivees automatiquement : chaque formule
@@ -3498,9 +3517,15 @@ for (record_id in records_to_generate) {
     fcb
   )
 
+  parent_dataset <- PARENT_DATASET[[record_id]]
+  parent_line <- if (!is.null(parent_dataset)) {
+    sprintf("\n- Parent dataset: `paper_%s` (sous-ensemble temporel -- ne pas compter comme source independante, voir source_dataset_id)", parent_dataset)
+  } else {
+    ""
+  }
   bloc2_block <- sprintf(
-    "## Bloc 2 - Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: unknown",
-    record_id, dataset_name, paper_title, paper_doi, dataset_doi, source_url
+    "## Bloc 2 - Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: unknown%s",
+    record_id, dataset_name, paper_title, paper_doi, dataset_doi, source_url, parent_line
   )
 
   bloc3_block <- sprintf(

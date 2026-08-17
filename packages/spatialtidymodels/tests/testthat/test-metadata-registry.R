@@ -71,6 +71,35 @@ test_that("les relations dataset-estimateur viennent des fiches Markdown exporte
   expect_match(columbus$eligibility_notes, "fiche Markdown")
 })
 
+test_that("le registre distingue benchmark_task_id (par fiche) de source_dataset_id (source independante)", {
+  datasets <- available_benchmark_datasets()
+  expect_true(all(c(
+    "dataset_id", "parent_dataset", "source_dataset_id", "benchmark_task_id",
+    "bundled", "storage"
+  ) %in% names(datasets)))
+
+  korea <- datasets[grepl("korea_hedonic_housing", datasets$dataset_id), , drop = FALSE]
+  skip_if(nrow(korea) == 0L, "korea_hedonic_housing family not present in this registry snapshot")
+
+  # 32 temporal splits + 1 parent = 33 distinct benchmark tasks...
+  expect_equal(length(unique(korea$benchmark_task_id)), nrow(korea))
+  # ...but exactly ONE independent source: splitting a dataset into many
+  # yearly benchmark tasks must not let it silently count as many sources.
+  expect_equal(length(unique(korea$source_dataset_id)), 1L)
+  expect_equal(unique(korea$source_dataset_id), "paper_korea_hedonic_housing")
+
+  parent_row <- korea[korea$dataset_id == "paper_korea_hedonic_housing", , drop = FALSE]
+  expect_true(is.na(parent_row$parent_dataset))
+  split_rows <- korea[korea$dataset_id != "paper_korea_hedonic_housing", , drop = FALSE]
+  expect_true(all(split_rows$parent_dataset == "paper_korea_hedonic_housing"))
+
+  # bundled/storage: only the 7 legacy native-data() datasets are "bundled".
+  bundled <- datasets[isTRUE(datasets$bundled) | datasets$bundled %in% TRUE, , drop = FALSE]
+  expect_setequal(bundled$dataset, c("georgia", "columbus_crime", "london_hp", "boston_housing", "dub_voter", "ewhp", "lasrosas"))
+  expect_true(all(bundled$storage == "bundled"))
+  expect_true(all(korea$storage == "repo_only")) # none of the korea splits are bundled
+})
+
 test_that("le registre expose la taxonomie family/role/reference_estimator/variant_family", {
   estimators <- available_benchmark_estimators(include_installed = FALSE)
   expect_true(all(c("family", "role", "reference_estimator", "variant_family") %in% names(estimators)))

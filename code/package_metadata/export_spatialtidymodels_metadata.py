@@ -954,9 +954,24 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         source_ref=source_ref,
     )
     publication_doi = bullet_value(body, "Publication DOI") or bullet_value(body, "Paper DOI")
+    # "Parent dataset" (Bloc 2, e.g. paper_korea_hedonic_housing_2012's fiche)
+    # marks a fiche as a temporal/other split of an independent source, not a
+    # source in its own right. source_dataset_id is the identity to count
+    # independent sources by; benchmark_task_id is always this fiche's own id
+    # (one evaluable task per fiche, split or not). See
+    # wiki/metadata/dataset_distribution_architecture_2026-08.md.
+    parent_dataset_raw = bullet_value(body, "Parent dataset")
+    parent_dataset = None
+    if parent_dataset_raw:
+        match = re.match(r"`([^`]+)`", parent_dataset_raw.strip())
+        if match:
+            parent_dataset = match.group(1)
     record = {
         "dataset": re.sub(r"[^A-Za-z0-9]+", "_", dataset_id).strip("_").lower(),
         "dataset_id": dataset_id,
+        "parent_dataset": parent_dataset,
+        "source_dataset_id": parent_dataset or dataset_id,
+        "benchmark_task_id": dataset_id,
         "title": yaml_title(text, path.stem),
         "topic": bullet_value(body, "Topic") or description_fallbacks["topic"],
         "observation_unit": bullet_value(body, "Observation unit") or description_fallbacks["observation_unit"],
@@ -1070,6 +1085,26 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
                 if row.get("basis") in {"scientific_evidence", "benchmark_use"}
             ]
         record["benchmark_ready"] = True
+
+    # Distribution architecture (see wiki/metadata/dataset_distribution_
+    # architecture_2026-08.md): "bundled" datasets are the 7 native package
+    # data() objects, resolvable without the repo (data_object set above, via
+    # DATASET_ALIASES); everything else is "repo_only" today -- readable only
+    # from within the llm-wiki-karpathy repo's data/final_datasets/sf/. A
+    # future "remote_cached" value is intentionally NOT populated here: it
+    # requires an actual external hosting decision (Option 3), not yet made.
+    record["bundled"] = record.get("data_object") is not None
+    record["storage"] = "bundled" if record["bundled"] else "repo_only"
+    # Fields reserved for the future download/cache architecture (Option 3).
+    # Left unpopulated rather than guessed: license verification and hosting
+    # are pending decisions, not something this script can determine from a
+    # wiki fiche alone.
+    record.setdefault("benchmark_suite", [])
+    record.setdefault("download_url", None)
+    record.setdefault("redistribution_allowed", None)
+    record.setdefault("license_verified", False)
+    record.setdefault("checksum_sha256", None)
+    record.setdefault("size_bytes", None)
     return record
 
 

@@ -85,6 +85,27 @@ metadata_dataset_registry <- function() {
   for (field in c("eligibility_basis", "eligibility_source_ref", "eligibility_notes")) {
     out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
   }
+  # Distribution architecture / split-vs-independent-source bookkeeping (see
+  # wiki/metadata/dataset_distribution_architecture_2026-08.md). Falls back
+  # to dataset-is-its-own-source and repo_only for a datasets.json generated
+  # before these fields existed.
+  out$dataset_id <- if ("dataset_id" %in% names(records)) as.character(records$dataset_id) else as.character(records$dataset)
+  out$parent_dataset <- if ("parent_dataset" %in% names(records)) as.character(records$parent_dataset) else NA_character_
+  out$source_dataset_id <- if ("source_dataset_id" %in% names(records)) as.character(records$source_dataset_id) else out$dataset_id
+  out$benchmark_task_id <- if ("benchmark_task_id" %in% names(records)) as.character(records$benchmark_task_id) else out$dataset_id
+  out$bundled <- if ("bundled" %in% names(records)) as.logical(records$bundled) else !is.na(out$data_object)
+  out$storage <- if ("storage" %in% names(records)) as.character(records$storage) else ifelse(out$bundled, "bundled", "repo_only")
+  if ("benchmark_suite" %in% names(records)) {
+    out$benchmark_suite <- as_character_list_column(records$benchmark_suite)
+  } else {
+    out$benchmark_suite <- I(rep(list(character()), nrow(out)))
+  }
+  for (field in c("download_url", "checksum_sha256")) {
+    out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
+  }
+  out$redistribution_allowed <- if ("redistribution_allowed" %in% names(records)) as.logical(records$redistribution_allowed) else NA
+  out$license_verified <- if ("license_verified" %in% names(records)) as.logical(records$license_verified) else FALSE
+  out$size_bytes <- if ("size_bytes" %in% names(records)) as.numeric(records$size_bytes) else NA_real_
   out$dataset <- as.character(out$dataset)
   out$data_object <- as.character(out$data_object)
   out$rds <- as.character(out$rds)
