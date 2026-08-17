@@ -123,6 +123,18 @@ d'estimateurs sur plusieurs jeux de donnees declares par
 `london_hp`; `lsl` est volontairement laisse hors de ces tests de regression
 car sa cible scientifique est binaire.
 
+Le registre porte aussi une taxonomie `family`/`role`/`reference_estimator`/
+`variant_family` (colonnes de `available_benchmark_estimators()`), qui
+identifie quel estimateur est la reference "canonique" d'une famille
+statistique (SAR, SEM, GWR, ...) et lesquels en sont des variantes -- c'est
+ce que consomme `compare_estimator_variant()` par convention et ce qu'un
+futur dashboard pourra utiliser pour grouper les estimateurs sans coder ces
+relations en dur. Definie une seule fois dans `ESTIMATOR_TAXONOMY`
+(`code/package_metadata/export_spatialtidymodels_metadata.py`), pas editee a
+la main dans le JSON installe. `register_spatial_estimator()` accepte les
+memes champs (`family`, `reference_estimator`, `variant_family`) pour un
+estimateur enregistre par l'utilisateur.
+
 Routes automatisees dans cette couche package: `ols`, `gam_spatial`,
 `gamboost`, `earth`, `earth_xy`, `random_forest`, `random_forest_xy`, `xgboost`,
 `xgboost_xy`, `sar_lag`, `sem_error`, `sdm_mixed`, `spboost`,
