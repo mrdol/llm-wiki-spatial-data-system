@@ -1,15 +1,15 @@
 ---
 title: paper_korea_hedonic_housing
 type: dataset
-created: 2026-08-16
-updated: 2026-08-16
+created: 2026-08-17
+updated: 2026-08-17
 sources:
   - data/final_datasets/sf/paper_korea_hedonic_housing.rds
   - DatasetFirst_10_5281_zenodo_14715630
 tags: [dataset, paper-derived, spatial, point]
 ---
 
-Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-first, publication non resolue] Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju" (DOI unknown).
+Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic dataset of the metropolitan housing market -- Cases in South Korea" (DOI 10.1016/j.dib.2021.106877).
 
 ## Description du jeu de donnees
 
@@ -18,10 +18,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Observed population: transactions residentielles, 4 villes coreennes (Busan, Daegu, Daejeon, Gwangju), N=178719
 - Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
 - Temporal context: 46 distinct periods (variable: Year)
-- Source description: [dataset-first, publication non resolue] Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju
+- Source description: Hedonic dataset of the metropolitan housing market -- Cases in South Korea
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
-- Paper DOI: unknown
+- Paper DOI: 10.1016/j.dib.2021.106877
 - Dataset DOI: 10.5281/zenodo.14715630
 - Source URL: https://doi.org/10.5281/zenodo.14715630
 - Local raw dir: `data/raw/papers/DatasetFirst_10_5281_zenodo_14715630/`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `Housing.price` | `numeric` | continuous | [1000, 414340] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 23 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `Hedonic dataset of the metropolitan housing market -- Cases in South Korea`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 23 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -97,14 +97,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance
 - x_terms_used: Area, Floor, Subway.distance, Population.density, Green.space.distance
 - y_term_used: Housing.price
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -147,8 +147,8 @@ formula_candidates:
 - Dataset name: Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
-- Paper title: [dataset-first, publication non resolue] Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju
-- Paper DOI: unknown
+- Paper title: Hedonic dataset of the metropolitan housing market -- Cases in South Korea
+- Paper DOI: 10.1016/j.dib.2021.106877
 - Dataset DOI: 10.5281/zenodo.14715630
 - Source URL: https://doi.org/10.5281/zenodo.14715630
 - Year: unknown
@@ -243,5 +243,5 @@ estimator_eligibility:
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
-- Source: [dataset-first, publication non resolue] Aggregated hedonic datasets for Busan, Daegu, Daejeon, and Gwangju
+- Source: Hedonic dataset of the metropolitan housing market -- Cases in South Korea
 

@@ -145,7 +145,41 @@ LOADER_TO_DIR <- c(
   banff_stream_temperature = "DatasetFirst_10_5061_dryad_crjdfn391",
   global_nee_gwxgboost = "DatasetFirst_10_5281_zenodo_21635729",
   california_wildfire_growth = "DatasetFirst_10_5281_zenodo_7569337",
-  swiss_heat_exposure = "DatasetFirst_10_5281_zenodo_16923676"
+  swiss_heat_exposure = "DatasetFirst_10_5281_zenodo_16923676",
+
+  # -- Decoupage temporel de korea_hedonic_housing (session 2026-08-17) ------
+  korea_hedonic_housing_1989 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1990 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1991 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1992 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1993 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1994 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1995 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1996 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1997 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1998 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_1999 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2000 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2001 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2002 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2003 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2004 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2005 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2006 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2007 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2008 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2009 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2010 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2011 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2012 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2013 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2014 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2015 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2016 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2017 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2018 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_2019 = "DatasetFirst_10_5281_zenodo_14715630",
+  korea_hedonic_housing_pre1989 = "DatasetFirst_10_5281_zenodo_14715630"
 )
 
 # -- Formules et notes verifiees par lecture directe du papier source --------
@@ -1158,6 +1192,391 @@ FORMULA_OVERRIDES <- list(
     ml_estimator_context = c("bym2", "car_besag", "gam_spatial", "gwr", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
     source_ref = "Papier identifie via recherche web (session 2026-08-17) : Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables (pas une regression lineaire classique) sur la mortalite toutes causes en Suisse ; le resume officiel confirme que les disparites spatiales de mortalite liee a la chaleur sont expliquees principalement par la structure d'age, les espaces verts (green space) et les vulnerabilites liees a l'exposition -- ces deux dernieres correspondent aux colonnes reelles greenspace/urbanicity du shapefile joint. RDS originaux (data_60_open.rds, panel deces population 65+ ; Swiss_new_open.rds, geometrie communale + NDVI/greenspace) telecharges directement depuis Zenodo -- pas une reconstruction, N=2368080 (panel 2145 communes x ~1104 jours, 2011-2022), jointure par id_region (cle deja partagee entre les deux fichiers). Geometrie convertie en centroide avant jointure pour eviter la duplication memoire d'un polygone complexe sur 2.3M lignes (correction technique, pas une alteration des donnees). Dataset garde en un seul panel (pas de decoupage par sous-population : la colonne 'age' n'a qu'un seul niveau -- Y_GE65, population 65+ uniquement -- dans ce depot public 'open' ; decouper par annee ou par commune detruirait la structure spatio-temporelle du panel sans repondre a un critere de sous-population reellement distinct, contrairement aux cas PM2.5/O3/NO2 ou especes de corail deja separes dans ce wiki). formula_used simplifie le modele BYM2 non-lineaire en regression lineaire multiple, une simplification documentee, pas la specification exacte du papier. package_include laisse en manual_review pour cette raison."
+  ),
+
+  korea_hedonic_housing_1989 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1989, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=2424 transactions, 69 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1990 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1990, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=1794 transactions, 65 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1991 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1991, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=3828 transactions, 98 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1992 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1992, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5697 transactions, 156 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1993 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1993, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5432 transactions, 164 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1994 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1994, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6771 transactions, 169 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1995 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1995, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6914 transactions, 177 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1996 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1996, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=9261 transactions, 180 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1997 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1997, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=9135 transactions, 186 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1998 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1998, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6485 transactions, 135 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_1999 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1999, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5572 transactions, 103 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2000 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2000, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6599 transactions, 144 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2001 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2001, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4165 transactions, 144 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2002 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2002, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4799 transactions, 257 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2003 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2003, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6122 transactions, 372 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2004 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2004, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4346 transactions, 234 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2005 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2005, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6559 transactions, 193 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2006 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2006, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=7328 transactions, 193 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2007 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2007, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5510 transactions, 147 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2008 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2008, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6084 transactions, 107 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2009 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2009, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4816 transactions, 82 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2010 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2010, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=3463 transactions, 57 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2011 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2011, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4302 transactions, 81 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2012 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2012, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=2981 transactions, 98 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2013 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2013, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5694 transactions, 152 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2014 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2014, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5622 transactions, 170 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2015 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2015, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=6986 transactions, 180 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2016 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2016, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5868 transactions, 239 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2017 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2017, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4990 transactions, 225 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2018 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2018, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=4260 transactions, 189 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_2019 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 2019, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=1810 transactions, 131 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  korea_hedonic_housing_pre1989 = list(
+    formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]",
+    formula_used = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance",
+    y_term_pub = "Housing.price (prix du logement -- Condominium price, KRW)",
+    x_terms_pub = c("Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"),
+    ml_formula = "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance + Maximum.floor + Higher.degree.ratio + City",
+    ml_response = "Housing.price",
+    ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
+    ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
+    ml_status = "executable_continuous_variant",
+    source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de les annees clairsemees 1969-1988 regroupees en un seul sous-ensemble (2 a 69 localisations distinctes par annee prise isolement, jugees trop eparses pour un decoupage annuel individuel), donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=13102 transactions, 510 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
   )
 )
 
@@ -1968,6 +2387,231 @@ PAPER_READINESS <- list(
     package_include = "manual_review",
     missing_items = "le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables, pas une regression lineaire -- formula_used simplifie en regression multiple lineaire ; package_include laisse en manual_review pour cette raison",
     reason = "Y continu/comptage reel (deaths, deces quotidiens population 65+), N=2368080 (panel 2145 communes x ~1104 jours) avec coordonnees reelles (centroides communaux). RDS originaux telecharges directement depuis Zenodo, pas une reconstruction. Papier identifie via recherche web (Chen et al. 2025, JRSS Series A)."
+  ),
+
+  korea_hedonic_housing_1989 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1989 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=2424 transactions, 69 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1990 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1990 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=1794 transactions, 65 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1991 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1991 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=3828 transactions, 98 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1992 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1992 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5697 transactions, 156 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1993 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1993 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5432 transactions, 164 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1994 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1994 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6771 transactions, 169 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1995 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1995 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6914 transactions, 177 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1996 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1996 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=9261 transactions, 180 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1997 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1997 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=9135 transactions, 186 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1998 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1998 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6485 transactions, 135 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_1999 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1999 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5572 transactions, 103 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2000 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2000 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6599 transactions, 144 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2001 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2001 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4165 transactions, 144 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2002 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2002 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4799 transactions, 257 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2003 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2003 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6122 transactions, 372 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2004 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2004 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4346 transactions, 234 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2005 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2005 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6559 transactions, 193 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2006 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2006 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=7328 transactions, 193 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2007 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2007 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5510 transactions, 147 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2008 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2008 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6084 transactions, 107 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2009 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2009 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4816 transactions, 82 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2010 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2010 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=3463 transactions, 57 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2011 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2011 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4302 transactions, 81 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2012 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2012 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=2981 transactions, 98 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2013 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2013 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5694 transactions, 152 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2014 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2014 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5622 transactions, 170 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2015 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2015 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=6986 transactions, 180 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2016 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2016 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=5868 transactions, 239 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2017 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2017 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4990 transactions, 225 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2018 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2018 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=4260 transactions, 189 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_2019 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2019 du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=1810 transactions, 131 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  ),
+  korea_hedonic_housing_pre1989 = list(
+    benchmark_status = "ready",
+    benchmark_task = "regression_continuous",
+    package_include = "yes",
+    missing_items = "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include=\"yes\" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau",
+    reason = "Y continu reel (Housing.price), sous-ensemble temporel de les annees clairsemees 1969-1988 regroupees en un seul sous-ensemble (2 a 69 localisations distinctes par annee prise isolement, jugees trop eparses pour un decoupage annuel individuel) du dataset parent deja promu package_include=\"yes\" (paper_korea_hedonic_housing, session 2026-08-16). N=13102 transactions, 510 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
   )
 )
 
@@ -2287,6 +2931,19 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
     topic <- "ecologie du mouvement / covariables environnementales le long de trajectoires GPS"
     unit <- "position GPS (fix)"
     population <- "positions GPS de gnous, Serengeti (43 individus, 1999-2016), N=94006"
+  } else if (grepl("^korea_hedonic_housing_", record_id)) {
+    period_label <- sub("^korea_hedonic_housing_", "", record_id)
+    period_txt <- if (identical(period_label, "pre1989")) {
+      "annees 1969-1988 regroupees (sous-ensemble clairseme)"
+    } else {
+      sprintf("annee %s", period_label)
+    }
+    topic <- "economie immobiliere / prix hedoniques en Coree du Sud"
+    unit <- "transaction immobiliere"
+    population <- sprintf(
+      "transactions residentielles, 4 villes coreennes (Busan, Daegu, Daejeon, Gwangju) -- sous-ensemble temporel (%s) du dataset parent paper_korea_hedonic_housing (N total parent = 178719) ; voir Bloc 4 pour le N exact de ce sous-ensemble",
+      period_txt
+    )
   } else if (grepl("korea_hedonic_housing|busan|daegu|daejeon|gwangju", text)) {
     topic <- "economie immobiliere / prix hedoniques en Coree du Sud"
     unit <- "transaction immobiliere"

@@ -3707,6 +3707,372 @@ load_avian_phylo_functional_distance <- function() {
   )
 }
 
+# --- Loaders derives : decoupage temporel de korea_hedonic_housing --------
+# Sous-ensembles annuels (1989-2019, chacun garde toutes les localisations
+# distinctes presentes cette annee-la -- W reste construisible sans
+# coordonnees dupliquees) + un bloc groupe pour les annees clairsemees
+# 1969-1988 (2 a 69 localisations distinctes par annee, trop eparses
+# individuellement). Meme formule/Y/X que le dataset parent (Housing.price ~
+# Area + Floor + Subway.distance + Population.density + Green.space.distance) --
+# aucune de ces variables n'est Year, donc le decoupage temporel ne touche pas
+# a la formule. Les .rds sont deja decoupes sur disque (voir
+# code/r_catalog/split_korea_hedonic_housing.R) ; ce loader ne fournit que les
+# metadonnees de colonnes pour generate_fiches_papers.R (meme structure de
+# colonnes que le parent, Year retire car constante/redondante avec T dans
+# chaque sous-ensemble annuel).
+
+load_korea_hedonic_housing_1989 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1990 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1991 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1992 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1993 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1994 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1995 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1996 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1997 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1998 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_1999 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2000 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2001 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2002 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2003 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2004 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2005 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2006 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2007 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2008 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2009 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2010 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2011 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2012 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2013 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2014 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2015 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2016 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2017 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2018 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_2019 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
+load_korea_hedonic_housing_pre1989 <- function() {
+  list(
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "City",
+      datetime_columns = "T",
+      candidate_y_variables = "Housing.price"
+    )
+  )
+}
+
 PAPER_DATASET_LOADERS <- list(
   metacomnet = load_metacomnet,
   cluster_detection = load_cluster_detection,
@@ -3822,7 +4188,40 @@ PAPER_DATASET_LOADERS <- list(
   banff_stream_temperature = load_banff_stream_temperature,
   global_nee_gwxgboost = load_global_nee_gwxgboost,
   california_wildfire_growth = load_california_wildfire_growth,
-  swiss_heat_exposure = load_swiss_heat_exposure
+  swiss_heat_exposure = load_swiss_heat_exposure,
+
+  korea_hedonic_housing_1989 = load_korea_hedonic_housing_1989,
+  korea_hedonic_housing_1990 = load_korea_hedonic_housing_1990,
+  korea_hedonic_housing_1991 = load_korea_hedonic_housing_1991,
+  korea_hedonic_housing_1992 = load_korea_hedonic_housing_1992,
+  korea_hedonic_housing_1993 = load_korea_hedonic_housing_1993,
+  korea_hedonic_housing_1994 = load_korea_hedonic_housing_1994,
+  korea_hedonic_housing_1995 = load_korea_hedonic_housing_1995,
+  korea_hedonic_housing_1996 = load_korea_hedonic_housing_1996,
+  korea_hedonic_housing_1997 = load_korea_hedonic_housing_1997,
+  korea_hedonic_housing_1998 = load_korea_hedonic_housing_1998,
+  korea_hedonic_housing_1999 = load_korea_hedonic_housing_1999,
+  korea_hedonic_housing_2000 = load_korea_hedonic_housing_2000,
+  korea_hedonic_housing_2001 = load_korea_hedonic_housing_2001,
+  korea_hedonic_housing_2002 = load_korea_hedonic_housing_2002,
+  korea_hedonic_housing_2003 = load_korea_hedonic_housing_2003,
+  korea_hedonic_housing_2004 = load_korea_hedonic_housing_2004,
+  korea_hedonic_housing_2005 = load_korea_hedonic_housing_2005,
+  korea_hedonic_housing_2006 = load_korea_hedonic_housing_2006,
+  korea_hedonic_housing_2007 = load_korea_hedonic_housing_2007,
+  korea_hedonic_housing_2008 = load_korea_hedonic_housing_2008,
+  korea_hedonic_housing_2009 = load_korea_hedonic_housing_2009,
+  korea_hedonic_housing_2010 = load_korea_hedonic_housing_2010,
+  korea_hedonic_housing_2011 = load_korea_hedonic_housing_2011,
+  korea_hedonic_housing_2012 = load_korea_hedonic_housing_2012,
+  korea_hedonic_housing_2013 = load_korea_hedonic_housing_2013,
+  korea_hedonic_housing_2014 = load_korea_hedonic_housing_2014,
+  korea_hedonic_housing_2015 = load_korea_hedonic_housing_2015,
+  korea_hedonic_housing_2016 = load_korea_hedonic_housing_2016,
+  korea_hedonic_housing_2017 = load_korea_hedonic_housing_2017,
+  korea_hedonic_housing_2018 = load_korea_hedonic_housing_2018,
+  korea_hedonic_housing_2019 = load_korea_hedonic_housing_2019,
+  korea_hedonic_housing_pre1989 = load_korea_hedonic_housing_pre1989
 )
 
 

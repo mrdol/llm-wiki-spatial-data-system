@@ -22,8 +22,8 @@ Il ne promeut aucun dataset vers le package : il sert a decider quoi verifier, t
 
 ## Bilan
 
-- Candidats consolides : 398
-- Priorite `high` : 104
+- Candidats consolides : 430
+- Priorite `high` : 136
 - Priorite `low` : 167
 - Priorite `medium` : 127
 
@@ -45,7 +45,7 @@ Il ne promeut aucun dataset vers le package : il sert a decider quoi verifier, t
 - `not_ready_non_geographic_neuroimaging_adni_restricted` : 1
 - `not_ready_prediction_product` : 3
 - `not_ready_raw_training_data_on_request` : 1
-- `ready` : 105
+- `ready` : 137
 
 ## Candidats prioritaires
 
@@ -141,6 +141,38 @@ Il ne promeut aucun dataset vers le package : il sert a decider quoi verifier, t
 | high | paper_fhb_ensembling | Shah, D.A., De Wolf, E.D., Paul, P.A. & Madden, L.V. (2021), Accuracy in the pre | ready | Y continu reel (S, severite FHB %), panel spatio-temporel non-equilibre reel (80 sites x jusqu'a 32 ans), N=985 apres ge |
 | high | paper_goa_trawl_demersal | Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal  | ready | Y continu reel (CPUE de fletan a dents fines), N=9213 traits de chalut avec coordonnees reelles (Golfe d'Alaska, 1984-20 |
 | high | paper_plant_invasion_fia | Shen, LaRue, Fei & Zhang (2024), Ecology and Evolution, DOI 10.1002/ece3.11605;  | ready | 41 covariables ecologiques documentees dans README.md, LAT/LON confirmes, N=42612 apres apurement complete.cases() (papi |
+| high | paper_korea_hedonic_housing_1989 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1989 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1990 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1990 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1991 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1991 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1992 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1992 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1993 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1993 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1994 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1994 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1995 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1995 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1996 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1996 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1997 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1997 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1998 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1998 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_1999 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1999 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2000 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2000 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2001 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2001 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2002 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2002 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2003 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2003 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2004 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2004 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2005 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2005 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2006 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2006 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2007 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2007 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2008 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2008 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2009 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2009 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2010 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2010 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2011 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2011 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2012 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2012 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2013 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2013 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2014 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2014 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2015 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2015 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2016 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2016 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2017 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2017 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2018 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2018 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_2019 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de l'annee 2019 du dataset parent deja promu package_include='yes |
+| high | paper_korea_hedonic_housing_pre1989 | Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja packa | ready | Y continu reel (Housing.price), sous-ensemble temporel de les annees clairsemees 1969-1988 regroupees en un seul sous-en |
 | high | paper_kodiak_puffin_density | Stoner, Corcoran, Arimitsu, Piatt & Lyons (2026), Spatiotemporal species distrib | ready | Y continu reel (densite de macareux en mer), N=17908 (8954 transects x 2 especes, correspond exactement au resume offici |
 | high | paper_uk_linear_features_birds | Sullivan et al. (2017), A national-scale model of linear features improves predi | ready | Y continu/comptage reel (abondance totale d'oiseaux BBS), N=3312 sites avec coordonnees reelles (Royaume-Uni, converties |
 | high | paper_teles_decapod_biodiversity_brazil | Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI :  | ready | Y biodiversite continue (PD.SES), covariables environnementales et coordonnees sont disponibles; modele RF et diagnostic |
