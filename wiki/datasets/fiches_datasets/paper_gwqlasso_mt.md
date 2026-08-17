@@ -72,14 +72,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Yield_kg_ha ~ precip_annual_mm
 - x_terms_used: precip_annual_mm
 - y_term_used: Yield_kg_ha
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -91,7 +91,7 @@ formula_candidates:
     predictors: ["SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -111,7 +111,7 @@ formula_candidates:
     predictors: ["precip_annual_mm", "Year"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gwr", "quantile_regression", "lasso", "random_forest"]
     status: "executable_continuous_variant"
 ```

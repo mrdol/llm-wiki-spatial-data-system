@@ -89,14 +89,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Limite
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet
 - x_terms_used: Nunatak_distance, Refugia_distance_all, Deglac, Elev_mean, Precip_total, Temp_annual, Pet
 - y_term_used: Standardised_SR
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -118,7 +118,7 @@ formula_candidates:
     predictors: ["Nunatak_distance (distance aux refuges glaciaires de haute altitude)", "Refugia_distance_all (distance a tous les refuges peripheriques)", "Deglac (temps depuis la deglaciation)", "Elev_mean (elevation moyenne)", "Precip_total (precipitation totale)", "Temp_annual (temperature annuelle)", "Pet (evapotranspiration potentielle)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -128,7 +128,7 @@ formula_candidates:
     predictors: ["Nunatak_distance", "Refugia_distance_all", "Deglac", "Elev_mean", "Precip_total", "Temp_annual", "Pet", "Slope_deg", "Velocity_med"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "gwr"]
     status: "executable_continuous_variant"
 ```

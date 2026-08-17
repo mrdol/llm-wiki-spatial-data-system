@@ -81,14 +81,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Cramer, M.D. & Verboom, G.A. (2019), New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models, Diversity and Distributions, doi:10.1111/ddi.12973. CSV original (GCFR_soil.csv) telecharge directement depuis Dryad (10.5061/dryad.37qc017) -- pas une reconstruction, N=2767 points d'echantillonnage de sol (Greater Cape Floristic Region, Afrique du Sud). Le papier utilise ces points pour interpoler des couches de sol regionales (methode SoilGrids ameliore), elles-memes covariables d'un modele separe de type de vegetation non inclus dans ce depot -- formula_used est une reformulation raisonnable en regression continue (N_total_. ~ pH_extract + C_total_.), documentee comme telle, pas la formule publiee du papier. Verification empirique (session 2026-08-16) : 1927/2767 cas complets pour ce triplet (contre 0 cas complets pour la formule initiale pH_H2O ~ 7 covariables, pH_H2O n'ayant que 31 valeurs non-NA).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: N_total_. ~ pH_extract + C_total_.
 - x_terms_used: pH_extract, C_total_.
 - y_term_used: N_total_.
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Cramer, M.D. & Verboom, G.A. (2019), New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models, Diversity and Distributions, doi:10.1111/ddi.12973. CSV original (GCFR_soil.csv) telecharge directement depuis Dryad (10.5061/dryad.37qc017) -- pas une reconstruction, N=2767 points d'echantillonnage de sol (Greater Cape Floristic Region, Afrique du Sud). Le papier utilise ces points pour interpoler des couches de sol regionales (methode SoilGrids ameliore), elles-memes covariables d'un modele separe de type de vegetation non inclus dans ce depot -- formula_used est une reformulation raisonnable en regression continue (N_total_. ~ pH_extract + C_total_.), documentee comme telle, pas la formule publiee du papier. Verification empirique (session 2026-08-16) : 1927/2767 cas complets pour ce triplet (contre 0 cas complets pour la formule initiale pH_H2O ~ 7 covariables, pH_H2O n'ayant que 31 valeurs non-NA).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -110,7 +110,7 @@ formula_candidates:
     predictors: ["pH_extract (pH du sol par extraction, meilleure couverture que pH_H2O)", "C_total_. (carbone total du sol, %, correlat classique de l'azote)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Cramer, M.D. & Verboom, G.A. (2019), New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models, Diversity and Distributions, doi:10.1111/ddi.12973. CSV original (GCFR_soil.csv) telecharge directement depuis Dryad (10.5061/dryad.37qc017) -- pas une reconstruction, N=2767 points d'echantillonnage de sol (Greater Cape Floristic Region, Afrique du Sud). Le papier utilise ces points pour interpoler des couches de sol regionales (methode SoilGrids ameliore), elles-memes covariables d'un modele separe de type de vegetation non inclus dans ce depot -- formula_used est une reformulation raisonnable en regression continue (N_total_. ~ pH_extract + C_total_.), documentee comme telle, pas la formule publiee du papier. Verification empirique (session 2026-08-16) : 1927/2767 cas complets pour ce triplet (contre 0 cas complets pour la formule initiale pH_H2O ~ 7 covariables, pH_H2O n'ayant que 31 valeurs non-NA)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -120,7 +120,7 @@ formula_candidates:
     predictors: ["pH_extract", "C_total_."]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Cramer, M.D. & Verboom, G.A. (2019), New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models, Diversity and Distributions, doi:10.1111/ddi.12973. CSV original (GCFR_soil.csv) telecharge directement depuis Dryad (10.5061/dryad.37qc017) -- pas une reconstruction, N=2767 points d'echantillonnage de sol (Greater Cape Floristic Region, Afrique du Sud). Le papier utilise ces points pour interpoler des couches de sol regionales (methode SoilGrids ameliore), elles-memes covariables d'un modele separe de type de vegetation non inclus dans ce depot -- formula_used est une reformulation raisonnable en regression continue (N_total_. ~ pH_extract + C_total_.), documentee comme telle, pas la formule publiee du papier. Verification empirique (session 2026-08-16) : 1927/2767 cas complets pour ce triplet (contre 0 cas complets pour la formule initiale pH_H2O ~ 7 covariables, pH_H2O n'ayant que 31 valeurs non-NA)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gwr", "kriging", "random_forest", "ols"]
     status: "executable_continuous_variant"
 ```

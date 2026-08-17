@@ -82,14 +82,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6
 - x_terms_used: PC1, PC2, PC3, PC4, PC5, PC6
 - y_term_used: PRES
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -101,7 +101,7 @@ formula_candidates:
     predictors: ["PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -121,7 +121,7 @@ formula_candidates:
     predictors: ["PC1", "PC2", "PC3", "PC4", "PC5", "PC6"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"]
     status: "executable_binary_variant"
 ```

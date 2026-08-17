@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy
 - x_terms_used: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_used: Offcrsh
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -104,7 +104,7 @@ formula_candidates:
     predictors: ["log.VMT", "log.Pop", "Rmale", "Rhisp", "Rold", "Runemploy"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps()."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

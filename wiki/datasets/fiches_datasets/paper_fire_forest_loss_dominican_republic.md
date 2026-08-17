@@ -229,14 +229,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: LOSS0118_PCT_PYR ~ NFIRESM6_PSQKM_PYR
 - x_terms_used: NFIRESM6_PSQKM_PYR
 - y_term_used: LOSS0118_PCT_PYR
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -248,7 +248,7 @@ formula_candidates:
     predictors: ["NFIRESM6_PSQKM_PYR (densite de points de feu MODIS Collection 6, points/km2/an, filtre 'noise-free')"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -268,7 +268,7 @@ formula_candidates:
     predictors: ["NFIRESM6_PSQKM_PYR"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["sar_lag", "sar_error", "spatial_error_model", "spatial_lag_model", "ols"]
     status: "executable_continuous_variant"
 ```

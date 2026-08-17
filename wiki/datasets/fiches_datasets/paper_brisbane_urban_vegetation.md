@@ -95,14 +95,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: dens_015_1 ~ tree_area + aspect_cos + aspect_sin + slope
 - x_terms_used: tree_area, aspect_cos, aspect_sin, slope
 - y_term_used: dens_015_1
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -124,7 +124,7 @@ formula_candidates:
     predictors: ["tree_area (proportion de couvert arbore dans la cellule)", "aspect_cos (composante nord-sud de l'orientation du terrain)", "aspect_sin (composante est-ouest de l'orientation du terrain)", "slope (pente du terrain, degres)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -134,7 +134,7 @@ formula_candidates:
     predictors: ["tree_area", "aspect_cos", "aspect_sin", "slope", "mb_dwel_dens", "park_prop", "sa1_medtothinc"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sar_mixed", "gwr", "random_forest"]
     status: "executable_continuous_variant"
 ```

@@ -125,14 +125,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: elas ~ author + title + weight (sample_reuse) + second coding + year_publish + publish + element + site_cat + site_m + region + subnational state / district + NPL + ... (44 covariables au total, voir Candidate X variables)
 - x_terms_used: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
 - y_term_used: elas
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -154,7 +154,7 @@ formula_candidates:
     predictors: ["author", "title", "weight (sample_reuse)", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

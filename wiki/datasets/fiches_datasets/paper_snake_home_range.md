@@ -90,14 +90,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: X100MCP ~ MaleMass + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip
 - x_terms_used: MaleMass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
 - y_term_used: X100MCP
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -119,7 +119,7 @@ formula_candidates:
     predictors: ["Mass (masse corporelle, log-transformee)", "IUCN_habitats (largeur de niche d'habitat)", "Aquatic_index (indice d'aquaticite)", "Elevation", "NPP (productivite primaire nette)", "MeanAnnualTemp", "Total_Precip"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -129,7 +129,7 @@ formula_candidates:
     predictors: ["MaleMass", "IUCN_habitats", "Aquatic_index", "Elevation", "NPP", "MeanAnnualTemp", "Total_Precip"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["mixed_effects_model", "gwr", "random_forest"]
     status: "executable_continuous_variant"
 ```

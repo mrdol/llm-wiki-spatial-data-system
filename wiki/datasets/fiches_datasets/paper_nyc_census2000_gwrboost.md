@@ -115,14 +115,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT
 - x_terms_used: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
 - y_term_used: mean_inc
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -144,7 +144,7 @@ formula_candidates:
     predictors: ["sub18 (population <18 ans)", "PER_PRV_SC (% eleves ecole privee)", "YOUTH_DROP (% decrocheurs 16-19 ans)", "HS_DROP (% decrocheurs lycee >25 ans)", "COL_DEGREE (% bachelor+ >25 ans)", "SCHOOL_CT (nombre d'ecoles)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -154,7 +154,7 @@ formula_candidates:
     predictors: ["sub18", "PER_PRV_SC", "YOUTH_DROP", "HS_DROP", "COL_DEGREE", "SCHOOL_CT"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gwr", "random_forest", "xgboost", "gamboost"]
     status: "executable_continuous_variant"
 ```

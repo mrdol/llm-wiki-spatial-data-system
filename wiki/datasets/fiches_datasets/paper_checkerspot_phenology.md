@@ -89,14 +89,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Phenologic
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: startDayOfYear ~ decimalLatitude + year
 - x_terms_used: year
 - y_term_used: startDayOfYear
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -118,7 +118,7 @@ formula_candidates:
     predictors: ["decimalLatitude (gradient latitudinal)", "year (tendance temporelle, changement climatique)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -128,7 +128,7 @@ formula_candidates:
     predictors: ["decimalLatitude", "decimalLongitude", "year"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "gwr"]
     status: "executable_continuous_variant"
 ```

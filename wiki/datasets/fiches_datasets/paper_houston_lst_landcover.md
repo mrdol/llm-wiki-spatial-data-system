@@ -70,14 +70,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: LST_kelvin ~ land_cover
 - x_terms_used: land_cover
 - y_term_used: LST_kelvin
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -89,7 +89,7 @@ formula_candidates:
     predictors: ["land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -109,7 +109,7 @@ formula_candidates:
     predictors: ["land_cover"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "gwr"]
     status: "executable_continuous_variant"
 ```

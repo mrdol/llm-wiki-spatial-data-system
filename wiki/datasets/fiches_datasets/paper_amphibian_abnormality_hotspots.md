@@ -98,14 +98,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: all_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION
 - x_terms_used: sampling_date, species, sp_coded, avg_gosner, avg_svl, sk_plus_eye_abnormal_count, sk_plus_eye_ab_percent, sk_abnormal_count, eye_abnormal_count, surface_abnormal_count, surface_ab_percent, disease_abnormal_count
 - y_term_used: all_ab_percent
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -127,7 +127,7 @@ formula_candidates:
     predictors: ["Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM)", "REFUGE (131 refuges USFWS, effet aleatoire)", "REGION (9 regions USFWS, effet aleatoire)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -137,7 +137,7 @@ formula_candidates:
     predictors: ["Corrected_LATITUDE", "Corrected_LONGITUDE", "REFUGE", "REGION"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gam_spatial", "gamm", "random_forest", "xgboost"]
     status: "executable_continuous_variant"
 ```

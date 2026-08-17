@@ -85,14 +85,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: spotted_hyaena_biomass_log10 ~ other_predator_biomass_log10 + prey_very_small_biomass_log10 + prey_small_biomass_log10 + prey_medium_biomass_log10 + prey_large_biomass_log10 + prey_very_large_biomass_log10 + min_temperature_coolest_month_log10 + max_temperature_warmest_month_log10 + precipitation_wettest_month_log10 + precipitation_driest_month_log10 + precipitation_seasonality_log10 + semi_open_vegetation_clr + open_vegetation_clr + closed_vegetation_clr
 - x_terms_used: other_predator_biomass_log10, prey_very_small_biomass_log10, prey_small_biomass_log10, prey_medium_biomass_log10, prey_large_biomass_log10, prey_very_large_biomass_log10, min_temperature_coolest_month_log10, max_temperature_warmest_month_log10, precipitation_wettest_month_log10, precipitation_driest_month_log10, precipitation_seasonality_log10, semi_open_vegetation_clr, open_vegetation_clr, closed_vegetation_clr
 - y_term_used: spotted_hyaena_biomass_log10
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["other predator biomass", "very small prey biomass", "small prey biomass", "medium prey biomass", "large prey biomass", "very large prey biomass", "minimum temperature of coolest month", "maximum temperature of warmest month", "temperature seasonality", "precipitation wettest month", "precipitation driest month", "precipitation seasonality", "closed vegetation cover", "semi-open vegetation cover", "open vegetation cover"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Jones (2021), Ecology and Evolution, DOI 10.1002/ece3.8359: Sections 2.1-2.2 state that 30 site-year datasets from 14 African sites were analysed with partial least squares regression, using spotted hyena and lion biomass as dependent variables and prey biomass, other predator biomass, temperature, precipitation and vegetation cover as predictors. The Dryad workbook supplies the transformed log10 variables and median coordinates used by the loader."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

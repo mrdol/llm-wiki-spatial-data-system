@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Mistletoes
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Crates et al. (2022), Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback, Proceedings of the Royal Society B, doi:10.1098/rspb.2022.0358. Le papier ajuste des modeles INLA GLMM (erreur de Poisson, effet spatial SPDE/Matern, effets aleatoires observateur/region) sur l'abondance totale d'oiseaux, avec l'abondance de gui vivant (log+1) comme predicteur cle en interaction avec la saison de reproduction, pour tester si le gui attenue les impacts de la secheresse. formula_used retient les covariables de vegetation/gui reelles directement presentes dans le fichier de donnees (simplification en regression fixe, sans le terme spatial SPDE ni l'interaction). Donnees brutes (Bird_data.csv) telechargees directement depuis Dryad (10.5061/dryad.76hdr7sxp) -- pas une reconstruction, N=9012 visites de site (correspond exactement au chiffre publie dans le README), sud-est de l'Australie.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Total_abundance ~ total_live_mistletoe + total_dead_mistletoe + canopy_cover + shrub_cover + large_old_tree_total + Season
 - x_terms_used: total_live_mistletoe, total_dead_mistletoe, canopy_cover, shrub_cover, large_old_tree_total, Season
 - y_term_used: Total_abundance
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Crates et al. (2022), Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback, Proceedings of the Royal Society B, doi:10.1098/rspb.2022.0358. Le papier ajuste des modeles INLA GLMM (erreur de Poisson, effet spatial SPDE/Matern, effets aleatoires observateur/region) sur l'abondance totale d'oiseaux, avec l'abondance de gui vivant (log+1) comme predicteur cle en interaction avec la saison de reproduction, pour tester si le gui attenue les impacts de la secheresse. formula_used retient les covariables de vegetation/gui reelles directement presentes dans le fichier de donnees (simplification en regression fixe, sans le terme spatial SPDE ni l'interaction). Donnees brutes (Bird_data.csv) telechargees directement depuis Dryad (10.5061/dryad.76hdr7sxp) -- pas une reconstruction, N=9012 visites de site (correspond exactement au chiffre publie dans le README), sud-est de l'Australie.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -104,7 +104,7 @@ formula_candidates:
     predictors: ["total_live_mistletoe (abondance de gui vivant, log+1 transformee dans le papier)", "canopy_cover (couverture de canopee)", "shrub_cover (couverture arbustive)", "Season (saison de reproduction, interaction avec le gui)", "land_use, distance a l'eau, heure de releve (non retenus dans formula_used, disponibles dans l'artefact local)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Crates et al. (2022), Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback, Proceedings of the Royal Society B, doi:10.1098/rspb.2022.0358. Le papier ajuste des modeles INLA GLMM (erreur de Poisson, effet spatial SPDE/Matern, effets aleatoires observateur/region) sur l'abondance totale d'oiseaux, avec l'abondance de gui vivant (log+1) comme predicteur cle en interaction avec la saison de reproduction, pour tester si le gui attenue les impacts de la secheresse. formula_used retient les covariables de vegetation/gui reelles directement presentes dans le fichier de donnees (simplification en regression fixe, sans le terme spatial SPDE ni l'interaction). Donnees brutes (Bird_data.csv) telechargees directement depuis Dryad (10.5061/dryad.76hdr7sxp) -- pas une reconstruction, N=9012 visites de site (correspond exactement au chiffre publie dans le README), sud-est de l'Australie."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["total_live_mistletoe", "total_dead_mistletoe", "canopy_cover", "shrub_cover", "large_old_tree_total", "Season", "Region"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Crates et al. (2022), Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback, Proceedings of the Royal Society B, doi:10.1098/rspb.2022.0358. Le papier ajuste des modeles INLA GLMM (erreur de Poisson, effet spatial SPDE/Matern, effets aleatoires observateur/region) sur l'abondance totale d'oiseaux, avec l'abondance de gui vivant (log+1) comme predicteur cle en interaction avec la saison de reproduction, pour tester si le gui attenue les impacts de la secheresse. formula_used retient les covariables de vegetation/gui reelles directement presentes dans le fichier de donnees (simplification en regression fixe, sans le terme spatial SPDE ni l'interaction). Donnees brutes (Bird_data.csv) telechargees directement depuis Dryad (10.5061/dryad.76hdr7sxp) -- pas une reconstruction, N=9012 visites de site (correspond exactement au chiffre publie dans le README), sud-est de l'Australie."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gam_spatial", "random_forest", "xgboost", "gwr"]
     status: "executable_continuous_variant"
 ```

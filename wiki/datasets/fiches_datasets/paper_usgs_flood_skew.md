@@ -99,14 +99,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00
 - x_terms_used: DRAIN_SQKM, BSLDEM100M, ELEV, COMPRAT, LC06FOREST, LC06WATER, PERMAVE, PRECPRIS00
 - y_term_used: UnbiasSkew
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -128,7 +128,7 @@ formula_candidates:
     predictors: ["DRAIN_SQKM (superficie du bassin versant, km2)", "LAT_CENT/LONG_CENT (centroide du bassin)", "BSLDEM100M (pente moyenne du bassin)", "ELEV (elevation)", "COMPRAT (ratio de compacite)", "LC06FOREST (% couverture forestiere)", "LC06WATER (% couverture en eau)", "PERMAVE (permeabilite moyenne du sol)", "PRECPRIS00 (precipitation moyenne)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -138,7 +138,7 @@ formula_candidates:
     predictors: ["DRAIN_SQKM", "LAT_CENT", "LONG_CENT", "BSLDEM100M", "ELEV", "COMPRAT", "LC06FOREST", "LC06WATER", "PERMAVE", "PRECPRIS00"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["bayesian_wls", "bayesian_gls", "ols", "random_forest"]
     status: "executable_continuous_variant"
 ```

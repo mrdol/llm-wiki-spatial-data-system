@@ -108,14 +108,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort
 - x_terms_used: tempmean, pp, curvel, sal, light, fishing_effort
 - y_term_used: PD.SES
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -137,7 +137,7 @@ formula_candidates:
     predictors: ["tempmean (temperature moyenne du fond)", "pp (productivite primaire)", "curvel (vitesse du courant)", "sal (salinite)", "light (disponibilite lumineuse)", "fishing_effort (effort de peche)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -147,7 +147,7 @@ formula_candidates:
     predictors: ["tempmean", "pp", "curvel", "sal", "light", "fishing_effort"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "random_forest_spatial", "xgboost"]
     status: "executable_continuous_variant"
 ```

@@ -72,14 +72,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Model esti
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lombard, Dudley, Collins, Saunders & Atkinson (2021), River Research and Applications, DOI 10.1002/rra.3835, Eq. (1) p.1258: BFaug = -0.006765 + 0.0001074*AQ + 0.0001033*JULAVEPRE (AQ = pourcentage d'aquiferes sable/gravier du bassin, JULAVEPRE = precipitation moyenne de juillet). CORRIGE le 2026-08-15 : le loader utilisait auparavant le shapefile Dryad/ScienceBase (Maine_Mean_August_Baseflow.shp, 42449 troncons NHDPlus), qui n'est PAS la table d'apprentissage du papier mais la carte de PREDICTION du modele applique a tout le reseau hydrographique de l'Etat (section 2.4 'Mapping') -- ce qui avait fait passer la fiche package_include=yes a tort sur un produit de prediction, pas 42449 observations independantes. Le loader lit maintenant table1_gage_stations.csv, transcription de la vraie Table 1 (p.1257, N=31 stations de jaugeage USGS reelles utilisees pour calibrer le modele) + coordonnees recuperees via l'API USGS NWIS Site Service pour les 31 numeros de station publics (voir README_table1_gage_stations.txt dans le dossier raw). DASQMI (surface du bassin) servait uniquement a normaliser la reponse (baseflow par km2, section 2.3), ce n'est pas une covariable du modele -- non repris dans le loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: aug_baseflow_m3s_km2 ~ pct_sand_gravel_aquifer + july_precip_mm
 - x_terms_used: pct_sand_gravel_aquifer, july_precip_mm
 - y_term_used: aug_baseflow_m3s_km2
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lombard, Dudley, Collins, Saunders & Atkinson (2021), River Research and Applications, DOI 10.1002/rra.3835, Eq. (1) p.1258: BFaug = -0.006765 + 0.0001074*AQ + 0.0001033*JULAVEPRE (AQ = pourcentage d'aquiferes sable/gravier du bassin, JULAVEPRE = precipitation moyenne de juillet). CORRIGE le 2026-08-15 : le loader utilisait auparavant le shapefile Dryad/ScienceBase (Maine_Mean_August_Baseflow.shp, 42449 troncons NHDPlus), qui n'est PAS la table d'apprentissage du papier mais la carte de PREDICTION du modele applique a tout le reseau hydrographique de l'Etat (section 2.4 'Mapping') -- ce qui avait fait passer la fiche package_include=yes a tort sur un produit de prediction, pas 42449 observations independantes. Le loader lit maintenant table1_gage_stations.csv, transcription de la vraie Table 1 (p.1257, N=31 stations de jaugeage USGS reelles utilisees pour calibrer le modele) + coordonnees recuperees via l'API USGS NWIS Site Service pour les 31 numeros de station publics (voir README_table1_gage_stations.txt dans le dossier raw). DASQMI (surface du bassin) servait uniquement a normaliser la reponse (baseflow par km2, section 2.3), ce n'est pas une covariable du modele -- non repris dans le loader.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -101,7 +101,7 @@ formula_candidates:
     predictors: ["pct_sand_gravel_aquifer", "july_precip_mm"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Lombard, Dudley, Collins, Saunders & Atkinson (2021), River Research and Applications, DOI 10.1002/rra.3835, Eq. (1) p.1258: BFaug = -0.006765 + 0.0001074*AQ + 0.0001033*JULAVEPRE (AQ = pourcentage d'aquiferes sable/gravier du bassin, JULAVEPRE = precipitation moyenne de juillet). CORRIGE le 2026-08-15 : le loader utilisait auparavant le shapefile Dryad/ScienceBase (Maine_Mean_August_Baseflow.shp, 42449 troncons NHDPlus), qui n'est PAS la table d'apprentissage du papier mais la carte de PREDICTION du modele applique a tout le reseau hydrographique de l'Etat (section 2.4 'Mapping') -- ce qui avait fait passer la fiche package_include=yes a tort sur un produit de prediction, pas 42449 observations independantes. Le loader lit maintenant table1_gage_stations.csv, transcription de la vraie Table 1 (p.1257, N=31 stations de jaugeage USGS reelles utilisees pour calibrer le modele) + coordonnees recuperees via l'API USGS NWIS Site Service pour les 31 numeros de station publics (voir README_table1_gage_stations.txt dans le dossier raw). DASQMI (surface du bassin) servait uniquement a normaliser la reponse (baseflow par km2, section 2.3), ce n'est pas une covariable du modele -- non repris dans le loader."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

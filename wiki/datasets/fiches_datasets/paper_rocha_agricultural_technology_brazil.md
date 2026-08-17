@@ -152,7 +152,7 @@ formula_candidates:
     predictors: ["TDJF", "TMAM", "TJJA", "TSON", "PDJF", "PMAM", "PJJA", "PSON", "DAMZ", "DCAA", "DCER", "DPMP", "DPTN", "DMATL"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Agricultural technology adoption and land use: evidence for Brazilian municipalities"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

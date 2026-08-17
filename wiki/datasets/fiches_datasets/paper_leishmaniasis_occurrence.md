@@ -73,14 +73,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Global dis
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Les fichiers deposes (CL_final_dataset.xlsx, VL_final_dataset.xlsx) ne contiennent que les points de presence reels (pas de pseudo-absences, ni les covariables environnementales du modele BRT complet, qui necessitent des rasters climatiques externes non inclus dans ce depot). formula_used reformule en classification du type clinique (Cutaneous/Mucocutaneous/Visceral) a partir des seules variables presentes dans le depot (annee, source, niveau administratif, pays), une simplification documentee -- pas le modele BRT du papier. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: DISEASE ~ YEAR + SOURCE_TYPE + ADMIN_LEVEL + COUNTRY
 - x_terms_used: YEAR, SOURCE_TYPE, ADMIN_LEVEL, COUNTRY
 - y_term_used: DISEASE
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Les fichiers deposes (CL_final_dataset.xlsx, VL_final_dataset.xlsx) ne contiennent que les points de presence reels (pas de pseudo-absences, ni les covariables environnementales du modele BRT complet, qui necessitent des rasters climatiques externes non inclus dans ce depot). formula_used reformule en classification du type clinique (Cutaneous/Mucocutaneous/Visceral) a partir des seules variables presentes dans le depot (annee, source, niveau administratif, pays), une simplification documentee -- pas le modele BRT du papier. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -102,7 +102,7 @@ formula_candidates:
     predictors: ["YEAR (annee du releve)", "SOURCE_TYPE (type de source bibliographique)", "ADMIN_LEVEL (niveau administratif de la localisation)", "COUNTRY (pays)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Les fichiers deposes (CL_final_dataset.xlsx, VL_final_dataset.xlsx) ne contiennent que les points de presence reels (pas de pseudo-absences, ni les covariables environnementales du modele BRT complet, qui necessitent des rasters climatiques externes non inclus dans ce depot). formula_used reformule en classification du type clinique (Cutaneous/Mucocutaneous/Visceral) a partir des seules variables presentes dans le depot (annee, source, niveau administratif, pays), une simplification documentee -- pas le modele BRT du papier. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
     status: "confirmed"
 
@@ -112,7 +112,7 @@ formula_candidates:
     predictors: ["YEAR", "SOURCE_TYPE", "ADMIN_LEVEL", "COUNTRY"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Les fichiers deposes (CL_final_dataset.xlsx, VL_final_dataset.xlsx) ne contiennent que les points de presence reels (pas de pseudo-absences, ni les covariables environnementales du modele BRT complet, qui necessitent des rasters climatiques externes non inclus dans ce depot). formula_used reformule en classification du type clinique (Cutaneous/Mucocutaneous/Visceral) a partir des seules variables presentes dans le depot (annee, source, niveau administratif, pays), une simplification documentee -- pas le modele BRT du papier. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"]
     status: "executable_binary_variant"
 ```

@@ -76,14 +76,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand
 - x_terms_used: regional_frequency, habitat_floodplain, habitat_swamp, habitat_white_sand
 - y_term_used: mean_local_relative_abundance
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -105,7 +105,7 @@ formula_candidates:
     predictors: ["regional frequency", "habitat type"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

@@ -78,14 +78,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Global hot
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Burns, Bradley & Thomas (2023), Global hotspots of shark interactions with industrial longline fisheries, Frontiers in Marine Science, doi:10.3389/fmars.2022.1062447. Le papier ajuste des modeles Random Forest en deux composantes (classification presence/absence x regression de capture) par ORGP (ICCAT/IOTC/IATTC/WCPFC) avec SST, chlorophylle-a, hauteur de mer, effort de peche, prix ex-vessel et un score de modele de distribution d'espece comme predicteurs. formula_used utilise la table de predicteurs reels (pas les predictions .pred/.final_pred du modele, exclues) pour ICCAT (Atlantique) uniquement -- les 4 ORGP ont des schemas de colonnes legerement differents (drapeaux de flotte differents), non fusionnes ici. Donnees brutes (ICCAT_ll_untuned_final_predict.csv) telechargees directement depuis Dryad (10.25349/d9789w) -- pas une reconstruction, N=8592 cellules de grille, papier recupere manuellement par l'utilisateur (session 2026-08-16).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: catch ~ mean_sst + mean_chla + mean_ssh + sdm + target_effort + median_price_species
 - x_terms_used: mean_sst, mean_chla, mean_ssh, sdm, target_effort, median_price_species
 - y_term_used: catch
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Burns, Bradley & Thomas (2023), Global hotspots of shark interactions with industrial longline fisheries, Frontiers in Marine Science, doi:10.3389/fmars.2022.1062447. Le papier ajuste des modeles Random Forest en deux composantes (classification presence/absence x regression de capture) par ORGP (ICCAT/IOTC/IATTC/WCPFC) avec SST, chlorophylle-a, hauteur de mer, effort de peche, prix ex-vessel et un score de modele de distribution d'espece comme predicteurs. formula_used utilise la table de predicteurs reels (pas les predictions .pred/.final_pred du modele, exclues) pour ICCAT (Atlantique) uniquement -- les 4 ORGP ont des schemas de colonnes legerement differents (drapeaux de flotte differents), non fusionnes ici. Donnees brutes (ICCAT_ll_untuned_final_predict.csv) telechargees directement depuis Dryad (10.25349/d9789w) -- pas une reconstruction, N=8592 cellules de grille, papier recupere manuellement par l'utilisateur (session 2026-08-16).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -107,7 +107,7 @@ formula_candidates:
     predictors: ["mean_sst (temperature de surface de la mer moyenne)", "mean_chla (chlorophylle-a moyenne)", "mean_ssh (hauteur de surface de la mer moyenne)", "sdm (score de modele de distribution d'espece, covariable d'entree du RF)", "target_effort (effort de peche par pavillon)", "median_price_species (prix ex-vessel median par espece)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Burns, Bradley & Thomas (2023), Global hotspots of shark interactions with industrial longline fisheries, Frontiers in Marine Science, doi:10.3389/fmars.2022.1062447. Le papier ajuste des modeles Random Forest en deux composantes (classification presence/absence x regression de capture) par ORGP (ICCAT/IOTC/IATTC/WCPFC) avec SST, chlorophylle-a, hauteur de mer, effort de peche, prix ex-vessel et un score de modele de distribution d'espece comme predicteurs. formula_used utilise la table de predicteurs reels (pas les predictions .pred/.final_pred du modele, exclues) pour ICCAT (Atlantique) uniquement -- les 4 ORGP ont des schemas de colonnes legerement differents (drapeaux de flotte differents), non fusionnes ici. Donnees brutes (ICCAT_ll_untuned_final_predict.csv) telechargees directement depuis Dryad (10.25349/d9789w) -- pas une reconstruction, N=8592 cellules de grille, papier recupere manuellement par l'utilisateur (session 2026-08-16)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -117,7 +117,7 @@ formula_candidates:
     predictors: ["mean_sst", "mean_chla", "mean_ssh", "sdm", "target_effort", "median_price_species", "species_commonname"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Burns, Bradley & Thomas (2023), Global hotspots of shark interactions with industrial longline fisheries, Frontiers in Marine Science, doi:10.3389/fmars.2022.1062447. Le papier ajuste des modeles Random Forest en deux composantes (classification presence/absence x regression de capture) par ORGP (ICCAT/IOTC/IATTC/WCPFC) avec SST, chlorophylle-a, hauteur de mer, effort de peche, prix ex-vessel et un score de modele de distribution d'espece comme predicteurs. formula_used utilise la table de predicteurs reels (pas les predictions .pred/.final_pred du modele, exclues) pour ICCAT (Atlantique) uniquement -- les 4 ORGP ont des schemas de colonnes legerement differents (drapeaux de flotte differents), non fusionnes ici. Donnees brutes (ICCAT_ll_untuned_final_predict.csv) telechargees directement depuis Dryad (10.25349/d9789w) -- pas une reconstruction, N=8592 cellules de grille, papier recupere manuellement par l'utilisateur (session 2026-08-16)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "random_forest_xy", "xgboost", "gam_spatial", "gwr"]
     status: "executable_continuous_variant"
 ```

@@ -90,14 +90,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Satellite 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: cocos. ~ Average.Rainfall..mm.yr. + Elevation..m. + Inhabited. + History.of.copra.production
 - x_terms_used: Average.Rainfall..mm.yr., Elevation..m., Inhabited., History.of.copra.production
 - y_term_used: cocos.
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -119,7 +119,7 @@ formula_candidates:
     predictors: ["Average.Rainfall..mm.yr. (precipitation annuelle moyenne)", "Elevation..m. (elevation)", "Inhabited. (habite ou non)", "History.of.copra.production (histoire de production de coprah, oui/non)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -129,7 +129,7 @@ formula_candidates:
     predictors: ["Average.Rainfall..mm.yr.", "Elevation..m.", "Inhabited.", "History.of.copra.production", "broadleaf.", "shrub.", "non_veg."]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "gwr"]
     status: "executable_continuous_variant"
 ```

@@ -81,14 +81,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Year
 - x_terms_used: SummerMaxTemp, AnnualRain, MI, Sex, Year
 - y_term_used: CL
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -110,7 +110,7 @@ formula_candidates:
     predictors: ["SummerMaxTemp (temperature maximale estivale)", "AnnualRain (precipitation annuelle)", "MI (molar progression index, proxy d'age)", "Sex", "Year"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -120,7 +120,7 @@ formula_candidates:
     predictors: ["WinterMinTemp", "SummerMaxTemp", "SummerWetBulbTemp", "AnnualRain", "AnnualNDVI", "GrowSeasRain", "GrowSeasNDVI", "MinSeasRain", "MinSeasNDVI", "MI", "Sex", "Year"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "xgboost", "gwr"]
     status: "executable_continuous_variant"
 ```

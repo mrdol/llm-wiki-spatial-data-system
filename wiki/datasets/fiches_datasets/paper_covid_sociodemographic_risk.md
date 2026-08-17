@@ -88,14 +88,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial Mo
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Seamon, E., Ridenhour, B.J., Miller, C.R. & Johnson-Leung, J. (2023), Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality, medRxiv, doi:10.1101/2023.07.21.23292785. Shapefile UScounties_conus.shp + 8 fichiers de covariables CSV telecharges directement depuis Dryad (10.5061/dryad.4j0zpc8j1, repo GitHub du papier archive sur Dryad) -- pas une reconstruction, jointure sur FIPS via data/raw/papers/DatasetFirst_10_5061_dryad_4j0zpc8j1/build_county_covid_table.py (script documente, aucune valeur inventee). Les 15 covariables correspondent exactement a la Table 1 du papier. Le papier ajuste 3 modeles distincts par vague pandemique (Alpha/Delta/Omicron) plus un modele national/regional Poisson -- ce loader utilise une coupe transversale unique en fin de periode commune aux sources (deces cumules + vaccination au 2022-04-27) plutot que de reproduire les 3 vagues separement, reduction de perimetre assumee et documentee.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65
 - x_terms_used: RPL_THEME1, RPL_THEME2, RPL_THEME3, RPL_THEME4, pct_voted_biden_2020, vaccination_pct_apr2022, population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity, broadband_access, Age_over_65
 - y_term_used: death_rate_per_100k
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Seamon, E., Ridenhour, B.J., Miller, C.R. & Johnson-Leung, J. (2023), Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality, medRxiv, doi:10.1101/2023.07.21.23292785. Shapefile UScounties_conus.shp + 8 fichiers de covariables CSV telecharges directement depuis Dryad (10.5061/dryad.4j0zpc8j1, repo GitHub du papier archive sur Dryad) -- pas une reconstruction, jointure sur FIPS via data/raw/papers/DatasetFirst_10_5061_dryad_4j0zpc8j1/build_county_covid_table.py (script documente, aucune valeur inventee). Les 15 covariables correspondent exactement a la Table 1 du papier. Le papier ajuste 3 modeles distincts par vague pandemique (Alpha/Delta/Omicron) plus un modele national/regional Poisson -- ce loader utilise une coupe transversale unique en fin de periode commune aux sources (deces cumules + vaccination au 2022-04-27) plutot que de reproduire les 3 vagues separement, reduction de perimetre assumee et documentee.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -117,7 +117,7 @@ formula_candidates:
     predictors: ["RPL_THEME1-4 (les 4 themes CDC SVI 2018 : statut socio-economique, composition menage/handicap, statut minoritaire/langue, logement/transport)", "pct_voted_biden_2020 (pourcentage de vote democrate 2020, proxy ideologie politique)", "vaccination_pct_apr2022 (taux de vaccination au 2022-04-27)", "population_density", "Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity (CDC County Health Rankings)", "broadband_access", "Age_over_65"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Seamon, E., Ridenhour, B.J., Miller, C.R. & Johnson-Leung, J. (2023), Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality, medRxiv, doi:10.1101/2023.07.21.23292785. Shapefile UScounties_conus.shp + 8 fichiers de covariables CSV telecharges directement depuis Dryad (10.5061/dryad.4j0zpc8j1, repo GitHub du papier archive sur Dryad) -- pas une reconstruction, jointure sur FIPS via data/raw/papers/DatasetFirst_10_5061_dryad_4j0zpc8j1/build_county_covid_table.py (script documente, aucune valeur inventee). Les 15 covariables correspondent exactement a la Table 1 du papier. Le papier ajuste 3 modeles distincts par vague pandemique (Alpha/Delta/Omicron) plus un modele national/regional Poisson -- ce loader utilise une coupe transversale unique en fin de periode commune aux sources (deces cumules + vaccination au 2022-04-27) plutot que de reproduire les 3 vagues separement, reduction de perimetre assumee et documentee."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -127,7 +127,7 @@ formula_candidates:
     predictors: ["RPL_THEME1", "RPL_THEME2", "RPL_THEME3", "RPL_THEME4", "pct_voted_biden_2020", "vaccination_pct_apr2022", "population_density", "Obesity", "Unemployed", "Uninsured_Adults", "Associations", "Diabetes", "Food_Insecurity", "broadband_access", "Age_over_65"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Seamon, E., Ridenhour, B.J., Miller, C.R. & Johnson-Leung, J. (2023), Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality, medRxiv, doi:10.1101/2023.07.21.23292785. Shapefile UScounties_conus.shp + 8 fichiers de covariables CSV telecharges directement depuis Dryad (10.5061/dryad.4j0zpc8j1, repo GitHub du papier archive sur Dryad) -- pas une reconstruction, jointure sur FIPS via data/raw/papers/DatasetFirst_10_5061_dryad_4j0zpc8j1/build_county_covid_table.py (script documente, aucune valeur inventee). Les 15 covariables correspondent exactement a la Table 1 du papier. Le papier ajuste 3 modeles distincts par vague pandemique (Alpha/Delta/Omicron) plus un modele national/regional Poisson -- ce loader utilise une coupe transversale unique en fin de periode commune aux sources (deces cumules + vaccination au 2022-04-27) plutot que de reproduire les 3 vagues separement, reduction de perimetre assumee et documentee."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["spatial_random_forest", "gwr", "random_forest", "poisson_regression", "xgboost"]
     status: "executable_continuous_variant"
 ```

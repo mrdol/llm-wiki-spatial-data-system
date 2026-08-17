@@ -74,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial di
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Adetokunboh, O.O. & Are, E.B. (2024), PLoS ONE 19(4): e0301850, doi:10.1371/journal.pone.0301850. Le depot figshare (10.25413/sun.26976469, mirroir https://figshare.com/s/33e95ee4594a7c146e3b) ne contient QUE les donnees geographiques agregees par cluster DHS (NEG/POS/TOT/PER + coordonnees + URBAN_RURA) utilisees pour l'analyse d'autocorrelation spatiale (LISA/hotspot par pays). La regression multivariable complete du papier (determinants: divorce, age, ISTs recentes) utilise des microdonnees DHS individuelles (DHS Individual Recode) qui necessitent un enregistrement separe aupres du DHS Program et ne sont PAS incluses dans ce depot -- formula_used se limite donc aux covariables reellement presentes dans les donnees locales.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: PER ~ URBAN_RURA + country
 - x_terms_used: URBAN_RURA
 - y_term_used: PER
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Adetokunboh, O.O. & Are, E.B. (2024), PLoS ONE 19(4): e0301850, doi:10.1371/journal.pone.0301850. Le depot figshare (10.25413/sun.26976469, mirroir https://figshare.com/s/33e95ee4594a7c146e3b) ne contient QUE les donnees geographiques agregees par cluster DHS (NEG/POS/TOT/PER + coordonnees + URBAN_RURA) utilisees pour l'analyse d'autocorrelation spatiale (LISA/hotspot par pays). La regression multivariable complete du papier (determinants: divorce, age, ISTs recentes) utilise des microdonnees DHS individuelles (DHS Individual Recode) qui necessitent un enregistrement separe aupres du DHS Program et ne sont PAS incluses dans ce depot -- formula_used se limite donc aux covariables reellement presentes dans les donnees locales.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -103,7 +103,7 @@ formula_candidates:
     predictors: ["URBAN_RURA (classification urbain/rural du cluster)", "country (6 pays d'Afrique australe)", "DHSYEAR (annee d'enquete DHS, 2013-2018)", "region administrative ADM1"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Adetokunboh, O.O. & Are, E.B. (2024), PLoS ONE 19(4): e0301850, doi:10.1371/journal.pone.0301850. Le depot figshare (10.25413/sun.26976469, mirroir https://figshare.com/s/33e95ee4594a7c146e3b) ne contient QUE les donnees geographiques agregees par cluster DHS (NEG/POS/TOT/PER + coordonnees + URBAN_RURA) utilisees pour l'analyse d'autocorrelation spatiale (LISA/hotspot par pays). La regression multivariable complete du papier (determinants: divorce, age, ISTs recentes) utilise des microdonnees DHS individuelles (DHS Individual Recode) qui necessitent un enregistrement separe aupres du DHS Program et ne sont PAS incluses dans ce depot -- formula_used se limite donc aux covariables reellement presentes dans les donnees locales."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -113,7 +113,7 @@ formula_candidates:
     predictors: ["URBAN_RURA", "country", "DHSYEAR"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Adetokunboh, O.O. & Are, E.B. (2024), PLoS ONE 19(4): e0301850, doi:10.1371/journal.pone.0301850. Le depot figshare (10.25413/sun.26976469, mirroir https://figshare.com/s/33e95ee4594a7c146e3b) ne contient QUE les donnees geographiques agregees par cluster DHS (NEG/POS/TOT/PER + coordonnees + URBAN_RURA) utilisees pour l'analyse d'autocorrelation spatiale (LISA/hotspot par pays). La regression multivariable complete du papier (determinants: divorce, age, ISTs recentes) utilise des microdonnees DHS individuelles (DHS Individual Recode) qui necessitent un enregistrement separe aupres du DHS Program et ne sont PAS incluses dans ce depot -- formula_used se limite donc aux covariables reellement presentes dans les donnees locales."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gwr", "car", "random_forest", "logistic_binomial_POS_TOT"]
     status: "executable_continuous_variant"
 ```

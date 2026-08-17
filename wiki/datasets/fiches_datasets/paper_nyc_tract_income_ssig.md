@@ -82,14 +82,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: per_capita_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare
 - x_terms_used: UDG25, PGD25, Unemploy, Age65p, AgeU18, PopDensity, MaleShare, BlackShare, AsianShare, WhiteShare
 - y_term_used: per_capita_income
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -111,7 +111,7 @@ formula_candidates:
     predictors: ["proportion bachelor >=25 ans (UDG25)", "proportion diplome superieur >=25 ans (PGD25)", "taux de chomage (Unemploy)", "proportion >=65 ans (Age65p)", "proportion <18 ans (AgeU18)", "densite de population (PopDensity)", "proportion hommes (MaleShare)", "proportion Black/African American (BlackShare)", "proportion Asian (AsianShare)", "proportion White (WhiteShare)", "latitude/longitude du centroide (spatial info)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -121,7 +121,7 @@ formula_candidates:
     predictors: ["UDG25", "PGD25", "Unemploy", "Age65p", "AgeU18", "PopDensity", "MaleShare", "BlackShare", "AsianShare", "WhiteShare"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "xgboost", "gamboost", "gam_spatial"]
     status: "executable_continuous_variant"
 ```

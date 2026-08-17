@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill, ICES Journal of Marine Science, doi:10.1093/icesjms/fsx079. Le papier ajuste un GLMM binomial (occurrence) + modele positif (CPUE|presence) avec log(profondeur) lineaire/quadratique comme seule covariable fixe, et des effets aleatoires spatio-temporels AR1 par espece (equation 1-2 du texte). Ces effets aleatoires ne sont pas reproductibles sans re-estimer le modele INLA complet ; formula_used retient la partie effets fixes exacte du papier (log-profondeur lineaire+quadratique) comme regression continue de base. Donnees brutes (goa_trawl_albers.csv, table station x annee x espece) telechargees directement depuis Dryad (10.5061/dryad.j3t86) -- pas une reconstruction, N=9213 traits de chalut, Golfe d'Alaska, 1984-2011. BottomTemp/SurfTemp sont des covariables reelles supplementaires du meme fichier, ajoutees uniquement a la variante ml_or_selected.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Atheresthesstomias ~ log.BottomDepth + log.BottomDepth2
 - x_terms_used: log.BottomDepth, log.BottomDepth2
 - y_term_used: Atheresthesstomias
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill, ICES Journal of Marine Science, doi:10.1093/icesjms/fsx079. Le papier ajuste un GLMM binomial (occurrence) + modele positif (CPUE|presence) avec log(profondeur) lineaire/quadratique comme seule covariable fixe, et des effets aleatoires spatio-temporels AR1 par espece (equation 1-2 du texte). Ces effets aleatoires ne sont pas reproductibles sans re-estimer le modele INLA complet ; formula_used retient la partie effets fixes exacte du papier (log-profondeur lineaire+quadratique) comme regression continue de base. Donnees brutes (goa_trawl_albers.csv, table station x annee x espece) telechargees directement depuis Dryad (10.5061/dryad.j3t86) -- pas une reconstruction, N=9213 traits de chalut, Golfe d'Alaska, 1984-2011. BottomTemp/SurfTemp sont des covariables reelles supplementaires du meme fichier, ajoutees uniquement a la variante ml_or_selected.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -94,7 +94,7 @@ formula_candidates:
     predictors: ["log(BottomDepth) centre, terme lineaire et quadratique (seule covariable fixe utilisee par le papier pour tous les modeles d'occurrence et de CPUE positive)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill, ICES Journal of Marine Science, doi:10.1093/icesjms/fsx079. Le papier ajuste un GLMM binomial (occurrence) + modele positif (CPUE|presence) avec log(profondeur) lineaire/quadratique comme seule covariable fixe, et des effets aleatoires spatio-temporels AR1 par espece (equation 1-2 du texte). Ces effets aleatoires ne sont pas reproductibles sans re-estimer le modele INLA complet ; formula_used retient la partie effets fixes exacte du papier (log-profondeur lineaire+quadratique) comme regression continue de base. Donnees brutes (goa_trawl_albers.csv, table station x annee x espece) telechargees directement depuis Dryad (10.5061/dryad.j3t86) -- pas une reconstruction, N=9213 traits de chalut, Golfe d'Alaska, 1984-2011. BottomTemp/SurfTemp sont des covariables reelles supplementaires du meme fichier, ajoutees uniquement a la variante ml_or_selected."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["log.BottomDepth", "log.BottomDepth2", "BottomTemp", "SurfTemp"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill, ICES Journal of Marine Science, doi:10.1093/icesjms/fsx079. Le papier ajuste un GLMM binomial (occurrence) + modele positif (CPUE|presence) avec log(profondeur) lineaire/quadratique comme seule covariable fixe, et des effets aleatoires spatio-temporels AR1 par espece (equation 1-2 du texte). Ces effets aleatoires ne sont pas reproductibles sans re-estimer le modele INLA complet ; formula_used retient la partie effets fixes exacte du papier (log-profondeur lineaire+quadratique) comme regression continue de base. Donnees brutes (goa_trawl_albers.csv, table station x annee x espece) telechargees directement depuis Dryad (10.5061/dryad.j3t86) -- pas une reconstruction, N=9213 traits de chalut, Golfe d'Alaska, 1984-2011. BottomTemp/SurfTemp sont des covariables reelles supplementaires du meme fichier, ajoutees uniquement a la variante ml_or_selected."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["gam_spatial", "random_forest", "random_forest_xy", "xgboost", "gwr"]
     status: "executable_continuous_variant"
 ```

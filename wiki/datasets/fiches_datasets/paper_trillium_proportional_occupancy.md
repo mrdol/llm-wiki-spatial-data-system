@@ -80,14 +80,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: PO ~ No_ovules + Seed_weight + Flower_Type
 - x_terms_used: No_ovules, Seed_weight, Flower_Type
 - y_term_used: PO
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -109,7 +109,7 @@ formula_candidates:
     predictors: ["Flower_Type", "No_ovules", "Seed_weight", "Seed_setting_rate", "No_seeds_plant", "Biomass"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -119,7 +119,7 @@ formula_candidates:
     predictors: ["No_ovules", "Seed_weight", "Flower_Type"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "xgboost", "gamboost"]
     status: "confirmed_continuous_response"
 ```

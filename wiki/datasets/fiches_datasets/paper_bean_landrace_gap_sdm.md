@@ -119,14 +119,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: status_H_01 ~ bio_1 + bio_12 + alt + PETa + popdens + access + distgp1 + rivers + irri + aharv + prod + yield
 - x_terms_used: bio_1, bio_12, alt, PETa, popdens, access, distgp1, rivers, irri, aharv, prod, yield
 - y_term_used: status_H_01
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -148,7 +148,7 @@ formula_candidates:
     predictors: ["WorldClim bioclimatic variables", "solar radiation", "wind speed", "water vapor pressure", "altitude", "potential evapotranspiration", "population density", "accessibility", "distance to genepool", "rivers", "irrigation", "harvested area", "production", "yield"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
     status: "confirmed"
 
@@ -158,7 +158,7 @@ formula_candidates:
     predictors: ["bio_1", "bio_12", "alt", "PETa", "popdens", "access", "distgp1", "rivers", "irri", "aharv", "prod", "yield"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "xgboost", "gamboost"]
     status: "executable_binary_sdm_variant"
 ```

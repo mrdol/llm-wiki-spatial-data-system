@@ -83,14 +83,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index
 - x_terms_used: room_type, person_capacity, host_is_superhost, multi, biz, cleanliness_rating, guest_satisfaction_overall, bedrooms, dist, metro_dist, attr_index, rest_index
 - y_term_used: log_price
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -112,7 +112,7 @@ formula_candidates:
     predictors: ["room_type", "person_capacity", "host_is_superhost", "multi/biz (professionnalisation de l'hote)", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist (distance au centre-ville)", "metro_dist (distance au metro)", "attr_index (indice d'attractivite touristique)", "rest_index (indice de densite de restaurants)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -122,7 +122,7 @@ formula_candidates:
     predictors: ["room_type", "person_capacity", "host_is_superhost", "multi", "biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "rest_index", "city", "period"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "gam_spatial", "random_forest", "gwr"]
     status: "confirmed_continuous_response"
 ```

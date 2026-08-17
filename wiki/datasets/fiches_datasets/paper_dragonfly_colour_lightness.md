@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean
 - x_terms_used: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
 - y_term_used: meanRGB
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -104,7 +104,7 @@ formula_candidates:
     predictors: ["bio1_mean (temperature annuelle moyenne)", "bio4_mean (saisonnalite de temperature)", "bio10_mean (temperature moyenne du trimestre le plus chaud)", "bio12_mean (precipitation annuelle)", "bio18_mean (precipitation du trimestre le plus chaud)", "alt_mean (altitude)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["bio1_mean", "bio4_mean", "bio10_mean", "bio12_mean", "bio18_mean", "alt_mean"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["sem_error", "sar_lag", "ols", "gwr"]
     status: "executable_continuous_variant"
 ```

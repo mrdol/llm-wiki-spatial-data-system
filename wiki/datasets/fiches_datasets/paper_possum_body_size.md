@@ -98,14 +98,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type
 - x_terms_used: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_used: CBL
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -127,7 +127,7 @@ formula_candidates:
     predictors: ["SummerMaxTemp", "MinSeasP.PET", "Island_type"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 

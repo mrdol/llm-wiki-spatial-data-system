@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO
 - x_terms_used: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
 - y_term_used: presence
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -104,7 +104,7 @@ formula_candidates:
     predictors: ["T_cold (temperature du mois le plus froid)", "GDD0 (degres-jours de croissance > 0C)", "P_season (saisonnalite des precipitations)", "TP_syn (synchronicite temperature-precipitation)", "Aridity (aridite de la saison de croissance)", "ISO (isothermalite)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
     status: "confirmed"
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["T_cold", "GDD0", "P_season", "TP_syn", "Aridity", "ISO"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"]
     status: "executable_binary_variant"
 ```

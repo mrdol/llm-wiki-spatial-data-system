@@ -75,14 +75,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: n_detections ~ mat200 + mat500 + mat1000 + mat1500 + mat2000 + elev
 - x_terms_used: mat200, mat500, mat1000, mat1500, mat2000, elev
 - y_term_used: n_detections
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84).
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -104,7 +104,7 @@ formula_candidates:
     predictors: ["mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m)", "elev (elevation)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -114,7 +114,7 @@ formula_candidates:
     predictors: ["mat200", "mat500", "mat1000", "mat1500", "mat2000", "elev"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"]
     status: "executable_continuous_variant"
 ```

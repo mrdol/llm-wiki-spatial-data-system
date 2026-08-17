@@ -97,14 +97,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Amphibian 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI
 - x_terms_used: NPP, MeanAnnualTemp, Pp, Ts, Pps, AI
 - y_term_used: H0
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -126,7 +126,7 @@ formula_candidates:
     predictors: ["NPP (productivite primaire nette)", "T (temperature annuelle moyenne, renommee MeanAnnualTemp dans le loader -- voir source_ref)", "Pp (precipitation annuelle)", "Ts (saisonnalite de temperature)", "Pps (saisonnalite de precipitation)", "AI (indice d'aridite)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -136,7 +136,7 @@ formula_candidates:
     predictors: ["NPP", "MeanAnnualTemp", "Pp", "Ts", "Pps", "AI"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_error", "gwr", "random_forest"]
     status: "executable_continuous_variant"
 ```

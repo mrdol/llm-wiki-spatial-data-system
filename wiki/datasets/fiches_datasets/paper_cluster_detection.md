@@ -70,14 +70,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: y_response_simulated ~ x_covariate_simulated
 - x_terms_used: x_covariate_simulated
 - y_term_used: y_response_simulated
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -89,7 +89,7 @@ formula_candidates:
     predictors: ["x_covariate_simulated"]
     role: "simple_baseline"
     source_type: "scientific_publication"
-    source_ref: "Lee, Gangnon & Zhu (2016), Statistics in Medicine, eq. (1)-(2) - modele a coefficients de regression variables par cluster spatial (varying-coefficient regression), methode de detection de cluster testee sur donnees simulees puis sur mortalite par cancer. Ce jeu est exclu du package benchmark empirique car l artefact local est une simulation."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "spatial_baseline"]
     status: "confirmed"
 

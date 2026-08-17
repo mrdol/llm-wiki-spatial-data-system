@@ -76,14 +76,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Direct and
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Germain, Wolak, Arcese, Losdat & Reid (2016), Direct and indirect genetic and fine-scale location effects on breeding date in song sparrows, Journal of Animal Ecology, doi:10.1111/1365-2656.12575. Le papier ajuste un modele animal quantitatif-genetique complet (equation 1 du texte : y = Xb + Z1a' + Z2a'' + Z3PI' + Z4PI'' + Z5Y + e) avec effets aleatoires genetiques (pedigree, matrice A) et de localisation spatiale non reproductibles sans le pedigree complet et le solveur animal model. formula_used retient exactement la partie effets fixes (b) du papier : consanguinite, classe d'age et statut immigrant, separement pour la femelle et le male. Donnees brutes (Main_Dataset.txt) telechargees directement depuis Dryad (10.5061/dryad.n0513) -- pas une reconstruction, N=1040 nids, ile de Mandarte, Colombie-Britannique, Canada, coordonnees UTM reelles converties en WGS84.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Breeding_Date ~ female_f + female_age + female_is + male_f + male_age + male_is
 - x_terms_used: female_f, female_age, female_is, male_f, male_age, male_is
 - y_term_used: Breeding_Date
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Germain, Wolak, Arcese, Losdat & Reid (2016), Direct and indirect genetic and fine-scale location effects on breeding date in song sparrows, Journal of Animal Ecology, doi:10.1111/1365-2656.12575. Le papier ajuste un modele animal quantitatif-genetique complet (equation 1 du texte : y = Xb + Z1a' + Z2a'' + Z3PI' + Z4PI'' + Z5Y + e) avec effets aleatoires genetiques (pedigree, matrice A) et de localisation spatiale non reproductibles sans le pedigree complet et le solveur animal model. formula_used retient exactement la partie effets fixes (b) du papier : consanguinite, classe d'age et statut immigrant, separement pour la femelle et le male. Donnees brutes (Main_Dataset.txt) telechargees directement depuis Dryad (10.5061/dryad.n0513) -- pas une reconstruction, N=1040 nids, ile de Mandarte, Colombie-Britannique, Canada, coordonnees UTM reelles converties en WGS84.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -105,7 +105,7 @@ formula_candidates:
     predictors: ["female_f/male_f (coefficient de consanguinite)", "female_age/male_age (classe d'age: 1, 2-4, 5+)", "female_is/male_is (statut immigrant: 0=residente, 1=immigrante)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Germain, Wolak, Arcese, Losdat & Reid (2016), Direct and indirect genetic and fine-scale location effects on breeding date in song sparrows, Journal of Animal Ecology, doi:10.1111/1365-2656.12575. Le papier ajuste un modele animal quantitatif-genetique complet (equation 1 du texte : y = Xb + Z1a' + Z2a'' + Z3PI' + Z4PI'' + Z5Y + e) avec effets aleatoires genetiques (pedigree, matrice A) et de localisation spatiale non reproductibles sans le pedigree complet et le solveur animal model. formula_used retient exactement la partie effets fixes (b) du papier : consanguinite, classe d'age et statut immigrant, separement pour la femelle et le male. Donnees brutes (Main_Dataset.txt) telechargees directement depuis Dryad (10.5061/dryad.n0513) -- pas une reconstruction, N=1040 nids, ile de Mandarte, Colombie-Britannique, Canada, coordonnees UTM reelles converties en WGS84."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
     status: "confirmed"
 
@@ -115,7 +115,7 @@ formula_candidates:
     predictors: ["female_f", "female_age", "female_is", "male_f", "male_age", "male_is", "year"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Germain, Wolak, Arcese, Losdat & Reid (2016), Direct and indirect genetic and fine-scale location effects on breeding date in song sparrows, Journal of Animal Ecology, doi:10.1111/1365-2656.12575. Le papier ajuste un modele animal quantitatif-genetique complet (equation 1 du texte : y = Xb + Z1a' + Z2a'' + Z3PI' + Z4PI'' + Z5Y + e) avec effets aleatoires genetiques (pedigree, matrice A) et de localisation spatiale non reproductibles sans le pedigree complet et le solveur animal model. formula_used retient exactement la partie effets fixes (b) du papier : consanguinite, classe d'age et statut immigrant, separement pour la femelle et le male. Donnees brutes (Main_Dataset.txt) telechargees directement depuis Dryad (10.5061/dryad.n0513) -- pas une reconstruction, N=1040 nids, ile de Mandarte, Colombie-Britannique, Canada, coordonnees UTM reelles converties en WGS84."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["ols", "gam_spatial", "random_forest", "xgboost", "gwr"]
     status: "executable_continuous_variant"
 ```

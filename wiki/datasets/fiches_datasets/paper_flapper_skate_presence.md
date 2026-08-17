@@ -81,14 +81,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours
 - x_terms_used: bath, dcoast, current, btemp, pp_mean, fishing_hours
 - y_term_used: present_01
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV.
+- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
 
@@ -110,7 +110,7 @@ formula_candidates:
     predictors: ["bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
     status: "confirmed"
 
@@ -120,7 +120,7 @@ formula_candidates:
     predictors: ["bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
-    source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV."
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "xgboost", "gamboost"]
     status: "executable_binary_sdm_variant"
 ```
