@@ -332,6 +332,40 @@ dashboard (pas encore construit) devra seulement appeler
 `compare_estimator_variant()` et afficher `cmp$verdict`/`cmp$summary`, pour
 qu'un utilisateur puisse reproduire exactement la meme conclusion en console.
 
+### Verdict SPECIALIZED -- avantage systematique sur un sous-groupe
+
+Un candidat peut ne pas gagner globalement tout en gagnant de facon fiable
+sur un sous-ensemble identifiable de datasets (ex. forte autocorrelation
+spatiale de Y, grands N, une famille de geometrie). Passer `groups` --
+un `data.frame` avec une colonne `dataset` et une seule colonne de
+regroupement, fournie par l'utilisateur (le moteur ne calcule aucune
+meta-donnee lui-meme) -- active cette analyse :
+
+```r
+groups <- data.frame(
+  dataset = c("columbus_crime", "georgia", "..."),
+  moran_bucket = c("high_moran", "low_moran", "...")
+)
+
+cmp <- compare_estimator_variant(
+  suite,
+  reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+  groups = groups
+)
+
+cmp$subgroups$table         # win rate, delta median, n par sous-groupe
+cmp$subgroups$specialized_in # sous-groupes qui remplissent les criteres
+```
+
+Le verdict ne devient `"SPECIALIZED"` que si le candidat n'est **pas** deja
+`SUPERIOR`/`INFERIOR` globalement -- un sous-groupe gagnant ne remplace
+jamais une victoire ou une defaite globale claire, il ne remplace que
+`EQUIVALENT`/`INCONCLUSIVE`. Par defaut, un sous-groupe n'a pas besoin
+d'atteindre sa propre significativite Wilcoxon (`min_cases_for_subgroup =
+5` suffit) -- c'est deliberement un signal exploratoire/generateur
+d'hypothese, documente comme tel, pas une preuve confirmatoire ; passer
+`comparison_rules(require_significance_for_subgroup = TRUE)` pour l'exiger.
+
 ## Tester sa propre variante d'un estimateur
 
 `register_spatial_estimator()` branche un estimateur "maison" au benchmark

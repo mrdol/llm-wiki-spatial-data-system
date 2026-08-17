@@ -335,6 +335,104 @@ test_that("a mixed, non-significant result is INCONCLUSIVE rather than defaultin
   expect_true(nzchar(cmp$verdict_reasons))
 })
 
+# --- SPECIALIZED subgroup analysis --------------------------------------
+
+test_that("a candidate that only wins on a specific subgroup is SPECIALIZED, not INCONCLUSIVE/EQUIVALENT", {
+  n <- 20
+  # First 10 datasets: candidate wins big (+20%). Last 10: exact tie (0%).
+  # Global win_rate = 10/20 = 50% (below the 70% SUPERIOR threshold) and the
+  # median delta (10%) sits outside the 1% ROPE, so without subgroup
+  # information this would be INCONCLUSIVE.
+  reference <- rep(100, n)
+  candidate <- c(rep(100 * 0.80, 10), rep(100, 10))
+  results <- make_synthetic_results(n, reference, candidate)
+
+  cmp_no_groups <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+  expect_equal(cmp_no_groups$verdict, "INCONCLUSIVE")
+  expect_null(cmp_no_groups$subgroups)
+
+  groups <- data.frame(
+    dataset = paste0("ds_", seq_len(n)),
+    moran_bucket = rep(c("high_moran", "low_moran"), each = 10),
+    stringsAsFactors = FALSE
+  )
+  cmp <- compare_estimator_variant(
+    results,
+    reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    groups = groups
+  )
+
+  expect_equal(cmp$verdict, "SPECIALIZED")
+  expect_true(nzchar(cmp$verdict_reasons))
+  expect_match(cmp$verdict_reasons, "high_moran")
+  expect_equal(cmp$subgroups$dimension, "moran_bucket")
+  expect_equal(nrow(cmp$subgroups$table), 2L)
+  expect_equal(cmp$subgroups$specialized_in, "high_moran")
+  high_row <- cmp$subgroups$table[cmp$subgroups$table$group == "high_moran", ]
+  expect_equal(high_row$win_rate, 1)
+  expect_true(high_row$eligible)
+  low_row <- cmp$subgroups$table[cmp$subgroups$table$group == "low_moran", ]
+  expect_false(low_row$eligible)
+
+  expect_output(print(cmp), "Subgroups")
+  expect_output(print(cmp), "high_moran")
+})
+
+test_that("groups never overrides an already-SUPERIOR or -INFERIOR verdict", {
+  set.seed(1)
+  n <- 20
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate <- reference * 0.85 # clearly SUPERIOR globally
+  results <- make_synthetic_results(n, reference, candidate)
+  groups <- data.frame(dataset = paste0("ds_", seq_len(n)), bucket = rep(c("a", "b"), n / 2), stringsAsFactors = FALSE)
+
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml", groups = groups)
+  expect_equal(cmp$verdict, "SUPERIOR") # not overridden to SPECIALIZED
+  expect_false(is.null(cmp$subgroups)) # breakdown still computed and available
+})
+
+test_that("require_significance_for_subgroup withholds SPECIALIZED when a subgroup can't reach significance", {
+  n <- 20
+  reference <- rep(100, n)
+  candidate <- c(rep(100 * 0.80, 10), rep(100, 10))
+  results <- make_synthetic_results(n, reference, candidate)
+  groups <- data.frame(
+    dataset = paste0("ds_", seq_len(n)),
+    moran_bucket = rep(c("high_moran", "low_moran"), each = 10),
+    stringsAsFactors = FALSE
+  )
+
+  # All 10 "high_moran" deltas are identical (+20%, no variance) -- wilcox.test()
+  # cannot reject H0 without any spread, so the subgroup fails a significance
+  # requirement even though its win rate is 100%.
+  cmp <- compare_estimator_variant(
+    results,
+    reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    groups = groups,
+    rules = comparison_rules(require_significance_for_subgroup = TRUE)
+  )
+  expect_equal(cmp$subgroups$specialized_in, character(0))
+  expect_equal(cmp$verdict, "INCONCLUSIVE")
+})
+
+test_that("groups validates its shape", {
+  results <- make_synthetic_results(10, rep(10, 10), rep(9, 10))
+  expect_error(
+    compare_estimator_variant(
+      results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+      groups = data.frame(not_dataset = paste0("ds_", 1:10), bucket = "a")
+    ),
+    "dataset"
+  )
+  expect_error(
+    compare_estimator_variant(
+      results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+      groups = data.frame(dataset = paste0("ds_", 1:10), a = "x", b = "y")
+    ),
+    "une seule"
+  )
+})
+
 test_that("a genuinely tied result is still EQUIVALENT, not INCONCLUSIVE", {
   set.seed(3)
   n <- 20

@@ -80,6 +80,18 @@
 #'   reference `duration_sec` (median across cases) before it counts as a
 #'   `"TRADEOFF"` guardrail breach, e.g. `5` = candidate may be up to 5x
 #'   slower. `NA` (default) disables the check.
+#' @param min_cases_for_subgroup Minimum number of cases a subgroup (see the
+#'   `groups` argument of [compare_estimator_variant()]) must have before it
+#'   can trigger a `"SPECIALIZED"` verdict. Deliberately smaller than
+#'   `min_cases_for_verdict` -- subgroups are inherently smaller slices of the
+#'   same evidence -- but still a real floor against calling 2 lucky datasets
+#'   a "systematic advantage". Default `5`.
+#' @param require_significance_for_subgroup If `TRUE`, a subgroup must also
+#'   clear its own paired Wilcoxon test (at `alpha`) to count towards
+#'   `"SPECIALIZED"`. Default `FALSE`: with `min_cases_for_subgroup` this
+#'   small, few subgroups will ever reach significance, so `"SPECIALIZED"` is
+#'   treated as an exploratory/hypothesis-generating signal by default, not a
+#'   confirmatory one -- documented as such rather than silently unreachable.
 #'
 #' @return A `spatial_comparison_rules` object, a plain list of thresholds.
 #' @export
@@ -92,7 +104,9 @@ comparison_rules <- function(min_win_rate = 0.70,
                              alpha = 0.05,
                              min_cases_for_verdict = 10L,
                              secondary_guardrails = c(),
-                             max_runtime_multiplier = NA_real_) {
+                             max_runtime_multiplier = NA_real_,
+                             min_cases_for_subgroup = 5L,
+                             require_significance_for_subgroup = FALSE) {
   structure(
     list(
       min_win_rate = min_win_rate,
@@ -104,7 +118,9 @@ comparison_rules <- function(min_win_rate = 0.70,
       alpha = alpha,
       min_cases_for_verdict = as.integer(min_cases_for_verdict),
       secondary_guardrails = secondary_guardrails,
-      max_runtime_multiplier = max_runtime_multiplier
+      max_runtime_multiplier = max_runtime_multiplier,
+      min_cases_for_subgroup = as.integer(min_cases_for_subgroup),
+      require_significance_for_subgroup = isTRUE(require_significance_for_subgroup)
     ),
     class = "spatial_comparison_rules"
   )
@@ -123,7 +139,9 @@ print.spatial_comparison_rules <- function(x, ...) {
     alpha = "Significance level (Wilcoxon)",
     min_cases_for_verdict = "Min. cases required for a verdict",
     secondary_guardrails = "Secondary guardrails (metric -> max degradation)",
-    max_runtime_multiplier = "Max runtime multiplier"
+    max_runtime_multiplier = "Max runtime multiplier",
+    min_cases_for_subgroup = "Min. cases required for a SPECIALIZED subgroup",
+    require_significance_for_subgroup = "Require Wilcoxon significance per subgroup"
   )
   scalar_fields <- setdiff(names(x), c("secondary_guardrails"))
   for (nm in scalar_fields) {
@@ -233,11 +251,25 @@ case_failure_rate <- function(n_failed, n_total, totally_failed) {
 #'   on the primary metric's per-case delta and require significance (at
 #'   `rules$alpha`) for a `"SUPERIOR"`/`"INFERIOR"` verdict. Set `FALSE` to
 #'   fall back to pure threshold counting.
+#' @param groups Optional subgroup analysis: a `data.frame` with a `dataset`
+#'   column and exactly one grouping column (e.g. an N bucket, a domain
+#'   label, a geometry type -- anything you supply, this function does not
+#'   compute meta-features itself). When the candidate is not globally
+#'   `"SUPERIOR"`/`"INFERIOR"` (i.e. the verdict would otherwise be
+#'   `"EQUIVALENT"` or `"INCONCLUSIVE"`), each group's own win rate is
+#'   checked against `rules$min_win_rate`/`rules$min_cases_for_subgroup`; if
+#'   any group qualifies, the verdict becomes `"SPECIALIZED"` instead --
+#'   "not better everywhere, but systematically better on this identifiable
+#'   subset". The full per-group breakdown is always returned in
+#'   `$subgroups$table`, whether or not it changed the verdict. `NULL`
+#'   (default) skips subgroup analysis entirely -- existing calls are
+#'   unaffected.
 #'
 #' @return An `estimator_comparison` object (or `estimator_comparison_by_scheme`
 #'   when multiple CV schemes are in play) with `per_case` (one row per case),
 #'   `summary` (aggregate statistics, including the CV scheme it covers),
-#'   `guardrails` (secondary-guardrail breaches and their values), `wilcoxon`
+#'   `guardrails` (secondary-guardrail breaches and their values), `subgroups`
+#'   (per-group breakdown when `groups` was supplied, else `NULL`), `wilcoxon`
 #'   (the `htest` result, or `NULL`), `rules`, `verdict` and
 #'   `verdict_reasons` (why that verdict, not just what it is).
 #' @export
@@ -252,7 +284,8 @@ compare_estimator_variant <- function(suite,
                                         moran_abs = TRUE, duration_sec = TRUE
                                       ),
                                       rules = comparison_rules(),
-                                      wilcoxon = TRUE) {
+                                      wilcoxon = TRUE,
+                                      groups = NULL) {
   results <- if (inherits(suite, "spatial_benchmark_suite")) suite$results else suite
   if (!is.data.frame(results)) {
     stop("`suite` doit etre un spatial_benchmark_suite ou un data.frame de resultats.", call. = FALSE)
@@ -274,7 +307,7 @@ compare_estimator_variant <- function(suite,
           results = results[results$cv_scheme == scheme, , drop = FALSE],
           reference = reference, candidate = candidate, cv_scheme_label = scheme,
           primary_metric = primary_metric, secondary_metrics = secondary_metrics,
-          lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon
+          lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups
         )
       }),
       schemes_to_run
@@ -287,13 +320,13 @@ compare_estimator_variant <- function(suite,
   compare_estimator_variant_single(
     results = filtered, reference = reference, candidate = candidate, cv_scheme_label = scheme_label,
     primary_metric = primary_metric, secondary_metrics = secondary_metrics,
-    lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon
+    lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups
   )
 }
 
 compare_estimator_variant_single <- function(results, reference, candidate, cv_scheme_label,
                                              primary_metric, secondary_metrics, lower_is_better,
-                                             rules, wilcoxon) {
+                                             rules, wilcoxon, groups = NULL) {
   guardrail_metrics <- names(rules$secondary_guardrails)
   metrics <- unique(c(primary_metric, secondary_metrics, guardrail_metrics))
   required <- c("dataset", "cv_scheme", "estimator", metrics)
@@ -405,6 +438,7 @@ compare_estimator_variant_single <- function(results, reference, candidate, cv_s
   }
 
   guardrails <- evaluate_secondary_guardrails(valid, rules)
+  subgroups <- compute_subgroup_analysis(valid, groups, primary_metric, rules)
 
   summary_stats <- list(
     reference = reference,
@@ -434,13 +468,17 @@ compare_estimator_variant_single <- function(results, reference, candidate, cv_s
     wilcoxon_p_value = if (!is.null(wilcoxon_result)) wilcoxon_result$p.value else NA_real_
   )
 
-  verdict_info <- comparison_verdict(summary_stats, rules, wilcoxon_requested = isTRUE(wilcoxon), guardrails = guardrails)
+  verdict_info <- comparison_verdict(
+    summary_stats, rules, wilcoxon_requested = isTRUE(wilcoxon),
+    guardrails = guardrails, subgroups = subgroups
+  )
 
   structure(
     list(
       per_case = per_case,
       summary = summary_stats,
       guardrails = guardrails,
+      subgroups = subgroups,
       wilcoxon = wilcoxon_result,
       rules = rules,
       verdict = verdict_info$verdict,
@@ -448,6 +486,70 @@ compare_estimator_variant_single <- function(results, reference, candidate, cv_s
     ),
     class = "estimator_comparison"
   )
+}
+
+compute_subgroup_analysis <- function(valid, groups, primary_metric, rules) {
+  if (is.null(groups)) return(NULL)
+  if (!is.data.frame(groups) || !"dataset" %in% names(groups)) {
+    stop("`groups` doit etre un data.frame avec une colonne `dataset` et exactement une colonne de regroupement.", call. = FALSE)
+  }
+  group_col <- setdiff(names(groups), "dataset")
+  if (length(group_col) != 1L) {
+    stop("`groups` doit avoir exactement une colonne de regroupement en plus de `dataset` (une seule dimension a la fois).", call. = FALSE)
+  }
+  group_col <- group_col[[1]]
+
+  merged <- merge(valid, groups, by = "dataset", all.x = TRUE)
+  merged <- merged[!is.na(merged[[group_col]]), , drop = FALSE]
+  empty_table <- data.frame(
+    group = character(0), n_cases = integer(0), wins = integer(0), losses = integer(0),
+    win_rate = numeric(0), median_delta = numeric(0), large_loss_rate = numeric(0),
+    wilcoxon_p_value = numeric(0), eligible = logical(0), stringsAsFactors = FALSE
+  )
+  if (nrow(merged) == 0L) {
+    return(list(dimension = group_col, table = empty_table, specialized_in = character(0)))
+  }
+
+  delta_col <- paste0("delta_", primary_metric)
+  rope_pct <- 100 * rules$rope
+  large_loss_pct <- 100 * rules$large_loss_threshold
+
+  rows <- lapply(split(merged, merged[[group_col]]), function(g) {
+    delta <- g[[delta_col]]
+    n <- nrow(g)
+    wins <- sum(g$outcome == "WIN")
+    losses <- sum(g$outcome == "LOSS")
+    p_value <- NA_real_
+    if (n >= 3L && length(unique(stats::na.omit(delta))) > 1L) {
+      wt <- tryCatch(suppressWarnings(stats::wilcox.test(delta, mu = 0, alternative = "two.sided")), error = function(e) NULL)
+      if (!is.null(wt)) p_value <- wt$p.value
+    }
+    data.frame(
+      group = as.character(g[[group_col]][[1]]),
+      n_cases = n,
+      wins = wins,
+      losses = losses,
+      win_rate = if (n > 0L) wins / n else NA_real_,
+      median_delta = if (n > 0L) stats::median(delta) else NA_real_,
+      large_loss_rate = if (n > 0L) mean(delta < -large_loss_pct) else NA_real_,
+      wilcoxon_p_value = p_value,
+      stringsAsFactors = FALSE
+    )
+  })
+  table <- do.call(rbind, rows)
+  row.names(table) <- NULL
+
+  sig_ok <- !rules$require_significance_for_subgroup |
+    (!is.na(table$wilcoxon_p_value) & table$wilcoxon_p_value < rules$alpha)
+  table$eligible <-
+    table$n_cases >= rules$min_cases_for_subgroup &
+    !is.na(table$win_rate) & table$win_rate >= rules$min_win_rate &
+    !is.na(table$large_loss_rate) & table$large_loss_rate <= rules$max_large_loss_rate &
+    sig_ok
+  table <- table[order(-table$win_rate, -table$n_cases), , drop = FALSE]
+  row.names(table) <- NULL
+
+  list(dimension = group_col, table = table, specialized_in = table$group[table$eligible])
 }
 
 evaluate_secondary_guardrails <- function(valid, rules) {
@@ -487,7 +589,7 @@ evaluate_secondary_guardrails <- function(valid, rules) {
   list(breaches = breaches, details = details)
 }
 
-comparison_verdict <- function(s, rules, wilcoxon_requested, guardrails) {
+comparison_verdict <- function(s, rules, wilcoxon_requested, guardrails, subgroups = NULL) {
   if (is.na(s$n_cases) || s$n_cases < rules$min_cases_for_verdict) {
     return(list(
       verdict = "INSUFFICIENT_EVIDENCE",
@@ -538,6 +640,24 @@ comparison_verdict <- function(s, rules, wilcoxon_requested, guardrails) {
   if (isTRUE(inferior_core)) {
     return(list(verdict = "INFERIOR", reasons = character(0)))
   }
+
+  # No global directional signal (would otherwise be EQUIVALENT or
+  # INCONCLUSIVE) -- check whether the candidate is nonetheless
+  # systematically better on an identifiable subgroup before settling on
+  # either. "Not better everywhere, but reliably better here" is a different,
+  # more useful claim than either EQUIVALENT or INCONCLUSIVE.
+  if (!is.null(subgroups) && length(subgroups$specialized_in) > 0L) {
+    return(list(
+      verdict = "SPECIALIZED",
+      reasons = sprintf(
+        "pas de superiorite globale, mais avantage systematique sur %s = %s (voir $subgroups$table)%s",
+        subgroups$dimension,
+        paste(sprintf("'%s'", subgroups$specialized_in), collapse = ", "),
+        if (!rules$require_significance_for_subgroup) " -- signal exploratoire, significativite par sous-groupe non exigee" else ""
+      )
+    ))
+  }
+
   if (practically_equivalent) {
     return(list(
       verdict = "EQUIVALENT",
@@ -589,6 +709,16 @@ print.estimator_comparison <- function(x, ...) {
   if (length(x$guardrails$breaches) > 0L) {
     cat("  Guardrail breach", if (length(x$guardrails$breaches) > 1L) "es" else "", ":\n", sep = "")
     for (b in x$guardrails$breaches) cat(sprintf("    - %s\n", b))
+  }
+  if (!is.null(x$subgroups) && nrow(x$subgroups$table) > 0L) {
+    cat(sprintf("  Subgroups (%s):\n", x$subgroups$dimension))
+    for (i in seq_len(nrow(x$subgroups$table))) {
+      g <- x$subgroups$table[i, ]
+      cat(sprintf(
+        "    %s%-20s n=%-3d win_rate=%5.1f%% median_delta=%+.2f%%\n",
+        if (isTRUE(g$eligible)) "* " else "  ", g$group, g$n_cases, 100 * g$win_rate, g$median_delta
+      ))
+    }
   }
   cat(sprintf("  Verdict         %s\n", x$verdict))
   if (length(x$verdict_reasons) > 0L) {
