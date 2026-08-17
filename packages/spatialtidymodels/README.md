@@ -247,6 +247,79 @@ Si `resamples` est absent, le package cree un `rsample::vfold_cv()` classique.
 Pour une validation spatiale plus stricte, construire les folds en amont et les
 passer avec `resamples = ...`.
 
+## Comparer un candidat a un estimateur de reference
+
+Pour repondre a la question "est-ce que ma nouvelle variante d'un estimateur
+fait mieux que l'estimateur de reference ?" sur plusieurs jeux de donnees a la
+fois, deux couches s'ajoutent au-dessus du benchmark: une orchestration
+multi-dataset x multi-schema CV, puis une comparaison statistique. Aucune des
+deux ne trace de graphique -- un futur dashboard ne fera qu'afficher ce que
+ces fonctions retournent.
+
+```r
+suite <- benchmark_spatial_suite(
+  datasets = c("columbus_crime", "georgia", "london_hp"),
+  estimators = c("sar_lag", "spboost_bspa_sar_ml"),
+  cv_schemes = c("near_prediction", "block_spatial")
+)
+
+suite$results           # dataset x estimateur x cv_scheme
+suite$resample_results  # dataset x estimateur x cv_scheme x fold
+```
+
+`datasets` accepte directement des noms enregistres dans
+`available_benchmark_datasets()` (charges via `load_benchmark_dataset()`), ou
+des `spatial_dataset_spec()` construites a la main comme
+`benchmark_spatial_datasets()`.
+
+```r
+cmp <- compare_estimator_variant(
+  suite,
+  reference = "sar_lag",
+  candidate = "spboost_bspa_sar_ml",
+  primary_metric = "rmse",
+  secondary_metrics = c("mae", "moran_abs", "duration_sec")
+)
+
+cmp$verdict    # "SUPERIOR" | "EQUIVALENT" | "INFERIOR" | "UNSTABLE" | "INSUFFICIENT_EVIDENCE"
+cmp$summary    # win rate (+ IC de Wilson), delta median, p-value Wilcoxon, taux d'echec...
+cmp$per_case   # une ligne par dataset x cv_scheme, avec le delta et le WIN/TIE/LOSS
+print(cmp)
+```
+
+Le delta rapporte est toujours "positif = le candidat fait mieux", quelle que
+soit la metrique. Un cas est classe `WIN`/`TIE`/`LOSS` par rapport a une zone
+d'equivalence (`rope`, 1% par defaut) pour eviter qu'un delta de +0.001%
+compte comme une victoire.
+
+Le verdict ne repose pas seulement sur un seuil de pourcentage de victoires:
+par defaut, `compare_estimator_variant()` exige aussi qu'un test de Wilcoxon
+signe (Demsar, 2006, JMLR -- reference standard pour comparer deux algorithmes
+sur plusieurs jeux de donnees) sur les deltas soit significatif avant de
+conclure `SUPERIOR` ou `INFERIOR`. Un taux de victoire de 70% sur seulement 4
+cas ne suffit generalement pas -- le verdict retombe alors sur `EQUIVALENT`
+plutot que de sur-interpreter un petit echantillon. Les seuils sont
+ajustables via `comparison_rules()`:
+
+```r
+rules <- comparison_rules(
+  min_win_rate = 0.70,             # seuil de victoire pour SUPERIOR/INFERIOR
+  max_large_loss_rate = 0.10,      # tolerance aux echecs importants isoles
+  large_loss_threshold = 0.10,     # ce qui compte comme une degradation "importante"
+  max_failure_rate_increase = 0.05,# force UNSTABLE si le candidat plante trop plus souvent
+  rope = 0.01,                     # zone d'equivalence WIN/TIE/LOSS
+  alpha = 0.05,                    # seuil de significativite Wilcoxon
+  min_cases_for_verdict = 10L      # sinon INSUFFICIENT_EVIDENCE
+)
+
+compare_estimator_variant(suite, reference = "sar_lag", candidate = "spboost_bspa_sar_ml", rules = rules)
+```
+
+Cette couche est intentionnellement independante de toute interface: un
+dashboard (pas encore construit) devra seulement appeler
+`compare_estimator_variant()` et afficher `cmp$verdict`/`cmp$summary`, pour
+qu'un utilisateur puisse reproduire exactement la meme conclusion en console.
+
 ## Visualiser les resultats
 
 Le package expose trois familles de graphiques apres estimation.
