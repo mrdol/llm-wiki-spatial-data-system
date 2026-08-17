@@ -150,3 +150,198 @@ test_that("print.estimator_comparison() runs without error", {
   expect_output(print(cmp), "Reference vs candidate comparison")
   expect_output(print(cmp), "Verdict")
 })
+
+# --- cv_scheme separation (Etape 2.B) --------------------------------------
+
+test_that("compare_estimator_variant() never pools multiple cv_schemes into one verdict", {
+  set.seed(10)
+  n <- 15
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate_wins_here <- reference * 0.80  # ~20% better under near_prediction
+  candidate_loses_here <- reference * 1.20  # ~20% worse under block_spatial
+
+  results <- rbind(
+    make_synthetic_results(n, reference, candidate_wins_here, cv_scheme = "near_prediction"),
+    make_synthetic_results(n, reference, candidate_loses_here, cv_scheme = "block_spatial")
+  )
+
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+
+  expect_s3_class(cmp, "estimator_comparison_by_scheme")
+  expect_setequal(names(cmp), c("near_prediction", "block_spatial"))
+  expect_s3_class(cmp$near_prediction, "estimator_comparison")
+  expect_s3_class(cmp$block_spatial, "estimator_comparison")
+  expect_equal(cmp$near_prediction$summary$cv_scheme, "near_prediction")
+  expect_equal(cmp$near_prediction$verdict, "SUPERIOR")
+  expect_equal(cmp$block_spatial$summary$cv_scheme, "block_spatial")
+  expect_equal(cmp$block_spatial$verdict, "INFERIOR")
+  # Each scheme keeps its own 15 cases -- never 30 mixed together.
+  expect_equal(cmp$near_prediction$summary$n_cases, n)
+  expect_equal(cmp$block_spatial$summary$n_cases, n)
+
+  expect_output(print(cmp), "by CV scheme")
+  expect_output(print(cmp), "near_prediction")
+  expect_output(print(cmp), "block_spatial")
+})
+
+test_that("compare_estimator_variant() with an explicit single cv_scheme returns a plain comparison", {
+  set.seed(11)
+  n <- 15
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate_a <- reference * 0.80
+  candidate_b <- reference * 1.20
+  results <- rbind(
+    make_synthetic_results(n, reference, candidate_a, cv_scheme = "near_prediction"),
+    make_synthetic_results(n, reference, candidate_b, cv_scheme = "block_spatial")
+  )
+
+  cmp <- compare_estimator_variant(
+    results,
+    reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    cv_scheme = "block_spatial"
+  )
+
+  expect_s3_class(cmp, "estimator_comparison")
+  expect_false(inherits(cmp, "estimator_comparison_by_scheme"))
+  expect_equal(cmp$summary$cv_scheme, "block_spatial")
+  expect_equal(cmp$summary$n_cases, n)
+  expect_equal(cmp$verdict, "INFERIOR")
+})
+
+# --- fold-level failure rate (Etape 2.C) ------------------------------------
+
+test_that("partial fold failures trigger UNSTABLE even when the aggregate metric is still available", {
+  set.seed(12)
+  n <- 15
+  reference_rmse <- 10 + stats::runif(n, -1, 1)
+  candidate_rmse <- reference_rmse * 0.80 # candidate clearly wins on RMSE where it fits
+
+  results <- rbind(
+    data.frame(
+      dataset = paste0("ds_", seq_len(n)), cv_scheme = "near_prediction", estimator = "sar_lag",
+      rmse = reference_rmse, mae = reference_rmse * 0.8, moran_abs = 0.05, duration_sec = 1,
+      n_resamples = 5L, n_failed_resamples = 0L, stringsAsFactors = FALSE
+    ),
+    data.frame(
+      dataset = paste0("ds_", seq_len(n)), cv_scheme = "near_prediction", estimator = "spboost_bspa_sar_ml",
+      rmse = candidate_rmse, mae = candidate_rmse * 0.8, moran_abs = 0.05, duration_sec = 5,
+      # 2 of 5 folds fail for every dataset, but the aggregate RMSE from the
+      # 3 that succeed is still present and still beats the reference.
+      n_resamples = 5L, n_failed_resamples = 2L, stringsAsFactors = FALSE
+    )
+  )
+
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+
+  # None of the rows are NA, so the old is.na()-based flag would have seen 0
+  # failures. The fold-level rate must catch it instead.
+  expect_true(all(!cmp$per_case$candidate_failed))
+  expect_equal(cmp$summary$failure_rate_candidate, 0.4, tolerance = 1e-8)
+  expect_true(cmp$summary$failure_rate_fold_level)
+  expect_gt(cmp$summary$win_rate, 0.9) # candidate still "wins" on RMSE where it fits
+  expect_equal(cmp$verdict, "UNSTABLE")
+})
+
+test_that("failure rate falls back to the all-or-nothing flag when fold columns are absent", {
+  # Same scenario as the SUPERIOR test but re-asserting the fallback flag
+  # explicitly, since make_synthetic_results() never sets n_resamples/n_failed_resamples.
+  set.seed(1)
+  n <- 20
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate <- reference * 0.85
+  results <- make_synthetic_results(n, reference, candidate)
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+  expect_false(cmp$summary$failure_rate_fold_level)
+  expect_equal(cmp$summary$failure_rate_candidate, 0)
+})
+
+# --- secondary guardrails (Etape 2.D) ---------------------------------------
+
+test_that("a secondary guardrail breach downgrades SUPERIOR to TRADEOFF", {
+  set.seed(13)
+  n <- 15
+  reference_rmse <- 10 + stats::runif(n, -1, 1)
+  candidate_rmse <- reference_rmse * 0.80 # candidate clearly superior on RMSE
+
+  results <- data.frame(
+    dataset = rep(paste0("ds_", seq_len(n)), 2),
+    cv_scheme = "near_prediction",
+    estimator = rep(c("sar_lag", "spboost_bspa_sar_ml"), each = n),
+    rmse = c(reference_rmse, candidate_rmse),
+    # MAE degrades by ~10% for the candidate -- well beyond a 3% guardrail.
+    mae = c(reference_rmse * 0.8, reference_rmse * 0.8 * 1.10),
+    moran_abs = 0.05,
+    duration_sec = c(rep(1, n), rep(5, n)),
+    stringsAsFactors = FALSE
+  )
+
+  cmp_default <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+  expect_equal(cmp_default$verdict, "SUPERIOR") # no guardrail configured -> unaffected
+
+  cmp_guarded <- compare_estimator_variant(
+    results,
+    reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(secondary_guardrails = c(mae = 0.03))
+  )
+  expect_equal(cmp_guarded$verdict, "TRADEOFF")
+  expect_true(length(cmp_guarded$guardrails$breaches) > 0)
+  expect_match(cmp_guarded$guardrails$breaches[[1]], "mae")
+  expect_output(print(cmp_guarded), "Guardrail breach")
+})
+
+test_that("max_runtime_multiplier guardrail downgrades SUPERIOR to TRADEOFF", {
+  set.seed(14)
+  n <- 15
+  reference_rmse <- 10 + stats::runif(n, -1, 1)
+  candidate_rmse <- reference_rmse * 0.80
+
+  results <- data.frame(
+    dataset = rep(paste0("ds_", seq_len(n)), 2),
+    cv_scheme = "near_prediction",
+    estimator = rep(c("sar_lag", "spboost_bspa_sar_ml"), each = n),
+    rmse = c(reference_rmse, candidate_rmse),
+    mae = c(reference_rmse * 0.8, candidate_rmse * 0.8),
+    moran_abs = 0.05,
+    duration_sec = c(rep(1, n), rep(50, n)), # candidate is 50x slower
+    stringsAsFactors = FALSE
+  )
+
+  cmp <- compare_estimator_variant(
+    results,
+    reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(max_runtime_multiplier = 5)
+  )
+  expect_equal(cmp$verdict, "TRADEOFF")
+  expect_match(paste(cmp$guardrails$breaches, collapse = " "), "runtime")
+})
+
+# --- INCONCLUSIVE vs real EQUIVALENT (Etape 2.E) ----------------------------
+
+test_that("a mixed, non-significant result is INCONCLUSIVE rather than defaulting to EQUIVALENT", {
+  # 9 wins at +20%, 11 losses at -12% -- deterministic, no randomness.
+  # win_rate = 45%, loss_rate = 55%: neither reaches the 70% threshold, and
+  # the median delta (-12%) sits well outside the default 1% ROPE, so this
+  # must NOT be reported as a genuine equivalence.
+  reference <- rep(100, 20)
+  candidate <- c(rep(100 * 0.80, 9), rep(100 * 1.12, 11))
+  results <- make_synthetic_results(20, reference, candidate)
+
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+
+  expect_lt(cmp$summary$win_rate, 0.70)
+  expect_lt(cmp$summary$loss_rate, 0.70)
+  expect_gt(abs(cmp$summary$median_delta), 1) # outside the 1% ROPE
+  expect_equal(cmp$verdict, "INCONCLUSIVE")
+  expect_true(nzchar(cmp$verdict_reasons))
+})
+
+test_that("a genuinely tied result is still EQUIVALENT, not INCONCLUSIVE", {
+  set.seed(3)
+  n <- 20
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate <- reference * stats::runif(n, 0.997, 1.003) # inside default 1% ROPE
+  results <- make_synthetic_results(n, reference, candidate)
+  cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+  expect_equal(cmp$verdict, "EQUIVALENT")
+  expect_true(nzchar(cmp$verdict_reasons))
+})
