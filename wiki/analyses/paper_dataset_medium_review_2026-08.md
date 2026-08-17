@@ -2,7 +2,7 @@
 title: "Medium Paper Dataset Candidates - Manual Review Queue"
 type: analysis
 created: 2026-08-10
-updated: 2026-08-16
+updated: 2026-08-17
 sources:
   - tools/build_paper_dataset_curation_manifest.py
 tags: [papers, datasets, benchmark, curation]

@@ -2,7 +2,7 @@
 title: "Paper Dataset Benchmark Candidates"
 type: analysis
 created: 2026-08-09
-updated: 2026-08-16
+updated: 2026-08-17
 sources:
   - tools/build_paper_dataset_curation_manifest.py
   - inst/kg/paper_dataset_uses.json

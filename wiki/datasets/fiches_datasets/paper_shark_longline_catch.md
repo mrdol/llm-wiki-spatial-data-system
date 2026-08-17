@@ -187,6 +187,7 @@ estimator_eligibility:
 - T periods: 9
 - Variable temporelle: year
 - N/T profile: N_grand_T_moyen
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (8592) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 300 ; panel NON EQUILIBRE (T par unite : min=4, mediane=36, max=36). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 300 unites spatiales distinctes, pas sur les 8592 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
 

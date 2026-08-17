@@ -144,6 +144,7 @@ modeling_evidence:
 - T periods: 7
 - Variable temporelle: year
 - N/T profile: N_moyen_T_moyen
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (216) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 171 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=3). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 171 unites spatiales distinctes, pas sur les 216 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 - Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
