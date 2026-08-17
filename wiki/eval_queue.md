@@ -163,3 +163,4 @@
 | 2026-08-17 | [[dryad_v41ns1rvb_forest_loss_cordillera]] | 0.74 | dataset | N_observations, spatial_resolution_unit, xlsx_schema_inspection, formula_specification_from_file, imputation_status | La fiche satisfait les critères de documentation et cohérence. Les typologies Y  | [ ] a corriger |
 | 2026-08-17 | [[paper_airbnb_europe_prices]] | 0.74 | dataset | benchmark_readiness.missing_items, bloc_5_crs_analyse_recommande, license_fields | La fiche satisfait tous les critères critiques du schéma v3. Y (log_price, conti | [ ] a corriger |
 | 2026-08-17 | [[paper_alps_floristic_legacy]] | 0.74 | dataset | license_metadata, year_publication | La fiche satisfait les critères majeurs de validation. Y est un continuous numér | [ ] a corriger |
+| 2026-08-17 | [[paper_korea_hedonic_housing_1995]] | 0.74 | dataset | license_status, model_family_level_2_and_3 | La fiche respecte les critères majeurs du schéma v3. Y (Housing.price) est conti | [ ] a corriger |
