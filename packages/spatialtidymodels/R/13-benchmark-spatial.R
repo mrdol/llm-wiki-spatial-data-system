@@ -64,8 +64,9 @@ spatial_benchmark_registry <- function() {
   if (!"test_datasets" %in% names(out)) {
     out$test_datasets <- I(rep(list(character()), nrow(out)))
   }
-  if (!"family" %in% names(out)) out$family <- NA_character_
-  if (!"reference_estimator" %in% names(out)) out$reference_estimator <- NA_character_
+  for (field in c("family", "role", "reference_estimator", "variant_family")) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
   custom <- registered_spatial_estimators()
   if (nrow(custom) > 0L) {
     custom$test_datasets <- I(rep(list(character()), nrow(custom)))

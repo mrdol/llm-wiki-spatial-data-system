@@ -43,7 +43,15 @@ custom_estimator_registry_env <- new.env(parent = emptyenv())
 #' @param reference_estimator Name of the built-in (or another registered)
 #'   estimator this one should be compared against by default -- feeds
 #'   `compare_estimator_variant(reference = ...)` conventions and any future
-#'   dashboard grouping. Purely informative; not enforced.
+#'   dashboard grouping. Purely informative; not enforced. Supplying it also
+#'   sets `role = "variant"` in `available_benchmark_estimators()`/
+#'   `registered_spatial_estimators()`; leaving it `NA` gives `role =
+#'   "reference"` (same two-role convention as the package's built-in
+#'   estimator taxonomy -- see `family`/`role`/`reference_estimator`/
+#'   `variant_family` columns there).
+#' @param variant_family Free-text label for *how* this estimator varies from
+#'   its reference (e.g. `"boosting"`, `"alternate_backend"`), mirroring the
+#'   built-in taxonomy's `variant_family` column. Purely informative.
 #' @param requires_coords,requires_W Informative flags describing what the
 #'   estimator needs; `requires_W` does not yet trigger automatic `W`
 #'   construction (see Details above the source).
@@ -63,6 +71,7 @@ custom_estimator_registry_env <- new.env(parent = emptyenv())
 register_spatial_estimator <- function(id, fit, predict,
                                        family = NA_character_,
                                        reference_estimator = NA_character_,
+                                       variant_family = NA_character_,
                                        requires_coords = TRUE,
                                        requires_W = FALSE,
                                        tunable_parameters = character(0),
@@ -89,7 +98,7 @@ register_spatial_estimator <- function(id, fit, predict,
     id,
     list(
       id = id, fit = fit, predict = predict,
-      family = family, reference_estimator = reference_estimator,
+      family = family, reference_estimator = reference_estimator, variant_family = variant_family,
       requires_coords = isTRUE(requires_coords), requires_W = isTRUE(requires_W),
       tunable_parameters = tunable_parameters,
       package = package, notes = notes
@@ -123,12 +132,14 @@ custom_estimator_registry_as_df <- function() {
     package = character(0), backend = character(0), automatic = logical(0),
     requires_coords = logical(0), requires_W = logical(0),
     spatial_args = character(0), tunable_parameters = character(0),
-    notes = character(0), family = character(0), reference_estimator = character(0),
+    notes = character(0), family = character(0), role = character(0),
+    reference_estimator = character(0), variant_family = character(0),
     stringsAsFactors = FALSE
   )
   if (!length(ids)) return(empty)
   entries <- mget(ids, envir = custom_estimator_registry_env)
   rows <- lapply(entries, function(e) {
+    ref <- e$reference_estimator %||% NA_character_
     data.frame(
       estimator = e$id,
       status = "automatic",
@@ -142,7 +153,12 @@ custom_estimator_registry_as_df <- function() {
       tunable_parameters = paste(e$tunable_parameters, collapse = ", "),
       notes = e$notes %||% "",
       family = e$family %||% NA_character_,
-      reference_estimator = e$reference_estimator %||% NA_character_,
+      # Same convention as the built-in taxonomy: a registered estimator with
+      # a reference_estimator is a "variant" of it, otherwise it's its own
+      # "reference" (there is no "alias" case for user-registered estimators).
+      role = if (!is.na(ref)) "variant" else "reference",
+      reference_estimator = ref,
+      variant_family = e$variant_family %||% NA_character_,
       stringsAsFactors = FALSE
     )
   })

@@ -128,6 +128,13 @@ metadata_estimator_registry <- function() {
   out$spatial_args <- as.character(out$spatial_args)
   out$tunable_parameters <- as.character(out$tunable_parameters)
   out$notes <- as.character(out$notes)
+  # Estimator taxonomy (which statistical family, reference vs variant/alias
+  # -- see code/package_metadata/export_spatialtidymodels_metadata.py's
+  # ESTIMATOR_TAXONOMY). Defaults to NA for an estimators.json generated
+  # before this field existed, so an un-regenerated install still loads.
+  for (field in c("family", "role", "reference_estimator", "variant_family")) {
+    out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
+  }
   rownames(out) <- NULL
   out
 }

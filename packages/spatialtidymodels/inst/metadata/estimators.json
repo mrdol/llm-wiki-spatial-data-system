@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-08-17T12:55:20.763073+00:00",
+  "generated_at": "2026-08-17T18:03:51.997857+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -137,7 +137,11 @@
       ],
       "wiki_key": "ols",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "baseline",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "gam_spatial",
@@ -268,7 +272,11 @@
       ],
       "wiki_key": "gam",
       "wiki_path": "wiki/estimators/gam.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "gam_spatial",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "gamboost",
@@ -395,7 +403,11 @@
       ],
       "wiki_key": "gamboost",
       "wiki_path": "wiki/estimators/gamboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "gam_spatial",
+      "role": "variant",
+      "reference_estimator": "gam_spatial",
+      "variant_family": "boosting"
     },
     {
       "estimator": "earth",
@@ -412,7 +424,11 @@
       "test_datasets": [],
       "wiki_key": "mars",
       "wiki_path": "wiki/estimators/mars.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "earth",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "earth_xy",
@@ -429,7 +445,11 @@
       "test_datasets": [],
       "wiki_key": "mars",
       "wiki_path": "wiki/estimators/mars.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "earth",
+      "role": "variant",
+      "reference_estimator": "earth",
+      "variant_family": "coordinate_augmented"
     },
     {
       "estimator": "random_forest",
@@ -556,7 +576,11 @@
       ],
       "wiki_key": "random_forest",
       "wiki_path": "wiki/estimators/random_forest.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "random_forest",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "random_forest_xy",
@@ -683,7 +707,11 @@
       ],
       "wiki_key": "random_forest",
       "wiki_path": "wiki/estimators/random_forest.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "random_forest",
+      "role": "variant",
+      "reference_estimator": "random_forest",
+      "variant_family": "coordinate_augmented"
     },
     {
       "estimator": "xgboost",
@@ -810,7 +838,11 @@
       ],
       "wiki_key": "xgboost",
       "wiki_path": "wiki/estimators/xgboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "xgboost",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "xgboost_xy",
@@ -937,7 +969,11 @@
       ],
       "wiki_key": "xgboost",
       "wiki_path": "wiki/estimators/xgboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "xgboost",
+      "role": "variant",
+      "reference_estimator": "xgboost",
+      "variant_family": "coordinate_augmented"
     },
     {
       "estimator": "spatialml_grf",
@@ -954,7 +990,11 @@
       "test_datasets": [],
       "wiki_key": "spatialml_grf",
       "wiki_path": "wiki/estimators/spatialml_grf.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "spatialml_grf",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "spatialrf",
@@ -971,7 +1011,11 @@
       "test_datasets": [],
       "wiki_key": "spatialrf",
       "wiki_path": "wiki/estimators/spatialrf.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "spatialrf",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "rfgls",
@@ -988,7 +1032,11 @@
       "test_datasets": [],
       "wiki_key": "rfgls",
       "wiki_path": "wiki/estimators/rfgls.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "rfgls",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "sar_lag",
@@ -1115,7 +1163,11 @@
       ],
       "wiki_key": "sar_lag",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "SAR",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "sem_error",
@@ -1242,7 +1294,11 @@
       ],
       "wiki_key": "sem_error",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "SEM",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "sdm_mixed",
@@ -1369,7 +1425,11 @@
       ],
       "wiki_key": "sdm_mixed",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "SDM",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "spboost",
@@ -1386,7 +1446,11 @@
       "test_datasets": [],
       "wiki_key": "spboost",
       "wiki_path": "wiki/estimators/spboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SAR",
+      "role": "alias",
+      "reference_estimator": "spboost_bspa_sar_ml",
+      "variant_family": "boosting"
     },
     {
       "estimator": "spboost_bspa_sar_ml",
@@ -1407,7 +1471,11 @@
       ],
       "wiki_key": "spboost",
       "wiki_path": "wiki/estimators/spboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SAR",
+      "role": "variant",
+      "reference_estimator": "sar_lag",
+      "variant_family": "boosting"
     },
     {
       "estimator": "spboost_bspa_sar_cfe",
@@ -1428,7 +1496,11 @@
       ],
       "wiki_key": "spboost",
       "wiki_path": "wiki/estimators/spboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SAR",
+      "role": "variant",
+      "reference_estimator": "sar_lag",
+      "variant_family": "boosting"
     },
     {
       "estimator": "spboost_bspa_sem_ml",
@@ -1447,7 +1519,11 @@
       ],
       "wiki_key": "spboost",
       "wiki_path": "wiki/estimators/spboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SEM",
+      "role": "variant",
+      "reference_estimator": "sem_error",
+      "variant_family": "boosting"
     },
     {
       "estimator": "spboost_bspa_sem_cfe",
@@ -1466,7 +1542,11 @@
       ],
       "wiki_key": "spboost",
       "wiki_path": "wiki/estimators/spboost.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SEM",
+      "role": "variant",
+      "reference_estimator": "sem_error",
+      "variant_family": "boosting"
     },
     {
       "estimator": "mgwrsar_gwr",
@@ -1490,7 +1570,11 @@
       ],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "GWR",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "mgwrsar_sar",
@@ -1507,7 +1591,11 @@
       "test_datasets": [],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "SAR",
+      "role": "variant",
+      "reference_estimator": "sar_lag",
+      "variant_family": "alternate_backend"
     },
     {
       "estimator": "mgwrsar_mgwr",
@@ -1529,7 +1617,11 @@
       ],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "GWR",
+      "role": "variant",
+      "reference_estimator": "mgwrsar_gwr",
+      "variant_family": "multiscale"
     },
     {
       "estimator": "mgwrsar_mgwrsar",
@@ -1546,7 +1638,11 @@
       "test_datasets": [],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "mgwrsar_hybrid",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "MGWRSAR_0_kc_kv",
@@ -1567,7 +1663,11 @@
       ],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "mgwrsar_hybrid",
+      "role": "variant",
+      "reference_estimator": "mgwrsar_mgwrsar",
+      "variant_family": "mixed_constant_lambda"
     },
     {
       "estimator": "MGWRSAR_1_kc_kv",
@@ -1588,7 +1688,11 @@
       ],
       "wiki_key": "mgwrsar",
       "wiki_path": "wiki/estimators/mgwrsar.md",
-      "metadata_status": "wiki_fiche_found"
+      "metadata_status": "wiki_fiche_found",
+      "family": "mgwrsar_hybrid",
+      "role": "variant",
+      "reference_estimator": "mgwrsar_mgwrsar",
+      "variant_family": "mixed_local_lambda"
     },
     {
       "estimator": "spmoran_esf",
@@ -1607,7 +1711,11 @@
       ],
       "wiki_key": "spmoran",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "ESF",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null
     },
     {
       "estimator": "spmoran_resf",
@@ -1626,7 +1734,11 @@
       ],
       "wiki_key": "spmoran",
       "wiki_path": null,
-      "metadata_status": "package_registry_only"
+      "metadata_status": "package_registry_only",
+      "family": "ESF",
+      "role": "variant",
+      "reference_estimator": "spmoran_esf",
+      "variant_family": "random_effects"
     }
   ]
 }

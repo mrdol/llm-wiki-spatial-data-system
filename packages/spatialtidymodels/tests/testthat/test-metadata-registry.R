@@ -71,6 +71,80 @@ test_that("les relations dataset-estimateur viennent des fiches Markdown exporte
   expect_match(columbus$eligibility_notes, "fiche Markdown")
 })
 
+test_that("le registre expose la taxonomie family/role/reference_estimator/variant_family", {
+  estimators <- available_benchmark_estimators(include_installed = FALSE)
+  expect_true(all(c("family", "role", "reference_estimator", "variant_family") %in% names(estimators)))
+  expect_true(all(estimators$role %in% c("reference", "variant", "alias")))
+
+  by_name <- function(id) estimators[estimators$estimator == id, , drop = FALSE]
+
+  # References have no reference_estimator of their own.
+  expect_equal(by_name("sar_lag")$role, "reference")
+  expect_true(is.na(by_name("sar_lag")$reference_estimator))
+  expect_equal(by_name("sem_error")$role, "reference")
+
+  # SAR/SEM boosting variants point back to their spatialreg reference.
+  expect_equal(by_name("spboost_bspa_sar_ml")$reference_estimator, "sar_lag")
+  expect_equal(by_name("spboost_bspa_sar_cfe")$reference_estimator, "sar_lag")
+  expect_equal(by_name("spboost_bspa_sem_ml")$reference_estimator, "sem_error")
+  expect_equal(by_name("spboost_bspa_sem_cfe")$reference_estimator, "sem_error")
+  expect_equal(by_name("mgwrsar_sar")$reference_estimator, "sar_lag")
+
+  # spboost is a historical alias of spboost_bspa_sar_ml, not a distinct variant.
+  expect_equal(by_name("spboost")$role, "alias")
+  expect_equal(by_name("spboost")$reference_estimator, "spboost_bspa_sar_ml")
+
+  # Group 1 (validated with the user): spatialml_grf/spatialrf/rfgls are
+  # three structurally different spatial-RF approaches, each its own
+  # standalone reference family -- not variants of random_forest or of
+  # each other.
+  for (id in c("spatialml_grf", "spatialrf", "rfgls")) {
+    row <- by_name(id)
+    expect_equal(row$role, "reference")
+    expect_true(is.na(row$reference_estimator))
+    expect_equal(row$family, id) # each is its own family
+  }
+
+  # Group 2 (validated with the user): mgwrsar_mgwrsar/MGWRSAR_0_kc_kv/
+  # MGWRSAR_1_kc_kv form their own "mgwrsar_hybrid" family (GWR-style local
+  # coefficients + SAR-style autocorrelation), not folded into GWR or SAR.
+  expect_equal(by_name("mgwrsar_mgwrsar")$family, "mgwrsar_hybrid")
+  expect_equal(by_name("mgwrsar_mgwrsar")$role, "reference")
+  expect_equal(by_name("MGWRSAR_0_kc_kv")$reference_estimator, "mgwrsar_mgwrsar")
+  expect_equal(by_name("MGWRSAR_1_kc_kv")$reference_estimator, "mgwrsar_mgwrsar")
+  expect_equal(by_name("mgwrsar_gwr")$family, "GWR")
+  expect_equal(by_name("mgwrsar_mgwr")$reference_estimator, "mgwrsar_gwr")
+
+  # Every estimator in the built-in registry has a taxonomy entry -- none
+  # silently fell through to NA family/role.
+  expect_true(all(!is.na(estimators$family)))
+  expect_true(all(!is.na(estimators$role)))
+})
+
+test_that("register_spatial_estimator() carries role/variant_family without erasing them for built-ins", {
+  on.exit(unregister_spatial_estimator("taxonomy_test_variant"), add = TRUE)
+  register_spatial_estimator(
+    id = "taxonomy_test_variant",
+    fit = function(formula, data, coords) stats::lm(formula, data = data),
+    predict = function(fit, new_data) stats::predict(fit, newdata = new_data),
+    family = "SAR",
+    reference_estimator = "sar_lag",
+    variant_family = "custom",
+    requires_coords = FALSE
+  )
+
+  estimators <- available_benchmark_estimators(include_installed = FALSE)
+  custom_row <- estimators[estimators$estimator == "taxonomy_test_variant", , drop = FALSE]
+  expect_equal(custom_row$role, "variant")
+  expect_equal(custom_row$reference_estimator, "sar_lag")
+  expect_equal(custom_row$variant_family, "custom")
+
+  # Registering a custom estimator must not wipe out the built-ins' own
+  # role/variant_family via the intersect()-based column merge.
+  sar_lag_row <- estimators[estimators$estimator == "sar_lag", , drop = FALSE]
+  expect_equal(sar_lag_row$role, "reference")
+})
+
 test_that("explain_dataset et explain_estimator exposent la couche de guidage", {
   dataset_info <- explain_dataset("columbus_crime", evidence = "all")
   estimator_info <- explain_estimator("sar_lag")
