@@ -2670,7 +2670,7 @@ for (record_id in records_to_generate) {
   if (!is.null(ov)) {
     if (!is.null(ov$formula_used)) formula_used <- ov$formula_used
     if (!is.null(ov$formula_pub)) formula_pub <- ov$formula_pub
-    formula_note <- paste0("Formule/reference verifiee par lecture directe du papier source (session du ", TODAY, "). ", ov$source_ref)
+    formula_note <- paste0("Formule/reference verifiee par lecture directe du papier source (session du ", TODAY, "). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.")
   }
 
   y_typologies <- if (length(y_vars)) unique(sapply(y_vars, function(v) classify_typology(df[[v]], v)$typology)) else character(0)
@@ -2738,7 +2738,15 @@ for (record_id in records_to_generate) {
   x_pub_display <- if (!is.null(ov) && !is.null(ov$x_terms_pub)) paste(ov$x_terms_pub, collapse = ", ") else if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
   x_used_display <- if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
   y_used_display <- extract_formula_response(formula_used)
-  modeling_source_ref <- if (!is.null(ov)) ov$source_ref else "data/raw/papers (loader-derived, no published equation located)"
+  modeling_source_ref_full <- if (!is.null(ov)) ov$source_ref else "data/raw/papers (loader-derived, no published equation located)"
+  # The full citation/methodology text lives once in prose ("Reference
+  # publication" in Bloc 1) and once as structured data (modeling_evidence
+  # YAML in Bloc 3). formula_candidates_block()'s per-role source_ref fields
+  # reuse it verbatim otherwise, so point back to those instead of repeating
+  # the same paragraph 3 more times in the same fiche.
+  modeling_source_ref_pointer <- if (!is.null(ov)) {
+    "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+  } else modeling_source_ref_full
   readiness <- PAPER_READINESS[[record_id]]
   if (is.null(readiness)) readiness <- default_readiness(record_id)
   fcb <- formula_candidates_block(
@@ -2746,7 +2754,7 @@ for (record_id in records_to_generate) {
     y_pub_display,
     if (!is.null(ov) && !is.null(ov$x_terms_pub)) ov$x_terms_pub else x_for_yaml,
     is_published,
-    modeling_source_ref,
+    modeling_source_ref_pointer,
     ml_formula = if (!is.null(ov)) ov$ml_formula else NULL,
     ml_response = if (!is.null(ov)) ov$ml_response else NULL,
     ml_predictors = if (!is.null(ov)) ov$ml_predictors else NULL,
@@ -2766,7 +2774,7 @@ for (record_id in records_to_generate) {
     sprintf("  equation_family: %s", if (is_published && !is.null(ov$equation_family)) ov$equation_family else if (is_published) "paper_empirical_or_dataset_specific" else "generated_system_candidate"),
     sprintf("  model_family: %s", if (is_published && !is.null(ov$model_family)) ov$model_family else if (is_published) "spatial_or_paper_specific_regression" else "unknown"),
     sprintf("  source_type: %s", modeling_source_type),
-    sprintf('  source_ref: "%s"', gsub('"', "'", modeling_source_ref)),
+    sprintf('  source_ref: "%s"', gsub('"', "'", modeling_source_ref_full)),
     sprintf("  confidence: %s", if (is_published) "medium" else "low"),
     "```",
     sep = "\n"
