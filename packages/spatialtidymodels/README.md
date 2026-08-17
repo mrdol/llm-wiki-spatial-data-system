@@ -320,6 +320,62 @@ dashboard (pas encore construit) devra seulement appeler
 `compare_estimator_variant()` et afficher `cmp$verdict`/`cmp$summary`, pour
 qu'un utilisateur puisse reproduire exactement la meme conclusion en console.
 
+## Tester sa propre variante d'un estimateur
+
+`register_spatial_estimator()` branche un estimateur "maison" au benchmark
+sans toucher au code interne du package -- c'est le point d'entree pour
+quelqu'un qui vient de developper une nouvelle variante (un SAR non lineaire,
+un SAR boosting different de `spboost`, etc.) et veut la comparer a
+l'estimateur de reference existant.
+
+Le contrat est volontairement minimal:
+
+```r
+register_spatial_estimator(
+  id = "my_nonlinear_sar",
+  fit = function(formula, data, coords) {
+    # construire W ici avec build_knn_W()/build_knn_listw() si necessaire,
+    # puis ajuster le modele
+    my_nonlinear_sar_fit(formula, data, coords)
+  },
+  predict = function(fit, new_data) {
+    my_nonlinear_sar_predict(fit, new_data) # vecteur numerique
+  },
+  family = "sar",
+  reference_estimator = "sar_lag",
+  requires_coords = TRUE,
+  requires_W = TRUE,
+  notes = "Variante non lineaire du SAR classique"
+)
+```
+
+L'estimateur enregistre apparait immediatement dans
+`available_benchmark_estimators()` et peut etre utilise partout ou un nom
+d'estimateur integre le serait:
+
+```r
+suite <- benchmark_spatial_suite(
+  datasets = c("columbus_crime", "georgia", "london_hp"),
+  estimators = c("sar_lag", "my_nonlinear_sar"),
+  cv_schemes = c("near_prediction", "block_spatial")
+)
+
+compare_estimator_variant(suite, reference = "sar_lag", candidate = "my_nonlinear_sar")
+```
+
+`registered_spatial_estimators()` liste les estimateurs enregistres dans la
+session courante, `unregister_spatial_estimator(id)` les retire.
+
+Deux limites assumees dans cette premiere version:
+
+- `requires_W = TRUE` est pour l'instant seulement une metadonnee affichee ;
+  le package ne construit pas encore automatiquement `W` pour un estimateur
+  enregistre. Construire `W` dans `fit` avec `build_knn_W()` ou
+  `build_knn_listw()` (deja exportees).
+- Le tuning (`benchmark_spatial(tune = TRUE)`) n'est pas encore cable pour les
+  estimateurs enregistres -- fixer les hyperparametres dans la fermeture de
+  `fit` en attendant.
+
 ## Visualiser les resultats
 
 Le package expose trois familles de graphiques apres estimation.

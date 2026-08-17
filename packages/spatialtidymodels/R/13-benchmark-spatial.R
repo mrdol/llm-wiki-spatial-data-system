@@ -64,12 +64,23 @@ spatial_benchmark_registry <- function() {
   if (!"test_datasets" %in% names(out)) {
     out$test_datasets <- I(rep(list(character()), nrow(out)))
   }
+  if (!"family" %in% names(out)) out$family <- NA_character_
+  if (!"reference_estimator" %in% names(out)) out$reference_estimator <- NA_character_
+  custom <- registered_spatial_estimators()
+  if (nrow(custom) > 0L) {
+    custom$test_datasets <- I(rep(list(character()), nrow(custom)))
+    common_cols <- intersect(names(out), names(custom))
+    out <- rbind(out[, common_cols, drop = FALSE], custom[, common_cols, drop = FALSE])
+  }
   out
 }
 
 package_available <- function(package) {
   # stats est fourni par R; les autres packages sont verifies sans les attacher.
+  # NA/vide: estimateur enregistre par l'utilisateur sans dependance externe a
+  # verifier (voir register_spatial_estimator()).
   if (identical(package, "stats")) return(TRUE)
+  if (is.na(package) || !nzchar(package)) return(TRUE)
   requireNamespace(package, quietly = TRUE)
 }
 
@@ -432,7 +443,13 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       make_benchmark_workflow(spec, formula, coords, data) |>
         workflows::fit(data = data)
     },
-    stop(sprintf("Estimateur non automatise dans benchmark_spatial(): %s", estimator), call. = FALSE)
+    {
+      custom <- get_custom_estimator(estimator)
+      if (is.null(custom)) {
+        stop(sprintf("Estimateur non automatise dans benchmark_spatial(): %s", estimator), call. = FALSE)
+      }
+      fit_custom_spatial_estimator(custom, formula, data, coords)
+    }
   )
 }
 
