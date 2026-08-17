@@ -24,6 +24,25 @@ Ce package est une extension interne en developpement: le code est versionne,
 teste localement et utilisable dans le projet, mais pas encore stabilise comme
 API publique ou package CRAN.
 
+## Catalogue de datasets
+
+`available_benchmark_datasets()` lit `inst/metadata/datasets.json` (genere par
+`code/package_metadata/export_spatialtidymodels_metadata.py` a partir des
+fiches wiki) et expose actuellement 155 datasets marques
+`package_include: "yes"` sur 289 fiches papier/package au total.
+
+Ce registre pointe vers les `.rds` sources sous `data/final_datasets/sf/` du
+depot `llm-wiki-karpathy` (via le champ `rds` de chaque entree). Seuls 7
+datasets (`georgia`, `columbus_crime`, `london_hp`, `boston_housing`,
+`dub_voter`, `ewhp`, `lasrosas`) sont en plus embarques comme objets `data()`
+natifs du package (`data-raw/prepare-benchmark-data.R`, non regenere depuis le
+bootstrap initial). Pour quelqu'un travaillant dans ce depot, les 155 datasets
+sont directement utilisables via `benchmark_spatial_dataset()` ; en dehors du
+depot, seuls les 7 datasets embarques le sont sans configuration
+supplementaire. Ce n'est pas un probleme pour l'usage interne actuel, mais
+c'est un point a traiter avant toute publication du package (distribution des
+donnees, cf. audit CRAN-readiness).
+
 ## API utilisateur stabilisee en premier
 
 L'entree recommandee pour les modeles `spatialreg` est maintenant:

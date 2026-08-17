@@ -48,7 +48,7 @@ Le projet distingue trois familles de sources de jeux de donnees.
 | Famille | Role | Etat actuel |
 |---|---|---|
 | Packages R/Python | Premiere source exploree : datasets embarques dans des librairies de statistique spatiale, econometrie spatiale, SIG ou apprentissage | ~136 datasets consolides |
-| Articles scientifiques avec donnees ouvertes | Papiers de statistique/econometrie spatiale/ecologie qui publient leurs donnees, code ou supplements, trouves soit en partant du papier (DataCite/journal) soit en partant du depot Dryad/Zenodo (dataset-first) | pipeline mature : ~398 candidats consolides (curation `high`/`medium`/`low`), 116+ fiches construites |
+| Articles scientifiques avec donnees ouvertes | Papiers de statistique/econometrie spatiale/ecologie qui publient leurs donnees, code ou supplements, trouves soit en partant du papier (DataCite/journal) soit en partant du depot Dryad/Zenodo (dataset-first) | pipeline mature : ~430 candidats consolides (curation `high`/`medium`/`low`), 153 fiches construites (dont 32 sous-datasets temporels issus du decoupage de `korea_hedonic_housing`) |
 | Banques et entrepots de donnees | Zenodo, Dryad, Dataverse, Figshare, data.gouv, INSEE, Eurostat, OECD, World Bank, etc. | scrapers et manifests deja presents ; sert aussi de source de covariables/geometrie externes legitimes (geoBoundaries, CHELSA) quand un depot papier n'en fournit pas |
 
 Les packages R/Python ne sont donc pas l'objectif final : ils constituent une
