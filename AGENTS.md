@@ -97,6 +97,40 @@ For `paper_*.md` and warehouse-derived fiches, the fiche must include a
 `benchmark_readiness` block. `package_include: "yes"` is allowed only with
 `benchmark_status: "ready"`. Use `manual_review`, `needs_*`, or `not_ready_*`
 instead of promoting an uncertain dataset.
+
+## spatialtidymodels Benchmark, Comparison and Dashboard Layer
+
+`packages/spatialtidymodels/` is a real, tested R package, not a placeholder.
+It exposes `parsnip` engines for ~28 spatial/spatio-temporal estimators
+(baselines, `spatialreg` SAR/SEM/SDM, `mgwrsar` GWR/MGWR/MGWRSAR, `spboost`
+BSPA SAR/SEM, `spmoran` ESF/RESF, spatial forests), an orchestration layer
+(`benchmark_spatial_suite()`) across datasets x estimators x CV schemes, a
+statistical reference-vs-variant comparison engine
+(`compare_estimator_variant()`/`comparison_rules()`: win/tie/loss with a ROPE,
+a paired Wilcoxon test, secondary guardrails, `SPECIALIZED` subgroup
+detection, and an `analysis_unit` choice between `"task"` (default) and
+`"source"`, which collapses cases sharing `source_dataset_id` before scoring),
+and a Shiny dashboard (`launch_benchmark_dashboard()`, `19` through
+`25-dashboard-*.R`).
+
+The verdict logic lives entirely in `compare_estimator_variant()`, in R,
+never in the UI. Any dashboard page, report, or future consumer must call
+`compare_estimator_variant()` and display `$verdict`/`$summary`/`$per_case`
+as-is -- it must never recompute win/tie/loss, re-derive a verdict from raw
+metrics, or approximate the Wilcoxon/ROPE logic independently. This is what
+lets a result be reproduced identically in a plain R console without opening
+the dashboard.
+
+`register_spatial_estimator()` lets a researcher plug in a custom
+fit/predict pair without touching package internals; a registered estimator
+is discoverable and directly usable everywhere `compare_estimator_variant()`
+and `benchmark_spatial_suite()` are.
+
+Do not treat `inst/metadata/{datasets,estimators}.json`'s registry counts
+(e.g. `package_include: "yes"`) as evidence that a dataset has actually been
+run through `benchmark_spatial_suite()` at least once. The registry tracks
+benchmark-readiness, not execution history -- these are two different
+questions and must not be conflated in any report or summary.
 ---
 
 ## Core Priority

@@ -60,7 +60,7 @@ mod_methodology_server <- function(id, suite, results) {
         "Large-loss threshold" = sprintf("%.1f%%", 100 * rules$large_loss_threshold),
         "Failure rule (-> UNSTABLE)" = sprintf("candidate failure-rate increase > %.1f pts", 100 * rules$max_failure_rate_increase),
         "Min. cases for a SPECIALIZED subgroup" = as.character(rules$min_cases_for_subgroup),
-        "Analysis unit" = sprintf("%s (see working notes: source-level aggregation is prepared but not enabled)", rules$analysis_unit)
+        "Analysis unit" = sprintf("%s (\"task\" = default, one case per dataset x cv_scheme; \"source\" collapses cases sharing source_dataset_id by median relative delta before win/tie/loss and the Wilcoxon test)", rules$analysis_unit)
       )
       if (length(rules$secondary_guardrails) > 0) {
         rules_pairs[["Secondary guardrails"]] <- paste(
