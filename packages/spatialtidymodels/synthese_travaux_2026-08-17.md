@@ -73,6 +73,8 @@ Points techniques notables :
 - README principal et README du package `spatialtidymodels` mis à jour avec les chiffres actuels du catalogue.
 - Ajout d'une section documentant honnêtement un écart identifié : le registre JSON du package expose 155 datasets prêts, mais seuls 7 sont physiquement embarqués comme objets R natifs du package (reliquat d'un script de bootstrap non étendu depuis sa création) — les 148 autres restent utilisables uniquement depuis le dépôt source. Point identifié comme bloquant pour une éventuelle publication publique du package, volontairement non traité à ce stade (hors périmètre de cette session).
 
+> **Mise à jour du 2026-08-18** : ce dernier point a été partiellement traité. 9 datasets papier supplémentaires (cross-sectionnels, formule confirmée) ont été embarqués selon le même mécanisme, portant le total à 16 datasets physiquement natifs sur les 155 prêts. Les candidats panel restants (`paper_gwqlasso_*`, `paper_groundfish_cpue`, `paper_hiv_southern_africa`, `paper_midwest_crop_yield`) ont été volontairement laissés de côté pour une vague ultérieure. Voir le README du package pour la liste à jour.
+
 ### 3.7 Package `spatialtidymodels` — nouvelle couche de comparaison d'estimateurs
 
 Objectif : permettre de répondre systématiquement à la question « une nouvelle variante d'un estimateur de référence apporte-t-elle réellement une amélioration, sur un grand nombre de jeux de données ? ».

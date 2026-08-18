@@ -58,7 +58,7 @@ Deja implementes cote generateur (`code/package_metadata/export_spatialtidymodel
 | `parent_dataset` | Lu depuis le bullet `Parent dataset:` du Bloc 2 de la fiche wiki (present uniquement sur les fiches issues d'un decoupage, ex. `paper_korea_hedonic_housing_2012`) | **implemente** |
 | `source_dataset_id` | `parent_dataset` si present, sinon `dataset_id` lui-meme | **implemente** |
 | `benchmark_task_id` | Toujours `dataset_id` (une tache de benchmark par fiche, decoupee ou non) | **implemente** |
-| `bundled` | `TRUE` si `data_object` est renseigne (les 7 datasets `data()` actuels) | **implemente** |
+| `bundled` | `TRUE` si `data_object` est renseigne (16 datasets `data()` actuels au 2026-08-18 : 7 historiques + 9 papier ajoutes ce jour) | **implemente** |
 | `storage` | `"bundled"` ou `"repo_only"` aujourd'hui ; `"remote_cached"` reserve pour l'Option 3 | **implemente** (valeur `remote_cached` jamais produite pour l'instant) |
 
 Prepares dans le schema (colonnes presentes, `NULL`/`NA`/`FALSE` par defaut) mais **pas encore peuples** -- necessitent une decision (entrepot, verification de licence) avant de recevoir de vraies valeurs :

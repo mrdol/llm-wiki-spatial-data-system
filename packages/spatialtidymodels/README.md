@@ -32,16 +32,24 @@ fiches wiki) et expose actuellement 155 datasets marques
 `package_include: "yes"` sur 289 fiches papier/package au total.
 
 Ce registre pointe vers les `.rds` sources sous `data/final_datasets/sf/` du
-depot `llm-wiki-karpathy` (via le champ `rds` de chaque entree). Seuls 7
-datasets (`georgia`, `columbus_crime`, `london_hp`, `boston_housing`,
-`dub_voter`, `ewhp`, `lasrosas`) sont en plus embarques comme objets `data()`
-natifs du package (`data-raw/prepare-benchmark-data.R`, non regenere depuis le
-bootstrap initial). Pour quelqu'un travaillant dans ce depot, les 155 datasets
-sont directement utilisables via `benchmark_spatial_dataset()` ; en dehors du
-depot, seuls les 7 datasets embarques le sont sans configuration
-supplementaire. Ce n'est pas un probleme pour l'usage interne actuel, mais
-c'est un point a traiter avant toute publication du package (distribution des
-donnees, cf. audit CRAN-readiness).
+depot `llm-wiki-karpathy` (via le champ `rds` de chaque entree). 16 datasets
+(les 7 historiques `georgia`, `columbus_crime`, `london_hp`, `boston_housing`,
+`dub_voter`, `ewhp`, `lasrosas`, plus 9 datasets papier cross-sectionnels
+ajoutes le 2026-08-18 : `paper_covid_sociodemographic_risk`,
+`paper_spatial_confounding_diabetes`, `paper_florida_crash_gsvcm`,
+`paper_wildfire_bootleg_severity`, `paper_amphibian_functional_diversity`,
+`paper_dragonfly_diversity_europe`, `paper_wang_henan_cultivated_land_quality`,
+`paper_seshat_social_complexity`, `paper_airbnb_europe_prices`) sont en plus
+embarques comme objets `data()` natifs du package
+(`data-raw/prepare-benchmark-data.R`). Les candidats panel restants
+(`paper_gwqlasso_*`, `paper_groundfish_cpue`, `paper_hiv_southern_africa`,
+`paper_midwest_crop_yield`) sont laisses de cote pour une prochaine vague.
+Pour quelqu'un travaillant dans ce depot, les 155 datasets sont directement
+utilisables via `benchmark_spatial_dataset()` ; en dehors du depot, seuls les
+16 datasets embarques le sont sans configuration supplementaire. Ce n'est pas
+un probleme pour l'usage interne actuel, mais c'est un point a traiter avant
+toute publication du package (distribution des donnees, cf. audit
+CRAN-readiness).
 
 ## API utilisateur stabilisee en premier
 
