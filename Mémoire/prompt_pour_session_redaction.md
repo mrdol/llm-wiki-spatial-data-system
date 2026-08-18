@@ -62,7 +62,7 @@ Le reste de l'architecture décrite dans le draft actuel du rapport (organisme d
 
 ## Bibliographie et consignes de citation — issues d'un travail préparatoire déjà fait
 
-J'ai déjà eu une discussion préparatoire approfondie avec un autre assistant (ChatGPT) sur la bibliographie à mobiliser pour ces documents. Cette discussion est disponible en entier dans `C:\Users\jdoliveira\Documents\Discussion_avec_claude_pour_redaction_rapport.docx` si tu veux la consulter — mais son contenu n'était pas au courant de l'avancement décrit ci-dessus, donc traite ses éléments factuels sur le projet comme dépassés ; en revanche sa recherche bibliographique et sa méthodologie de citation restent utiles. En voici la synthèse.
+J'ai déjà eu une discussion préparatoire approfondie avec un autre assistant (ChatGPT) sur la bibliographie à mobiliser pour ces documents. Cette discussion est disponible en entier dans `Mémoire\Discussion_avec_claude_pour_redaction_rapport.docx` si tu veux la consulter — mais son contenu n'était pas au courant de l'avancement décrit ci-dessus, donc traite ses éléments factuels sur le projet comme dépassés ; en revanche sa recherche bibliographique et sa méthodologie de citation restent utiles. En voici la synthèse.
 
 ### Règle impérative, non négociable
 
