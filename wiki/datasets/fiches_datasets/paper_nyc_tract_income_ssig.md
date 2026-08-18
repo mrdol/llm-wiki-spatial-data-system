@@ -205,10 +205,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Public Domain (U.S. Census Bureau data)
+- License URL: https://censusreporter.org/topics/table-codes/
+- License open: yes
+- License evidence: Census Reporter site text (checked 2026-08-18): "Data on Census Reporter comes from the US Census Bureau and is not copyrighted." (Census Reporter's own added content is CC BY 4.0, but the fiche only uses the underlying Census Bureau data.)
 - Reproducibility status: OK - loader R enregistre et reexecutable (`nyc_tract_income_ssig` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `nyc_tract_income_ssig` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

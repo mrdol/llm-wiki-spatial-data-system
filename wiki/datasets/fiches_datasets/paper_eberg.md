@@ -217,10 +217,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: GPL
+- License URL: https://cran.r-project.org/package=plotKML
+- License open: yes
+- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`eberg` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `eberg` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

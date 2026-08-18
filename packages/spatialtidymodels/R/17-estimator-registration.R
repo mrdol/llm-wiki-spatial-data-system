@@ -10,11 +10,20 @@
 #   fit(formula, data, coords)      -> un objet modele quelconque
 #   predict(fit, new_data)          -> un vecteur numerique de predictions
 #
+# IMPORTANT -- piege verifie empiriquement le 2026-08-18: `coords` recu par
+# `fit` est un vecteur de NOMS DE COLONNES (ex. c("X", "Y")), pas une matrice
+# de coordonnees numeriques. Passer `coords` tel quel a build_knn_W()/
+# build_knn_listw() echoue avec "knearneigh: data non-numeric" -- il faut
+# d'abord extraire les valeurs avec `as.matrix(data[, coords])` a l'interieur
+# de `fit` (voir l'exemple de register_spatial_estimator() ci-dessous, teste
+# de bout en bout sur benchmark_spatial_suite()).
+#
 # Ce contrat est volontairement etroit. requires_W = TRUE est pour l'instant
 # une metadonnee informative (affichee par available_benchmark_estimators()),
 # pas encore une construction automatique de W passee au fit -- si
 # l'estimateur a besoin d'une matrice de voisinage, la construire dans `fit`
-# avec build_knn_W()/build_knn_listw() (deja exportees). Le tuning
+# avec build_knn_W()/build_knn_listw() (deja exportees) sur
+# `as.matrix(data[, coords])`, pas sur `coords` directement. Le tuning
 # (tune = TRUE) n'est pas non plus supporte pour les estimateurs enregistres
 # ici: benchmark_tuning_grid() retourne NULL pour un nom d'estimateur inconnu
 # de default_benchmark_grid(), donc le tuning est silencieusement ignore --
@@ -33,8 +42,13 @@ custom_estimator_registry_env <- new.env(parent = emptyenv())
 #' @param id Estimator name, used in `estimators = c(...)` and in comparison
 #'   calls. Must not collide with a built-in estimator name.
 #' @param fit A function with signature `function(formula, data, coords)`
-#'   returning a fitted model object. If the estimator needs a spatial
-#'   weights matrix, build it inside `fit` (e.g. with `build_knn_W()`).
+#'   returning a fitted model object. `coords` is a character vector of
+#'   *column names* in `data` (e.g. `c("X", "Y")`), not a numeric matrix --
+#'   extract the values yourself with `as.matrix(data[, coords])` before
+#'   passing them on. If the estimator needs a spatial weights matrix, build
+#'   it inside `fit` from that extracted matrix (e.g. with `build_knn_W()`
+#'   or `build_knn_listw()`); passing `coords` directly to either will fail
+#'   with `"knearneigh: data non-numeric"`. See Examples.
 #' @param predict A function with signature `function(fit, new_data)`
 #'   returning a numeric vector of predictions, same length and row order as
 #'   `new_data`.
@@ -67,6 +81,32 @@ custom_estimator_registry_env <- new.env(parent = emptyenv())
 #'   errors instead of silently replacing it.
 #'
 #' @return `id`, invisibly.
+#' @examples
+#' \dontrun{
+#' # A custom SAR-lag estimator that builds its own spatial weights matrix
+#' # inside `fit`. Note the `as.matrix(data[, coords])` step: `coords` is a
+#' # vector of column names, not coordinate values (see the `fit` argument
+#' # above) -- passing `coords` straight to build_knn_listw() fails with
+#' # "knearneigh: data non-numeric".
+#' register_spatial_estimator(
+#'   id = "my_custom_sar_lag",
+#'   fit = function(formula, data, coords) {
+#'     listw <- build_knn_listw(as.matrix(data[, coords]), k = 6L)
+#'     spatialreg::lagsarlm(formula, data = data, listw = listw, zero.policy = TRUE)
+#'   },
+#'   predict = function(fit, new_data) {
+#'     as.numeric(fitted(fit))[seq_len(nrow(new_data))]
+#'   },
+#'   family = "sar", reference_estimator = "ols",
+#'   requires_coords = TRUE, requires_W = TRUE
+#' )
+#' benchmark_spatial_suite(
+#'   datasets = "boston_housing",
+#'   estimators = c("ols", "my_custom_sar_lag"),
+#'   cv_schemes = "in_sample"
+#' )
+#' unregister_spatial_estimator("my_custom_sar_lag")
+#' }
 #' @export
 register_spatial_estimator <- function(id, fit, predict,
                                        family = NA_character_,

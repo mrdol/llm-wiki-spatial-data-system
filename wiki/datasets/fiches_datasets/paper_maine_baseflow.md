@@ -195,10 +195,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Public Domain (U.S. Government work -- USGS)
+- License URL: https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits
+- License open: yes
+- License evidence: No dataset-specific rights override found on ScienceBase (checked 2026-08-18); USGS general policy states USGS-authored data is U.S. public domain, freely usable with attribution.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`maine_baseflow` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `maine_baseflow` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

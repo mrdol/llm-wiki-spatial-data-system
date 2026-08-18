@@ -216,10 +216,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: no
+- License name: no defined terms of use -- contact dataset depositor before use
+- License URL: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/CY7YWE
+- License open: no
+- License evidence: Harvard Dataverse API termsOfUse field (checked 2026-08-18): "This dataset is made available without information on how it can be used. You should communicate with the Contact(s) specified before use."
 - Reproducibility status: OK - loader R enregistre et reexecutable (`wald_test` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `wald_test` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

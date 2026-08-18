@@ -209,10 +209,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Creative Commons Zero v1.0 Universal
+- License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.5061/dryad.prr4xgxmj (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`hyena_lion_biomass_africa` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `hyena_lion_biomass_africa` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

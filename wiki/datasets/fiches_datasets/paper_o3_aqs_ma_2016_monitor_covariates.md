@@ -183,10 +183,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: public source dependent
-- License URL: see provider APIs
-- License open: mixed public data sources
+- License present: yes
+- License name: Creative Commons Zero v1.0 Universal
+- License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.7910/dvn/dgxcth (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: partial - public APIs are scripted; exact paper training matrix is not reconstructed
 - Code available: yes (`tools/build_air_quality_monitor_covariates.R`, `code/r_catalog/generate_air_quality_monitor_fiches.R`)
 - Repository: paper-derived reconstruction

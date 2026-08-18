@@ -217,10 +217,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: GNU General Public License v3.0 or later
+- License URL: https://www.gnu.org/licenses/gpl-3.0-standalone.html
+- License open: yes
+- License evidence: DataCite API record for DOI 10.5281/zenodo.11222023 (checked 2026-08-18): rightsList = 'GNU General Public License v3.0 or later'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`portugal_covid_municipal` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `portugal_covid_municipal` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

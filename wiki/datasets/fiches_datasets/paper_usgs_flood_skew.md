@@ -227,6 +227,7 @@ estimator_eligibility:
 - License name: unknown
 - License URL: unknown
 - License open: unknown
+- License evidence: manual_review - Paper DOI and Source URL are both marked "unknown" in this fiche, so no source page exists to check a license against (2026-08-18), despite the "usgs" name suggesting a U.S. Geological Survey origin. Resolving this requires first identifying the source paper/dataset, which is out of scope for a license lookup alone.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`usgs_flood_skew` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `usgs_flood_skew` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

@@ -242,6 +242,7 @@ estimator_eligibility:
 - License name: unknown
 - License URL: unknown
 - License open: unknown
+- License evidence: manual_review - checked https://geodacenter.github.io/data-and-lab/ (2026-08-18), no license/terms-of-use statement found on the GeoDa Center data-and-lab page for this file; underlying data is derived from US Census 2000 (public domain) but the GeoDa Center repackaging itself states no explicit reuse terms.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`nyc_census2000_gwrboost` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `nyc_census2000_gwrboost` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

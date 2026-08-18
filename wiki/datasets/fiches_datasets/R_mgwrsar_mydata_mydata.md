@@ -170,10 +170,11 @@ modeling_evidence:
 
 ## Bloc 6 — Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: GPL (>= 2)
+- License URL: https://cran.r-project.org/package=mgwrsar
+- License open: yes
+- License evidence: CRAN package DB (crandb.r-pkg.org, checked 2026-08-18): License field = 'GPL (>= 2)'.
 - Reproducibility status: available via package R `mgwrsar`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package

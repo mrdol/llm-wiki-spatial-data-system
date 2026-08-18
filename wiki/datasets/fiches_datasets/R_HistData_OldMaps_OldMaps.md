@@ -161,10 +161,11 @@ modeling_evidence:
 
 ## Bloc 6 — Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: GPL
+- License URL: https://cran.r-project.org/package=HistData
+- License open: yes
+- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL'.
 - Reproducibility status: available via package R `HistData`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package

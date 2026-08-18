@@ -198,10 +198,11 @@ benchmark_readiness:
 
 ## Bloc 6 — Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown (Mendeley Data, generalement CC-BY)
+- License present: yes
+- License name: Creative Commons Attribution 4.0 International
+- License URL: https://creativecommons.org/licenses/by/4.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.17632/hm29shxmfc.1 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: partiel - identification des provinces documentee comme reconstruction, pas un codebook officiel
 - Code available: non fourni dans le depot Mendeley consulte
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

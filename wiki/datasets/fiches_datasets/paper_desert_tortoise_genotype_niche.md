@@ -201,10 +201,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: USGS data-use notice (contact authors before use) -- not a standard open license
+- License URL: https://www.sciencebase.gov/catalog/item/5cb0e0e5e4b0c3b0065741e7
+- License open: no
+- License evidence: ScienceBase item rights field (checked 2026-08-18 via sciencebase.gov API): dataset-specific notice requires contacting the authors regarding intended use; overrides the generic USGS public-domain default.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`desert_tortoise_genotype_niche` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `desert_tortoise_genotype_niche` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

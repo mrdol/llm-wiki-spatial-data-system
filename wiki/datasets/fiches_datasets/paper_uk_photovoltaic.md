@@ -194,10 +194,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Attribution-NonCommercial 3.0 Unported
+- License URL: https://creativecommons.org/licenses/by-nc/3.0
+- License open: no
+- License evidence: DataCite API record for DOI 10.17632/fthhmvgm6r.1 (checked 2026-08-18): rightsList = 'Attribution-NonCommercial 3.0 Unported'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`uk_photovoltaic` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `uk_photovoltaic` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

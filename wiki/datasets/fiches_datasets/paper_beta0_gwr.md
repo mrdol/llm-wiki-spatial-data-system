@@ -193,10 +193,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Creative Commons Zero v1.0 Universal
+- License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.6189341 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`beta0_gwr` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `beta0_gwr` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

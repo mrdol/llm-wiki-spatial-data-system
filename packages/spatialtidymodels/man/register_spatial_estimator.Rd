@@ -24,8 +24,13 @@ register_spatial_estimator(
 calls. Must not collide with a built-in estimator name.}
 
 \item{fit}{A function with signature \verb{function(formula, data, coords)}
-returning a fitted model object. If the estimator needs a spatial
-weights matrix, build it inside \code{fit} (e.g. with \code{build_knn_W()}).}
+returning a fitted model object. \code{coords} is a character vector of
+\emph{column names} in \code{data} (e.g. \code{c("X", "Y")}), not a numeric matrix --
+extract the values yourself with \code{as.matrix(data[, coords])} before
+passing them on. If the estimator needs a spatial weights matrix, build
+it inside \code{fit} from that extracted matrix (e.g. with \code{build_knn_W()}
+or \code{build_knn_listw()}); passing \code{coords} directly to either will fail
+with \code{"knearneigh: data non-numeric"}. See Examples.}
 
 \item{predict}{A function with signature \verb{function(fit, new_data)}
 returning a numeric vector of predictions, same length and row order as
@@ -74,4 +79,31 @@ Plugs a user-supplied estimator into \code{benchmark_spatial()},
 \code{compare_estimator_variant()}, without touching package internals. This is
 the entry point for testing a new variant of a reference estimator (e.g. a
 nonlinear or boosted SAR) against the package's built-in routes.
+}
+\examples{
+\dontrun{
+# A custom SAR-lag estimator that builds its own spatial weights matrix
+# inside `fit`. Note the `as.matrix(data[, coords])` step: `coords` is a
+# vector of column names, not coordinate values (see the `fit` argument
+# above) -- passing `coords` straight to build_knn_listw() fails with
+# "knearneigh: data non-numeric".
+register_spatial_estimator(
+  id = "my_custom_sar_lag",
+  fit = function(formula, data, coords) {
+    listw <- build_knn_listw(as.matrix(data[, coords]), k = 6L)
+    spatialreg::lagsarlm(formula, data = data, listw = listw, zero.policy = TRUE)
+  },
+  predict = function(fit, new_data) {
+    as.numeric(fitted(fit))[seq_len(nrow(new_data))]
+  },
+  family = "sar", reference_estimator = "ols",
+  requires_coords = TRUE, requires_W = TRUE
+)
+benchmark_spatial_suite(
+  datasets = "boston_housing",
+  estimators = c("ols", "my_custom_sar_lag"),
+  cv_schemes = "in_sample"
+)
+unregister_spatial_estimator("my_custom_sar_lag")
+}
 }

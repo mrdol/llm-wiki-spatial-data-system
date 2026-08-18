@@ -195,10 +195,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
+- License present: yes
+- License name: Other/Open (Zenodo license.id = "other-open", no SPDX-recognized license text; source GitHub repo quexiang/STWR also declares no recognized license)
+- License URL: https://zenodo.org/records/3637689
 - License open: unknown
+- License evidence: manual_review - DataCite rightsList only contained the generic 'Open Access' access tag; cross-checked directly against Zenodo API (checked 2026-08-18): metadata.license.id = 'other-open', metadata.access_right = 'open'. Cross-checked the archived GitHub repo (quexiang/STWR) via GitHub API: license.spdx_id = 'NOASSERTION' (no machine-readable license). The record is openly accessible but does not carry a standard, verifiable reuse license.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`stwr_precip_isotope` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `stwr_precip_isotope` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

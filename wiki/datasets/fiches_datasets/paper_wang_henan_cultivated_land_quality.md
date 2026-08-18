@@ -182,10 +182,11 @@ benchmark_readiness:
 
 ## Bloc 6 — Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown (Dryad, generalement CC0)
+- License present: yes
+- License name: Creative Commons Zero v1.0 Universal
+- License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.5061/dryad.v6wwpzgz0 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: partiel - geometrie reconstruite par jointure nominale documentee (geoBoundaries), couverture 90% transparente
 - Code available: non fourni dans le depot Dryad consulte
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

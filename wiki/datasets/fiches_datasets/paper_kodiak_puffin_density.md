@@ -202,10 +202,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)
+- License URL: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+- License open: no
+- License evidence: DataCite API record for DOI 10.5281/zenodo.17128171 (checked 2026-08-18): rightsList = 'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`kodiak_puffin_density` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `kodiak_puffin_density` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

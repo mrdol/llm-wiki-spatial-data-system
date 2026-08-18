@@ -256,10 +256,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: unknown
-- License name: unknown
-- License URL: unknown
-- License open: unknown
+- License present: yes
+- License name: GPL-3.0
+- License URL: https://github.com/alexanderbrenning/spdiag/blob/main/LICENSE
+- License open: yes
+- License evidence: GitHub repository license API (checked 2026-08-18): SPDX GPL-3.0.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`maipo` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `maipo` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
