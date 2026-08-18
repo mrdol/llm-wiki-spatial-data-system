@@ -131,6 +131,29 @@ benchmark_dataset_registry <- function() {
   if (!"formula_roles" %in% names(out)) {
     out$formula_roles <- I(rep(list("default"), nrow(out)))
   }
+  # Distribution architecture / dataset-size fields: only present when
+  # metadata_dataset_registry() supplied them (see R/metadata-registry.R).
+  # The legacy fallback_benchmark_dataset_registry() predates all of these,
+  # so without this guard the columns would be entirely absent (not just NA)
+  # whenever the JSON registry is unavailable -- a caller like
+  # dashboard_task_source_counts() or build_suite_dataset_metadata() reading
+  # `registry$source_dataset_id` would silently get NULL instead of a
+  # per-row NA.
+  if (!"source_dataset_id" %in% names(out)) out$source_dataset_id <- out$dataset
+  if (!"benchmark_task_id" %in% names(out)) out$benchmark_task_id <- out$dataset
+  if (!"parent_dataset" %in% names(out)) out$parent_dataset <- NA_character_
+  if (!"bundled" %in% names(out)) out$bundled <- NA
+  if (!"storage" %in% names(out)) out$storage <- NA_character_
+  if (!"benchmark_suite" %in% names(out)) out$benchmark_suite <- I(rep(list(character()), nrow(out)))
+  if (!"n_observations" %in% names(out)) out$n_observations <- NA_integer_
+  if (!"t_periods" %in% names(out)) out$t_periods <- NA_integer_
+  if (!"benchmark_ready" %in% names(out)) out$benchmark_ready <- TRUE
+  if (!"license_name" %in% names(out)) out$license_name <- NA_character_
+  if (!"download_url" %in% names(out)) out$download_url <- NA_character_
+  if (!"checksum_sha256" %in% names(out)) out$checksum_sha256 <- NA_character_
+  if (!"redistribution_allowed" %in% names(out)) out$redistribution_allowed <- NA
+  if (!"license_verified" %in% names(out)) out$license_verified <- FALSE
+  if (!"size_bytes" %in% names(out)) out$size_bytes <- NA_real_
   out
 }
 

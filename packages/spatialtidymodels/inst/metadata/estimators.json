@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-08-17T18:14:15.065351+00:00",
+  "generated_at": "2026-08-17T22:21:36.803977+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -141,7 +141,8 @@
       "family": "baseline",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Baselines"
     },
     {
       "estimator": "gam_spatial",
@@ -276,7 +277,8 @@
       "family": "gam_spatial",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "gamboost",
@@ -407,7 +409,8 @@
       "family": "gam_spatial",
       "role": "variant",
       "reference_estimator": "gam_spatial",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "earth",
@@ -428,7 +431,8 @@
       "family": "earth",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "earth_xy",
@@ -449,7 +453,8 @@
       "family": "earth",
       "role": "variant",
       "reference_estimator": "earth",
-      "variant_family": "coordinate_augmented"
+      "variant_family": "coordinate_augmented",
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "random_forest",
@@ -580,7 +585,8 @@
       "family": "random_forest",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "random_forest_xy",
@@ -711,7 +717,8 @@
       "family": "random_forest",
       "role": "variant",
       "reference_estimator": "random_forest",
-      "variant_family": "coordinate_augmented"
+      "variant_family": "coordinate_augmented",
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "xgboost",
@@ -842,7 +849,8 @@
       "family": "xgboost",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "xgboost_xy",
@@ -973,7 +981,8 @@
       "family": "xgboost",
       "role": "variant",
       "reference_estimator": "xgboost",
-      "variant_family": "coordinate_augmented"
+      "variant_family": "coordinate_augmented",
+      "dashboard_group": "Machine Learning"
     },
     {
       "estimator": "spatialml_grf",
@@ -994,7 +1003,8 @@
       "family": "spatialml_grf",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial RF"
     },
     {
       "estimator": "spatialrf",
@@ -1015,7 +1025,8 @@
       "family": "spatialrf",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial RF"
     },
     {
       "estimator": "rfgls",
@@ -1036,7 +1047,8 @@
       "family": "rfgls",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial RF"
     },
     {
       "estimator": "sar_lag",
@@ -1167,7 +1179,8 @@
       "family": "SAR",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
     },
     {
       "estimator": "sem_error",
@@ -1298,7 +1311,8 @@
       "family": "SEM",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
     },
     {
       "estimator": "sdm_mixed",
@@ -1429,7 +1443,8 @@
       "family": "SDM",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
     },
     {
       "estimator": "spboost",
@@ -1450,7 +1465,8 @@
       "family": "SAR",
       "role": "alias",
       "reference_estimator": "spboost_bspa_sar_ml",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "spboost_bspa_sar_ml",
@@ -1475,7 +1491,8 @@
       "family": "SAR",
       "role": "variant",
       "reference_estimator": "sar_lag",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "spboost_bspa_sar_cfe",
@@ -1500,7 +1517,8 @@
       "family": "SAR",
       "role": "variant",
       "reference_estimator": "sar_lag",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "spboost_bspa_sem_ml",
@@ -1523,7 +1541,8 @@
       "family": "SEM",
       "role": "variant",
       "reference_estimator": "sem_error",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "spboost_bspa_sem_cfe",
@@ -1546,7 +1565,8 @@
       "family": "SEM",
       "role": "variant",
       "reference_estimator": "sem_error",
-      "variant_family": "boosting"
+      "variant_family": "boosting",
+      "dashboard_group": "Boosting"
     },
     {
       "estimator": "mgwrsar_gwr",
@@ -1574,7 +1594,8 @@
       "family": "GWR",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "mgwrsar_sar",
@@ -1595,7 +1616,8 @@
       "family": "SAR",
       "role": "variant",
       "reference_estimator": "sar_lag",
-      "variant_family": "alternate_backend"
+      "variant_family": "alternate_backend",
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "mgwrsar_mgwr",
@@ -1621,7 +1643,8 @@
       "family": "GWR",
       "role": "variant",
       "reference_estimator": "mgwrsar_gwr",
-      "variant_family": "multiscale"
+      "variant_family": "multiscale",
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "mgwrsar_mgwrsar",
@@ -1642,7 +1665,8 @@
       "family": "mgwrsar_hybrid",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "MGWRSAR_0_kc_kv",
@@ -1667,7 +1691,8 @@
       "family": "mgwrsar_hybrid",
       "role": "variant",
       "reference_estimator": "mgwrsar_mgwrsar",
-      "variant_family": "mixed_constant_lambda"
+      "variant_family": "mixed_constant_lambda",
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "MGWRSAR_1_kc_kv",
@@ -1692,7 +1717,8 @@
       "family": "mgwrsar_hybrid",
       "role": "variant",
       "reference_estimator": "mgwrsar_mgwrsar",
-      "variant_family": "mixed_local_lambda"
+      "variant_family": "mixed_local_lambda",
+      "dashboard_group": "MGWRSAR"
     },
     {
       "estimator": "spmoran_esf",
@@ -1715,7 +1741,8 @@
       "family": "ESF",
       "role": "reference",
       "reference_estimator": null,
-      "variant_family": null
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
     },
     {
       "estimator": "spmoran_resf",
@@ -1738,7 +1765,8 @@
       "family": "ESF",
       "role": "variant",
       "reference_estimator": "spmoran_esf",
-      "variant_family": "random_effects"
+      "variant_family": "random_effects",
+      "dashboard_group": "Spatial Econometrics"
     }
   ]
 }

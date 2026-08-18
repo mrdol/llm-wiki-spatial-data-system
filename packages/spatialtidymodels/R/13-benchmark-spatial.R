@@ -64,7 +64,7 @@ spatial_benchmark_registry <- function() {
   if (!"test_datasets" %in% names(out)) {
     out$test_datasets <- I(rep(list(character()), nrow(out)))
   }
-  for (field in c("family", "role", "reference_estimator", "variant_family")) {
+  for (field in c("family", "role", "reference_estimator", "variant_family", "dashboard_group")) {
     if (!field %in% names(out)) out[[field]] <- NA_character_
   }
   custom <- registered_spatial_estimators()
@@ -644,6 +644,50 @@ benchmark_log <- function(verbose, ...) {
   # Journal console optionnel pour les runs longs. Par defaut le package reste
   # silencieux pour ne pas polluer les petits appels interactifs.
   if (isTRUE(verbose)) message(sprintf(...))
+}
+
+# Garde-fou timeout par cas (dataset x estimateur x fold) -------------------
+#
+# NA/Inf/<=0 (defaut) desactive completement le garde-fou -- comportement
+# identique a avant son introduction, zero overhead. Objectif: transformer un
+# calcul genuinement non borne pour UN cas en un fit_error "TIMEOUT" proprement
+# enregistre, plutot que de geler tout le suite indefiniment -- sans presumer
+# de la cause (voir extract_information_criteria() dans 12-diagnose-spatial.R
+# pour un exemple de pathologie deja corrigee a la racine: ce garde-fou est
+# generique et vise les futures pathologies non encore identifiees sur de gros
+# datasets, pas seulement celle-la).
+#
+# L'application reelle du timeout (worker callr, kill du process) vit dans
+# 26-fold-timeout-worker.R -- voir run_with_fold_timeout(). fold_error_row()
+# ici est le format de ligne partage entre un echec normal (fit/predict/
+# diagnose leve une erreur a l'interieur de score_benchmark_fold()) et un
+# timeout (detecte depuis l'EXTERIEUR de score_benchmark_fold(), qui n'a donc
+# pas pu construire sa propre ligne -- voir evaluate_benchmark_resamples()).
+normalize_fold_timeout_sec <- function(fold_timeout_sec) {
+  timeout_sec <- suppressWarnings(as.numeric(fold_timeout_sec)[1])
+  if (!is.finite(timeout_sec) || timeout_sec <= 0) NA_real_ else timeout_sec
+}
+
+fold_error_row <- function(estimator, fold_id, n_train, n_test, response, message,
+                           elapsed_sec = NA_real_) {
+  data.frame(
+    estimator = estimator,
+    id = fold_id,
+    n_train = n_train,
+    n_test = n_test,
+    response = response,
+    rmse = NA_real_,
+    mae = NA_real_,
+    elapsed_sec = elapsed_sec,
+    moran_i = NA_real_,
+    moran_abs = NA_real_,
+    moran_p_value = NA_real_,
+    moran_error = NA_character_,
+    fit_error = message,
+    truth = I(list(numeric())),
+    pred = I(list(numeric())),
+    stringsAsFactors = FALSE
+  )
 }
 
 collect_benchmark_tuning <- function(tuned, grid_cols) {
@@ -1609,6 +1653,19 @@ prepare_mgwrsar_fold_control <- function(estimator, train, test, coords, k_neigh
 score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, params) {
   # Ajuste sur analysis(split), predit sur assessment(split), puis calcule les
   # metriques hors-echantillon. Les erreurs restent dans une ligne de resultat.
+  #
+  # Ne gere PAS elle-meme de garde-fou timeout: cette fonction peut etre
+  # executee soit directement (fold_timeout_sec desactive), soit expediee a
+  # un worker callr par evaluate_benchmark_resamples() (fold_timeout_sec
+  # actif) -- voir run_with_fold_timeout()/26-fold-timeout-worker.R. Un
+  # timeout est applique de l'EXTERIEUR (kill du process worker), pas
+  # depuis l'interieur de cette fonction: setTimeLimit() a ete teste
+  # empiriquement contre le vrai calcul pathologique qui a motive ce
+  # garde-fou (stats::AIC() sur un objet mboost) et ne l'a jamais interrompu
+  # (toujours actif apres 40s+ contre un budget de 3s) -- R ne vérifie les
+  # interruptions qu'entre deux instructions de l'evaluateur, jamais au
+  # milieu d'un seul appel compile/matriciel prolonge, ce qui est
+  # exactement le cas ici.
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
   elapsed_start <- proc.time()[["elapsed"]]
@@ -1627,6 +1684,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     coords = coords,
     k_neighbors = params$k_neighbors
   )
+
   fit <- tryCatch(
     fit_one_benchmark_estimator(
       estimator = estimator, formula = formula, data = train, coords = coords,
@@ -1658,23 +1716,9 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     error = function(e) e
   )
   if (inherits(fit, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = deparse(formula[[2]]),
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_abs = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(fit),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), deparse(formula[[2]]),
+      conditionMessage(fit), elapsed_sec = elapsed_now()
     ))
   }
   response_name <- deparse(formula[[2]])
@@ -1683,45 +1727,18 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     error = function(e) e
   )
   if (inherits(pred, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = response_name,
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_abs = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(pred),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), response_name,
+      conditionMessage(pred), elapsed_sec = elapsed_now()
     ))
   }
   truth <- as.numeric(test[[response_name]])
   pred <- as.numeric(pred)
   if (length(pred) != length(truth)) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = response_name,
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_abs = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), response_name,
+      sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
+      elapsed_sec = elapsed_now()
     ))
   }
   diag <- tryCatch(
@@ -1738,23 +1755,9 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     error = function(e) e
   )
   if (inherits(diag, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = deparse(formula[[2]]),
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_abs = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(diag),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), deparse(formula[[2]]),
+      conditionMessage(diag), elapsed_sec = elapsed_now()
     ))
   }
   metric_error <- if (!is.finite(diag$rmse[[1]]) || !is.finite(diag$mae[[1]])) {
@@ -1784,9 +1787,17 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
 
 evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
                                          eval_resamples, base_params, tuning,
-                                         verbose = FALSE) {
+                                         verbose = FALSE, fold_timeout_sec = NA_real_) {
   # Boucle explicite fold x estimateur pour obtenir une table comparable au
   # benchmark manuel, avec une ligne par fold.
+  timeout_sec <- normalize_fold_timeout_sec(fold_timeout_sec)
+  # session_box: environnement mutable tenant le worker callr persistant
+  # (voir 26-fold-timeout-worker.R) pour tous les folds/estimateurs de cet
+  # appel -- jamais cree si timeout_sec est NA (chemin direct, inchange).
+  session_box <- new.env(parent = emptyenv())
+  session_box$session <- NULL
+  on.exit(close_fold_timeout_worker(session_box), add = TRUE)
+
   rows <- list()
   for (estimator in estimators) {
     params <- apply_tuned_params(base_params, tuning[[estimator]])
@@ -1812,14 +1823,28 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
         nrow(rsample::assessment(split))
       )
       key <- paste(estimator, fold_id, sep = "__")
-      rows[[key]] <- score_benchmark_fold(
-        estimator = estimator,
-        fold_id = fold_id,
-        split = split,
-        formula = formula,
-        coords = coords,
-        params = params
-      )
+      rows[[key]] <- if (is.finite(timeout_sec)) {
+        outcome <- run_with_fold_timeout(
+          session_box, timeout_sec, score_benchmark_fold,
+          args = list(
+            estimator = estimator, fold_id = fold_id, split = split,
+            formula = formula, coords = coords, params = params
+          )
+        )
+        if (isTRUE(outcome$ok)) {
+          outcome$value
+        } else {
+          fold_error_row(
+            estimator, fold_id, nrow(rsample::analysis(split)), nrow(rsample::assessment(split)),
+            deparse(formula[[2]]), outcome$error_message
+          )
+        }
+      } else {
+        score_benchmark_fold(
+          estimator = estimator, fold_id = fold_id, split = split,
+          formula = formula, coords = coords, params = params
+        )
+      }
     }
   }
   out <- do.call(rbind, rows)
@@ -1893,6 +1918,15 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
   # Les performances restent celles de la validation croisee. Cette passe ajoute
   # seulement les diagnostics disponibles sur le modele final ajuste sur tout le
   # jeu de donnees: AICc, logLik et parametre spatial explicite.
+  #
+  # Pas de fold_timeout_sec ici (contrairement a evaluate_benchmark_resamples()):
+  # le garde-fou timeout fiable (voir run_with_fold_timeout(),
+  # 26-fold-timeout-worker.R) execute le calcul dans un worker callr et n'en
+  # fait traverser que le RESULTAT (une petite table) -- jamais un objet
+  # modele ajuste. Ici `fit` (potentiellement un objet fragile a serialiser,
+  # ex. un backend xgboost dont le pointeur C++ ne survit pas a un aller-retour
+  # process) doit rester dans le process appelant, donc cette passe n'est pas
+  # (encore) couverte par le garde-fou.
   for (estimator in intersect(results$estimator, names(fits))) {
     fit <- fits[[estimator]]
     if (inherits(fit, "error") || is.null(fit)) next
@@ -1925,6 +1959,12 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
                                            verbose = FALSE) {
   # Ajuste les modeles finaux sur toutes les donnees pour inspection ulterieure
   # dans bench$fits. L'evaluation CV reste stockee separement.
+  #
+  # Pas de fold_timeout_sec ici: le modele ajuste doit rester dans ce process
+  # (il est retourne a l'appelant pour bench$fits), donc il ne peut pas etre
+  # produit par un worker callr jetable comme le fait
+  # evaluate_benchmark_resamples() -- voir la note dans
+  # augment_results_with_final_diagnostics() ci-dessus pour le detail.
   fits <- list()
   for (estimator in estimators) {
     benchmark_log(
@@ -2084,6 +2124,31 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param workers Number of parallel workers when `parallel = TRUE`.
 #' @param allow_heavy_tuning If `FALSE`, protect large datasets from tuning
 #'   several expensive MGWRSAR estimators in the same call.
+#' @param fold_timeout_sec Maximum wall-clock seconds allowed for a single
+#'   (estimator, fold) case in the cross-validated evaluation path (`fit`,
+#'   `predict` and diagnostics combined) -- see [evaluate_benchmark_resamples()]/
+#'   `run_with_fold_timeout()` (`26-fold-timeout-worker.R`). `NA` (default)
+#'   disables the guard entirely, identical to before this argument existed
+#'   -- zero overhead, no subprocess ever spawned. When set, a case that
+#'   exceeds the budget is aborted and recorded as a normal failure with
+#'   `fit_error` starting `"TIMEOUT:"` instead of freezing the whole suite;
+#'   every other case keeps running unaffected. Enforced by running the fold
+#'   in a persistent `callr` worker process and killing it on timeout -- this
+#'   is a hard, OS-level guarantee, unlike base R's `setTimeLimit()`, which
+#'   was tested against the real pathology this guard was built for
+#'   (`stats::AIC()` on an `mboost`-derived engine) and never interrupted it,
+#'   even 40s+ past a 3s budget: R only checks for interrupts between
+#'   evaluator statements, never mid-way through one long-running
+#'   compiled/matrix call, which is exactly what that case was doing. This is
+#'   a generic safety net for unforeseen pathological cases on large
+#'   datasets, not a diagnosis of *why* a case is slow -- a confirmed root
+#'   cause should still be fixed directly when found (the `stats::AIC()` case
+#'   above already was, in `extract_information_criteria()`,
+#'   `12-diagnose-spatial.R`). Not yet applied to the final full-data
+#'   fit/diagnostics pass or to `cv_scheme = "in_sample"`, since those need
+#'   the fitted model object to survive in this process for `bench$fits`,
+#'   and some backends (e.g. xgboost) do not serialize reliably across a
+#'   process boundary.
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
 #'   final `fits`.
@@ -2152,7 +2217,8 @@ benchmark_spatial <- function(formula, data, coords,
                               block_folds = 5L, seed = 123L,
                               verbose = FALSE, parallel = FALSE,
                               workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-                              allow_heavy_tuning = FALSE) {
+                              allow_heavy_tuning = FALSE,
+                              fold_timeout_sec = NA_real_) {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
   cv_scheme <- match.arg(cv_scheme)
@@ -2237,7 +2303,8 @@ benchmark_spatial <- function(formula, data, coords,
       eval_resamples = eval_resamples,
       base_params = base_params,
       tuning = tuning,
-      verbose = verbose
+      verbose = verbose,
+      fold_timeout_sec = fold_timeout_sec
     )
     results <- summarize_resample_results(resample_results, formula = formula, cv_scheme = cv_scheme)
     fits <- fit_final_benchmark_estimators(
@@ -2254,6 +2321,9 @@ benchmark_spatial <- function(formula, data, coords,
       tuning = tuning
     )
   } else {
+    # Pas de fold_timeout_sec ici non plus, meme raison que
+    # fit_final_benchmark_estimators(): `fit` doit rester dans ce process pour
+    # alimenter bench$fits.
     for (estimator in estimators) {
       benchmark_log(verbose, "[in-sample] %s: n=%d", estimator, nrow(data))
       elapsed_start <- proc.time()[["elapsed"]]
@@ -2296,16 +2366,28 @@ benchmark_spatial <- function(formula, data, coords,
         next
       }
       fits[[estimator]] <- fit
-      diag <- diagnose_spatial(
-        fit,
-        data = data,
-        coords = coords,
-        formula = formula,
-        k_neighbors = k_neighbors,
-        style = style,
-        zero_policy = zero_policy,
-        include_baseline = FALSE
+      diag <- tryCatch(
+        diagnose_spatial(
+          fit,
+          data = data,
+          coords = coords,
+          formula = formula,
+          k_neighbors = k_neighbors,
+          style = style,
+          zero_policy = zero_policy,
+          include_baseline = FALSE
+        ),
+        error = function(e) e
       )
+      if (inherits(diag, "error")) {
+        rows[[estimator]] <- failed_benchmark_row(estimator, data, formula, diag)
+        rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
+        rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
+        rows[[estimator]]$duration_sec <- rows[[estimator]]$elapsed_total_sec
+        rows[[estimator]]$elapsed_sec <- NULL
+        rows[[estimator]]$elapsed_total_sec <- NULL
+        next
+      }
       rows[[estimator]] <- normalize_diagnostic_row_for_benchmark(diag[1, , drop = FALSE], estimator)
       rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
       rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
@@ -2353,7 +2435,8 @@ benchmark_spatial <- function(formula, data, coords,
       mgwrsar_kernel = mgwrsar_kernel,
       mgwrsar_fixed_vars = mgwrsar_fixed_vars,
       spmoran_enum = spmoran_enum,
-      spmoran_vif = spmoran_vif
+      spmoran_vif = spmoran_vif,
+      fold_timeout_sec = fold_timeout_sec
     ),
     class = "spatial_benchmark"
   )
@@ -2453,7 +2536,8 @@ benchmark_spatial_datasets <- function(datasets,
                                        block_folds = 5L, seed = 123L,
                                        verbose = FALSE, parallel = FALSE,
                                        workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-                                       allow_heavy_tuning = FALSE) {
+                                       allow_heavy_tuning = FALSE,
+                                       fold_timeout_sec = NA_real_) {
   datasets <- normalize_dataset_specs(datasets)
   cv_scheme <- match.arg(cv_scheme)
   benchmarks <- list()
@@ -2495,7 +2579,8 @@ benchmark_spatial_datasets <- function(datasets,
       verbose = verbose,
       parallel = parallel,
       workers = workers,
-      allow_heavy_tuning = allow_heavy_tuning
+      allow_heavy_tuning = allow_heavy_tuning,
+      fold_timeout_sec = fold_timeout_sec
     )
     benchmarks[[spec$name]] <- bench
     out <- bench$results

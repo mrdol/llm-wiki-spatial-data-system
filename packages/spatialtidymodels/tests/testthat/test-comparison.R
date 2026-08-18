@@ -31,6 +31,28 @@ make_synthetic_results <- function(n_datasets, reference_rmse, candidate_rmse,
   )
 }
 
+test_that("comparison_rules() defaults to analysis_unit = 'task' and validates the argument", {
+  rules <- comparison_rules()
+  expect_equal(rules$analysis_unit, "task")
+  expect_equal(comparison_rules(analysis_unit = "source")$analysis_unit, "source")
+  expect_error(comparison_rules(analysis_unit = "not_a_valid_unit"))
+})
+
+test_that("analysis_unit = 'task' (the default) is unaffected by the analysis_unit argument existing", {
+  n <- 20
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate <- reference * 0.85
+  results <- make_synthetic_results(n, reference, candidate)
+
+  cmp_default <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
+  cmp_explicit_task <- compare_estimator_variant(
+    results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(analysis_unit = "task")
+  )
+  expect_equal(cmp_default$verdict, cmp_explicit_task$verdict)
+  expect_equal(cmp_default$summary$n_cases, cmp_explicit_task$summary$n_cases)
+})
+
 test_that("compare_estimator_variant() declares SUPERIOR when the candidate wins clearly", {
   set.seed(1)
   n <- 20
@@ -442,4 +464,151 @@ test_that("a genuinely tied result is still EQUIVALENT, not INCONCLUSIVE", {
   cmp <- compare_estimator_variant(results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml")
   expect_equal(cmp$verdict, "EQUIVALENT")
   expect_true(nzchar(cmp$verdict_reasons))
+})
+
+# --- analysis_unit = "source" (Etape H) -------------------------------------
+
+# Motivating scenario from comparison_rules(): a source split into many
+# benchmark tasks (e.g. korea_hedonic_housing's 32 yearly splits) must not
+# outweigh a source evaluated as a single task just by volume. Here one
+# "heavy" source contributes 20 losing tasks, and 9 other sources each
+# contribute exactly one winning task -- 29 tasks, 10 sources.
+make_source_grouped_results <- function() {
+  heavy_results <- make_synthetic_results(
+    20, rep(100, 20), rep(100 * 1.30, 20) # candidate ~30% worse (LOSS), 20 tasks
+  )
+  heavy_results$dataset <- paste0("heavy_task_", seq_len(20))
+
+  singles_results <- make_synthetic_results(
+    9, rep(100, 9), rep(100 * 0.70, 9) # candidate ~30% better (WIN), 1 task each
+  )
+  singles_results$dataset <- paste0("single_", seq_len(9))
+
+  results <- rbind(heavy_results, singles_results)
+
+  dataset_metadata <- rbind(
+    data.frame(
+      dataset = paste0("heavy_task_", seq_len(20)),
+      source_dataset_id = "heavy_source",
+      stringsAsFactors = FALSE
+    ),
+    data.frame(
+      dataset = paste0("single_", seq_len(9)),
+      source_dataset_id = paste0("single_", seq_len(9)), # each its own source
+      stringsAsFactors = FALSE
+    )
+  )
+
+  list(results = results, dataset_metadata = dataset_metadata)
+}
+
+test_that("analysis_unit = 'source' requires a dataset -> source_dataset_id mapping when suite is a plain data.frame", {
+  scenario <- make_source_grouped_results()
+  expect_error(
+    compare_estimator_variant(
+      scenario$results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+      rules = comparison_rules(analysis_unit = "source")
+    ),
+    "source_dataset_id"
+  )
+})
+
+test_that("analysis_unit = 'source' collapses a many-task source to one case, changing the verdict vs 'task'", {
+  scenario <- make_source_grouped_results()
+
+  cmp_task <- compare_estimator_variant(
+    scenario$results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml"
+  )
+  expect_equal(cmp_task$summary$n_cases, 29L) # every task counted independently
+  expect_equal(cmp_task$verdict, "INCONCLUSIVE") # 20 losses dominate the raw count
+
+  cmp_source <- compare_estimator_variant(
+    scenario$results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(analysis_unit = "source"),
+    dataset_metadata = scenario$dataset_metadata
+  )
+  expect_equal(cmp_source$summary$n_cases, 10L) # 1 heavy source + 9 single-task sources
+  expect_equal(cmp_source$verdict, "SUPERIOR") # heavy source's 20 losses count once
+  expect_equal(cmp_source$summary$wins, 9L)
+  expect_equal(cmp_source$summary$losses, 1L)
+
+  # The heavy source's own row reports how many tasks fed its median.
+  heavy_row <- cmp_source$per_case[cmp_source$per_case$source_dataset_id == "heavy_source", ]
+  expect_equal(nrow(heavy_row), 1L)
+  expect_equal(heavy_row$n_tasks, 20L)
+  expect_equal(heavy_row$outcome, "LOSS")
+})
+
+test_that("analysis_unit = 'source' auto-fills the mapping from a spatial_benchmark_suite", {
+  scenario <- make_source_grouped_results()
+  fake_suite <- structure(
+    list(results = scenario$results, dataset_metadata = scenario$dataset_metadata),
+    class = "spatial_benchmark_suite"
+  )
+
+  cmp_suite <- compare_estimator_variant(
+    fake_suite, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(analysis_unit = "source")
+  )
+  expect_equal(cmp_suite$summary$n_cases, 10L)
+  expect_equal(cmp_suite$verdict, "SUPERIOR")
+})
+
+test_that("analysis_unit = 'source' rejects subgroup analysis instead of mixing units silently", {
+  scenario <- make_source_grouped_results()
+  groups <- data.frame(dataset = unique(scenario$results$dataset), bucket = "a", stringsAsFactors = FALSE)
+
+  expect_error(
+    compare_estimator_variant(
+      scenario$results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+      rules = comparison_rules(analysis_unit = "source"),
+      dataset_metadata = scenario$dataset_metadata,
+      groups = groups
+    ),
+    "groups"
+  )
+})
+
+test_that("analysis_unit = 'source' treats a dataset absent from dataset_metadata as its own source", {
+  set.seed(20)
+  n <- 12
+  reference <- 10 + stats::runif(n, -1, 1)
+  candidate <- reference * 0.85
+  results <- make_synthetic_results(n, reference, candidate)
+  # Only map half the datasets; the rest must fall back to being their own source.
+  dataset_metadata <- data.frame(
+    dataset = paste0("ds_", 1:6),
+    source_dataset_id = "mapped_source",
+    stringsAsFactors = FALSE
+  )
+
+  cmp <- compare_estimator_variant(
+    results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(analysis_unit = "source", min_cases_for_verdict = 3L),
+    dataset_metadata = dataset_metadata
+  )
+  # 6 mapped tasks -> 1 source, 6 unmapped tasks -> 6 sources of their own = 7 total.
+  expect_equal(cmp$summary$n_cases, 7L)
+})
+
+test_that("analysis_unit = 'source' still separates cv_schemes independently", {
+  scenario <- make_source_grouped_results()
+  scenario$results$cv_scheme <- "near_prediction"
+  other_scheme <- scenario$results
+  other_scheme$cv_scheme <- "holdout_10pct"
+  # Flip the sign under the second scheme so the two schemes would disagree
+  # if ever pooled together.
+  other_scheme$rmse[other_scheme$estimator == "spboost_bspa_sar_ml"] <-
+    other_scheme$rmse[other_scheme$estimator == "sar_lag"] * 0.70
+  results <- rbind(scenario$results, other_scheme)
+
+  cmp <- compare_estimator_variant(
+    results, reference = "sar_lag", candidate = "spboost_bspa_sar_ml",
+    rules = comparison_rules(analysis_unit = "source"),
+    dataset_metadata = scenario$dataset_metadata
+  )
+  expect_s3_class(cmp, "estimator_comparison_by_scheme")
+  expect_setequal(names(cmp), c("near_prediction", "holdout_10pct"))
+  expect_equal(cmp$near_prediction$summary$n_cases, 10L)
+  expect_equal(cmp$holdout_10pct$summary$n_cases, 10L)
 })

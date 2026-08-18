@@ -100,6 +100,14 @@ test_that("le registre distingue benchmark_task_id (par fiche) de source_dataset
   expect_true(all(korea$storage == "repo_only")) # none of the korea splits are bundled
 })
 
+test_that("le registre expose n_observations/t_periods depuis les fiches (pas silencieusement supprimes)", {
+  datasets <- available_benchmark_datasets()
+  expect_true(all(c("n_observations", "t_periods") %in% names(datasets)))
+  # au moins une fiche benchmark_ready doit avoir un n_observations renseigne
+  # -- sinon le champ existe en theorie mais n'est jamais rempli en pratique.
+  expect_true(any(!is.na(datasets$n_observations)))
+})
+
 test_that("le registre expose la taxonomie family/role/reference_estimator/variant_family", {
   estimators <- available_benchmark_estimators(include_installed = FALSE)
   expect_true(all(c("family", "role", "reference_estimator", "variant_family") %in% names(estimators)))
@@ -150,6 +158,35 @@ test_that("le registre expose la taxonomie family/role/reference_estimator/varia
   expect_true(all(!is.na(estimators$role)))
 })
 
+test_that("le registre expose dashboard_group, distinct de family (groupement visuel vs famille scientifique)", {
+  estimators <- available_benchmark_estimators(include_installed = FALSE)
+  expect_true("dashboard_group" %in% names(estimators))
+  expect_true(all(!is.na(estimators$dashboard_group)))
+
+  by_name <- function(id) estimators[estimators$estimator == id, , drop = FALSE]
+
+  # spboost_bspa_sar_ml is scientifically a SAR (family="SAR") but grouped
+  # under "Boosting" in the dashboard -- the two columns must disagree here,
+  # on purpose, not be aliases of each other.
+  spboost_row <- by_name("spboost_bspa_sar_ml")
+  expect_equal(spboost_row$family, "SAR")
+  expect_equal(spboost_row$dashboard_group, "Boosting")
+
+  # mgwrsar_sar: family=SAR, but grouped under MGWRSAR by backend (validated
+  # with the user, consistent with the spboost SAR/SEM variants above).
+  expect_equal(by_name("mgwrsar_sar")$family, "SAR")
+  expect_equal(by_name("mgwrsar_sar")$dashboard_group, "MGWRSAR")
+
+  # ols is both family=baseline and dashboard_group=Baselines -- the two
+  # concepts CAN agree, they just aren't required to.
+  expect_equal(by_name("ols")$dashboard_group, "Baselines")
+
+  expect_setequal(
+    unique(estimators$dashboard_group),
+    c("Baselines", "Spatial Econometrics", "Boosting", "MGWRSAR", "Spatial RF", "Machine Learning")
+  )
+})
+
 test_that("register_spatial_estimator() carries role/variant_family without erasing them for built-ins", {
   on.exit(unregister_spatial_estimator("taxonomy_test_variant"), add = TRUE)
   register_spatial_estimator(
@@ -169,9 +206,13 @@ test_that("register_spatial_estimator() carries role/variant_family without eras
   expect_equal(custom_row$variant_family, "custom")
 
   # Registering a custom estimator must not wipe out the built-ins' own
-  # role/variant_family via the intersect()-based column merge.
+  # role/variant_family/dashboard_group via the intersect()-based column merge
+  # (this exact bug already hit family/role/reference_estimator/variant_family
+  # once before dashboard_group existed).
   sar_lag_row <- estimators[estimators$estimator == "sar_lag", , drop = FALSE]
   expect_equal(sar_lag_row$role, "reference")
+  expect_equal(sar_lag_row$dashboard_group, "Spatial Econometrics")
+  expect_true("dashboard_group" %in% names(estimators))
 })
 
 test_that("explain_dataset et explain_estimator exposent la couche de guidage", {

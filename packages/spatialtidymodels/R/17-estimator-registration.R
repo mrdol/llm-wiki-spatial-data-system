@@ -125,6 +125,27 @@ get_custom_estimator <- function(id) {
   get(id, envir = custom_estimator_registry_env, inherits = FALSE)
 }
 
+custom_estimator_registry_snapshot <- function() {
+  # Used by run_with_fold_timeout() (26-fold-timeout-worker.R) to replicate
+  # any register_spatial_estimator() entries inside the callr worker process,
+  # which starts with its own empty custom_estimator_registry_env -- without
+  # this, a registered custom estimator would silently be "unknown" as soon
+  # as fold_timeout_sec routes its folds through a worker.
+  ids <- ls(custom_estimator_registry_env)
+  if (!length(ids)) return(list())
+  mget(ids, envir = custom_estimator_registry_env)
+}
+
+restore_custom_estimator_entry <- function(entry) {
+  register_spatial_estimator(
+    id = entry$id, fit = entry$fit, predict = entry$predict,
+    family = entry$family, reference_estimator = entry$reference_estimator,
+    variant_family = entry$variant_family, requires_coords = entry$requires_coords,
+    requires_W = entry$requires_W, tunable_parameters = entry$tunable_parameters,
+    package = entry$package, notes = entry$notes, overwrite = TRUE
+  )
+}
+
 custom_estimator_registry_as_df <- function() {
   ids <- ls(custom_estimator_registry_env)
   empty <- data.frame(
@@ -134,6 +155,7 @@ custom_estimator_registry_as_df <- function() {
     spatial_args = character(0), tunable_parameters = character(0),
     notes = character(0), family = character(0), role = character(0),
     reference_estimator = character(0), variant_family = character(0),
+    dashboard_group = character(0),
     stringsAsFactors = FALSE
   )
   if (!length(ids)) return(empty)
@@ -159,6 +181,11 @@ custom_estimator_registry_as_df <- function() {
       role = if (!is.na(ref)) "variant" else "reference",
       reference_estimator = ref,
       variant_family = e$variant_family %||% NA_character_,
+      # No dashboard_group concept in register_spatial_estimator() yet --
+      # NA rather than dropping the column, so it doesn't silently erase
+      # dashboard_group for the 27 built-ins too when merged (see
+      # spatial_benchmark_registry()'s intersect(names(out), names(custom))).
+      dashboard_group = NA_character_,
       stringsAsFactors = FALSE
     )
   })

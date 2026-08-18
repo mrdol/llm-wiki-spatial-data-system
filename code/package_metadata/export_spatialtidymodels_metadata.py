@@ -574,35 +574,49 @@ ESTIMATOR_REGISTRY.extend(
 #     specifications as variants.
 # Applied as a single lookup rather than editing each construction block
 # above, so the whole taxonomy stays readable in one place.
+#
+# dashboard_group is deliberately separate from `family`: `family` is the
+# scientific model family (SAR/SEM/GWR/...), `dashboard_group` is which menu
+# section a dashboard should list the estimator under. They diverge on
+# purpose for the boosting/backend variants -- e.g. spboost_bspa_sar_ml is
+# scientifically a SAR (family="SAR") but implemented via the spboost
+# boosting backend, so it belongs under a "Boosting" dashboard section, not
+# "Spatial Econometrics". Validated groupings (2026-08 dashboard rework):
+#   - mgwrsar_sar: family=SAR but dashboard_group=MGWRSAR, for consistency
+#     with how the spboost SAR/SEM variants are grouped by backend rather
+#     than scientific family.
+#   - gam_spatial/earth*/random_forest*/xgboost*: none of these are spatial
+#     econometrics, boosting-of-a-spatial-model, MGWRSAR, or spatial-RF in
+#     the strict sense -- grouped under a new "Machine Learning" section.
 ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
-    "ols": {"family": "baseline", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "gam_spatial": {"family": "gam_spatial", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "gamboost": {"family": "gam_spatial", "role": "variant", "reference_estimator": "gam_spatial", "variant_family": "boosting"},
-    "earth": {"family": "earth", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "earth_xy": {"family": "earth", "role": "variant", "reference_estimator": "earth", "variant_family": "coordinate_augmented"},
-    "random_forest": {"family": "random_forest", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "random_forest_xy": {"family": "random_forest", "role": "variant", "reference_estimator": "random_forest", "variant_family": "coordinate_augmented"},
-    "xgboost": {"family": "xgboost", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "xgboost_xy": {"family": "xgboost", "role": "variant", "reference_estimator": "xgboost", "variant_family": "coordinate_augmented"},
-    "spatialml_grf": {"family": "spatialml_grf", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "spatialrf": {"family": "spatialrf", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "rfgls": {"family": "rfgls", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "sar_lag": {"family": "SAR", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "mgwrsar_sar": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "alternate_backend"},
-    "spboost": {"family": "SAR", "role": "alias", "reference_estimator": "spboost_bspa_sar_ml", "variant_family": "boosting"},
-    "spboost_bspa_sar_ml": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "boosting"},
-    "spboost_bspa_sar_cfe": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "boosting"},
-    "sem_error": {"family": "SEM", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "spboost_bspa_sem_ml": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting"},
-    "spboost_bspa_sem_cfe": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting"},
-    "sdm_mixed": {"family": "SDM", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "mgwrsar_gwr": {"family": "GWR", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "mgwrsar_mgwr": {"family": "GWR", "role": "variant", "reference_estimator": "mgwrsar_gwr", "variant_family": "multiscale"},
-    "mgwrsar_mgwrsar": {"family": "mgwrsar_hybrid", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "MGWRSAR_0_kc_kv": {"family": "mgwrsar_hybrid", "role": "variant", "reference_estimator": "mgwrsar_mgwrsar", "variant_family": "mixed_constant_lambda"},
-    "MGWRSAR_1_kc_kv": {"family": "mgwrsar_hybrid", "role": "variant", "reference_estimator": "mgwrsar_mgwrsar", "variant_family": "mixed_local_lambda"},
-    "spmoran_esf": {"family": "ESF", "role": "reference", "reference_estimator": None, "variant_family": None},
-    "spmoran_resf": {"family": "ESF", "role": "variant", "reference_estimator": "spmoran_esf", "variant_family": "random_effects"},
+    "ols": {"family": "baseline", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Baselines"},
+    "gam_spatial": {"family": "gam_spatial", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
+    "gamboost": {"family": "gam_spatial", "role": "variant", "reference_estimator": "gam_spatial", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "earth": {"family": "earth", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
+    "earth_xy": {"family": "earth", "role": "variant", "reference_estimator": "earth", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
+    "random_forest": {"family": "random_forest", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
+    "random_forest_xy": {"family": "random_forest", "role": "variant", "reference_estimator": "random_forest", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
+    "xgboost": {"family": "xgboost", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
+    "xgboost_xy": {"family": "xgboost", "role": "variant", "reference_estimator": "xgboost", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
+    "spatialml_grf": {"family": "spatialml_grf", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
+    "spatialrf": {"family": "spatialrf", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
+    "rfgls": {"family": "rfgls", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
+    "sar_lag": {"family": "SAR", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
+    "mgwrsar_sar": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "alternate_backend", "dashboard_group": "MGWRSAR"},
+    "spboost": {"family": "SAR", "role": "alias", "reference_estimator": "spboost_bspa_sar_ml", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "spboost_bspa_sar_ml": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "spboost_bspa_sar_cfe": {"family": "SAR", "role": "variant", "reference_estimator": "sar_lag", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "sem_error": {"family": "SEM", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
+    "spboost_bspa_sem_ml": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "spboost_bspa_sem_cfe": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting", "dashboard_group": "Boosting"},
+    "sdm_mixed": {"family": "SDM", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
+    "mgwrsar_gwr": {"family": "GWR", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "MGWRSAR"},
+    "mgwrsar_mgwr": {"family": "GWR", "role": "variant", "reference_estimator": "mgwrsar_gwr", "variant_family": "multiscale", "dashboard_group": "MGWRSAR"},
+    "mgwrsar_mgwrsar": {"family": "mgwrsar_hybrid", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "MGWRSAR"},
+    "MGWRSAR_0_kc_kv": {"family": "mgwrsar_hybrid", "role": "variant", "reference_estimator": "mgwrsar_mgwrsar", "variant_family": "mixed_constant_lambda", "dashboard_group": "MGWRSAR"},
+    "MGWRSAR_1_kc_kv": {"family": "mgwrsar_hybrid", "role": "variant", "reference_estimator": "mgwrsar_mgwrsar", "variant_family": "mixed_local_lambda", "dashboard_group": "MGWRSAR"},
+    "spmoran_esf": {"family": "ESF", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
+    "spmoran_resf": {"family": "ESF", "role": "variant", "reference_estimator": "spmoran_esf", "variant_family": "random_effects", "dashboard_group": "Spatial Econometrics"},
 }
 
 _missing_taxonomy = sorted({item["estimator"] for item in ESTIMATOR_REGISTRY} - set(ESTIMATOR_TAXONOMY))

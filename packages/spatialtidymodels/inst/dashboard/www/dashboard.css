@@ -1,0 +1,376 @@
+/* spatialtidymodels benchmark dashboard -- shared styles.
+ *
+ * Centralized here (rather than inline shiny::tags$style() calls scattered
+ * across dashboard-*.R) so every page module stays visually consistent and
+ * a design change is a one-file edit. Loaded via dashboard_include_css()
+ * (R/20-dashboard-theme.R).
+ */
+
+body {
+  background-color: #f5f7fa;
+}
+
+/* Cards read as raised surfaces on the tinted page background instead of
+ * blending into it -- a subtle shadow, not a heavy drop shadow. */
+.card {
+  box-shadow: 0 1px 3px rgba(15, 40, 66, 0.08);
+  border: 1px solid #e3e8ee;
+}
+
+/* ---- App shell: left sidebar (navigation + estimator-family filter) plus
+ * a main content column. Replaces the earlier horizontal navbar -- the
+ * sidebar now owns page-to-page navigation, so a second nav bar would be
+ * redundant. Built as a plain flex layout (R/19-dashboard-app.R), not
+ * bslib::sidebar() -- that component is meant for a per-page collapsible
+ * filter panel, not persistent app-wide navigation. ---- */
+.dashboard-shell {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+.dashboard-sidebar {
+  width: 240px;
+  flex: 0 0 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #e3e8ee;
+  padding: 18px 12px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  overflow-y: auto;
+}
+.dashboard-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 22px 10px;
+  font-weight: 700;
+  font-size: 1.02em;
+  color: #1c3d5a;
+}
+.dashboard-sidebar-nav {
+  flex: 1;
+}
+.dashboard-sidebar-section {
+  margin-bottom: 18px;
+}
+.dashboard-sidebar-section-title {
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #adb5bd;
+  padding: 0 10px 6px 10px;
+}
+.dashboard-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #495057;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: pointer;
+}
+.dashboard-sidebar-link:hover {
+  background-color: #f1f4f8;
+  text-decoration: none;
+  color: #495057;
+}
+.dashboard-sidebar-link.active {
+  background-color: #e7f0f7;
+  color: #1c3d5a;
+  font-weight: 600;
+}
+.dashboard-sidebar-link .dashboard-sidebar-icon {
+  display: flex;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+.dashboard-sidebar-link.active .dashboard-sidebar-icon {
+  opacity: 1;
+}
+.dashboard-sidebar-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dashboard-sidebar-footer {
+  padding: 12px 10px 4px 10px;
+  font-size: 0.72em;
+  color: #adb5bd;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e3e8ee;
+}
+.dashboard-topbar h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.25em;
+  color: #1c3d5a;
+}
+.dashboard-topbar-about {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6c757d;
+  font-size: 0.85em;
+  text-decoration: none;
+  cursor: pointer;
+}
+.dashboard-topbar-about:hover {
+  color: #2c5f8a;
+}
+.dashboard-content {
+  padding: 22px 28px 32px 28px;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .dashboard-shell {
+    flex-direction: column;
+  }
+  .dashboard-sidebar {
+    width: 100%;
+    flex: 0 0 auto;
+    height: auto;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-x: auto;
+    align-items: center;
+    gap: 4px 16px;
+    padding: 10px 14px;
+  }
+  .dashboard-sidebar-brand {
+    padding: 4px 10px 4px 0;
+  }
+  .dashboard-sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .dashboard-sidebar-section {
+    margin-bottom: 4px;
+  }
+  .dashboard-sidebar-section-title {
+    display: none;
+  }
+  .dashboard-sidebar-footer {
+    display: none;
+  }
+  .dashboard-content {
+    padding: 16px;
+  }
+}
+
+.dashboard-subtitle {
+  color: #6c757d;
+  font-size: 0.85em;
+  margin-bottom: 14px;
+}
+
+/* CV scheme tabs (Overview page): a plain shiny::radioButtons() underneath
+ * (unchanged reactive wiring), restyled as underlined tabs -- the input
+ * itself is visually hidden and the label text takes the active styling
+ * from the sibling-combinator rule below, avoiding a dependency on the
+ * :has() selector for broader browser support. */
+.dashboard-cv-tabs .shiny-options-group {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 18px;
+}
+.dashboard-cv-tabs .radio-inline {
+  margin: 0;
+  padding: 0;
+}
+.dashboard-cv-tabs .radio-inline label {
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.dashboard-cv-tabs input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.dashboard-cv-tabs .radio-inline span {
+  padding: 8px 4px;
+  margin-right: 20px;
+  color: #6c757d;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+}
+.dashboard-cv-tabs .radio-inline input:checked ~ span {
+  color: #2c5f8a;
+  font-weight: 600;
+  border-bottom: 2px solid #2c5f8a;
+}
+
+.dashboard-filterbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0 0 16px 0;
+}
+.dashboard-filterbar .form-group {
+  margin-bottom: 0;
+  min-width: 180px;
+}
+
+/* Custom KPI card (dashboard_kpi_card(), R/20) -- replaces bslib::value_box(),
+ * which was hard to control precisely enough to guarantee no scrollbar.
+ * min-height only (never max-height/fixed height + overflow:hidden), so a
+ * card grows to fit its content instead of clipping or scrolling it. */
+.dashboard-kpi-card {
+  padding: 14px 16px;
+  min-height: 128px;
+  height: 100%;
+  /* bslib::layout_columns() wraps each card in a column-direction flex item
+   * (.bslib-grid-item); align-items:stretch there only stretches the CROSS
+   * axis (width), not the main axis (height) -- flex-grow is what makes a
+   * shorter card expand to match the row's tallest card. */
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  overflow: visible;
+  box-sizing: border-box;
+}
+.dashboard-kpi-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.dashboard-kpi-title {
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  overflow-wrap: anywhere;
+}
+.dashboard-kpi-icon {
+  color: #2c5f8a;
+  opacity: 0.65;
+  flex-shrink: 0;
+  display: flex;
+}
+
+/* Content is always allowed to wrap rather than being clipped, so a long
+ * estimator name or verdict reason never forces a scrollbar. */
+.dashboard-kpi-value {
+  font-size: 1.6em;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+/* Color the KPI value itself by direction vs baseline: this is the same
+ * signal as the heatmap's teal/red scale, just repeated at a glance on the
+ * KPI card -- green means "better than baseline", red means "worse". Never
+ * applied to a KPI without a real baseline-relative meaning (duration,
+ * residual spatial dependence stay neutral -- see R/21). */
+.dashboard-kpi-value.better {
+  color: #1f7a6c;
+}
+.dashboard-kpi-value.worse {
+  color: #c1440e;
+}
+.dashboard-kpi-value.neutral-accent {
+  color: #2c5f8a;
+}
+.dashboard-kpi-estimator {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.dashboard-kpi-sub {
+  color: #6c757d;
+  font-size: 0.8em;
+}
+
+.dashboard-card-note {
+  float: right;
+  color: #6c757d;
+  font-size: 0.75em;
+  font-weight: 400;
+}
+
+/* The heatmap can have as many columns as there are estimators; scroll the
+ * table itself horizontally within its own card rather than letting it push
+ * the whole page wider (this is the only place a horizontal scrollbar
+ * should ever appear on this dashboard). */
+.dashboard-table-scroll {
+  overflow-x: auto;
+}
+.dashboard-heatmap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+}
+.dashboard-heatmap-table th,
+.dashboard-heatmap-table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+.dashboard-heatmap-table th {
+  text-align: center;
+  border-bottom: 2px solid #444;
+}
+.dashboard-heatmap-table td:first-child,
+.dashboard-heatmap-table th:first-child {
+  text-align: left;
+}
+
+.dashboard-legend {
+  margin-top: 8px;
+}
+
+.dashboard-placeholder {
+  color: #6c757d;
+  padding: 32px 8px;
+  text-align: center;
+}
+.dashboard-placeholder h4 {
+  color: #343a40;
+  margin-bottom: 8px;
+}
+
+.dashboard-methodology-table th {
+  text-align: left;
+  width: 40%;
+  color: #495057;
+  font-weight: 600;
+  vertical-align: top;
+  padding: 4px 8px;
+}
+.dashboard-methodology-table td {
+  padding: 4px 8px;
+}

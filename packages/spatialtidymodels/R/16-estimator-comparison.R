@@ -92,6 +92,28 @@
 #'   small, few subgroups will ever reach significance, so `"SPECIALIZED"` is
 #'   treated as an exploratory/hypothesis-generating signal by default, not a
 #'   confirmatory one -- documented as such rather than silently unreachable.
+#' @param analysis_unit `"task"` (default) treats every `(dataset, cv_scheme)`
+#'   case as independent evidence, exactly the current/historical behaviour.
+#'   `"source"` first collapses every case sharing the same
+#'   `source_dataset_id` (see `dashboard_task_source_counts()`,
+#'   `wiki/metadata/dataset_distribution_architecture_2026-08.md`) into one
+#'   representative case per source, per `cv_scheme` -- the median of the
+#'   per-task relative deltas (primary metric and every secondary/guardrail
+#'   metric) across that source's tasks -- before win/tie/loss and the
+#'   Wilcoxon test run. This prevents a dataset split into many benchmark
+#'   tasks (e.g. `korea_hedonic_housing`'s 32 yearly splits) from outweighing
+#'   a source evaluated as a single task just by volume. A source counts as
+#'   failed on a side (reference/candidate) only if *every* one of its tasks
+#'   failed on that side; failure rates are collapsed the same way (median
+#'   across the source's tasks). Requires a dataset -> `source_dataset_id`
+#'   mapping: automatic when `suite` is a `spatial_benchmark_suite` (via
+#'   `$dataset_metadata`), otherwise pass `dataset_metadata` explicitly to
+#'   [compare_estimator_variant()]. `groups` (subgroup analysis) is not
+#'   supported yet under `analysis_unit = "source"` -- mixing a source-level
+#'   verdict with task-level subgroups would silently blend two different
+#'   units of evidence, so it errors instead. Changes which cases feed the
+#'   verdict relative to `"task"`, i.e. can change verdicts on existing
+#'   benchmarks -- use deliberately, not as a silent default.
 #'
 #' @return A `spatial_comparison_rules` object, a plain list of thresholds.
 #' @export
@@ -106,7 +128,9 @@ comparison_rules <- function(min_win_rate = 0.70,
                              secondary_guardrails = c(),
                              max_runtime_multiplier = NA_real_,
                              min_cases_for_subgroup = 5L,
-                             require_significance_for_subgroup = FALSE) {
+                             require_significance_for_subgroup = FALSE,
+                             analysis_unit = c("task", "source")) {
+  analysis_unit <- match.arg(analysis_unit)
   structure(
     list(
       min_win_rate = min_win_rate,
@@ -120,7 +144,8 @@ comparison_rules <- function(min_win_rate = 0.70,
       secondary_guardrails = secondary_guardrails,
       max_runtime_multiplier = max_runtime_multiplier,
       min_cases_for_subgroup = as.integer(min_cases_for_subgroup),
-      require_significance_for_subgroup = isTRUE(require_significance_for_subgroup)
+      require_significance_for_subgroup = isTRUE(require_significance_for_subgroup),
+      analysis_unit = analysis_unit
     ),
     class = "spatial_comparison_rules"
   )
@@ -141,7 +166,8 @@ print.spatial_comparison_rules <- function(x, ...) {
     secondary_guardrails = "Secondary guardrails (metric -> max degradation)",
     max_runtime_multiplier = "Max runtime multiplier",
     min_cases_for_subgroup = "Min. cases required for a SPECIALIZED subgroup",
-    require_significance_for_subgroup = "Require Wilcoxon significance per subgroup"
+    require_significance_for_subgroup = "Require Wilcoxon significance per subgroup",
+    analysis_unit = "Analysis unit (task = per (dataset, cv_scheme) case, source = median-collapsed per source_dataset_id)"
   )
   scalar_fields <- setdiff(names(x), c("secondary_guardrails"))
   for (nm in scalar_fields) {
@@ -263,7 +289,12 @@ case_failure_rate <- function(n_failed, n_total, totally_failed) {
 #'   subset". The full per-group breakdown is always returned in
 #'   `$subgroups$table`, whether or not it changed the verdict. `NULL`
 #'   (default) skips subgroup analysis entirely -- existing calls are
-#'   unaffected.
+#'   unaffected. Not supported when `rules$analysis_unit == "source"` (errors).
+#' @param dataset_metadata Only used when `rules$analysis_unit == "source"`:
+#'   a `data.frame` with `dataset` and `source_dataset_id` columns, giving the
+#'   mapping used to collapse tasks into sources. `NULL` (default) auto-fills
+#'   from `suite$dataset_metadata` when `suite` is a `spatial_benchmark_suite`;
+#'   required explicitly when `suite` is a plain results `data.frame`.
 #'
 #' @return An `estimator_comparison` object (or `estimator_comparison_by_scheme`
 #'   when multiple CV schemes are in play) with `per_case` (one row per case),
@@ -285,13 +316,48 @@ compare_estimator_variant <- function(suite,
                                       ),
                                       rules = comparison_rules(),
                                       wilcoxon = TRUE,
-                                      groups = NULL) {
+                                      groups = NULL,
+                                      dataset_metadata = NULL) {
   results <- if (inherits(suite, "spatial_benchmark_suite")) suite$results else suite
   if (!is.data.frame(results)) {
     stop("`suite` doit etre un spatial_benchmark_suite ou un data.frame de resultats.", call. = FALSE)
   }
   if (!"cv_scheme" %in% names(results)) {
     stop("Colonnes manquantes dans les resultats: cv_scheme", call. = FALSE)
+  }
+
+  if (identical(rules$analysis_unit, "source")) {
+    if (!is.null(groups)) {
+      stop(
+        paste(
+          "`groups` (analyse de sous-groupes) n'est pas supporte avec",
+          "analysis_unit = \"source\": melanger un verdict agrege par source",
+          "avec des sous-groupes definis par tache melangerait deux unites",
+          "d'evidence differentes. Utilisez analysis_unit = \"task\" pour",
+          "l'analyse de sous-groupes, ou retirez `groups`."
+        ),
+        call. = FALSE
+      )
+    }
+    if (is.null(dataset_metadata)) {
+      dataset_metadata <- if (inherits(suite, "spatial_benchmark_suite")) {
+        suite$dataset_metadata[, c("dataset", "source_dataset_id"), drop = FALSE]
+      } else {
+        NULL
+      }
+    }
+    if (is.null(dataset_metadata) || !all(c("dataset", "source_dataset_id") %in% names(dataset_metadata))) {
+      stop(
+        paste(
+          "analysis_unit = \"source\" necessite un mapping dataset ->",
+          "source_dataset_id. Passez `suite` en tant que spatial_benchmark_suite",
+          "(qui l'expose via $dataset_metadata), ou fournissez explicitement",
+          "`dataset_metadata` (data.frame avec les colonnes dataset,",
+          "source_dataset_id) a compare_estimator_variant()."
+        ),
+        call. = FALSE
+      )
+    }
   }
 
   schemes_to_run <- cv_scheme
@@ -307,7 +373,8 @@ compare_estimator_variant <- function(suite,
           results = results[results$cv_scheme == scheme, , drop = FALSE],
           reference = reference, candidate = candidate, cv_scheme_label = scheme,
           primary_metric = primary_metric, secondary_metrics = secondary_metrics,
-          lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups
+          lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups,
+          dataset_metadata = dataset_metadata
         )
       }),
       schemes_to_run
@@ -320,13 +387,14 @@ compare_estimator_variant <- function(suite,
   compare_estimator_variant_single(
     results = filtered, reference = reference, candidate = candidate, cv_scheme_label = scheme_label,
     primary_metric = primary_metric, secondary_metrics = secondary_metrics,
-    lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups
+    lower_is_better = lower_is_better, rules = rules, wilcoxon = wilcoxon, groups = groups,
+    dataset_metadata = dataset_metadata
   )
 }
 
 compare_estimator_variant_single <- function(results, reference, candidate, cv_scheme_label,
                                              primary_metric, secondary_metrics, lower_is_better,
-                                             rules, wilcoxon, groups = NULL) {
+                                             rules, wilcoxon, groups = NULL, dataset_metadata = NULL) {
   guardrail_metrics <- names(rules$secondary_guardrails)
   metrics <- unique(c(primary_metric, secondary_metrics, guardrail_metrics))
   required <- c("dataset", "cv_scheme", "estimator", metrics)
@@ -395,6 +463,10 @@ compare_estimator_variant_single <- function(results, reference, candidate, cv_s
   )
   per_case <- merged[, intersect(ordered_cols, names(merged)), drop = FALSE]
   row.names(per_case) <- NULL
+
+  if (identical(rules$analysis_unit, "source")) {
+    per_case <- collapse_per_case_to_source(per_case, dataset_metadata, primary_metric, rope_pct)
+  }
 
   valid <- per_case[!per_case$reference_failed & !per_case$candidate_failed, , drop = FALSE]
   n_cases <- nrow(valid)
@@ -486,6 +558,52 @@ compare_estimator_variant_single <- function(results, reference, candidate, cv_s
     ),
     class = "estimator_comparison"
   )
+}
+
+collapse_per_case_to_source <- function(per_case, dataset_metadata, primary_metric, rope_pct) {
+  # Collapses one row per (dataset, cv_scheme) task down to one row per
+  # source_dataset_id, so a dataset split into many benchmark tasks (e.g.
+  # korea_hedonic_housing's 32 yearly splits) contributes exactly one piece
+  # of evidence to win/tie/loss and the Wilcoxon test, same as a source
+  # evaluated as a single task. Every delta_ and raw metric column is
+  # collapsed via median across the source's tasks (na.rm = TRUE, so a
+  # failed task's NA delta doesn't count); reference_failed/candidate_failed
+  # are TRUE only if EVERY task for that source failed on that side. A
+  # dataset absent from `dataset_metadata` becomes its own source, mirroring
+  # build_suite_dataset_metadata()'s fallback.
+  src_map <- unique(dataset_metadata[, c("dataset", "source_dataset_id"), drop = FALSE])
+  per_case$source_dataset_id <- src_map$source_dataset_id[match(per_case$dataset, src_map$dataset)]
+  missing_src <- is.na(per_case$source_dataset_id)
+  per_case$source_dataset_id[missing_src] <- per_case$dataset[missing_src]
+
+  numeric_cols <- names(per_case)[vapply(per_case, is.numeric, logical(1))]
+
+  rows <- lapply(split(per_case, per_case$source_dataset_id), function(g) {
+    out <- list(
+      dataset = g$source_dataset_id[[1]],
+      source_dataset_id = g$source_dataset_id[[1]],
+      cv_scheme = g$cv_scheme[[1]],
+      reference = g$reference[[1]],
+      candidate = g$candidate[[1]],
+      n_tasks = nrow(g)
+    )
+    for (col in numeric_cols) {
+      out[[col]] <- stats::median(g[[col]], na.rm = TRUE)
+    }
+    out$reference_failed <- all(g$reference_failed)
+    out$candidate_failed <- all(g$candidate_failed)
+    as.data.frame(out, stringsAsFactors = FALSE)
+  })
+  collapsed <- do.call(rbind, rows)
+  row.names(collapsed) <- NULL
+
+  delta_primary_col <- paste0("delta_", primary_metric)
+  collapsed$outcome <- classify_outcome(collapsed[[delta_primary_col]], rope_pct)
+  collapsed$outcome[collapsed$reference_failed & collapsed$candidate_failed] <- "BOTH_FAILED"
+  collapsed$outcome[collapsed$reference_failed & !collapsed$candidate_failed] <- "REFERENCE_FAILED"
+  collapsed$outcome[!collapsed$reference_failed & collapsed$candidate_failed] <- "CANDIDATE_FAILED"
+
+  collapsed
 }
 
 compute_subgroup_analysis <- function(valid, groups, primary_metric, rules) {

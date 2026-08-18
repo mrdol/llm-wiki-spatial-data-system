@@ -54,6 +54,33 @@ test_that("benchmark_spatial_suite() runs on 2 synthetic datasets x 2 estimators
   expect_output(print(suite), "Benchmark spatial suite")
 })
 
+test_that("benchmark_spatial_suite() attaches dataset_metadata, NA-filled for datasets outside the registry", {
+  suite <- benchmark_spatial_suite(
+    datasets = two_synthetic_specs(),
+    estimators = "ols",
+    cv_schemes = "near_prediction",
+    near_n_reps = 2L,
+    near_test_size = 4L,
+    seed = 1L
+  )
+
+  expect_false(is.null(suite$dataset_metadata))
+  expect_true(all(c(
+    "dataset", "source_dataset_id", "benchmark_task_id", "parent_dataset",
+    "n", "p", "formula_role", "bundled", "storage"
+  ) %in% names(suite$dataset_metadata)))
+  expect_setequal(suite$dataset_metadata$dataset, c("synth_a", "synth_b"))
+
+  # synth_a/synth_b are ad hoc specs, not in the package registry: they fall
+  # back to being their own source/task (same convention as
+  # metadata_dataset_registry()), and every other field stays NA rather than
+  # being fabricated.
+  expect_equal(suite$dataset_metadata$source_dataset_id, suite$dataset_metadata$dataset)
+  expect_equal(suite$dataset_metadata$benchmark_task_id, suite$dataset_metadata$dataset)
+  expect_true(all(is.na(suite$dataset_metadata$n)))
+  expect_true(all(is.na(suite$dataset_metadata$formula_role)))
+})
+
 test_that("benchmark_spatial_suite() keeps multiple cv_schemes distinct rather than mixing them", {
   suite <- benchmark_spatial_suite(
     datasets = two_synthetic_specs(),

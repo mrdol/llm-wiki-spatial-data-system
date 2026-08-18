@@ -89,6 +89,11 @@ metadata_dataset_registry <- function() {
   # wiki/metadata/dataset_distribution_architecture_2026-08.md). Falls back
   # to dataset-is-its-own-source and repo_only for a datasets.json generated
   # before these fields existed.
+  # n_observations/t_periods: raw dataset size, used by a Datasets page and
+  # by suite$dataset_metadata (R/15) -- NA for a datasets.json generated
+  # before these fields existed, or for a fiche where they were never filled.
+  out$n_observations <- if ("n_observations" %in% names(records)) suppressWarnings(as.integer(records$n_observations)) else NA_integer_
+  out$t_periods <- if ("t_periods" %in% names(records)) suppressWarnings(as.integer(records$t_periods)) else NA_integer_
   out$dataset_id <- if ("dataset_id" %in% names(records)) as.character(records$dataset_id) else as.character(records$dataset)
   out$parent_dataset <- if ("parent_dataset" %in% names(records)) as.character(records$parent_dataset) else NA_character_
   out$source_dataset_id <- if ("source_dataset_id" %in% names(records)) as.character(records$source_dataset_id) else out$dataset_id
@@ -106,6 +111,13 @@ metadata_dataset_registry <- function() {
   out$redistribution_allowed <- if ("redistribution_allowed" %in% names(records)) as.logical(records$redistribution_allowed) else NA
   out$license_verified <- if ("license_verified" %in% names(records)) as.logical(records$license_verified) else FALSE
   out$size_bytes <- if ("size_bytes" %in% names(records)) as.numeric(records$size_bytes) else NA_real_
+  # benchmark_ready/license_name: read here even though metadata_dataset_registry()
+  # already filtered to benchmark_ready==TRUE rows above -- a Datasets page
+  # displaying this per-row is more honest than assuming it, and previously
+  # this field was silently dropped by the required-columns subsetting (same
+  # bug class fixed for n_observations/dashboard_group elsewhere).
+  out$benchmark_ready <- if ("benchmark_ready" %in% names(records)) as.logical(records$benchmark_ready) else TRUE
+  out$license_name <- if ("license_name" %in% names(records)) as.character(records$license_name) else NA_character_
   out$dataset <- as.character(out$dataset)
   out$data_object <- as.character(out$data_object)
   out$rds <- as.character(out$rds)
@@ -156,6 +168,12 @@ metadata_estimator_registry <- function() {
   for (field in c("family", "role", "reference_estimator", "variant_family")) {
     out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
   }
+  # dashboard_group is deliberately distinct from `family`: `family` is the
+  # scientific model family (SAR/SEM/GWR/...), `dashboard_group` is which
+  # dashboard menu section to list the estimator under (e.g.
+  # spboost_bspa_sar_ml has family="SAR" but dashboard_group="Boosting").
+  # NA fallback for an estimators.json generated before this field existed.
+  out$dashboard_group <- if ("dashboard_group" %in% names(records)) as.character(records$dashboard_group) else NA_character_
   rownames(out) <- NULL
   out
 }

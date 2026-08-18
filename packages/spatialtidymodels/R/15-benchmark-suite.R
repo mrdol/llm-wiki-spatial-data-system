@@ -8,6 +8,87 @@
 # seule table dataset x estimateur x cv_scheme x fold. C'est cette table
 # aplatie que consomme compare_estimator_variant() (R/16-estimator-comparison.R).
 
+#' @keywords internal
+#' @noRd
+build_suite_dataset_metadata <- function(dataset_names) {
+  # Lets a dashboard read dataset-level metadata (source_dataset_id,
+  # benchmark_task_id, n, p, bundled/storage, ...) off the suite object
+  # itself instead of reconstructing it in the UI. Only exposes fields that
+  # actually exist in the registry (see R/metadata-registry.R,
+  # R/benchmark-datasets.R) -- no fabricated domain/geometry_type columns; a
+  # dataset name that isn't in the registry (an ad hoc spatial_dataset_spec)
+  # falls back to being its own source/task, same convention used
+  # throughout the metadata layer.
+  dataset_names <- unique(dataset_names)
+  registry <- tryCatch(benchmark_dataset_registry(), error = function(e) NULL)
+  if (is.null(registry) || nrow(registry) == 0L) {
+    return(data.frame(
+      dataset = dataset_names,
+      source_dataset_id = dataset_names,
+      benchmark_task_id = dataset_names,
+      parent_dataset = NA_character_,
+      n = NA_integer_,
+      p = NA_integer_,
+      formula_role = NA_character_,
+      benchmark_ready = NA,
+      bundled = NA,
+      storage = NA_character_,
+      benchmark_suite = I(rep(list(character()), length(dataset_names))),
+      download_url = NA_character_,
+      license_name = NA_character_,
+      license_verified = NA,
+      redistribution_allowed = NA,
+      checksum_sha256 = NA_character_,
+      size_bytes = NA_real_,
+      stringsAsFactors = FALSE
+    ))
+  }
+
+  idx <- match(dataset_names, registry$dataset)
+  source_dataset_id <- registry$source_dataset_id[idx]
+  source_dataset_id[is.na(source_dataset_id)] <- dataset_names[is.na(source_dataset_id)]
+  benchmark_task_id <- registry$benchmark_task_id[idx]
+  benchmark_task_id[is.na(benchmark_task_id)] <- dataset_names[is.na(benchmark_task_id)]
+  p <- vapply(idx, function(i) {
+    if (is.na(i)) return(NA_integer_)
+    preds <- registry$predictors[[i]]
+    if (is.null(preds)) NA_integer_ else length(preds)
+  }, integer(1))
+  benchmark_suite_col <- if ("benchmark_suite" %in% names(registry)) {
+    I(lapply(idx, function(i) if (is.na(i)) character() else registry$benchmark_suite[[i]]))
+  } else {
+    I(rep(list(character()), length(dataset_names)))
+  }
+
+  data.frame(
+    dataset = dataset_names,
+    source_dataset_id = source_dataset_id,
+    benchmark_task_id = benchmark_task_id,
+    parent_dataset = registry$parent_dataset[idx],
+    n = registry$n_observations[idx],
+    p = p,
+    formula_role = registry$formula_default_role[idx],
+    # Ready by construction here: a dataset can only reach this function via
+    # a name the registry already filtered to benchmark_ready == TRUE, or an
+    # ad hoc spec outside the registry entirely (NA -- genuinely unknown, not
+    # assumed TRUE).
+    benchmark_ready = registry$benchmark_ready[idx],
+    bundled = registry$bundled[idx],
+    storage = registry$storage[idx],
+    benchmark_suite = benchmark_suite_col,
+    # Distribution-architecture fields: not yet populated anywhere in the
+    # registry as of this dashboard rework, but the Datasets page can already
+    # display them once they are (see wiki/metadata/dataset_distribution_architecture_2026-08.md).
+    download_url = registry$download_url[idx],
+    license_name = registry$license_name[idx],
+    license_verified = registry$license_verified[idx],
+    redistribution_allowed = registry$redistribution_allowed[idx],
+    checksum_sha256 = registry$checksum_sha256[idx],
+    size_bytes = registry$size_bytes[idx],
+    stringsAsFactors = FALSE
+  )
+}
+
 normalize_suite_dataset_specs <- function(datasets, data_dir, formula_role) {
   # Accepte soit des noms de dataset enregistres (character), soit des
   # spatial_dataset_spec deja construites (meme entree que
@@ -76,7 +157,8 @@ benchmark_spatial_suite <- function(datasets,
                                     block_folds = 5L, seed = 123L,
                                     verbose = FALSE, parallel = FALSE,
                                     workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-                                    allow_heavy_tuning = FALSE) {
+                                    allow_heavy_tuning = FALSE,
+                                    fold_timeout_sec = NA_real_) {
   if (length(cv_schemes) == 0L) {
     stop("cv_schemes doit contenir au moins un schema.", call. = FALSE)
   }
@@ -105,7 +187,8 @@ benchmark_spatial_suite <- function(datasets,
       near_n_reps = near_n_reps, near_test_size = near_test_size,
       block_folds = block_folds, seed = seed,
       verbose = verbose, parallel = parallel, workers = workers,
-      allow_heavy_tuning = allow_heavy_tuning
+      allow_heavy_tuning = allow_heavy_tuning,
+      fold_timeout_sec = fold_timeout_sec
     )
     benchmarks[[scheme]] <- set_bench
 
@@ -146,6 +229,7 @@ benchmark_spatial_suite <- function(datasets,
       resample_results = resample_results,
       benchmarks = benchmarks,
       datasets = dataset_names,
+      dataset_metadata = build_suite_dataset_metadata(dataset_names),
       estimators = estimators,
       cv_schemes = cv_schemes,
       failures = failures,
@@ -156,7 +240,8 @@ benchmark_spatial_suite <- function(datasets,
         eval_folds = eval_folds,
         holdout_prop = holdout_prop,
         near_n_reps = near_n_reps,
-        block_folds = block_folds
+        block_folds = block_folds,
+        fold_timeout_sec = fold_timeout_sec
       )
     ),
     class = "spatial_benchmark_suite"

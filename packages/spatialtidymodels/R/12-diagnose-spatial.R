@@ -96,11 +96,21 @@ extract_information_criteria <- function(engine, n = NA_integer_) {
   if (!is.finite(k)) {
     k <- finite_scalar_or_na(engine_component(engine, "df"))
   }
-  if (!is.finite(k) && inherits(engine, "spboost")) {
+  if (!is.finite(k) && inherits(engine, "mboost")) {
+    # Covers spboost AND plain gamboost -- both inherit "mboost".
     k <- spboost_effective_df_for_ic(engine)
   }
 
-  aic <- numeric_or_na(stats::AIC(engine))
+  # stats::AIC(engine) is skipped for mboost-derived engines (spboost,
+  # gamboost): AIC.mboost() computes effective degrees of freedom via the
+  # boosting hat-matrix trace, which scales very badly with n -- instant on
+  # small benchmark datasets (n<=519) but confirmed to still be running after
+  # 35s+ of sustained single-core CPU on lasrosas (n=3435), which is what
+  # produced the ~25 minute suite stall this was root-caused from. The
+  # analytic aic = -2*logLik + 2*k fallback below (logLik is cheap; k comes
+  # from spboost_effective_df_for_ic()'s coef()-based approximation) gives an
+  # equivalent AIC without ever calling the expensive method.
+  aic <- if (inherits(engine, "mboost")) NA_real_ else numeric_or_na(stats::AIC(engine))
   if (!is.finite(aic)) {
     aic <- finite_scalar_or_na(engine_component(engine, "AIC"))
   }
