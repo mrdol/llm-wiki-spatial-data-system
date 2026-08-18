@@ -1,0 +1,219 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage[french]{babel} % a activer sur Overleaf pour la cesure francaise
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ragged2e}\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue!50!black, citecolor=black}
+\definecolor{myblue}{RGB}{35,55,120}
+\titleformat{\section}{\large\bfseries\color{myblue}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{myblue!85}}{\thesubsection.}{0.5em}{}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\footnotesize Rapport de stage --- M2 Econometrics \& Statistics}
+\fancyhead[R]{\footnotesize J. D'Oliveira}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+
+\begin{document}
+
+% ============================ PAGE DE TITRE ============================
+\begin{titlepage}
+\centering
+\vspace*{1.5cm}
+{\scriptsize AIX-MARSEILLE UNIVERSITÉ --- AIX-MARSEILLE SCHOOL OF ECONOMICS\par}
+{\scriptsize Master Econometrics \& Statistics --- M2 Econometrics, Data Science (EDS)\par}
+\vspace{2cm}
+{\color{myblue}\rule{\textwidth}{1.2pt}}\\[0.6cm]
+{\LARGE\bfseries Constitution d'une banque de données de référence pour la validation de modèles prédictifs spatio-temporels\par}
+\vspace{0.4cm}
+{\large\itshape Conception d'un système de métadonnées enrichies et d'une curation assistée par IA\par}
+{\color{myblue}\rule{\textwidth}{1.2pt}}\\[1.2cm]
+
+{\large\textbf{Johnny D'OLIVEIRA}\par}
+\vspace{1.5cm}
+\begin{tabular}{rl}
+\textbf{Organisme d'accueil} & INRAE --- Centre d'Avignon, unité Écodéveloppement \\[0.2cm]
+\textbf{Encadrant professionnel} & Ghislain Geniaux, Directeur de recherche \\[0.2cm]
+\textbf{Encadrement académique} & Badih GHATTAS, Responsable du parcours EDS - AMSE \\[0.2cm]
+\textbf{Période} & Avril --- Septembre 2026 \\[0.2cm]
+\textbf{Version} & Premier draft \\
+\end{tabular}
+\vfill
+{\footnotesize Rapport de stage de fin d'études --- \today\par}
+\end{titlepage}
+
+% ============================ PAGE NON-PLAGIAT ============================
+\thispagestyle{empty}
+% Logos
+\noindent
+\begin{minipage}{0.45\textwidth}
+    \includegraphics[height=1.5cm]{logo_amu.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+    \raggedleft
+    \includegraphics[height=1.5cm]{logo_amse.png}
+\end{minipage}
+
+\vspace{3.5cm}
+
+\begin{center}
+    \textbf{\Large ENGAGEMENT DE NON-PLAGIAT}
+\end{center}
+
+\vspace{3cm}
+
+\noindent
+Je soussigné, \textit{Johnny D'OLIVEIRA},
+déclare être pleinement conscient que le plagiat, consistant à copier des documents ou une partie d'un document publié sous quelque forme que ce soit et sur quelque support que ce soit, y compris les publications en ligne, constitue une violation du droit d'auteur et des droits voisins, ainsi qu'une fraude pure et simple.
+
+\vspace{0.5cm}
+
+\noindent
+En conséquence, je m'engage par la présente à citer toutes les sources et tous les auteurs auxquels j'ai eu recours pour rédiger mon rapport de stage et ses annexes.
+
+\vspace{2cm}
+
+\noindent
+\begin{minipage}[t]{0.45\textwidth}
+Date: 1er juin 2026
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\raggedleft
+\begin{minipage}[t]{3.5cm}
+\centering
+Signature:
+
+\vspace{0.2cm}
+
+\includegraphics[width=2.5cm]{signature.png}\\[-0.1cm]
+Johnny D'OLIVEIRA
+\end{minipage}
+\end{minipage}
+
+\newpage
+
+% ============================ TABLE DES MATIERES ============================
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+
+% ============================ INTRODUCTION ============================
+\section{Introduction}
+
+Ce rapport rend compte du stage de fin d'études réalisé au sein de l'unité Écodéveloppement de l'INRAE, centre d'Avignon. Il décrit la mission qui m'a été confiée et, surtout, cherche à en proposer une lecture analytique mobilisant les compétences acquises durant le Master. La problématique de départ est méthodologique : comment valider de façon crédible des méthodes statistiques destinées aux données spatiales et spatio-temporelles, lorsque le matériel de test partagé existe, mais en quantité insuffisante.
+
+La validation d'une méthode prédictive peut emprunter trois voies complémentaires. La première consiste à établir mathématiquement ses propriétés asymptotiques, mais une telle preuve n'est pas toujours accessible pour des estimateurs complexes. La deuxième repose sur des simulations de Monte-Carlo répétées un grand nombre de fois ; elle est aujourd'hui incontournable dans toute publication méthodologique, car le processus générateur des données y est connu, ce qui permet de vérifier simultanément la qualité de l'inférence sur les paramètres et la capacité prédictive du modèle. Sa limite tient à la diversité : on ne peut simuler qu'un nombre restreint de configurations --- non-normalité des distributions, corrélation entre variables, non-linéarités, interactions, erreurs de mesure sur les variables explicatives --- alors que les données spatiales et spatio-temporelles présentent une variété de processus générateurs si grande qu'aucun plan de simulation, même soigné, ne peut l'épuiser. La troisième voie confronte donc la méthode à des données réelles et variées : elle apporte précisément la diversité que la simulation ne peut atteindre.
+
+Cette troisième voie a toutefois sa propre limite. Sur données réelles, les vrais paramètres sont inconnus, de sorte que l'on ne peut évaluer que la capacité prédictive, et non la qualité de l'inférence. La banque de données réelles ne remplace donc pas l'expérience de Monte-Carlo : elle ajoute une couche de validation complémentaire. Cette distinction est importante, car un modèle, en particulier en apprentissage automatique, peut très bien prédire tout en délivrant des conclusions erronées sur les effets des variables, par exemple en présence d'endogénéité.
+
+C'est sur cette troisième voie que se concentre une difficulté structurelle : il existe des jeux de données réels, mais rarement sous une forme standardisée et diversifiée, et jamais en nombre suffisant pour couvrir les différentes structures de dépendance que l'on rencontre en spatial et en spatio-temporel. Mon stage vise à combler ce manque en construisant une banque de données de référence, conçue comme un véritable plan d'expérience plutôt que comme une accumulation opportuniste de sources.
+
+Le rapport est organisé en trois temps. Une première section présente le contexte, c'est-à-dire l'organisme d'accueil et l'écosystème dans lequel s'inscrit la mission. Une deuxième section discute la mission elle-même : ses objectifs, mes contributions et les facteurs qui en ont facilité ou freiné la réalisation. Dans la conclusion, je prends du recul sur le travail accompli, ses limites et l'apport du cursus de Master.
+
+% ============================ CONTEXTE ============================
+\section{Contexte}
+
+Cette section décrit l'environnement de travail dans lequel s'est déroulé le stage. Elle présente l'INRAE et l'unité d'accueil, les organisations avec lesquelles elles interagissent, et la manière dont ce contexte a tour à tour facilité et compliqué la mission.
+
+\subsection{L'organisme d'accueil}
+
+L'INRAE, Institut national de recherche pour l'agriculture, l'alimentation et l'environnement, est un établissement public de recherche français. Son activité ne relève pas d'une logique marchande : sa production n'est pas un bien vendu sur un marché, mais une connaissance scientifique validée, diffusée par des publications, des logiciels et des jeux de données ouverts. Cette nature non commerciale oriente directement la définition du succès d'une mission : ce qui compte n'est pas un chiffre d'affaires, mais la robustesse, la reproductibilité et la réutilisabilité des résultats produits.
+
+Au sein du centre d'Avignon, l'unité Écodéveloppement mène des recherches sur les interactions entre agriculture, environnement et territoires, en mobilisant notamment l'économie et la statistique appliquées au service du développement durable. C'est dans ce cadre qu'une activité méthodologique développe des méthodes statistiques avancées pour l'analyse des données spatiales et spatio-temporelles. Cette expertise se matérialise notamment par des packages R conçus en interne, comme \texttt{mgwrsar}, qui traite simultanément l'autocorrélation et l'hétérogénéité spatiales, ou des approches de boosting spatialisé. L'encadrement a été assuré par Ghislain Geniaux, directeur de recherche, dont les travaux sur la régression géographiquement pondérée constituent l'un des points d'ancrage méthodologiques du stage.
+
+\subsection{Un écosystème ouvert et interdépendant}
+
+L'unité n'opère pas en vase clos. Elle s'inscrit dans un réseau d'acteurs liés par un objectif commun de production et de partage de connaissances. Du côté amont, la mission s'appuie sur l'écosystème de la science ouverte : entrepôts de données comme Zenodo ou Dryad, portails institutionnels comme l'INSEE ou Eurostat, et couches de découverte bibliographique comme OpenAlex et Crossref. Du côté aval, les résultats ont vocation à alimenter la communauté scientifique, par exemple à travers une publication de type \textit{data paper} visant la revue \textit{Scientific Data}, et à enrichir l'écosystème logiciel R. À cela s'ajoute le double encadrement propre au stage, qui relie l'unité de recherche et l'AMSE autour d'un même travail.
+
+\subsection{Un contexte à la fois facilitant et exigeant}
+
+Le contexte a fortement facilité la mission sur plusieurs plans. L'expertise méthodologique de l'unité a fourni un cadre théorique solide, les packages existants m'ont offert des points de comparaison directs, et la culture de science ouverte a rendu accessibles d'abondantes sources de données. La disponibilité d'agents de programmation assistée par grand modèle de langage m'a par ailleurs ouvert la possibilité d'automatiser une grande partie du travail de documentation.
+
+Ce même contexte a néanmoins soulevé des défis réels. L'absence de banque de référence standardisée signifiait qu'il fallait en concevoir une de toutes pièces, en arbitrant la diversité à couvrir. L'hétérogénéité des métadonnées entre sources, la nécessité d'une traçabilité par identifiant numérique (DOI) et la gestion des licences ont imposé une rigueur documentaire constante. Enfin, l'automatisation par grand modèle de langage, séduisante sur le principe, s'est heurtée à une contrainte de coût qui a structuré une partie importante de la mission, comme la section suivante le détaille.
+
+% ============================ MISSION ============================
+\section{La mission}
+
+Cette section présente la mission de manière analytique plutôt que chronologique. Elle expose l'objectif, le rôle qui m'a été confié, les contributions apportées, puis les facteurs qui expliquent les succès obtenus et les obstacles rencontrés.
+
+\subsection{Objectif et périmètre}
+
+L'objectif central de la mission était de constituer une banque de données réelles, spatiales et spatio-temporelles, suffisamment diversifiée pour servir de banc d'essai à la validation des méthodes prédictives développées par l'unité. Le périmètre couvrait trois axes définis dans la proposition de stage : la collecte et la curation des données, la structuration de protocoles d'apprentissage standardisés, et la modélisation comparative servant de référence. Ma contribution s'est concentrée prioritairement sur les fondations de cet édifice, à savoir la conception du système qui rend la banque cohérente, documentée et exploitable.
+
+Ce stage s'inscrit dans un projet de grande envergure qui le dépasse largement : la banque a vocation à couvrir, à terme, l'ensemble des familles de sources et des domaines. Pour rendre cette ambition tangible et éviter un chantier sans aboutissement, une première étape a été délimitée, restreinte à l'écosystème R et à ses jeux de données spatiaux et spatio-temporels. Cette étape doit déboucher sur un \textit{data paper} recensant ce qui est disponible dans ce périmètre : un livrable concret et achevable, qui constitue un premier aboutissement au sein d'un projet plus vaste.
+
+\subsection{Une idée directrice : des métadonnées qui guident la modélisation}
+
+La contribution conceptuelle la plus structurante a consisté à proposer que les métadonnées ne se limitent pas à décrire un jeu de données, mais qu'elles guident automatiquement les choix méthodologiques ultérieurs. J'ai formalisé cette idée dans un document de cadrage qui organise l'information selon une chaîne de raisonnement : de la donnée vers une couche de métadonnées enrichies, puis vers une typologie du jeu, puis vers les estimateurs éligibles, et enfin vers le pipeline d'analyse. Cette logique s'inspire de la manière dont les packages R \texttt{caret} et \texttt{tidymodels} tiennent un registre unifié de modèles, mais elle va plus loin en reliant explicitement la structure des données, la typologie spatiale et temporelle, le profil de taille du jeu et la nature de la variable réponse aux stratégies de validation appropriées.
+
+Concrètement, cette couche de métadonnées s'articule en plusieurs blocs : la formule et les variables, en distinguant ce qui provient d'une publication de ce que le système reconstruit ; l'identification et la traçabilité par DOI ; la typologie des modèles et celle des données, incluant le profil reliant le nombre d'unités au nombre de périodes ; la résolution et l'étendue spatiale et temporelle ; et enfin la reproductibilité. Cette typologie permet de positionner chaque jeu dans un plan d'expérience à plusieurs axes, de sorte que la banque couvre délibérément une diversité de domaines, de structures spatiales et temporelles, et de types de variable réponse.
+
+\subsection{Le système construit et son évolution}
+
+Documenter manuellement les métadonnées de quelques jeux est faisable, mais le faire pour les centaines de jeux candidats dispersés dans des packages, des articles et des portails ne l'est pas. La mission a donc consisté à confier le travail répétitif de lecture, de résumé, de classement et de mise en relation à un assistant fondé sur un grand modèle de langage, en réservant à l'humain les décisions de validation. Cette approche reprend l'idée de \textit{LLM Wiki} proposée par Andrej Karpathy : plutôt que de redécouvrir l'information à chaque requête, un assistant construit une seule fois un wiki structuré et interconnecté entre l'utilisateur et les sources brutes, puis le maintient à jour, de sorte que la connaissance s'accumule. Nous adaptons ce principe à un usage particulier --- non pas une encyclopédie généraliste, mais un instrument orienté vers la recherche de jeux de données spatiaux et spatio-temporels.
+
+Cette mise en œuvre fait converger plusieurs briques complémentaires. La bibliographie est gérée avec JabRef, qui identifie chaque publication par sa clé de citation, son titre, ses auteurs, son DOI, sa revue et le chemin de son fichier PDF. Les articles au format PDF sont convertis en documents structurés par GROBID, qui en extrait le texte balisé : sections, références et métadonnées. Ces éléments alimentent un corpus curé de sources validées, distinct des sources brutes que l'on ne modifie jamais. Le wiki, enfin, joue le rôle de couche de synthèse, validée et lisible par l'humain, conformément à l'idée de Karpathy.
+
+La première version de ce système s'est heurtée à une limite importante. L'assistant relisait l'intégralité des sources à chaque tâche, ce qui faisait croître de façon prohibitive le coût en unités de traitement du langage, communément appelées \textit{tokens}. Cette inflation du coût ralentissait fortement la progression et rendait illusoire le traitement d'un grand nombre de jeux. La réponse apportée a consisté à réorganiser l'architecture autour d'un graphe de connaissances que l'on interroge au lieu de relire les sources, complété par des résumés des documents et une compression des sorties techniques volumineuses, le tout exposé à l'assistant au moyen d'outils fondés sur le protocole MCP. Cette réorganisation a permis d'effectuer le même travail à un coût nettement réduit, et constitue l'un des apports techniques les plus concrets de la mission. À ce graphe s'ajoute un pipeline de contrôle qualité à trois niveaux, vérifiant successivement la forme des fiches, la cohérence de leur contenu et l'orientation des cas douteux vers une révision humaine, selon le principe que l'IA propose et que l'humain valide.
+
+\subsection{État d'avancement et contributions propres}
+
+À ce stade, le travail a établi les fondations de la banque plutôt qu'un benchmark entièrement abouti. L'étage prioritaire, celui des jeux de données embarqués dans les packages R et Python, est achevé. Le graphe de connaissances relie désormais un volume substantiel d'entités : de l'ordre de 1\,500 jeux indexés, plusieurs centaines de publications, ainsi que les formules, variables réponses et covariables qui s'y rattachent. Deux autres étages de collecte sont prévus : les jeux publiés en accès ouvert par les articles de statistique et d'économétrie spatiales, puis ceux des grandes banques de données institutionnelles.
+
+Mes contributions propres se situent à la fois sur le plan conceptuel et sur le plan technique. Sur le plan conceptuel, j'ai proposé et formalisé le système de métadonnées enrichies et la typologie associée. Sur le plan technique, j'ai participé à la construction des pipelines de collecte et de documentation, ainsi qu'à la réorganisation de l'architecture autour du graphe de connaissances. J'ai par ailleurs conçu une couche d'outils fondés sur le protocole MCP (\textit{Model Context Protocol}), dédiée à réduire la consommation de tokens en interrogeant des résumés et un index plutôt que les fichiers complets ; cette idée a résolu le problème de coût qui bloquait la démarche. J'ai enfin contribué à la reproduction d'une partie de ce système sur un autre projet de l'unité, ce qui en confirme la transférabilité. Ce double apport vise un bénéfice clair pour l'unité : disposer d'un instrument réutilisable et reproductible qui rend possible la validation empirique de ses méthodes et la préparation d'une publication, tout en restant maintenable dans le temps.
+
+\subsection{Facteurs facilitants et obstacles}
+
+Plusieurs facteurs ont favorisé la réussite de la mission. L'expertise de l'encadrant a permis d'arbitrer rapidement les choix de typologie, l'écosystème de science ouverte a fourni une matière première abondante, et les packages existants ont offert des références méthodologiques directes. La disponibilité d'agents assistés par grand modèle de langage a rendu envisageable un volume de documentation hors de portée d'un travail purement manuel.
+
+Les obstacles, eux, ont été surtout d'ordre méthodologique et technique. Le coût en tokens et en temps d'obtention des résultats a constitué le frein le plus net et a nécessité une refonte de l'architecture. L'hétérogénéité des sources et la fiabilité variable de l'extraction automatique imposaient une vérification humaine systématique, d'autant que le risque que l'IA évalue son propre contenu devait être maîtrisé. Ces obstacles ont été traités en mobilisant des compétences acquises pendant le Master : raisonnement économétrique pour la typologie des variables et des structures de dépendance, principes d'apprentissage automatique et de validation croisée pour les protocoles de séparation des données et l'optimisation des hyperparamètres des modèles, et pratique de la programmation en R et en Python pour l'implémentation des pipelines.
+
+% ============================ CONCLUSION ============================
+\section{Conclusion}
+
+La problématique de départ portait sur la rareté d'un matériel de test standardisé et diversifié pour valider des méthodes spatiales et spatio-temporelles. Le travail accompli ne fournit pas encore une banque complète et un benchmark exhaustif, mais il en pose les fondations indispensables : une typologie qui définit la diversité à couvrir, un système de métadonnées qui rend chaque jeu exploitable de façon homogène, et une infrastructure de curation soutenable à grande échelle. En ce sens, la mission a transformé un problème diffus en un cadre opérationnel, et a levé l'obstacle de coût qui bloquait la démarche. Ce stage s'insère par ailleurs dans un projet qui le dépasse : sa contribution la plus aboutie est de circonscrire une première étape, restreinte à l'écosystème R, destinée à donner lieu à un \textit{data paper} sur les jeux spatiaux et spatio-temporels qui y sont disponibles.
+
+Plusieurs améliorations restent à conduire. Il faudra finaliser le choix du jeu de données central servant de fil conducteur, étendre la collecte aux deux étages encore peu explorés, puis exécuter le benchmarking complet en comparant les baselines classiques aux modèles spatiaux et spatio-temporels. Sur le plan du système, les règles d'extraction du graphe de connaissances gagneraient à être affinées pour réduire la part d'interprétation laissée au modèle de langage et renforcer la fiabilité des relations établies.
+
+Le cursus de Master a constitué un appui direct, surtout par ses enseignements de science des données, de programmation et d'intelligence artificielle, qui ont occupé une place bien plus grande que les modèles spatiaux et spatio-temporels proprement dits. Ces enseignements ont guidé la conception des protocoles de validation et l'implémentation des pipelines ; la formation EDS m'a en particulier familiarisé avec l'usage de Git et de GitHub, devenu central pour le versionnement du projet. Je n'ai en revanche pas suivi de cours approfondi d'économétrie spatiale : mes connaissances dans ce domaine proviennent surtout de recherches personnelles, de tutoriels et de la lecture de la documentation et des articles rassemblés dans le corpus du projet, ainsi que de plusieurs articles de vulgarisation. Rétrospectivement, une familiarité plus grande avec l'ingénierie logicielle et avec les outils agentiques fondés sur les grands modèles de langage m'aurait permis d'aborder plus rapidement la question du coût et de l'architecture, qui s'est révélée centrale. Ce stage aura ainsi consolidé des compétences méthodologiques tout en m'exposant à des enjeux d'ingénierie qui prolongent utilement la formation.
+
+% ============================ REFERENCES ============================
+\section*{Références indicatives}
+
+{\small
+\RaggedRight
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.12cm}
+
+Geniaux, G. \& Martinetti, D. (2018). A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models. \textit{Regional Science and Urban Economics}, 72, 74--85.\\[0.2cm]
+
+Fotheringham, A. S., Yang, W. \& Kang, W. (2017). Multiscale geographically weighted regression. \textit{Annals of the American Association of Geographers}, 107(6), 1247--1265.\\[0.2cm]
+
+Murakami, D. \& Griffith, D. A. (2019). Spatially varying coefficient modeling for large datasets: Eliminating N from spatial regressions. \textit{Spatial Statistics}, 30, 39--64.\\[0.2cm]
+
+Geniaux, G. (2026). Top-down scale approaches for multiscale GWR with locally adaptive bandwidths. \textit{Journal of Geographical Systems}, in press. \url{https://doi.org/10.1007/s10109-025-00481-4}\\[0.2cm]
+
+Geniaux, G. (2026). Flexible nonlinear spatial autoregressive models: A gradient boosting approach with closed-form estimation. Manuscript, INRAE, UR Ecodeveloppement, Avignon, France.\\[0.2cm]
+
+Karpathy, A. (2026). LLM Wiki. GitHub Gist. \url{https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f}\\[0.2cm]
+
+Kosuri, B. (2026). I gave an AI a one-page idea and it built me an entire knowledge base in 30 minutes. GitHub repository article. \url{https://github.com/balukosuri/llm-wiki-karpathy/blob/main/article.md}\\[0.2cm]
+
+Abdul Gafoor, A. (2026). How I cut Claude Code token usage by 90\%+ with 5 tools, custom hooks, and enforcement. \textit{Medium}. \url{https://medium.com/@abdulgafoorabid/how-i-cut-claude-code-token-usage-by-90-with-4-tools-custom-hooks-and-enforcement-d3f8d2488cd6}\\[0.2cm]
+
+Liu, Y. (2026). RAG, LLM Wiki, or Gbrain? How your agent remembers changes everything. \textit{AI Advances}. \url{https://ai.gopubby.com/rag-llm-wiki-or-gbrain-how-your-agent-remembers-changes-everything-56829e66725c}\\[0.2cm]
+
+}
+
+\end{document}
