@@ -93,9 +93,18 @@ test_that("le registre distingue benchmark_task_id (par fiche) de source_dataset
   split_rows <- korea[korea$dataset_id != "paper_korea_hedonic_housing", , drop = FALSE]
   expect_true(all(split_rows$parent_dataset == "paper_korea_hedonic_housing"))
 
-  # bundled/storage: only the 7 legacy native-data() datasets are "bundled".
+  # bundled/storage: the native-data() datasets are "bundled" -- the original
+  # 7 legacy datasets plus the 2026-08-18 second wave of 9 cross-sectional,
+  # formula-confirmed paper datasets (see data-raw/prepare-benchmark-data.R).
   bundled <- datasets[isTRUE(datasets$bundled) | datasets$bundled %in% TRUE, , drop = FALSE]
-  expect_setequal(bundled$dataset, c("georgia", "columbus_crime", "london_hp", "boston_housing", "dub_voter", "ewhp", "lasrosas"))
+  expect_setequal(bundled$dataset, c(
+    "georgia", "columbus_crime", "london_hp", "boston_housing", "dub_voter", "ewhp", "lasrosas",
+    "paper_covid_sociodemographic_risk", "paper_spatial_confounding_diabetes",
+    "paper_florida_crash_gsvcm", "paper_wildfire_bootleg_severity",
+    "paper_amphibian_functional_diversity", "paper_dragonfly_diversity_europe",
+    "paper_wang_henan_cultivated_land_quality", "paper_seshat_social_complexity",
+    "paper_airbnb_europe_prices"
+  ))
   expect_true(all(bundled$storage == "bundled"))
   expect_true(all(korea$storage == "repo_only")) # none of the korea splits are bundled
 })

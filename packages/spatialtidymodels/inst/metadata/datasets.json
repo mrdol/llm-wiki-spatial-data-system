@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-08-17T22:21:36.751488+00:00",
+  "generated_at": "2026-08-18T11:49:02.144914+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -23,7 +23,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "low",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_airbnb_europe_prices.md",
-      "data_object": null,
+      "data_object": "paper_airbnb_europe_prices",
       "rds": "data/final_datasets/sf/paper_airbnb_europe_prices.rds",
       "local_artifact": "data/final_datasets/sf/paper_airbnb_europe_prices.rds",
       "formula": "log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index",
@@ -46,7 +46,10 @@
         "attr_index",
         "rest_index"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -204,8 +207,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -826,7 +829,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_amphibian_functional_diversity.md",
-      "data_object": null,
+      "data_object": "paper_amphibian_functional_diversity",
       "rds": "data/final_datasets/sf/paper_amphibian_functional_diversity.rds",
       "local_artifact": "data/final_datasets/sf/paper_amphibian_functional_diversity.rds",
       "formula": "H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI",
@@ -843,7 +846,10 @@
         "Pps",
         "AI"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -1001,8 +1007,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -5346,7 +5352,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_covid_sociodemographic_risk.md",
-      "data_object": null,
+      "data_object": "paper_covid_sociodemographic_risk",
       "rds": "data/final_datasets/sf/paper_covid_sociodemographic_risk.rds",
       "local_artifact": "data/final_datasets/sf/paper_covid_sociodemographic_risk.rds",
       "formula": "death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65",
@@ -5372,7 +5378,10 @@
         "broadband_access",
         "Age_over_65"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -5530,8 +5539,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -6185,7 +6194,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_dragonfly_diversity_europe.md",
-      "data_object": null,
+      "data_object": "paper_dragonfly_diversity_europe",
       "rds": "data/final_datasets/sf/paper_dragonfly_diversity_europe.rds",
       "local_artifact": "data/final_datasets/sf/paper_dragonfly_diversity_europe.rds",
       "formula": "sp_rich ~ center_lat + prop_lelo + iso.LGM",
@@ -6199,7 +6208,10 @@
         "prop_lelo",
         "iso.LGM"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -6357,8 +6369,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -7555,7 +7567,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_florida_crash_gsvcm.md",
-      "data_object": null,
+      "data_object": "paper_florida_crash_gsvcm",
       "rds": "data/final_datasets/sf/paper_florida_crash_gsvcm.rds",
       "local_artifact": "data/final_datasets/sf/paper_florida_crash_gsvcm.rds",
       "formula": "Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy",
@@ -7572,7 +7584,10 @@
         "Rold",
         "Runemploy"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -7730,8 +7745,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -22759,7 +22774,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_seshat_social_complexity.md",
-      "data_object": null,
+      "data_object": "paper_seshat_social_complexity",
       "rds": "data/final_datasets/sf/paper_seshat_social_complexity.rds",
       "local_artifact": "data/final_datasets/sf/paper_seshat_social_complexity.rds",
       "formula": "Polity_Population ~ Polity_territory + Administrative_levels + Settlement_hierarchy",
@@ -22773,7 +22788,10 @@
         "Administrative_levels",
         "Settlement_hierarchy"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4326",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -22931,8 +22949,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -23694,7 +23712,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_spatial_confounding_diabetes.md",
-      "data_object": null,
+      "data_object": "paper_spatial_confounding_diabetes",
       "rds": "data/final_datasets/sf/paper_spatial_confounding_diabetes.rds",
       "local_artifact": "data/final_datasets/sf/paper_spatial_confounding_diabetes.rds",
       "formula": "diabetes_pct_est ~ PCT_18YOUNGER10 + PCT_65OLDER10 + PCT_HISP10 + PCT_LACCESS_POP15 + PCT_NHBLACK10 + RECFACPTH16 + physical_inactivity_2015 + pcps_2015_100k + outpatient_visits_2015_100k + urban_percent_2010 + hs_dipl_percent_2011_15 + unemployment_2015 + med_hh_inc_2015 + poverty_rate_2015 + snap_pct_2015 + uninsured_2015",
@@ -23721,7 +23739,10 @@
         "snap_pct_2015",
         "uninsured_2015"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:4269",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -23879,8 +23900,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -26561,7 +26582,7 @@
       "description_source": "corpus/papers/tei/Modeling of spatial pattern and influencing factors of cultivated land quality in Henan Province based on spatial big data.tei.xml",
       "description_confidence": "high (les variables du fichier - epaisseur effective du sol, salinite, acidite/alcalinite, drainage, taux de garantie d'irrigation, pente - sont les facteurs de qualite des sols classiques utilises dans ce type d'etude, coherents avec le titre et l'objet du papier)",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_wang_henan_cultivated_land_quality.md",
-      "data_object": null,
+      "data_object": "paper_wang_henan_cultivated_land_quality",
       "rds": "data/final_datasets/sf/paper_wang_henan_cultivated_land_quality.rds",
       "local_artifact": "data/final_datasets/sf/DataCite_2022_ModelingOfSpatialPattern_10_1371_journal_.gpkg",
       "formula": "Effective.soil.thickness ~ Soil.salinity.content + Soil.acidity.and.alkalinity + Drainage.conditions + Irrigation.guarantee.rate + Slope",
@@ -26577,8 +26598,11 @@
         "Irrigation.guarantee.rate",
         "Slope"
       ],
-      "coords": [],
-      "coords_crs": "EPSG:4326",
+      "coords": [
+        "X",
+        "Y"
+      ],
+      "coords_crs": "EPSG:32650",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
         "holdout_10pct",
@@ -26642,8 +26666,8 @@
       "eligibility_notes": "Relations dataset-estimateur lues depuis la fiche Markdown.",
       "notes": "",
       "benchmark_estimators": [],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,
@@ -26948,7 +26972,7 @@
       "description_source": "paper_dataset_uses.json + lecture directe du papier",
       "description_confidence": "medium",
       "wiki_path": "wiki/datasets/fiches_datasets/paper_wildfire_bootleg_severity.md",
-      "data_object": null,
+      "data_object": "paper_wildfire_bootleg_severity",
       "rds": "data/final_datasets/sf/paper_wildfire_bootleg_severity.rds",
       "local_artifact": "data/final_datasets/sf/paper_wildfire_bootleg_severity.rds",
       "formula": "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501",
@@ -26993,7 +27017,10 @@
         "mx_speed_20230501",
         "northsouthness_mx_speed_direction_20230501"
       ],
-      "coords": [],
+      "coords": [
+        "X",
+        "Y"
+      ],
       "coords_crs": "EPSG:5070",
       "coords_source": "wiki dataset fiche",
       "recommended_cv": [
@@ -27151,8 +27178,8 @@
         "sdm_mixed",
         "gwr"
       ],
-      "bundled": false,
-      "storage": "repo_only",
+      "bundled": true,
+      "storage": "bundled",
       "benchmark_suite": [],
       "download_url": null,
       "redistribution_allowed": null,

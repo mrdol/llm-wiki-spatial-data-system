@@ -323,6 +323,62 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
         "eligibility_source_ref": "agridat lasrosas.corn documentation / project regression formula.",
         "eligibility_notes": "Grand dataset agronomique continu; utile pour tester scalabilite, localite spatiale et tuning MGWRSAR.",
     },
+    # Second wave of bundled datasets (2026-08-18): minimal aliases, on purpose.
+    # Unlike the original 7 above, these entries set ONLY data_object -- every
+    # other field (formula, response, predictors, coords, estimator_evidence,
+    # ...) is left to flow through unchanged from the wiki fiche's own record,
+    # built earlier in build_dataset_record(). Adding formula/response/etc.
+    # here would silently overwrite (via record.update()) already-correct,
+    # fiche-derived values with a hand-typed duplicate -- exactly the kind of
+    # invented/duplicated data this project's rules forbid. Selected as a
+    # bounded (not full-117) extension of the bundled set: benchmark_ready,
+    # formula_status "pub", cross-sectional (panel candidates deliberately
+    # left aside for a later round), and diverse in domain. license_name for
+    # all of these is "unknown" in the registry -- redistribution/license
+    # verification is a separate, not-yet-done pass (see AGENTS.md).
+    # coords/coords_crs are added here too: the underlying sf objects already
+    # carry real, valid X/Y columns (baked in by the sf-conversion pipeline),
+    # but the wiki fiche's own "coords" field was never filled in for these,
+    # which left check_spatial_coords()/benchmark_spatial_suite() unable to
+    # find them (confirmed empirically: X/Y exist, 0 NAs, valid CRS -- this
+    # was a metadata gap, not a data gap). coords_crs values read directly
+    # from sf::st_crs(<object>)$epsg on the bundled objects.
+    "paper_covid_sociodemographic_risk": {
+        "data_object": "paper_covid_sociodemographic_risk",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
+    "paper_spatial_confounding_diabetes": {
+        "data_object": "paper_spatial_confounding_diabetes",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4269",
+    },
+    "paper_florida_crash_gsvcm": {
+        "data_object": "paper_florida_crash_gsvcm",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
+    "paper_wildfire_bootleg_severity": {
+        "data_object": "paper_wildfire_bootleg_severity",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:5070",
+    },
+    "paper_amphibian_functional_diversity": {
+        "data_object": "paper_amphibian_functional_diversity",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
+    "paper_dragonfly_diversity_europe": {
+        "data_object": "paper_dragonfly_diversity_europe",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
+    "paper_wang_henan_cultivated_land_quality": {
+        "data_object": "paper_wang_henan_cultivated_land_quality",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:32650",
+    },
+    "paper_seshat_social_complexity": {
+        "data_object": "paper_seshat_social_complexity",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
+    "paper_airbnb_europe_prices": {
+        "data_object": "paper_airbnb_europe_prices",
+        "coords": ["X", "Y"], "coords_crs": "EPSG:4326",
+    },
 }
 
 
