@@ -250,7 +250,7 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
         "eligibility_source_ref": "GWmodel EWHP documentation / project formula.",
         "eligibility_notes": "Dataset prix immobiliers avec dummies; utile pour tester robustesse aux variables aliasees et prediction spatiale locale.",
     },
-    "R_agridat_lasrosas.corn_lasrosas.corn": {
+    "R_agridat_lasrosas.corn_lasrosas.corn_1999": {
         "dataset": "lasrosas",
         "data_object": "lasrosas",
         "aliases": [
@@ -258,12 +258,12 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
             "Python_geodatasets_geoda.lasrosas",
             "python_geodatasets_geoda_lasrosas",
         ],
-        "rds": "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds",
-        "formula": "yield ~ nitro + bv",
-        "formula_default_role": "package_default",
+        "rds": "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn_1999.rds",
+        "formula": "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo",
+        "formula_default_role": "paper_main_specification",
         "formula_paper_main_specification": "yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo",
         "formula_ml_or_selected": "yield ~ nitro + bv",
-        "formula_roles": ["package_default", "paper_main_specification", "multivariate_constrained", "ml_or_selected"],
+        "formula_roles": ["paper_main_specification", "multivariate_constrained", "ml_or_selected"],
         "formula_candidates": {
             "package_default": {
                 "formula": "yield ~ nitro + bv",
@@ -303,25 +303,25 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
             },
         },
         "response": "yield",
-        "predictors": ["nitro", "bv"],
+        "predictors": ["nitro", "topo"],
         "coords": ["X", "Y"],
         "coords_crs": "EPSG:32720",
         "coords_source": "prepared projected coordinates",
-        "formula_status": "used",
-        "source_ref": "Las Rosas corn nitrogen response papers / agridat lasrosas.corn project benchmark formula",
-        "notes": "Dataset canonique reconcilie avec Python_geodatasets_geoda.lasrosas; formule package par defaut et formule papier complete conservees.",
+        "formula_status": "pub",
+        "source_ref": "Anselin, Bongiovanni and Lowenberg-DeBoer (2004), Las Rosas 1999 corn nitrogen response.",
+        "notes": "Coupe 1999 (N=1738) issue de la source agridat multi-campagne; formule publiee par defaut. La campagne 2001 reste une tache distincte en revue manuelle.",
         "benchmark_status": "ready",
-        "benchmark_task": "regression_spatial_validated_paper_and_package_formulas",
+        "benchmark_task": "regression_spatiale_continue_coupe_1999",
         "package_include": "yes",
-        "benchmark_missing_items": "aucun blocage automatique detecte; formule papier complete et formule benchmark package documentees",
-        "benchmark_readiness_reason": "Dataset Las Rosas reconcilie: agridat::lasrosas.corn est la fiche canonique, Python_geodatasets_geoda.lasrosas est un alias, et les formules papier/package sont conservees comme roles distincts.",
+        "benchmark_missing_items": "La matrice rook/queen exacte de l'article reste a reconstruire pour une replication stricte; la W kNN est documentee lorsque le benchmark l'utilise.",
+        "benchmark_readiness_reason": "La campagne 1999 est une coupe transversale de 1 738 cellules, exactement celle analysee dans l'article de 2004.",
         "estimator_evidence": [
             evidence(name, "benchmark_use", "agridat lasrosas.corn documentation / project regression formula.")
             for name in ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "spboost_bspa_sar_ml", "spboost_bspa_sar_cfe", "mgwrsar_gwr", "MGWRSAR_0_kc_kv", "MGWRSAR_1_kc_kv"]
         ],
         "eligibility_basis": "benchmark_use",
-        "eligibility_source_ref": "agridat lasrosas.corn documentation / project regression formula.",
-        "eligibility_notes": "Grand dataset agronomique continu; utile pour tester scalabilite, localite spatiale et tuning MGWRSAR.",
+        "eligibility_source_ref": "Anselin, Bongiovanni and Lowenberg-DeBoer (2004).",
+        "eligibility_notes": "Coupe agronomique continue avec evidence directe pour OLS et SEM; les autres estimateurs sont des comparateurs de benchmark.",
     },
     # Second wave of bundled datasets (2026-08-18): minimal aliases, on purpose.
     # Unlike the original 7 above, these entries set ONLY data_object -- every
@@ -543,6 +543,48 @@ ESTIMATOR_REGISTRY: list[dict[str, Any]] = [
         "notes": "SDM mixed via fit_sdm().",
     },
 ]
+
+# Les identifiants ci-dessous sont des noms de familles rencontres dans les
+# articles, pas necessairement des routes du package. La table garde donc la
+# trace de ce que la source dit tout en choisissant une implementation
+# equivalente seulement lorsqu'elle est defendable. Une absence de mapping
+# n'est jamais une erreur d'export : elle conduit a des comparateurs proposes
+# selon les typologies Y/X et la disponibilite du support spatial.
+SOURCE_ESTIMATOR_TO_PACKAGE: dict[str, str] = {
+    "ols": "ols",
+    "linear_regression": "ols",
+    "sar": "sar_lag",
+    "sar_lag": "sar_lag",
+    "spatial_lag": "sar_lag",
+    "sar_error": "sem_error",
+    "sem": "sem_error",
+    "sem_error": "sem_error",
+    "spatial_error": "sem_error",
+    "sdm": "sdm_mixed",
+    "sdm_mixed": "sdm_mixed",
+    "spatial_durbin": "sdm_mixed",
+    "gwr": "mgwrsar_gwr",
+    "mgwr": "mgwrsar_mgwr",
+    "mgwrsar": "mgwrsar_mgwrsar",
+    "geographically_weighted_random_forest": "spatialml_grf",
+    "gwrf": "spatialml_grf",
+}
+
+# Toutes les routes automatiques actuelles sont des regressions continues.
+# Les exigences de Y/X sont reprises des fiches estimateurs : les baselines
+# tabulaires acceptent X numeriques ou encodees, les routes spatiales ajoutent
+# des coordonnees (et construisent W quand elle est necessaire).
+CONTINUOUS_BASELINES = ["ols", "gamboost", "random_forest", "xgboost"]
+CONTINUOUS_SPATIAL_COMPARATORS = [
+    "gam_spatial", "random_forest_xy", "xgboost_xy",
+    "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr",
+]
+CONTINUOUS_SPATIAL_NUMERIC_COMPARATORS = [
+    "spboost_bspa_sar_ml", "spboost_bspa_sem_ml",
+]
+ALLOWED_ELIGIBILITY_BASES = {
+    "scientific_evidence", "published_model", "benchmark_use", "generated_candidate",
+}
 
 for name, backend, notes in [
     ("spboost", "spboost::spbgam(BSPA_SAR_ML)", "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."),
@@ -799,6 +841,158 @@ def clean_yaml_scalar(value: str) -> str:
     return value
 
 
+def parse_typology(value: str | None) -> list[str]:
+    """Convertit les typologies libres des fiches en etiquettes stables."""
+    if not value:
+        return []
+    return [
+        token.strip().lower().replace(" ", "_")
+        for token in re.split(r"[,;/+]", value)
+        if token.strip()
+    ]
+
+
+def is_continuous_regression_record(record: dict[str, Any]) -> bool:
+    response_types = set(record.get("response_typology") or [])
+    task = str(record.get("benchmark_task") or "").lower()
+    # La typologie observee dans la fiche prime sur un ancien libelle de tache.
+    # Certaines fiches historiques portaient encore `regression_continuous`
+    # alors que leur Y est explicitement un comptage. Les routes actuelles du
+    # package ne couvrent que la regression continue : un count ne doit donc
+    # jamais recevoir par erreur la liste generique de comparateurs.
+    if response_types:
+        return "continuous" in response_types and not bool(
+            response_types & {"count", "binary", "ordinal", "categorical"}
+        )
+    return "regression_continuous" in task or "regression_spatiale_continue" in task
+
+
+def has_usable_spatial_support(record: dict[str, Any]) -> bool:
+    if len(record.get("coords") or []) >= 2:
+        return True
+    # Les artefacts finaux sont des objets sf. Le chargeur R derive alors des
+    # centroïdes documentes sous `coord_x`/`coord_y` lorsque la fiche declare
+    # une geometrie mais pas encore les colonnes auxiliaires.
+    return any(token in str(record.get("data_type") or "").lower() for token in ("spatial", "areal", "raster"))
+
+
+def typology_candidates(record: dict[str, Any]) -> list[str]:
+    """Propose des routes package quand le modele publie n'est pas executable.
+
+    La proposition est volontairement conservative : Y doit etre continu et
+    une formule avec X doit etre presente. Les variantes MGWRSAR mixtes ne sont
+    pas proposees ici, car elles exigent un choix documente de `fixed_vars`.
+    """
+    if not is_continuous_regression_record(record) or not record.get("predictors"):
+        return []
+    if not has_usable_spatial_support(record):
+        return []
+    candidates = list(CONTINUOUS_BASELINES)
+    candidates.extend(CONTINUOUS_SPATIAL_COMPARATORS)
+    predictor_types = set(record.get("predictor_typology") or [])
+    # spboost utilise des base learners pour covariables continues/binaires;
+    # une categorielle non encodee doit etre preparee explicitement avant de
+    # devenir un candidat automatique.
+    if not predictor_types or predictor_types <= {"continuous", "binary", "lagged", "imputed"}:
+        candidates.extend(CONTINUOUS_SPATIAL_NUMERIC_COMPARATORS)
+    return candidates
+
+
+def normalize_estimator_evidence(
+    raw_rows: list[dict[str, Any]], record: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Separe le nom publie de la route package, sans bloquer l'export.
+
+    Les fiches anciennes utilisent `estimator` pour les deux notions. Le champ
+    est conserve comme `source_estimator`; `package_estimator` est la seule
+    valeur que l'API R peut proposer ou executer.
+    """
+    registered = {item["estimator"] for item in ESTIMATOR_REGISTRY}
+    out: list[dict[str, Any]] = []
+    unresolved: list[str] = []
+
+    for raw in raw_rows:
+        row = dict(raw)
+        source = str(row.get("source_estimator") or row.get("estimator") or "").strip()
+        source_key = source.lower().replace("-", "_").replace(" ", "_")
+        package_estimator = str(row.get("package_estimator") or "").strip()
+        if not package_estimator:
+            package_estimator = source if source in registered else SOURCE_ESTIMATOR_TO_PACKAGE.get(source_key, "")
+        if package_estimator not in registered:
+            package_estimator = ""
+
+        basis = str(row.get("basis") or "benchmark_use").strip()
+        if basis not in ALLOWED_ELIGIBILITY_BASES:
+            basis = "generated_candidate"
+        source_status = str(row.get("eligible") or "true").lower()
+        if source_status in {"false", "no"}:
+            package_estimator = ""
+        row.update(
+            {
+                "estimator": source,
+                "source_estimator": source,
+                "package_estimator": package_estimator,
+                "basis": basis,
+                "recommendation_status": (
+                    "mapped_published_model" if package_estimator and source != package_estimator and basis == "published_model"
+                    else "documented_package_route" if package_estimator and basis == "published_model"
+                    else "curated_benchmark_route" if package_estimator
+                    else "not_automated"
+                ),
+            }
+        )
+        if not package_estimator and source:
+            unresolved.append(source)
+        out.append(row)
+
+    # Une methode publiee sans route equivalente ne disparait pas. Elle reste
+    # documentee ci-dessus et declenche des comparateurs adaptes a Y/X/coords.
+    # Une proposition par typologie est un filet de securite, pas une seconde
+    # liste ajoutee a un modele deja represente dans le registre. Elle ne joue
+    # donc que lorsqu'aucune methode publiee n'a de route package directe.
+    has_mapped_published_route = any(
+        row.get("package_estimator") and row.get("basis") in {"published_model", "scientific_evidence"}
+        for row in out
+    )
+    proposals = [] if has_mapped_published_route else typology_candidates(record)
+    existing_routes = {str(row.get("package_estimator") or "") for row in out}
+    for source in sorted(set(unresolved)):
+        for estimator in proposals:
+            if estimator in existing_routes:
+                continue
+            out.append(
+                {
+                    "estimator": estimator,
+                    "source_estimator": source,
+                    "package_estimator": estimator,
+                    "basis": "benchmark_use",
+                    "source_ref": "spatialtidymodels typology compatibility policy",
+                    "pages": None,
+                    "pdf_pages": None,
+                    "tables": [],
+                    "notes": "Propose car le modele publie n'a pas de route package directe; compatible avec Y continu, X documentees et le support spatial disponible.",
+                    "recommendation_status": "proposed_from_typology",
+                }
+            )
+            existing_routes.add(estimator)
+
+    # Une meme route peut etre mentionnee plusieurs fois. On garde toutes les
+    # sources mais evitons les doublons strictement identiques a l'export.
+    deduped: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str, str]] = set()
+    for row in out:
+        key = (
+            str(row.get("source_estimator") or ""),
+            str(row.get("package_estimator") or ""),
+            str(row.get("basis") or ""),
+            str(row.get("source_ref") or ""),
+        )
+        if key not in seen:
+            seen.add(key)
+            deduped.append(row)
+    return deduped
+
+
 def parse_estimator_eligibility(body: str) -> list[dict[str, Any]]:
     """Lit le bloc curatorial dataset-estimateur depuis une fiche Markdown.
 
@@ -865,12 +1059,15 @@ def parse_estimator_eligibility(body: str) -> list[dict[str, Any]]:
         out.append(
             {
                 "estimator": estimator,
-                "basis": "scientific_evidence",
+                # Cette forme compacte est generee a partir de la disponibilite
+                # technique d'un Y/X local. Elle ne prouve pas que chaque
+                # estimateur a ete utilise dans l'article source.
+                "basis": "benchmark_use",
                 "source_ref": source_ref,
                 "pages": None,
                 "pdf_pages": None,
                 "tables": [],
-                "notes": "Expanded from compact estimator_eligibility block.",
+                "notes": "Technical benchmark candidate expanded from compact estimator_eligibility block.",
             }
         )
     for estimator in conditional:
@@ -995,9 +1192,11 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     formula_candidate_1 = strip_inline_code(bullet_value(body, "formula_candidate_1"))
     formula = formula_used or formula_pub or formula_candidate_1
     response, predictors = formula_parts(formula)
+    response_typology = parse_typology(bullet_value(body, "Candidate Y typology"))
+    predictor_typology = parse_typology(bullet_value(body, "Candidate X typology"))
     coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
     if not coords:
-        coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
+        coords = backtick_list(bullet_value(body, "Coordinates (excluded from X)"))
     source_description = bullet_value(body, "Source description") or leading_description(body)
     description_fallbacks = infer_description_metadata(
         dataset_id,
@@ -1061,7 +1260,9 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
         "formula_candidate_1": formula_candidate_1,
         "formula_candidate_2": bullet_value(body, "formula_candidate_2"),
         "response": response,
+        "response_typology": response_typology,
         "predictors": predictors or backtick_list(bullet_value(body, "Candidate X variables")),
+        "predictor_typology": predictor_typology,
         "coords": coords,
         "coords_crs": _epsg_value(bullet_value(body, "CRS EPSG")),
         "coords_source": "wiki dataset fiche",
@@ -1156,6 +1357,32 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
             ]
         record["benchmark_ready"] = True
 
+    # Normalisation apres les alias : ceux-ci peuvent fournir une formule ou
+    # des coordonnees supplementaires utiles a la proposition par typologie.
+    normalized_evidence = normalize_estimator_evidence(
+        record.get("estimator_evidence", []), record
+    )
+    record["estimator_evidence"] = normalized_evidence
+    documented_rows = [
+        row for row in normalized_evidence
+        if row.get("package_estimator") and row.get("basis") in {"scientific_evidence", "published_model"}
+    ]
+    benchmark_rows = [
+        row for row in normalized_evidence
+        if row.get("package_estimator") and row.get("basis") in {"scientific_evidence", "published_model", "benchmark_use"}
+    ]
+    record["eligible_estimators"] = list(dict.fromkeys(
+        row["package_estimator"] for row in documented_rows
+    ))
+    record["benchmark_estimators"] = list(dict.fromkeys(
+        row["package_estimator"] for row in benchmark_rows
+    ))
+    if normalized_evidence:
+        first_rows = documented_rows or benchmark_rows or normalized_evidence
+        record["eligibility_basis"] = first_rows[0].get("basis") or "not_assessed"
+        record["eligibility_source_ref"] = first_rows[0].get("source_ref")
+        record["eligibility_notes"] = "Relations lues depuis chaque fiche Markdown; modele source et route package distingues, et propositions techniques derivees des typologies Y/X et du support spatial."
+
     # Distribution architecture (see wiki/metadata/dataset_distribution_
     # architecture_2026-08.md): "bundled" datasets are the 7 native package
     # data() objects, resolvable without the repo (data_object set above, via
@@ -1248,6 +1475,9 @@ def build_estimators_json(
                 "status": "automatic",
                 "mode": "regression",
                 "automatic": True,
+                "response_typologies": ["continuous"],
+                "predictor_typologies": ["continuous", "binary", "categorical_encoded"],
+                "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
                 "test_datasets": [
                     dataset["dataset"]
                     for dataset in dataset_records

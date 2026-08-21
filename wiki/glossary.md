@@ -178,6 +178,10 @@ Each entry follows this format:
 - Preferred: `spatial validation` / Avoid: random folds as default for spatial transfer claims
 - See also: [[data_leakage]], [[spatial_regression]]
 
+**Repeated spatial cross-sections** *(canonical form)*
+: Several spatial campaigns or dates stored in one source without a stable unit identifier proving that the same units are followed. They must not be called a panel; create one benchmark task per campaign unless a longitudinal design has been verified.
+- Preferred: `repeated spatial cross-sections` / Avoid: `panel` based only on several years in a column
+
 **Tidymodels workflow** *(canonical form)*
 : R modeling object created by `workflows::workflow()` that combines a model specification and a preprocessing/formula route before fitting or tuning.
 - Preferred: `workflow` or `tidymodels workflow` / Avoid: using it to mean the whole research pipeline

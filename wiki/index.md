@@ -44,6 +44,10 @@ Each entry follows this format:
 *One entry per dataset identified.*
 *Storage convention: dataset fiches are grouped by warehouse under `wiki/datasets/<warehouse>/`.*
 
+- [[R_agridat_lasrosas.corn_lasrosas.corn]] - Source Las Rosas a deux campagnes, conservee hors benchmark direct | dataset | 2026-08-21
+- [[R_agridat_lasrosas.corn_lasrosas.corn_1999]] - Coupe 1999 de Las Rosas, tache spatiale continue documentee par Anselin et al. (2004) | dataset | 2026-08-21
+- [[R_agridat_lasrosas.corn_lasrosas.corn_2001]] - Coupe 2001 de Las Rosas, conservee en revue manuelle | dataset | 2026-08-21
+
 - [[zenodo_18421412_mountain_fire]] - Zenodo candidate dataset on climate-fire relationships across global mountain systems | dataset | 2026-05-06
 - [[zenodo_5534232_linear_pottery_harris]] - Zenodo supplementary graph and table files for Linear Pottery and Harris Figure 8 | dataset | 2026-05-06
 - [[zenodo_14499026_cranial_modifications_americas]] - Zenodo analytical dataset and R code for spatial-temporal cranial modification patterns in the Americas | dataset | 2026-05-06

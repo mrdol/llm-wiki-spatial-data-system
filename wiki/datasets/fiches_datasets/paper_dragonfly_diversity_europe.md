@@ -203,11 +203,10 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  - estimator: piecewise_regression
+    basis: published_model
+    source_ref: "Pinkert et al. (2017), doi:10.1111/ecog.03137."
+    notes: "Regression par segments sur une reponse de comptage; aucune route de comptage n'est automatisee dans le registre actuel."
 ```
 
 ## Bloc 4 - Typologie des donnees

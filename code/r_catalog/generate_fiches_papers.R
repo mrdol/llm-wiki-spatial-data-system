@@ -3165,12 +3165,12 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
   multivariate <- fmt_entry("paper_main_specification")
   if (formula != "pending" && is_published && length(x_terms_vec) >= 2) {
     multivariate_context <- if (is_binary_task) {
-      # reponse binaire : ols/sar_lag/sem_error/sdm_mixed/gwr supposent une
+      # reponse binaire : ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr supposent une
       # erreur gaussienne continue et ne s'appliquent pas ; seuls les
       # estimateurs que le papier a reellement utilises (RF/BRT) sont notes.
       c("random_forest", "gamboost", "xgboost")
     } else {
-      c("ols", "sar_lag", "sem_error", "sdm_mixed", "gwr")
+      c("ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr")
     }
     multivariate <- fmt_entry(
       "paper_main_specification", formula, y_term, x_terms_vec,
@@ -3219,7 +3219,9 @@ estimator_eligibility_block <- function(record_id, readiness, formula_used, x_te
   # 2026-08-12 par lecture directe du registre. eligible_estimators doit donc
   # rester vide pour une tache binaire ; seuls les estimateurs que le papier a
   # reellement utilises (random forest / boosting) sont notes conditionnels,
-  # en attente d'un mode classification dans le registre.
+  # en attente d'un mode classification dans le registre. Les listes produites
+  # ici sont des comparateurs techniques; l'export les classe donc comme
+  # `benchmark_use`, non comme une preuve que l'article les a employes.
   is_binary_task <- grepl("classification|binary_panel|presence_absence", task, ignore.case = TRUE)
   eligible <- character(0)
   conditional <- character(0)
@@ -3227,16 +3229,16 @@ estimator_eligibility_block <- function(record_id, readiness, formula_used, x_te
 
   if (is_binary_task && is_ready_like) {
     conditional <- c("random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial")
-    ineligible_reason <- "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
+    ineligible_reason <- "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
   } else if (is_ready_like && has_formula && has_x) {
     eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
-    if (is_published) eligible <- c(eligible, "sar_lag", "sem_error", "sdm_mixed", "gwr")
+    if (is_published) eligible <- c(eligible, "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr")
   } else if (grepl("needs_original_W", status)) {
     eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
     conditional <- c("sar_lag", "sem_error", "sdm_mixed")
     ineligible_reason <- "spatial econometric estimators require the original paper W or an explicitly accepted proxy W"
   } else if (grepl("needs_covariate_join|needs_preprocessing|needs_model_specification_review", status)) {
-    conditional <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr")
+    conditional <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr")
     ineligible_reason <- "paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table"
   } else if (is_not_ready) {
     ineligible_reason <- "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"

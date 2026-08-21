@@ -22,6 +22,19 @@ test_that("le registre JSON conserve les datasets benchmark actuels", {
   expect_true(all(nzchar(datasets$topic)))
 })
 
+test_that("lasrosas designe la coupe 1999 documentee, non les deux campagnes empilees", {
+  lasrosas <- get_benchmark_dataset_spec("lasrosas")
+  expect_equal(lasrosas$parent_dataset, "R_agridat_lasrosas.corn_lasrosas.corn")
+  expect_equal(lasrosas$n_observations, 1738L)
+  expect_equal(lasrosas$t_periods, 1L)
+  expect_match(lasrosas$rds, "_1999\\.rds$")
+  expect_match(lasrosas$formula, "I\\(nitro\\^2\\)")
+
+  loaded <- load_benchmark_dataset("lasrosas")
+  expect_equal(nrow(loaded$data), 1738L)
+  expect_equal(paste(deparse(loaded$formula), collapse = ""), lasrosas$formula)
+})
+
 test_that("le registre JSON conserve les estimateurs benchmark actuels", {
   estimators <- available_benchmark_estimators(include_installed = FALSE)
 
@@ -69,6 +82,55 @@ test_that("les relations dataset-estimateur viennent des fiches Markdown exporte
   expect_true(length(columbus$estimator_evidence) >= 6)
   expect_true(all(c("ols", "sar_lag", "sem_error", "sdm_mixed") %in% columbus$eligible_estimators))
   expect_match(columbus$eligibility_notes, "fiche Markdown")
+})
+
+test_that("les routes package des evidences sont valides et les sources restent tracables", {
+  datasets_json <- system.file("metadata", "datasets.json", package = "spatialtidymodels")
+  payload <- jsonlite::fromJSON(datasets_json, simplifyDataFrame = FALSE)
+  valid <- available_benchmark_estimators(include_installed = FALSE)$estimator
+  allowed_basis <- c("scientific_evidence", "published_model", "benchmark_use", "generated_candidate")
+
+  rows <- unlist(lapply(payload$records, function(record) record$estimator_evidence), recursive = FALSE)
+  package_routes <- vapply(rows, function(row) as.character(row$package_estimator %||% ""), character(1))
+  source_routes <- vapply(rows, function(row) as.character(row$source_estimator %||% row$estimator), character(1))
+  bases <- vapply(rows, function(row) as.character(row$basis), character(1))
+
+  expect_true(all(package_routes[!is.na(package_routes) & nzchar(package_routes)] %in% valid))
+  expect_true(all(nzchar(source_routes)))
+  expect_true(all(bases %in% allowed_basis))
+})
+
+test_that("un modele publie est mappe sans perdre son nom source", {
+  published <- eligible_estimators_for_dataset(
+    "paper_li_energy_price_co2_china",
+    include_installed = FALSE,
+    evidence = "published_model"
+  )
+
+  expect_equal(published$estimator, c("sar_lag", "sem_error"))
+  expect_equal(published$source_estimator, c("sar_lag", "sar_error"))
+  expect_equal(published$package_estimator, c("sar_lag", "sem_error"))
+  expect_null(formals(benchmark_spatial_dataset)$estimators)
+})
+
+test_that("un jeu repo_only peut utiliser ses routes publiees par defaut", {
+  loaded <- load_benchmark_dataset("paper_li_energy_price_co2_china")
+  automatic <- eligible_estimators_for_dataset(
+    "paper_li_energy_price_co2_china",
+    include_installed = FALSE,
+    evidence = "all"
+  )$estimator
+
+  expect_equal(automatic, c("sar_lag", "sem_error"))
+  expect_equal(loaded$coords, c("X", "Y"))
+  expect_true(all(c("CO2", "EP", "X", "Y") %in% names(loaded$data)))
+})
+
+test_that("les coordonnees sont derivees de la geometrie si la fiche ne les nomme pas", {
+  loaded <- load_benchmark_dataset("paper_alps_floristic_legacy")
+
+  expect_equal(loaded$coords, c("coord_x", "coord_y"))
+  expect_true(all(loaded$coords %in% names(loaded$data)))
 })
 
 test_that("le registre distingue benchmark_task_id (par fiche) de source_dataset_id (source independante)", {

@@ -31,7 +31,7 @@ specs <- data.frame(
     "data/final_datasets/sf/Python_geodatasets_spdata.boston.rds",
     "data/final_datasets/sf/R_GWmodel_DubVoter_Dub.voter.rds",
     "data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds",
-    "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds",
+    "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn_1999.rds",
     "data/final_datasets/sf/paper_covid_sociodemographic_risk.rds",
     "data/final_datasets/sf/paper_spatial_confounding_diabetes.rds",
     "data/final_datasets/sf/paper_florida_crash_gsvcm.rds",

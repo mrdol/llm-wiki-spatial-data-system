@@ -165,11 +165,10 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  - estimator: dynamic_panel_regression
+    basis: published_model
+    source_ref: "Turchin (2018), doi:10.21237/C7clio9137696."
+    notes: "Le modele publie est dynamique et longitudinal. La fiche conserve une coupe transversale documentee, pour laquelle des comparateurs continus sont proposes; ils ne reproduisent pas le modele de panel."
 ```
 
 ## Bloc 4 - Typologie des donnees

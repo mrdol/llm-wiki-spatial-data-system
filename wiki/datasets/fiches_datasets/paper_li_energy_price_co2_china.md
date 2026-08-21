@@ -47,7 +47,7 @@ Les deux methodes convergent integralement. Confiance elevee, mais ce n'est pas 
 - Candidate X variables: `EP` (prix de l'energie, variable principale), `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU`, `ENS`
 - Candidate X typology: continuous
 - Presence of imputed X: unknown
-- Coordinates (excluded from X): aucune (geometrie polygonale provinciale)
+- Coordinates (excluded from X): `X`, `Y` (centroides projetes derives de la geometrie polygonale provinciale)
 - Identifier columns (excluded from X): `id_province`, `id_map`, `region`, `province_name`, `year` (variable temporelle)
 
 > Selection Y/X (paper-loader / curated evidence) : Pour `paper_li_energy_price_co2_china`, la réponse retenue est `CO2`, utilisée dans le papier sous forme logarithmique pour étudier les émissions provinciales de carbone. Les covariables X retenues sont `EP`, `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU` et `ENS`, car elles correspondent à la spécification empirique publiée sur le prix de l'énergie et les facteurs socio-économiques associés. Les identifiants administratifs, les champs temporels et les géométries sont exclus de X. Statut benchmark actuel : ready_spatial_slice_2016 ; la version package utilise la coupe spatiale 2016.

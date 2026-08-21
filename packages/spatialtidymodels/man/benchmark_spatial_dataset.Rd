@@ -6,7 +6,7 @@
 \usage{
 benchmark_spatial_dataset(
   dataset,
-  estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
+  estimators = NULL,
   data_dir = NULL,
   use_recommended_grids = TRUE,
   formula_role = "default",
@@ -16,7 +16,9 @@ benchmark_spatial_dataset(
 \arguments{
 \item{dataset}{Registered dataset name.}
 
-\item{estimators}{Estimators to run.}
+\item{estimators}{Estimators to run. With \code{NULL} (the default), uses the
+documented package routes and curated technical comparators for this
+dataset; explicitly supplied names always take precedence.}
 
 \item{data_dir}{Optional repository directory, or directory containing the
 prepared \code{.rds} files.}

@@ -1976,6 +1976,42 @@ Graph rebuild:
 Failures:
 - Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
 
+## [2026-08-21] maintenance | Las Rosas benchmark task split
+
+Files updated:
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_1999.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_2001.md`
+- `code/r_catalog/prepare_lasrosas_benchmark_tasks.R`
+- package metadata, bundled data preparation and manual benchmark configuration
+
+Decision and evidence:
+- The source object contains 1,738 observations for 1999 and 1,705 for 2001.
+- The 2004 Anselin, Bongiovanni and Lowenberg-DeBoer article analyses the 1999 cross-section after grid aggregation, not the two campaigns pooled as a panel.
+- `lasrosas` now denotes the 1999 bundled task with the published quadratic topographic specification. The full source and the 2001 cross-section remain distinct, with the latter in manual review.
+
+Verification:
+- Derived RDS files were regenerated with 1,738 observations for 1999 and 1,705 for 2001.
+- `load_benchmark_dataset("lasrosas")` loads the bundled 1999 task and its published formula; an OLS holdout completed without failed resamples.
+- The metadata-registry tests passed. The full package suite reached exit code 0 but reports two existing `processx` worker errors caused by Windows pipe permission denial, not by the Las Rosas changes.
+
+## [2026-08-21] maintenance | Eligible estimator metadata normalization
+
+Files updated:
+- `code/package_metadata/export_spatialtidymodels_metadata.py`
+- `code/r_catalog/generate_fiches_papers.R`
+- `packages/spatialtidymodels/R/metadata-registry.R`
+- `packages/spatialtidymodels/R/benchmark-datasets.R`
+- package metadata JSON and registry tests
+
+Changes and verification:
+- Preserved published method names separately from executable package routes.
+- Mapped documented GWR and SAR-error families to `mgwrsar_gwr` and `sem_error` when appropriate.
+- Kept unsupported source methods non-blocking and proposed only compatible continuous-regression comparators from documented Y/X and spatial-support rules.
+- Removed the fixed default estimator list for single-dataset benchmarks; metadata now selects the executable routes unless the caller supplies names.
+- Added fold-safe coordinate derivation from `sf` geometry when a ready fiche omits explicit coordinate columns.
+- Regenerated metadata with no invalid non-empty package route and passed `metadata-registry` tests.
+
 ## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
 
 PDF selected:

@@ -29,6 +29,12 @@ cross-sectionnel.
 **Profil N/T** -- Caracterisation de la structure spatio-temporelle d'un
 dataset.
 
+**Coupes transversales repetees** -- Plusieurs campagnes ou dates observees
+dans une meme source, sans identifiant stable garantissant que les memes
+unites spatiales sont suivies. Ce n'est pas un panel: les campagnes doivent
+etre separees avant une evaluation transversale, sauf protocole longitudinal
+explicite et verifie.
+
 **Y** -- Variable cible ou reponse, notation majuscule.
 
 **X** -- Variables explicatives ou covariables, notation majuscule.
@@ -54,6 +60,20 @@ etre documentees separement.
 **Benchmark readiness** -- Bloc obligatoire pour les fiches `paper_*.md` et
 les futures fiches issues d'entrepots. Il distingue un dataset seulement trouve
 ou telecharge d'un dataset utilisable dans `spatialtidymodels`.
+
+**Estimateur source / route package** -- L'**estimateur source** est le nom ou
+la famille effectivement citee dans un article, par exemple `gwr` ou
+`sar_error`. La **route package** est le nom executable dans
+`spatialtidymodels`, par exemple `mgwrsar_gwr` ou `sem_error`. Une absence
+d'equivalent n'empeche pas l'export : elle est conservee comme
+`not_automated`, puis les comparateurs peuvent etre proposes selon la
+typologie Y/X et le support spatial.
+
+**Bases d'eligibilite** -- `published_model` signifie que le modele est
+documente dans la source; `benchmark_use` designe un comparateur curatorial;
+`generated_candidate` reste exploratoire et n'est pas lance par defaut;
+`scientific_evidence` est conserve pour les anciennes fiches manuellement
+validees. Ne pas employer ces bases comme synonymes.
 
 **package_include** -- Champ du bloc `benchmark_readiness`. Valeurs autorisees:
 `yes`, `no`, `manual_review`. `yes` signifie que le dataset peut guider le

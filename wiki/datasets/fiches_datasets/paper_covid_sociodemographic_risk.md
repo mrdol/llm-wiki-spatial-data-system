@@ -181,11 +181,15 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  - estimator: poisson_regression
+    basis: published_model
+    source_ref: "Seamon et al. (2023), doi:10.1101/2023.07.21.23292785."
+    notes: "Modele publie, non automatise dans le registre actuel de regressions continues."
+  - estimator: geographically_weighted_random_forest
+    package_estimator: spatialml_grf
+    basis: published_model
+    source_ref: "Seamon et al. (2023), doi:10.1101/2023.07.21.23292785."
+    notes: "Correspondance de famille avec la route Geographic Random Forest de spatialML."
 ```
 
 ## Bloc 4 - Typologie des donnees

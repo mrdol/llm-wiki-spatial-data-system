@@ -65,6 +65,16 @@ metadata_dataset_registry <- function() {
     out$formula_roles <- I(rep(list("default"), nrow(out)))
   }
   out$predictors <- as_character_list_column(out$predictors)
+  if ("response_typology" %in% names(records)) {
+    out$response_typology <- as_character_list_column(records$response_typology)
+  } else {
+    out$response_typology <- I(rep(list(character()), nrow(out)))
+  }
+  if ("predictor_typology" %in% names(records)) {
+    out$predictor_typology <- as_character_list_column(records$predictor_typology)
+  } else {
+    out$predictor_typology <- I(rep(list(character()), nrow(out)))
+  }
   out$coords <- as_character_list_column(out$coords)
   out$recommended_cv <- as_character_list_column(out$recommended_cv)
   if ("eligible_estimators" %in% names(records)) {
@@ -153,6 +163,17 @@ metadata_estimator_registry <- function() {
   out$automatic <- as.logical(out$automatic)
   out$requires_coords <- as.logical(out$requires_coords)
   out$requires_W <- as.logical(out$requires_W)
+  if ("response_typologies" %in% names(records)) {
+    out$response_typologies <- as_character_list_column(records$response_typologies)
+  } else {
+    out$response_typologies <- I(rep(list("continuous"), nrow(out)))
+  }
+  if ("predictor_typologies" %in% names(records)) {
+    out$predictor_typologies <- as_character_list_column(records$predictor_typologies)
+  } else {
+    out$predictor_typologies <- I(rep(list(character()), nrow(out)))
+  }
+  out$compatibility_rule <- if ("compatibility_rule" %in% names(records)) as.character(records$compatibility_rule) else NA_character_
   if ("test_datasets" %in% names(records)) {
     out$test_datasets <- as_character_list_column(records$test_datasets)
   } else {
@@ -178,6 +199,37 @@ metadata_estimator_registry <- function() {
   out
 }
 
+metadata_estimator_evidence <- function(spec, evidence) {
+  evidence_rows <- spec$estimator_evidence[[1]]
+  if (!is.data.frame(evidence_rows)) {
+    evidence_rows <- data.frame(
+      estimator = unlist(spec$eligible_estimators[[1]], use.names = FALSE),
+      basis = spec$eligibility_basis[[1]],
+      source_estimator = unlist(spec$eligible_estimators[[1]], use.names = FALSE),
+      package_estimator = unlist(spec$eligible_estimators[[1]], use.names = FALSE),
+      source_ref = spec$eligibility_source_ref[[1]],
+      pages = NA_character_,
+      pdf_pages = NA_character_,
+      stringsAsFactors = FALSE
+    )
+  }
+  if (evidence == "all") {
+    evidence_rows <- evidence_rows[evidence_rows$basis %in% c("scientific_evidence", "published_model", "benchmark_use"), , drop = FALSE]
+  } else {
+    evidence_rows <- evidence_rows[evidence_rows$basis == evidence, , drop = FALSE]
+  }
+  if (!"source_estimator" %in% names(evidence_rows)) {
+    evidence_rows$source_estimator <- as.character(evidence_rows$estimator)
+  }
+  if (!"package_estimator" %in% names(evidence_rows)) {
+    evidence_rows$package_estimator <- as.character(evidence_rows$estimator)
+  }
+  evidence_rows$package_estimator <- as.character(evidence_rows$package_estimator)
+  evidence_rows <- evidence_rows[nzchar(evidence_rows$package_estimator), , drop = FALSE]
+  evidence_rows$estimator <- evidence_rows$package_estimator
+  evidence_rows
+}
+
 #' List estimators eligible for a benchmark dataset
 #'
 #' Eligibility is metadata-driven. A route can be recommended because a
@@ -188,14 +240,16 @@ metadata_estimator_registry <- function() {
 #' @param include_installed If `TRUE`, add whether the backend package is
 #'   installed.
 #' @param evidence Which evidence layer to return. `"scientific_evidence"`
-#'   returns only paper/manual-supported estimator routes. `"benchmark_use"`
-#'   returns technical benchmark routes. `"all"` returns both.
+#'   returns legacy paper/manual-supported routes; `"published_model"` returns
+#'   routes explicitly documented in a source; `"benchmark_use"` returns
+#'   technical benchmark routes. `"all"` returns all executable routes except
+#'   tentative generated candidates.
 #'
 #' @return A data frame with estimator metadata and evidence columns.
 #' @export
 eligible_estimators_for_dataset <- function(dataset,
                                             include_installed = TRUE,
-                                            evidence = c("scientific_evidence", "benchmark_use", "all")) {
+                                            evidence = c("scientific_evidence", "published_model", "benchmark_use", "generated_candidate", "all")) {
   evidence <- match.arg(evidence)
   datasets <- benchmark_dataset_registry()
   if (length(dataset) != 1L || !dataset %in% datasets$dataset) {
@@ -209,23 +263,8 @@ eligible_estimators_for_dataset <- function(dataset,
   }
 
   spec <- datasets[datasets$dataset == dataset, , drop = FALSE]
-  evidence_rows <- spec$estimator_evidence[[1]]
-  if (!is.data.frame(evidence_rows)) {
-    evidence_rows <- data.frame(
-      estimator = unlist(spec$eligible_estimators[[1]], use.names = FALSE),
-      basis = spec$eligibility_basis[[1]],
-      source_ref = spec$eligibility_source_ref[[1]],
-      pages = NA_character_,
-      pdf_pages = NA_character_,
-      stringsAsFactors = FALSE
-    )
-  }
-  if (evidence == "all") {
-    evidence_rows <- evidence_rows[evidence_rows$basis %in% c("scientific_evidence", "benchmark_use"), , drop = FALSE]
-  } else {
-    evidence_rows <- evidence_rows[evidence_rows$basis == evidence, , drop = FALSE]
-  }
-  eligible <- as.character(evidence_rows$estimator)
+  evidence_rows <- metadata_estimator_evidence(spec, evidence)
+  eligible <- as.character(evidence_rows$package_estimator)
   registry <- available_benchmark_estimators(include_installed = include_installed)
   out <- registry[registry$estimator %in% eligible, , drop = FALSE]
   if (nrow(out) == 0L) return(out)
@@ -245,10 +284,14 @@ eligible_estimators_for_dataset <- function(dataset,
 #' for a given estimator route.
 #'
 #' @param estimator Estimator name from `available_benchmark_estimators()`.
+#' @param evidence Evidence layer to retain. `"all"` keeps documented models
+#'   and curated technical comparators, but not tentative generated candidates.
 #'
 #' @return A data frame with dataset metadata and evidence columns.
 #' @export
-eligible_datasets_for_estimator <- function(estimator) {
+eligible_datasets_for_estimator <- function(estimator,
+                                            evidence = c("all", "scientific_evidence", "published_model", "benchmark_use", "generated_candidate")) {
+  evidence <- match.arg(evidence)
   estimators <- available_benchmark_estimators(include_installed = FALSE)
   if (length(estimator) != 1L || !estimator %in% estimators$estimator) {
     stop(
@@ -261,8 +304,8 @@ eligible_datasets_for_estimator <- function(estimator) {
   }
 
   datasets <- benchmark_dataset_registry()
-  keep <- vapply(datasets$benchmark_estimators, function(values) {
-    estimator %in% values
+  keep <- vapply(seq_len(nrow(datasets)), function(index) {
+    estimator %in% metadata_estimator_evidence(datasets[index, , drop = FALSE], evidence)$package_estimator
   }, logical(1))
   out <- datasets[keep, , drop = FALSE]
   out$estimator <- estimator
@@ -283,7 +326,7 @@ eligible_datasets_for_estimator <- function(estimator) {
 #' @return A list with `summary` and `eligible_estimators`.
 #' @export
 explain_dataset <- function(dataset,
-                            evidence = c("all", "scientific_evidence", "benchmark_use"),
+                            evidence = c("all", "scientific_evidence", "published_model", "benchmark_use", "generated_candidate"),
                             include_installed = FALSE) {
   evidence <- match.arg(evidence)
   registry <- benchmark_dataset_registry()

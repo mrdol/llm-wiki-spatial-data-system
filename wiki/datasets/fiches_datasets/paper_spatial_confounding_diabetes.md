@@ -188,11 +188,10 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  - estimator: bym2_multivariate
+    basis: published_model
+    source_ref: "Wu et Banerjee (2025), arXiv:2505.07232."
+    notes: "Modele areolaire bayesien coregionalise publie; aucune route multivariee BYM2 n'est encore automatisee. Des comparateurs univaries continus sont donc proposes selon la typologie du jeu."
 ```
 
 ## Bloc 4 - Typologie des donnees
