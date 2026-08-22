@@ -349,7 +349,7 @@ Le projet a ensuite adapté cette organisation aux besoins d'une banque de donn�
 
 Une représentation lisible du corpus est ainsi fournie par le wiki, complété par un graphe de connaissances qui relie les jeux de données, les publications, les packages, les modèles et leurs principales caractéristiques. Lors d'une requête, le graphe aide d'abord à identifier les ressources pertinentes, avant que le wiki ne livre une synthèse lisible et contrôlable, ce qui évite de mobiliser tout le corpus pour chaque tâche et permet de construire un contexte plus ciblé. Cette organisation ne remplace toutefois pas la validation scientifique : des contrôles vérifient la structure des fiches et la cohérence de leurs informations, et les graphes de connaissances facilitent ainsi l'exploration d'informations hétérogènes tout en conservant un lien explicite avec les sources d'origine (Hogan \textit{et al.}, 2021).
 
-Le jeu \texttt{spDataLarge::lsl} illustre concrètement ce fonctionnement (figure~\ref{fig:kg-lsl}). Il est documenté par trois sources indépendantes qui se recoupent : le package R \texttt{spDataLarge} qui le distribue, l'article de Muenchow, Brenning et Richter (2012) qui en décrit le modèle, et le chapitre « Statistical learning for geographic data » de \textit{Geocomputation with R}, qui réutilise le même jeu à des fins pédagogiques. L'article donne ce modèle sous forme de texte ; sa traduction en formule R exploitable se trouve précisément dans ce chapitre (section 11.2, « Case study: Landslide susceptibility »), où le même modèle est ajusté par \texttt{glm(lslpts $\sim$ slope + cplan + cprof + elev + log10\_carea, family = binomial(), data = lsl)}. C'est exactement le type de jeu de données recherché par le projet : une source scientifique claire, une formule vérifiable dans au moins deux documents indépendants, et un support spatial directement exploitable. Le graphe conserve malgré cela une décision de non-promotion, car la réponse \texttt{lslpts} est binaire et sort donc, pour l'instant, du périmètre de régression continue du benchmark : documentation complète et éligibilité au benchmark restent deux questions distinctes.
+Le jeu \texttt{spDataLarge::lsl} illustre concrètement ce fonctionnement (figure~\ref{fig:kg-lsl}). Il est documenté par trois sources indépendantes qui se recoupent : le package R \texttt{spDataLarge} qui le distribue, l'article de Muenchow, Brenning et Richter (2012) qui en décrit le modèle, et le chapitre « Statistical learning for geographic data » de \textit{Geocomputation with R}, qui réutilise le même jeu à des fins pédagogiques. L'article donne ce modèle sous forme de texte ; sa traduction en formule R exploitable se trouve précisément dans ce chapitre (section 11.2, « Case study: Landslide susceptibility »), où le même modèle est ajusté par \texttt{glm(lslpts $\sim$ slope + cplan + cprof + elev + log10\_carea, family = binomial(), data = lsl)}. C'est exactement le type de jeu de données recherché par le projet, avec une source scientifique claire, une formule vérifiable dans au moins deux documents indépendants, et un support spatial directement exploitable. Le graphe conserve malgré cela une décision de non-promotion, car la réponse \texttt{lslpts} est binaire et sort donc, pour l'instant, du périmètre de régression continue du benchmark. Documentation complète et éligibilité au benchmark restent deux questions distinctes.
 
 \begin{figure}[htbp]
 \centering
@@ -398,7 +398,7 @@ Deux documents distincts soutiennent, de la même manière, la reproductibilité
 
 Deux agents IA sont mobilisés à cette étape, avec des rôles bien distincts, consignés dans des fichiers propres au dépôt et suivant le principe de mémoire documentaire du \textit{LLM Wiki}. Codex est l'agent principal de production et d'injection : il explore le dépôt, s'appuie sur les outils et les scripts disponibles, puis produit ou met à jour des fiches et du code sous contrôle humain. Claude joue le rôle de contrôle qualité, en évaluant les fiches produites avant leur validation, sans jamais les modifier lui-même.
 
-Cette évaluation suit un pipeline en trois niveaux, \texttt{LLM-wiki-Assessment}. Le niveau 1 est un contrôle structurel automatique (sans consommation de jetons). Il vérifie la forme de la fiche et la présence des champs attendus, et un échec bloque la fiche avant toute autre étape. Le niveau 2 est un contrôle sémantique réalisé par Claude une fois le niveau 1 franchi. Il examine la cohérence interne de la fiche et sa fidélité aux sources citées. Le niveau 3 est une file de suivi, activée lorsqu'une fiche reçoit un score intermédiaire, compris entre 0,50 et 0,74 ; la fiche est alors inscrite dans \texttt{wiki/eval\_queue.md} pour une révision ultérieure. Une note inférieure à 0,50 correspond à un rejet, tandis qu'une note d'au moins 0,75 peut conduire à l'acceptation, sans remplacer la vérification humaine, en particulier lorsqu'une information engage la validité scientifique de la fiche (Zheng \textit{et al.}, 2023).
+Cette évaluation suit un pipeline en trois niveaux, \texttt{LLM-wiki-Assessment}. Le niveau 1 est un contrôle structurel automatique (sans consommation de jetons). Il vérifie la forme de la fiche et la présence des champs attendus, et un échec la bloque avant toute autre étape. Le niveau 2 est un contrôle sémantique réalisé par Claude une fois le niveau 1 franchi. Il examine la cohérence interne de la fiche et sa fidélité aux sources citées. Le niveau 3 est une file de suivi, activée lorsqu'une fiche reçoit un score intermédiaire, compris entre 0,50 et 0,74 ; elle est alors inscrite dans \texttt{wiki/eval\_queue.md} pour une révision ultérieure. Une note inférieure à 0,50 correspond à un rejet, tandis qu'une note d'au moins 0,75 peut conduire à l'acceptation, sans remplacer la vérification humaine, en particulier lorsqu'une information engage la validité scientifique de la fiche (Zheng \textit{et al.}, 2023).
 
 L'automatisation de la préparation des fiches peut néanmoins produire des erreurs qui n'interrompent pas l'exécution des scripts. Une fiche techniquement complète peut malgré tout contenir une information incorrecte sur une variable, une formule ou le type de jeu de données. La vérification à la main de certaines fiches, par confrontation avec les données et l'article source, m'a permis d'identifier, dans un jeu épidémiologique, une p-valeur du test de Mann-Kendall enregistrée comme covariable en plus de la statistique dont elle était issue. Ce type de cas a montré que la présence des champs attendus ne suffit pas à garantir la validité des métadonnées : les contrôles automatiques signalent parfois des incohérences, mais les cas ambigus doivent encore faire l'objet d'une vérification ciblée.
 
@@ -613,7 +613,7 @@ Pour comparer une variante — ou expansion — à un estimateur de référence 
 
 Une valeur positive indique alors une amélioration de la variante par rapport à la référence. Les comparaisons sont réalisées à schéma d'évaluation identique et tiennent également compte de la régularité des résultats entre les jeux de données, des échecs observés et des indicateurs secondaires. Pour les comparaisons sur plusieurs jeux de données, Demšar (2006) recommande de privilégier des comparaisons appariées plutôt que de s'appuyer uniquement sur une performance moyenne.
 
-Décider qu'un estimateur l'emporte ne se réduit donc pas à comparer une moyenne de RMSE. Le moteur de comparaison classe d'abord chaque cas en victoire, défaite ou égalité, une zone d'équivalence pratique de $\pm$1\,\% absorbant les écarts trop faibles pour être significatifs. Un verdict directionnel, supérieur ou inférieur, n'est retenu que si la variante l'emporte sur au moins 70\,\% des cas non nuls, que cette différence est confirmée par un test de Wilcoxon apparié, et que l'amélioration médiane reste positive. Ce taux de victoire élevé ne suffit toutefois pas : la règle exige aussi qu'au plus 10\,\% des cas correspondent à une dégradation supérieure à 10\,\% du RMSE, de sorte qu'un estimateur performant sur la plupart des jeux de données, mais qui s'effondre nettement sur les quelques cas où il perd, n'est pas jugé globalement meilleur. Le verdict tient enfin compte de métriques que le seul RMSE ne couvre pas : l'indice de Moran résiduel, la MAE et le temps d'exécution sont surveillés en complément, et une dégradation trop marquée sur l'une d'elles fait basculer un verdict par ailleurs favorable vers un compromis plutôt qu'une supériorité franche. Une hausse trop importante du taux d'échec des plis d'un estimateur par rapport à sa référence rend enfin le verdict instable, quel que soit son résultat sur les autres critères. À défaut de signaux concordants, notamment lorsque le nombre de jeux de données est limité, le verdict reste volontairement inconclusif.
+Décider qu'un estimateur l'emporte ne se réduit donc pas à comparer une moyenne de RMSE. Le moteur de comparaison classe d'abord chaque cas en victoire, défaite ou égalité, une zone d'équivalence pratique de $\pm$1\,\% absorbant les écarts trop faibles pour être significatifs. Un verdict directionnel, supérieur ou inférieur, n'est retenu que si la variante l'emporte sur au moins 70\,\% des cas non nuls, que cette différence est confirmée par un test de Wilcoxon apparié, et que l'amélioration médiane reste positive. Ce taux de victoire élevé ne suffit toutefois pas : la règle exige aussi qu'au plus 10\,\% des cas correspondent à une dégradation supérieure à 10\,\% du RMSE, de sorte qu'un estimateur performant sur la plupart des jeux de données, mais qui s'effondre nettement sur les quelques cas où il perd, n'est pas jugé globalement meilleur. L'évaluation tient enfin compte de métriques que le seul RMSE ne couvre pas : l'indice de Moran résiduel, la MAE et le temps d'exécution sont surveillés en complément, et une dégradation trop marquée sur l'une d'elles fait basculer un verdict par ailleurs favorable vers un compromis plutôt qu'une supériorité franche. Une hausse trop importante du taux d'échec des plis d'un estimateur par rapport à sa référence rend enfin la décision instable, quel que soit son résultat sur les autres critères. À défaut de signaux concordants, notamment lorsque le nombre de jeux de données est limité, le verdict reste volontairement inconclusif.
 
 En complément du tableau de bord, le script \texttt{spatial\_viz.R} produit des visualisations plus ciblées à partir des objets déjà calculés, sans réexécuter aucun modèle. Il trace des courbes de calibration d'un hyperparamètre, comme le nombre d'itérations de boosting ou la bande passante, en fonction de la RMSE, ainsi que des diagrammes en barres comparant RMSE et MAE par estimateur et par schéma de validation croisée. Il dessine aussi des cartes des coefficients locaux $\beta(u,v)$ estimés par GWR et par MGWR multi-échelle, utiles pour visualiser directement comment une relation varie dans l'espace plutôt que de se limiter à un indicateur agrégé.
 
@@ -664,7 +664,7 @@ Licence non identifiée ou non renseignée & 3 & 2\,\% \\
 \label{tab:composition-catalogue}
 \end{table}
 
-Ces catégories correspondent à des étapes distinctes du parcours d'un jeu de données dans le projet, et non à des résultats de benchmark. La colonne la plus directement exploitable est celle des 117 jeux marqués \texttt{benchmark\_ready} : contrairement aux 155 jeux simplement retenus pour le package, ils ne portent aucun blocage documenté, qu'il porte sur le support spatial, la réponse ou l'éligibilité des estimateurs. Les 38 jeux retenus mais non \texttt{benchmark\_ready} restent le plus souvent bloqués par une réponse binaire ou de comptage, que le package ne couvre pas encore en dehors de la régression continue. Parmi les 117, seize sont en outre embarqués directement dans le package : ils ne nécessitent aucun téléchargement et peuvent être exécutés immédiatement. Le tableau~\ref{tab:jeux-diversite} illustre par ailleurs la diversité de ces jeux retenus, tous dotés d'une spécification empirique reliée à une publication scientifique.
+Ces catégories correspondent à des étapes distinctes du parcours d'un jeu de données dans le projet, et non à des résultats de benchmark. La colonne la plus directement exploitable est celle des 117 jeux marqués \texttt{benchmark\_ready} : contrairement aux 155 jeux simplement retenus pour le package, ils ne portent aucun blocage documenté, qu'il porte sur le support spatial, la réponse ou l'éligibilité des estimateurs. Ces 38 jeux, inclus au package mais non \texttt{benchmark\_ready}, restent le plus souvent bloqués par une réponse binaire ou de comptage, que le package ne couvre pas encore en dehors de la régression continue. Parmi les 117, seize sont en outre embarqués directement dans le package : ils ne nécessitent aucun téléchargement et peuvent être exécutés immédiatement. Le tableau~\ref{tab:jeux-diversite} illustre par ailleurs cette diversité, à travers des jeux tous dotés d'une spécification empirique reliée à une publication scientifique.
 
 \begin{table}[htbp]
 \centering
@@ -688,7 +688,9 @@ Airbnb Europe prices & Économie urbaine & 51\,707 & prix logarithmé, continue 
 \label{tab:jeux-diversite}
 \end{table}
 
-Le développement de \texttt{spatialtidymodels} a permis de relier ce catalogue à une infrastructure commune d'estimation, de validation et de comparaison. Les tests réalisés au cours du développement ont également mis au jour plusieurs erreurs dans l'orchestration des benchmarks, notamment sur la prédiction hors échantillon, la récupération des paramètres spatiaux et le calcul des métriques après concaténation des prédictions. La prochaine étape consiste à exécuter un premier benchmark complet sur une dizaine de jeux de données choisis parmi ceux actuellement prêts pour l'exécution (\texttt{benchmark\_status: ready}), avec suffisamment d'estimateurs éligibles pour rendre la comparaison informative. Cette sélection reste à valider avant tout lancement. Un tableau synthétique des résultats obtenus, ainsi que leur restitution dans le tableau de bord du package, seront ajoutés à cette section une fois ce benchmark exécuté.
+Le développement de \texttt{spatialtidymodels} a permis de relier ce catalogue à une infrastructure commune d'estimation, de validation et de comparaison. Les tests réalisés au cours du développement ont également mis au jour plusieurs erreurs dans l'orchestration des benchmarks, notamment sur la prédiction hors échantillon, la récupération des paramètres spatiaux et le calcul des métriques après concaténation des prédictions.
+
+Un premier benchmark est en cours d'exécution au moment de la rédaction, sur sept jeux de données choisis parmi ceux actuellement prêts pour l'exécution (\texttt{benchmark\_status: ready}), documentés pour la plupart par un DOI de jeu et de publication. Il couvre dix estimateurs répartis sur plusieurs familles : une référence globale (\texttt{ols}, \texttt{gam\_spatial}), la dépendance spatiale (\texttt{sar\_lag}, \texttt{sem\_error}, \texttt{sdm\_mixed}), l'hétérogénéité locale (\texttt{mgwrsar\_gwr}), le boosting spatial (\texttt{spboost\_bspa\_sar\_ml}, \texttt{spboost\_bspa\_sem\_ml}) et des références prédictives non linéaires (\texttt{random\_forest}, \texttt{xgboost}), sur deux schémas d'évaluation (\texttt{holdout\_10pct} et \texttt{near\_prediction}). Le script complet de lancement, avec le détail des paramètres utilisés pour la construction de la matrice $W$, la bande passante ou le nombre d'itérations de boosting, est reproduit en annexe~\ref{annexe:benchmark-script}. Un tableau synthétique des résultats, ainsi que leur restitution dans le tableau de bord du package, seront ajoutés à cette section une fois ce benchmark achevé.
 
 Ma contribution a principalement porté sur la structuration du système de métadonnées, le développement et l'amélioration des pipelines de collecte et de curation, l'organisation du corpus autour du wiki et du graphe de connaissances, ainsi que le développement de \texttt{spatialtidymodels} et de ses outils de benchmark.
 
@@ -707,6 +709,8 @@ La première version du dispositif est volontairement focalisée sur les donnée
 La récupération des sources a constitué une autre limite pratique. L'assistant IA peut utiliser les scripts et les outils du projet pour explorer et organiser le corpus, mais certains sites bloquent les téléchargements automatisés. Des jeux de données ou des PDF ont alors dû être récupérés manuellement lorsqu'ils étaient librement accessibles. D'autres candidats intéressants n'ont pas été retenus lorsque l'article ou les données étaient payants, ou lorsqu'ils exigeaient la création d'un compte. Ce choix est cohérent avec l'objectif de constituer une ressource dont les données, les sources et les procédures de reproduction restent accessibles librement.
 
 La détection systématique des doublons à tous les niveaux a également constitué un point de vigilance. Un même jeu de données peut apparaître dans plusieurs packages, sous des noms différents ou dans des versions proches. Les scripts combinent donc des contrôles sur le nom, la structure des données et leur provenance. Ils détectent automatiquement les doublons manifestes et signalent les rapprochements incertains pour examen. Cette prudence est nécessaire, car une règle trop stricte risquerait de fusionner des jeux de données distincts partageant seulement certaines caractéristiques.
+
+Une contrainte supplémentaire est venue de la taille de certains jeux de données, révélée lors de la préparation du premier lot de benchmark. Deux jeux embarqués dans le package, comptant plusieurs dizaines de milliers d'observations, ont provoqué l'arrêt du poste de travail lors d'un essai initial regroupant tous les jeux prêts, vraisemblablement du fait du coût de calcul de certaines méthodes locales comme la GWR sur un aussi grand nombre d'unités spatiales. Ils ont donc été écartés de ce premier lot au profit de jeux de taille plus modeste, afin de respecter le délai de remise du rapport. Cette limite est documentée plutôt que dissimulée : ces jeux restent \texttt{benchmark\_ready} et pourront être traités séparément, avec des paramètres adaptés, une fois cette contrainte de temps levée.
 
 Les tests de validation croisée ont enfin révélé des difficultés invisibles lors d'un ajustement sur les seules données d'apprentissage. Un estimateur pouvait être ajusté correctement, mais échouer à produire des prédictions exploitables sur un ensemble de test. Cette observation a conduit à séparer plus nettement les étapes d'ajustement, de prédiction et de calcul des métriques.
 
@@ -959,6 +963,65 @@ Compétences de conception & \texttt{domain-modeling}, \texttt{codebase-design},
 \end{tabularx}
 \end{center}
 
+\subsection{Script de lancement du benchmark}
+\label{annexe:benchmark-script}
+
+Le script ci-dessous exécute le premier benchmark mentionné en section 3.5, sur sept jeux de données et dix estimateurs. Il a été ajusté après un premier essai sur dix jeux, interrompu par une surchauffe du poste de travail : les deux jeux les plus volumineux (Airbnb, Wildfire) et l'estimateur \texttt{mgwrsar\_mgwr}, dont le coût de calcul augmente rapidement avec le nombre d'observations, en ont été retirés.
+
+{\footnotesize
+\begin{verbatim}
+setwd("chemin/vers/llm-wiki-karpathy")
+devtools::load_all("packages/spatialtidymodels", quiet = TRUE)
+
+datasets <- c(
+  "paper_wang_henan_cultivated_land_quality", # N=143
+  "paper_seshat_social_complexity",           # N=307
+  "london_hp",                                # N=316
+  "boston_housing",                           # N=506
+  "ewhp",                                     # N=519
+  "paper_spatial_confounding_diabetes",       # N=2984
+  "paper_covid_sociodemographic_risk"         # N=3068
+)
+
+estimators <- c(
+  "ols", "gam_spatial",
+  "sar_lag", "sem_error", "sdm_mixed",
+  "mgwrsar_gwr",
+  "spboost_bspa_sar_ml", "spboost_bspa_sem_ml",
+  "random_forest", "xgboost"
+)
+
+suite <- benchmark_spatial_suite(
+  datasets = datasets,
+  estimators = estimators,
+  cv_schemes = c("holdout_10pct", "near_prediction"),
+  k_neighbors = 8, style = "W", zero_policy = TRUE,
+  mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
+  spboost_mstop = 100L, spboost_nu = 0.1,
+  seed = 123L, parallel = FALSE, fold_timeout_sec = 180
+)
+\end{verbatim}
+}
+
+Le tableau~\ref{tab:parametres-benchmark} détaille le rôle de chaque paramètre.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.2cm}X}
+\toprule
+Paramètre & Rôle \\
+\midrule
+\texttt{k\_neighbors}, \texttt{style}, \texttt{zero\_policy} & Construction de la matrice de poids spatiaux $W$ : nombre de plus proches voisins retenus, normalisation par ligne (\texttt{"W"}) et tolérance aux unités sans voisin. \\
+\texttt{mgwrsar\_bandwidth}, \texttt{mgwrsar\_kernel} & Bande passante (nombre d'observations voisines pondérées) et forme du noyau de pondération pour la GWR. \\
+\texttt{spboost\_mstop}, \texttt{spboost\_nu} & Nombre d'itérations de boosting et taux d'apprentissage pour les routes \texttt{spboost}. \\
+\texttt{cv\_schemes} & Schémas de séparation appliqués à chaque jeu (voir section 3.4.3). \\
+\texttt{parallel}, \texttt{fold\_timeout\_sec} & Exécution séquentielle plutôt qu'en parallèle, et durée maximale tolérée par pli, pour privilégier la stabilité du poste de travail sur la vitesse. \\
+\bottomrule
+\end{tabularx}
+\caption{Paramètres du script de benchmark et leur rôle.}
+\label{tab:parametres-benchmark}
+\end{table}
 
 \clearpage
 
