@@ -600,7 +600,7 @@ Le moteur de benchmark organise l'ajustement des estimateurs, la production des 
 
 La performance prédictive est principalement évaluée à partir de la RMSE et de la MAE. Ces métriques sont complétées par le temps total d'exécution et le diagnostic de la dépendance spatiale résiduelle à l'aide de la valeur absolue de l'indice de Moran. Les paramètres spatiaux tels que $\rho$ ou $\lambda$ sont aussi conservés parmi les résultats lorsqu'un estimateur les fournit.
 
-Pour comparer une variante — ou expansion — à un estimateur de référence sur plusieurs jeux de données, nous procédons comme suit. Une moyenne brute des RMSE serait en effet biaisée, car les jeux de données peuvent être mesurés sur des échelles très différentes ; les performances sont donc exprimées sous une forme relative plutôt que par une moyenne directe des valeurs brutes. Considérons un jeu de données $i$. L'amélioration relative de la RMSE s'écrit alors :
+Pour comparer une variante (ou expansion) à un estimateur de référence sur plusieurs jeux de données, nous procédons comme suit. Une moyenne brute des RMSE serait en effet biaisée, car les jeux de données peuvent être mesurés sur des échelles très différentes. Les performances sont donc exprimées sous une forme relative plutôt que par une moyenne directe des valeurs brutes. Considérons un jeu de données $i$. L'amélioration relative de la RMSE s'écrit alors :
 
 \begin{equation}
     \Delta RMSE_i
@@ -611,20 +611,29 @@ Pour comparer une variante — ou expansion — à un estimateur de référence 
          {RMSE_{\mathrm{ref},i}}.
 \end{equation}
 
-Une valeur positive indique alors une amélioration de la variante par rapport à la référence. Les comparaisons sont réalisées à schéma d'évaluation identique et tiennent également compte de la régularité des résultats entre les jeux de données, des échecs observés et des indicateurs secondaires. Pour les comparaisons sur plusieurs jeux de données, Demšar (2006) recommande de privilégier des comparaisons appariées plutôt que de s'appuyer uniquement sur une performance moyenne.
+Un signe positif signifie que la variante améliore relativement le pouvoir prédictif du modèle par rapport à l'estimateur de référence. Les comparaisons sont réalisées à schéma d'évaluation identique et tiennent également compte de la régularité des résultats entre les jeux de données, des échecs observés et des indicateurs secondaires. Lorsqu'on étend l'évaluation à plusieurs jeux de données, Demšar (2006) recommande des tests appariés plutôt qu'une moyenne de la métrique. Décider qu'un estimateur l'emporte ne se réduit donc pas à comparer une moyenne de RMSE. Le moteur de comparaison classe d'abord chaque cas en victoire, défaite ou égalité, une zone d'équivalence pratique de $\pm$1\,\% absorbant les écarts trop faibles pour être significatifs. Un verdict directionnel, supérieur ou inférieur, repose ensuite sur quatre critères cumulatifs :
 
-Décider qu'un estimateur l'emporte ne se réduit donc pas à comparer une moyenne de RMSE. Le moteur de comparaison classe d'abord chaque cas en victoire, défaite ou égalité, une zone d'équivalence pratique de $\pm$1\,\% absorbant les écarts trop faibles pour être significatifs. Un verdict directionnel, supérieur ou inférieur, n'est retenu que si la variante l'emporte sur au moins 70\,\% des cas non nuls, que cette différence est confirmée par un test de Wilcoxon apparié, et que l'amélioration médiane reste positive. Ce taux de victoire élevé ne suffit toutefois pas : la règle exige aussi qu'au plus 10\,\% des cas correspondent à une dégradation supérieure à 10\,\% du RMSE, de sorte qu'un estimateur performant sur la plupart des jeux de données, mais qui s'effondre nettement sur les quelques cas où il perd, n'est pas jugé globalement meilleur. L'évaluation tient enfin compte de métriques que le seul RMSE ne couvre pas : l'indice de Moran résiduel, la MAE et le temps d'exécution sont surveillés en complément, et une dégradation trop marquée sur l'une d'elles fait basculer un verdict par ailleurs favorable vers un compromis plutôt qu'une supériorité franche. Une hausse trop importante du taux d'échec des plis d'un estimateur par rapport à sa référence rend enfin la décision instable, quel que soit son résultat sur les autres critères. À défaut de signaux concordants, notamment lorsque le nombre de jeux de données est limité, le verdict reste volontairement inconclusif.
+\begin{itemize}
+    \item la variante l'emporte sur au moins 70\,\% des cas non nuls ;
+    \item cette différence est confirmée par un test de Wilcoxon apparié ;
+    \item l'amélioration médiane reste positive ;
+    \item au plus 10\,\% des cas correspondent à une dégradation supérieure à 10\,\% du RMSE, ce qui écarte un estimateur performant sur la plupart des jeux de données, mais qui s'effondre nettement sur les quelques cas où il perd.
+\end{itemize}
 
-En complément du tableau de bord, le script \texttt{spatial\_viz.R} produit des visualisations plus ciblées à partir des objets déjà calculés, sans réexécuter aucun modèle. Il trace des courbes de calibration d'un hyperparamètre, comme le nombre d'itérations de boosting ou la bande passante, en fonction de la RMSE, ainsi que des diagrammes en barres comparant RMSE et MAE par estimateur et par schéma de validation croisée. Il dessine aussi des cartes des coefficients locaux $\beta(u,v)$ estimés par GWR et par MGWR multi-échelle, utiles pour visualiser directement comment une relation varie dans l'espace plutôt que de se limiter à un indicateur agrégé.
+L'évaluation tient enfin compte de métriques que le seul RMSE ne couvre pas : l'indice de Moran résiduel, la MAE et le temps d'exécution sont surveillés en complément, et une dégradation trop marquée sur l'une d'elles fait basculer un verdict par ailleurs favorable vers un compromis plutôt qu'une supériorité franche. Une hausse trop importante du taux d'échec des plis d'un estimateur par rapport à sa référence rend enfin la décision instable, quel que soit son résultat sur les autres critères. À défaut de signaux concordants, notamment lorsque le nombre de jeux de données est limité, le verdict reste volontairement inconclusif.
 
-Les résultats du benchmark peuvent par ailleurs être consultés directement sous R à l'aide des fonctions de synthèse du package. Un tableau de bord interactif regroupe les principaux indicateurs de performance, les comparaisons entre estimateurs, les diagnostics spatiaux et les éventuels échecs d'ajustement, répartis sur cinq pages qu'il faut explorer pour en tirer parti : une vue d'ensemble, la comparaison référence contre variante, le détail par jeu de données, les schémas de validation croisée et la méthodologie. Il ne recalcule pas les verdicts : il restitue ceux produits par le package, et sert donc principalement à explorer les performances, repérer les écarts entre méthodes et faciliter l'interprétation des diagnostics sans déplacer la logique statistique hors du package.
+En complément du tableau de bord qui résume tout le benchmark, le script \texttt{spatial\_viz.R} produit des visualisations plus ciblées à partir des objets déjà calculés, sans réexécuter aucun modèle. Il trace des courbes de calibration d'un hyperparamètre, comme le nombre d'itérations de boosting ou la bande passante, en fonction de la RMSE, ainsi que des diagrammes en barres comparant RMSE et MAE par estimateur et par schéma de validation croisée. Il dessine aussi des cartes des coefficients locaux $\beta(u,v)$ estimés par GWR et par MGWR multi-échelle, utiles pour visualiser directement comment une relation varie dans l'espace plutôt que de se limiter à un indicateur agrégé. Ce même jeu \texttt{georgia} figure parmi les données réelles utilisées par Geniaux (2026b) pour comparer GWR, MGWR multi-échelle et l'estimateur \textit{top-down scale} qu'il propose ; la figure~\ref{fig:spatial-viz} en reprend quatre covariables, chacune avec sa propre échelle de couleur.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.90\textwidth]{dashboard_screenshot.png}
-    \caption{Tableau de bord interactif de \texttt{spatialtidymodels}.}
-    \label{fig:dashboard}
+    \includegraphics[width=\textwidth]{coef_maps_georgia.png}
+    \caption{Coefficients locaux $\beta(u,v)$, GWR et MGWR multi-échelle, sur \texttt{georgia}.}
+    \label{fig:spatial-viz}
 \end{figure}
+
+Le contraste observé sur \texttt{PctBlack} illustre bien l'apport d'une bande passante propre à chaque covariable : la GWR y détecte une zone fortement positive et bien délimitée dans le centre-sud de l'État, tandis que la MGWR aplatit cette même covariable à un effet proche de zéro presque partout. Avec une bande passante unique pour toutes les covariables, la GWR absorbe une part de variation locale que la MGWR, en optimisant \texttt{PctBlack} séparément, traite plutôt comme un effet globalement stable.
+
+Les résultats du benchmark peuvent par ailleurs être consultés directement sous R à l'aide des fonctions de synthèse du package. Un tableau de bord interactif regroupe les principaux indicateurs de performance, les comparaisons entre estimateurs, les diagnostics spatiaux et les éventuels échecs d'ajustement, répartis sur cinq pages qu'il faut explorer pour en tirer parti : une vue d'ensemble, la comparaison référence contre variante, le détail par jeu de données, les schémas de validation croisée et la méthodologie. Il ne recalcule pas les verdicts : il restitue ceux produits par le package, et sert donc principalement à explorer les performances, repérer les écarts entre méthodes et faciliter l'interprétation des diagnostics sans déplacer la logique statistique hors du package.
 
 \subsection{Résultats et utilité du dispositif}
 
@@ -683,14 +692,46 @@ Airbnb Europe prices & Économie urbaine & 51\,707 & prix logarithmé, continue 
 \end{tabularx}
 \vspace{0.15cm}
 
-\raggedright\scriptsize Note : la colonne indique le nombre de routes que les métadonnées autorisent à tester ; elle ne constitue pas encore un résultat de performance. Une version plus complète de ce tableau figure en annexe (tableaux~\ref{tab:jeux-diversite-detail-a} et~\ref{tab:jeux-diversite-detail-b}) : elle ajoute le DOI et le titre de la publication associée ainsi que le type de géométrie retenu, de façon à couvrir l'ensemble des blocs documentés dans les fiches de jeux de données.
+\raggedright\scriptsize Note : la colonne indique le nombre de routes que les métadonnées autorisent à tester ; elle ne constitue pas encore un résultat de performance. Une version plus complète de ce tableau figure en annexe (tableaux~\ref{tab:jeux-diversite-detail-a} et~\ref{tab:jeux-diversite-detail-b}).
 \caption{Exemples de jeux de données issus de domaines différents.}
 \label{tab:jeux-diversite}
 \end{table}
 
 Le développement de \texttt{spatialtidymodels} a permis de relier ce catalogue à une infrastructure commune d'estimation, de validation et de comparaison. Les tests réalisés au cours du développement ont également mis au jour plusieurs erreurs dans l'orchestration des benchmarks, notamment sur la prédiction hors échantillon, la récupération des paramètres spatiaux et le calcul des métriques après concaténation des prédictions.
 
-Un premier benchmark est en cours d'exécution au moment de la rédaction, sur sept jeux de données choisis parmi ceux actuellement prêts pour l'exécution (\texttt{benchmark\_status: ready}), documentés pour la plupart par un DOI de jeu et de publication. Il couvre dix estimateurs répartis sur plusieurs familles : une référence globale (\texttt{ols}, \texttt{gam\_spatial}), la dépendance spatiale (\texttt{sar\_lag}, \texttt{sem\_error}, \texttt{sdm\_mixed}), l'hétérogénéité locale (\texttt{mgwrsar\_gwr}), le boosting spatial (\texttt{spboost\_bspa\_sar\_ml}, \texttt{spboost\_bspa\_sem\_ml}) et des références prédictives non linéaires (\texttt{random\_forest}, \texttt{xgboost}), sur deux schémas d'évaluation (\texttt{holdout\_10pct} et \texttt{near\_prediction}). Le script complet de lancement, avec le détail des paramètres utilisés pour la construction de la matrice $W$, la bande passante ou le nombre d'itérations de boosting, est reproduit en annexe~\ref{annexe:benchmark-script}. Un tableau synthétique des résultats, ainsi que leur restitution dans le tableau de bord du package, seront ajoutés à cette section une fois ce benchmark achevé.
+Un premier benchmark complet a depuis été exécuté sur les neuf jeux embarqués dans le package qui comptent moins de 2\,000 observations, ne nécessitant donc aucun téléchargement préalable. Il couvre dix estimateurs répartis sur plusieurs familles : une référence globale (\texttt{ols}, \texttt{gam\_spatial}), la dépendance spatiale (\texttt{sar\_lag}, \texttt{sem\_error}, \texttt{sdm\_mixed}), l'hétérogénéité locale (\texttt{mgwrsar\_gwr}), le boosting spatial (\texttt{spboost\_bspa\_sar\_ml}, \texttt{spboost\_bspa\_sem\_ml}) et deux références prédictives non linéaires (\texttt{random\_forest}, \texttt{xgboost}), sur les deux schémas \texttt{holdout\_10pct} et \texttt{near\_prediction}. Huit de ces jeux ont produit des résultats sur les deux schémas ; le neuvième, \texttt{columbus\_crime}, n'a été conservé que pour \texttt{holdout\_10pct}, sa cellule de partition la plus restreinte ne permettant pas de tirer dix répétitions test sans remise en \texttt{near\_prediction}. Le script complet, avec le détail du rôle de chaque paramètre, est reproduit en annexe~\ref{annexe:benchmark-script} ; les figures~\ref{fig:dashboard-near} et~\ref{fig:dashboard-holdout}, en annexe~\ref{annexe:dashboard-resultats}, en restituent la page de synthèse du tableau de bord pour chacun des deux schémas.
+
+Le tableau~\ref{tab:resultats-benchmark} se concentre sur \texttt{near\_prediction}, le schéma le plus exigeant des deux et celui qui fonde l'essentiel de l'apport méthodologique du dispositif : pour chaque estimateur, il rapporte la médiane de la RMSE relative à \texttt{ols}, la durée médiane d'un ajustement et le taux d'échec des plis. La dernière colonne, l'indice de Moran résiduel médian, provient en revanche de \texttt{holdout\_10pct} et non de \texttt{near\_prediction} : sur des groupes test de 8 à 10 observations, délibérément dispersées d'une cellule de partition à l'autre, cet indice retombe systématiquement sur son plancher théorique de petit échantillon ($-1/(n-1)$) quel que soit l'estimateur en \texttt{near\_prediction}, et ne discrimine donc rien à ce schéma. Le groupe test de \texttt{holdout\_10pct}, plus large, lui permet en revanche de varier réellement selon l'estimateur.
+
+Trois familles se détachent nettement de la référence : le boosting spatial, la GWR multi-échelle et \texttt{gam\_spatial} réduisent la RMSE médiane de 3 à 15\,\%. \texttt{random\_forest} et \texttt{xgboost} font presque aussi bien qu'\texttt{ols}, avec un coût de calcul du même ordre que la référence : ces quatre estimateurs, ainsi que \texttt{mgwrsar\_gwr} et \texttt{gam\_spatial}, s'ajustent tous en moins d'une seconde en médiane. À l'inverse, \texttt{sar\_lag} et \texttt{sdm\_mixed} cumulent les deux signaux défavorables : une RMSE supérieure de 10 à 23\,\% à la référence et le taux d'échec le plus élevé (25\,\%). Les routes fondées sur \texttt{spatialreg} et \texttt{spboost} (\texttt{sar\_lag}, \texttt{sem\_error}, \texttt{sdm\_mixed}, \texttt{spboost\_bspa\_sar\_ml}, \texttt{spboost\_bspa\_sem\_ml}) partagent par ailleurs un coût de calcul nettement supérieur à celui d'\texttt{ols} ou des méthodes d'apprentissage automatique, de l'ordre de 4 à 5\,secondes par ajustement médian contre moins d'une seconde. En \texttt{holdout\_10pct}, où le groupe d'apprentissage est plus large, l'écart entre estimateurs reste du même ordre, à l'exception notable de \texttt{sar\_lag} : sa RMSE médiane y dépasse celle d'\texttt{ols} de 54\,\%, contre 23\,\% en \texttt{near\_prediction}.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{lrrrr}
+\toprule
+Estimateur (\texttt{near\_prediction}) & RMSE méd. relative & Durée méd. (s) & Échecs & Moran résiduel$^{*}$ \\
+\midrule
+\texttt{mgwrsar\_gwr} & 0,85 (7 jeux) & 0,55 & 12,5\,\% & 0,059 \\
+\texttt{gam\_spatial} & 0,89 (8 jeux) & 0,57 & 0,0\,\% & 0,059 \\
+\texttt{spboost\_bspa\_sar\_ml} & 0,91 (7 jeux) & 4,07 & 12,5\,\% & 0,043 \\
+\texttt{random\_forest} & 0,95 (7 jeux) & 0,30 & 12,5\,\% & 0,078 \\
+\texttt{spboost\_bspa\_sem\_ml} & 0,97 (7 jeux) & 4,79 & 12,5\,\% & 0,117 \\
+\texttt{xgboost} & 0,98 (8 jeux) & 0,67 & 0,0\,\% & 0,105 \\
+\texttt{ols} (référence) & 1,00 (8 jeux) & 0,45 & 0,0\,\% & 0,136 \\
+\texttt{sem\_error} & 1,06 (8 jeux) & 4,99 & 10,0\,\% & 0,146 \\
+\texttt{sdm\_mixed} & 1,10 (6 jeux) & 4,62 & 25,0\,\% & 0,060 \\
+\texttt{sar\_lag} & 1,23 (6 jeux) & 5,08 & 25,0\,\% & 0,124 \\
+\bottomrule
+\end{tabular}
+\vspace{0.15cm}
+
+\raggedright\scriptsize Note : le nombre entre parenthèses est celui des jeux où l'estimateur a produit une prédiction valide. $^{*}$Moran résiduel médian, issu de \texttt{holdout\_10pct} (voir texte).
+\caption{Résultats du schéma \texttt{near\_prediction}, par estimateur.}
+\label{tab:resultats-benchmark}
+\end{table}
+
+Les valeurs manquantes du tableau et des figures~\ref{fig:dashboard-near} et~\ref{fig:dashboard-holdout} proviennent de quatre causes distinctes. La formule de \texttt{lasrosas}, fidèle à la publication d'origine, associe la variable continue \texttt{nitro} à la variable catégorielle \texttt{topo} par un terme d'interaction ; \texttt{mgwrsar\_gwr}, \texttt{random\_forest} et les deux routes \texttt{spboost} refusent ce terme tant que \texttt{topo} n'est pas convertie au préalable en indicatrices, ce que leur encodage par défaut ne fait pas, à la différence de \texttt{xgboost}, qui applique systématiquement cette conversion et produit une prédiction. Toujours sur ce jeu, \texttt{sdm\_mixed} échoue pour une autre raison : le décalage spatial des indicatrices de \texttt{topo} crée une colinéarité parfaite entre certaines colonnes de la matrice de design. Le jeu \texttt{paper\_seshat\_social\_complexity}, quant à lui, ne compte que trente-et-une paires de coordonnées distinctes pour 275 observations (plusieurs polities y étant géocodées par leur région d'appartenance plutôt que par un point propre), ce qui rend le système numériquement singulier pour \texttt{sar\_lag}, \texttt{sdm\_mixed} et, sur deux répétitions sur dix, \texttt{sem\_error}. Sur \texttt{ewhp} en \texttt{near\_prediction} enfin, \texttt{sar\_lag} échoue sur les dix répétitions car la valeur de $\rho$ estimée sort de la plage de stabilité admissible du modèle.
 
 Ma contribution a principalement porté sur la structuration du système de métadonnées, le développement et l'amélioration des pipelines de collecte et de curation, l'organisation du corpus autour du wiki et du graphe de connaissances, ainsi que le développement de \texttt{spatialtidymodels} et de ses outils de benchmark.
 
@@ -704,11 +745,11 @@ Pour les chercheurs concernés du laboratoire, le dispositif rassemble un travai
 
 Les difficultés rencontrées au cours de la mission ne constituent pas une liste exhaustive des problèmes possibles. Elles illustrent plutôt la démarche adoptée pour faire évoluer le projet. Lorsqu'un cas particulier était identifié, l'objectif n'était pas seulement de le corriger manuellement, mais d'en comprendre l'origine, d'isoler l'étape concernée et, lorsque cela était possible, de modifier les règles du pipeline afin de réduire les interventions humaines lors des exécutions suivantes.
 
-La première version du dispositif est volontairement focalisée sur les données spatiales en coupe transversale, avec une variable réponse continue. Des jeux de données de panel ont été recensés et documentés, mais ils ne sont pas intégrés au benchmark principal. Leur traitement suppose des règles spécifiques pour prendre en compte simultanément les unités spatiales et la dimension temporelle. Ce choix de périmètre permet de stabiliser l'infrastructure sur un premier cas d'usage avant d'envisager son extension.
+Dans sa première version, le dispositif se concentre volontairement sur les données spatiales en coupe transversale, avec une variable réponse continue. Des jeux de données de panel ont été recensés et documentés, mais ils ne sont pas intégrés au benchmark principal. Leur traitement suppose des règles spécifiques pour prendre en compte simultanément les unités spatiales et la dimension temporelle. Ce choix de périmètre permet de stabiliser l'infrastructure sur un premier cas d'usage avant d'envisager son extension.
 
-La récupération des sources a constitué une autre limite pratique. L'assistant IA peut utiliser les scripts et les outils du projet pour explorer et organiser le corpus, mais certains sites bloquent les téléchargements automatisés. Des jeux de données ou des PDF ont alors dû être récupérés manuellement lorsqu'ils étaient librement accessibles. D'autres candidats intéressants n'ont pas été retenus lorsque l'article ou les données étaient payants, ou lorsqu'ils exigeaient la création d'un compte. Ce choix est cohérent avec l'objectif de constituer une ressource dont les données, les sources et les procédures de reproduction restent accessibles librement.
+Toutes les sources n'ont par ailleurs pas pu être récupérées automatiquement. L'assistant IA peut utiliser les scripts et les outils du projet pour explorer et organiser le corpus, mais certains sites bloquent les téléchargements automatisés. Des jeux de données ou des PDF ont alors dû être récupérés manuellement lorsqu'ils étaient librement accessibles. D'autres candidats intéressants n'ont pas été retenus lorsque l'article ou les données étaient payants, ou lorsqu'ils exigeaient la création d'un compte. Ce choix est cohérent avec l'objectif de constituer une ressource dont les données, les sources et les procédures de reproduction restent accessibles librement.
 
-La détection systématique des doublons à tous les niveaux a également constitué un point de vigilance. Un même jeu de données peut apparaître dans plusieurs packages, sous des noms différents ou dans des versions proches. Les scripts combinent donc des contrôles sur le nom, la structure des données et leur provenance. Ils détectent automatiquement les doublons manifestes et signalent les rapprochements incertains pour examen. Cette prudence est nécessaire, car une règle trop stricte risquerait de fusionner des jeux de données distincts partageant seulement certaines caractéristiques.
+Un même jeu de données pouvant en outre apparaître dans plusieurs packages, sous des noms différents ou dans des versions proches, leur détection systématique à tous les niveaux a demandé une vigilance particulière. Les scripts combinent donc des contrôles sur le nom, la structure des données et leur provenance. Ils détectent automatiquement les doublons manifestes et signalent les rapprochements incertains pour examen. Cette prudence est nécessaire, car une règle trop stricte risquerait de fusionner des jeux de données distincts partageant seulement certaines caractéristiques.
 
 Une contrainte supplémentaire est venue de la taille de certains jeux de données, révélée lors de la préparation du premier lot de benchmark. Deux jeux embarqués dans le package, comptant plusieurs dizaines de milliers d'observations, ont provoqué l'arrêt du poste de travail lors d'un essai initial regroupant tous les jeux prêts, vraisemblablement du fait du coût de calcul de certaines méthodes locales comme la GWR sur un aussi grand nombre d'unités spatiales. Ils ont donc été écartés de ce premier lot au profit de jeux de taille plus modeste, afin de respecter le délai de remise du rapport. Cette limite est documentée plutôt que dissimulée : ces jeux restent \texttt{benchmark\_ready} et pourront être traités séparément, avec des paramètres adaptés, une fois cette contrainte de temps levée.
 
@@ -723,7 +764,9 @@ Lorsqu'une nouvelle méthode spatiale est proposée, il faut pouvoir vérifier q
 
 Pour répondre à ce besoin, nous avons réuni plusieurs outils complémentaires : des scripts R, un wiki, un graphe de connaissances, des règles de contrôle et une infrastructure de benchmark. Des LLM ont également été utilisés de manière encadrée pour soutenir ce travail. Chaque jeu de données est associé à des métadonnées utiles à sa réutilisation, notamment sa source, sa variable réponse, ses covariables, une formule de régression identifiée dans un papier scientifique lorsqu'elle est disponible, sa structure spatiale, sa licence et les estimateurs qui lui sont applicables. Ces informations permettent de sélectionner les jeux de données appropriés et de guider l'évaluation des méthodes de manière unifiée.
 
-La suite immédiate du projet consiste à relancer les pipelines de collecte et de traitement par lots. Les jeux de données candidats seront recherchés, récupérés lorsqu'ils sont librement accessibles, documentés, contrôlés puis promus dans le registre du package lorsque les informations nécessaires sont disponibles. L'idée est d'élargir progressivement la banque jusqu'à couvrir un ensemble assez exhaustif de configurations.
+Ce dispositif a d'ores et déjà été mis à l'épreuve sur un premier benchmark réel, couvrant neuf jeux de données et dix estimateurs répartis sur plusieurs familles méthodologiques (section 3.5). Les résultats obtenus restent interprétables et cohérents entre les deux schémas d'évaluation testés : le boosting spatial, la GWR multi-échelle et les modèles additifs se montrent régulièrement plus précis que la référence linéaire, tandis que le modèle à décalage spatial s'en écarte nettement sur la plupart des jeux. Au-delà des indicateurs de performance eux-mêmes, cette première exécution complète confirme que la chaîne construite pendant le stage, de la préparation des données à la restitution des résultats, fonctionne de bout en bout sur des cas réels.
+
+La suite immédiate du projet porte sur deux fronts. D'une part, relancer les pipelines de collecte et de traitement par lots : les jeux de données candidats seront recherchés, récupérés lorsqu'ils sont librement accessibles, documentés, contrôlés puis promus dans le registre du package lorsque les informations nécessaires sont disponibles, dans l'idée d'élargir progressivement la banque jusqu'à couvrir un ensemble assez exhaustif de configurations. D'autre part, étendre le premier benchmark lui-même, au schéma \texttt{block\_spatial} non encore exécuté ainsi qu'aux jeux de données les plus volumineux, écartés du premier lot pour préserver la stabilité du poste de travail (section 3.6).
 
 À terme, le package conservera les codes, le registre des estimateurs, les procédures de benchmark et un nombre limité de jeux de données d'exemple nécessaires à son fonctionnement autonome. Pour éviter d'alourdir son installation, la banque complète sera déposée séparément dans un dépôt ouvert, versionné et citable. Les utilisateurs pourront télécharger, depuis le package, les jeux de données supplémentaires dont ils ont besoin pour exécuter un benchmark. Le choix définitif de l'entrepôt devra tenir compte des licences, des conditions de redistribution et des possibilités d'hébergement du laboratoire.
 
@@ -733,7 +776,7 @@ Une étude bibliométrique sur la place des données réelles dans les articles 
 
 L'extension de la banque permettra enfin d'intégrer de nouvelles familles d'estimateurs lorsque des jeux de données adaptés et des routes d'évaluation stabilisées seront disponibles. Les réponses binaires, les comptages et les données de panel constituent des prolongements naturels. Les modèles spatiaux binaires, notamment de type probit, ainsi que les modèles adaptés aux comptages, pourront alors être ajoutés sans confondre ces développements futurs avec les capacités actuellement disponibles.
 
-Mon cursus de Master a constitué un appui direct pour ce travail, en particulier par les enseignements d'économétrie, de programmation et d'intelligence artificielle. Le stage m'a permis de développer une pratique plus intégrée de la recherche reproductible, associant traitement de données, développement R, contrôle des sources et usage encadré d'assistants IA. Il a également renforcé l'importance du diagnostic et de la vérification : l'automatisation facilite le traitement d'un corpus volumineux, mais elle ne remplace ni la validation des informations ni le jugement méthodologique.
+Mon cursus de Master a constitué un appui direct pour ce travail, en particulier par les enseignements d'économétrie, de programmation et d'intelligence artificielle. Le stage m'a appris à mener un travail de recherche méthodologique que d'autres chercheurs peuvent comprendre, vérifier et reproduire, en combinant traitement des données, programmation en R et contrôle des sources. Codex et Claude m'ont aidé à explorer assez vite un corpus volumineux, à produire et maintenir à jour les scripts et les fiches, et à diagnostiquer certaines anomalies du pipeline. Chaque information ou diagnostic restait néanmoins soumis à vérification avant d'être retenu, l'automatisation facilitant le traitement d'un grand nombre de sources sans remplacer ni la validation des informations ni le jugement méthodologique.
 
 % ============================ ANNEXES ============================
 \clearpage
@@ -966,7 +1009,7 @@ Compétences de conception & \texttt{domain-modeling}, \texttt{codebase-design},
 \subsection{Script de lancement du benchmark}
 \label{annexe:benchmark-script}
 
-Le script ci-dessous exécute le premier benchmark mentionné en section 3.5, sur sept jeux de données et dix estimateurs. Il a été ajusté après un premier essai sur dix jeux, interrompu par une surchauffe du poste de travail : les deux jeux les plus volumineux (Airbnb, Wildfire) et l'estimateur \texttt{mgwrsar\_mgwr}, dont le coût de calcul augmente rapidement avec le nombre d'observations, en ont été retirés.
+Le script ci-dessous exécute le benchmark présenté en section 3.5, sur les neuf jeux embarqués comptant moins de 2\,000 observations retenus après les ajustements décrits en 3.6, et dix estimateurs. Les deux schémas d'évaluation sont lancés par deux appels séparés plutôt qu'un seul, afin qu'un échec sur l'un ne fasse pas perdre les résultats de l'autre.
 
 {\footnotesize
 \begin{verbatim}
@@ -974,13 +1017,15 @@ setwd("chemin/vers/llm-wiki-karpathy")
 devtools::load_all("packages/spatialtidymodels", quiet = TRUE)
 
 datasets <- c(
+  "columbus_crime",                           # N=49
   "paper_wang_henan_cultivated_land_quality", # N=143
-  "paper_seshat_social_complexity",           # N=307
+  "georgia",                                  # N=159
+  "paper_seshat_social_complexity",           # N=275
   "london_hp",                                # N=316
+  "dub_voter",                                # N=322
   "boston_housing",                           # N=506
   "ewhp",                                     # N=519
-  "paper_spatial_confounding_diabetes",       # N=2984
-  "paper_covid_sociodemographic_risk"         # N=3068
+  "lasrosas"                                  # N=1738
 )
 
 estimators <- c(
@@ -991,15 +1036,26 @@ estimators <- c(
   "random_forest", "xgboost"
 )
 
-suite <- benchmark_spatial_suite(
-  datasets = datasets,
+common_args <- list(
   estimators = estimators,
-  cv_schemes = c("holdout_10pct", "near_prediction"),
   k_neighbors = 8, style = "W", zero_policy = TRUE,
   mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
   spboost_mstop = 100L, spboost_nu = 0.1,
+  near_n_reps = 10L, near_test_size = 10L,
   seed = 123L, parallel = FALSE, fold_timeout_sec = 180
 )
+
+suite_holdout <- do.call(benchmark_spatial_suite, c(
+  list(datasets = datasets, cv_schemes = "holdout_10pct"), common_args
+))
+
+# columbus_crime (N=49) est exclu ici : sa cellule de partition la plus
+# petite ne permet pas de tirer dix repetitions test sans remise.
+suite_near <- do.call(benchmark_spatial_suite, c(
+  list(datasets = setdiff(datasets, "columbus_crime"),
+       cv_schemes = "near_prediction"),
+  common_args
+))
 \end{verbatim}
 }
 
@@ -1015,13 +1071,33 @@ Paramètre & Rôle \\
 \texttt{k\_neighbors}, \texttt{style}, \texttt{zero\_policy} & Construction de la matrice de poids spatiaux $W$ : nombre de plus proches voisins retenus, normalisation par ligne (\texttt{"W"}) et tolérance aux unités sans voisin. \\
 \texttt{mgwrsar\_bandwidth}, \texttt{mgwrsar\_kernel} & Bande passante (nombre d'observations voisines pondérées) et forme du noyau de pondération pour la GWR. \\
 \texttt{spboost\_mstop}, \texttt{spboost\_nu} & Nombre d'itérations de boosting et taux d'apprentissage pour les routes \texttt{spboost}. \\
-\texttt{cv\_schemes} & Schémas de séparation appliqués à chaque jeu (voir section 3.4.3). \\
+\texttt{near\_n\_reps}, \texttt{near\_test\_size} & Nombre de répétitions et taille cible de chaque cellule de partition pour le schéma \texttt{near\_prediction} (voir section 3.4.3). \\
+\texttt{cv\_schemes} & Schéma de séparation appliqué à chaque appel (voir section 3.4.3). \\
 \texttt{parallel}, \texttt{fold\_timeout\_sec} & Exécution séquentielle plutôt qu'en parallèle, et durée maximale tolérée par pli, pour privilégier la stabilité du poste de travail sur la vitesse. \\
 \bottomrule
 \end{tabularx}
 \caption{Paramètres du script de benchmark et leur rôle.}
 \label{tab:parametres-benchmark}
 \end{table}
+
+\subsection{Page de synthèse du tableau de bord (résultats)}
+\label{annexe:dashboard-resultats}
+
+Les figures~\ref{fig:dashboard-near} et~\ref{fig:dashboard-holdout} reproduisent la page \emph{Overview} du tableau de bord interactif à l'issue du benchmark présenté en section 3.5, pour \texttt{near\_prediction} puis pour \texttt{holdout\_10pct}. Le tableau central y détaille, jeu par jeu et estimateur par estimateur, la RMSE relative à \texttt{ols} ; les cellules marquées d'un tiret correspondent aux échecs dont la cause est donnée dans cette même section.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{dashboard_overview_near.png}
+\caption{Page \emph{Overview} du tableau de bord, schéma \texttt{near\_prediction}.}
+\label{fig:dashboard-near}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{dashboard_overview_holdout.png}
+\caption{Page \emph{Overview} du tableau de bord, schéma \texttt{holdout\_10pct}.}
+\label{fig:dashboard-holdout}
+\end{figure}
 
 \clearpage
 
