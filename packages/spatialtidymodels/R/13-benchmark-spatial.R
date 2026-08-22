@@ -1269,6 +1269,7 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
   if (!is.numeric(coords) || ncol(coords) != 2L || any(!is.finite(coords))) {
     stop("`coords` must be a finite numeric matrix with two columns.", call. = FALSE)
   }
+
   if (n_reps < 1L || test_size < 1L) {
     stop("`near_n_reps` and `near_test_size` must be positive.", call. = FALSE)
   }
@@ -1279,40 +1280,66 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
     ), call. = FALSE)
   }
 
-  require_package("mgwrsar", "near-prediction resampling")
-  ns_mgwrsar <- asNamespace("mgwrsar")
-  quadtree_fn <- get("quadtree", envir = ns_mgwrsar)
-  cell_fn <- get("cell", envir = ns_mgwrsar)
-  insidecell_fn <- get("insidecell", envir = ns_mgwrsar)
+  # Partition spatiale maison (decoupage recursif par mediane, axes
+  # alternes) plutot que mgwrsar::quadtree()/cell()/insidecell(). Ces
+  # fonctions du package s'appuient sur un seuil aleatoire (runif() dans
+  # quadtree()) puis un decoupage de polygones par inegalites strictes
+  # (cell.quadtree() : `if (q$threshold > xylim[1,i])`) qui perd
+  # silencieusement des branches entieres des qu'un seuil retombe pile sur
+  # une borne deja decoupee -- verifie empiriquement : sur des coordonnees
+  # geographiques reelles (Henan), la partition s'effondre a une seule
+  # cellule geante sur 15 graines aleatoires differentes, avec ou sans
+  # normalisation des coordonnees, alors que des coordonnees synthetiques
+  # uniformes ne posent jamais ce probleme. La partition maison ci-dessous
+  # n'a besoin que d'assigner chaque point a une feuille (pas de geometrie de
+  # polygone pour la modelisation elle-meme), donc ce contournement local
+  # est suffisant et evite la dependance a ce chemin de code fragile.
+  split_median <- function(idx, axis) {
+    if (length(idx) < 2L * k_leaf_current) {
+      return(list(idx))
+    }
+    x0 <- stats::median(coords[idx, axis])
+    left <- idx[coords[idx, axis] <= x0]
+    right <- idx[coords[idx, axis] > x0]
+    if (length(left) == length(idx) || length(right) == length(idx)) {
+      # valeurs trop repetees pour que la mediane separe le groupe : on
+      # arrete la recursion ici plutot que de boucler indefiniment.
+      return(list(idx))
+    }
+    next_axis <- axis %% 2L + 1L
+    c(split_median(left, next_axis), split_median(right, next_axis))
+  }
+
+  k_leaf_current <- NULL
 
   build_quad_partition <- function(k_leaf) {
-    qt <- quadtree_fn(coords, k = k_leaf)
-    xylim <- cbind(
-      x = c(min(coords[, 1L]), max(coords[, 1L])),
-      y = c(min(coords[, 2L]), max(coords[, 2L]))
-    )
-    polys <- cell_fn(qt, xylim)
-    polys$id <- as.numeric(factor(polys$id))
-
-    inside <- insidecell_fn(polys, coords)
-    cell_id <- as.integer(inside$id)
-    ids <- sort(unique(cell_id))
-    id_map <- seq_along(ids)
-    names(id_map) <- ids
-    cell_id <- unname(id_map[as.character(cell_id)])
-    polys$id <- unname(id_map[as.character(polys$id)])
-
-    cell_members <- split(seq_len(n), cell_id)
-    cell_members <- cell_members[order(as.integer(names(cell_members)))]
+    k_leaf_current <<- k_leaf
+    cell_members <- split_median(seq_len(n), 1L)
     cell_sizes <- vapply(cell_members, length, integer(1L))
+
+    polys <- do.call(rbind, lapply(seq_along(cell_members), function(cell) {
+      members <- cell_members[[cell]]
+      xr <- range(coords[members, 1L])
+      yr <- range(coords[members, 2L])
+      data.frame(
+        id = cell,
+        x = c(xr[1], xr[2], xr[2], xr[1], xr[1]),
+        y = c(yr[1], yr[1], yr[2], yr[2], yr[1])
+      )
+    }))
 
     list(
       k_leaf = k_leaf,
-      cell_id = cell_id,
+      cell_id = local({
+        cid <- integer(n)
+        for (cell in seq_along(cell_members)) cid[cell_members[[cell]]] <- cell
+        cid
+      }),
       cell_members = cell_members,
       cell_sizes = cell_sizes,
       n_cells = length(cell_members),
-      min_cell_size = min(cell_sizes)
+      min_cell_size = min(cell_sizes),
+      polys = polys
     )
   }
 
@@ -1352,7 +1379,12 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
 
   for (rep in seq_len(n_reps)) {
     set.seed(seed + 5000L + rep)
-    test_matrix[rep, ] <- sample(test_matrix[rep, ], replace = FALSE)
+    row_values <- test_matrix[rep, ]
+    # sample(x, ...) traite un x de longueur 1 comme "echantillonner dans
+    # 1:x" plutot que comme "melanger ce vecteur d'un element" -- utiliser
+    # sample.int() sur les indices evite ce piege, y compris quand la
+    # partition retenue n'a qu'une seule cellule.
+    test_matrix[rep, ] <- row_values[sample.int(length(row_values))]
   }
 
   folds <- lapply(seq_len(n_reps), function(rep) {
