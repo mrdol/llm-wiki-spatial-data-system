@@ -200,7 +200,24 @@ spatialreg_fit_impl <- function(formula, data, coords, W = NULL,
   # Pour SDM, `type = "mixed"` lagge implicitement aussi l'intercept dans
   # certaines versions de spatialreg. On passe une formule Durbin explicite
   # limitee aux covariables pour eviter `lag.(Intercept)` et l'alias associe.
-  sdm_durbin_formula <- if (length(x_vars) > 0) stats::reformulate(x_vars) else FALSE
+  #
+  # Les termes categoriels (facteurs/caracteres) sont exclus du decalage
+  # spatial W*X (2026-08): leurs indicatrices somment a 1 pour chaque
+  # observation, donc leurs versions decalees le sont aussi a une combinaison
+  # lineaire pres -- W*(indicatrice_1) + W*(indicatrice_2) + ... redevient
+  # colineaire avec les colonnes deja presentes (confirme empiriquement sur
+  # lasrosas: "Aliased variables found: topoW lag.topoW"). La variable
+  # categorielle (et tout terme d'interaction qui l'implique) reste un
+  # covariable directe du modele -- seul son decalage spatial est retire.
+  is_categorical_term <- function(term, data) {
+    vars_in_term <- strsplit(term, ":", fixed = TRUE)[[1]]
+    any(vapply(vars_in_term, function(v) {
+      col <- data[[v]]
+      is.factor(col) || is.character(col)
+    }, logical(1)))
+  }
+  durbin_vars <- Filter(function(term) !is_categorical_term(term, data), x_vars)
+  sdm_durbin_formula <- if (length(durbin_vars) > 0) stats::reformulate(durbin_vars) else FALSE
 
   coords_mat <- as.matrix(data[, coords, drop = FALSE])
   listw_train <- if (is.null(spatial_args$W)) {
@@ -242,6 +259,7 @@ spatialreg_fit_impl <- function(formula, data, coords, W = NULL,
   attr(fit_obj, "spatialreg_style") <- style
   attr(fit_obj, "spatialreg_zero_policy") <- zero_policy
   attr(fit_obj, "spatialreg_x_vars") <- x_vars
+  attr(fit_obj, "spatialreg_durbin_vars") <- durbin_vars
   fit_obj
 }
 
@@ -262,12 +280,23 @@ spatialreg_fit_impl <- function(formula, data, coords, W = NULL,
 #'
 #' @keywords internal
 #' @export
-spatialreg_predict_sdm_reduced_form <- function(fit_obj, test_data, x_vars, coords, k_neighbors) {
+spatialreg_predict_sdm_reduced_form <- function(fit_obj, test_data, x_vars, coords, k_neighbors,
+                                                 durbin_vars = x_vars) {
   Xd <- stats::model.matrix(stats::reformulate(x_vars), data = test_data)
   k_use <- min(k_neighbors, nrow(test_data) - 1)
   W_test <- as.matrix(build_knn_W(as.matrix(test_data[, coords, drop = FALSE]),
                                   k = k_use, sparse = FALSE))
-  WX <- W_test %*% Xd[, setdiff(colnames(Xd), "(Intercept)"), drop = FALSE]
+  # Seules les variables retenues dans la formule Durbin au fit (durbin_vars,
+  # qui exclut les termes categoriels -- voir spatialreg_fit_impl) sont
+  # decalees ici : ca reproduit exactement l'ensemble de colonnes W*X que le
+  # modele a effectivement estime, au lieu de decaler aussi des indicatrices
+  # dont le fit n'a jamais calcule de coefficient "lag.*".
+  Xd_durbin <- if (length(durbin_vars) > 0) {
+    stats::model.matrix(stats::reformulate(durbin_vars), data = test_data)
+  } else {
+    Xd[, character(0), drop = FALSE]
+  }
+  WX <- W_test %*% Xd_durbin[, setdiff(colnames(Xd_durbin), "(Intercept)"), drop = FALSE]
   colnames(WX) <- paste0("lag.", colnames(WX))
   design <- cbind(Xd, WX)
 
@@ -290,13 +319,16 @@ spatialreg_pred_impl <- function(object, new_data) {
   style <- attr(fit_obj, "spatialreg_style")
   zero_policy <- attr(fit_obj, "spatialreg_zero_policy")
   x_vars <- attr(fit_obj, "spatialreg_x_vars")
+  durbin_vars <- attr(fit_obj, "spatialreg_durbin_vars")
+  if (is.null(durbin_vars)) durbin_vars <- x_vars
   test <- as.data.frame(new_data)
   coords <- check_spatial_coords(coords, data = test)
 
   if (isTRUE(fit_obj$type == "mixed")) {
     common_cols <- intersect(names(train), names(test))
     test_data <- test[, common_cols, drop = FALSE]
-    return(spatialreg_predict_sdm_reduced_form(fit_obj, test_data, x_vars, coords, k_neighbors))
+    return(spatialreg_predict_sdm_reduced_form(fit_obj, test_data, x_vars, coords, k_neighbors,
+                                               durbin_vars = durbin_vars))
   }
 
   # workflow::predict() transmet new_data sans la variable reponse. On construit
@@ -326,6 +358,35 @@ spatialreg_pred_impl <- function(object, new_data) {
   # (construit sur train+test) reste necessaire pour que les nouveaux points
   # aient des voisins dans W, mais all.data doit rester FALSE puisque
   # `newdata` ne contient que les lignes nouvelles.
+  #
+  # pred.type="TS" (retabli 2026-08 apres DEUX essais infructueux de "KP2"
+  # pour SAR/SEM, tous deux testes sur le vrai protocole near_prediction, pas
+  # un holdout simplifie).
+  #
+  # Essai 1 (SEM seul, jeux d'origine GWR: london_hp, georgia, ewhp,
+  # boston_housing, paper_seshat): RMSE SEM pire avec KP2 sur 3 des 4 jeux
+  # reussis (jusqu'a +47% sur ewhp). Hypothese: sans vraie dependance
+  # spatiale dans les donnees (voir slide "Pourquoi SAR/SEM/SDM echouent-ils
+  # autant ?"), KP2 (correcteur "leave-one-out" par point, base sur la
+  # correlation des residus voisins) n'a que du bruit a exploiter.
+  #
+  # Essai 2 (SAR+SEM, jeux d'origine dependance confirmee dans l'article
+  # source: paper_wang_henan (SAR, Wang et al. 2022), lasrosas (SEM, Anselin
+  # et al. 2004), columbus_crime (SAR/SEM/SDM, Anselin 1988)): resultats
+  # mitiges, pas un echec net cette fois. Sur paper_wang_henan (n=143):
+  # sar_lag -12.5% de RMSE (51.20 -> 44.78, net progres), sem_error quasi
+  # neutre (+0.9%). Sur columbus_crime (n=49): sem_error bat meme ols. Mais
+  # sur lasrosas (n=1738): sar_lag ET sem_error timeout a 100% (10/10 plis,
+  # >180s chacun) -- KP2 recalcule une inversion couteuse separement pour
+  # CHAQUE point test ("leave-one-out"), environ 8x le cout de TS pour un pli
+  # de 8 points, ce qui devient impraticable a cette taille.
+  #
+  # Conclusion: KP2 aide reellement quand la dependance spatiale est
+  # authentique et le jeu petit/moyen, mais n'est pas praticable tel quel en
+  # regle generale (regression nette sur donnees sans dependance, timeout sur
+  # les grands jeux). Garder "TS" par defaut; une future version pourrait
+  # activer KP2 conditionnellement (taille du jeu, origine documentee) plutot
+  # que globalement.
   preds <- tryCatch(
     suppressWarnings(stats::predict(
       fit_obj, newdata = test_data, listw = listw_all,

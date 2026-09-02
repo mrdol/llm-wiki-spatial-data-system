@@ -1,0 +1,743 @@
+<title>Cahier de soutenance</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F4F5F7;
+  --paper-raised:#FFFFFF;
+  --ink:#1B2130;
+  --ink-soft:#4B5468;
+  --ink-faint:#7B8296;
+  --accent:#2B3A7A;
+  --accent-soft:#7480B0;
+  --line:#D8DBE3;
+  --highlight-bg:#EEF0F8;
+  --tip:#2F6B4F;
+  --tip-bg:#E7F1EA;
+  --watch:#96500F;
+  --watch-bg:#FBEEDD;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14161C;
+    --paper-raised:#1C1F29;
+    --ink:#E7E9F0;
+    --ink-soft:#A7ACC0;
+    --ink-faint:#6E7488;
+    --accent:#8B96DA;
+    --accent-soft:#5C6799;
+    --line:#2B2F3B;
+    --highlight-bg:#1F2340;
+    --tip:#79C6A2;
+    --tip-bg:#1B2E26;
+    --watch:#E3A868;
+    --watch-bg:#332312;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161C;
+  --paper-raised:#1C1F29;
+  --ink:#E7E9F0;
+  --ink-soft:#A7ACC0;
+  --ink-faint:#6E7488;
+  --accent:#8B96DA;
+  --accent-soft:#5C6799;
+  --line:#2B2F3B;
+  --highlight-bg:#1F2340;
+  --tip:#79C6A2;
+  --tip-bg:#1B2E26;
+  --watch:#E3A868;
+  --watch-bg:#332312;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:0 1.5rem 6rem;
+}
+h1,h2,h3{
+  font-family:"Source Serif 4", Georgia, serif;
+  text-wrap:balance;
+  color:var(--ink);
+  font-weight:700;
+}
+header.masthead{
+  padding:3.2rem 0 1.6rem;
+  border-bottom:1px solid var(--line);
+  margin-bottom:2rem;
+}
+header.masthead .eyebrow{
+  font-family:"IBM Plex Mono", ui-monospace, monospace;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.6rem;
+}
+header.masthead h1{
+  font-size:2.1rem;
+  line-height:1.15;
+  margin:0 0 .7rem;
+}
+header.masthead p{
+  color:var(--ink-soft);
+  font-size:1rem;
+  max-width:58ch;
+  margin:0;
+}
+nav.toc{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);
+  padding:.7rem 0;
+  margin-bottom:2.4rem;
+}
+nav.toc ul{
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem .3rem;
+  margin:0;
+  padding:0;
+  max-width:760px;
+  margin:0 auto;
+  padding-left:1.5rem;
+  padding-right:1.5rem;
+}
+nav.toc a{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--ink-soft);
+  text-decoration:none;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:.32rem .7rem;
+  white-space:nowrap;
+}
+nav.toc a:hover, nav.toc a:focus-visible{
+  color:var(--accent);
+  border-color:var(--accent-soft);
+  outline:none;
+}
+section.block{
+  margin-bottom:2.6rem;
+  scroll-margin-top:3.4rem;
+}
+.block-head{
+  display:flex;
+  align-items:baseline;
+  gap:.6rem;
+  margin-bottom:.9rem;
+}
+.block-head .tag{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.72rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+.block-head h2{
+  font-size:1.4rem;
+  margin:0;
+}
+.lede{
+  color:var(--ink-soft);
+  font-size:.96rem;
+  margin:0 0 1.2rem;
+  max-width:62ch;
+}
+.card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1.2rem 1.35rem;
+}
+.prose p{margin:0 0 .8rem;}
+.prose p:last-child{margin-bottom:0;}
+.prose strong{color:var(--ink);}
+.prose code{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.87em;
+  background:var(--highlight-bg);
+  padding:.05em .35em;
+  border-radius:4px;
+}
+.callout{
+  border-left:3px solid var(--accent);
+  background:var(--highlight-bg);
+  border-radius:0 8px 8px 0;
+  padding:.85rem 1.1rem;
+  margin:1rem 0 0;
+  font-size:.94rem;
+}
+.callout p{margin:0 0 .5rem;}
+.callout p:last-child{margin-bottom:0;}
+.callout .k{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.68rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:block;
+  margin-bottom:.35rem;
+}
+.two-col{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.4rem;
+}
+@media(min-width:640px){
+  .two-col.mission{grid-template-columns:1fr 1fr;}
+}
+.mission-card h3{
+  font-size:1.02rem;
+  margin:0 0 .5rem;
+}
+.mission-card .role{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--accent-soft);
+  display:block;
+  margin-bottom:.3rem;
+}
+.mc-steps{
+  display:flex;
+  flex-direction:column;
+  gap:.9rem;
+  margin:1.1rem 0 0;
+}
+.mc-step{
+  display:grid;
+  grid-template-columns:2.1rem 1fr;
+  gap:.8rem;
+  align-items:start;
+}
+.mc-step .n{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.78rem;
+  color:var(--accent);
+  border:1px solid var(--line);
+  border-radius:6px;
+  width:2.1rem;
+  height:2.1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.mc-step p{margin:0;font-size:.95rem;}
+.mc-step .lbl{display:block;font-weight:600;margin-bottom:.15rem;}
+.example-figure{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.6rem;
+  margin:1rem 0;
+}
+.ef-node{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:.65rem .7rem;
+  font-size:.78rem;
+  background:var(--paper);
+}
+.ef-node .lbl{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.62rem;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--accent-soft);
+  display:block;
+  margin-bottom:.25rem;
+}
+@media(max-width:600px){
+  .example-figure{grid-template-columns:1fr;}
+}
+.section-divider{
+  margin:3.2rem 0 1.6rem;
+  padding-top:.2rem;
+  border-top:2px solid var(--accent);
+}
+.section-divider .sd-eyebrow{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.7rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:block;
+  margin-top:.6rem;
+}
+.section-divider h2{
+  font-size:1.55rem;
+  margin:.2rem 0 0;
+}
+.slide-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:1.1rem 1.3rem 1.25rem;
+  margin-bottom:1rem;
+}
+.slide-card .sc-head{
+  display:flex;
+  align-items:baseline;
+  gap:.7rem;
+  margin-bottom:.55rem;
+  flex-wrap:wrap;
+}
+.slide-card .badge{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.75rem;
+  color:var(--accent);
+  border:1px solid var(--accent-soft);
+  border-radius:5px;
+  padding:.08rem .45rem;
+  flex-shrink:0;
+}
+.slide-card .sc-title{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.78rem;
+  color:var(--ink-faint);
+  font-style:italic;
+}
+.slide-card .prose p{font-size:.95rem;}
+.tip-line, .watch-line{
+  display:flex;
+  gap:.55rem;
+  align-items:baseline;
+  border-radius:7px;
+  padding:.55rem .75rem;
+  margin-top:.7rem;
+  font-size:.87rem;
+}
+.tip-line{background:var(--tip-bg);}
+.watch-line{background:var(--watch-bg);}
+.tip-line .k{color:var(--tip);}
+.watch-line .k{color:var(--watch);}
+.tip-line .k, .watch-line .k{
+  font-family:"IBM Plex Mono", monospace;
+  font-size:.66rem;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  flex-shrink:0;
+  padding-top:.15rem;
+}
+footer.endcap{
+  margin-top:3rem;
+  padding-top:1.2rem;
+  border-top:1px solid var(--line);
+  color:var(--ink-faint);
+  font-size:.82rem;
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="eyebrow">Cahier de soutenance &middot; usage personnel</span>
+  <h1>Ce que je dis, pas ce qui est écrit</h1>
+  <p>Argumentaire slide par slide pour la soutenance, construit à partir du rapport de stage. Objectif&nbsp;: pouvoir tenir le propos sans relire les slides, et avoir sous la main de quoi répondre si le jury pousse sur le contexte, les trois approches de validation ou l'intérêt de la banque.</p>
+</header>
+
+<nav class="toc" aria-label="Sommaire">
+  <ul>
+    <li><a href="#script">Script minuté (20 min)</a></li>
+    <li><a href="#reperes">Repères</a></li>
+    <li><a href="#mission-objectif">Mission / objectif</a></li>
+    <li><a href="#monte-carlo">Mini-cours Monte Carlo</a></li>
+    <li><a href="#exemple">L'exemple lsl</a></li>
+    <li><a href="#s-contexte">1&nbsp;· Contexte</a></li>
+    <li><a href="#s-curation">2&nbsp;· Curation</a></li>
+    <li><a href="#s-estimateurs">3&nbsp;· Estimateurs</a></li>
+    <li><a href="#s-resultats">4&nbsp;· Résultats</a></li>
+    <li><a href="#s-conclusion">5&nbsp;· Conclusion</a></li>
+  </ul>
+</nav>
+
+<section class="block" id="script">
+  <div class="block-head"><span class="tag">À internaliser, pas à lire mot pour mot</span><h2>Script minuté &middot; ~19 min sur 26 slides</h2></div>
+  <p class="lede">Texte parlé, langage simple, une entrée par slide avec un budget de temps indicatif. Version relue et validée oralement, slide par slide, alignée sur la version finale des slides (26 au total, après suppression de la slide « briques de tidymodels » et déplacement de la slide <code>spatialtidymodels</code> après les estimateurs). Le contexte (slide 3) reste volontairement étendu à ~2&nbsp;minutes, sur consigne de l'encadrant. La slide 7 porte à l'oral un développement (problème des tokens/hallucinations, deux exemples) volontairement absent du support visuel, pour ne pas le surcharger. Le total tient sous 20&nbsp;minutes, avec de la marge pour les transitions.</p>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">01 &middot; 25s</span><span class="sc-title">Titre</span></div><div class="prose"><p>Bonjour à tous, je suis Johnny D'OLIVEIRA et ma présentation du jour porte sur les travaux de mon stage de fin d'études effectué à l'INRAE d'Avignon. Le thème du stage est le suivant&nbsp;: Constitution d'une banque de données de référence pour la validation des modèles prédictifs spatiaux et spatio-temporels.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">02 &middot; 30s</span><span class="sc-title">Plan</span></div><div class="prose"><p>Ma présentation suivra ce plan en 5 étapes&nbsp;: d'abord j'explique le contexte et l'objectif, autrement dit les motivations de ce stage. Ensuite je présente l'architecture mise en place pour atteindre cet objectif. En point 3, je présente différents estimateurs qui peuvent exploiter ma banque pour produire des résultats. Résultats que j'expose dans le point 4. Je terminerai enfin par la conclusion.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">03 &middot; 125s</span><span class="sc-title">Contexte</span></div><div class="prose"><p>L'unité Écodéveloppement développe des méthodes statistiques pour modéliser les données spatiales. <em>(pause)</em> Autrement dit, des données où chaque observation est identifiée par sa position géographique dans l'espace. Parmi ces méthodes, nous avons mgwrsar, qui traite simultanément les problèmes de dépendance et d'hétérogénéité spatiale, spboost pour faire du boosting, et le probit spatial pour le cas des réponses binaires.</p><p>Pour valider une méthode spatiale, on applique trois approches complémentaires. On étudie ses propriétés asymptotiques par des démonstrations mathématiques. Cette approche est la plus rigoureuse, mais elle a tendance à devenir très compliquée sur des estimateurs complexes. La deuxième approche consiste à faire des simulations de Monte-Carlo, c'est-à-dire qu'on fixe des valeurs vraies pour les paramètres, on génère des données artificielles à partir de ces valeurs, et on regarde si l'estimateur parvient à les retrouver. L'avantage ici, c'est qu'on peut mesurer les biais, puisqu'on connaît le processus générateur des données. Mais l'inconvénient est qu'un plan de simulation ne couvre qu'une petite partie des scénarios possibles dans les données réelles. Ce qui nous amène à la troisième approche, qui appuie Monte-Carlo. Il s'agit de confronter la méthode à plusieurs jeux de données réels.</p><p>Le problème est que les jeux de données réels sont peu nombreux et dispersés sous différentes formes et sources. L'objectif du stage est donc de les regrouper en un même endroit et de les documenter pour faciliter l'évaluation des nouvelles méthodes.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">04 &middot; 55s</span><span class="sc-title">Un jeu de données idéal</span></div><div class="prose"><p>Ce qui nous intéresse, c'est de récupérer ces jeux de données-là. Ici, il s'agit de données sur les glissements de terrain en Équateur, c'est-à-dire si, oui ou non, il y a eu un glissement de terrain à tel endroit, expliqué par certaines caractéristiques. Dans le package, on a toutes les informations de base sur le jeu de données. Mais ce qu'il nous faut aussi pour pouvoir l'utiliser, c'est une formule de régression. Des fois, on la retrouve aussi dans le package, mais là on ne l'a pas. Ici, on la retrouve dans un article scientifique, mais parfois c'est assez dur de l'extraire sans erreur. Par contre, on voit qu'elle est au format R dans un livre qui parle de ce package. Donc on met tous les moyens en œuvre pour aller la chercher. Et une fois qu'on l'a, on sait qu'on a tout ce qu'il nous faut comme métadonnées. C'est justement l'une des utilités de l'IA dans ce travail.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">05 &middot; 40s</span><span class="sc-title">Objectif du stage</span></div><div class="prose"><p>La question qu'on se pose, c'est comment récupérer en grand nombre ce type de données, avec toutes les informations autour, sous une même forme, pour évaluer les estimateurs. Nous avons défini ensuite 3 objectifs spécifiques, à savoir&nbsp;: collecter et curer des jeux de données spatiaux issus de plusieurs sources, définir des schémas communs de séparation et d'évaluation, comparer plusieurs familles d'estimateurs dans des conditions homogènes.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">06 &middot; 40s</span><span class="sc-title">Métadonnées</span></div><div class="prose"><p>Les métadonnées associées à chaque jeu de données ne sont pas juste descriptives, mais elles guident directement la préparation, la validation, et l'utilisation dans le benchmark.</p><p>Ce qui est très important dans la métadonnées c'est d'avoir une formule publiée, savoir quelle est la taille des données, est ce qu'il y a beaucoup d'observations, est ce qu'il y a beaucoup d'années si c'est du temporelle, quelle type de données spatiale c'est. Mais à ce stade on a traité que les données spatiales uniquement. De même que dans les estimateurs compatibles on n'a mis que les estimateurs continues et on n'a pas mis le comptage et le binomial.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">07 &middot; 50s</span><span class="sc-title">Une architecture pour passer à l'échelle</span></div><div class="prose"><p>Pour passer à la collecte massive, il faut lire, croiser et vérifier des centaines de sources hétérogènes. Pour ça, nous utilisons des agents IA, pour passer à l'échelle. Au début du stage, la consommation de tokens était beaucoup trop grande, et la performance n'était pas très bonne. Pour résoudre ces deux problèmes, on a mis en place le principe suivant&nbsp;: maximiser les étapes déterministes et scriptées, et réserver l'usage du LLM aux endroits où il est vraiment efficace.</p><p>Par exemple, lorsque la formule n'est pas identifiable directement, ou qu'il faut la reconstruire, c'est le LLM qui intervient. Ensuite, la géométrie est parfois facile à repérer dans le jeu de données par le nom des colonnes, mais parfois elle est ailleurs, dans un autre jeu de données complémentaire, et là encore le LLM devient nécessaire. Tout ce qui est normé, en revanche, comme la taille du jeu ou les DOI, est récupéré par des outils déterministes, gratuits et fiables.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">08 &middot; 40s</span><span class="sc-title">Les outils de la curation (1/2)</span></div><div class="prose"><p>Le premier outil est le LLM Wiki, reproduit suivant le schéma prévu par Andrej Karpathy. Il consiste à utiliser l'assistant pour construire une base de connaissances à travers des fiches de synthèses.</p><p>Nous avons ensuite imaginé un graphe de connaissances, constitué de nœuds et de relations, qui oriente d'abord l'assistant vers les bonnes sources avant que le wiki ne lui livre une synthèse lisible. Cela lui permet de voir très vite des relations comme&nbsp;: tel jeu de données est dans telle source, et voici une formule applicable dans tel article.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">09 &middot; 60s</span><span class="sc-title">Les outils de la curation (2/2)</span></div><div class="prose"><p>GROBID, c'est-à-dire un ensemble de modèles de machine learning préentraînés pour reconnaître la mise en page des articles scientifiques, permet de convertir les PDF en un format plus facile à lire, appelé TEI. Ensuite, une fois le TEI obtenu, chaque section est notée selon son utilité de données et de formule de régression. Nous utilisons aussi un MCP, context_store, qui compresse les longues sorties pour réduire ce que l'IA doit garder en mémoire.</p><p>Pourquoi avoir mis en place tout ça&nbsp;? Avant ces outils, j'avais par exemple demandé à l'IA seule de me ramener 50 jeux de données répondant à certains critères. Elle en a ramené 10, qui n'étaient pas utilisables&nbsp;: les données étaient bien spatiales, mais pas exploitables pour de la modélisation, avec juste des colonnes de noms ou d'identifiants. Et ça avait pris énormément de temps.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">10 &middot; 20s</span><span class="sc-title">Rôle des LLM dans le projet</span></div><div class="prose"><p>Nous avons confié des rôles différents aux agents IA Codex et Claude Code. Codex est l'agent principal sur le projet&nbsp;: il s'occupe de la production et de l'ingestion, de la création des scripts. Claude est l'agent qui contrôle la qualité de tout ce qui est produit comme fiche, il ne modifie rien.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">11 &middot; 55s</span><span class="sc-title">Bloc packages</span></div><div class="prose"><p>La collecte s'organise en trois familles de sources&nbsp;: package-first, article-first, dépôt-first — les jeux de données déjà embarqués dans les packages, les jeux de données qu'on peut récupérer dans les articles scientifiques, et les jeux de données déposés dans les entrepôts tels que Zenodo, Dryad, etc.</p><p>La piste article-first s'est révélée peu praticable. Mais pour les deux autres sources, on recherche aussi un papier scientifique qui l'a utilisé.</p><p>Le premier bloc est l'entrée la plus stable, parce que les objets sont déjà accessibles et inspectables localement. Nous avons ciblé et téléchargé 51 packages. Ensuite viennent les étapes du catalogage, du retrait des doublons, et le reste.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">12 &middot; 45s</span><span class="sc-title">Bloc entrepôts</span></div><div class="prose"><p>Pour les entrepôts, nous avons deux modes de collecte. Dans le premier, on interroge l'API de DataCite, une infrastructure intermédiaire vers les entrepôts de données. Dans le second, on interroge directement les API de Dryad et de Zenodo, pour cibler plus précisément quand DataCite ne suffit pas. Les autres étapes sont identiques&nbsp;: l'IA utilise des scripts pour tenter de récupérer automatiquement les jeux de données et les PDF, puis nous donne la liste de ce qu'elle n'a pas réussi à télécharger pour qu'on le fasse à la main. Ensuite, GROBID convertit les PDF en TEI, et la lecture de ces TEI permet de reconstruire le graphe de connaissances. Enfin, on rédige les fiches métadonnées.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">13 &middot; 45s</span><span class="sc-title">Pourquoi ces familles d'estimateurs</span></div><div class="prose"><p>Les estimateurs en économétrie spatiale sont conçus pour corriger l'autocorrélation spatiale dans les erreurs. Et pour cela, ils introduisent deux phénomènes majeurs&nbsp;: la dépendance spatiale et l'hétérogénéité spatiale.</p><p>La dépendance spatiale signifie juste que la valeur mesurée est influencée par ses voisins les plus proches. L'hétérogénéité spatiale traduit le fait que la relation entre Y et X peut varier d'une zone à une autre. Mais parfois, le souci ne provient ni de l'un ni de l'autre&nbsp;: il est peut-être dû à une non-linéarité, ou une variable omise. C'est ce qu'on appelle le piège géoadditif.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">14 &middot; 40s</span><span class="sc-title">Estimateurs (1/4)</span></div><div class="prose"><p>Voici les différents estimateurs pris en compte dans notre perspective de benchmarking. On peut avoir un modèle linéaire simple, ensuite non linéaire, mais les deux, il n'y a pas de géométrie. Et puis on peut avoir des modèles non linéaires où on fait des corrections spatiales, de type modèles géoadditifs. Ensuite, nous avons aussi quelques références en machine learning.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">15 &middot; 50s</span><span class="sc-title">Estimateurs (2/4)</span></div><div class="prose"><p>Après on a des modèles de type autorégressif, ou avec des matrices d'interaction spatiale, qui vont être soit dans un comportement de mimétisme, soit l'autocorrélation spatiale est due à un facteur oublié dans le terme d'erreur, soit des modèles de spillover ou de débordement, c'est-à-dire les variables X jouent sur les observations des voisins. Et pour finir, spboost, qui fait du boosting fonctionnel sur une structure SAR, SEM ou SARAR, avec une relation flexible entre la réponse et les covariables, et une sélection automatique des variables.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">16 &middot; 45s</span><span class="sc-title">Estimateurs (3/4)</span></div><div class="prose"><p>Ici, ce sont des modèles d'hétérogénéité spatiale et des modèles locaux, où en fait on va faire des estimations dans un voisinage qui va être défini par une bandwidth, donc une sorte de grandeur de voisinage, construite via un noyau. Et on voit ici que, dans la GWR, il n'y a qu'une bandwidth commune à toutes les variables, tandis que la MGWR étend ce modèle en prenant une bandwidth différente par variable. Et à l'interface entre les modèles d'avant et ces modèles, un modèle qui mélange dépendance spatiale et hétérogénéité spatiale.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">17 &middot; 25s</span><span class="sc-title">Estimateurs (4/4)</span></div><div class="prose"><p>Murakami traite le signal spatial avec des estimateurs qui intègrent la matrice des vecteurs propres de Moran. Au total, vingt-huit estimateurs et variantes sont recensés, répartis sur six familles.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">18 &middot; 45s</span><span class="sc-title">Le package spatialtidymodels</span></div><div class="prose"><p>Après avoir ciblé tous ces estimateurs-là, et qu'on sait comment ils fonctionnent, on va pouvoir les comparer entre eux, et du coup il nous faut un truc qui harmonise leur évaluation. Pour les estimateurs classiques, tels que ols, gam, random forest, il existe déjà un outil dans le package tidymodels qui permet de les benchmarker. Alors nous, nous avons fait une extension pour les autres qui n'y sont pas. L'idée, c'est qu'on reprend le même principe pour les méthodes qui existent déjà, et pour intégrer le signal spatial, soit on ajoute les coordonnées géographiques comme covariable, soit on calcule les objets spatiaux tels que la matrice d'interaction, la bandwidth, le noyau, ou la matrice de vecteurs propres, pour ceux qui en ont besoin.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">19 &middot; 40s</span><span class="sc-title">Schémas de cross-validation</span></div><div class="prose"><p>On distingue 3 principaux schémas de cross-validation. Le holdout est une séparation aléatoire simple des données, en 90% pour l'apprentissage et 10% pour le test. Le near prediction divise l'espace en plusieurs cellules, et dans chaque cellule on tire une observation pour former l'ensemble de test, puis on reproduit ce schéma jusqu'à atteindre le nombre de répétitions fixé. Le bloc spatial divise l'espace en blocs, puis choisit plusieurs blocs pour les données de test et les autres blocs pour l'apprentissage.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">20 &middot; 35s</span><span class="sc-title">État de la banque : vue d'ensemble</span></div><div class="prose"><p>Voici l'état actuel de la banque. Sur 291 candidats collectés, 155 sont retenus, 55 sont en révision, et 81 sont écartés. Parmi les 155 retenus, 117 sont prêts pour le benchmark, et 16 sont déjà embarqués directement dans le package. Qu'est-ce que ça veut dire, embarqué&nbsp;? Le jeu est directement inclus et prêt à l'usage, sans téléchargement. Les autres jeux déjà constitués restent accessibles via une commande qui les télécharge depuis un dépôt public externe.</p></div></div>
+
+  <div class="slide-card" style="opacity:.7"><div class="sc-head"><span class="badge">optionnel, si le temps le permet</span><span class="sc-title">Pourquoi certains jeux ne sont pas prêts (slide retirée)</span></div><div class="prose"><p>55 jeux de données sont en attente de révision manuelle, et 81 sont écartés pour des raisons précises, telles que l'absence de formule publiée.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">21 &middot; 50s</span><span class="sc-title">Premier benchmark réel : dispositif</span></div><div class="prose"><p>On a lancé un premier vrai benchmark avec neuf jeux de données de moins de 2000 observations, sur dix estimateurs couvrant les différentes familles. Pour comparer les estimateurs, on calcule, pour chaque jeu de données, l'amélioration relative de RMSE de chaque estimateur par rapport à une référence. Pour l'instant, comme on initie ce benchmark, OLS sert de référence, mais à terme, on prendra pour référence le meilleur estimateur du moment, comme ça tout nouvel estimateur sera comparé au meilleur, pas à OLS. Ensuite, le verdict repose sur 4 critères cumulatifs&nbsp;: taux de victoire, test statistique apparié, amélioration médiane positive, et pas trop de cas d'effondrement net. Mais aussi, il faut consulter les métriques secondaires, telles que&nbsp;: le MAE, le temps de calcul et l'indice de Moran.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">22 &middot; 40s</span><span class="sc-title">Résultats : near_prediction</span></div><div class="prose"><p>Au vu des métriques, les estimateurs qui font mieux sont&nbsp;: le mgwrsar_gwr, le gam_spatial et spboost en version SAR. Les plus rapides sont les méthodes de machine learning, notamment random forest. À l'inverse, les méthodes économétriques classiques comme le SAR, le SEM et le SDM perdent en précision et coûtent bien plus cher en calcul.</p><p>Il y a encore des choses à revoir sur ce benchmark&nbsp;: c'est un premier essai, lancé pour montrer que le package fonctionne de bout en bout, pas un résultat définitif. Il reste encore des réglages à affiner.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">23 &middot; 25s</span><span class="sc-title">Pourquoi SAR/SEM/SDM échouent-ils autant ?</span></div><div class="prose"><p>Une partie de l'explication tient à l'origine des jeux&nbsp;: sur les huit testés, six ne sont pas d'origine dépendance spatiale&nbsp;— quatre viennent de la littérature GWR, deux n'ont aucun modèle spatial dans leur publication d'origine. SAR/SEM/SDM y sont donc souvent testés hors du contexte pour lequel ils ont été conçus.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">24 &middot; 25s</span><span class="sc-title">Le tableau de bord interactif</span></div><div class="prose"><p>Tous ces résultats sont explorables dans un tableau de bord interactif, qu'on peut lancer depuis le package. Il permet d'aller au-delà de la médiane agrégée, en explorant la performance jeu par jeu, pour comprendre dans quelles conditions un estimateur donné est le plus performant.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">25 &middot; 55s</span><span class="sc-title">Conclusion et perspectives</span></div><div class="prose"><p>Pour conclure. Nous avons noté dans la littérature en économétrie spatiale qu'il y a un manque de jeux de données réels, variés et documentés pour évaluer des estimateurs. Nous avons donc mis en place une chaîne complète qui part de la collecte jusqu'à la production de résultats, avec un premier essai qui fonctionne de bout en bout.</p><p>Pour la suite, il s'agit d'élargir la taille de la banque en relançant plusieurs fois le pipeline de collecte, ou en tentant aussi des approches sur les jeux volumineux déjà présents. À terme, il est prévu de rendre publique la banque de données et le package, ainsi qu'un data paper qui retrace toute la procédure de manière formelle. Contrairement à un article de méthode, un data paper reste cité tant que la ressource est réutilisée&nbsp;: une visibilité qui dure dans le temps, pour moi comme pour le labo.</p></div></div>
+
+  <div class="slide-card"><div class="sc-head"><span class="badge">26 &middot; 8s</span><span class="sc-title">Merci</span></div><div class="prose"><p>Merci pour votre attention.</p></div></div>
+</section>
+
+<section class="block" id="reperes">
+  <div class="block-head"><span class="tag">Avant de commencer</span></div>
+  <div class="card prose">
+    <p>Trois choses à garder en tête pendant toute la soutenance&nbsp;:</p>
+    <p><strong>1.</strong> Le fil rouge n'est pas «&nbsp;j'ai collecté des données&nbsp;», c'est «&nbsp;j'ai construit un instrument de validation méthodologique&nbsp;» pour des méthodes que le labo développe lui-même (<code>mgwrsar</code>, <code>spboost</code>). C'est un besoin interne, pas une commande administrative.</p>
+    <p><strong>2.</strong> Les slides d'estimateurs sont volontairement groupées par famille. Si le jury demande le détail d'un estimateur précis, tu peux zoomer, mais l'angle par défaut reste «&nbsp;pourquoi cette famille existe&nbsp;», pas «&nbsp;comment chaque fonction R est codée&nbsp;».</p>
+    <p><strong>3.</strong> Ne jamais présenter les chiffres du benchmark (9 jeux, 10 estimateurs) comme un résultat scientifique définitif&nbsp;: c'est une preuve que la chaîne fonctionne de bout en bout, pas un classement établi des méthodes spatiales.</p>
+  </div>
+</section>
+
+<section class="block" id="mission-objectif">
+  <div class="block-head"><span class="tag">Si on te demande la nuance</span><h2>Mission&nbsp;vs&nbsp;objectif</h2></div>
+  <p class="lede">Le rapport distingue explicitement les deux dans sa structure (section « La mission » puis sous-section « Objectif et périmètre »). Ce n'est pas juste du vocabulaire&nbsp;: ce sont deux questions différentes.</p>
+  <div class="two-col mission">
+    <div class="card mission-card">
+      <span class="role">La mission — le mandat</span>
+      <h3>« Qu'est-ce qu'on m'a demandé de construire&nbsp;? »</h3>
+      <p>Le travail confié associe <strong>deux volets reliés</strong>&nbsp;: la collecte/documentation de jeux de données spatiaux, et la mise en place d'un cadre commun de comparaison des estimateurs. La mission, c'est cette liaison concrète entre <strong>catalogue de données</strong> et <strong>banc d'essai exécutable</strong> — ce sont les deux livrables réels du stage.</p>
+    </div>
+    <div class="card mission-card">
+      <span class="role">L'objectif — la finalité</span>
+      <h3>« À quoi ça sert, quel problème ça résout&nbsp;? »</h3>
+      <p>L'objectif justifie la mission&nbsp;: réunir des données réelles pour évaluer des méthodes prédictives spatiales, en produisant une ressource <strong>documentée, vérifiable et directement exploitable</strong> dans des protocoles reproductibles — pas juste rassembler des fichiers.</p>
+    </div>
+  </div>
+  <div class="callout">
+    <span class="k">Comment le dire à l'oral</span>
+    <p>Utilise «&nbsp;mission&nbsp;» quand tu décris ce que tu as concrètement livré (le catalogue, le package), et «&nbsp;objectif&nbsp;» quand tu justifies pourquoi ce travail a de la valeur méthodologique (permettre une validation empirique crédible et homogène). Si le jury demande «&nbsp;quelle différence faites-vous entre les deux&nbsp;?&nbsp;», c'est littéralement cette réponse&nbsp;: la mission est le mandat opérationnel, l'objectif est la finalité scientifique qui le sous-tend.</p>
+  </div>
+</section>
+
+<section class="block" id="monte-carlo">
+  <div class="block-head"><span class="tag">Pour toi seul — pas une slide</span><h2>Mini-cours&nbsp;: simulations de Monte Carlo</h2></div>
+  <p class="lede">Ce bloc ne doit jamais être récité tel quel à l'oral. Il sert à ce que tu puisses répondre avec assurance si un membre du jury pousse sur «&nbsp;pourquoi pas simplement plus de simulations&nbsp;?&nbsp;» ou «&nbsp;qu'est-ce qu'une étude de Monte Carlo en économétrie&nbsp;?&nbsp;».</p>
+  <div class="card">
+    <div class="mc-steps">
+      <div class="mc-step">
+        <span class="n">1</span>
+        <p><span class="lbl">Le principe</span>Le chercheur fixe lui-même un mécanisme générateur de données connu, le <strong>DGP</strong> (<em>data-generating process</em>)&nbsp;: une forme fonctionnelle, des valeurs de paramètres (par exemple un coefficient de dépendance spatiale ρ), une taille d'échantillon, une structure de matrice de poids <code>W</code>. Il tire ensuite des données synthétiques à partir de ce mécanisme, de très nombreuses fois (des centaines ou milliers de répétitions).</p>
+      </div>
+      <div class="mc-step">
+        <span class="n">2</span>
+        <p><span class="lbl">Ce que ça permet de mesurer</span>Comme la vérité est connue par construction, on peut comparer l'estimation à la vraie valeur sur chaque répétition et calculer des quantités impossibles à obtenir sur données réelles&nbsp;: le <strong>biais</strong> (écart moyen entre estimé et vrai paramètre), la <strong>variabilité</strong> de l'estimateur d'une répétition à l'autre, et la <strong>couverture</strong> (est-ce que l'intervalle de confiance à 95&nbsp;% contient la vraie valeur environ 95&nbsp;% du temps&nbsp;? — ça teste si les erreurs-types sont bien calibrées).</p>
+      </div>
+      <div class="mc-step">
+        <span class="n">3</span>
+        <p><span class="lbl">Sa limite structurelle</span>L'espace des scénarios plausibles (non-linéarités, distributions non normales, interactions, corrélations entre variables, erreurs de mesure) est immense. Un plan de simulation donné n'instancie généralement <strong>qu'un seul mécanisme à la fois</strong> — par exemple une pure dépendance de type SAR, sans hétérogénéité ni non-linéarité. Ce choix favorise mécaniquement les méthodes conçues pour ce cas précis, même en multipliant les scénarios (Friedrich &amp; Friede, 2024).</p>
+      </div>
+      <div class="mc-step">
+        <span class="n">4</span>
+        <p><span class="lbl">Pourquoi les cas empiriques sont complémentaires, pas substituables</span>Sur données réelles, le DGP est <strong>inconnu</strong>&nbsp;: on ne peut plus calculer de biais, seulement comparer des performances prédictives (RMSE, MAE). En échange, on gagne une diversité de situations qu'aucun plan de simulation ne peut anticiper à l'avance, parce qu'elle n'a pas été choisie par l'expérimentateur. Monte Carlo teste «&nbsp;l'estimateur se comporte-t-il correctement sous un mécanisme contrôlé et connu&nbsp;?&nbsp;» (propriétés statistiques). Le benchmark empirique teste «&nbsp;prédit-il bien dans la diversité réelle des situations rencontrées&nbsp;?&nbsp;» (validité externe).</p>
+      </div>
+    </div>
+  </div>
+  <div class="callout">
+    <span class="k">Réponse toute faite si on te pousse</span>
+    <p>«&nbsp;Pourquoi ne pas juste faire plus de Monte Carlo&nbsp;?&nbsp;» → Parce que bien prédire et bien estimer ne sont pas la même chose&nbsp;: sur données réelles on n'a que la performance prédictive, alors que Monte Carlo reste le seul outil pour vérifier le biais et la couverture d'un estimateur, en particulier en présence d'endogénéité. Les deux approches ont des finalités différentes&nbsp;: la banque élargit l'évaluation à des situations variées, elle ne remplace pas les expériences de Monte Carlo.</p>
+  </div>
+  <div class="callout">
+    <span class="k">Et l'approche théorique, la troisième voie&nbsp;?</span>
+    <p>Strobl &amp; Leisch (2024) placent l'étude des propriétés théoriques (convergence, comportement asymptotique) comme premier pilier. Elle est rigoureuse quand elle est faisable, mais devient difficile pour des estimateurs complexes&nbsp;: une GWR ou une MGWRSAR, où les coefficients varient localement, n'ont pas toujours une théorie asymptotique simple à dérouler. C'est justement pour ces familles-là que simulation et validation empirique comptent le plus.</p>
+  </div>
+</section>
+
+<section class="block" id="exemple">
+  <div class="block-head"><span class="tag">L'exemple à avoir sous la main</span><h2>« Documentée, vérifiable, exploitable » — concrètement</h2></div>
+  <p class="lede">C'est la formule que tu répètes le plus souvent et qui reste abstraite si elle n'est pas incarnée. Utilise directement l'exemple déjà présent sur la slide 4 (<code>spDataLarge::lsl</code>) pour la rendre concrète — pas besoin d'un autre exemple, il faut juste le raconter comme une démonstration, pas comme une illustration décorative.</p>
+  <div class="example-figure">
+    <div class="ef-node"><span class="lbl">Documentée</span>La fiche indique la provenance (article Muenchow et al. 2012, package <code>spDataLarge</code>), la formule <code>lslpts ~ slope + cplan + cprof + elev + log10_carea</code>, et le rôle de chaque variable (réponse, covariables, coordonnées).</div>
+    <div class="ef-node"><span class="lbl">Vérifiable</span>La formule n'est pas devinée&nbsp;: elle est confirmée par <strong>deux sources indépendantes</strong> — l'article original et le chapitre <em>Geocomputation with R</em> qui réutilise le même jeu directement en R. Deux sources qui convergent, ce n'est pas un LLM qui invente.</div>
+    <div class="ef-node"><span class="lbl">Exploitable</span>Parce que Y, X et la structure spatiale sont déjà typés dans la fiche, <code>spatialtidymodels</code> peut aller chercher directement ces éléments et lancer une route sans que le chercheur ait à re-déterminer manuellement quelle colonne est la réponse.</div>
+  </div>
+  <div class="callout">
+    <span class="k">Comment le raconter en une phrase</span>
+    <p>«&nbsp;Prenez <code>lsl</code>&nbsp;: sans la banque, un chercheur qui veut ce jeu doit relire l'article, deviner quelles colonnes sont la réponse et les covariables, et espérer avoir la bonne formule. Avec la banque, ces trois éléments sont déjà identifiés, croisés entre deux sources, et directement branchés à un estimateur. C'est la différence entre "avoir le fichier" et "avoir une ressource utilisable".&nbsp;»</p>
+  </div>
+</section>
+
+<div class="section-divider" id="s-contexte">
+  <span class="sd-eyebrow">Section 1 / slides 3–5</span>
+  <h2>Contexte et objectif</h2>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">03</span><span class="sc-title">Contexte : des méthodes qui ont besoin d'être validées</span></div>
+  <div class="prose">
+    <p>Ancre le propos dans l'unité&nbsp;: Écodéveloppement développe elle-même des outils d'économétrie spatiale (<code>mgwrsar</code>, <code>spboost</code>, et des modèles probit spatiaux pour les réponses binaires, Martinetti &amp; Geniaux 2017), donc le besoin de validation est un besoin de recherche interne, pas une commande externe. La slide affiche déjà la distinction DGP connu/inconnu pour Monte Carlo vs empirique — tu n'as qu'à la développer à l'oral&nbsp;: Monte Carlo mesure l'erreur sur les coefficients (le DGP est connu), l'empirique ne mesure que la performance prédictive (le DGP est inconnu, on n'a que y). Théorie, Monte Carlo, empirique&nbsp;: donne à chacune sa vraie portée plutôt que de les énumérer.</p>
+    <p>Conclus sur le problème concret qui justifie tout le stage&nbsp;: les données réelles utiles à ce type de validation existent, mais sont peu nombreuses, dispersées entre packages/entrepôts/publications, et rarement comparables entre elles faute de documentation homogène.</p>
+  </div>
+  <div class="tip-line"><span class="k">Appui</span><span>Détail complet dans le mini-cours Monte Carlo ci-dessus si le jury creuse.</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">04</span><span class="sc-title">Un jeu de données idéal : des données reliées à leurs usages</span></div>
+  <div class="prose">
+    <p>C'est ta démonstration de «&nbsp;documentée, vérifiable, exploitable&nbsp;» — raconte-la comme telle (voir le bloc dédié plus haut) plutôt que de simplement décrire le schéma. L'idée à faire passer&nbsp;: un jeu de données «&nbsp;idéal&nbsp;» n'est pas seulement un fichier propre, c'est un fichier relié à ses usages documentés — l'article qui l'a produit, le package qui le diffuse, et un ouvrage tiers qui confirme indépendamment la même formule.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">05</span><span class="sc-title">Objectif du stage</span></div>
+  <div class="prose">
+    <p>Pose la question directrice comme un vrai problème de recherche, pas comme un énoncé de mission administrative. Si tu sens que la distinction mission/objectif serait utile ici, c'est le bon moment pour la glisser en une phrase. Insiste sur le fait que les trois objectifs (collecter/curer, définir des schémas communs, comparer les familles) sont liés mais <strong>pas au même niveau de maturité</strong>&nbsp;: la collecte peut être relancée indéfiniment, le benchmark n'est opérationnel que pour les jeux suffisamment préparés.</p>
+    <p>Précise le périmètre actuel sans le présenter comme une limite gênante&nbsp;: régression spatiale, réponse continue, coupe transversale. Les panels, réponses binaires et comptages sont déjà documentés dans la banque, seulement pas encore benchmarkés — c'est un choix de séquencement, pas un oubli.</p>
+  </div>
+</div>
+
+<div class="section-divider" id="s-curation">
+  <span class="sd-eyebrow">Section 2 / slides 6–12</span>
+  <h2>Curation de la banque de données</h2>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">06</span><span class="sc-title">Des métadonnées au choix méthodologique</span></div>
+  <div class="prose">
+    <p>Le point à ne pas laisser passer&nbsp;: les métadonnées ne sont pas descriptives, elles sont <strong>opérationnelles</strong>. Fais le lien explicite avec l'exemple <code>lsl</code>&nbsp;: c'est exactement parce que la fiche type contient Y/X/formule/structure spatiale que le package peut ensuite récupérer ces éléments automatiquement, sans que quiconque les re-détermine à la main à chaque nouvelle analyse.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">07</span><span class="sc-title">Une architecture pour passer à l'échelle</span></div>
+  <div class="prose">
+    <p>C'est la charnière de toute la section. La slide porte maintenant une liste courte « Ex. » avec les deux cas où le LLM est indispensable (formule, géométrie) et un troisième pour le reste (déterministe) — le développement complet (tokens, performance) reste à l'oral, la slide ne fait qu'ancrer les exemples. Raconte-la comme une vraie démarche de recherche&nbsp;: au début, la consommation de tokens était trop grande, la performance pas très bonne. On a posé la question de comment traiter ces deux problèmes, et on a choisi de maximiser le scripté/déterministe, en réservant le LLM aux endroits où il est vraiment efficace.</p>
+    <p>Développe les deux exemples de la slide&nbsp;: la formule (LLM indispensable quand elle n'est pas identifiable ou qu'il faut la reconstruire, parce que ça demande de comprendre le domaine) et la géométrie (parfois directement dans le jeu, repérable par le nom des colonnes ; parfois dans un autre jeu de données complémentaire, séparé — là aussi le LLM devient nécessaire). Le reste (DOI, taille, N×T) reste déterministe.</p>
+  </div>
+  <div class="tip-line"><span class="k">Phrase de transition</span><span>« Avant de vous montrer ces outils, il faut que je vous dise pourquoi ils existent : c'est un choix de conception, pas un empilement d'astuces techniques. »</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">08</span><span class="sc-title">Les outils de la curation (1/2) : mémoire et graphe</span></div>
+  <div class="prose">
+    <p>Explique la logique en une phrase pour chaque outil plutôt que le mécanisme technique&nbsp;: le wiki évite de tout relire à chaque tâche en accumulant une mémoire de fiches vérifiables par un humain&nbsp;; le graphe de connaissances oriente d'abord vers les bonnes sources (quel article documente quel dataset, quelle formule) avant que le wiki ne livre une synthèse lisible. L'ordre compte&nbsp;: le graphe structure, le wiki restitue.</p>
+    <p>La slide porte une note sur l'originalité de ce couplage, mais elle n'est plus dans le script oral&nbsp;: à garder pour une question seulement.</p>
+  </div>
+  <div class="watch-line"><span class="k">Question probable (pas à l'oral, prête si posée)</span><span>« Pourquoi coupler wiki et graphe, pourquoi pas un seul des deux ? » → les deux résolvent des problèmes différents et complémentaires. Le graphe de connaissances résout un problème d'<strong>orientation</strong> : avant même de lire quoi que ce soit en détail, il sait quelles sources sont liées à quel dataset, et dans quel sens (« utilise », « fournit », « documente ») — sans lui, il faudrait relire ou re-raisonner sur les relations entre sources à chaque tâche, ce qui coûte cher et n'est pas fiable. Le wiki résout un problème de <strong>mémoire et de restitution</strong> : une fois les bonnes sources identifiées par le graphe, il accumule une synthèse lisible et vérifiable par un humain, au lieu de repartir de zéro à chaque fois. Le graphe oriente, le wiki restitue — aucun des deux seul ne suffit. Accessoirement, ce couplage précis était encore rare au moment du stage (le concept de wiki LLM est sorti trois mois avant le début du stage).</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">09</span><span class="sc-title">Les outils de la curation (2/2) : lire et outiller</span></div>
+  <div class="prose">
+    <p>GROBID répond à un problème concret&nbsp;: un PDF brut n'a pas de sections ni de tableaux identifiés informatiquement, il faut les reconstruire. La «&nbsp;lecture dirigée&nbsp;» est le point le plus important à bien faire comprendre&nbsp;: elle sert à ne pas confondre une formule appliquée à un vrai jeu de données avec un exemple purement théorique ou une simulation présentés dans le même article.</p>
+    <p>La slide a été allégée&nbsp;: ne reste que le MCP <code>context_store</code>, pour résumer de longues sorties avant raisonnement — les autres MCP et compétences ne sont plus listés, garde-les en tête si le jury demande le détail de l'outillage.</p>
+  </div>
+  <div class="watch-line"><span class="k">Question probable</span><span>« Comment distinguez-vous théorique et empirique automatiquement ? » → la section est notée selon son utilité empirique (positive si données/modèle réel, négative si théorie/simulation), pas une classification binaire naïve.</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">10</span><span class="sc-title">Rôle des LLM dans le projet</span></div>
+  <div class="prose">
+    <p>La slide ouvre maintenant directement sur les deux agents (Codex/Claude), avant le filtre scripté et les trois points d'intervention&nbsp;: garde cet ordre à l'oral aussi. Les trois points d'intervention de Claude sont listés en titres seuls sur la slide (sélection Y/X, vérification des candidats, contrôle qualité Tier 2) — développe chacun brièvement à l'oral si besoin, mais la slide reste volontairement sobre.</p>
+    <p>C'est ta meilleure réponse si le jury s'inquiète d'un usage naïf de l'IA&nbsp;: le filtre scripté fait le tri en premier, le LLM n'intervient que sur ce qui a déjà passé ce seuil, et chaque appel reste ponctuel et vérifié après coup — exactement le principe posé slide 7. Les informations extraites doivent être vérifiées dans les sources, et rien n'est jamais inventé.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">11</span><span class="sc-title">Bloc packages : vue d'ensemble</span></div>
+  <div class="prose">
+    <p>La slide énonce les trois voies visées au départ (package-first, article-first, dépôt-first), puis l'abandon d'article-first&nbsp;: article-first a été abandonnée parce que peu d'articles diffusent directement un fichier de données exploitable — il fallait presque toujours passer par un dépôt de toute façon. Précise bien, comme la slide le dit maintenant, que la recherche du papier associé continue dans les deux blocs restants, chacun à sa manière&nbsp;: ce n'est pas parce qu'article-first a été abandonnée que la recherche du papier l'a été aussi.</p>
+    <p>Rappelle que ce premier bloc a été la première phase parce que ses objets sont déjà accessibles localement, avec une structure stable&nbsp;: un point d'entrée plus sûr pour stabiliser le pipeline avant les sources plus hétérogènes.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">12</span><span class="sc-title">Bloc entrepôts : deux modes de recherche <em>dataset-first</em></span></div>
+  <div class="prose">
+    <p>C'est la voie qui a absorbé article-first, à dire explicitement pour boucler avec la slide précédente&nbsp;: au lieu de partir d'un article puis chercher ses données (peu praticable), on part toujours de la <strong>donnée</strong>, et le papier associé est retrouvé après coup dans les métadonnées du dépôt — jamais l'inverse. C'est cohérent avec l'esprit «&nbsp;dataset-first&nbsp;» de tout le pipeline, pas une exception.</p>
+  </div>
+</div>
+
+<div class="section-divider" id="s-estimateurs">
+  <span class="sd-eyebrow">Section 3 / slides 13–19</span>
+  <h2>Estimateurs et évaluation</h2>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">13</span><span class="sc-title">Pourquoi ces familles d'estimateurs</span></div>
+  <div class="prose">
+    <p>C'est la slide la plus dense conceptuellement, à bien préparer. Dépendance spatiale et hétérogénéité spatiale sont <strong>deux problèmes statistiques distincts</strong> (la slide cite Cliff &amp; Ord, 1973, comme référence d'origine, et Le Gallo 2002/2004 pour la synthèse en français — tu peux t'appuyer directement dessus)&nbsp;: la dépendance dit que les observations voisines ne sont pas indépendantes (ça casse l'hypothèse i.i.d. classique)&nbsp;; l'hétérogénéité dit que la relation entre Y et X elle-même change selon le lieu (un coefficient global unique est structurellement faux, pas juste statistiquement inefficient). Les deux peuvent coexister, d'où l'existence de familles différentes plutôt qu'une seule méthode universelle.</p>
+    <p>Le piège de diagnostic est le point le plus subtil&nbsp;: un indice de Moran significatif sur des résidus OLS ne prouve pas qu'il faut une dépendance spatiale explicite — une non-linéarité omise ou une interaction absente produisent souvent, elles aussi, des résidus spatialement corrélés, simplement parce que les lieux proches partagent les mêmes caractéristiques omises. C'est exactement le genre d'ambiguïté qu'un unique DGP de Monte Carlo ne permet pas d'explorer, et que la diversité de la banque aide à démêler.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">14</span><span class="sc-title">Estimateurs (1/4) : Références globales et prédictives</span></div>
+  <div class="prose">
+    <p>La slide montre la formule GAM générale (y = β₀ + Σf<sub>k</sub>(x<sub>k</sub>) + ε) à côté d'OLS&nbsp;: utilise-la pour dire explicitement que le GAM <em>généralise</em> OLS terme à terme — f<sub>k</sub> linéaire redonne exactement OLS. Positionne toute la famille comme une étape de diagnostic avant même de parler d'espace&nbsp;: GAM/MARS/Random Forest/XGBoost servent à vérifier s'il existe un signal non linéaire <em>avant</em> de chercher une dépendance spatiale — sinon on ne sait pas si un gain observé avec un estimateur spatial vient réellement de l'espace. La slide le dit maintenant explicitement en une ligne&nbsp;: ces trois méthodes suivent la même logique, sans intégrer la dimension spatiale. Le GAM spatial est le pont vers la famille suivante&nbsp;: les coefficients restent globaux, seul un terme lisse <code>s(u,v)</code> capture un effet spatial continu.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">15</span><span class="sc-title">Estimateurs (2/4) : Dépendance spatiale</span></div>
+  <div class="prose">
+    <p>Utilise l'image du vendeur qui ajuste son prix sur ses voisins pour SAR — elle marche bien à l'oral. Pour SEM, précise que la dépendance est logée dans le terme d'erreur&nbsp;: elle ne change pas l'interprétation des coefficients β, elle corrige surtout l'efficacité/les erreurs-types — c'est une nuisance statistique à traiter, pas un mécanisme économique structurel comme dans SAR. SDM ajoute un troisième niveau&nbsp;: les covariables des voisins comptent aussi, pas seulement leur réponse (effet de débordement).</p>
+    <p><code>spboost</code> a été rapproché de cette famille (il n'est plus sur la slide 4/4)&nbsp;: il garde une structure SAR/SEM/SARAR mais laisse le boosting tester si un signal spatial apparent est une vraie dépendance ou une forme linéaire trop rigide, avec sélection automatique de variables.</p>
+  </div>
+  <div class="tip-line"><span class="k">Phrase-clé</span><span>« spboost ne suppose pas la bonne spécification à l'avance : il garde une structure SAR/SEM mais laisse le boosting tester si un signal spatial apparent est une vraie dépendance ou une forme linéaire trop rigide. »</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">16</span><span class="sc-title">Estimateurs (3/4) : Hétérogénéité spatiale et modèles locaux</span></div>
+  <div class="prose">
+    <p>L'équation GWR montre le critère de moindres carrés pondérés, β̂(u<sub>i</sub>,v<sub>i</sub>) = argmin Σ<sub>j</sub> w<sub>ij</sub>(y<sub>j</sub> − x<sub>j</sub>ᵀβ)², avec w<sub>ij</sub> = K(d<sub>ij</sub>/h) — le noyau intervient donc explicitement <em>dans</em> l'équation, comme poids sur chaque résidu au carré, pas juste défini à côté. Dis que K est un noyau de lissage décroissant avec la distance.</p>
+    <p>MGWR et MGWRSAR ont été condensés sur demande de l'encadrant (texte jugé trop long)&nbsp;: MGWR tient en une ligne (« un voisinage différent par covariable »), et MGWRSAR est maintenant explicitement étiqueté « GWR + SAR » pour rendre visible qu'il est au croisement des deux familles précédentes — développe le détail (remplacer h par h<sub>k</sub>, dépendance autorégressive + coefficients localement variables) à l'oral, la slide reste minimale.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">17</span><span class="sc-title">Estimateurs (4/4) : Filtres spectraux</span></div>
+  <div class="prose">
+    <p>Cette slide ne porte plus que le filtrage spectral&nbsp;: ESF/RESF proposent une philosophie différente des familles précédentes — au lieu de modéliser structurellement la dépendance (un paramètre ρ ou λ), on extrait des vecteurs propres de Moran et on les ajoute comme covariables. <code>spboost</code> et l'exemple du registre à trois niveaux ne sont plus ici&nbsp;: <code>spboost</code> est maintenant présenté avec la famille dépendance spatiale (slide 15), le registre à trois niveaux a été retiré du support. Termine juste sur le total&nbsp;: 28 estimateurs/variantes, 6 familles.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">18</span><span class="sc-title">Le package <em>spatialtidymodels</em></span></div>
+  <div class="prose">
+    <p>Cette slide a été déplacée&nbsp;: elle arrive maintenant après les quatre slides d'estimateurs, pas avant — c'est le retour explicite des encadrants (« on a vu tous ces estimateurs, il nous faut un truc qui harmonise »). Ouvre donc sur cette transition plutôt que de la présenter comme une slide isolée.</p>
+    <p>Contenu réécrit par l'encadrant&nbsp;: le package est présenté comme une extension de <code>tidymodels</code> aux estimateurs spatiaux, dont l'enjeu est double — faire circuler les objets spatiaux nécessaires aux estimateurs, et gérer des schémas de cross-validation adaptés. Les « trois logiques d'intégration » (modèles déjà supportés / + coordonnées / interface dédiée) ne sont plus sur la slide&nbsp;: garde-les pour une question de détail sur comment le package s'articule concrètement avec tidymodels. La liste des quatre objets spatiaux (géométrie, matrice <code>W</code>, noyau/bande passante, matrice de vecteurs propres) reste affichée, en puces.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">19</span><span class="sc-title">Schémas de cross-validation</span></div>
+  <div class="prose">
+    <p>Titre renommé (« schémas de séparation » → « schémas de cross-validation ») pour utiliser le terme que l'audience connaît déjà. Justifie <code>near_prediction</code> par le compromis qu'il résout&nbsp;: un vrai LOOCV spatial est le standard le plus rigoureux mais devient vite trop coûteux à grande échelle. <code>near_prediction</code> l'approxime avec une partition spatiale (un point test par cellule et par répétition, sans remise). <code>block_spatial</code> va plus loin en isolant des blocs spatiaux entiers&nbsp;: il teste une vraie extrapolation spatiale, pas seulement de l'interpolation entre voisins proches — d'où son statut de schéma le plus exigeant.</p>
+  </div>
+</div>
+
+<div class="section-divider" id="s-resultats">
+  <span class="sd-eyebrow">Section 4 / slides 20–24</span>
+  <h2>Résultats</h2>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">20</span><span class="sc-title">État de la banque : vue d'ensemble</span></div>
+  <div class="prose">
+    <p>Raconte l'entonnoir comme un processus vivant, pas un aboutissement&nbsp;: 291 candidats collectés se répartissent en 155 retenus, 55 en révision et 81 écartés&nbsp;; parmi les 155 retenus, 117 sont prêts pour le benchmark et 16 déjà embarqués dans le package. Les deux tableaux de répartition (voie initiale, structure spatiale) ont été retirés du support, remplacés par l'explication d'« embarqué »&nbsp;: le jeu est directement inclus, prêt à l'usage sans téléchargement ; les autres jeux constitués restent accessibles via une commande qui les télécharge depuis un dépôt public externe. La raison à donner si demandée&nbsp;: le poids du package sur le CRAN.</p>
+  </div>
+</div>
+
+<div class="slide-card" style="opacity:.7">
+  <div class="sc-head"><span class="badge">retirée du deck</span><span class="sc-title">État de la banque : pourquoi certains jeux ne sont pas prêts</span></div>
+  <div class="prose">
+    <p>Slide retirée du support&nbsp;: à dire à l'oral seulement si le temps le permet, juste après la 20. Le bloc « contraste net entre pipelines » (85&nbsp;% vs 16–21&nbsp;%) n'est pas un signe de mauvaise qualité du pipeline packages, c'est l'effet mécanique d'un critère d'entrée différent (le pipeline papiers exige une formule dès l'entrée, le pipeline packages inspecte tous les objets sans présupposer qu'ils seront utilisables).</p>
+    <p>Sur les 81 écartés&nbsp;: ils restent dans <code>datasets.json</code> avec <code>package_include: no</code> parce que ce fichier est un <strong>journal de traçabilité de toute la curation</strong>, pas seulement une liste de jeux utilisables.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">21</span><span class="sc-title">Premier benchmark réel : dispositif</span></div>
+  <div class="prose">
+    <p>La liste des dix estimateurs est maintenant compacte, avec des noms courts (<code>sar</code>, <code>sem</code>, <code>sdm</code>, <code>GWR</code>) plutôt que les noms de route complets — plus rapide à lire à voix haute. Explique le ΔRMSE en une phrase&nbsp;: une moyenne brute de RMSE serait biaisée parce que les jeux de données vivent sur des échelles très différentes, donc chaque comparaison est exprimée en amélioration relative à la référence, jeu par jeu.</p>
+    <p>La slide porte maintenant explicitement la nuance sur OLS&nbsp;: pour l'instant OLS sert de référence parce qu'on initie ce benchmark, mais à terme ce sera le meilleur estimateur du moment — pour qu'un nouveau chercheur se compare au meilleur, pas à OLS. Le vrai point de rigueur reste le verdict à <strong>quatre critères cumulatifs</strong> (inspiré de Demšar, 2006)&nbsp;: victoire sur au moins 70&nbsp;% des cas non nuls, test de Wilcoxon apparié, amélioration médiane positive, et pas plus de 10&nbsp;% de cas avec une dégradation sévère.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">22</span><span class="sc-title">Résultats : <em>near_prediction</em></span></div>
+  <div class="prose">
+    <p>Le tableau porte maintenant deux critères, pas un seul&nbsp;: RMSE médiane relative <em>et</em> durée médiane d'ajustement, avec une étoile devant la meilleure valeur de chaque colonne — mgwrsar_gwr pour le RMSE (0,85), random_forest pour la durée (0,30&nbsp;s). Les valeurs (RMSE, durée) sont désormais alignées exactement sur le tableau officiel du mémoire (tab:resultats-benchmark, section 3.5), pas recalculées séparément — évite un écart entre slide et rapport si le jury compare les deux. Le nombre de jeux par estimateur (entre parenthèses dans le rapport) n'est pas repris sur la slide, pour rester léger ; garde-le en tête si on demande combien de jeux couvrent chaque ligne (7 pour mgwrsar_gwr/spboost/random_forest, 8 pour gam_spatial/xgboost/ols/sem_error, 6 pour sdm_mixed/sar_lag, sur 8 au total). Ça matérialise aussi le message&nbsp;: la performance ne se résume pas qu'à la précision, le coût de calcul compte aussi (jusqu'à 5&nbsp;s pour SAR/SEM/SDM contre moins d'1&nbsp;s pour la référence).</p>
+    <p>La colonne « Échecs » et la note « échecs expliqués » ont été retirées du support, sur demande des encadrants (le mot « échec » était mal choisi — ce sont des limites techniques de construction de folds, pas des échecs de méthode). Garde les deux réponses ci-dessous sous le coude si la question arrive quand même à l'oral.</p>
+    <p><strong>Repère pour l'oral</strong> — la slide 23 introduit déjà, brièvement, le décalage de modèle et deux échecs mécaniques. Si on va plus loin en Q&amp;A, développe avec les chiffres précis et les deux causes non citées sur la slide (watch-lines ci-dessous).</p>
+  </div>
+  <div class="watch-line">
+    <span class="k">Question probable — niveau 1, réponse principale</span>
+    <span>« Pourquoi SAR/SEM/SDM sont-ils mauvais ? » → décalage de modèle, pas un bug (déjà amorcé sur la slide 23). En croisant la littérature d'origine de mes 5 jeux testés (via mes propres fiches), 3 sur 5 (<code>london_hp</code>, <code>georgia</code>, <code>ewhp</code>) sont des cas d'école connus d'<strong>hétérogénéité</strong> spatiale (GWR — Fotheringham et al. 2002 pour georgia/ewhp, Lu et al. 2014 pour london_hp), pas de <strong>dépendance</strong> spatiale. SAR/SEM/SDM supposent de la dépendance ; ça ne correspond pas à la vraie structure de ces données. Résultat direct dans mes chiffres&nbsp;: sur les 4 jeux où tout tourne, SAR/SEM/SDM perdent systématiquement face à OLS (ratio 1,02 à 1,25), alors que <code>mgwrsar_gwr</code> (hétérogénéité) gagne systématiquement, nettement (ratio 0,68 à 0,85). Ce n'est donc pas un défaut du pipeline&nbsp;: c'est le fameux piège de diagnostic de la slide 13, observé concrètement dans mes propres résultats.</span>
+  </div>
+  <div class="watch-line">
+    <span class="k">Question probable — niveau 2, seulement si on insiste sur les plantages</span>
+    <span>« Pourquoi certains estimateurs échouent-ils sur certains jeux ? » → 4 causes précises, vérifiées dans les vraies sorties du benchmark, aucune n'est sur une slide (pur backup)&nbsp;: (1) <code>lasrosas</code>&nbsp;: le terme d'interaction publié <code>nitro:topo</code> (continu×catégorielle) casse <code>mgwrsar_gwr</code>, <code>random_forest</code> et les deux <code>spboost</code> tant que <code>topo</code> n'est pas convertie en indicatrices. (2) <code>sdm_mixed</code> sur ce même jeu&nbsp;: le décalage spatial des indicatrices de <code>topo</code> devient colinéaire (« Aliased variables »). (3) <code>paper_seshat_social_complexity</code>&nbsp;: 31 zones géographiques seulement pour 307 polities (plusieurs géocodées par région, pas par point propre) rend le système numériquement singulier pour <code>sar_lag</code> et <code>sdm_mixed</code>, et sur 2 répétitions sur 10 pour <code>sem_error</code>. (4) <code>ewhp</code>, <code>sar_lag</code>&nbsp;: le fit réussit, mais la prédiction hors échantillon est refusée parce que ρ tombe hors de la plage de stabilité calculée en interne, sur les dix répétitions — un comportement défensif, pas un bug.</span>
+  </div>
+  <div class="watch-line"><span class="k">Question probable</span><span>« Pourquoi ne montrez-vous pas l'indice de Moran résiduel pour near_prediction ? » → les groupes test y sont trop petits (8–10 observations) : l'indice retombe systématiquement sur son plancher théorique de petit échantillon, quel que soit l'estimateur. C'est pour ça qu'il vient de holdout_10pct dans le rapport.</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">23</span><span class="sc-title">Pourquoi SAR/SEM/SDM échouent-ils autant ?</span></div>
+  <div class="prose">
+    <p>Slide ajoutée à la demande explicite des encadrants&nbsp;: justifier <em>en partie</em> les mauvais résultats de SAR/SEM/SDM plutôt que de les laisser bruts sur la slide précédente. Un seul angle sur la slide&nbsp;: l'origine documentée du modèle dans la publication source de chaque jeu, vérifiée directement sur les fiches wiki du projet et non déduite de mémoire.</p>
+    <p>Table complète (au-delà du résumé à 3 lignes de la slide)&nbsp;: <code>georgia</code> (Fotheringham et al. 2002), <code>ewhp</code> (GWmodel/Fotheringham et al. 2002), <code>london_hp</code> (Lu et al. 2014) et <code>dub_voter</code> (Kavanagh 2006) sont tous les 4 des exemples canoniques de GWR dans leur publication ou leur package d'origine. <code>paper_wang_henan_cultivated_land_quality</code> (Wang et al. 2022, <em>PLOS ONE</em>) modélise explicitement via Moran's I puis un SAR. <code>lasrosas</code>, campagne 1999 (Anselin, Bongiovanni &amp; Lowenberg-DeBoer 2004, <em>AJAE</em>) choisit un SEM avec régimes spatiaux après comparaison lag/erreur. <code>boston_housing</code> (Harrison &amp; Rubinfeld 1978) est une régression hédonique classique sans modèle spatial&nbsp;; <code>paper_seshat_social_complexity</code> (Turchin 2018) est un panel dynamique <em>temporel</em>, pas spatial. <code>columbus_crime</code> (Anselin 1988, ch.&nbsp;12) est à part&nbsp;: l'exemple SAR/SEM/SDM canonique par excellence, mais exclu de <code>near_prediction</code> (N=49, cellule de partition trop petite pour 10 répétitions).</p>
+    <p><strong>Cadrage important</strong>&nbsp;: présente ceci comme une explication <em>partielle</em>, pas comme la cause unique — le message de la slide 22 (« premier essai, encore à affiner ») reste valable. Si le jury pousse sur le fait que les 2 jeux réellement d'origine « dépendance » (<code>lasrosas</code>, <code>wang_henan</code>) échouent quand même par endroits&nbsp;: la réponse est dans les watch-lines de la slide 22 (niveau 2) — deux causes mécaniques précises sur <code>lasrosas</code> (colinéarité <code>sdm_mixed</code>, interaction <code>nitro:topo</code>), pas un problème de décalage de modèle pour celui-là.</p>
+  </div>
+  <div class="watch-line"><span class="k">Si on demande d'où viennent ces classifications</span><span>Croisement systématique des fiches <code>wiki/datasets/fiches_datasets/</code> (bloc « estimator eligibility » et « modeling evidence », qui citent souvent page et tableau de la publication d'origine) — pas une supposition générale, sauf mention contraire (columbus_crime confirmé par la fiche elle-même, pas seulement la culture générale sur Anselin 1988).</span></div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">24</span><span class="sc-title">Le tableau de bord interactif</span></div>
+  <div class="prose">
+    <p>Mise en page changée&nbsp;: image et texte sont maintenant côte à côte (deux colonnes) plutôt qu'empilés, pour que l'image reste lisible en vidéoprojection — l'ancienne mise en page l'écrasait trop. La slide porte maintenant explicitement le point « au-delà de la médiane », qui vient directement d'un retour des encadrants&nbsp;: le dashboard permet d'explorer la performance jeu par jeu, pas juste la médiane agrégée de la slide précédente, pour comprendre dans quelles conditions (taille, densité spatiale) un estimateur donné est le plus performant — c'est cette diversité de jeux de données qui rend cette lecture possible, et ça justifie directement l'intérêt d'une banque diversifiée.</p>
+  </div>
+</div>
+
+<div class="section-divider" id="s-conclusion">
+  <span class="sd-eyebrow">Section 5 / slides 25–26</span>
+  <h2>Conclusion</h2>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">25</span><span class="sc-title">Conclusion et perspectives</span></div>
+  <div class="prose">
+    <p>Ferme la boucle avec l'introduction plutôt que de simplement lister les perspectives&nbsp;: le manque de jeux de données réelles, variées et documentées est ce qui a motivé la mission, et ce premier benchmark de bout en bout démontre que la chaîne construite y répond concrètement, même si elle reste jeune. Suite immédiate&nbsp;: relancer la collecte pour élargir la banque, étendre au schéma <code>block_spatial</code> et aux jeux volumineux mis de côté, via un sous-échantillonnage par territoire et par période plutôt qu'un traitement en un seul bloc.</p>
+    <p>À terme&nbsp;: le package restera léger, la banque complète sera déposée séparément dans un entrepôt ouvert et versionné, et un <em>data paper</em> (<em>Data Descriptor</em>, <em>Scientific Data</em>) décrira la ressource sans classer les estimateurs. Un point à souligner explicitement car il boucle avec le mini-cours Monte Carlo&nbsp;: ce data paper inclura une étude bibliométrique comparant l'effort consacré aux configurations de Monte Carlo à celui consacré aux données empiriques réellement utilisées dans les articles méthodologiques.</p>
+  </div>
+</div>
+
+<div class="slide-card">
+  <div class="sc-head"><span class="badge">26</span><span class="sc-title">Merci de votre attention</span></div>
+  <div class="prose">
+    <p>Remercie le jury et les encadrants (Ghislain Geniaux, Badih Ghattas, Pierre Michel) puis ouvre simplement les questions — pas besoin de contenu supplémentaire ici.</p>
+  </div>
+</div>
+
+<footer class="endcap">
+  Construit à partir du rapport de stage (sections Introduction, Contexte, La mission, Résultats, Conclusion et perspectives) et du fichier <code>DOLIVEIRAjohnny_Slides.tex</code>. Aucun chiffre n'est ajouté ici qui ne figure pas déjà dans l'un des deux documents.
+</footer>
+
+</div>

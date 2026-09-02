@@ -121,6 +121,19 @@ register_spboost_reg <- function() {
     eng = "spboost",
     mode = "regression",
     options = list(
+      # "none" (retabli 2026-08, apres essai infructueux de "traditional").
+      # "traditional" est applique par le blueprint hardhat de
+      # workflows::add_formula() AVANT que spboost_fit_impl() ne recoive
+      # formula/data -- topo y arrive deja developpee en indicatrices, avec
+      # une formule reecrite (colonnes type nitro:topoW). spb_build_boosting_
+      # formula() cherche pourtant les variables brutes par leur nom d'origine
+      # (data[["nitro"]], etc.) pour router bols()/bbs() : avec la formule
+      # deja reecrite, ce nom n'existe plus -- confirme empiriquement sur
+      # lasrosas ("objet 'nitro' introuvable"), sur une session R fraichement
+      # redemarree. "traditional" ne corrige donc rien ici, il deplace
+      # seulement l'echec. Le vrai correctif pour un jeu avec covariable
+      # categorielle doit developper topo en amont, dans les donnees du jeu
+      # lui-meme, pas via ce reglage global.
       predictor_indicators = "none",
       compute_intercept = FALSE,
       remove_intercept = FALSE,
@@ -190,6 +203,13 @@ register_mgwrsar_reg <- function() {
     eng = "mgwrsar",
     mode = "regression",
     options = list(
+      # "none" (retabli 2026-08, meme raison que spboost_reg ci-dessus) :
+      # "traditional" fait developper topo en indicatrices par le blueprint
+      # hardhat de workflows AVANT mgwrsar_fit_impl(), qui passe pourtant
+      # formula/data tels quels a mgwrsar::MGWRSAR() -- confirme empiriquement
+      # sur lasrosas ("colonnes non definies selectionnees"), sur une session
+      # R fraichement redemarree. Le correctif pour une covariable
+      # categorielle doit se faire en amont, dans les donnees du jeu.
       predictor_indicators = "none",
       compute_intercept = FALSE,
       remove_intercept = FALSE,
