@@ -11,6 +11,7 @@
   register_spboost_reg()
   register_mgwrsar_reg()
   register_spmoran_reg()
+  register_probitspatial_reg()
 }
 
 register_spatialreg_reg <- function() {
@@ -21,7 +22,7 @@ register_spatialreg_reg <- function() {
   parsnip::set_model_engine("spatialreg_reg", mode = "regression", eng = "spatialreg")
   parsnip::set_dependency("spatialreg_reg", eng = "spatialreg", pkg = "spatialreg")
 
-  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy")) {
+  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy", "pred_type")) {
     parsnip::set_model_arg(
       model = "spatialreg_reg",
       eng = "spatialreg",
@@ -81,6 +82,100 @@ register_spatialreg_reg <- function() {
   invisible(TRUE)
 }
 
+register_probitspatial_reg <- function() {
+  if ("probit_spatial_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("probit_spatial_reg")
+  parsnip::set_model_mode(model = "probit_spatial_reg", mode = "classification")
+  parsnip::set_model_engine("probit_spatial_reg", mode = "classification", eng = "ProbitSpatial")
+  parsnip::set_dependency("probit_spatial_reg", eng = "ProbitSpatial", pkg = "ProbitSpatial")
+
+  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy")) {
+    parsnip::set_model_arg(
+      model = "probit_spatial_reg",
+      eng = "ProbitSpatial",
+      parsnip = arg,
+      original = arg,
+      func = switch(arg,
+        k_neighbors = list(pkg = "spatialtidymodels", fun = "k_neighbors"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  # probitspatial_pred_impl() renvoie toujours la probabilite de la classe
+  # positive (second niveau stocke au fit, attribut "probitspatial_lvl" --
+  # pas object$lvl, car les jeux binaires cures du projet stockent souvent Y
+  # en 0/1 numerique plutot qu'en facteur, voir probitspatial_fit_impl()).
+  # Meme patron post-traitement que parsnip pour logistic_reg()/glm.
+  parsnip::set_pred(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    type = "prob",
+    value = list(
+      pre = NULL,
+      post = function(results, object) {
+        lvl <- attr(parsnip::extract_fit_engine(object), "probitspatial_lvl")
+        out <- tibble::tibble(v1 = 1 - results, v2 = results)
+        colnames(out) <- lvl
+        out
+      },
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  parsnip::set_pred(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    type = "class",
+    value = list(
+      pre = NULL,
+      post = function(results, object) {
+        lvl <- attr(parsnip::extract_fit_engine(object), "probitspatial_lvl")
+        unname(ifelse(results >= 0.5, lvl[2], lvl[1]))
+      },
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
 register_spboost_reg <- function() {
   if ("spboost_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
 
@@ -121,6 +216,19 @@ register_spboost_reg <- function() {
     eng = "spboost",
     mode = "regression",
     options = list(
+      # "none" (retabli 2026-08, apres essai infructueux de "traditional").
+      # "traditional" est applique par le blueprint hardhat de
+      # workflows::add_formula() AVANT que spboost_fit_impl() ne recoive
+      # formula/data -- topo y arrive deja developpee en indicatrices, avec
+      # une formule reecrite (colonnes type nitro:topoW). spb_build_boosting_
+      # formula() cherche pourtant les variables brutes par leur nom d'origine
+      # (data[["nitro"]], etc.) pour router bols()/bbs() : avec la formule
+      # deja reecrite, ce nom n'existe plus -- confirme empiriquement sur
+      # lasrosas ("objet 'nitro' introuvable"), sur une session R fraichement
+      # redemarree. "traditional" ne corrige donc rien ici, il deplace
+      # seulement l'echec. Le vrai correctif pour un jeu avec covariable
+      # categorielle doit developper topo en amont, dans les donnees du jeu
+      # lui-meme, pas via ce reglage global.
       predictor_indicators = "none",
       compute_intercept = FALSE,
       remove_intercept = FALSE,
@@ -190,6 +298,13 @@ register_mgwrsar_reg <- function() {
     eng = "mgwrsar",
     mode = "regression",
     options = list(
+      # "none" (retabli 2026-08, meme raison que spboost_reg ci-dessus) :
+      # "traditional" fait developper topo en indicatrices par le blueprint
+      # hardhat de workflows AVANT mgwrsar_fit_impl(), qui passe pourtant
+      # formula/data tels quels a mgwrsar::MGWRSAR() -- confirme empiriquement
+      # sur lasrosas ("colonnes non definies selectionnees"), sur une session
+      # R fraichement redemarree. Le correctif pour une covariable
+      # categorielle doit se faire en amont, dans les donnees du jeu.
       predictor_indicators = "none",
       compute_intercept = FALSE,
       remove_intercept = FALSE,

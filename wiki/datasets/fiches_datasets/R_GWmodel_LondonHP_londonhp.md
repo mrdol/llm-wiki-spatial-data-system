@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -91,6 +91,41 @@ A house price data set with 18 hedonic variables for London in 2001.
 - x_terms_used: FLOORSZ, PROF, BATH2
 - y_term_used: PURCHASE
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "PURCHASE ~ FLOORSZ + PROF + BATH2"
+    response: "PURCHASE"
+    predictors: ["FLOORSZ, PROF, BATH2"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_GWmodel_LondonHP_londonhp`
@@ -112,11 +147,11 @@ A house price data set with 18 hedonic variables for London in 2001.
 modeling_evidence:
   existing_model_found: true
   equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,7 +161,7 @@ modeling_evidence:
 - N observations: 316
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -149,6 +184,22 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
 
 ## Estimator eligibility
 
@@ -179,6 +230,7 @@ estimator_eligibility:
     source_ref: "spatialtidymodels package benchmark metadata."
     notes: "Useful for mixed stationary/non-stationary MGWRSAR tests with SAR autocorrelation."
 ```
+
 
 ## Quality Control
 

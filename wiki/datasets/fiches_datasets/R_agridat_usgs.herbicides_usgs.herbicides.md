@@ -1,8 +1,8 @@
 ---
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_agridat_usgs.herbicides_usgs.herbicides.rds
 tags: [dataset, r-package, spatial, point]
@@ -78,9 +78,44 @@ Concentrations of selected herbicides and degradation products determined by lab
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: atrazine ~ sampletype + date + hour + ametryn + T
+- x_terms_used: sampletype + date + hour + ametryn + T
+- y_term_used: atrazine
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "atrazine ~ sampletype + date + hour + ametryn + T"
+    response: "atrazine"
+    predictors: ["sampletype", "date", "hour", "ametryn", "T"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -102,12 +137,12 @@ Concentrations of selected herbicides and degradation products determined by lab
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "None."
-  confidence: low
+  equation_text: "atrazine ~ sampletype + date + hour + ametryn + T"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -118,6 +153,7 @@ modeling_evidence:
 - T periods: 62
 - Variable temporelle: date
 - N/T profile: N_moyen_T_grand
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (184) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 51 ; panel NON EQUILIBRE (T par unite : min=3, mediane=3, max=6). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 51 unites spatiales distinctes, pas sur les 184 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 - Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -140,6 +176,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `agridat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

@@ -1,8 +1,8 @@
 ---
 title: R_spatstat.data_nbfires_nbfires
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spatstat.data_nbfires_nbfires.rds
 tags: [dataset, r-package, spatial, point]
@@ -72,9 +72,44 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
+- x_terms_used: year + fire.type + dis.julian + out.julian + cause + ign.src
+- y_term_used: fnl.size
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src"
+    response: "fnl.size"
+    predictors: ["year", "fire.type", "dis.julian", "out.julian", "cause", "ign.src"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -96,12 +131,12 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Turner, Rolf (2009) Point patterns of forest fire locations. Environmental and Ecological Statistics, 16, 197–223."
-  confidence: low
+  equation_text: "fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -112,6 +147,7 @@ modeling_evidence:
 - T periods: 16
 - Variable temporelle: year
 - N/T profile: N_grand_T_grand
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (7108) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 4781 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=66). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 4781 unites spatiales distinctes, pas sur les 7108 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 - Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -134,6 +170,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spatstat.data`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_cross_section_or_panel_reduction"
+  benchmark_task: "regression_spatial_requires_temporal_policy"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "choisir une coupe temporelle ou une politique panel explicite avant benchmark package"
+  reason: "Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle."
+```
+
+- Decision: almost_ready_cross_section_or_panel_reduction
+- Manque principal: choisir une coupe temporelle ou une politique panel explicite avant benchmark package
+- Raison: Le jeu contient une dimension temporelle; il peut etre benchmarkable apres choix documente d une coupe ou d une aggregation temporelle.
+
 
 ## Quality Control
 

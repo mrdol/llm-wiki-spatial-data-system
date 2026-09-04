@@ -1,8 +1,8 @@
 ---
 title: R_agridat_wallace.iowaland_wallace.iowaland
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_agridat_wallace.iowaland_wallace.iowaland.rds
 tags: [dataset, r-package, spatial, point]
@@ -71,9 +71,44 @@ Iowa farmland values by county in 1925
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: fedval ~ yield + corn + grain + untillable
+- x_terms_used: yield + corn + grain + untillable
+- y_term_used: fedval
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "fedval ~ yield + corn + grain + untillable"
+    response: "fedval"
+    predictors: ["yield", "corn", "grain", "untillable"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -95,12 +130,12 @@ Iowa farmland values by county in 1925
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Larry Winner. Spatial Data Analysis. https://www.stat.ufl.edu/~winner/data/iowaland.txt"
-  confidence: low
+  equation_text: "fedval ~ yield + corn + grain + untillable"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +145,7 @@ modeling_evidence:
 - N observations: 99
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -133,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `agridat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
 
 ## Quality Control
 

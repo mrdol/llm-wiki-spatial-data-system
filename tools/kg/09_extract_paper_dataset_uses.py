@@ -17,17 +17,26 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from audit_reader import audit_candidate_kind, confidence_from_audit, read_model_evidence_audit, validation_status
+
 MANIFEST = ROOT / "inst" / "kg" / "paper_dataset_uses.json"
 OUT_DIR = ROOT / ".kg" / "extracted"
 NODE_PATH = OUT_DIR / "paper_dataset_use_nodes.jsonl"
 EDGE_PATH = OUT_DIR / "paper_dataset_use_edges.jsonl"
 REPORT_PATH = ROOT / "wiki" / "analyses" / "paper_dataset_ingestion_gaps_2026-07.md"
+REPORT_CREATED = "2026-07-27"
 
 
 def slug(value: str) -> str:
@@ -139,7 +148,85 @@ def build_graph_rows(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
                 {"source": "paper_dataset_use_manifest"},
             )
 
+    add_audit_dataset_use_candidates(nodes, edges)
     return list(nodes.values()), list(edges.values())
+
+
+def add_audit_dataset_use_candidates(
+    nodes: dict[str, dict[str, Any]],
+    edges: dict[str, dict[str, Any]],
+) -> None:
+    """Expose les signaux audit qui peuvent devenir des usages papier-dataset.
+
+    L'audit ne nomme pas toujours un dataset canonique. On cree donc des
+    PaperDatasetUseCandidate a relire, sans les relier a un Dataset confirme.
+    """
+    accepted_kinds = {"DataSourceCandidate", "VariableTableCandidate"}
+    for index, row in enumerate(read_model_evidence_audit(), start=1):
+        kind = audit_candidate_kind(row)
+        priority_score = int(row.get("priority_score_int") or 0)
+        if kind not in accepted_kinds or priority_score < 45:
+            continue
+
+        paper_id = row.get("paper_id") or f"paper:audit:{index}"
+        status = validation_status(row)
+        candidate_id = f"paper_dataset_use_candidate:audit:{slug(paper_id)}:{slug(row.get('section_id') or 'section')}:{index}"
+        dataset_candidate_id = f"dataset_candidate:audit:{slug(paper_id)}:{slug(row.get('section_id') or 'section')}:{index}"
+
+        nodes[paper_id] = node(
+            paper_id,
+            "Paper",
+            row.get("paper_title") or paper_id,
+            {
+                "doi": row.get("doi"),
+                "source": "model_evidence_audit",
+            },
+        )
+        nodes[dataset_candidate_id] = node(
+            dataset_candidate_id,
+            "DatasetCandidate",
+            row.get("table_caption") or row.get("section_title") or "Dataset candidate from TEI audit",
+            {
+                "candidate_status": status,
+                "candidate_source": "model_evidence_audit",
+                "section_role": row.get("section_role"),
+                "section_title": row.get("section_title"),
+                "candidate_text": row.get("candidate_text"),
+                "tei_file": row.get("tei_file"),
+            },
+        )
+        nodes[candidate_id] = node(
+            candidate_id,
+            "PaperDatasetUseCandidate",
+            f"{row.get('paper_title') or paper_id} -> dataset candidate",
+            {
+                "status": status,
+                "confidence": confidence_from_audit(row),
+                "section_id": row.get("section_id"),
+                "section_title": row.get("section_title"),
+                "section_role": row.get("section_role"),
+                "priority_score": row.get("priority_score"),
+                "evidence_type": row.get("evidence_type"),
+                "candidate_text": row.get("candidate_text"),
+                "table_caption": row.get("table_caption"),
+                "needs_manual_review": row.get("needs_manual_review"),
+                "audit_reason": row.get("audit_reason"),
+                "tei_file": row.get("tei_file"),
+                "source": "model_evidence_audit",
+            },
+        )
+        edges[f"{paper_id}|HAS_PAPER_DATASET_USE_CANDIDATE|{candidate_id}"] = edge(
+            paper_id,
+            "HAS_PAPER_DATASET_USE_CANDIDATE",
+            candidate_id,
+            {"source": "model_evidence_audit", "status": status},
+        )
+        edges[f"{candidate_id}|CANDIDATE_DATASET_USE|{dataset_candidate_id}"] = edge(
+            candidate_id,
+            "CANDIDATE_DATASET_USE",
+            dataset_candidate_id,
+            {"source": "model_evidence_audit", "status": status},
+        )
 
 
 def write_gap_report(records: list[dict[str, Any]]) -> None:
@@ -150,9 +237,18 @@ def write_gap_report(records: list[dict[str, Any]]) -> None:
             by_paper[record.get("paper_title") or record["paper_id"]].append(record)
 
     lines = [
+        "---",
+        "title: Papiers du corpus avec datasets spatiaux non encore ingérés",
+        "type: metadata",
+        f"created: {REPORT_CREATED}",
+        f"updated: {date.today().isoformat()}",
+        "sources: [inst/kg/paper_dataset_uses.json]",
+        "tags: [metadata, kg, papers, datasets, ingestion, gaps]",
+        "---",
+        "",
         "# Papiers du corpus avec datasets spatiaux non encore ingérés",
         "",
-        "Date : 2026-07-27",
+        f"Date : {REPORT_CREATED}",
         "",
         "Cette liste est issue des usages papier-dataset curés dans `inst/kg/paper_dataset_uses.json`.",
         "Elle ne reprend pas les simples cooccurrences TEI non validées.",
@@ -186,6 +282,15 @@ def write_gap_report(records: list[dict[str, Any]]) -> None:
                 )
             )
         lines.append("")
+
+    lines.extend(
+        [
+            "## Related Pages",
+            "",
+            "- [[paper_dataset_ingestion_pipeline_2026-08]]",
+            "- [[model_evidence_candidates_review_2026-08]]",
+        ]
+    )
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8", newline="\n")

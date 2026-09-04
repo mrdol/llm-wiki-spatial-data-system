@@ -1,0 +1,102 @@
+{
+  "dataset_id": "Warehouse_DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210",
+  "package": "warehouse:DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210",
+  "dataset": "DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210",
+  "source_lang": "python",
+  "conversion_method": "tabular_lonlat:Marrot_Garant_Charmantier2015.xlsx(Longitude,Latitude)",
+  "rds_path": "data/final_datasets/sf/Warehouse_DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "Years",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2008, 2013]",
+        "n_unique": 6,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Laying_date",
+        "class": "int64",
+        "typology": "count",
+        "range": "[30, 58]",
+        "n_unique": 27,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Clutch_size",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2, 13]",
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Incubation_duration",
+        "class": "int64",
+        "typology": "count",
+        "range": "[11, 27]",
+        "n_unique": 15,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Number_of_fledglings",
+        "class": "int64",
+        "typology": "count",
+        "range": "[0, 13]",
+        "n_unique": 14,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [
+      {
+        "name": "Latitude",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "Longitude",
+        "class": "float64",
+        "pct_na": 0.0
+      }
+    ],
+    "identifier_columns": [
+      {
+        "name": "Individuals_ID",
+        "class": "int64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "Nest_boxes_ID",
+        "class": "int64",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 229,
+    "T": 6,
+    "T_var": "Years",
+    "k": 5,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_moyen_T_moyen"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "EPSG:4326",
+    "bbox": {
+      "xmin": 3.661328,
+      "xmax": 3.679321,
+      "ymin": 43.653955,
+      "ymax": 43.674217
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false
+  }
+}

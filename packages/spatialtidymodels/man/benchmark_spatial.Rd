@@ -12,6 +12,7 @@ benchmark_spatial(
   k_neighbors = 8,
   style = "W",
   zero_policy = TRUE,
+  W = NULL,
   spboost_mstop = 100L,
   spboost_nu = 0.1,
   gamboost_mstop = 100L,
@@ -37,7 +38,8 @@ benchmark_spatial(
   verbose = FALSE,
   parallel = FALSE,
   workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  allow_heavy_tuning = FALSE
+  allow_heavy_tuning = FALSE,
+  fold_timeout_sec = NA_real_
 )
 }
 \arguments{
@@ -54,6 +56,10 @@ benchmark_spatial(
 \item{style}{Row-standardization style passed to \code{spdep::nb2listw()}.}
 
 \item{zero_policy}{Zero-neighbour policy passed to \code{spdep}.}
+
+\item{W}{Optional spatial weights matrix or \code{listw} object. When supplied,
+SAR/SEM/SDM routes and residual Moran diagnostics use it instead of
+rebuilding a kNN structure from \code{coords}.}
 
 \item{spboost_mstop}{Number of boosting iterations for \code{spboost}.}
 
@@ -115,6 +121,32 @@ parallel with \code{parallel::makeCluster()}.}
 
 \item{allow_heavy_tuning}{If \code{FALSE}, protect large datasets from tuning
 several expensive MGWRSAR estimators in the same call.}
+
+\item{fold_timeout_sec}{Maximum wall-clock seconds allowed for a single
+(estimator, fold) case in the cross-validated evaluation path (\code{fit},
+\code{predict} and diagnostics combined) -- see \code{\link[=evaluate_benchmark_resamples]{evaluate_benchmark_resamples()}}/
+\code{run_with_fold_timeout()} (\code{26-fold-timeout-worker.R}). \code{NA} (default)
+disables the guard entirely, identical to before this argument existed
+-- zero overhead, no subprocess ever spawned. When set, a case that
+exceeds the budget is aborted and recorded as a normal failure with
+\code{fit_error} starting \code{"TIMEOUT:"} instead of freezing the whole suite;
+every other case keeps running unaffected. Enforced by running the fold
+in a persistent \code{callr} worker process and killing it on timeout -- this
+is a hard, OS-level guarantee, unlike base R's \code{setTimeLimit()}, which
+was tested against the real pathology this guard was built for
+(\code{stats::AIC()} on an \code{mboost}-derived engine) and never interrupted it,
+even 40s+ past a 3s budget: R only checks for interrupts between
+evaluator statements, never mid-way through one long-running
+compiled/matrix call, which is exactly what that case was doing. This is
+a generic safety net for unforeseen pathological cases on large
+datasets, not a diagnosis of \emph{why} a case is slow -- a confirmed root
+cause should still be fixed directly when found (the \code{stats::AIC()} case
+above already was, in \code{extract_information_criteria()},
+\code{12-diagnose-spatial.R}). Not yet applied to the final full-data
+fit/diagnostics pass or to \code{cv_scheme = "in_sample"}, since those need
+the fitted model object to survive in this process for \code{bench$fits},
+and some backends (e.g. xgboost) do not serialize reliably across a
+process boundary.}
 }
 \value{
 A \code{spatial_benchmark} object with \code{results}, \code{resample_results}, and
@@ -139,10 +171,11 @@ diagnostic path is currently in-sample because the upstream package exposes
 with a GLS correction for spatial dependence using a nearest-neighbour
 Gaussian-process/Vecchia-style approximation.
 
-\code{AIC}, \code{AICc}, and \code{logLik} are reported when the fitted backend exposes a
+\code{AICc} and \code{logLik} are reported when the fitted backend exposes a
 likelihood and a usable parameter count. For \code{spboost}, the package first
 tries the standard R methods, then falls back to backend fields such as
-\code{logl}/\code{AIC} and an explicit active-coefficient count when available.
+\code{logl}/backend information and an explicit active-coefficient count when
+available.
 
 The \code{spatial_param} and \code{spatial_value} columns report a single explicit
 spatial dependence parameter when the fitted backend exposes one. SAR-style
@@ -155,6 +188,12 @@ Models such as \code{random_forest}, \code{spatialml_grf}, and \code{spatialrf} 
 coordinates, local forests, distances, or spatial predictors, but they do not
 estimate one scalar econometric parameter equivalent to \code{rho} or \code{lambda}.
 Their \code{spatial_param} and \code{spatial_value} columns therefore remain \code{NA}.
+
+The \code{moran_i} column reports Moran's I on residuals, while \code{moran_abs}
+reports \code{abs(moran_i)}. When the goal is to remove residual spatial
+autocorrelation, \code{moran_abs} is usually the metric to minimize because both
+positive clustering and negative checkerboard-like autocorrelation indicate
+remaining spatial structure.
 
 Runtime is recorded in seconds. The main \code{results} table reports
 \code{duration_sec}, the total measured time spent by each estimator across all

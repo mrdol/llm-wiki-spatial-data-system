@@ -1,8 +1,8 @@
 ---
 title: R_spDataLarge_lsl_lsl
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spDataLarge_lsl_lsl.rds
 tags: [dataset, r-package, spatial, point]
@@ -75,6 +75,41 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 - x_terms_used: slope, cplan, cprof, elev, log10_carea
 - y_term_used: lslpts
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
+    response: "lslpts"
+    predictors: ["slope, cplan, cprof, elev, log10_carea"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284."
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spDataLarge_lsl_lsl`
@@ -96,11 +131,11 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 modeling_evidence:
   existing_model_found: true
   equation_text: "lslpts ~ slope + cplan + cprof + elev + log10_carea"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Muenchow, J., Brenning, A., Richter, R. (2012) Geomorphic process rates of landslides along a humidity gradient in the tropical Andes. Geomorphology 139-140, 271-284."
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +145,7 @@ modeling_evidence:
 - N observations: 350
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -133,6 +168,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spDataLarge`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

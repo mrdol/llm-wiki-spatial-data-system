@@ -1,8 +1,8 @@
 ---
 title: R_gstat_oxford_oxford
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_gstat_oxford_oxford.rds
 tags: [dataset, r-package, spatial, point]
@@ -84,9 +84,44 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- y_term_used: PROFCLASS
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2"
+    response: "PROFCLASS"
+    predictors: ["ELEV", "VAL1", "CHR1", "LIME1", "VAL2", "CHR2", "LIME2"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -108,12 +143,12 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press."
-  confidence: low
+  equation_text: "PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +158,7 @@ modeling_evidence:
 - N observations: 126
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -146,6 +181,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `gstat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

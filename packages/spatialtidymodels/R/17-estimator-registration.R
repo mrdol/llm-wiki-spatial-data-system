@@ -1,0 +1,270 @@
+# API d'extension: enregistrer un estimateur spatial "maison".
+#
+# Objectif direct de cette couche: quelqu'un qui vient de developper une
+# nouvelle variante d'un estimateur (ex. un SAR non lineaire, un SAR
+# boosting different de spboost) doit pouvoir la brancher au benchmark et a
+# compare_estimator_variant() SANS editer fit_one_benchmark_estimator() ni le
+# registre interne du package.
+#
+# Contrat minimal demande a l'utilisateur:
+#   fit(formula, data, coords)      -> un objet modele quelconque
+#   predict(fit, new_data)          -> un vecteur numerique de predictions
+#
+# IMPORTANT -- piege verifie empiriquement le 2026-08-18: `coords` recu par
+# `fit` est un vecteur de NOMS DE COLONNES (ex. c("X", "Y")), pas une matrice
+# de coordonnees numeriques. Passer `coords` tel quel a build_knn_W()/
+# build_knn_listw() echoue avec "knearneigh: data non-numeric" -- il faut
+# d'abord extraire les valeurs avec `as.matrix(data[, coords])` a l'interieur
+# de `fit` (voir l'exemple de register_spatial_estimator() ci-dessous, teste
+# de bout en bout sur benchmark_spatial_suite()).
+#
+# Ce contrat est volontairement etroit. requires_W = TRUE est pour l'instant
+# une metadonnee informative (affichee par available_benchmark_estimators()),
+# pas encore une construction automatique de W passee au fit -- si
+# l'estimateur a besoin d'une matrice de voisinage, la construire dans `fit`
+# avec build_knn_W()/build_knn_listw() (deja exportees) sur
+# `as.matrix(data[, coords])`, pas sur `coords` directement. Le tuning
+# (tune = TRUE) n'est pas non plus supporte pour les estimateurs enregistres
+# ici: benchmark_tuning_grid() retourne NULL pour un nom d'estimateur inconnu
+# de default_benchmark_grid(), donc le tuning est silencieusement ignore --
+# fixer les hyperparametres dans la fermeture de `fit` a la place.
+
+custom_estimator_registry_env <- new.env(parent = emptyenv())
+
+#' Register a custom spatial estimator for the benchmark
+#'
+#' Plugs a user-supplied estimator into `benchmark_spatial()`,
+#' `available_benchmark_estimators()` and, downstream,
+#' `compare_estimator_variant()`, without touching package internals. This is
+#' the entry point for testing a new variant of a reference estimator (e.g. a
+#' nonlinear or boosted SAR) against the package's built-in routes.
+#'
+#' @param id Estimator name, used in `estimators = c(...)` and in comparison
+#'   calls. Must not collide with a built-in estimator name.
+#' @param fit A function with signature `function(formula, data, coords)`
+#'   returning a fitted model object. `coords` is a character vector of
+#'   *column names* in `data` (e.g. `c("X", "Y")`), not a numeric matrix --
+#'   extract the values yourself with `as.matrix(data[, coords])` before
+#'   passing them on. If the estimator needs a spatial weights matrix, build
+#'   it inside `fit` from that extracted matrix (e.g. with `build_knn_W()`
+#'   or `build_knn_listw()`); passing `coords` directly to either will fail
+#'   with `"knearneigh: data non-numeric"`. See Examples.
+#' @param predict A function with signature `function(fit, new_data)`
+#'   returning a numeric vector of predictions, same length and row order as
+#'   `new_data`.
+#' @param family Free-text label grouping this estimator with related ones
+#'   (e.g. `"sar"`, `"boosting"`). Purely informative.
+#' @param reference_estimator Name of the built-in (or another registered)
+#'   estimator this one should be compared against by default -- feeds
+#'   `compare_estimator_variant(reference = ...)` conventions and any future
+#'   dashboard grouping. Purely informative; not enforced. Supplying it also
+#'   sets `role = "variant"` in `available_benchmark_estimators()`/
+#'   `registered_spatial_estimators()`; leaving it `NA` gives `role =
+#'   "reference"` (same two-role convention as the package's built-in
+#'   estimator taxonomy -- see `family`/`role`/`reference_estimator`/
+#'   `variant_family` columns there).
+#' @param variant_family Free-text label for *how* this estimator varies from
+#'   its reference (e.g. `"boosting"`, `"alternate_backend"`), mirroring the
+#'   built-in taxonomy's `variant_family` column. Purely informative.
+#' @param requires_coords,requires_W Informative flags describing what the
+#'   estimator needs; `requires_W` does not yet trigger automatic `W`
+#'   construction (see Details above the source).
+#' @param tunable_parameters Character vector naming hyperparameters, for
+#'   display in `available_benchmark_estimators()`. Tuning via
+#'   `benchmark_spatial(tune = TRUE)` is not yet wired for registered
+#'   estimators.
+#' @param package Optional R package name this estimator depends on; used by
+#'   `available_benchmark_estimators(include_installed = TRUE)`. Leave `NA`
+#'   (default) if there is no package dependency to check.
+#' @param notes Free-text notes shown in `available_benchmark_estimators()`.
+#' @param overwrite If `FALSE` (default), re-registering an existing `id`
+#'   errors instead of silently replacing it.
+#'
+#' @return `id`, invisibly.
+#' @examples
+#' \dontrun{
+#' # A custom SAR-lag estimator that builds its own spatial weights matrix
+#' # inside `fit`. Note the `as.matrix(data[, coords])` step: `coords` is a
+#' # vector of column names, not coordinate values (see the `fit` argument
+#' # above) -- passing `coords` straight to build_knn_listw() fails with
+#' # "knearneigh: data non-numeric".
+#' register_spatial_estimator(
+#'   id = "my_custom_sar_lag",
+#'   fit = function(formula, data, coords) {
+#'     listw <- build_knn_listw(as.matrix(data[, coords]), k = 6L)
+#'     spatialreg::lagsarlm(formula, data = data, listw = listw, zero.policy = TRUE)
+#'   },
+#'   predict = function(fit, new_data) {
+#'     as.numeric(fitted(fit))[seq_len(nrow(new_data))]
+#'   },
+#'   family = "sar", reference_estimator = "ols",
+#'   requires_coords = TRUE, requires_W = TRUE
+#' )
+#' benchmark_spatial_suite(
+#'   datasets = "boston_housing",
+#'   estimators = c("ols", "my_custom_sar_lag"),
+#'   cv_schemes = "in_sample"
+#' )
+#' unregister_spatial_estimator("my_custom_sar_lag")
+#' }
+#' @export
+register_spatial_estimator <- function(id, fit, predict,
+                                       family = NA_character_,
+                                       reference_estimator = NA_character_,
+                                       variant_family = NA_character_,
+                                       requires_coords = TRUE,
+                                       requires_W = FALSE,
+                                       tunable_parameters = character(0),
+                                       package = NA_character_,
+                                       notes = "",
+                                       overwrite = FALSE) {
+  if (!is.character(id) || length(id) != 1L || !nzchar(id)) {
+    stop("`id` doit etre une chaine de longueur 1.", call. = FALSE)
+  }
+  if (id %in% fallback_spatial_benchmark_registry()$estimator) {
+    stop(sprintf("'%s' est deja le nom d'un estimateur integre au package -- choisissez un autre id.", id), call. = FALSE)
+  }
+  if (!isTRUE(overwrite) && exists(id, envir = custom_estimator_registry_env, inherits = FALSE)) {
+    stop(sprintf("Un estimateur '%s' est deja enregistre. Utilisez overwrite = TRUE pour le remplacer.", id), call. = FALSE)
+  }
+  if (!is.function(fit) || !all(c("formula", "data", "coords") %in% names(formals(fit)))) {
+    stop("`fit` doit etre une fonction avec les arguments formula, data, coords.", call. = FALSE)
+  }
+  if (!is.function(predict) || length(formals(predict)) < 2L) {
+    stop("`predict` doit etre une fonction function(fit, new_data).", call. = FALSE)
+  }
+
+  assign(
+    id,
+    list(
+      id = id, fit = fit, predict = predict,
+      family = family, reference_estimator = reference_estimator, variant_family = variant_family,
+      requires_coords = isTRUE(requires_coords), requires_W = isTRUE(requires_W),
+      tunable_parameters = tunable_parameters,
+      package = package, notes = notes
+    ),
+    envir = custom_estimator_registry_env
+  )
+  invisible(id)
+}
+
+#' Remove a registered custom spatial estimator
+#'
+#' @param id Estimator name previously passed to [register_spatial_estimator()].
+#' @return `id`, invisibly.
+#' @export
+unregister_spatial_estimator <- function(id) {
+  if (exists(id, envir = custom_estimator_registry_env, inherits = FALSE)) {
+    rm(list = id, envir = custom_estimator_registry_env)
+  }
+  invisible(id)
+}
+
+get_custom_estimator <- function(id) {
+  if (!exists(id, envir = custom_estimator_registry_env, inherits = FALSE)) return(NULL)
+  get(id, envir = custom_estimator_registry_env, inherits = FALSE)
+}
+
+custom_estimator_registry_snapshot <- function() {
+  # Used by run_with_fold_timeout() (26-fold-timeout-worker.R) to replicate
+  # any register_spatial_estimator() entries inside the callr worker process,
+  # which starts with its own empty custom_estimator_registry_env -- without
+  # this, a registered custom estimator would silently be "unknown" as soon
+  # as fold_timeout_sec routes its folds through a worker.
+  ids <- ls(custom_estimator_registry_env)
+  if (!length(ids)) return(list())
+  mget(ids, envir = custom_estimator_registry_env)
+}
+
+restore_custom_estimator_entry <- function(entry) {
+  register_spatial_estimator(
+    id = entry$id, fit = entry$fit, predict = entry$predict,
+    family = entry$family, reference_estimator = entry$reference_estimator,
+    variant_family = entry$variant_family, requires_coords = entry$requires_coords,
+    requires_W = entry$requires_W, tunable_parameters = entry$tunable_parameters,
+    package = entry$package, notes = entry$notes, overwrite = TRUE
+  )
+}
+
+custom_estimator_registry_as_df <- function() {
+  ids <- ls(custom_estimator_registry_env)
+  empty <- data.frame(
+    estimator = character(0), status = character(0), mode = character(0),
+    package = character(0), backend = character(0), automatic = logical(0),
+    requires_coords = logical(0), requires_W = logical(0),
+    spatial_args = character(0), tunable_parameters = character(0),
+    notes = character(0), family = character(0), role = character(0),
+    reference_estimator = character(0), variant_family = character(0),
+    dashboard_group = character(0),
+    stringsAsFactors = FALSE
+  )
+  if (!length(ids)) return(empty)
+  entries <- mget(ids, envir = custom_estimator_registry_env)
+  rows <- lapply(entries, function(e) {
+    ref <- e$reference_estimator %||% NA_character_
+    data.frame(
+      estimator = e$id,
+      status = "automatic",
+      mode = "regression",
+      package = e$package %||% NA_character_,
+      backend = "user_registered",
+      automatic = TRUE,
+      requires_coords = isTRUE(e$requires_coords),
+      requires_W = isTRUE(e$requires_W),
+      spatial_args = if (isTRUE(e$requires_W)) "coords/W" else if (isTRUE(e$requires_coords)) "coords" else "",
+      tunable_parameters = paste(e$tunable_parameters, collapse = ", "),
+      notes = e$notes %||% "",
+      family = e$family %||% NA_character_,
+      # Same convention as the built-in taxonomy: a registered estimator with
+      # a reference_estimator is a "variant" of it, otherwise it's its own
+      # "reference" (there is no "alias" case for user-registered estimators).
+      role = if (!is.na(ref)) "variant" else "reference",
+      reference_estimator = ref,
+      variant_family = e$variant_family %||% NA_character_,
+      # No dashboard_group concept in register_spatial_estimator() yet --
+      # NA rather than dropping the column, so it doesn't silently erase
+      # dashboard_group for the 27 built-ins too when merged (see
+      # spatial_benchmark_registry()'s intersect(names(out), names(custom))).
+      dashboard_group = NA_character_,
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+
+#' List currently registered custom spatial estimators
+#'
+#' @return A `data.frame`, one row per estimator registered with
+#'   [register_spatial_estimator()] in the current R session (empty if none).
+#' @export
+registered_spatial_estimators <- function() {
+  custom_estimator_registry_as_df()
+}
+
+fit_custom_spatial_estimator <- function(entry, formula, data, coords) {
+  raw_fit <- entry$fit(formula = formula, data = data, coords = coords)
+  structure(
+    list(fit = raw_fit, predict_fn = entry$predict),
+    class = "spatialtidymodels_custom_fit"
+  )
+}
+
+#' @export
+predict.spatialtidymodels_custom_fit <- function(object, new_data = NULL, newdata = NULL, ...) {
+  # predict_vector_for_benchmark() (used during CV fold scoring) calls
+  # predict(fit, new_data = ...), the tidymodels convention; diagnose_spatial()'s
+  # internal predict_values_for_diagnostics() (used for in-sample diagnostics
+  # AND, critically, for the per-fold RMSE/MAE/Moran diagnostics computed
+  # inside CV scoring) calls predict(fit, newdata = ...), the base-R
+  # convention. Accepting only one silently breaks the other: R propagates an
+  # unmatched/missing argument through nested calls instead of erroring, so a
+  # mismatched name here doesn't fail loudly -- it falls through to
+  # predict.lm()'s no-newdata behaviour (in-sample fitted values), which is
+  # invisible for in-sample diagnostics (train == test, so it happens to look
+  # right) and silently wrong for every out-of-sample fold. Accept both names.
+  nd <- new_data %||% newdata
+  if (is.null(nd)) {
+    stop("predict.spatialtidymodels_custom_fit() requires `new_data` (or `newdata`).", call. = FALSE)
+  }
+  as.numeric(object$predict_fn(object$fit, nd))
+}

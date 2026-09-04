@@ -1,0 +1,65 @@
+{
+  "dataset_id": "Warehouse_2024_IntroductionToSpatialStatistics_10_34810_data178",
+  "package": "warehouse:dataverse:data1784",
+  "dataset": "Introduction to spatial statistics (MSc European Forestry) - Module 3 fire occurrence logistic model, La Rioja/Aragon/Catalunya",
+  "source_lang": "python",
+  "conversion_method": "tabular_projected:fire_logit.csv(X_INDEX,Y_INDEX, EPSG:23030 verifie via weather_stations.prj du meme module)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2024_IntroductionToSpatialStatistics_10_34810_data178.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "logit_1_0",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "X_INDEX",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-3500.0000, 1017500.0000]",
+        "n_unique": 779,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Y_INDEX",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[3993500.0000, 4851500.0000]",
+        "n_unique": 735,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 3494,
+    "T": 1,
+    "T_var": null,
+    "k": 3,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_grand_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84 (reprojete depuis EPSG:23030)",
+    "bbox": {
+      "xmin": -9.17416,
+      "ymin": 36.058087,
+      "xmax": Infinity,
+      "ymax": Infinity
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Depot original (10.34810/data1784, 811 Mo outer zip / 3.3 Go nested zip, 73 fichiers, materiel de cours MSc European Forestry) trop volumineux pour un traitement integral. Seul Module_3/fire_logit.csv extrait selectivement (table Y/X directement exploitable, N=3494) : Y binaire occurrence incendie (logit_1_0) + coordonnees projetees. CRS verifie (pas suppose) via Module_3/weather_stations.prj (meme dossier) = ED_1950_UTM_Zone_30N. Le reste du depot ecarte : grilles raster brutes (variables meteo, classification Random Forest, plusieurs Go) hors perimetre, et R14EbroBasin.csv (47 covariables d'incendie riches mais AUCUNE coordonnee, N=1604 different de fire_logit N=3494 - pas de jointure par ordre de ligne possible sans fabrication)."
+  }
+}

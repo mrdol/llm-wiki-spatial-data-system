@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_spdata.columbus
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds
 tags: [dataset, python-package, spatial, point]
@@ -62,24 +62,59 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ### Formule — niveau publication
 
-- formula_pub: CRIME ~ HOVAL + INC
-- x_terms_pub: HOVAL + INC
-- y_term_pub: CRIME
-- Reference publication: Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189.
+- formula_pub: pending
+- x_terms_pub: pending
+- y_term_pub: pending
+- Reference publication: pending
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: R_spdep_oldcol_COL.OLD
-- Note: Formule identifiee via la documentation du package equivalent `R_spdep_oldcol_COL.OLD` -- meme jeu de donnees sous-jacent (propagation automatique Tache 3, a confirmer par revue manuelle).
+- Note: n/a
 
 ### Formule — niveau systeme
 
 - formula_used: CRIME ~ HOVAL + INC
 - x_terms_used: HOVAL + INC
 - y_term_used: CRIME
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "CRIME ~ HOVAL + INC"
+    response: "CRIME"
+    predictors: ["HOVAL", "INC"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -102,11 +137,11 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 modeling_evidence:
   existing_model_found: true
   equation_text: "CRIME ~ HOVAL + INC"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Anselin, Luc (1988) Spatial Econometrics: Methods and Models. Dordrecht: Kluwer Academic, Table 12.1, p. 189."
-  confidence: low
+  equation_family: regression
+  model_family: "regression"
+  source_type: published_or_manual_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -116,7 +151,7 @@ modeling_evidence:
 - N observations: 49
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -139,6 +174,22 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
 
 ## Estimator eligibility
 
@@ -182,11 +233,12 @@ estimator_eligibility:
     notes: "Benchmark route only until a paper-source relation is curated."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

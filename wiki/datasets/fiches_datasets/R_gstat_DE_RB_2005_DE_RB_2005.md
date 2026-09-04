@@ -1,8 +1,8 @@
 ---
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_gstat_DE_RB_2005_DE_RB_2005.rds
 tags: [dataset, r-package, spatial, point]
@@ -75,6 +75,41 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 - x_terms_used: pending
 - y_term_used: PM10
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_gstat_DE_RB_2005_DE_RB_2005`
@@ -96,11 +131,11 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 modeling_evidence:
   existing_model_found: true
   equation_text: "PM10 ~ 1"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -111,6 +146,7 @@ modeling_evidence:
 - T periods: 365
 - Variable temporelle: time
 - N/T profile: N_grand_T_grand
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (23230) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 69 ; panel NON EQUILIBRE (T par unite : min=79, mediane=357, max=365). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 69 unites spatiales distinctes, pas sur les 23230 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 - Temporal note: dimension temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -133,6 +169,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `gstat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_no_covariates"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "au moins une covariable X locale est requise"
+  reason: "Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment."
+```
+
+- Decision: not_ready_no_covariates
+- Manque principal: au moins une covariable X locale est requise
+- Raison: Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment.
+
 
 ## Quality Control
 

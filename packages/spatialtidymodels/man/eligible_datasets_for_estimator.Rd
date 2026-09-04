@@ -4,10 +4,17 @@
 \alias{eligible_datasets_for_estimator}
 \title{List benchmark datasets eligible for an estimator}
 \usage{
-eligible_datasets_for_estimator(estimator)
+eligible_datasets_for_estimator(
+  estimator,
+  evidence = c("all", "scientific_evidence", "published_model", "benchmark_use",
+    "generated_candidate")
+)
 }
 \arguments{
 \item{estimator}{Estimator name from \code{available_benchmark_estimators()}.}
+
+\item{evidence}{Evidence layer to retain. \code{"all"} keeps documented models
+and curated technical comparators, but not tentative generated candidates.}
 }
 \value{
 A data frame with dataset metadata and evidence columns.

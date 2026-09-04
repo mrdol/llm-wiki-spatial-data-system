@@ -1,4 +1,4 @@
-# LLM Wiki - Agent Operating Manual
+﻿# LLM Wiki - Agent Operating Manual
 
 Read `CONTEXT.md` first - it defines all project terms (fiche, sf, N/T,
 typologies Y/X, bandwidth, pipeline, eval scores, estimateurs, agents).
@@ -47,6 +47,90 @@ corpus evidence -> KG relations -> wiki pages -> improved KG rules -> better wik
 Do not treat either layer as final truth by itself. The KG is structured
 evidence. The wiki is validated interpretation.
 
+---
+
+## Claude Fallback Production Mode
+
+Claude is normally the quality gate agent, not the production agent. If the user
+explicitly asks Claude to produce or modify fiches/scripts because Codex is not
+available, Claude may act in fallback production mode. In that mode, every batch
+must leave an audit trail: files changed, assumptions, source evidence, fields
+left unresolved, and manual-review items.
+
+Fallback production mode does not remove the package promotion gate. A
+paper-derived or warehouse-derived dataset must not be exported as a usable
+`spatialtidymodels` benchmark unless its fiche contains a `benchmark_readiness`
+block and `package_include: "yes"` has been chosen deliberately.
+
+## spatialtidymodels Package Promotion Gate
+
+Do not promote a dataset into the `spatialtidymodels` benchmark layer just
+because a wiki fiche exists. A dataset is package-benchmarkable only when all
+of the following are true:
+
+- a final local artifact exists and is readable (`.rds` or `.gpkg`);
+- the response variable is usable for the current benchmark task;
+- the covariates used by the formula or model specification are present in the
+  final artifact;
+- the fiche records defensible formula/model evidence, or clearly marks the
+  formula as system-generated;
+- spatial support is usable: geometry, coordinates, raster support, or an
+  original/reconstructible `W`;
+- the absence of a local `W` object is not blocking when the dataset has
+  usable coordinates or geometry and the benchmark can build a documented
+  neighbor/weights structure from them (`k_neighbors`, distance threshold,
+  contiguity for polygons, style `W`, `zero_policy`, etc.);
+- `W` becomes blocking only when the paper relies on a non-geographic or
+  source-specific weights matrix that cannot be reconstructed defensibly from
+  the local spatial support (for example political, institutional, trade,
+  network or bespoke economic proximity matrices);
+- CRS, distance, neighbor construction, or original/source-specific `W` are
+  documented well enough for the relevant estimators;
+- preprocessing choices are documented and consistent with the paper,
+  package documentation, or source data;
+- the dataset is not only a prediction product, derived coefficient surface,
+  cluster output, or other model output unless the benchmark task explicitly
+  targets that object;
+- estimator eligibility is stated or inferable from the evidence.
+
+For `paper_*.md` and warehouse-derived fiches, the fiche must include a
+`benchmark_readiness` block. `package_include: "yes"` is allowed only with
+`benchmark_status: "ready"`. Use `manual_review`, `needs_*`, or `not_ready_*`
+instead of promoting an uncertain dataset.
+
+## spatialtidymodels Benchmark, Comparison and Dashboard Layer
+
+`packages/spatialtidymodels/` is a real, tested R package, not a placeholder.
+It exposes `parsnip` engines for ~28 spatial/spatio-temporal estimators
+(baselines, `spatialreg` SAR/SEM/SDM, `mgwrsar` GWR/MGWR/MGWRSAR, `spboost`
+BSPA SAR/SEM, `spmoran` ESF/RESF, spatial forests), an orchestration layer
+(`benchmark_spatial_suite()`) across datasets x estimators x CV schemes, a
+statistical reference-vs-variant comparison engine
+(`compare_estimator_variant()`/`comparison_rules()`: win/tie/loss with a ROPE,
+a paired Wilcoxon test, secondary guardrails, `SPECIALIZED` subgroup
+detection, and an `analysis_unit` choice between `"task"` (default) and
+`"source"`, which collapses cases sharing `source_dataset_id` before scoring),
+and a Shiny dashboard (`launch_benchmark_dashboard()`, `19` through
+`25-dashboard-*.R`).
+
+The verdict logic lives entirely in `compare_estimator_variant()`, in R,
+never in the UI. Any dashboard page, report, or future consumer must call
+`compare_estimator_variant()` and display `$verdict`/`$summary`/`$per_case`
+as-is -- it must never recompute win/tie/loss, re-derive a verdict from raw
+metrics, or approximate the Wilcoxon/ROPE logic independently. This is what
+lets a result be reproduced identically in a plain R console without opening
+the dashboard.
+
+`register_spatial_estimator()` lets a researcher plug in a custom
+fit/predict pair without touching package internals; a registered estimator
+is discoverable and directly usable everywhere `compare_estimator_variant()`
+and `benchmark_spatial_suite()` are.
+
+Do not treat `inst/metadata/{datasets,estimators}.json`'s registry counts
+(e.g. `package_include: "yes"`) as evidence that a dataset has actually been
+run through `benchmark_spatial_suite()` at least once. The registry tracks
+benchmark-readiness, not execution history -- these are two different
+questions and must not be conflated in any report or summary.
 ---
 
 ## Core Priority
@@ -180,6 +264,10 @@ Each dataset page or dataset metadata profile should include, when available:
 - dataset name;
 - source family and source URL;
 - paper DOI and dataset/archive DOI, kept separate;
+- for datasets distributed inside R/Python packages, a dataset DOI is often not
+  available; `Dataset DOI: none` or `Dataset DOI: not_applicable` is valid when
+  the fiche records the package source, object name, source URL/documentation,
+  license, and local artifact path;
 - variables, including candidate `Y`, candidate `X`, selected `X`;
 - variable roles: response, covariate, coordinate, geometry, identifier, time;
 - variable types: continuous, binary, count, rate, proportion, categorical,
@@ -191,7 +279,9 @@ Each dataset page or dataset metadata profile should include, when available:
   metadata source defines one;
 - reproducibility evidence: code, repository, supplements, examples;
 - licence and reuse constraints;
-- quality pedigree and review status when the page supports project decisions.
+- quality pedigree and review status when the page supports project decisions;
+  this is recommended evidence metadata, not a hard pre-commit requirement for
+  package-derived dataset fiches.
 
 ---
 
@@ -457,6 +547,12 @@ Do not invent a regression formula. Formula links must come from one of:
 If a formula is inferred from damaged GROBID output, mark it as an inference in
 the KG props and keep it reviewable.
 
+For datasets linked to scientific papers, apply the detailed extraction rules in
+`wiki/metadata/regression_formula_extraction_policy_v1.md`. In particular,
+distinguish formulas stated in prose from formulas reconstructed from regression
+tables, keep table-column specifications separate when they differ, and never
+upgrade GROBID-only table extraction above manual-review confidence.
+
 ---
 
 ## Papers And Bibliography
@@ -485,6 +581,25 @@ datasets, formulas, methods, variables, packages, sections, and citations.
 Keep paper DOI, dataset DOI, and archive DOI separate.
 
 Do not maintain citation-count fields by default.
+
+PDFs collected manually can be staged first in the sibling project
+`Biblio_from_pdf`. That project creates a clean `<batch>.bib` and renamed PDFs
+from a folder of dropped PDFs. Import only user-confirmed batches into this
+project with:
+
+```powershell
+python "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\Biblio_from_pdf\tools\import_to_llm_wiki.py" <batch> --dry-run
+python "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\Biblio_from_pdf\tools\import_to_llm_wiki.py" <batch> `
+  --target "C:\Users\jdoliveira\SynologyDrive\johnny D'OLIVEIRA\Travaux stages\llm-wiki-karpathy"
+```
+
+The importer copies PDFs to `corpus/papers/raw_pdf/`, appends BibTeX records to
+`corpus/bib/references.bib`, converts `bdsk-file-1` into a JabRef/BibDesk
+`file = {:...:PDF}` field, and skips duplicate keys or DOI. After import, run:
+
+```powershell
+python tools/kg/ingest_papers.py --from-bib --missing-only
+```
 
 Do not use unauthorized paper download routes. Use legal sources only:
 
@@ -787,3 +902,5 @@ Keep estimator result names separate from backend/package names. Example:
 `mgwrsar_gwr` is the GWR model run through the R package/engine `mgwrsar`;
 `mgwrsar_mgwrsar` is the MGWRSAR model variant with explicit spatial
 autocorrelation.
+
+

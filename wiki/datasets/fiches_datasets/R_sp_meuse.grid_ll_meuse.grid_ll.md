@@ -1,8 +1,8 @@
 ---
 title: R_sp_meuse.grid_ll_meuse.grid_ll
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_sp_meuse.grid_ll_meuse.grid_ll.rds
 tags: [dataset, r-package, spatial, point]
@@ -70,9 +70,44 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: dist ~ part.a + part.b + soil + ffreq
+- x_terms_used: part.a + part.b + soil + ffreq
+- y_term_used: dist
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "dist ~ part.a + part.b + soil + ffreq"
+    response: "dist"
+    predictors: ["part.a", "part.b", "soil", "ffreq"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -94,12 +129,12 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "M G J Rikken and R P G Van Rijn (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
-  confidence: low
+  equation_text: "dist ~ part.a + part.b + soil + ffreq"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -109,7 +144,7 @@ modeling_evidence:
 - N observations: 3103
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -132,6 +167,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `sp`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
 
 ## Quality Control
 

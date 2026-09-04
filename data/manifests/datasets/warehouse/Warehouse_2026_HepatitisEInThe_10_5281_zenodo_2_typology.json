@@ -1,0 +1,105 @@
+{
+  "dataset_id": "Warehouse_2026_HepatitisEInThe_10_5281_zenodo_2",
+  "package": "warehouse:zenodo:hepatitis_e_korea",
+  "dataset": "Hepatitis E in Korea - sigungu-level analysis",
+  "source_lang": "python",
+  "conversion_method": "name_join:KOSTAT_2018_municipalities(hangul exact + 11 dissolved sub-districts + 1 renamed district verified by centroid)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2026_HepatitisEInThe_10_5281_zenodo_2.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "sido",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 17,
+        "pct_na": 0.0
+      },
+      {
+        "name": "sigungu",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 207,
+        "pct_na": 0.0
+      },
+      {
+        "name": "total_cases",
+        "class": "int64",
+        "typology": "count",
+        "range": "[0, 186]",
+        "n_unique": 49,
+        "pct_na": 0.0
+      },
+      {
+        "name": "mean_pop",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[9023.2000, 1190203.6000]",
+        "n_unique": 229,
+        "pct_na": 0.0
+      },
+      {
+        "name": "pig_head",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 548416.8000]",
+        "n_unique": 161,
+        "pct_na": 0.0
+      },
+      {
+        "name": "old_rate",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 43.7350]",
+        "n_unique": 227,
+        "pct_na": 0.0
+      },
+      {
+        "name": "rural_idx",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.9953]",
+        "n_unique": 226,
+        "pct_na": 0.0
+      },
+      {
+        "name": "rate_per_100k_year",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 12.3222]",
+        "n_unique": 223,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 229,
+    "T": 1,
+    "T_var": null,
+    "k": 8,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_moyen_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 124.609718,
+      "ymin": 33.112356,
+      "xmax": 131.871467,
+      "ymax": 38.613709
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par nom Hangul exact contre KOSTAT 2018 (southkorea/southkorea-maps), 229/229 sigungu verifies : 217 correspondance directe, 11 villes agregees depuis leurs sous-districts (gu), 1 district renomme (Incheon Namgu->Michuhol-gu) verifie par centroid."
+  }
+}

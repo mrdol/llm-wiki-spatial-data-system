@@ -35,7 +35,8 @@ benchmark_spatial_datasets(
   verbose = FALSE,
   parallel = FALSE,
   workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  allow_heavy_tuning = FALSE
+  allow_heavy_tuning = FALSE,
+  fold_timeout_sec = NA_real_
 )
 }
 \arguments{
@@ -109,6 +110,32 @@ parallel with \code{parallel::makeCluster()}.}
 
 \item{allow_heavy_tuning}{If \code{FALSE}, protect large datasets from tuning
 several expensive MGWRSAR estimators in the same call.}
+
+\item{fold_timeout_sec}{Maximum wall-clock seconds allowed for a single
+(estimator, fold) case in the cross-validated evaluation path (\code{fit},
+\code{predict} and diagnostics combined) -- see \code{\link[=evaluate_benchmark_resamples]{evaluate_benchmark_resamples()}}/
+\code{run_with_fold_timeout()} (\code{26-fold-timeout-worker.R}). \code{NA} (default)
+disables the guard entirely, identical to before this argument existed
+-- zero overhead, no subprocess ever spawned. When set, a case that
+exceeds the budget is aborted and recorded as a normal failure with
+\code{fit_error} starting \code{"TIMEOUT:"} instead of freezing the whole suite;
+every other case keeps running unaffected. Enforced by running the fold
+in a persistent \code{callr} worker process and killing it on timeout -- this
+is a hard, OS-level guarantee, unlike base R's \code{setTimeLimit()}, which
+was tested against the real pathology this guard was built for
+(\code{stats::AIC()} on an \code{mboost}-derived engine) and never interrupted it,
+even 40s+ past a 3s budget: R only checks for interrupts between
+evaluator statements, never mid-way through one long-running
+compiled/matrix call, which is exactly what that case was doing. This is
+a generic safety net for unforeseen pathological cases on large
+datasets, not a diagnosis of \emph{why} a case is slow -- a confirmed root
+cause should still be fixed directly when found (the \code{stats::AIC()} case
+above already was, in \code{extract_information_criteria()},
+\code{12-diagnose-spatial.R}). Not yet applied to the final full-data
+fit/diagnostics pass or to \code{cv_scheme = "in_sample"}, since those need
+the fitted model object to survive in this process for \code{bench$fits},
+and some backends (e.g. xgboost) do not serialize reliably across a
+process boundary.}
 }
 \value{
 A \code{spatial_benchmark_set} object with combined \code{results} and the

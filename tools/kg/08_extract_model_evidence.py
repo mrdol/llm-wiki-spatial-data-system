@@ -15,11 +15,23 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[2]
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from audit_reader import (
+    audit_candidate_kind,
+    confidence_from_audit,
+    read_model_evidence_audit,
+    validation_status,
+)
+
 DATASETS_JSON = ROOT / "packages" / "spatialtidymodels" / "inst" / "metadata" / "datasets.json"
 OUT_DIR = ROOT / ".kg" / "extracted"
 NODE_PATH = OUT_DIR / "model_evidence_nodes.jsonl"
@@ -124,7 +136,84 @@ def build_model_evidence() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                     evidence_id, "SUPPORTED_BY_SOURCE", paper_id
                 )
 
+    add_audit_candidates(nodes, edges)
     return list(nodes.values()), list(edges.values())
+
+
+def add_audit_candidates(nodes: dict[str, dict[str, Any]], edges: dict[str, dict[str, Any]]) -> None:
+    """Ajoute les candidats de preuves extraits par lecture dirigee TEI.
+
+    Ces noeuds ne sont pas des preuves confirmees. Ils servent a orienter la
+    curation humaine vers les sections, tableaux et formules les plus utiles.
+    """
+    for index, row in enumerate(read_model_evidence_audit(), start=1):
+        paper_id = row.get("paper_id") or f"paper:audit:{index}"
+        kind = audit_candidate_kind(row)
+        status = validation_status(row)
+        candidate_id = f"audit_candidate:{kind.lower()}:{slug(paper_id)}:{slug(row.get('section_id') or 'section')}:{index}"
+        section_id = row.get("section_id") or ""
+
+        nodes[paper_id] = node(
+            paper_id,
+            "Paper",
+            row.get("paper_title") or paper_id,
+            {
+                "doi": row.get("doi"),
+                "source": "model_evidence_audit",
+            },
+        )
+        nodes[candidate_id] = node(
+            candidate_id,
+            kind,
+            row.get("formula_candidate") or row.get("table_caption") or row.get("section_title") or kind,
+            {
+                "status": status,
+                "confidence": confidence_from_audit(row),
+                "section_id": section_id,
+                "section_title": row.get("section_title"),
+                "section_role": row.get("section_role"),
+                "section_roles": row.get("section_roles"),
+                "priority_score": row.get("priority_score"),
+                "evidence_type": row.get("evidence_type"),
+                "formula_type": row.get("formula_type"),
+                "formula_candidate": row.get("formula_candidate"),
+                "table_caption": row.get("table_caption"),
+                "candidate_text": row.get("candidate_text"),
+                "needs_manual_review": row.get("needs_manual_review"),
+                "audit_reason": row.get("audit_reason"),
+                "tei_file": row.get("tei_file"),
+                "source": "model_evidence_audit",
+            },
+        )
+
+        edges[f"{paper_id}|HAS_AUDIT_CANDIDATE|{candidate_id}"] = edge(
+            paper_id,
+            "HAS_AUDIT_CANDIDATE",
+            candidate_id,
+            {"source": "model_evidence_audit", "status": status},
+        )
+        relation = {
+            "FormulaCandidate": "HAS_FORMULA_CANDIDATE",
+            "GenericEstimatorFormulaCandidate": "HAS_GENERIC_FORMULA_CANDIDATE",
+            "VariableTableCandidate": "HAS_VARIABLE_TABLE_CANDIDATE",
+            "ModelTableCandidate": "HAS_MODEL_TABLE_CANDIDATE",
+            "DataSourceCandidate": "HAS_DATA_SOURCE_CANDIDATE",
+            "ModelEvidenceCandidate": "HAS_MODEL_EVIDENCE_CANDIDATE",
+        }.get(kind, "HAS_EVIDENCE_CANDIDATE")
+        edges[f"{paper_id}|{relation}|{candidate_id}"] = edge(
+            paper_id,
+            relation,
+            candidate_id,
+            {"source": "model_evidence_audit", "status": status},
+        )
+
+        if section_id and section_id.startswith("paper:"):
+            edges[f"{section_id}|SUPPORTS_AUDIT_CANDIDATE|{candidate_id}"] = edge(
+                section_id,
+                "SUPPORTS_AUDIT_CANDIDATE",
+                candidate_id,
+                {"source": "model_evidence_audit", "status": status},
+            )
 
 
 def main() -> None:

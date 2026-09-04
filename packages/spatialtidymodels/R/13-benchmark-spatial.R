@@ -10,11 +10,11 @@ fallback_spatial_benchmark_registry <- function() {
   # pour eviter les erreurs de longueur entre vecteurs paralleles.
   row <- function(estimator, package, backend, requires_coords, requires_W,
                   spatial_args, tunable_parameters, notes,
-                  automatic = TRUE) {
+                  automatic = TRUE, mode = "regression") {
     data.frame(
       estimator = estimator,
       status = ifelse(automatic, "automatic", "known_not_automated"),
-      mode = "regression",
+      mode = mode,
       package = package,
       backend = backend,
       automatic = automatic,
@@ -42,6 +42,8 @@ fallback_spatial_benchmark_registry <- function() {
     row("sar_lag", "spatialreg", "spatialreg::lagsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SAR lag via fit_sar()."),
     row("sem_error", "spatialreg", "spatialreg::errorsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SEM error via fit_sem()."),
     row("sdm_mixed", "spatialreg", "spatialreg::lagsarlm(Durbin)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SDM mixed via fit_sdm()."),
+    row("sar_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SAR)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SAR (Martinetti & Geniaux, 2017) via sar_probit_reg(); reponse binaire uniquement.", mode = "classification"),
+    row("sem_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SEM)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SEM (Martinetti & Geniaux, 2017) via sem_probit_reg(); reponse binaire uniquement.", mode = "classification"),
     row("spboost", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."),
     row("spboost_bspa_sar_ml", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; ML estime le parametre spatial rho; nu reste fixe."),
     row("spboost_bspa_sar_cfe", "spboost", "spboost::spbgam(BSPA_SAR_CFE)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; CFE estime le parametre spatial rho; nu reste fixe."),
@@ -64,12 +66,24 @@ spatial_benchmark_registry <- function() {
   if (!"test_datasets" %in% names(out)) {
     out$test_datasets <- I(rep(list(character()), nrow(out)))
   }
+  for (field in c("family", "role", "reference_estimator", "variant_family", "dashboard_group")) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
+  custom <- registered_spatial_estimators()
+  if (nrow(custom) > 0L) {
+    custom$test_datasets <- I(rep(list(character()), nrow(custom)))
+    common_cols <- intersect(names(out), names(custom))
+    out <- rbind(out[, common_cols, drop = FALSE], custom[, common_cols, drop = FALSE])
+  }
   out
 }
 
 package_available <- function(package) {
   # stats est fourni par R; les autres packages sont verifies sans les attacher.
+  # NA/vide: estimateur enregistre par l'utilisateur sans dependance externe a
+  # verifier (voir register_spatial_estimator()).
   if (identical(package, "stats")) return(TRUE)
+  if (is.na(package) || !nzchar(package)) return(TRUE)
   requireNamespace(package, quietly = TRUE)
 }
 
@@ -107,6 +121,21 @@ add_spatial_smooth_to_formula <- function(formula, coords, data) {
   out <- stats::as.formula(paste(response, "~", rhs), env = environment(formula))
   environment(out)$s <- mgcv::s
   out
+}
+
+xgboost_benchmark_spec <- function(response_typology = "continuous") {
+  # xgboost supporte nativement mode="classification" (binaire) et un
+  # objectif Poisson en mode regression (objective="count:poisson", passe en
+  # argument moteur) -- contrairement a ranger, pas besoin d'approximation
+  # continue pour le comptage.
+  if (identical(response_typology, "binary")) {
+    return(parsnip::boost_tree(mode = "classification", trees = 100L) |> parsnip::set_engine("xgboost"))
+  }
+  if (identical(response_typology, "count")) {
+    return(parsnip::boost_tree(mode = "regression", trees = 100L) |>
+             parsnip::set_engine("xgboost", objective = "count:poisson"))
+  }
+  parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost")
 }
 
 fit_parsnip_baseline <- function(spec, formula, data, coords = NULL) {
@@ -170,6 +199,7 @@ spboost_benchmark_spec <- function(estimator, coords, mstop, nu, k_neighbors) {
 fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         k_neighbors = 8, style = "W",
                                         zero_policy = TRUE,
+                                        W = NULL,
                                         spboost_mstop = 100L,
                                         spboost_nu = 0.1,
                                         gamboost_mstop = 100L,
@@ -193,14 +223,34 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         rfgls_nthsize = 20L,
                                         rfgls_cov_model = "exponential",
                                         rfgls_param_estimate = FALSE,
-                                        mgwrsar_control = list()) {
+                                        mgwrsar_control = list(),
+                                        response_typology = "continuous") {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
+  #
+  # response_typology == "binary": coercion en facteur a 2 niveaux c(0,1) ICI,
+  # une seule fois, pour que TOUS les chemins binaires en aval (ols/gam_spatial
+  # via glm/gam qui acceptent facteur ou 0/1 nu, ET random_forest/xgboost/
+  # sar_probit/sem_probit via parsnip mode="classification" qui EXIGENT un
+  # facteur -- confirme empiriquement, parsnip::check_outcome() rejette un
+  # 0/1 numerique avec une erreur explicite) recoivent une entree coherente
+  # sans dupliquer cette logique dans chaque branche.
+  glm_family <- switch(response_typology,
+    binary = stats::binomial(),
+    count = stats::poisson(),
+    stats::gaussian()
+  )
+  if (identical(response_typology, "binary")) {
+    y_name <- all.vars(formula)[1]
+    if (!is.factor(data[[y_name]])) {
+      data[[y_name]] <- factor(data[[y_name]], levels = c(0, 1))
+    }
+  }
   switch(estimator,
-    ols = stats::glm(formula, data = data),
+    ols = stats::glm(formula, data = data, family = glm_family),
     gam_spatial = {
       require_package("mgcv", "benchmark GAM spatial")
-      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data)
+      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data, family = glm_family)
     },
     gamboost = {
       require_package("mboost", "benchmark GAMBoost")
@@ -228,29 +278,34 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     },
     random_forest = {
       require_package("ranger", "benchmark random forest")
+      # Pas de mode Poisson natif dans ranger/parsnip pour le comptage: reste
+      # en mode regression (approximation, deja pratiquee sur les jeux
+      # `count` cures du projet, ex. paper_chaco_bird_richness).
+      rf_mode <- if (identical(response_typology, "binary")) "classification" else "regression"
       fit_parsnip_baseline(
-        parsnip::rand_forest(mode = "regression", trees = 100L) |> parsnip::set_engine("ranger"),
+        parsnip::rand_forest(mode = rf_mode, trees = 100L) |> parsnip::set_engine("ranger"),
         formula, data
       )
     },
     random_forest_xy = {
       require_package("ranger", "benchmark random forest avec coordonnees")
+      rf_mode <- if (identical(response_typology, "binary")) "classification" else "regression"
       fit_parsnip_baseline(
-        parsnip::rand_forest(mode = "regression", trees = 100L) |> parsnip::set_engine("ranger"),
+        parsnip::rand_forest(mode = rf_mode, trees = 100L) |> parsnip::set_engine("ranger"),
         add_coords_to_baseline_formula(formula, coords, data), data
       )
     },
     xgboost = {
       require_package("xgboost", "benchmark XGBoost")
       fit_parsnip_baseline(
-        parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost"),
+        xgboost_benchmark_spec(response_typology),
         formula, data
       )
     },
     xgboost_xy = {
       require_package("xgboost", "benchmark XGBoost avec coordonnees")
       fit_parsnip_baseline(
-        parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost"),
+        xgboost_benchmark_spec(response_typology),
         add_coords_to_baseline_formula(formula, coords, data), data
       )
     },
@@ -286,17 +341,39 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       param_estimate = rfgls_param_estimate
     ),
     sar_lag = fit_sar(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
     sem_error = fit_sem(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
     sdm_mixed = fit_sdm(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
+    sar_probit = {
+      require_package("workflows", "benchmark probit spatial SAR")
+      require_package("ProbitSpatial", "benchmark probit spatial SAR")
+      make_benchmark_workflow(
+        sar_probit_reg(coords = coords, W = W, k_neighbors = k_neighbors,
+                       style = style, zero_policy = zero_policy) |>
+          parsnip::set_engine("ProbitSpatial"),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
+    sem_probit = {
+      require_package("workflows", "benchmark probit spatial SEM")
+      require_package("ProbitSpatial", "benchmark probit spatial SEM")
+      make_benchmark_workflow(
+        sem_probit_reg(coords = coords, W = W, k_neighbors = k_neighbors,
+                       style = style, zero_policy = zero_policy) |>
+          parsnip::set_engine("ProbitSpatial"),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
     spboost = {
       require_package("workflows", "benchmark SpBoost")
       make_benchmark_workflow(
@@ -432,7 +509,13 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       make_benchmark_workflow(spec, formula, coords, data) |>
         workflows::fit(data = data)
     },
-    stop(sprintf("Estimateur non automatise dans benchmark_spatial(): %s", estimator), call. = FALSE)
+    {
+      custom <- get_custom_estimator(estimator)
+      if (is.null(custom)) {
+        stop(sprintf("Estimateur non automatise dans benchmark_spatial(): %s", estimator), call. = FALSE)
+      }
+      fit_custom_spatial_estimator(custom, formula, data, coords)
+    }
   )
 }
 
@@ -626,6 +709,53 @@ benchmark_log <- function(verbose, ...) {
   # Journal console optionnel pour les runs longs. Par defaut le package reste
   # silencieux pour ne pas polluer les petits appels interactifs.
   if (isTRUE(verbose)) message(sprintf(...))
+}
+
+# Garde-fou timeout par cas (dataset x estimateur x fold) -------------------
+#
+# NA/Inf/<=0 (defaut) desactive completement le garde-fou -- comportement
+# identique a avant son introduction, zero overhead. Objectif: transformer un
+# calcul genuinement non borne pour UN cas en un fit_error "TIMEOUT" proprement
+# enregistre, plutot que de geler tout le suite indefiniment -- sans presumer
+# de la cause (voir extract_information_criteria() dans 12-diagnose-spatial.R
+# pour un exemple de pathologie deja corrigee a la racine: ce garde-fou est
+# generique et vise les futures pathologies non encore identifiees sur de gros
+# datasets, pas seulement celle-la).
+#
+# L'application reelle du timeout (worker callr, kill du process) vit dans
+# 26-fold-timeout-worker.R -- voir run_with_fold_timeout(). fold_error_row()
+# ici est le format de ligne partage entre un echec normal (fit/predict/
+# diagnose leve une erreur a l'interieur de score_benchmark_fold()) et un
+# timeout (detecte depuis l'EXTERIEUR de score_benchmark_fold(), qui n'a donc
+# pas pu construire sa propre ligne -- voir evaluate_benchmark_resamples()).
+normalize_fold_timeout_sec <- function(fold_timeout_sec) {
+  timeout_sec <- suppressWarnings(as.numeric(fold_timeout_sec)[1])
+  if (!is.finite(timeout_sec) || timeout_sec <= 0) NA_real_ else timeout_sec
+}
+
+fold_error_row <- function(estimator, fold_id, n_train, n_test, response, message,
+                           elapsed_sec = NA_real_) {
+  data.frame(
+    estimator = estimator,
+    id = fold_id,
+    n_train = n_train,
+    n_test = n_test,
+    response = response,
+    rmse = NA_real_,
+    mae = NA_real_,
+    accuracy = NA_real_,
+    auc = NA_real_,
+    deviance = NA_real_,
+    elapsed_sec = elapsed_sec,
+    moran_i = NA_real_,
+    moran_abs = NA_real_,
+    moran_p_value = NA_real_,
+    moran_error = NA_character_,
+    fit_error = message,
+    truth = I(list(numeric())),
+    pred = I(list(numeric())),
+    stringsAsFactors = FALSE
+  )
 }
 
 collect_benchmark_tuning <- function(tuned, grid_cols) {
@@ -1207,6 +1337,7 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
   if (!is.numeric(coords) || ncol(coords) != 2L || any(!is.finite(coords))) {
     stop("`coords` must be a finite numeric matrix with two columns.", call. = FALSE)
   }
+
   if (n_reps < 1L || test_size < 1L) {
     stop("`near_n_reps` and `near_test_size` must be positive.", call. = FALSE)
   }
@@ -1217,40 +1348,66 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
     ), call. = FALSE)
   }
 
-  require_package("mgwrsar", "near-prediction resampling")
-  ns_mgwrsar <- asNamespace("mgwrsar")
-  quadtree_fn <- get("quadtree", envir = ns_mgwrsar)
-  cell_fn <- get("cell", envir = ns_mgwrsar)
-  insidecell_fn <- get("insidecell", envir = ns_mgwrsar)
+  # Partition spatiale maison (decoupage recursif par mediane, axes
+  # alternes) plutot que mgwrsar::quadtree()/cell()/insidecell(). Ces
+  # fonctions du package s'appuient sur un seuil aleatoire (runif() dans
+  # quadtree()) puis un decoupage de polygones par inegalites strictes
+  # (cell.quadtree() : `if (q$threshold > xylim[1,i])`) qui perd
+  # silencieusement des branches entieres des qu'un seuil retombe pile sur
+  # une borne deja decoupee -- verifie empiriquement : sur des coordonnees
+  # geographiques reelles (Henan), la partition s'effondre a une seule
+  # cellule geante sur 15 graines aleatoires differentes, avec ou sans
+  # normalisation des coordonnees, alors que des coordonnees synthetiques
+  # uniformes ne posent jamais ce probleme. La partition maison ci-dessous
+  # n'a besoin que d'assigner chaque point a une feuille (pas de geometrie de
+  # polygone pour la modelisation elle-meme), donc ce contournement local
+  # est suffisant et evite la dependance a ce chemin de code fragile.
+  split_median <- function(idx, axis) {
+    if (length(idx) < 2L * k_leaf_current) {
+      return(list(idx))
+    }
+    x0 <- stats::median(coords[idx, axis])
+    left <- idx[coords[idx, axis] <= x0]
+    right <- idx[coords[idx, axis] > x0]
+    if (length(left) == length(idx) || length(right) == length(idx)) {
+      # valeurs trop repetees pour que la mediane separe le groupe : on
+      # arrete la recursion ici plutot que de boucler indefiniment.
+      return(list(idx))
+    }
+    next_axis <- axis %% 2L + 1L
+    c(split_median(left, next_axis), split_median(right, next_axis))
+  }
+
+  k_leaf_current <- NULL
 
   build_quad_partition <- function(k_leaf) {
-    qt <- quadtree_fn(coords, k = k_leaf)
-    xylim <- cbind(
-      x = c(min(coords[, 1L]), max(coords[, 1L])),
-      y = c(min(coords[, 2L]), max(coords[, 2L]))
-    )
-    polys <- cell_fn(qt, xylim)
-    polys$id <- as.numeric(factor(polys$id))
-
-    inside <- insidecell_fn(polys, coords)
-    cell_id <- as.integer(inside$id)
-    ids <- sort(unique(cell_id))
-    id_map <- seq_along(ids)
-    names(id_map) <- ids
-    cell_id <- unname(id_map[as.character(cell_id)])
-    polys$id <- unname(id_map[as.character(polys$id)])
-
-    cell_members <- split(seq_len(n), cell_id)
-    cell_members <- cell_members[order(as.integer(names(cell_members)))]
+    k_leaf_current <<- k_leaf
+    cell_members <- split_median(seq_len(n), 1L)
     cell_sizes <- vapply(cell_members, length, integer(1L))
+
+    polys <- do.call(rbind, lapply(seq_along(cell_members), function(cell) {
+      members <- cell_members[[cell]]
+      xr <- range(coords[members, 1L])
+      yr <- range(coords[members, 2L])
+      data.frame(
+        id = cell,
+        x = c(xr[1], xr[2], xr[2], xr[1], xr[1]),
+        y = c(yr[1], yr[1], yr[2], yr[2], yr[1])
+      )
+    }))
 
     list(
       k_leaf = k_leaf,
-      cell_id = cell_id,
+      cell_id = local({
+        cid <- integer(n)
+        for (cell in seq_along(cell_members)) cid[cell_members[[cell]]] <- cell
+        cid
+      }),
       cell_members = cell_members,
       cell_sizes = cell_sizes,
       n_cells = length(cell_members),
-      min_cell_size = min(cell_sizes)
+      min_cell_size = min(cell_sizes),
+      polys = polys
     )
   }
 
@@ -1290,7 +1447,12 @@ build_near_prediction_folds <- function(coords, n_reps = 3L, test_size = 20L,
 
   for (rep in seq_len(n_reps)) {
     set.seed(seed + 5000L + rep)
-    test_matrix[rep, ] <- sample(test_matrix[rep, ], replace = FALSE)
+    row_values <- test_matrix[rep, ]
+    # sample(x, ...) traite un x de longueur 1 comme "echantillonner dans
+    # 1:x" plutot que comme "melanger ce vecteur d'un element" -- utiliser
+    # sample.int() sur les indices evite ce piege, y compris quand la
+    # partition retenue n'a qu'une seule cellule.
+    test_matrix[rep, ] <- row_values[sample.int(length(row_values))]
   }
 
   folds <- lapply(seq_len(n_reps), function(rep) {
@@ -1511,7 +1673,9 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     response = deparse(formula[[2]]),
     rmse = NA_real_,
     mae = NA_real_,
-    aic = NA_real_,
+    accuracy = NA_real_,
+    auc = NA_real_,
+    deviance = NA_real_,
     aicc = NA_real_,
     logLik = NA_real_,
     elapsed_sec = NA_real_,
@@ -1520,6 +1684,7 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     spatial_param = NA_character_,
     spatial_value = NA_real_,
     moran_i = NA_real_,
+    moran_abs = NA_real_,
     moran_p_value = NA_real_,
     moran_error = NA_character_,
     fit_error = conditionMessage(error),
@@ -1534,15 +1699,41 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
   if (!"elapsed_sec" %in% names(row)) row$elapsed_sec <- NA_real_
   if (!"elapsed_total_sec" %in% names(row)) row$elapsed_total_sec <- NA_real_
   if (!"duration_sec" %in% names(row)) row$duration_sec <- row$elapsed_total_sec
+  if (!"moran_abs" %in% names(row)) row$moran_abs <- abs(row$moran_i)
   row
 }
 
-predict_vector_for_benchmark <- function(fit, new_data) {
+predict_vector_for_benchmark <- function(fit, new_data, response_typology = "continuous") {
   # Normalise les sorties predict(): workflow renvoie .pred, certains backends
   # renvoient directement un vecteur numerique. Les objets tidymodels attendent
   # `new_data`, tandis que les objets R classiques attendent souvent `newdata`.
+  #
+  # response_typology == "binary": un workflow classification n'a pas de
+  # .pred par defaut (predict() renvoie .pred_class, un facteur, sans
+  # type="prob") -- meme contournement que predict_values_for_diagnostics()
+  # dans 12-diagnose-spatial.R (derniere colonne = probabilite classe
+  # positive, convention tidymodels a 2 niveaux).
+  if (identical(response_typology, "binary") && inherits(fit, "workflow")) {
+    pred_prob <- tryCatch(stats::predict(fit, new_data = new_data, type = "prob"), error = function(e) e)
+    if (!inherits(pred_prob, "error") && is.data.frame(pred_prob) && ncol(pred_prob) >= 2L) {
+      return(as.numeric(pred_prob[[ncol(pred_prob)]]))
+    }
+  }
+  # response_typology %in% c("binary","count") pour un objet NON-workflow
+  # (glm/gam ajustes directement, cf. fit_one_benchmark_estimator()): sans
+  # type="response" explicite, predict.glm()/predict.gam() renvoient
+  # l'echelle lineaire (logit pour binomial, log pour poisson), pas la
+  # probabilite/le compte -- confirme empiriquement (RMSE > 1 impossible
+  # sinon pour une reponse 0/1). Meme contournement que
+  # predict_values_for_diagnostics() dans 12-diagnose-spatial.R.
+  predict_type <- if (!inherits(fit, "workflow") && response_typology %in% c("binary", "count")) {
+    "response"
+  } else {
+    NULL
+  }
+  predict_args <- if (is.null(predict_type)) list() else list(type = predict_type)
   pred <- tryCatch(
-    stats::predict(fit, new_data = new_data),
+    do.call(stats::predict, c(list(fit, new_data = new_data), predict_args)),
     error = function(e) e
   )
   pred_len <- if (inherits(pred, "error")) {
@@ -1554,7 +1745,7 @@ predict_vector_for_benchmark <- function(fit, new_data) {
   }
   if (inherits(pred, "error") || !identical(pred_len, nrow(new_data))) {
     pred_newdata <- tryCatch(
-      stats::predict(fit, newdata = new_data),
+      do.call(stats::predict, c(list(fit, newdata = new_data), predict_args)),
       error = function(e) e
     )
     if (!inherits(pred_newdata, "error")) pred <- pred_newdata
@@ -1590,8 +1781,37 @@ prepare_mgwrsar_fold_control <- function(estimator, train, test, coords, k_neigh
 score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, params) {
   # Ajuste sur analysis(split), predit sur assessment(split), puis calcule les
   # metriques hors-echantillon. Les erreurs restent dans une ligne de resultat.
+  #
+  # Ne gere PAS elle-meme de garde-fou timeout: cette fonction peut etre
+  # executee soit directement (fold_timeout_sec desactive), soit expediee a
+  # un worker callr par evaluate_benchmark_resamples() (fold_timeout_sec
+  # actif) -- voir run_with_fold_timeout()/26-fold-timeout-worker.R. Un
+  # timeout est applique de l'EXTERIEUR (kill du process worker), pas
+  # depuis l'interieur de cette fonction: setTimeLimit() a ete teste
+  # empiriquement contre le vrai calcul pathologique qui a motive ce
+  # garde-fou (stats::AIC() sur un objet mboost) et ne l'a jamais interrompu
+  # (toujours actif apres 40s+ contre un budget de 3s) -- R ne vérifie les
+  # interruptions qu'entre deux instructions de l'evaluateur, jamais au
+  # milieu d'un seul appel compile/matriciel prolonge, ce qui est
+  # exactement le cas ici.
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
+  W_train <- subset_spatial_W_rows(
+    params$W %||% NULL,
+    rownames(train),
+    n_expected = nrow(train),
+    style = params$style,
+    zero_policy = params$zero_policy,
+    arg = "W fournie au benchmark"
+  )
+  W_test <- subset_spatial_W_rows(
+    params$W %||% NULL,
+    rownames(test),
+    n_expected = nrow(test),
+    style = params$style,
+    zero_policy = params$zero_policy,
+    arg = "W fournie au benchmark"
+  )
   elapsed_start <- proc.time()[["elapsed"]]
   elapsed_now <- function() as.numeric(proc.time()[["elapsed"]] - elapsed_start)
   params <- ensure_mgwrsar_fixed_vars_params(
@@ -1608,11 +1828,15 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     coords = coords,
     k_neighbors = params$k_neighbors
   )
+
+  response_typology <- params$response_typology %||% "continuous"
   fit <- tryCatch(
     fit_one_benchmark_estimator(
       estimator = estimator, formula = formula, data = train, coords = coords,
       k_neighbors = params$k_neighbors, style = params$style,
       zero_policy = params$zero_policy,
+      W = W_train,
+      response_typology = response_typology,
       spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
       gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
       mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -1639,67 +1863,29 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     error = function(e) e
   )
   if (inherits(fit, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = deparse(formula[[2]]),
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(fit),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), deparse(formula[[2]]),
+      conditionMessage(fit), elapsed_sec = elapsed_now()
     ))
   }
   response_name <- deparse(formula[[2]])
   pred <- tryCatch(
-    predict_vector_for_benchmark(fit, test),
+    predict_vector_for_benchmark(fit, test, response_typology = response_typology),
     error = function(e) e
   )
   if (inherits(pred, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = response_name,
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(pred),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), response_name,
+      conditionMessage(pred), elapsed_sec = elapsed_now()
     ))
   }
   truth <- as.numeric(test[[response_name]])
   pred <- as.numeric(pred)
   if (length(pred) != length(truth)) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = response_name,
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), response_name,
+      sprintf("Prediction length mismatch: expected %d, got %d.", length(truth), length(pred)),
+      elapsed_sec = elapsed_now()
     ))
   }
   diag <- tryCatch(
@@ -1709,29 +1895,18 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       coords = coords,
       formula = formula,
       k_neighbors = params$k_neighbors,
+      W = W_test,
       style = params$style,
       zero_policy = params$zero_policy,
-      include_baseline = FALSE
+      include_baseline = FALSE,
+      response_typology = response_typology
     ),
     error = function(e) e
   )
   if (inherits(diag, "error")) {
-    return(data.frame(
-      estimator = estimator,
-      id = fold_id,
-      n_train = nrow(train),
-      n_test = nrow(test),
-      response = deparse(formula[[2]]),
-      rmse = NA_real_,
-      mae = NA_real_,
-      elapsed_sec = elapsed_now(),
-      moran_i = NA_real_,
-      moran_p_value = NA_real_,
-      moran_error = NA_character_,
-      fit_error = conditionMessage(diag),
-      truth = I(list(numeric())),
-      pred = I(list(numeric())),
-      stringsAsFactors = FALSE
+    return(fold_error_row(
+      estimator, fold_id, nrow(train), nrow(test), deparse(formula[[2]]),
+      conditionMessage(diag), elapsed_sec = elapsed_now()
     ))
   }
   metric_error <- if (!is.finite(diag$rmse[[1]]) || !is.finite(diag$mae[[1]])) {
@@ -1747,8 +1922,12 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     response = diag$response[[1]],
     rmse = diag$rmse[[1]],
     mae = diag$mae[[1]],
+    accuracy = diag$accuracy[[1]],
+    auc = diag$auc[[1]],
+    deviance = diag$deviance[[1]],
     elapsed_sec = elapsed_now(),
     moran_i = diag$moran_i[[1]],
+    moran_abs = diag$moran_abs[[1]],
     moran_p_value = diag$moran_p_value[[1]],
     moran_error = diag$moran_error[[1]],
     fit_error = metric_error,
@@ -1760,9 +1939,17 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
 
 evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
                                          eval_resamples, base_params, tuning,
-                                         verbose = FALSE) {
+                                         verbose = FALSE, fold_timeout_sec = NA_real_) {
   # Boucle explicite fold x estimateur pour obtenir une table comparable au
   # benchmark manuel, avec une ligne par fold.
+  timeout_sec <- normalize_fold_timeout_sec(fold_timeout_sec)
+  # session_box: environnement mutable tenant le worker callr persistant
+  # (voir 26-fold-timeout-worker.R) pour tous les folds/estimateurs de cet
+  # appel -- jamais cree si timeout_sec est NA (chemin direct, inchange).
+  session_box <- new.env(parent = emptyenv())
+  session_box$session <- NULL
+  on.exit(close_fold_timeout_worker(session_box), add = TRUE)
+
   rows <- list()
   for (estimator in estimators) {
     params <- apply_tuned_params(base_params, tuning[[estimator]])
@@ -1788,14 +1975,28 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
         nrow(rsample::assessment(split))
       )
       key <- paste(estimator, fold_id, sep = "__")
-      rows[[key]] <- score_benchmark_fold(
-        estimator = estimator,
-        fold_id = fold_id,
-        split = split,
-        formula = formula,
-        coords = coords,
-        params = params
-      )
+      rows[[key]] <- if (is.finite(timeout_sec)) {
+        outcome <- run_with_fold_timeout(
+          session_box, timeout_sec, score_benchmark_fold,
+          args = list(
+            estimator = estimator, fold_id = fold_id, split = split,
+            formula = formula, coords = coords, params = params
+          )
+        )
+        if (isTRUE(outcome$ok)) {
+          outcome$value
+        } else {
+          fold_error_row(
+            estimator, fold_id, nrow(rsample::analysis(split)), nrow(rsample::assessment(split)),
+            deparse(formula[[2]]), outcome$error_message
+          )
+        }
+      } else {
+        score_benchmark_fold(
+          estimator = estimator, fold_id = fold_id, split = split,
+          formula = formula, coords = coords, params = params
+        )
+      }
     }
   }
   out <- do.call(rbind, rows)
@@ -1803,11 +2004,15 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
   out
 }
 
-summarize_resample_results <- function(resample_results, formula, cv_scheme) {
+summarize_resample_results <- function(resample_results, formula, cv_scheme,
+                                       response_typology = "continuous") {
   # Agrege les lignes fold par fold en une table principale par estimateur.
   # RMSE/MAE sont recalcules sur toutes les predictions test concatenees: cela
   # donne a chaque observation le meme poids, au lieu de moyenner des RMSE de
   # folds qui peuvent avoir des tailles differentes.
+  if (!"moran_abs" %in% names(resample_results)) {
+    resample_results$moran_abs <- abs(resample_results$moran_i)
+  }
   pieces <- lapply(split(resample_results, resample_results$estimator), function(rows) {
     has_predictions <- "truth" %in% names(rows) && "pred" %in% names(rows)
     pred_lengths <- if (has_predictions) {
@@ -1822,12 +2027,20 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
     truth_all <- truth_all[finite_predictions]
     pred_all <- pred_all[finite_predictions]
     has_global_metrics <- length(truth_all) > 0L && length(truth_all) == length(pred_all)
+    global_metrics <- if (has_global_metrics) {
+      make_metric_values(truth_all, pred_all, response_typology = response_typology)
+    } else {
+      list(rmse = NA_real_, mae = NA_real_, accuracy = NA_real_, auc = NA_real_, deviance = NA_real_)
+    }
     data.frame(
       estimator = rows$estimator[[1]],
       n = if (has_global_metrics) length(truth_all) else sum(rows$n_test[ok]),
       response = deparse(formula[[2]]),
-      rmse = if (has_global_metrics) sqrt(mean((truth_all - pred_all)^2)) else NA_real_,
-      mae = if (has_global_metrics) mean(abs(truth_all - pred_all)) else NA_real_,
+      rmse = global_metrics$rmse,
+      mae = global_metrics$mae,
+      accuracy = global_metrics$accuracy,
+      auc = global_metrics$auc,
+      deviance = global_metrics$deviance,
       rmse_sd = if (sum(ok) > 1L) stats::sd(rows$rmse[ok]) else NA_real_,
       mae_sd = if (sum(ok) > 1L) stats::sd(rows$mae[ok]) else NA_real_,
       duration_sec = if (any(!is.na(rows$elapsed_sec))) {
@@ -1835,12 +2048,12 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
       } else {
         NA_real_
       },
-      aic = NA_real_,
       aicc = NA_real_,
       logLik = NA_real_,
       spatial_param = NA_character_,
       spatial_value = NA_real_,
       moran_i = if (any(ok)) mean(rows$moran_i[ok], na.rm = TRUE) else NA_real_,
+      moran_abs = if (any(ok)) mean(rows$moran_abs[ok], na.rm = TRUE) else NA_real_,
       moran_p_value = if (any(ok)) mean(rows$moran_p_value[ok], na.rm = TRUE) else NA_real_,
       moran_error = paste(unique(stats::na.omit(rows$moran_error)), collapse = " | "),
       cv_scheme = cv_scheme,
@@ -1853,6 +2066,7 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
   out <- do.call(rbind, pieces)
   out <- out[match(unique(resample_results$estimator), out$estimator), , drop = FALSE]
   out$moran_i[is.nan(out$moran_i)] <- NA_real_
+  out$moran_abs[is.nan(out$moran_abs)] <- NA_real_
   out$moran_p_value[is.nan(out$moran_p_value)] <- NA_real_
   out$moran_error[out$moran_error == ""] <- NA_character_
   out$fit_error[out$fit_error == ""] <- NA_character_
@@ -1864,7 +2078,16 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
                                                    base_params, tuning) {
   # Les performances restent celles de la validation croisee. Cette passe ajoute
   # seulement les diagnostics disponibles sur le modele final ajuste sur tout le
-  # jeu de donnees: AIC/AICc, logLik et parametre spatial explicite.
+  # jeu de donnees: AICc, logLik et parametre spatial explicite.
+  #
+  # Pas de fold_timeout_sec ici (contrairement a evaluate_benchmark_resamples()):
+  # le garde-fou timeout fiable (voir run_with_fold_timeout(),
+  # 26-fold-timeout-worker.R) execute le calcul dans un worker callr et n'en
+  # fait traverser que le RESULTAT (une petite table) -- jamais un objet
+  # modele ajuste. Ici `fit` (potentiellement un objet fragile a serialiser,
+  # ex. un backend xgboost dont le pointeur C++ ne survit pas a un aller-retour
+  # process) doit rester dans le process appelant, donc cette passe n'est pas
+  # (encore) couverte par le garde-fou.
   for (estimator in intersect(results$estimator, names(fits))) {
     fit <- fits[[estimator]]
     if (inherits(fit, "error") || is.null(fit)) next
@@ -1876,15 +2099,16 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
         coords = coords,
         formula = formula,
         k_neighbors = params$k_neighbors,
+        W = params$W %||% NULL,
         style = params$style,
         zero_policy = params$zero_policy,
-        include_baseline = FALSE
+        include_baseline = FALSE,
+        response_typology = params$response_typology %||% "continuous"
       ),
       error = function(e) NULL
     )
     if (is.null(diag) || nrow(diag) == 0L) next
     idx <- which(results$estimator == estimator)
-    results$aic[idx] <- diag$aic[[1]]
     results$aicc[idx] <- diag$aicc[[1]]
     results$logLik[idx] <- diag$logLik[[1]]
     results$spatial_param[idx] <- diag$spatial_param[[1]]
@@ -1898,6 +2122,12 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
                                            verbose = FALSE) {
   # Ajuste les modeles finaux sur toutes les donnees pour inspection ulterieure
   # dans bench$fits. L'evaluation CV reste stockee separement.
+  #
+  # Pas de fold_timeout_sec ici: le modele ajuste doit rester dans ce process
+  # (il est retourne a l'appelant pour bench$fits), donc il ne peut pas etre
+  # produit par un worker callr jetable comme le fait
+  # evaluate_benchmark_resamples() -- voir la note dans
+  # augment_results_with_final_diagnostics() ci-dessus pour le detail.
   fits <- list()
   for (estimator in estimators) {
     benchmark_log(
@@ -1919,6 +2149,7 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
         estimator = estimator, formula = formula, data = data, coords = coords,
         k_neighbors = params$k_neighbors, style = params$style,
         zero_policy = params$zero_policy,
+        W = params$W %||% NULL,
         spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
         gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
         mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -2021,6 +2252,9 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param k_neighbors Number of nearest neighbours used to build kNN weights.
 #' @param style Row-standardization style passed to `spdep::nb2listw()`.
 #' @param zero_policy Zero-neighbour policy passed to `spdep`.
+#' @param W Optional spatial weights matrix or `listw` object. When supplied,
+#'   SAR/SEM/SDM routes and residual Moran diagnostics use it instead of
+#'   rebuilding a kNN structure from `coords`.
 #' @param spboost_mstop Number of boosting iterations for `spboost`.
 #' @param spboost_nu Learning rate for `spboost`.
 #' @param gamboost_mstop Number of boosting iterations for `mboost::gamboost`.
@@ -2057,6 +2291,31 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param workers Number of parallel workers when `parallel = TRUE`.
 #' @param allow_heavy_tuning If `FALSE`, protect large datasets from tuning
 #'   several expensive MGWRSAR estimators in the same call.
+#' @param fold_timeout_sec Maximum wall-clock seconds allowed for a single
+#'   (estimator, fold) case in the cross-validated evaluation path (`fit`,
+#'   `predict` and diagnostics combined) -- see [evaluate_benchmark_resamples()]/
+#'   `run_with_fold_timeout()` (`26-fold-timeout-worker.R`). `NA` (default)
+#'   disables the guard entirely, identical to before this argument existed
+#'   -- zero overhead, no subprocess ever spawned. When set, a case that
+#'   exceeds the budget is aborted and recorded as a normal failure with
+#'   `fit_error` starting `"TIMEOUT:"` instead of freezing the whole suite;
+#'   every other case keeps running unaffected. Enforced by running the fold
+#'   in a persistent `callr` worker process and killing it on timeout -- this
+#'   is a hard, OS-level guarantee, unlike base R's `setTimeLimit()`, which
+#'   was tested against the real pathology this guard was built for
+#'   (`stats::AIC()` on an `mboost`-derived engine) and never interrupted it,
+#'   even 40s+ past a 3s budget: R only checks for interrupts between
+#'   evaluator statements, never mid-way through one long-running
+#'   compiled/matrix call, which is exactly what that case was doing. This is
+#'   a generic safety net for unforeseen pathological cases on large
+#'   datasets, not a diagnosis of *why* a case is slow -- a confirmed root
+#'   cause should still be fixed directly when found (the `stats::AIC()` case
+#'   above already was, in `extract_information_criteria()`,
+#'   `12-diagnose-spatial.R`). Not yet applied to the final full-data
+#'   fit/diagnostics pass or to `cv_scheme = "in_sample"`, since those need
+#'   the fitted model object to survive in this process for `bench$fits`,
+#'   and some backends (e.g. xgboost) do not serialize reliably across a
+#'   process boundary.
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
 #'   final `fits`.
@@ -2074,10 +2333,11 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' with a GLS correction for spatial dependence using a nearest-neighbour
 #' Gaussian-process/Vecchia-style approximation.
 #'
-#' `AIC`, `AICc`, and `logLik` are reported when the fitted backend exposes a
+#' `AICc` and `logLik` are reported when the fitted backend exposes a
 #' likelihood and a usable parameter count. For `spboost`, the package first
 #' tries the standard R methods, then falls back to backend fields such as
-#' `logl`/`AIC` and an explicit active-coefficient count when available.
+#' `logl`/backend information and an explicit active-coefficient count when
+#' available.
 #'
 #' The `spatial_param` and `spatial_value` columns report a single explicit
 #' spatial dependence parameter when the fitted backend exposes one. SAR-style
@@ -2091,6 +2351,12 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' estimate one scalar econometric parameter equivalent to `rho` or `lambda`.
 #' Their `spatial_param` and `spatial_value` columns therefore remain `NA`.
 #'
+#' The `moran_i` column reports Moran's I on residuals, while `moran_abs`
+#' reports `abs(moran_i)`. When the goal is to remove residual spatial
+#' autocorrelation, `moran_abs` is usually the metric to minimize because both
+#' positive clustering and negative checkerboard-like autocorrelation indicate
+#' remaining spatial structure.
+#'
 #' Runtime is recorded in seconds. The main `results` table reports
 #' `duration_sec`, the total measured time spent by each estimator across all
 #' evaluation folds. The fold-level `resample_results` table reports
@@ -2101,6 +2367,7 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 benchmark_spatial <- function(formula, data, coords,
                               estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                               k_neighbors = 8, style = "W", zero_policy = TRUE,
+                              W = NULL,
                               spboost_mstop = 100L, spboost_nu = 0.1,
                               gamboost_mstop = 100L, gamboost_nu = 0.1,
                               mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
@@ -2118,10 +2385,20 @@ benchmark_spatial <- function(formula, data, coords,
                               block_folds = 5L, seed = 123L,
                               verbose = FALSE, parallel = FALSE,
                               workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-                              allow_heavy_tuning = FALSE) {
+                              allow_heavy_tuning = FALSE,
+                              fold_timeout_sec = NA_real_,
+                              response_typology = "continuous") {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
+  W <- normalize_spatial_W_for_data(W, data = data, style = style, zero_policy = zero_policy)
   cv_scheme <- match.arg(cv_scheme)
+  response_typology <- if (is.null(response_typology) || is.na(response_typology)) "continuous" else response_typology
+  if (!response_typology %in% c("continuous", "binary", "count")) {
+    stop(sprintf(
+      "benchmark_spatial: response_typology inconnu: %s (attendu: continuous, binary, count)",
+      response_typology
+    ), call. = FALSE)
+  }
   registry <- spatial_benchmark_registry()
   validate_benchmark_estimators(estimators, registry)
   validate_heavy_tuning_request(estimators, data, tune, allow_heavy_tuning)
@@ -2130,6 +2407,7 @@ benchmark_spatial <- function(formula, data, coords,
     k_neighbors = k_neighbors,
     style = style,
     zero_policy = zero_policy,
+    W = W,
     spboost_mstop = spboost_mstop,
     spboost_nu = spboost_nu,
     gamboost_mstop = gamboost_mstop,
@@ -2152,7 +2430,8 @@ benchmark_spatial <- function(formula, data, coords,
     rfgls_n_neighbors = NULL,
     rfgls_nthsize = 20L,
     rfgls_cov_model = "exponential",
-    rfgls_param_estimate = FALSE
+    rfgls_param_estimate = FALSE,
+    response_typology = response_typology
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -2203,9 +2482,13 @@ benchmark_spatial <- function(formula, data, coords,
       eval_resamples = eval_resamples,
       base_params = base_params,
       tuning = tuning,
-      verbose = verbose
+      verbose = verbose,
+      fold_timeout_sec = fold_timeout_sec
     )
-    results <- summarize_resample_results(resample_results, formula = formula, cv_scheme = cv_scheme)
+    results <- summarize_resample_results(
+      resample_results, formula = formula, cv_scheme = cv_scheme,
+      response_typology = base_params$response_typology %||% "continuous"
+    )
     fits <- fit_final_benchmark_estimators(
       estimators, formula, data, coords, base_params, tuning,
       verbose = verbose
@@ -2220,6 +2503,9 @@ benchmark_spatial <- function(formula, data, coords,
       tuning = tuning
     )
   } else {
+    # Pas de fold_timeout_sec ici non plus, meme raison que
+    # fit_final_benchmark_estimators(): `fit` doit rester dans ce process pour
+    # alimenter bench$fits.
     for (estimator in estimators) {
       benchmark_log(verbose, "[in-sample] %s: n=%d", estimator, nrow(data))
       elapsed_start <- proc.time()[["elapsed"]]
@@ -2227,7 +2513,9 @@ benchmark_spatial <- function(formula, data, coords,
       fit <- tryCatch(
         fit_one_benchmark_estimator(
           estimator = estimator, formula = formula, data = data, coords = coords,
+          response_typology = params$response_typology %||% "continuous",
           k_neighbors = params$k_neighbors, style = params$style, zero_policy = params$zero_policy,
+          W = params$W %||% NULL,
           spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
           gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
           mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -2262,16 +2550,30 @@ benchmark_spatial <- function(formula, data, coords,
         next
       }
       fits[[estimator]] <- fit
-      diag <- diagnose_spatial(
-        fit,
-        data = data,
-        coords = coords,
-        formula = formula,
-        k_neighbors = k_neighbors,
-        style = style,
-        zero_policy = zero_policy,
-        include_baseline = FALSE
+      diag <- tryCatch(
+        diagnose_spatial(
+          fit,
+          data = data,
+          coords = coords,
+          formula = formula,
+          k_neighbors = k_neighbors,
+          W = W,
+          style = style,
+          zero_policy = zero_policy,
+          include_baseline = FALSE,
+          response_typology = params$response_typology %||% "continuous"
+        ),
+        error = function(e) e
       )
+      if (inherits(diag, "error")) {
+        rows[[estimator]] <- failed_benchmark_row(estimator, data, formula, diag)
+        rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
+        rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
+        rows[[estimator]]$duration_sec <- rows[[estimator]]$elapsed_total_sec
+        rows[[estimator]]$elapsed_sec <- NULL
+        rows[[estimator]]$elapsed_total_sec <- NULL
+        next
+      }
       rows[[estimator]] <- normalize_diagnostic_row_for_benchmark(diag[1, , drop = FALSE], estimator)
       rows[[estimator]]$elapsed_sec <- as.numeric(proc.time()[["elapsed"]] - elapsed_start)
       rows[[estimator]]$elapsed_total_sec <- rows[[estimator]]$elapsed_sec
@@ -2294,6 +2596,7 @@ benchmark_spatial <- function(formula, data, coords,
       k_neighbors = k_neighbors,
       style = style,
       zero_policy = zero_policy,
+      spatial_weights_provided = !is.null(W),
       estimators = estimators,
       tune = tune,
       tuning = tuning,
@@ -2319,7 +2622,8 @@ benchmark_spatial <- function(formula, data, coords,
       mgwrsar_kernel = mgwrsar_kernel,
       mgwrsar_fixed_vars = mgwrsar_fixed_vars,
       spmoran_enum = spmoran_enum,
-      spmoran_vif = spmoran_vif
+      spmoran_vif = spmoran_vif,
+      fold_timeout_sec = fold_timeout_sec
     ),
     class = "spatial_benchmark"
   )
@@ -2329,8 +2633,8 @@ benchmark_print_columns <- function(results) {
   # Colonnes utiles a l'affichage console; l'objet complet garde toutes les
   # colonnes dans $results.
   cols <- c("dataset", "estimator", "n", "response", "rmse", "mae",
-            "duration_sec", "aic", "aicc", "spatial_param", "spatial_value",
-            "moran_p_value", "fit_error")
+            "duration_sec", "aicc", "spatial_param", "spatial_value",
+            "moran_abs", "moran_p_value", "fit_error")
   cols[cols %in% names(results)]
 }
 
@@ -2369,14 +2673,22 @@ print.spatial_benchmark <- function(x, ...) {
 #' @param data Data frame.
 #' @param formula Model formula.
 #' @param coords Coordinate column names.
+#' @param W Optional spatial weights matrix or `listw` object aligned with
+#'   `data`. If omitted, eligible spatial models build a kNN structure from
+#'   `coords`.
 #'
 #' @return A `spatial_dataset_spec` object.
 #' @export
-spatial_dataset_spec <- function(name, data, formula, coords) {
+spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
+                                 response_typology = NULL) {
   # Petit conteneur explicite pour benchmarker plusieurs jeux sans imposer un
   # registre interne rigide au package.
+  # response_typology: "continuous" (defaut si absent)/"binary"/"count",
+  # permet a benchmark_spatial_datasets() de router chaque jeu correctement
+  # meme au sein d'un meme appel (suite mixte continu/binaire/comptage).
   structure(
-    list(name = name, data = data, formula = formula, coords = coords),
+    list(name = name, data = data, formula = formula, coords = coords, W = W,
+         response_typology = response_typology),
     class = "spatial_dataset_spec"
   )
 }
@@ -2419,7 +2731,8 @@ benchmark_spatial_datasets <- function(datasets,
                                        block_folds = 5L, seed = 123L,
                                        verbose = FALSE, parallel = FALSE,
                                        workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-                                       allow_heavy_tuning = FALSE) {
+                                       allow_heavy_tuning = FALSE,
+                                       fold_timeout_sec = NA_real_) {
   datasets <- normalize_dataset_specs(datasets)
   cv_scheme <- match.arg(cv_scheme)
   benchmarks <- list()
@@ -2433,6 +2746,8 @@ benchmark_spatial_datasets <- function(datasets,
       formula = spec$formula,
       data = spec$data,
       coords = spec$coords,
+      W = spec$W %||% NULL,
+      response_typology = spec$response_typology %||% "continuous",
       estimators = estimators,
       k_neighbors = k_neighbors,
       style = style,
@@ -2461,7 +2776,8 @@ benchmark_spatial_datasets <- function(datasets,
       verbose = verbose,
       parallel = parallel,
       workers = workers,
-      allow_heavy_tuning = allow_heavy_tuning
+      allow_heavy_tuning = allow_heavy_tuning,
+      fold_timeout_sec = fold_timeout_sec
     )
     benchmarks[[spec$name]] <- bench
     out <- bench$results

@@ -1,8 +1,8 @@
 ---
 title: R_spData_nz_nz
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spData_nz_nz.rds
 tags: [dataset, r-package, spatial, point]
@@ -70,9 +70,44 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Population ~ Land_area + Island
+- x_terms_used: Land_area + Island
+- y_term_used: Population
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "Population ~ Land_area + Island"
+    response: "Population"
+    predictors: ["Land_area", "Island"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -94,12 +129,12 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  equation_text: "Population ~ Land_area + Island"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -109,7 +144,7 @@ modeling_evidence:
 - N observations: 16
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -132,6 +167,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spData`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_small_n"
+  benchmark_task: "regression_spatial_small_sample"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider un schema CV adapte aux petits echantillons"
+  reason: "La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs."
+```
+
+- Decision: almost_ready_small_n
+- Manque principal: valider un schema CV adapte aux petits echantillons
+- Raison: La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs.
+
 
 ## Quality Control
 

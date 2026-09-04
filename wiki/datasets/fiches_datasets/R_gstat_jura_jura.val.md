@@ -1,8 +1,8 @@
 ---
 title: R_gstat_jura_jura.val
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
 tags: [dataset, r-package, spatial, point]
@@ -74,9 +74,44 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Cd ~ Landuse + Rock
+- x_terms_used: Landuse + Rock
+- y_term_used: Cd
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "Cd ~ Landuse + Rock"
+    response: "Cd"
+    predictors: ["Landuse", "Rock"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -98,12 +133,12 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p. [Appendix C describes and provides the Jura data set]"
-  confidence: low
+  equation_text: "Cd ~ Landuse + Rock"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +148,7 @@ modeling_evidence:
 - N observations: 100
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -137,6 +172,23 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -145,7 +197,7 @@ modeling_evidence:
 - CRS: WARN - CRS absent du `.rds` source ; EPSG:4326 extrait de la documentation et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat
+- Duplicates: WARN - groupe de versions suspectes `jura`; autres versions: R_gstat_jura_jura.pred, R_gstat_jura_prediction.dat, R_gstat_jura_validation.dat, R_gstat_jura_jura.grid, R_gstat_jura_juragrid.dat
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2.0)).
 
 ## Related Pages
@@ -154,3 +206,5 @@ modeling_evidence:
 - Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
 - Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]
+- Duplicate/version candidate: [[R_gstat_jura_jura.grid]]
+- Duplicate/version candidate: [[R_gstat_jura_juragrid.dat]]

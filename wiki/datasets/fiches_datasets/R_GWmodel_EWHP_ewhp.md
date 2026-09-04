@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_EWHP_ewhp
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -76,9 +76,44 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+- x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+- y_term_used: PurPrice
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea"
+    response: "PurPrice"
+    predictors: ["BldIntWr", "BldPostW", "Bld60s", "Bld70s", "Bld80s", "TypDetch", "TypFlat", "FlrArea"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -100,12 +135,12 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley."
-  confidence: low
+  equation_text: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -115,7 +150,7 @@ modeling_evidence:
 - N observations: 519
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -138,6 +173,22 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
 
 ## Estimator eligibility
 
@@ -162,6 +213,7 @@ estimator_eligibility:
     basis: benchmark_use
     source_ref: "GWmodel EWHP documentation / project formula."
 ```
+
 
 ## Quality Control
 

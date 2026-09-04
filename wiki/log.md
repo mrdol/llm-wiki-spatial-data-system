@@ -1897,3 +1897,134 @@ Key changes:
 Verification:
 - Checked that `CONTEXT.md` no longer contains obvious mojibake markers
   (`Ã`, `â`, `Â`).
+
+## [2026-08-10] datapaper | package-derived benchmark datasets, scope refresh
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Decision and evidence:
+- User selected scope A: package-derived datasets only.
+- Direct inventory found 91 package-derived Bloc 1-6 fiches; 31 `paper_*.md` fiches were excluded from this manuscript.
+- The separate Bloc 2 readiness pipeline and audit are cited in the draft to prevent conflation with package-derived benchmark claims.
+
+Next step:
+- Update the existing draft one manuscript section at a time, with dated source paths for each factual claim.
+## [2026-08-10] datapaper | Bloc 1 data-bank foundation
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Methodological grounding:
+- Read the initial stage proposal, enriched-metadata design, preliminary framing, and detailed INRAE stage plan in `raw/docs_methodology/`.
+- Reframed the manuscript as the first, bounded, package-derived release of a spatial benchmark data bank.
+- Added release-boundary and submission prerequisites without asserting an uncreated archive DOI or completed benchmark results.
+
+Next step:
+- Revise the abstract and Background & Summary against the frozen Bloc 1 release evidence.
+## [2026-08-10] datapaper | Bloc 1 abstract revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Rewrote the abstract around the Bloc 1 release of a curated spatial benchmark data bank.
+- Removed unstable counts of estimator variants and CV schemes from the abstract.
+- Kept the boundary explicit: documentation does not itself promote every entry to a runnable benchmark and no empirical ranking is claimed.
+## [2026-08-10] datapaper | Bloc 1 Background and motivation revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Reframed the background around the reference data-bank objective and coverage-oriented design.
+- Explained the enriched-metadata chain from source description to typology, estimator eligibility, validation, and benchmarking.
+- Kept the Bloc 1 scope bounded and avoided claims of universal benchmark readiness or empirical model performance.
+## [2026-08-10] datapaper | Bloc 1 scope and inclusion criteria
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Replaced the placeholder with an operational, evidence-backed inclusion rule for package-derived `sf` dataset objects.
+- Recorded exclusions for raw documentation, non-inspectable objects, separate source layers, and duplicate artifacts.
+- Clarified that DOI, published formula, and a completed benchmark are documentation fields rather than admission gates.
+## [2026-08-10] datapaper | Blocs 1-2 scope and empirical-validation rationale
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Expanded the manuscript from the package-derived layer to a two-route bank: package objects (Bloc 1) and publication-linked records (Bloc 2).
+- Added explicit separation of the registry, bibliographic candidates, raw downloads, converted artifacts, and the benchmark-ready core.
+- Rewrote the abstract, foundation, background, and scope to explain the complementary roles of theoretical analysis, Monte Carlo simulation, and empirical evaluation.
+- Positioned `spatialtidymodels` as the reproducible execution interface for the explicit benchmark core, not as evidence of readiness or estimator performance.
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## [2026-08-21] maintenance | Las Rosas benchmark task split
+
+Files updated:
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_1999.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_2001.md`
+- `code/r_catalog/prepare_lasrosas_benchmark_tasks.R`
+- package metadata, bundled data preparation and manual benchmark configuration
+
+Decision and evidence:
+- The source object contains 1,738 observations for 1999 and 1,705 for 2001.
+- The 2004 Anselin, Bongiovanni and Lowenberg-DeBoer article analyses the 1999 cross-section after grid aggregation, not the two campaigns pooled as a panel.
+- `lasrosas` now denotes the 1999 bundled task with the published quadratic topographic specification. The full source and the 2001 cross-section remain distinct, with the latter in manual review.
+
+Verification:
+- Derived RDS files were regenerated with 1,738 observations for 1999 and 1,705 for 2001.
+- `load_benchmark_dataset("lasrosas")` loads the bundled 1999 task and its published formula; an OLS holdout completed without failed resamples.
+- The metadata-registry tests passed. The full package suite reached exit code 0 but reports two existing `processx` worker errors caused by Windows pipe permission denial, not by the Las Rosas changes.
+
+## [2026-08-21] maintenance | Eligible estimator metadata normalization
+
+Files updated:
+- `code/package_metadata/export_spatialtidymodels_metadata.py`
+- `code/r_catalog/generate_fiches_papers.R`
+- `packages/spatialtidymodels/R/metadata-registry.R`
+- `packages/spatialtidymodels/R/benchmark-datasets.R`
+- package metadata JSON and registry tests
+
+Changes and verification:
+- Preserved published method names separately from executable package routes.
+- Mapped documented GWR and SAR-error families to `mgwrsar_gwr` and `sem_error` when appropriate.
+- Kept unsupported source methods non-blocking and proposed only compatible continuous-regression comparators from documented Y/X and spatial-support rules.
+- Removed the fixed default estimator list for single-dataset benchmarks; metadata now selects the executable routes unless the caller supplies names.
+- Added fold-safe coordinate derivation from `sf` geometry when a ready fiche omits explicit coordinate columns.
+- Regenerated metadata with no invalid non-empty package route and passed `metadata-registry` tests.
+
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"

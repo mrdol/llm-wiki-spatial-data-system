@@ -96,11 +96,21 @@ extract_information_criteria <- function(engine, n = NA_integer_) {
   if (!is.finite(k)) {
     k <- finite_scalar_or_na(engine_component(engine, "df"))
   }
-  if (!is.finite(k) && inherits(engine, "spboost")) {
+  if (!is.finite(k) && inherits(engine, "mboost")) {
+    # Covers spboost AND plain gamboost -- both inherit "mboost".
     k <- spboost_effective_df_for_ic(engine)
   }
 
-  aic <- numeric_or_na(stats::AIC(engine))
+  # stats::AIC(engine) is skipped for mboost-derived engines (spboost,
+  # gamboost): AIC.mboost() computes effective degrees of freedom via the
+  # boosting hat-matrix trace, which scales very badly with n -- instant on
+  # small benchmark datasets (n<=519) but confirmed to still be running after
+  # 35s+ of sustained single-core CPU on lasrosas (n=3435), which is what
+  # produced the ~25 minute suite stall this was root-caused from. The
+  # analytic aic = -2*logLik + 2*k fallback below (logLik is cheap; k comes
+  # from spboost_effective_df_for_ic()'s coef()-based approximation) gives an
+  # equivalent AIC without ever calling the expensive method.
+  aic <- if (inherits(engine, "mboost")) NA_real_ else numeric_or_na(stats::AIC(engine))
   if (!is.finite(aic)) {
     aic <- finite_scalar_or_na(engine_component(engine, "AIC"))
   }
@@ -123,21 +133,70 @@ extract_information_criteria <- function(engine, n = NA_integer_) {
   )
 }
 
-make_metric_values <- function(truth, pred) {
-  # Metriques simples sans dependance obligatoire a yardstick. Cela rend la
-  # fonction utilisable meme hors benchmark complet.
-  ok <- stats::complete.cases(truth, pred)
-  if (!any(ok)) return(list(rmse = NA_real_, mae = NA_real_))
-  err <- as.numeric(pred[ok]) - as.numeric(truth[ok])
-  list(
-    rmse = sqrt(mean(err^2)),
-    mae = mean(abs(err))
-  )
+#' Aire sous la courbe ROC (Mann-Whitney U), sans dependance a yardstick
+#'
+#' @keywords internal
+binary_auc_value <- function(truth01, prob) {
+  pos <- prob[truth01 == 1]
+  neg <- prob[truth01 == 0]
+  if (length(pos) == 0L || length(neg) == 0L) return(NA_real_)
+  r <- rank(c(pos, neg))
+  n1 <- length(pos)
+  (sum(r[seq_len(n1)]) - n1 * (n1 + 1) / 2) / (n1 * length(neg))
 }
 
-predict_values_for_diagnostics <- function(object, engine, data) {
+make_metric_values <- function(truth, pred, response_typology = "continuous") {
+  # Metriques simples sans dependance obligatoire a yardstick. Cela rend la
+  # fonction utilisable meme hors benchmark complet.
+  #
+  # rmse/mae restent TOUJOURS calcules et presents, quel que soit le type de
+  # reponse (2026-09) -- pour "binary", pred est suppose etre la probabilite
+  # de la classe positive (dans [0,1]) et truth 0/1, donc rmse/mae equivalent
+  # a une racine de Brier score / erreur absolue moyenne sur la probabilite.
+  # Ce choix garde le schema de colonnes stable entre types de reponse (le
+  # dashboard et les tests existants lisent rmse/mae sans condition) ;
+  # accuracy/auc/deviance s'ajoutent en plus, NA quand non applicables,
+  # plutot que de remplacer rmse/mae.
+  response_typology <- if (is.null(response_typology) || is.na(response_typology)) {
+    "continuous"
+  } else {
+    response_typology
+  }
+  na_extra <- list(accuracy = NA_real_, auc = NA_real_, deviance = NA_real_)
+  ok <- stats::complete.cases(truth, pred)
+  if (!any(ok)) return(c(list(rmse = NA_real_, mae = NA_real_), na_extra))
+  truth_ok <- as.numeric(truth[ok])
+  pred_ok <- as.numeric(pred[ok])
+  err <- pred_ok - truth_ok
+  base <- list(rmse = sqrt(mean(err^2)), mae = mean(abs(err)))
+
+  if (identical(response_typology, "binary")) {
+    pred_class <- as.numeric(pred_ok >= 0.5)
+    accuracy <- mean(pred_class == truth_ok)
+    auc <- tryCatch(binary_auc_value(truth_ok, pred_ok), error = function(e) NA_real_)
+    eps <- 1e-15
+    p <- pmin(pmax(pred_ok, eps), 1 - eps)
+    log_loss <- -mean(truth_ok * log(p) + (1 - truth_ok) * log(1 - p))
+    return(c(base, list(accuracy = accuracy, auc = auc, deviance = 2 * log_loss * length(truth_ok))))
+  }
+  if (identical(response_typology, "count")) {
+    p <- pmax(pred_ok, 1e-10)
+    dev_terms <- ifelse(truth_ok > 0, truth_ok * log(truth_ok / p), 0) - (truth_ok - p)
+    deviance <- 2 * sum(dev_terms)
+    return(c(base, list(accuracy = NA_real_, auc = NA_real_, deviance = deviance)))
+  }
+  c(base, na_extra)
+}
+
+predict_values_for_diagnostics <- function(object, engine, data, response_typology = "continuous") {
   # Pour un workflow, predict() renvoie un tibble .pred. Pour un modele lm/glm,
   # predict() utilise `newdata` et renvoie directement un vecteur.
+  #
+  # response_typology == "binary": un workflow classification n'a pas de
+  # colonne .pred par defaut (predict() renvoie .pred_class, un facteur) --
+  # il faut explicitement demander type="prob" et prendre la DERNIERE colonne
+  # (convention tidymodels: une colonne par niveau, dans l'ordre des niveaux;
+  # avec exactement 2 niveaux, la derniere est la classe positive).
   if (is.null(data)) return(NULL)
   if (isS4(engine) && "fit" %in% methods::slotNames(engine) &&
       length(engine@fit) == nrow(data)) {
@@ -147,20 +206,37 @@ predict_values_for_diagnostics <- function(object, engine, data) {
     return(as.numeric(engine@fit))
   }
   if (inherits(object, "workflow")) {
+    if (identical(response_typology, "binary")) {
+      preds <- tryCatch(stats::predict(object, new_data = data, type = "prob"), error = function(e) e)
+      if (!inherits(preds, "error") && is.data.frame(preds) && ncol(preds) >= 2L) {
+        return(as.numeric(preds[[ncol(preds)]]))
+      }
+    }
     preds <- tryCatch(stats::predict(object, new_data = data), error = function(e) e)
     if (!inherits(preds, "error")) {
       if (is.data.frame(preds) && ".pred" %in% names(preds)) return(preds$.pred)
       return(as.numeric(preds))
     }
   }
-  preds <- tryCatch(stats::predict(object, newdata = data), error = function(e) e)
+  # glm(family=binomial()/poisson()) renvoie l'echelle lineaire (logit/log)
+  # par defaut -- type="response" est necessaire pour obtenir une probabilite
+  # ou un compte, comparable a `truth`.
+  predict_type <- if (response_typology %in% c("binary", "count")) "response" else NULL
+  predict_args <- if (is.null(predict_type)) list() else list(type = predict_type)
+  preds <- tryCatch(
+    do.call(stats::predict, c(list(object, newdata = data), predict_args)),
+    error = function(e) e
+  )
   if (!inherits(preds, "error")) {
     if (is.data.frame(preds) && ".pred" %in% names(preds) && nrow(preds) == nrow(data)) {
       return(preds$.pred)
     }
     if (!is.data.frame(preds) && length(preds) == nrow(data)) return(as.numeric(preds))
   }
-  preds <- tryCatch(stats::predict(engine, newdata = data), error = function(e) e)
+  preds <- tryCatch(
+    do.call(stats::predict, c(list(engine, newdata = data), predict_args)),
+    error = function(e) e
+  )
   if (inherits(preds, "error")) return(NULL)
   if (is.data.frame(preds) && ".pred" %in% names(preds) && nrow(preds) == nrow(data)) {
     return(preds$.pred)
@@ -169,17 +245,32 @@ predict_values_for_diagnostics <- function(object, engine, data) {
   as.numeric(preds)
 }
 
-residual_values_for_diagnostics <- function(object, engine, data, formula = NULL) {
+residual_values_for_diagnostics <- function(object, engine, data, formula = NULL,
+                                            response_typology = "continuous") {
   # Les residus moteur sont preferes. Si leur taille ne correspond pas aux
   # donnees, on reconstruit y - prediction quand c'est possible.
-  res <- tryCatch(stats::residuals(engine), error = function(e) NULL)
-  if (!is.null(res) && (is.null(data) || length(res) == nrow(data))) return(as.numeric(res))
+  #
+  # response_typology == "binary": stats::residuals() sur un moteur de
+  # classification (ex. ranger) peut renvoyer une LISTE (structure par
+  # classe), pas un vecteur numerique -- confirme empiriquement
+  # (as.numeric(res) plante avec "l'objet 'list' ne peut etre converti...").
+  # Aucune notion de residu "moteur" bien definie pour une classe de toute
+  # facon: on saute directement a la reconstruction truth-pred (0/1 moins
+  # probabilite), coherente avec ce que fait deja make_metric_values().
+  if (!identical(response_typology, "binary")) {
+    res <- tryCatch(stats::residuals(engine), error = function(e) NULL)
+    if (!is.null(res) && (is.null(data) || length(res) == nrow(data))) return(as.numeric(res))
+  } else {
+    res <- NULL
+  }
   if (is.null(data) || is.null(formula)) return(res)
   response <- deparse(formula[[2]])
   if (!response %in% names(data)) return(res)
-  pred <- predict_values_for_diagnostics(object, engine, data)
+  pred <- predict_values_for_diagnostics(object, engine, data, response_typology = response_typology)
   if (is.null(pred) || length(pred) != nrow(data)) return(res)
-  as.numeric(data[[response]]) - as.numeric(pred)
+  truth <- data[[response]]
+  if (is.factor(truth)) truth <- as.integer(truth) - 1L
+  as.numeric(truth) - as.numeric(pred)
 }
 
 engine_component <- function(engine, name) {
@@ -267,6 +358,19 @@ moran_for_diagnostics <- function(residuals, data, coords, k_neighbors = 8,
       coords <- check_spatial_coords(coords, data = data)
       W <- build_knn_listw(data[, coords, drop = FALSE], k = k_neighbors,
                            style = style, zero_policy = zero_policy)
+    } else if (!inherits(W, "listw")) {
+      if (!requireNamespace("spdep", quietly = TRUE)) {
+        stop("Le package spdep est requis pour convertir W en listw.", call. = FALSE)
+      }
+      if (inherits(W, "nb")) {
+        W <- spdep::nb2listw(W, style = style, zero.policy = zero_policy)
+      } else {
+        W <- spdep::mat2listw(
+          spatial_W_to_matrix(W, style = style, zero_policy = zero_policy),
+          style = style,
+          zero.policy = zero_policy
+        )
+      }
     }
     test <- spdep::moran.test(residuals, listw = W, zero.policy = zero_policy)
     list(
@@ -282,14 +386,23 @@ moran_for_diagnostics <- function(residuals, data, coords, k_neighbors = 8,
 
 diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
                            coords = NULL, W = NULL, k_neighbors = 8,
-                           style = "W", zero_policy = TRUE) {
+                           style = "W", zero_policy = TRUE,
+                           response_typology = "continuous") {
   # Construit une ligne de diagnostic. Les champs non disponibles restent NA.
   engine <- extract_engine_for_diagnostics(object)
   response <- if (inherits(formula, "formula")) deparse(formula[[2]]) else NA_character_
-  pred <- predict_values_for_diagnostics(object, engine, data)
+  pred <- predict_values_for_diagnostics(object, engine, data, response_typology = response_typology)
   truth <- if (!is.null(data) && !is.na(response) && response %in% names(data)) data[[response]] else NULL
-  metrics <- if (!is.null(truth) && !is.null(pred)) make_metric_values(truth, pred) else list(rmse = NA_real_, mae = NA_real_)
-  res <- residual_values_for_diagnostics(object, engine, data, formula = formula)
+  # truth peut etre un facteur (mode classification impose par parsnip, voir
+  # probitspatial_fit_impl()) -- le reconvertir en 0/1 numerique pour que les
+  # metriques restent comparables a la probabilite predite.
+  if (!is.null(truth) && is.factor(truth)) truth <- as.integer(truth) - 1L
+  metrics <- if (!is.null(truth) && !is.null(pred)) {
+    make_metric_values(truth, pred, response_typology = response_typology)
+  } else {
+    list(rmse = NA_real_, mae = NA_real_, accuracy = NA_real_, auc = NA_real_, deviance = NA_real_)
+  }
+  res <- residual_values_for_diagnostics(object, engine, data, formula = formula, response_typology = response_typology)
   moran <- moran_for_diagnostics(
     residuals = res, data = data, coords = coords, k_neighbors = k_neighbors,
     W = W, style = style, zero_policy = zero_policy
@@ -306,12 +419,15 @@ diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
     response = response,
     rmse = metrics$rmse,
     mae = metrics$mae,
-    aic = info_criteria$aic,
+    accuracy = metrics$accuracy,
+    auc = metrics$auc,
+    deviance = metrics$deviance,
     aicc = info_criteria$aicc,
     logLik = info_criteria$logLik,
     spatial_param = spatial_param$name,
     spatial_value = spatial_param$value,
     moran_i = moran$i,
+    moran_abs = abs(moran$i),
     moran_p_value = moran$p,
     moran_error = moran$error,
     stringsAsFactors = FALSE
@@ -344,7 +460,8 @@ diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
 #' @export
 diagnose_spatial <- function(object, data = NULL, coords = NULL, formula = NULL,
                              W = NULL, k_neighbors = NULL, style = NULL,
-                             zero_policy = NULL, include_baseline = TRUE) {
+                             zero_policy = NULL, include_baseline = TRUE,
+                             response_typology = "continuous") {
   engine <- extract_engine_for_diagnostics(object)
   coords <- extract_coords_for_diagnostics(object, engine, coords = coords)
   k_neighbors <- k_neighbors %||% attr(object, "spatialtidymodels_k_neighbors") %||%
@@ -366,11 +483,17 @@ diagnose_spatial <- function(object, data = NULL, coords = NULL, formula = NULL,
     W = W,
     k_neighbors = k_neighbors,
     style = style,
-    zero_policy = zero_policy
+    zero_policy = zero_policy,
+    response_typology = response_typology
   ))
 
   if (isTRUE(include_baseline) && !is.null(data) && inherits(formula, "formula")) {
-    ols <- stats::glm(formula, data = data)
+    ols_family <- switch(response_typology,
+      binary = stats::binomial(),
+      count = stats::poisson(),
+      stats::gaussian()
+    )
+    ols <- stats::glm(formula, data = data, family = ols_family)
     rows[[length(rows) + 1L]] <- diagnostic_row(
       object = ols,
       estimator = "ols_baseline",
@@ -380,7 +503,8 @@ diagnose_spatial <- function(object, data = NULL, coords = NULL, formula = NULL,
       W = W,
       k_neighbors = k_neighbors,
       style = style,
-      zero_policy = zero_policy
+      zero_policy = zero_policy,
+      response_typology = response_typology
     )
   }
 

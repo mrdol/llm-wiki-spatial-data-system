@@ -1,8 +1,8 @@
 ---
 title: R_sp_meuse_meuse
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
 tags: [dataset, r-package, spatial, point]
@@ -81,6 +81,41 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 - x_terms_used: sqrt(dist)
 - y_term_used: log(zinc)
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "log(zinc) ~ sqrt(dist)"
+    response: "log(zinc)"
+    predictors: ["sqrt(dist)"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_sp_meuse_meuse`
@@ -102,11 +137,11 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 modeling_evidence:
   existing_model_found: true
   equation_text: "log(zinc) ~ sqrt(dist)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -116,7 +151,7 @@ modeling_evidence:
 - N observations: 155
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -139,6 +174,34 @@ modeling_evidence:
 - Reproducibility status: available via package R `sp`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: ["kriging_auxiliary"]
+  ineligible_reason: ""
+  rule: "formula_used may contain one published covariate when the formula is source-backed and executable; spatial weights can be reconstructed from coordinates by the benchmark when an original W is not required by the source."
+```
+
 
 ## Quality Control
 

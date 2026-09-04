@@ -4,7 +4,7 @@
 \alias{spatial_dataset_spec}
 \title{Define a dataset for \code{benchmark_spatial_datasets()}}
 \usage{
-spatial_dataset_spec(name, data, formula, coords)
+spatial_dataset_spec(name, data, formula, coords, W = NULL)
 }
 \arguments{
 \item{name}{Short dataset name.}
@@ -14,6 +14,10 @@ spatial_dataset_spec(name, data, formula, coords)
 \item{formula}{Model formula.}
 
 \item{coords}{Coordinate column names.}
+
+\item{W}{Optional spatial weights matrix or \code{listw} object aligned with
+\code{data}. If omitted, eligible spatial models build a kNN structure from
+\code{coords}.}
 }
 \value{
 A \code{spatial_dataset_spec} object.

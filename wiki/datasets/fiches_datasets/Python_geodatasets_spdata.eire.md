@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_spdata.eire
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.eire.rds
 tags: [dataset, python-package, spatial, point]
@@ -74,9 +74,44 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: A ~ towns + pale
+- x_terms_used: towns + pale
+- y_term_used: A
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "A ~ towns + pale"
+    response: "A"
+    predictors: ["towns", "pale"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -97,13 +132,13 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "A ~ towns + pale"
+  equation_family: regression
+  model_family: "regression"
+  source_type: published_or_manual_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +148,7 @@ modeling_evidence:
 - N observations: 26
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -136,6 +171,23 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_small_n"
+  benchmark_task: "regression_spatial_small_sample"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider un schema CV adapte aux petits echantillons"
+  reason: "La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs."
+```
+
+- Decision: almost_ready_small_n
+- Manque principal: valider un schema CV adapte aux petits echantillons
+- Raison: La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs.
+
 
 ## Quality Control
 

@@ -1,8 +1,8 @@
 ---
 title: R_spaMM_arabidopsis_arabidopsis
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spaMM_arabidopsis_arabidopsis.rds
 tags: [dataset, r-package, spatial, point]
@@ -88,6 +88,41 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 - x_terms_used: seasonal, Matern(1|LAT+LONG)
 - y_term_used: cbind(pos1046738, 1-pos1046738)
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
+    response: "cbind(pos1046738, 1-pos1046738)"
+    predictors: ["seasonal, Matern(1|LAT", "LONG)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spaMM_arabidopsis_arabidopsis`
@@ -109,11 +144,11 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 modeling_evidence:
   existing_model_found: true
   equation_text: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +158,7 @@ modeling_evidence:
 - N observations: 948
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -146,6 +181,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spaMM`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 

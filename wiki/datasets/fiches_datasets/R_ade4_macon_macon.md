@@ -1,8 +1,8 @@
 ---
 title: R_ade4_macon_macon
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_ade4_macon_macon.rds
 tags: [dataset, r-package, spatial, point]
@@ -94,6 +94,41 @@ The ‘macon’ data frame has 8 rows-wines and 25 columns-tasters. Each column 
 - x_terms_used: pending
 - y_term_used: pending
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_ade4_macon_macon`
@@ -115,9 +150,9 @@ The ‘macon’ data frame has 8 rows-wines and 25 columns-tasters. Each column 
 modeling_evidence:
   existing_model_found: false
   equation_text: "null"
-  equation_family: unknown
+  equation_family: n/a
   model_family: "n/a"
-  source_type: unknown
+  source_type: none_found
   source_ref: "null"
   confidence: low
 ```
@@ -129,7 +164,7 @@ modeling_evidence:
 - N observations: 8
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_petit_T_1
+- N/T profile: N_petit_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -152,6 +187,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `ade4`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_multivariate_ecology"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "definir une reponse scalaire Y et une formule regression depuis une etude source"
+  reason: "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression."
+```
+
+- Decision: not_ready_multivariate_ecology
+- Manque principal: definir une reponse scalaire Y et une formule regression depuis une etude source
+- Raison: Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.
+
 
 ## Quality Control
 

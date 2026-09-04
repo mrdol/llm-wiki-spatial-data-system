@@ -1,8 +1,8 @@
 ---
 title: Python_libpysal_Baltimore
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_libpysal_Baltimore.rds
 tags: [dataset, python-package, spatial, point]
@@ -79,9 +79,44 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- x_terms_used: NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- y_term_used: PRICE
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT"
+    response: "PRICE"
+    predictors: ["NROOM", "NBATH", "PATIO", "FIREPL", "AC", "GAR", "AGE", "LOTSZ", "SQFT"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -102,13 +137,13 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT"
+  equation_family: regression
+  model_family: "regression"
+  source_type: published_or_manual_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -118,7 +153,7 @@ modeling_evidence:
 - N observations: 211
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -141,6 +176,23 @@ modeling_evidence:
 - Reproducibility status: available via package Python `libpysal`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+
 
 ## Quality Control
 

@@ -1,8 +1,8 @@
 ---
 title: R_surveillance_hagelloch_hagelloch
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
 tags: [dataset, r-package, spatial, point]
@@ -44,7 +44,7 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 > Note doc : number of cases in family
 
-> **Note** - Version spatio-temporelle : 188 cas individuels x plusieurs pas de temps (N=70 500 lignes). Complementaire a `hagelloch.df`, version spatiale pure (N=188).
+> **Note** - Fiche canonique fusionnee : l'objet `hagelloch.df` est une variante tabulaire integree dans cette fiche, pas une fiche dataset separee.
 
 > Selection Y/X (claude-sonnet-4-6) : Dans un modèle twinSIR d'épidémie, 'event' (nouvelle infection) et 'Revent' (rétablissement) sont les variables réponse naturelles de l'analyse de survie/point process ; les covariables explicatives incluent l'âge, le sexe, la classe scolaire (CL), le nombre de contacts intra- et extra-ménage (household, nothousehold), les compteurs spatiaux de voisinage (c1, c2), ainsi que les variables de fenêtre temporelle (start, stop) et l'indicateur de risque (atRiskY) typiques du format counting-process. BLOCK, x.loc et y.loc sont des identifiants/coordonnées déjà exclus en amont ou redondants.
 
@@ -66,24 +66,59 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 
 ### Formule — niveau publication
 
-- formula_pub: ~ household + cox(AGE)
+- formula_pub: not_applicable - twinSIR (Neal & Roberts 2004, Biostatistics 5(2):249-261, DOI 10.1093/biostatistics/5.2.249) est un modele de hasard/intensite pour processus ponctuel epidemique (classe 'epidata'/twinSIR du package surveillance, cf. https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html), pas une regression Y~X classique : la 'reponse' est la structure d'historique d'evenements SIR elle-meme (start/stop/atRiskY/event, construite par as.epidata() depuis hagelloch.df), pas une colonne scalaire. household + cox(AGE) sont les covariables du terme de hasard, pas des predicteurs d'un Y observable. N reel : 188 enfants (hagelloch.df), 56 foyers distincts (x.loc/y.loc) -- les 70500 lignes de l'objet 'epidata' hagelloch sont 188 enfants x 375 pas de temps de la fenetre a risque, pas 70500 observations spatiales independantes.
 - x_terms_pub: household, cox(AGE)
 - y_term_pub: pending
 - Reference publication: Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: pending
+- Niveau de preuve: n/a
+- Methode d'estimation: n/a
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: n/a
 
 ### Formule — niveau systeme
 
-- formula_used: ~ household + cox(AGE)
-- x_terms_used: household, cox(AGE)
-- y_term_used: pending
+- formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- y_term_used: event
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
+    response: "event"
+    predictors: ["start", "stop", "atRiskY", "AGE", "SEX", "CL", "household", "nothousehold"]
+    role: "paper_main_specification"
+    source_type: "published_or_manual_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -105,12 +140,12 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "~ household + cox(AGE)"
-  equation_family: unknown
-  model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
-  source_ref: "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic"
-  confidence: low
+  equation_text: "event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold"
+  equation_family: regression
+  model_family: "n/a"
+  source_type: published_or_manual_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -120,7 +155,7 @@ modeling_evidence:
 - N observations: 70500
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -144,11 +179,28 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING - formule publication non encore etablie.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

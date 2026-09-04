@@ -1,0 +1,105 @@
+{
+  "dataset_id": "DataCite_2022_ModelingOfSpatialPattern_10_1371_journal_",
+  "package": "paper:dryad:v6wwpzgz0",
+  "dataset": "Cultivated land quality - Henan province county-level panel",
+  "source_lang": "python",
+  "conversion_method": "name_join:geoBoundaries_CHN_ADM3(clip Henan via GADM ADM1, 143/159 comtes apparies sans ambiguite ; 16 exclus, non fabriques)",
+  "rds_path": "data/final_datasets/sf/DataCite_2022_ModelingOfSpatialPattern_10_1371_journal_.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "County",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 142,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Map Area",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[8269167.2200, 1841791561.4850]",
+        "n_unique": 143,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Effective soil thickness",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 157.7789]",
+        "n_unique": 81,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Soil salinity content",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[7.1369, 27.6931]",
+        "n_unique": 143,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Soil acidity and alkalinity",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.4208, 8.7690]",
+        "n_unique": 143,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Drainage conditions",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 3.7960]",
+        "n_unique": 103,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Irrigation guarantee rate",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 3.9757]",
+        "n_unique": 140,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Slope",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 3.6378]",
+        "n_unique": 108,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 143,
+    "T": 1,
+    "T_var": null,
+    "k": 8,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_moyen_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 110.35479,
+      "ymin": 31.384459,
+      "xmax": 116.644731,
+      "ymax": 36.366779
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "GADM (ADM3 national) ne couvrait que 84/159 comtes du Henan (districts urbains manquants, ex. Zhengzhou agrege en une seule entite au lieu de ses ~6 arrondissements). Remplace par geoBoundaries CHN ADM3 (2864 unites nationales, decoupage plus fin), clippe a la province Henan via GADM ADM1. 143/159 comtes apparies sans ambiguite (normalisation + 1 correction de frappe 'Jia Countu'->'Jia County' + 2 alias de transliteration verifies individuellement : ZhongMou->Zhongmu County (中牟县), ShunHeHuiZu->Shunhe Hui District (顺河回族区)). 16 comtes exclus (pas de correspondance non ambigue trouvee, non fabriques) : ['ChanHeHuiZu', 'ChangHeng', 'GuanChengHuiZu', 'HengChuan', 'Hui County', 'HuiYuan', 'JinMing', 'KaiFeng', 'LiangUuan', 'Qi County', 'Xia County', 'XiangCheng', 'XuCheng', 'ZhaoLing']"
+  }
+}

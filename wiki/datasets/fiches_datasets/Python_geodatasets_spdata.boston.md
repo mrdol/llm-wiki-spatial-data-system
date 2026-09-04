@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_spdata.boston
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.boston.rds
 tags: [dataset, python-package, spatial, point]
@@ -69,24 +69,59 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT
+- x_terms_pub: CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT
+- y_term_pub: CMEDV
+- Reference publication: Harrison, D. & Rubinfeld, D.L. (1978). Hedonic housing prices and the demand for clean air. Journal of Environmental Economics and Management, 5(1), 81-102. Corrected coordinates/values per Gilley, O.W. & Pace, R.K. (1996), 'On the Harrison and Rubinfeld Data', JEEM 31(3), 403-405 (source of the CMEDV column).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT
+- x_terms_used: CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT
+- y_term_used: CMEDV
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT"
+    response: "CMEDV"
+    predictors: ["CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Harrison, D. & Rubinfeld, D.L. (1978). Hedonic housing prices and the demand for clean air. Journal of Environmental Economics and Management, 5(1), 81-102. Corrected coordinates/values per Gilley, O.W. & Pace, R.K. (1996), 'On the Harrison and Rubinfeld Data', JEEM 31(3), 403-405 (source of the CMEDV column)."
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -96,7 +131,7 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 - Source: package Python `geodatasets`
 - Source URL: https://pypi.org/project/geodatasets/
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: 10.1016/0095-0696(78)90006-2
 - Year: 2023
 
 ## Bloc 3 — Typologie des modeles
@@ -107,13 +142,13 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT"
+  equation_family: regression
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Harrison, D. & Rubinfeld, D.L. (1978). Hedonic housing prices and the demand for clean air. Journal of Environmental Economics and Management, 5(1), 81-102. Corrected coordinates/values per Gilley, O.W. & Pace, R.K. (1996), 'On the Harrison and Rubinfeld Data', JEEM 31(3), 403-405 (source of the CMEDV column)."
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +158,7 @@ modeling_evidence:
 - N observations: 506
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -146,6 +181,22 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
 
 ## Estimator eligibility
 
@@ -205,17 +256,19 @@ estimator_eligibility:
     source_ref: "Boston housing hedonic regression benchmark; package tests and benchmark metadata."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: OK - formule publication renseignee.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4267).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Duplicates: WARN - groupe de versions suspectes `boston`; autres versions: R_spData_boston_boston.c
 - Reproducibility: OK - source package et licence renseignes (BSD 3-Clause).
 
 ## Related Pages
 
 - Source: package Python `geodatasets`
+- Duplicate/version candidate: [[R_spData_boston_boston.c]]

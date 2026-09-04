@@ -1,8 +1,8 @@
 ---
 title: R_spaMM_Loaloa_Loaloa
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-08-15
 sources:
   - data/final_datasets/sf/R_spaMM_Loaloa_Loaloa.rds
 tags: [dataset, r-package, spatial, point]
@@ -78,6 +78,41 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 - x_terms_used: elev1, elev2, elev3, elev4, maxNDVI1, seNDVI, Matern(1|longitude+latitude)
 - y_term_used: cbind(npos, ntot-npos)
 
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)"
+    response: "cbind(npos, ntot-npos)"
+    predictors: ["elev1, elev2, elev3, elev4, maxNDVI1, seNDVI, Matern(1|longitude", "latitude)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Diggle P.J., Thomson M.C., Christensen O.F., Rowlingson B., Obsomer V., Gardon J., Wanji S., Takougang I., Enyong P., Kamgno J., Remme J.H., Boussinesq M., Molyneux D.H. (2007) Spatial modelling and the prediction of Loa loa risk: decision making under uncertainty. Annals of Tropical Medicine and Parasitology, 101(6), 499–509"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `R_spaMM_Loaloa_Loaloa`
@@ -99,11 +134,11 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 modeling_evidence:
   existing_model_found: true
   equation_text: "cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Diggle P.J., Thomson M.C., Christensen O.F., Rowlingson B., Obsomer V., Gardon J., Wanji S., Takougang I., Enyong P., Kamgno J., Remme J.H., Boussinesq M., Molyneux D.H. (2007) Spatial modelling and the prediction of Loa loa risk: decision making under uncertainty. Annals of Tropical Medicine and Parasitology, 101(6), 499–509"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +148,7 @@ modeling_evidence:
 - N observations: 197
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -136,6 +171,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `spaMM`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 
