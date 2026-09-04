@@ -101,6 +101,16 @@ launch_benchmark_dashboard <- function(suite, baseline_estimator = "ols", launch
     results$moran_abs <- abs(results$moran_i)
   }
   metric_choices <- intersect(c("rmse", "mae", "moran_abs", "duration_sec"), names(results))
+  # accuracy/auc/deviance (2026-09, classification/comptage): meme logique
+  # que mod_cv_server() (24-dashboard-cv.R) -- ne proposer que si au moins
+  # une valeur finie existe, sinon le menu contiendrait une option morte
+  # pour une suite purement continue (colonnes toujours presentes mais NA,
+  # voir make_metric_values() dans 12-diagnose-spatial.R).
+  for (extra in c("accuracy", "auc", "deviance")) {
+    if (extra %in% names(results) && any(is.finite(results[[extra]]))) {
+      metric_choices <- c(metric_choices, extra)
+    }
+  }
   cv_scheme_choices <- sort(unique(results$cv_scheme))
   estimator_choices <- sort(unique(results$estimator))
   baseline_default <- if (baseline_estimator %in% estimator_choices) baseline_estimator else estimator_choices[[1]]

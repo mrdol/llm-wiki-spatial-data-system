@@ -15,12 +15,14 @@
       "requires_W": false,
       "spatial_args": "",
       "tunable_parameters": "",
-      "notes": "Baseline lineaire.",
+      "notes": "Baseline lineaire (glm). Family routee dynamiquement selon la tache: gaussian (continu), binomial (binaire, 2026-09), poisson (comptage, 2026-09) -- voir fit_one_benchmark_estimator().",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary",
+        "count"
       ],
       "predictor_typologies": [
         "continuous",
@@ -157,12 +159,14 @@
       "requires_W": false,
       "spatial_args": "coords",
       "tunable_parameters": "",
-      "notes": "Baseline GAM avec lisseur spatial s(x, y).",
+      "notes": "Baseline GAM avec lisseur spatial s(x, y). Family routee dynamiquement selon la tache: gaussian (continu), binomial (binaire, 2026-09), poisson (comptage, 2026-09) -- voir fit_one_benchmark_estimator().",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary",
+        "count"
       ],
       "predictor_typologies": [
         "continuous",
@@ -496,12 +500,13 @@
       "requires_W": false,
       "spatial_args": "",
       "tunable_parameters": "",
-      "notes": "Baseline random forest native tidymodels sur X seules.",
+      "notes": "Baseline random forest native tidymodels sur X seules. mode=classification pour une tache binaire (2026-09); pas de mode Poisson natif dans ranger/parsnip, le comptage reste en regression (approximation).",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary"
       ],
       "predictor_typologies": [
         "continuous",
@@ -633,12 +638,13 @@
       "requires_W": false,
       "spatial_args": "coords_as_covariates",
       "tunable_parameters": "",
-      "notes": "Baseline random forest native tidymodels sur X et coordonnees brutes.",
+      "notes": "Baseline random forest native tidymodels sur X et coordonnees brutes. mode=classification pour une tache binaire (2026-09); pas de mode Poisson natif dans ranger/parsnip, le comptage reste en regression (approximation).",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary"
       ],
       "predictor_typologies": [
         "continuous",
@@ -769,12 +775,14 @@
       "requires_W": false,
       "spatial_args": "",
       "tunable_parameters": "",
-      "notes": "Baseline XGBoost native tidymodels sur X seules.",
+      "notes": "Baseline XGBoost native tidymodels sur X seules. mode=classification pour une tache binaire (2026-09); objective=count:poisson pour le comptage (2026-09).",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary",
+        "count"
       ],
       "predictor_typologies": [
         "continuous",
@@ -906,12 +914,14 @@
       "requires_W": false,
       "spatial_args": "coords_as_covariates",
       "tunable_parameters": "",
-      "notes": "Baseline XGBoost native tidymodels sur X et coordonnees brutes.",
+      "notes": "Baseline XGBoost native tidymodels sur X et coordonnees brutes. mode=classification pour une tache binaire (2026-09); objective=count:poisson pour le comptage (2026-09).",
       "status": "automatic",
       "mode": "regression",
       "automatic": true,
       "response_typologies": [
-        "continuous"
+        "continuous",
+        "binary",
+        "count"
       ],
       "predictor_typologies": [
         "continuous",
@@ -1265,6 +1275,68 @@
       "wiki_path": null,
       "metadata_status": "package_registry_only",
       "family": "SAR",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
+    },
+    {
+      "estimator": "sar_probit",
+      "package": "ProbitSpatial",
+      "backend": "ProbitSpatial::ProbitSpatialFit(DGP=SAR)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/W/k_neighbors/style/zero_policy",
+      "tunable_parameters": "k_neighbors",
+      "notes": "Probit spatial SAR (Martinetti & Geniaux, 2017, Regional Science and Urban Economics 64:30-45) via sar_probit_reg(). Premier estimateur binaire du package (2026-09); prediction hors echantillon via predict.ProbitSpatial(oos=TRUE), formule BLUP de Goulard et al. (2017).",
+      "status": "automatic",
+      "mode": "classification",
+      "automatic": true,
+      "response_typologies": [
+        "binary"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Reponse binaire uniquement (0/1 ou facteur a 2 niveaux); requiert des coordonnees utilisables pour construire W.",
+      "test_datasets": [],
+      "wiki_key": "sar_probit",
+      "wiki_path": null,
+      "metadata_status": "package_registry_only",
+      "family": "SAR",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null,
+      "dashboard_group": "Spatial Econometrics"
+    },
+    {
+      "estimator": "sem_probit",
+      "package": "ProbitSpatial",
+      "backend": "ProbitSpatial::ProbitSpatialFit(DGP=SEM)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/W/k_neighbors/style/zero_policy",
+      "tunable_parameters": "k_neighbors",
+      "notes": "Probit spatial SEM (Martinetti & Geniaux, 2017, Regional Science and Urban Economics 64:30-45) via sem_probit_reg(). Premier estimateur binaire du package (2026-09); prediction hors echantillon via predict.ProbitSpatial(oos=TRUE), formule BLUP de Goulard et al. (2017).",
+      "status": "automatic",
+      "mode": "classification",
+      "automatic": true,
+      "response_typologies": [
+        "binary"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Reponse binaire uniquement (0/1 ou facteur a 2 niveaux); requiert des coordonnees utilisables pour construire W.",
+      "test_datasets": [],
+      "wiki_key": "sem_probit",
+      "wiki_path": null,
+      "metadata_status": "package_registry_only",
+      "family": "SEM",
       "role": "reference",
       "reference_estimator": null,
       "variant_family": null,

@@ -163,24 +163,52 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
     # Best median relative RMSE/MAE: never a raw cross-dataset champion (see
     # dashboard_best_relative_estimator() -- response variables are not on a
     # comparable scale between datasets).
-    relative_kpi_card <- function(metric_name, title, icon) {
-      shiny::renderUI({
-        best <- dashboard_best_relative_estimator(filtered_results(), baseline_estimator = input$baseline, metric = metric_name)
-        if (is.na(best$estimator)) return(dashboard_kpi_card(title, "n/a", icon = icon, value_class = ""))
-        # < 1x is better than baseline, > 1x is worse, ~1x (the baseline
-        # itself, or a genuine tie) stays neutral -- same green/red reading
-        # as the heatmap cells, just repeated on the KPI card.
-        direction_class <- if (best$value < 0.999) "better" else if (best$value > 1.001) "worse" else "neutral-accent"
-        dashboard_kpi_card(
-          title, sprintf("%.2fx", best$value),
-          estimator = best$estimator,
-          comparison = sprintf("vs %s (n=%d datasets)", best$baseline, best$n_datasets),
-          icon = icon, value_class = direction_class
-        )
-      })
+    #
+    # 2026-09: the two headline cards adapt to the response type actually
+    # present in the filtered results, instead of always showing RMSE/MAE.
+    # rmse/mae stay well-defined and comparable for a binary/count suite too
+    # (see make_metric_values() in 12-diagnose-spatial.R -- rmse/mae are
+    # always computed, never replaced by accuracy/auc/deviance), so this is
+    # purely about surfacing the more informative headline metric when one
+    # is available, not a correctness fix.
+    build_relative_kpi_card <- function(metric_name, title, icon, lower_is_better = TRUE) {
+      best <- dashboard_best_relative_estimator(
+        filtered_results(), baseline_estimator = input$baseline,
+        metric = metric_name, lower_is_better = lower_is_better
+      )
+      if (is.na(best$estimator)) return(dashboard_kpi_card(title, "n/a", icon = icon, value_class = ""))
+      # < 1x is better than baseline, > 1x is worse, ~1x (the baseline
+      # itself, or a genuine tie) stays neutral -- same green/red reading
+      # as the heatmap cells, just repeated on the KPI card. For a
+      # higher-is-better metric (accuracy/AUC) the sides are flipped.
+      good_side <- if (isTRUE(lower_is_better)) best$value < 0.999 else best$value > 1.001
+      bad_side <- if (isTRUE(lower_is_better)) best$value > 1.001 else best$value < 0.999
+      direction_class <- if (good_side) "better" else if (bad_side) "worse" else "neutral-accent"
+      dashboard_kpi_card(
+        title, sprintf("%.2fx", best$value),
+        estimator = best$estimator,
+        comparison = sprintf("vs %s (n=%d datasets)", best$baseline, best$n_datasets),
+        icon = icon, value_class = direction_class
+      )
     }
-    output$kpi_rmse_card <- relative_kpi_card("rmse", "Best median relative RMSE", "chart")
-    output$kpi_mae_card <- relative_kpi_card("mae", "Best median relative MAE", "chart")
+    output$kpi_rmse_card <- shiny::renderUI({
+      r <- filtered_results()
+      if ("accuracy" %in% names(r) && any(is.finite(r$accuracy))) {
+        build_relative_kpi_card("accuracy", "Best relative accuracy", "chart", lower_is_better = FALSE)
+      } else if ("deviance" %in% names(r) && any(is.finite(r$deviance))) {
+        build_relative_kpi_card("deviance", "Best relative deviance", "chart")
+      } else {
+        build_relative_kpi_card("rmse", "Best median relative RMSE", "chart")
+      }
+    })
+    output$kpi_mae_card <- shiny::renderUI({
+      r <- filtered_results()
+      if ("auc" %in% names(r) && any(is.finite(r$auc))) {
+        build_relative_kpi_card("auc", "Best relative AUC", "chart", lower_is_better = FALSE)
+      } else {
+        build_relative_kpi_card("mae", "Best median relative MAE", "chart")
+      }
+    })
 
     # Residual spatial dependence: magnitude-based (never "most negative
     # wins" -- see dashboard_residual_spatial_dependence()), median across
@@ -212,8 +240,17 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
     })
 
     output$heatmap_table <- shiny::renderUI({
+      # accuracy/auc (classification, 2026-09): higher is better -- sans ce
+      # garde-fou, le tableau chaud colorierait les bons resultats en rouge
+      # (voir dashboard_relative_metric(), 18-dashboard-data.R, qui inverse
+      # deja correctement le ratio selon lower_is_better -- encore faut-il le
+      # lui passer).
+      lower_is_better <- !input$metric %in% c("accuracy", "auc")
       wide <- tryCatch(
-        dashboard_relative_metric_wide(filtered_results(), baseline_estimator = input$baseline, metric = input$metric),
+        dashboard_relative_metric_wide(
+          filtered_results(), baseline_estimator = input$baseline,
+          metric = input$metric, lower_is_better = lower_is_better
+        ),
         error = function(e) NULL
       )
       if (is.null(wide) || nrow(wide) == 0L) {
@@ -225,8 +262,22 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
     output$perf_runtime_plot <- shiny::renderPlot({
       require_package("ggplot2", "le graphique performance/duree du dashboard")
       duration <- dashboard_metric_by_estimator(filtered_results(), "duration_sec")
+      # Meme detection de type de reponse que les cartes KPI ci-dessus:
+      # accuracy (classification) prime, sinon deviance (comptage) si
+      # present sans accuracy, sinon rmse (continu, defaut).
+      r <- filtered_results()
+      perf_metric <- if ("accuracy" %in% names(r) && any(is.finite(r$accuracy))) {
+        list(metric = "accuracy", lower_is_better = FALSE, label = "accuracy")
+      } else if ("deviance" %in% names(r) && any(is.finite(r$deviance))) {
+        list(metric = "deviance", lower_is_better = TRUE, label = "deviance")
+      } else {
+        list(metric = "rmse", lower_is_better = TRUE, label = "RMSE")
+      }
       relative_rmse <- tryCatch(
-        dashboard_relative_metric_by_estimator(filtered_results(), baseline_estimator = input$baseline, metric = "rmse"),
+        dashboard_relative_metric_by_estimator(
+          filtered_results(), baseline_estimator = input$baseline,
+          metric = perf_metric$metric, lower_is_better = perf_metric$lower_is_better
+        ),
         error = function(e) NULL
       )
       if (is.null(relative_rmse) || nrow(relative_rmse) == 0L) {
@@ -244,7 +295,7 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
         ggplot2::geom_text(vjust = -0.9, size = 3.2, show.legend = FALSE) +
         ggplot2::scale_x_log10(name = "Median duration (s, log scale)") +
         ggplot2::scale_color_manual(values = dashboard_group_palette(), drop = TRUE) +
-        ggplot2::labs(y = sprintf("Median relative RMSE (vs %s)", input$baseline), color = "Estimator family") +
+        ggplot2::labs(y = sprintf("Median relative %s (vs %s)", perf_metric$label, input$baseline), color = "Estimator family") +
         ggplot2::theme_minimal(base_size = 12) +
         ggplot2::theme(legend.position = "bottom", panel.grid.minor = ggplot2::element_blank())
     })

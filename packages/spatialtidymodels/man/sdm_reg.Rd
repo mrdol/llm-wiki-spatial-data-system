@@ -10,7 +10,8 @@ sdm_reg(
   W = NULL,
   k_neighbors = NULL,
   style = "W",
-  zero_policy = TRUE
+  zero_policy = TRUE,
+  pred_type = NULL
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ sdm_reg(
 \item{style}{Style de standardisation \code{spdep::nb2listw()}.}
 
 \item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
+
+\item{pred_type}{Ignore pour SDM (forme reduite maison, pas de choix TS/KP2
+-- voir \code{spatialreg_predict_sdm_reduced_form()}). Present uniquement pour
+la coherence de la mecanique \code{update()}/\code{tune_grid()}.}
 }
 \value{
 Une specification de modele \code{parsnip}.

@@ -12,7 +12,8 @@ spatialreg_fit_impl(
   model_type = "SAR",
   k_neighbors = 8,
   style = "W",
-  zero_policy = TRUE
+  zero_policy = TRUE,
+  pred_type = "TS"
 )
 }
 \description{

@@ -11,6 +11,7 @@
   register_spboost_reg()
   register_mgwrsar_reg()
   register_spmoran_reg()
+  register_probitspatial_reg()
 }
 
 register_spatialreg_reg <- function() {
@@ -21,7 +22,7 @@ register_spatialreg_reg <- function() {
   parsnip::set_model_engine("spatialreg_reg", mode = "regression", eng = "spatialreg")
   parsnip::set_dependency("spatialreg_reg", eng = "spatialreg", pkg = "spatialreg")
 
-  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy")) {
+  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy", "pred_type")) {
     parsnip::set_model_arg(
       model = "spatialreg_reg",
       eng = "spatialreg",
@@ -71,6 +72,100 @@ register_spatialreg_reg <- function() {
       pre = NULL,
       post = function(results, object) as.numeric(results),
       func = c(pkg = "spatialtidymodels", fun = "spatialreg_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
+register_probitspatial_reg <- function() {
+  if ("probit_spatial_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("probit_spatial_reg")
+  parsnip::set_model_mode(model = "probit_spatial_reg", mode = "classification")
+  parsnip::set_model_engine("probit_spatial_reg", mode = "classification", eng = "ProbitSpatial")
+  parsnip::set_dependency("probit_spatial_reg", eng = "ProbitSpatial", pkg = "ProbitSpatial")
+
+  for (arg in c("coords", "W", "model_type", "k_neighbors", "style", "zero_policy")) {
+    parsnip::set_model_arg(
+      model = "probit_spatial_reg",
+      eng = "ProbitSpatial",
+      parsnip = arg,
+      original = arg,
+      func = switch(arg,
+        k_neighbors = list(pkg = "spatialtidymodels", fun = "k_neighbors"),
+        list(pkg = "dials", fun = "unknown")
+      ),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  # probitspatial_pred_impl() renvoie toujours la probabilite de la classe
+  # positive (second niveau stocke au fit, attribut "probitspatial_lvl" --
+  # pas object$lvl, car les jeux binaires cures du projet stockent souvent Y
+  # en 0/1 numerique plutot qu'en facteur, voir probitspatial_fit_impl()).
+  # Meme patron post-traitement que parsnip pour logistic_reg()/glm.
+  parsnip::set_pred(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    type = "prob",
+    value = list(
+      pre = NULL,
+      post = function(results, object) {
+        lvl <- attr(parsnip::extract_fit_engine(object), "probitspatial_lvl")
+        out <- tibble::tibble(v1 = 1 - results, v2 = results)
+        colnames(out) <- lvl
+        out
+      },
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  parsnip::set_pred(
+    model = "probit_spatial_reg",
+    eng = "ProbitSpatial",
+    mode = "classification",
+    type = "class",
+    value = list(
+      pre = NULL,
+      post = function(results, object) {
+        lvl <- attr(parsnip::extract_fit_engine(object), "probitspatial_lvl")
+        unname(ifelse(results >= 0.5, lvl[2], lvl[1]))
+      },
+      func = c(pkg = "spatialtidymodels", fun = "probitspatial_pred_impl"),
       args = list(
         object = quote(object),
         new_data = quote(new_data)

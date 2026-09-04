@@ -12,6 +12,7 @@ benchmark_spatial(
   k_neighbors = 8,
   style = "W",
   zero_policy = TRUE,
+  W = NULL,
   spboost_mstop = 100L,
   spboost_nu = 0.1,
   gamboost_mstop = 100L,
@@ -55,6 +56,10 @@ benchmark_spatial(
 \item{style}{Row-standardization style passed to \code{spdep::nb2listw()}.}
 
 \item{zero_policy}{Zero-neighbour policy passed to \code{spdep}.}
+
+\item{W}{Optional spatial weights matrix or \code{listw} object. When supplied,
+SAR/SEM/SDM routes and residual Moran diagnostics use it instead of
+rebuilding a kNN structure from \code{coords}.}
 
 \item{spboost_mstop}{Number of boosting iterations for \code{spboost}.}
 

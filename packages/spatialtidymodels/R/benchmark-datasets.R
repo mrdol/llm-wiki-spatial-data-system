@@ -96,6 +96,20 @@ fallback_benchmark_dataset_registry <- function() {
       "Attention aux dummies de type logement; formule projet sans TYPEFLAT.",
       "Coupe 1999 de 1 738 cellules; formule publiee et erreur spatiale documentee."
     ),
+    spatial_weights_status = c(NA_character_, "available_original", rep(NA_character_, 5L)),
+    spatial_weights_source = c(
+      NA_character_,
+      "spData::col.gal.nb / weights/columbus.gal",
+      rep(NA_character_, 5L)
+    ),
+    spatial_weights_type = c(NA_character_, "irregular_contiguity_neighbors", rep(NA_character_, 5L)),
+    spatial_weights_style = c(NA_character_, "W", rep(NA_character_, 5L)),
+    spatial_weights_object = c(NA_character_, "columbus_crime_listw", rep(NA_character_, 5L)),
+    spatial_weights_file = c(
+      NA_character_,
+      "data/final_datasets/weights/columbus_crime_listw.rds",
+      rep(NA_character_, 5L)
+    ),
     stringsAsFactors = FALSE
   )
 }
@@ -154,6 +168,26 @@ benchmark_dataset_registry <- function() {
   if (!"redistribution_allowed" %in% names(out)) out$redistribution_allowed <- NA
   if (!"license_verified" %in% names(out)) out$license_verified <- FALSE
   if (!"size_bytes" %in% names(out)) out$size_bytes <- NA_real_
+  for (field in c(
+    "spatial_weights_status", "spatial_weights_source", "spatial_weights_type",
+    "spatial_weights_style", "spatial_weights_object", "spatial_weights_file"
+  )) {
+    if (!field %in% names(out)) out[[field]] <- NA_character_
+  }
+  # response_typology/predictor_typology: only present when metadata_dataset_
+  # registry() supplied them (see R/metadata-registry.R). The legacy fallback_
+  # benchmark_dataset_registry() predates these fields, so without this guard
+  # a caller routing by response type (binary/count/continuous) would get
+  # NULL, not per-row NA, whenever the JSON registry is unavailable. The 7
+  # fallback datasets are all known continuous-response tasks, so "continuous"
+  # is the correct default here (not an empty/unknown placeholder like the
+  # JSON path uses for a genuinely undocumented dataset).
+  if (!"response_typology" %in% names(out)) {
+    out$response_typology <- I(rep(list("continuous"), nrow(out)))
+  }
+  if (!"predictor_typology" %in% names(out)) {
+    out$predictor_typology <- I(rep(list(character()), nrow(out)))
+  }
   out
 }
 
@@ -246,6 +280,31 @@ load_packaged_benchmark_data <- function(object) {
   get(object, envir = env, inherits = FALSE)
 }
 
+load_benchmark_spatial_weights <- function(spec, data_dir = NULL) {
+  get_field <- function(field) {
+    if (!field %in% names(spec)) return(NA_character_)
+    value <- spec[[field]][[1]]
+    if (is.null(value) || length(value) == 0L) NA_character_ else as.character(value[[1L]])
+  }
+  status <- get_field("spatial_weights_status")
+  if (is.na(status) || !identical(status, "available_original")) return(NULL)
+
+  object_name <- get_field("spatial_weights_object")
+  if (is.null(data_dir) && !is.na(object_name) && nzchar(object_name)) {
+    packaged <- load_packaged_benchmark_data(object_name)
+    if (!is.null(packaged)) return(packaged)
+  }
+
+  weight_file <- get_field("spatial_weights_file")
+  if (is.na(weight_file) || !nzchar(weight_file)) return(NULL)
+  path <- tryCatch(
+    resolve_benchmark_data_path(weight_file, data_dir = data_dir),
+    error = function(e) NULL
+  )
+  if (is.null(path)) return(NULL)
+  readRDS(path)
+}
+
 coerce_numeric_like_columns <- function(data) {
   # Certains datasets empaquetes conservent des indicatrices 0/1 comme chaines.
   # Les backends mgwrsar travaillent mieux avec une matrice de variables
@@ -273,6 +332,17 @@ derive_benchmark_coords <- function(data, coords) {
   data$coord_x <- xy[, 1L]
   data$coord_y <- xy[, 2L]
   list(data = data, coords = c("coord_x", "coord_y"))
+}
+
+#' Detecter response_typology depuis une ligne de registre de jeu de donnees
+#'
+#' @keywords internal
+detect_response_typology_from_spec <- function(spec) {
+  raw <- tryCatch(spec$response_typology[[1]], error = function(e) character())
+  raw <- as.character(raw)
+  if ("binary" %in% raw) return("binary")
+  if ("count" %in% raw) return("count")
+  "continuous"
 }
 
 #' List registered benchmark datasets
@@ -329,11 +399,25 @@ load_benchmark_dataset <- function(dataset, data_dir = NULL, formula_role = "def
   }
   dat <- coerce_numeric_like_columns(dat[, needed, drop = FALSE])
   dat <- dat[stats::complete.cases(dat[, needed, drop = FALSE]), , drop = FALSE]
+  weight_style <- if ("spatial_weights_style" %in% names(spec)) spec$spatial_weights_style[[1]] else NA_character_
+  if (is.na(weight_style) || !nzchar(weight_style)) weight_style <- "W"
+  W <- load_benchmark_spatial_weights(spec, data_dir = data_dir)
+  if (!is.null(W)) {
+    W <- subset_spatial_W_rows(
+      W,
+      rownames(dat),
+      n_expected = nrow(dat),
+      style = weight_style,
+      zero_policy = TRUE,
+      arg = sprintf("W originale du dataset %s", dataset)
+    )
+  }
   list(
     data = dat,
     formula = stats::as.formula(selected_formula$formula),
     formula_role = selected_formula$role,
     coords = coords,
+    W = W,
     spec = spec,
     path = path
   )
@@ -422,6 +506,9 @@ benchmark_spatial_dataset <- function(dataset,
       dots$tuning_grids <- utils::modifyList(recommended, dots$tuning_grids %||% list())
     }
   }
+  if (is.null(dots$response_typology)) {
+    dots$response_typology <- detect_response_typology_from_spec(loaded$spec)
+  }
   bench <- do.call(
     benchmark_spatial,
     c(
@@ -429,6 +516,7 @@ benchmark_spatial_dataset <- function(dataset,
         formula = loaded$formula,
         data = loaded$data,
         coords = loaded$coords,
+        W = loaded$W,
         estimators = estimators
       ),
       dots
@@ -438,6 +526,7 @@ benchmark_spatial_dataset <- function(dataset,
   bench$dataset_spec <- loaded$spec
   bench$formula_role <- loaded$formula_role
   bench$data_path <- loaded$path
+  bench$spatial_weights <- loaded$W
   bench
 }
 
@@ -467,7 +556,7 @@ benchmark_spatial_registered_datasets <- function(datasets,
   }
   specs <- lapply(datasets, function(dataset) {
     loaded <- load_benchmark_dataset(dataset, data_dir = data_dir, formula_role = formula_role)
-    spatial_dataset_spec(dataset, loaded$data, loaded$formula, loaded$coords)
+    spatial_dataset_spec(dataset, loaded$data, loaded$formula, loaded$coords, W = loaded$W)
   })
   names(specs) <- datasets
   benchmark_spatial_datasets(specs, estimators = estimators, ...)

@@ -10,11 +10,11 @@ fallback_spatial_benchmark_registry <- function() {
   # pour eviter les erreurs de longueur entre vecteurs paralleles.
   row <- function(estimator, package, backend, requires_coords, requires_W,
                   spatial_args, tunable_parameters, notes,
-                  automatic = TRUE) {
+                  automatic = TRUE, mode = "regression") {
     data.frame(
       estimator = estimator,
       status = ifelse(automatic, "automatic", "known_not_automated"),
-      mode = "regression",
+      mode = mode,
       package = package,
       backend = backend,
       automatic = automatic,
@@ -42,6 +42,8 @@ fallback_spatial_benchmark_registry <- function() {
     row("sar_lag", "spatialreg", "spatialreg::lagsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SAR lag via fit_sar()."),
     row("sem_error", "spatialreg", "spatialreg::errorsarlm", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SEM error via fit_sem()."),
     row("sdm_mixed", "spatialreg", "spatialreg::lagsarlm(Durbin)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SDM mixed via fit_sdm()."),
+    row("sar_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SAR)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SAR (Martinetti & Geniaux, 2017) via sar_probit_reg(); reponse binaire uniquement.", mode = "classification"),
+    row("sem_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SEM)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SEM (Martinetti & Geniaux, 2017) via sem_probit_reg(); reponse binaire uniquement.", mode = "classification"),
     row("spboost", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."),
     row("spboost_bspa_sar_ml", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; ML estime le parametre spatial rho; nu reste fixe."),
     row("spboost_bspa_sar_cfe", "spboost", "spboost::spbgam(BSPA_SAR_CFE)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; CFE estime le parametre spatial rho; nu reste fixe."),
@@ -121,6 +123,21 @@ add_spatial_smooth_to_formula <- function(formula, coords, data) {
   out
 }
 
+xgboost_benchmark_spec <- function(response_typology = "continuous") {
+  # xgboost supporte nativement mode="classification" (binaire) et un
+  # objectif Poisson en mode regression (objective="count:poisson", passe en
+  # argument moteur) -- contrairement a ranger, pas besoin d'approximation
+  # continue pour le comptage.
+  if (identical(response_typology, "binary")) {
+    return(parsnip::boost_tree(mode = "classification", trees = 100L) |> parsnip::set_engine("xgboost"))
+  }
+  if (identical(response_typology, "count")) {
+    return(parsnip::boost_tree(mode = "regression", trees = 100L) |>
+             parsnip::set_engine("xgboost", objective = "count:poisson"))
+  }
+  parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost")
+}
+
 fit_parsnip_baseline <- function(spec, formula, data, coords = NULL) {
   # Route commune pour les baselines ML natives de tidymodels. Elles restent
   # volontairement simples: pas de W, pas de modele spatial explicite.
@@ -182,6 +199,7 @@ spboost_benchmark_spec <- function(estimator, coords, mstop, nu, k_neighbors) {
 fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         k_neighbors = 8, style = "W",
                                         zero_policy = TRUE,
+                                        W = NULL,
                                         spboost_mstop = 100L,
                                         spboost_nu = 0.1,
                                         gamboost_mstop = 100L,
@@ -205,14 +223,34 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         rfgls_nthsize = 20L,
                                         rfgls_cov_model = "exponential",
                                         rfgls_param_estimate = FALSE,
-                                        mgwrsar_control = list()) {
+                                        mgwrsar_control = list(),
+                                        response_typology = "continuous") {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
+  #
+  # response_typology == "binary": coercion en facteur a 2 niveaux c(0,1) ICI,
+  # une seule fois, pour que TOUS les chemins binaires en aval (ols/gam_spatial
+  # via glm/gam qui acceptent facteur ou 0/1 nu, ET random_forest/xgboost/
+  # sar_probit/sem_probit via parsnip mode="classification" qui EXIGENT un
+  # facteur -- confirme empiriquement, parsnip::check_outcome() rejette un
+  # 0/1 numerique avec une erreur explicite) recoivent une entree coherente
+  # sans dupliquer cette logique dans chaque branche.
+  glm_family <- switch(response_typology,
+    binary = stats::binomial(),
+    count = stats::poisson(),
+    stats::gaussian()
+  )
+  if (identical(response_typology, "binary")) {
+    y_name <- all.vars(formula)[1]
+    if (!is.factor(data[[y_name]])) {
+      data[[y_name]] <- factor(data[[y_name]], levels = c(0, 1))
+    }
+  }
   switch(estimator,
-    ols = stats::glm(formula, data = data),
+    ols = stats::glm(formula, data = data, family = glm_family),
     gam_spatial = {
       require_package("mgcv", "benchmark GAM spatial")
-      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data)
+      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data, family = glm_family)
     },
     gamboost = {
       require_package("mboost", "benchmark GAMBoost")
@@ -240,29 +278,34 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     },
     random_forest = {
       require_package("ranger", "benchmark random forest")
+      # Pas de mode Poisson natif dans ranger/parsnip pour le comptage: reste
+      # en mode regression (approximation, deja pratiquee sur les jeux
+      # `count` cures du projet, ex. paper_chaco_bird_richness).
+      rf_mode <- if (identical(response_typology, "binary")) "classification" else "regression"
       fit_parsnip_baseline(
-        parsnip::rand_forest(mode = "regression", trees = 100L) |> parsnip::set_engine("ranger"),
+        parsnip::rand_forest(mode = rf_mode, trees = 100L) |> parsnip::set_engine("ranger"),
         formula, data
       )
     },
     random_forest_xy = {
       require_package("ranger", "benchmark random forest avec coordonnees")
+      rf_mode <- if (identical(response_typology, "binary")) "classification" else "regression"
       fit_parsnip_baseline(
-        parsnip::rand_forest(mode = "regression", trees = 100L) |> parsnip::set_engine("ranger"),
+        parsnip::rand_forest(mode = rf_mode, trees = 100L) |> parsnip::set_engine("ranger"),
         add_coords_to_baseline_formula(formula, coords, data), data
       )
     },
     xgboost = {
       require_package("xgboost", "benchmark XGBoost")
       fit_parsnip_baseline(
-        parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost"),
+        xgboost_benchmark_spec(response_typology),
         formula, data
       )
     },
     xgboost_xy = {
       require_package("xgboost", "benchmark XGBoost avec coordonnees")
       fit_parsnip_baseline(
-        parsnip::boost_tree(mode = "regression", trees = 100L) |> parsnip::set_engine("xgboost"),
+        xgboost_benchmark_spec(response_typology),
         add_coords_to_baseline_formula(formula, coords, data), data
       )
     },
@@ -298,17 +341,39 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       param_estimate = rfgls_param_estimate
     ),
     sar_lag = fit_sar(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
     sem_error = fit_sem(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
     sdm_mixed = fit_sdm(
-      formula, data = data, coords = coords, k_neighbors = k_neighbors,
+      formula, data = data, coords = coords, W = W, k_neighbors = k_neighbors,
       style = style, zero_policy = zero_policy
     ),
+    sar_probit = {
+      require_package("workflows", "benchmark probit spatial SAR")
+      require_package("ProbitSpatial", "benchmark probit spatial SAR")
+      make_benchmark_workflow(
+        sar_probit_reg(coords = coords, W = W, k_neighbors = k_neighbors,
+                       style = style, zero_policy = zero_policy) |>
+          parsnip::set_engine("ProbitSpatial"),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
+    sem_probit = {
+      require_package("workflows", "benchmark probit spatial SEM")
+      require_package("ProbitSpatial", "benchmark probit spatial SEM")
+      make_benchmark_workflow(
+        sem_probit_reg(coords = coords, W = W, k_neighbors = k_neighbors,
+                       style = style, zero_policy = zero_policy) |>
+          parsnip::set_engine("ProbitSpatial"),
+        formula, coords, data
+      ) |>
+        workflows::fit(data = data)
+    },
     spboost = {
       require_package("workflows", "benchmark SpBoost")
       make_benchmark_workflow(
@@ -678,6 +743,9 @@ fold_error_row <- function(estimator, fold_id, n_train, n_test, response, messag
     response = response,
     rmse = NA_real_,
     mae = NA_real_,
+    accuracy = NA_real_,
+    auc = NA_real_,
+    deviance = NA_real_,
     elapsed_sec = elapsed_sec,
     moran_i = NA_real_,
     moran_abs = NA_real_,
@@ -1605,6 +1673,9 @@ failed_benchmark_row <- function(estimator, data, formula, error) {
     response = deparse(formula[[2]]),
     rmse = NA_real_,
     mae = NA_real_,
+    accuracy = NA_real_,
+    auc = NA_real_,
+    deviance = NA_real_,
     aicc = NA_real_,
     logLik = NA_real_,
     elapsed_sec = NA_real_,
@@ -1632,12 +1703,37 @@ normalize_diagnostic_row_for_benchmark <- function(row, estimator) {
   row
 }
 
-predict_vector_for_benchmark <- function(fit, new_data) {
+predict_vector_for_benchmark <- function(fit, new_data, response_typology = "continuous") {
   # Normalise les sorties predict(): workflow renvoie .pred, certains backends
   # renvoient directement un vecteur numerique. Les objets tidymodels attendent
   # `new_data`, tandis que les objets R classiques attendent souvent `newdata`.
+  #
+  # response_typology == "binary": un workflow classification n'a pas de
+  # .pred par defaut (predict() renvoie .pred_class, un facteur, sans
+  # type="prob") -- meme contournement que predict_values_for_diagnostics()
+  # dans 12-diagnose-spatial.R (derniere colonne = probabilite classe
+  # positive, convention tidymodels a 2 niveaux).
+  if (identical(response_typology, "binary") && inherits(fit, "workflow")) {
+    pred_prob <- tryCatch(stats::predict(fit, new_data = new_data, type = "prob"), error = function(e) e)
+    if (!inherits(pred_prob, "error") && is.data.frame(pred_prob) && ncol(pred_prob) >= 2L) {
+      return(as.numeric(pred_prob[[ncol(pred_prob)]]))
+    }
+  }
+  # response_typology %in% c("binary","count") pour un objet NON-workflow
+  # (glm/gam ajustes directement, cf. fit_one_benchmark_estimator()): sans
+  # type="response" explicite, predict.glm()/predict.gam() renvoient
+  # l'echelle lineaire (logit pour binomial, log pour poisson), pas la
+  # probabilite/le compte -- confirme empiriquement (RMSE > 1 impossible
+  # sinon pour une reponse 0/1). Meme contournement que
+  # predict_values_for_diagnostics() dans 12-diagnose-spatial.R.
+  predict_type <- if (!inherits(fit, "workflow") && response_typology %in% c("binary", "count")) {
+    "response"
+  } else {
+    NULL
+  }
+  predict_args <- if (is.null(predict_type)) list() else list(type = predict_type)
   pred <- tryCatch(
-    stats::predict(fit, new_data = new_data),
+    do.call(stats::predict, c(list(fit, new_data = new_data), predict_args)),
     error = function(e) e
   )
   pred_len <- if (inherits(pred, "error")) {
@@ -1649,7 +1745,7 @@ predict_vector_for_benchmark <- function(fit, new_data) {
   }
   if (inherits(pred, "error") || !identical(pred_len, nrow(new_data))) {
     pred_newdata <- tryCatch(
-      stats::predict(fit, newdata = new_data),
+      do.call(stats::predict, c(list(fit, newdata = new_data), predict_args)),
       error = function(e) e
     )
     if (!inherits(pred_newdata, "error")) pred <- pred_newdata
@@ -1700,6 +1796,22 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
   # exactement le cas ici.
   train <- rsample::analysis(split)
   test <- rsample::assessment(split)
+  W_train <- subset_spatial_W_rows(
+    params$W %||% NULL,
+    rownames(train),
+    n_expected = nrow(train),
+    style = params$style,
+    zero_policy = params$zero_policy,
+    arg = "W fournie au benchmark"
+  )
+  W_test <- subset_spatial_W_rows(
+    params$W %||% NULL,
+    rownames(test),
+    n_expected = nrow(test),
+    style = params$style,
+    zero_policy = params$zero_policy,
+    arg = "W fournie au benchmark"
+  )
   elapsed_start <- proc.time()[["elapsed"]]
   elapsed_now <- function() as.numeric(proc.time()[["elapsed"]] - elapsed_start)
   params <- ensure_mgwrsar_fixed_vars_params(
@@ -1717,11 +1829,14 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     k_neighbors = params$k_neighbors
   )
 
+  response_typology <- params$response_typology %||% "continuous"
   fit <- tryCatch(
     fit_one_benchmark_estimator(
       estimator = estimator, formula = formula, data = train, coords = coords,
       k_neighbors = params$k_neighbors, style = params$style,
       zero_policy = params$zero_policy,
+      W = W_train,
+      response_typology = response_typology,
       spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
       gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
       mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -1755,7 +1870,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
   }
   response_name <- deparse(formula[[2]])
   pred <- tryCatch(
-    predict_vector_for_benchmark(fit, test),
+    predict_vector_for_benchmark(fit, test, response_typology = response_typology),
     error = function(e) e
   )
   if (inherits(pred, "error")) {
@@ -1780,9 +1895,11 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       coords = coords,
       formula = formula,
       k_neighbors = params$k_neighbors,
+      W = W_test,
       style = params$style,
       zero_policy = params$zero_policy,
-      include_baseline = FALSE
+      include_baseline = FALSE,
+      response_typology = response_typology
     ),
     error = function(e) e
   )
@@ -1805,6 +1922,9 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
     response = diag$response[[1]],
     rmse = diag$rmse[[1]],
     mae = diag$mae[[1]],
+    accuracy = diag$accuracy[[1]],
+    auc = diag$auc[[1]],
+    deviance = diag$deviance[[1]],
     elapsed_sec = elapsed_now(),
     moran_i = diag$moran_i[[1]],
     moran_abs = diag$moran_abs[[1]],
@@ -1884,7 +2004,8 @@ evaluate_benchmark_resamples <- function(estimators, formula, data, coords,
   out
 }
 
-summarize_resample_results <- function(resample_results, formula, cv_scheme) {
+summarize_resample_results <- function(resample_results, formula, cv_scheme,
+                                       response_typology = "continuous") {
   # Agrege les lignes fold par fold en une table principale par estimateur.
   # RMSE/MAE sont recalcules sur toutes les predictions test concatenees: cela
   # donne a chaque observation le meme poids, au lieu de moyenner des RMSE de
@@ -1906,12 +2027,20 @@ summarize_resample_results <- function(resample_results, formula, cv_scheme) {
     truth_all <- truth_all[finite_predictions]
     pred_all <- pred_all[finite_predictions]
     has_global_metrics <- length(truth_all) > 0L && length(truth_all) == length(pred_all)
+    global_metrics <- if (has_global_metrics) {
+      make_metric_values(truth_all, pred_all, response_typology = response_typology)
+    } else {
+      list(rmse = NA_real_, mae = NA_real_, accuracy = NA_real_, auc = NA_real_, deviance = NA_real_)
+    }
     data.frame(
       estimator = rows$estimator[[1]],
       n = if (has_global_metrics) length(truth_all) else sum(rows$n_test[ok]),
       response = deparse(formula[[2]]),
-      rmse = if (has_global_metrics) sqrt(mean((truth_all - pred_all)^2)) else NA_real_,
-      mae = if (has_global_metrics) mean(abs(truth_all - pred_all)) else NA_real_,
+      rmse = global_metrics$rmse,
+      mae = global_metrics$mae,
+      accuracy = global_metrics$accuracy,
+      auc = global_metrics$auc,
+      deviance = global_metrics$deviance,
       rmse_sd = if (sum(ok) > 1L) stats::sd(rows$rmse[ok]) else NA_real_,
       mae_sd = if (sum(ok) > 1L) stats::sd(rows$mae[ok]) else NA_real_,
       duration_sec = if (any(!is.na(rows$elapsed_sec))) {
@@ -1970,9 +2099,11 @@ augment_results_with_final_diagnostics <- function(results, fits, data, coords, 
         coords = coords,
         formula = formula,
         k_neighbors = params$k_neighbors,
+        W = params$W %||% NULL,
         style = params$style,
         zero_policy = params$zero_policy,
-        include_baseline = FALSE
+        include_baseline = FALSE,
+        response_typology = params$response_typology %||% "continuous"
       ),
       error = function(e) NULL
     )
@@ -2018,6 +2149,7 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
         estimator = estimator, formula = formula, data = data, coords = coords,
         k_neighbors = params$k_neighbors, style = params$style,
         zero_policy = params$zero_policy,
+        W = params$W %||% NULL,
         spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
         gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
         mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -2120,6 +2252,9 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #' @param k_neighbors Number of nearest neighbours used to build kNN weights.
 #' @param style Row-standardization style passed to `spdep::nb2listw()`.
 #' @param zero_policy Zero-neighbour policy passed to `spdep`.
+#' @param W Optional spatial weights matrix or `listw` object. When supplied,
+#'   SAR/SEM/SDM routes and residual Moran diagnostics use it instead of
+#'   rebuilding a kNN structure from `coords`.
 #' @param spboost_mstop Number of boosting iterations for `spboost`.
 #' @param spboost_nu Learning rate for `spboost`.
 #' @param gamboost_mstop Number of boosting iterations for `mboost::gamboost`.
@@ -2232,6 +2367,7 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 benchmark_spatial <- function(formula, data, coords,
                               estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
                               k_neighbors = 8, style = "W", zero_policy = TRUE,
+                              W = NULL,
                               spboost_mstop = 100L, spboost_nu = 0.1,
                               gamboost_mstop = 100L, gamboost_nu = 0.1,
                               mgwrsar_bandwidth = 20, mgwrsar_kernel = "gauss",
@@ -2250,10 +2386,19 @@ benchmark_spatial <- function(formula, data, coords,
                               verbose = FALSE, parallel = FALSE,
                               workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
                               allow_heavy_tuning = FALSE,
-                              fold_timeout_sec = NA_real_) {
+                              fold_timeout_sec = NA_real_,
+                              response_typology = "continuous") {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
+  W <- normalize_spatial_W_for_data(W, data = data, style = style, zero_policy = zero_policy)
   cv_scheme <- match.arg(cv_scheme)
+  response_typology <- if (is.null(response_typology) || is.na(response_typology)) "continuous" else response_typology
+  if (!response_typology %in% c("continuous", "binary", "count")) {
+    stop(sprintf(
+      "benchmark_spatial: response_typology inconnu: %s (attendu: continuous, binary, count)",
+      response_typology
+    ), call. = FALSE)
+  }
   registry <- spatial_benchmark_registry()
   validate_benchmark_estimators(estimators, registry)
   validate_heavy_tuning_request(estimators, data, tune, allow_heavy_tuning)
@@ -2262,6 +2407,7 @@ benchmark_spatial <- function(formula, data, coords,
     k_neighbors = k_neighbors,
     style = style,
     zero_policy = zero_policy,
+    W = W,
     spboost_mstop = spboost_mstop,
     spboost_nu = spboost_nu,
     gamboost_mstop = gamboost_mstop,
@@ -2284,7 +2430,8 @@ benchmark_spatial <- function(formula, data, coords,
     rfgls_n_neighbors = NULL,
     rfgls_nthsize = 20L,
     rfgls_cov_model = "exponential",
-    rfgls_param_estimate = FALSE
+    rfgls_param_estimate = FALSE,
+    response_typology = response_typology
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -2338,7 +2485,10 @@ benchmark_spatial <- function(formula, data, coords,
       verbose = verbose,
       fold_timeout_sec = fold_timeout_sec
     )
-    results <- summarize_resample_results(resample_results, formula = formula, cv_scheme = cv_scheme)
+    results <- summarize_resample_results(
+      resample_results, formula = formula, cv_scheme = cv_scheme,
+      response_typology = base_params$response_typology %||% "continuous"
+    )
     fits <- fit_final_benchmark_estimators(
       estimators, formula, data, coords, base_params, tuning,
       verbose = verbose
@@ -2363,7 +2513,9 @@ benchmark_spatial <- function(formula, data, coords,
       fit <- tryCatch(
         fit_one_benchmark_estimator(
           estimator = estimator, formula = formula, data = data, coords = coords,
+          response_typology = params$response_typology %||% "continuous",
           k_neighbors = params$k_neighbors, style = params$style, zero_policy = params$zero_policy,
+          W = params$W %||% NULL,
           spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
           gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
           mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -2405,9 +2557,11 @@ benchmark_spatial <- function(formula, data, coords,
           coords = coords,
           formula = formula,
           k_neighbors = k_neighbors,
+          W = W,
           style = style,
           zero_policy = zero_policy,
-          include_baseline = FALSE
+          include_baseline = FALSE,
+          response_typology = params$response_typology %||% "continuous"
         ),
         error = function(e) e
       )
@@ -2442,6 +2596,7 @@ benchmark_spatial <- function(formula, data, coords,
       k_neighbors = k_neighbors,
       style = style,
       zero_policy = zero_policy,
+      spatial_weights_provided = !is.null(W),
       estimators = estimators,
       tune = tune,
       tuning = tuning,
@@ -2518,14 +2673,22 @@ print.spatial_benchmark <- function(x, ...) {
 #' @param data Data frame.
 #' @param formula Model formula.
 #' @param coords Coordinate column names.
+#' @param W Optional spatial weights matrix or `listw` object aligned with
+#'   `data`. If omitted, eligible spatial models build a kNN structure from
+#'   `coords`.
 #'
 #' @return A `spatial_dataset_spec` object.
 #' @export
-spatial_dataset_spec <- function(name, data, formula, coords) {
+spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
+                                 response_typology = NULL) {
   # Petit conteneur explicite pour benchmarker plusieurs jeux sans imposer un
   # registre interne rigide au package.
+  # response_typology: "continuous" (defaut si absent)/"binary"/"count",
+  # permet a benchmark_spatial_datasets() de router chaque jeu correctement
+  # meme au sein d'un meme appel (suite mixte continu/binaire/comptage).
   structure(
-    list(name = name, data = data, formula = formula, coords = coords),
+    list(name = name, data = data, formula = formula, coords = coords, W = W,
+         response_typology = response_typology),
     class = "spatial_dataset_spec"
   )
 }
@@ -2583,6 +2746,8 @@ benchmark_spatial_datasets <- function(datasets,
       formula = spec$formula,
       data = spec$data,
       coords = spec$coords,
+      W = spec$W %||% NULL,
+      response_typology = spec$response_typology %||% "continuous",
       estimators = estimators,
       k_neighbors = k_neighbors,
       style = style,

@@ -40,6 +40,9 @@ build_suite_dataset_metadata <- function(dataset_names) {
       redistribution_allowed = NA,
       checksum_sha256 = NA_character_,
       size_bytes = NA_real_,
+      spatial_weights_status = NA_character_,
+      spatial_weights_source = NA_character_,
+      spatial_weights_type = NA_character_,
       stringsAsFactors = FALSE
     ))
   }
@@ -85,6 +88,9 @@ build_suite_dataset_metadata <- function(dataset_names) {
     redistribution_allowed = registry$redistribution_allowed[idx],
     checksum_sha256 = registry$checksum_sha256[idx],
     size_bytes = registry$size_bytes[idx],
+    spatial_weights_status = registry$spatial_weights_status[idx],
+    spatial_weights_source = registry$spatial_weights_source[idx],
+    spatial_weights_type = registry$spatial_weights_type[idx],
     stringsAsFactors = FALSE
   )
 }
@@ -100,7 +106,9 @@ normalize_suite_dataset_specs <- function(datasets, data_dir, formula_role) {
         name = name,
         data = loaded$data,
         formula = loaded$formula,
-        coords = loaded$coords
+        coords = loaded$coords,
+        W = loaded$W,
+        response_typology = detect_response_typology_from_spec(loaded$spec)
       )
     }))
   }

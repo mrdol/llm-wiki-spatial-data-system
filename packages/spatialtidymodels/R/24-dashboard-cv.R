@@ -31,6 +31,17 @@ mod_cv_server <- function(id, results, families, baseline_default) {
     cv_schemes <- sort(unique(results$cv_scheme))
     estimator_choices <- sort(unique(results$estimator))
     metric_choices <- intersect(c("rmse", "mae", "moran_abs", "duration_sec"), names(results))
+    # accuracy/auc/deviance (2026-09, classification/comptage): toujours
+    # presentes comme colonnes des que le harnais binaire/comptage est
+    # utilise (voir make_metric_values(), 12-diagnose-spatial.R), mais NA
+    # partout pour une suite purement continue -- ne les proposer que si au
+    # moins une valeur finie existe, sinon le menu contiendrait une option
+    # qui ne renvoie jamais de donnees.
+    for (extra in c("accuracy", "auc", "deviance")) {
+      if (extra %in% names(results) && any(is.finite(results[[extra]]))) {
+        metric_choices <- c(metric_choices, extra)
+      }
+    }
 
     output$body <- shiny::renderUI({
       ns <- session$ns
@@ -66,7 +77,15 @@ mod_cv_server <- function(id, results, families, baseline_default) {
 
     scheme_matrix <- shiny::reactive({
       shiny::req(input$baseline, input$metric)
-      dashboard_relative_metric_by_scheme(results, baseline_estimator = input$baseline, metric = input$metric, cv_schemes = cv_schemes)
+      # accuracy/auc (classification, 2026-09): higher is better, contrairement
+      # a tous les autres metriques de cette page -- sans ca, le ratio relatif
+      # serait invers e (une plus faible accuracy relative se lirait comme
+      # "meilleure").
+      lower_is_better <- !input$metric %in% c("accuracy", "auc")
+      dashboard_relative_metric_by_scheme(
+        results, baseline_estimator = input$baseline, metric = input$metric,
+        lower_is_better = lower_is_better, cv_schemes = cv_schemes
+      )
     })
 
     output$scheme_heatmap <- shiny::renderUI({

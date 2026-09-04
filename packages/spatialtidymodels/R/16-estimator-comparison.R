@@ -312,7 +312,15 @@ compare_estimator_variant <- function(suite,
                                       secondary_metrics = c("mae", "moran_abs", "duration_sec"),
                                       lower_is_better = c(
                                         rmse = TRUE, mae = TRUE,
-                                        moran_abs = TRUE, duration_sec = TRUE
+                                        moran_abs = TRUE, duration_sec = TRUE,
+                                        # accuracy/auc (classification, 2026-09): higher is
+                                        # better, contrairement a tous les metriques ci-dessus --
+                                        # sans cette entree, un appel avec primary_metric=
+                                        # "accuracy" ou "auc" (ex. depuis le dashboard, voir
+                                        # 22-dashboard-comparison.R) inverserait silencieusement
+                                        # le sens de "candidat meilleur que reference".
+                                        accuracy = FALSE, auc = FALSE,
+                                        deviance = TRUE
                                       ),
                                       rules = comparison_rules(),
                                       wilcoxon = TRUE,
