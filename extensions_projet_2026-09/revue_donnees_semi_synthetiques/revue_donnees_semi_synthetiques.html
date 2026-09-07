@@ -17,6 +17,8 @@
     --synth-bg:#dcece9;
     --accent:#1c766f;
     --warn:#a4552b;
+    --new:#6a5a9c;
+    --new-bg:#e8e3f2;
     --shadow: 0 1px 2px rgba(20,24,20,.04), 0 8px 24px -12px rgba(20,24,20,.12);
   }
 
@@ -36,6 +38,8 @@
       --synth-bg:#1b2f2d;
       --accent:#5cc2b8;
       --warn:#e0966a;
+      --new:#b0a0e0;
+      --new-bg:#282239;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
     }
   }
@@ -54,6 +58,8 @@
     --synth-bg:#1b2f2d;
     --accent:#5cc2b8;
     --warn:#e0966a;
+    --new:#b0a0e0;
+    --new-bg:#282239;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
   }
 
@@ -68,7 +74,7 @@
   ::selection{ background:var(--synth-bg); color:var(--ink); }
 
   .page{
-    max-width:920px;
+    max-width:960px;
     margin:0 auto;
     padding:56px 28px 120px;
   }
@@ -96,8 +102,13 @@
     gap:10px;
     align-items:center;
     margin-bottom:14px;
+    flex-wrap:wrap;
   }
   .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .eyebrow .tag-updated{
+    background:var(--new-bg); color:var(--new);
+    border-radius:20px; padding:2px 10px; font-size:11px;
+  }
   h1.title{
     font-size:clamp(28px,4vw,40px);
     line-height:1.12;
@@ -106,7 +117,7 @@
   .subtitle{
     font-size:17px;
     color:var(--ink-soft);
-    max-width:62ch;
+    max-width:64ch;
     margin:0 0 22px;
   }
   .meta-row{
@@ -162,7 +173,8 @@
     border-bottom:1px solid var(--line);
   }
   h3{ font-size:17px; margin:0 0 8px; }
-  p{ margin:0 0 14px; max-width:70ch; color:var(--ink); }
+  h4{ font-family:'Fraunces', serif; font-weight:600; font-size:15.5px; margin:0 0 8px; color:var(--ink); }
+  p{ margin:0 0 14px; max-width:72ch; color:var(--ink); }
   p.lede{ color:var(--ink-soft); font-size:16.5px; }
   a{ color:var(--accent); }
   ul.plain{ margin:0 0 14px; padding-left:20px; max-width:68ch; }
@@ -199,6 +211,7 @@
     margin-bottom:18px;
     box-shadow:var(--shadow);
   }
+  .family.compact{ padding:16px 20px; }
   .family-head{
     display:flex;
     justify-content:space-between;
@@ -260,8 +273,9 @@
   }
   .pill.real{ background:var(--real-bg); color:var(--real); }
   .pill.synth{ background:var(--synth-bg); color:var(--synth); }
+  .pill.new{ background:var(--new-bg); color:var(--new); }
 
-  /* ---------- gap callout ---------- */
+  /* ---------- gap / insight callouts ---------- */
   .callout{
     border-left:3px solid var(--warn);
     background:var(--real-bg);
@@ -269,15 +283,78 @@
     padding:16px 20px;
     margin:18px 0;
   }
+  .callout.insight{ border-left-color:var(--new); background:var(--new-bg); }
   .callout .callout-label{
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
     letter-spacing:.06em;
     text-transform:uppercase;
-    color:var(--real);
+    color:var(--warn);
     margin-bottom:6px;
   }
+  .callout.insight .callout-label{ color:var(--new); }
   .callout p{ margin:0; color:var(--ink); font-size:14.75px; }
+  .callout p + p{ margin-top:8px; }
+
+  /* ---------- formula block ---------- */
+  .formula{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    background:var(--surface-alt);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 18px;
+    margin:14px 0;
+    overflow-x:auto;
+    color:var(--ink);
+  }
+  .formula .cap{ display:block; font-size:11px; color:var(--ink-faint); margin-top:8px; text-transform:none; letter-spacing:0; }
+
+  /* ---------- source cards (SPACE / synthèse) ---------- */
+  .source-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 24px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .source-card .source-head{
+    display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .source-card .source-name{ font-family:'Fraunces',serif; font-weight:600; font-size:19px; }
+  .source-card .source-meta{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); }
+  .source-card p{ font-size:14.75px; }
+
+  /* ---------- data tables ---------- */
+  .table-wrap{ overflow-x:auto; margin:14px 0 18px; border:1px solid var(--line); border-radius:10px; }
+  table.data{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--surface);
+    font-size:13.5px;
+    min-width:560px;
+  }
+  table.data caption{ display:none; }
+  table.data th, table.data td{
+    padding:9px 14px;
+    text-align:left;
+    border-bottom:1px solid var(--line-soft);
+    vertical-align:top;
+  }
+  table.data thead th{
+    background:var(--surface-alt);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  table.data tbody tr:last-child td{ border-bottom:none; }
+  table.data td.code{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--accent); white-space:nowrap; }
+  table.data td.num{ font-variant-numeric:tabular-nums; }
 
   /* ---------- recommendation table ---------- */
   .reco{
@@ -308,13 +385,14 @@
   .reco-row:last-child .term, .reco-row:last-child .def{ border-bottom:none; }
 
   /* ---------- biblio ---------- */
+  #biblio{ counter-reset:bib; }
   .biblio-group{ margin-bottom:22px; }
   .biblio-group h3{ color:var(--ink-soft); font-size:14px; font-family:'IBM Plex Mono',monospace; font-weight:500; text-transform:uppercase; letter-spacing:.04em; }
-  ol.biblio{ list-style:none; margin:0; padding:0; counter-reset:bib; }
+  ol.biblio{ list-style:none; margin:0; padding:0; }
   ol.biblio li{
     counter-increment:bib;
     font-size:14.25px;
-    padding:8px 0 8px 30px;
+    padding:8px 0 8px 34px;
     position:relative;
     border-bottom:1px solid var(--line-soft);
     max-width:76ch;
@@ -346,11 +424,11 @@
 <div class="page">
 
   <header class="doc-head">
-    <div class="eyebrow"><span class="dot"></span>Revue de littérature — exploratoire, 1ᵉʳ passage</div>
+    <div class="eyebrow"><span class="dot"></span>Revue de littérature<span class="tag-updated">mise à jour 2026-09-07</span></div>
     <h1 class="title">Simulation semi-synthétique : ancrer les designs Monte&nbsp;Carlo sur des données réelles</h1>
-    <p class="subtitle">Cartographie des familles de méthodes qui construisent un DGP à partir d'un vrai (Y,X) — pour nourrir le mode « Monte Carlo » envisagé pour la v2 du dashboard spatialtidymodels et servir de perspective au data paper.</p>
+    <p class="subtitle">Cartographie des familles de méthodes qui construisent un DGP à partir d'un vrai (Y,X) — pour nourrir le mode « Monte Carlo » envisagé pour la v2 du dashboard spatialtidymodels et servir de perspective au data paper. Recoupée le 7 septembre avec la synthèse de l'encadrant et le papier <span class="pill new">SpaCE</span> (ICLR 2024).</p>
     <div class="meta-row">
-      <span>spatial</span><span>temporel</span><span>économétrie</span><span>machine learning</span><span>septembre 2026</span>
+      <span>spatial</span><span>temporel</span><span>économétrie</span><span>machine learning</span><span>1ᵉʳ passage : 4 sept. 2026</span><span>recoupement : 7 sept. 2026</span>
     </div>
   </header>
 
@@ -360,6 +438,7 @@
     <a href="#taxonomie">Taxonomie</a>
     <a href="#spatial">Côté spatial</a>
     <a href="#temporel">Côté temporel</a>
+    <a href="#convergence">Convergence</a>
     <a href="#recommandation">Pour le package</a>
     <a href="#limites">Limites &amp; suite</a>
     <a href="#biblio">Bibliographie</a>
@@ -369,7 +448,7 @@
     <div class="sec-label">Pourquoi cette revue</div>
     <h2>Le point de départ</h2>
     <p class="lede">L'intuition qui a lancé cette revue : partir d'un vrai (Y,X), estimer une fonction F̂ « raisonnable », puis fabriquer plusieurs configurations de Monte&nbsp;Carlo en la déformant (hétérogénéité, hétéroscédasticité, variable omise), et générer les résidus soit par une loi classique, soit — piste jugée la plus prometteuse — par un mécanisme génératif (GAN) ajusté jusqu'à ce que les Y simulés soient indiscernables des vrais Y.</p>
-    <p>Cette intuition recoupe presque exactement deux courants déjà bien installés en économétrie et en biostatistique, sous des noms différents : <strong>Empirical Monte Carlo Study (EMCS)</strong> et <strong>plasmode simulation</strong>. La bonne nouvelle : on n'est pas en train de réinventer un vocabulaire, on peut s'appuyer sur des méthodes déjà critiquées et affinées. La moins bonne nouvelle : je n'ai trouvé <em>aucun</em> papier qui applique explicitement ces méthodes à un contexte spatial (SAR/SEM/dépendance de voisinage) — voir le <a href="#gap-spatial">constat de manque</a> plus bas. C'est cohérent avec l'hypothèse de départ que ce terrain est encore largement ouvert.</p>
+    <p>Cette intuition recoupe presque exactement deux courants déjà bien installés en économétrie et en biostatistique, sous des noms différents : <strong>Empirical Monte Carlo Study (EMCS)</strong> et <strong>plasmode simulation</strong>. La bonne nouvelle : on n'est pas en train de réinventer un vocabulaire, on peut s'appuyer sur des méthodes déjà critiquées et affinées. La moins bonne nouvelle du premier passage : aucun papier trouvé n'appliquait explicitement ces méthodes à un contexte spatial — <a href="#convergence">ce n'est plus tout à fait vrai</a>, voir la section Convergence ajoutée le 7 septembre après réception de deux documents de l'encadrant.</p>
   </section>
 
   <section id="vocabulaire">
@@ -379,17 +458,17 @@
       <div class="vocab-card">
         <div class="vocab-term">Plasmode simulation</div>
         <div class="vocab-def">Les covariables X viennent d'un vrai jeu de données ; seule une partie du mécanisme générant Y est connue/imposée. Le terme vient de la biostatistique (pharmaco-épidémiologie), pas de l'économétrie.</div>
-        <div class="vocab-src">Franklin et al. 2014 — voir biblio [4]</div>
+        <div class="vocab-src">Franklin et al. 2014 — voir biblio [1]</div>
       </div>
       <div class="vocab-card">
         <div class="vocab-term">Empirical Monte Carlo Study (EMCS)</div>
         <div class="vocab-def">Version économétrique de la même idée : on estime un DGP « de référence » sur données réelles, on en réduit au minimum la part purement synthétique, puis on simule à partir de ce DGP estimé pour comparer des estimateurs.</div>
-        <div class="vocab-src">Huber, Lechner &amp; Wunsch 2013 — voir biblio [8]</div>
+        <div class="vocab-src">Huber, Lechner &amp; Wunsch 2013 — voir biblio [7]</div>
       </div>
       <div class="vocab-card">
         <div class="vocab-term">DGM semi-paramétrique</div>
         <div class="vocab-def">Compromis entre DGP 100&nbsp;% paramétrique (contrôle total, réalisme faible) et DGP purement rééchantillonné (réalisme fort, contrôle faible) : on fixe une forme fonctionnelle souple pour F, mais on laisse les résidus suivre la distribution empirique.</div>
-        <div class="vocab-src">Synthèse récente — voir biblio [11]</div>
+        <div class="vocab-src">Synthèse récente — voir biblio [10]</div>
       </div>
     </div>
   </section>
@@ -410,7 +489,7 @@
         <div class="marker" style="left:78%; background:var(--synth);"></div>
       </div>
       <p>F̂(X) estimé sur X réel (linéaire ou non), puis les résidus sont simulés depuis une loi imposée (gaussienne le plus souvent). C'est la base de tout Monte&nbsp;Carlo en économétrie depuis toujours — X réel, mais le mécanisme de bruit est entièrement inventé par le chercheur. Le risque documenté : le choix de F̂ et de la loi des résidus peut favoriser, consciemment ou non, l'estimateur que le chercheur préfère déjà.</p>
-      <div class="refs">Point de comparaison implicite dans toute la littérature EMCS/plasmode ci-dessous ; cf. la mise en garde générale <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — voir biblio [9]</span></div>
+      <div class="refs">Point de comparaison implicite dans toute la littérature EMCS/plasmode ci-dessous ; cf. la mise en garde générale <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — voir biblio [8]</span></div>
     </div>
 
     <div class="family">
@@ -424,7 +503,7 @@
         <div class="marker" style="left:60%; background:var(--synth);"></div>
       </div>
       <p>Même principe que A, mais au lieu d'imposer une loi aux résidus, on les rééchantillonne directement (bootstrap classique). Coût de mise en œuvre minime, gain de réalisme réel sur la forme de la distribution du bruit (asymétrie, queues épaisses) — sans les capacités de « déformation contrôlée » d'un GAN.</p>
-      <div class="refs">Méthode générique, mentionnée comme alternative dans les taxonomies récentes de simulation basée sur données réelles — voir biblio [11].</div>
+      <div class="refs">Méthode générique, mentionnée comme alternative dans les taxonomies récentes de simulation basée sur données réelles — voir biblio [10].</div>
     </div>
 
     <div class="family">
@@ -439,11 +518,14 @@
       </div>
       <p>On estime un DGP « de référence » complet (souvent avec un modèle flexible ou du ML) sur les vraies données, puis on l'utilise directement comme vérité-terrain pour simuler — au lieu d'ajouter du bruit paramétrique après coup, la part synthétique est réduite au strict minimum. Un courant complémentaire, né en pharmaco-épidémiologie (« plasmode »), fait exactement la même chose avec un vocabulaire différent, et a été depuis étendu à l'inférence causale en réseaux, à l'épidémiologie longitudinale, et à la classification en haute dimension.</p>
       <p><strong>Limite documentée et importante :</strong> si le DGP estimé est mal spécifié, un EMCS « structuré » peut orienter la comparaison d'estimateurs dans le mauvais sens — la critique méthodologique d'Advani et al. est directement pertinente pour cadrer comment le package devra présenter ce mode (jamais comme une vérité absolue).</p>
+      <p><span class="pill new">confirmé le 7 sept.</span> Le papier <strong>SpaCE</strong> (ICLR 2024, voir <a href="#convergence">Convergence</a>) implémente exactement cette famille en contexte spatial : f̂ par ensemble AutoML, résidus régénérés par un champ markovien gaussien calé sur l'autocorrélation réelle. C'est la première implémentation spatiale concrète de la famille C trouvée à ce jour.</p>
       <div class="refs">
-        <span class="ref-item">Huber, Lechner &amp; Wunsch 2013 — introduit l'EMCS — voir biblio [8]</span>
-        <span class="ref-item">Knaus, Lechner &amp; Strittmatter — 24 DGPs dérivés de données réelles, 11 estimateurs ML causaux — voir biblio [10]</span>
-        <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — critique méthodologique de l'EMCS — voir biblio [9]</span>
-        <span class="ref-item">Franklin et al. 2014 et suites (causal/réseaux, longitudinal, haute dimension) — voir biblio [4]–[7]</span>
+        <span class="ref-item">Huber, Lechner &amp; Wunsch 2013 — introduit l'EMCS — voir biblio [7]</span>
+        <span class="ref-item">Knaus, Lechner &amp; Strittmatter — 24 DGPs dérivés de données réelles, 11 estimateurs ML causaux — voir biblio [9]</span>
+        <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — critique méthodologique de l'EMCS — voir biblio [8]</span>
+        <span class="ref-item">Franklin et al. 2014 et suites (causal/réseaux, longitudinal, haute dimension) — voir biblio [1], [4]–[6]</span>
+        <span class="ref-item">Schreck, Slynko, Saadati &amp; Benner 2024 — protocole pas-à-pas et recommandations de reporting — voir biblio [2]</span>
+        <span class="ref-item">Tec, Trisovic, Audirac et al. 2024, SpaCE — voir biblio [30]</span>
       </div>
     </div>
 
@@ -457,11 +539,17 @@
         <div class="track"></div>
         <div class="marker" style="left:35%; background:var(--synth);"></div>
       </div>
-      <p>Un modèle génératif (GAN, flow autorégressif, VAE) est entraîné directement sur les données réelles jusqu'à ce que le générateur ne soit plus discernable des vraies observations par un discriminateur — exactement le critère décrit en discussion. <strong>RealCause</strong> l'applique à l'inférence causale : il ajuste des modèles génératifs à P(T|W) et P(Y|T,W) sur données réelles, puis simule en échantillonnant successivement W (réel), T, puis Y — et a servi à évaluer plus de 1500 estimateurs causaux. Un papier de 2026 formalise un pipeline générique en six étapes (spécifier la méthode → entraîner le modèle génératif → valider la qualité du synthétique → concevoir les simulations → évaluer la méthode → vérifier la robustesse) sur des données multi-niveaux (hiérarchiques) — la structure la plus proche du spatial trouvée dans cette revue. Des générateurs tabulaires génériques (CTGAN, TVAE) existent comme briques réutilisables, mais ne sont pas conçus pour isoler un paramètre structurel comme ρ (autocorrélation spatiale).</p>
+      <p>Un modèle génératif (GAN, flow autorégressif, VAE) est entraîné directement sur les données réelles jusqu'à ce que le générateur ne soit plus discernable des vraies observations par un discriminateur — exactement le critère décrit en discussion. <strong>RealCause</strong> l'applique à l'inférence causale : il ajuste des modèles génératifs à P(T|W) et P(Y|T,W) sur données réelles, puis simule en échantillonnant successivement W (réel), T, puis Y — et a servi à évaluer plus de 1500 estimateurs causaux.</p>
+      <div class="callout insight">
+        <div class="callout-label">Insight confirmé indépendamment le 7 sept.</div>
+        <p>La synthèse de l'encadrant formalise une tension que notre premier passage n'avait fait qu'effleurer : un plasmode fixe une vérité f̂(X) figée, tandis qu'un générateur conditionnel cherche à approcher le vrai P(Y|X). S'il y parvient parfaitement, il converge vers le vrai E[Y|X] — qui n'est identique à f̂ que si f̂ est un bon estimateur. <strong>Le discriminateur devient alors un diagnostic de la qualité du plasmode, pas un objectif indépendant.</strong> Conséquence pratique : coupler les deux proprement demande une architecture à décomposition moyenne/résidu (Y* = f̂(X) + ε*(X), avec f̂ = plasmode et seul ε* appris par un modèle conditionnel contraint à E[ε*|X]=0), plutôt qu'un GAN qui chercherait Y* en bloc.</p>
+      </div>
+      <p><strong>Alternatives recommandées au GAN proprement dit</strong> (instable et sujet au mode collapse aux tailles typiques des jeux spatiaux) : <code>engression</code> (régression générative par score d'énergie), <code>drf</code> (distributional random forests), Forest-Flow / tree flows (diffusion et flows conditionnels) — toutes disponibles comme packages R, donc directement testables dans le package. BART fournit aussi nativement des plasmodes distributionnels en bayésien.</p>
       <div class="refs">
-        <span class="ref-item">Neal, Huang et al. 2020, RealCause — voir biblio [12]</span>
-        <span class="ref-item">Pipeline générique IA générative → Monte Carlo, 2026 — voir biblio [13]</span>
-        <span class="ref-item">Xu et al. 2019, CTGAN ; TVAE — voir biblio [14]</span>
+        <span class="ref-item">Neal, Huang et al. 2020, RealCause — voir biblio [14]</span>
+        <span class="ref-item">Xu et al. 2019, CTGAN ; TVAE — voir biblio [16]</span>
+        <span class="ref-item">Shen &amp; Meinshausen 2024 (engression) ; Ćevid et al. 2022 (drf) ; Jolicoeur-Martineau et al. 2024 (Forest-Flow) ; Wang, Awaya &amp; Ma 2024 (tree flows) — voir biblio [18]–[21]</span>
+        <span class="ref-item">Validation de l'indiscernabilité : Snoke et al. 2018 (pMSE), Lopez-Paz &amp; Oquab 2017 (classifier two-sample test) — voir biblio [22]–[23]</span>
       </div>
     </div>
 
@@ -478,7 +566,7 @@
       </div>
       <p>Au lieu de générer du bruit, on construit une séquence de jeux de données qui interpole progressivement entre deux jeux <em>réels</em> existants (leurs propriétés convergent de l'un vers l'autre). Les deux extrémités restent 100&nbsp;% réelles ; seul le point d'interpolation est artificiel. Testé sur la prévision de séries temporelles (LSTM, DeepAR) — la performance des modèles se dégrade proportionnellement au degré de morphing, ce qui en fait un outil de diagnostic de sensibilité autant qu'un générateur de scénarios.</p>
       <div class="refs">
-        <span class="ref-item">tsMorph, 2023/2024 — voir biblio [16]</span>
+        <span class="ref-item">tsMorph, 2023/2024 — voir biblio [27]</span>
       </div>
     </div>
 
@@ -492,11 +580,29 @@
         <div class="track"></div>
         <div class="marker" style="left:70%; background:var(--synth);"></div>
       </div>
-      <p>Ne concerne pas directement les résidus mais la forme de F : le benchmark <strong>Friedman&nbsp;#1</strong> (sin(πX₁X₂) + (X₃−0.5)² + termes additifs + bruit) est la référence classique pour injecter des interactions non-additives et de la sparsité contrôlées dans un F synthétique. MARS (la méthode qui a produit ce benchmark) a depuis été appliqué à un contexte hédonique <em>spatial</em>, ce qui montre la faisabilité d'un F̂ non-linéaire à interactions estimé dans un cadre spatial — une brique utile pour construire les « configurations » F1, F2, F3 évoquées en discussion, indépendamment de la façon dont on génère ensuite les résidus.</p>
+      <p>Ne concerne pas directement les résidus mais la forme de F : le benchmark <strong>Friedman&nbsp;#1</strong> (sin(πX₁X₂) + (X₃−0.5)² + termes additifs + bruit) est la référence classique pour injecter des interactions non-additives et de la sparsité contrôlées dans un F synthétique. MARS (la méthode qui a produit ce benchmark) a depuis été appliqué à un contexte hédonique <em>spatial</em>, ce qui montre la faisabilité d'un F̂ non-linéaire à interactions estimé dans un cadre spatial.</p>
       <div class="refs">
-        <span class="ref-item">Friedman 1991 (MARS + benchmark Friedman #1) — voir biblio [17]</span>
-        <span class="ref-item">López et al. 2023, MARS appliqué à un modèle hédonique spatial — voir biblio [18]</span>
+        <span class="ref-item">Friedman 1991 (MARS + benchmark Friedman #1) — voir biblio [28]</span>
+        <span class="ref-item">López et al. 2023, MARS appliqué à un modèle hédonique spatial — voir biblio [29]</span>
       </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Deux familles complémentaires, repérées par l'encadrant, hors périmètre direct</h3>
+    <div class="family compact">
+      <div class="family-head">
+        <div class="family-name" style="font-size:16px;">G · Injection de signal connu (« spike-in »)</div>
+        <div class="family-tag">effet partiel connu, reste réel</div>
+      </div>
+      <p>(X, Y) entièrement réels ; on ajoute un effet connu (Y* = Y + β·xⱼ) ou une colonne permutée pour créer un vrai négatif. Utilisé en sélection de variables / contrôle du taux de fausses découvertes (knockoffs). Vérité <em>partielle</em> seulement : on connaît l'effet injecté, pas le reste du DGP — moins adapté à un benchmark d'estimateurs spatiaux complets qu'à un test ciblé de détection d'effet.</p>
+      <div class="refs"><span class="ref-item">Candès, Fan, Janson &amp; Lv 2018, model-X knockoffs — voir biblio [13]</span></div>
+    </div>
+    <div class="family compact">
+      <div class="family-head">
+        <div class="family-name" style="font-size:16px;">H · Synthèse pour confidentialité</div>
+        <div class="family-tag">objectif différent : partage, pas benchmark</div>
+      </div>
+      <p>Remplacement de variables/enregistrements par des tirages d'un modèle d'imputation séquentiel ajusté sur le réel (package R <code>synthpop</code>). Objectif = fidélité statistique et partageabilité d'un jeu sensible, pas une vérité connue pour évaluer un estimateur — pertinent si le package veut un jour publier une version « partageable » d'un dataset sous licence restrictive, pas pour le mode Monte&nbsp;Carlo lui-même.</p>
+      <div class="refs"><span class="ref-item">Rubin 1993 ; Reiter 2003 ; Nowok, Raab &amp; Dibben 2016 (synthpop) — voir biblio [24]–[26]</span></div>
     </div>
   </section>
 
@@ -509,8 +615,8 @@
       <li><strong>Rüttenauer (2022)</strong> — comparaison systématique par Monte&nbsp;Carlo des spécifications SAR / SEM / SLX / SDM.</li>
     </ul>
     <div class="callout" id="gap-spatial">
-      <div class="callout-label">Constat de manque</div>
-      <p>Aucun papier trouvé dans cette première passe ne combine explicitement plasmode/EMCS avec une dépendance spatiale (SAR/SEM). Les usages de GAN en contexte spatial identifiés (SA-CGAN, CEDGAN) génèrent des <em>champs</em> spatiaux continus pour de l'interpolation/krigeage — un objectif voisin mais différent de la construction d'un DGP pour tester des estimateurs. Ceci confirme l'intuition de départ : combiner semi-synthétique + dépendance spatiale reste un terrain largement ouvert, cohérent avec l'idée d'en faire un axe de la v2 du package plutôt qu'une simple reprise de méthode existante.</p>
+      <div class="callout-label">Constat de manque — révisé le 7 sept.</div>
+      <p>Le premier passage n'avait trouvé aucun papier combinant explicitement plasmode/EMCS avec une dépendance spatiale. <strong>Ce n'est plus exact</strong> : le papier SpaCE (section <a href="#convergence">Convergence</a>) le fait, mais dans un but plus étroit — évaluer des méthodes de correction du <em>spatial confounding</em> en inférence causale (ATE/ERF/ITE), pas comparer des estimateurs spatiaux généraux (SAR/SEM/GWR/boosting) sur des DGP variés comme le prévoit notre benchmark. La combinaison plasmode + comparaison générale d'estimateurs spatiaux façon LeSage &amp; Pace reste, elle, un terrain ouvert — et c'est exactement ce que couvre le protocole détaillé de l'encadrant (section 3 de sa synthèse).</p>
     </div>
   </section>
 
@@ -520,29 +626,105 @@
     <p>Le temporel est nettement plus outillé que le spatial sur ce terrain précis, avec plusieurs suites de benchmark dédiées : <strong>tsMorph</strong> (morphing, famille E), <strong>TSGM</strong> (cadre génératif flexible pour séries synthétiques), <strong>TSGBench</strong> et <strong>GRATIS</strong> (suites de génération/évaluation), <strong>FinStressTS</strong> (benchmark paramétrique en finance, validé par des règles de score propres), et un cadre hiérarchique paramétrable pour séries multivariées (<strong>M-LTSF</strong>). Peu de ces travaux ancrent explicitement leur DGP sur un jeu réel unique façon plasmode — la plupart restent du côté « paramétrique contrôlé » (famille A/F), à l'exception du morphing.</p>
   </section>
 
+  <section id="convergence">
+    <div class="sec-label">Ajout du 7 septembre</div>
+    <h2>Convergence avec deux sources externes</h2>
+    <p class="lede">L'encadrant a transmis deux documents le 7 septembre : un papier publié (SpaCE, ICLR 2024) et sa propre synthèse de travail. Les trois documents — produits indépendamment, par recherche web, par réflexion de l'encadrant, et par une équipe publiée à ICLR — convergent fortement sur le même noyau de méthode.</p>
+
+    <div class="source-card">
+      <div class="source-head">
+        <div class="source-name">SpaCE — The Spatial Confounding Environment</div>
+        <div class="source-meta">Tec, Trisovic, Audirac, Woodward, Khoshnevis &amp; Dominici — ICLR 2024 — biblio [30]</div>
+      </div>
+      <p>Un toolkit Python (pas un vrai data paper au sens où on l'entend nous — c'est un papier de méthode qui <em>produit</em> un système de benchmark) pour évaluer des méthodes de causal inference face au <em>spatial confounding</em> : un facteur de confusion non observé, spatialement corrélé, qui biaise l'effet causal estimé d'un traitement sur un résultat.</p>
+      <p><strong>Génération semi-synthétique, étape par étape :</strong> à partir d'un vrai (X, A, Y) réel, un ensemble AutoML (AutoGluon) apprend f̂ qui prédit Y depuis (X, A), avec un split train/validation <em>spatialement conscient</em> (sans quoi l'autocorrélation cause un sur-ajustement massif). Les résidus empiriques R̂ = Y − f̂(X,A) sont ensuite remplacés par de nouveaux résidus spatialement corrélés, tirés d'un champ markovien gaussien calé sur l'autocorrélation et la variance réelles des résidus :</p>
+      <div class="formula">
+        R ~ MultivariateNormal( 0,  λ · (D − ρ̂·A·D)⁻¹ )
+        <span class="cap">A = matrice d'adjacence du graphe spatial ; D = matrice diagonale du nombre de voisins par site ; ρ̂ = autocorrélation apprise sur les vrais résidus ; λ calé pour retrouver leur variance réelle.</span>
+      </div>
+      <p>Le « confounding » contrôlé s'obtient en <strong>masquant après coup</strong> un sous-groupe de covariables réelles corrélées spatialement — exactement le DGP D9 (« variable omise autocorrélée ») de la synthèse de l'encadrant. Validation par comparaison visuelle des distributions de résidus et du Moran's I à travers tous les jeux générés — pas de discriminateur adversarial, une simple vérification de similarité, cohérente avec la mise en garde anti-GAN de la synthèse.</p>
+      <p><strong>Portée plus étroite que notre projet :</strong> SpaCE cible des estimandes causales (ATE, exposure-response function, effets individualisés) sous confusion spatiale, pas une comparaison générale d'estimateurs spatiaux (SAR/SEM/GWR/boosting) sur des DGP de formes variées. Les deux projets partagent le mécanisme de génération, pas l'objectif final.</p>
+    </div>
+
+    <div class="source-card">
+      <div class="source-head">
+        <div class="source-name">Synthèse de l'encadrant</div>
+        <div class="source-meta">note de travail, septembre 2026</div>
+      </div>
+      <p>Beaucoup plus riche que notre premier passage : une taxonomie en <strong>7 familles (F1–F7)</strong> organisées par ce qui est gardé du réel vs simulé (recoupe nos familles A–H ci-dessus, avec deux ajouts — G et H), une formalisation précise de la tension plasmode/génératif (encart « insight confirmé » plus haut), et surtout un <strong>protocole de benchmark spatial directement actionnable</strong> :</p>
+      <div class="formula">
+        Y = ρ·W·Y + f(X, s) + g(s) + u,&nbsp;&nbsp; u = λ·W·u + ε
+        <span class="cap">forme canonique unique dont dérivent les 10 DGP du protocole (ci-dessous), en activant ou non chaque bloc.</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Code</th><th>DGP</th><th>Blocs actifs</th><th>Estimateur « maison »</th></tr></thead>
+          <tbody>
+            <tr><td class="code">D0</td><td>Linéaire aspatial</td><td>f linéaire</td><td>OLS</td></tr>
+            <tr><td class="code">D1</td><td>Non linéaire aspatial</td><td>f additive + interactions</td><td>GAM, boosting</td></tr>
+            <tr><td class="code">D2</td><td>SVC</td><td>f = Σ β_k(s)·x_k, champs GP/Matérn</td><td>GWR / MGWR / spmoran</td></tr>
+            <tr><td class="code">D3</td><td>SVC multi-échelle</td><td>portées φ_k distinctes</td><td>MGWR</td></tr>
+            <tr><td class="code">D4</td><td>SVC + SAR</td><td>D3 + ρ &gt; 0</td><td>MGWRSAR</td></tr>
+            <tr><td class="code">D5</td><td>SAR non linéaire</td><td>ρ &gt; 0, f non linéaire</td><td>BSPA / spboost, GAM-SAR</td></tr>
+            <tr><td class="code">D6</td><td>SEM non linéaire</td><td>λ &gt; 0</td><td>GAM-SEM</td></tr>
+            <tr><td class="code">D7</td><td>Tendance spatiale</td><td>g(s) GP</td><td>GAM s(x,y), GP</td></tr>
+            <tr><td class="code">D8</td><td>Non-linéarité spatialement variable</td><td>f = f₁(X) + h(xⱼ,s) non séparable</td><td>aucun</td></tr>
+            <tr><td class="code">D9</td><td>Variable omise autocorrélée</td><td>Y = f(X_obs, Z) + ε, Z réelle retirée</td><td>aucun</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Point important signalé : D2/D3 et D8 sont partiellement confondus (β(s)·x ressemble à une interaction lisse x×s) — le benchmark doit le dire explicitement, sous peine de conclure « X bat Y » sur un DGP où X est la vérité par construction. D9 est le seul DGP aspatial qui produit l'<em>apparence</em> d'un processus spatial ; il teste la robustesse des interprétations plutôt qu'une méthode spatiale en tant que telle.</p>
+      <p><strong>Trois facteurs de calibration transversaux</strong>, pour rendre les DGP comparables entre familles (les paramètres natifs ρ, λ, bandwidth, portée Matérn ne le sont pas) : le <strong>SNR</strong> (var(m)/var(ε)), la <strong>part spatiale</strong> (var(composante spatiale)/var(f(X))), et la <strong>portée spatiale</strong> (fraction du diamètre du domaine, ou Moran's I à W fixée). Les paramètres natifs sont ensuite calibrés numériquement pour atteindre ces cibles et enregistrés comme sorties — sans ça, une différence « SAR vs SVC » peut n'être qu'une différence d'amplitude du signal spatial.</p>
+      <p>Enfin, un cadre de <strong>regret</strong> distingue la perte d'un estimateur sur son « terrain naturel » H(e) (la famille et la région de paramètres où il est correctement spécifié) de sa perte sous DGP tiré au hasard — l'écart entre les deux mesure la fragilité à la mauvaise spécification (à la Grinsztajn et al. 2022).</p>
+    </div>
+
+    <h3>Table de convergence</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Point</th><th>Notre revue (4 sept.)</th><th>Synthèse encadrant</th><th>SpaCE</th></tr></thead>
+        <tbody>
+          <tr><td>Terme central</td><td>Plasmode (Franklin 2014)</td><td>Plasmode, même référence</td><td>cite Neal/Franklin comme « data-driven synthetic outcome »</td></tr>
+          <tr><td>Version « deep »</td><td>RealCause (Neal 2020)</td><td>RealCause, architecture « A3 »</td><td>cité comme référence directe</td></tr>
+          <tr><td>Architecture réel + bruit spatial</td><td>famille C (EMCS/plasmode)</td><td>« A1 » : f̂ plasmode + ε* spatialement dépendant</td><td>implémente exactement ça (AutoML + GMRF calé sur l'autocorrélation)</td></tr>
+          <tr><td>Tension GAN / vérité connue</td><td>notée comme limite du génératif</td><td>formalisée : le discriminateur devient un diagnostic du plasmode</td><td>évite le GAN, valide par comparaison directe (Moran's I, distribution)</td></tr>
+          <tr><td>Gap spatial identifié</td><td>aucun papier trouvé combinant les deux</td><td>—</td><td>comble une partie du gap, côté causal uniquement</td></tr>
+          <tr><td>Variable omise autocorrélée</td><td>non isolée comme famille</td><td>DGP D9</td><td>le masquage de confondeurs = D9</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="recommandation">
     <div class="sec-label">Application</div>
     <h2>Ce que ça suggère pour le mode Monte&nbsp;Carlo du package</h2>
     <div class="reco">
       <div class="reco-row">
         <div class="term">socle (v2)</div>
-        <div class="def">Un mode « EMCS / plasmode » : garder X et W réels d'un dataset du catalogue, estimer F̂ avec un des estimateurs déjà en place (ols / gam_spatial / random_forest) comme DGP de référence, puis proposer un petit nombre de configurations dérivées (retirer une covariable → variable omise, moduler ρ → force de l'autocorrélation, hétéroscédasticité liée à une covariable). C'est directement ce qui était décrit en discussion (F1, F2, F3…), avec un nom et une littérature de rattachement.</div>
+        <div class="def">Un mode « EMCS / plasmode » : garder X, s et W réels d'un dataset du catalogue, estimer F̂ avec un des estimateurs déjà en place (ols / gam_spatial / random_forest) comme DGP de référence, puis dériver plusieurs DGP en activant/désactivant les blocs de la forme canonique de l'encadrant (D0–D9 : linéaire, non-linéaire, SVC, SAR, SEM, tendance, variable omise…). Directement actionnable — la grille D0–D9 remplace avantageusement notre F1/F2/F3 plus vague du premier passage.</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">calibration</div>
+        <div class="def">Reparamétrer chaque DGP par SNR, part spatiale et portée spatiale plutôt que par ses paramètres natifs (ρ, λ, bandwidth) — sans quoi une comparaison SAR vs SVC ne mesure qu'une différence d'amplitude de signal, pas une vraie différence de mécanisme.</div>
       </div>
       <div class="reco-row">
         <div class="term">résidus</div>
-        <div class="def">Commencer par le bootstrap empirique (famille B) plutôt que GAN — coût d'implémentation faible, déjà défendable dans la littérature, et évite d'introduire une dépendance lourde (entraînement d'un modèle génératif) dès la première version.</div>
+        <div class="def">Commencer par le bootstrap empirique (famille B) ou une calibration GMRF façon SpaCE (réaliste, pas de discriminateur, déjà implémentée et validée par une équipe publiée) plutôt qu'un GAN — coût d'implémentation nettement plus faible.</div>
       </div>
       <div class="reco-row">
         <div class="term">extension</div>
-        <div class="def">GAN (famille D) comme piste avancée une fois le socle EMCS posé — surtout si le bootstrap se révèle insuffisant pour capturer la forme réelle des résidus sur certains datasets. Le pipeline en six étapes du papier 2026 est un bon squelette de départ.</div>
+        <div class="def">Si le bootstrap/GMRF se révèle insuffisant, tester <code>engression</code>, <code>drf</code> ou Forest-Flow (packages R, pas de discriminateur, moins instables qu'un GAN à nos tailles de jeux) avant d'envisager un vrai GAN.</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">validation</div>
+        <div class="def">Classifier two-sample test ou pMSE sur (X,Y) réel vs (X,Y*) simulé, complété par Moran's I et variogramme réel vs simulé côté spatial — un protocole de validation concret, repris de la synthèse de l'encadrant.</div>
       </div>
       <div class="reco-row">
         <div class="term">piste originale</div>
-        <div class="def">Le morphing (famille E) entre deux datasets réels déjà curés dans le catalogue serait quasiment gratuit à implémenter et répond directement à l'objectif « augmenter le nombre de jeux de données exploitables » mentionné en discussion — à ma connaissance, personne ne l'a fait en spatial.</div>
+        <div class="def">Le morphing (famille E) entre deux datasets réels déjà curés dans le catalogue reste quasiment gratuit à implémenter et personne ne l'a fait en spatial à notre connaissance.</div>
       </div>
       <div class="reco-row">
         <div class="term">garde-fou</div>
-        <div class="def">Documenter dès le départ la mise en garde d'Advani et al. : un EMCS structuré peut induire en erreur si F̂ est mal spécifié. Le dashboard devra présenter le mode Monte&nbsp;Carlo comme un outil de test relatif entre estimateurs, pas comme une vérité absolue sur leurs propriétés.</div>
+        <div class="def">Documenter la mise en garde d'Advani et al. : un EMCS structuré peut induire en erreur si F̂ est mal spécifié. Reporter le regret « maison » (H(e)) séparément du regret sous DGP aléatoire, comme le propose la synthèse — jamais présenter le mode Monte&nbsp;Carlo comme une vérité absolue sur les propriétés des estimateurs.</div>
       </div>
     </div>
   </section>
@@ -550,7 +732,7 @@
   <section id="limites">
     <div class="sec-label">Périmètre</div>
     <h2>Limites de cette revue et prochaines étapes</h2>
-    <p>Ceci est un premier passage exploratoire (recherche web, une session) — pas une lecture exhaustive des papiers eux-mêmes. Prochaines étapes suggérées : lecture complète de Huber, Lechner &amp; Wunsch (2013), Knaus, Lechner &amp; Strittmatter, LeSage &amp; Pace (2018), et du papier IA-générative-MC 2026 ; envoi du mail à « Flash » évoqué en discussion pour des suggestions complémentaires ; recherche ciblée sur une éventuelle littérature en géostatistique pure (krigeage + simulation conditionnelle) qui n'a pas été creusée ici et pourrait recouper la famille D côté spatial.</p>
+    <p>Le premier passage (4 sept.) était une recherche web exploratoire, pas une lecture exhaustive des papiers eux-mêmes. Le recoupement du 7 sept. avec la synthèse de l'encadrant et SpaCE renforce la confiance dans le noyau de méthode identifié, mais ne remplace pas la lecture complète des sources listées ci-dessous avant citation dans le data paper. Toujours en attente : mail à « Flash » pour suggestions complémentaires ; recherche ciblée sur la géostatistique pure (krigeage + simulation conditionnelle), qui pourrait recouper la famille D côté spatial et n'a pas été creusée. À faire avant lundi : lire au minimum Schreck et al. (2024, le tutoriel plasmode le plus récent) et la section 3 complète de la synthèse de l'encadrant (protocole D0–D9).</p>
   </section>
 
   <section id="biblio">
@@ -558,9 +740,11 @@
     <h2>Bibliographie</h2>
 
     <div class="biblio-group">
-      <h3>Plasmode</h3>
-      <ol class="biblio" start="4">
-        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3935334/" target="_blank" rel="noopener">Franklin et al. — Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases</a><span class="note">Statistics in Medicine / PMC3935334 — papier fondateur du terme moderne « plasmode »</span></li>
+      <h3>Plasmode &amp; guides méthodologiques</h3>
+      <ol class="biblio">
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3935334/" target="_blank" rel="noopener">Franklin et al. (2014) — Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases</a><span class="note">Statistics in Medicine / PMC3935334 — papier fondateur du terme moderne « plasmode »</span></li>
+        <li>Schreck, N., Slynko, A., Saadati, M. &amp; Benner, A. (2024) — Statistical plasmode simulations – potentials, challenges and recommendations<span class="note">Statistics in Medicine, doi:10.1002/sim.10012 — protocole pas-à-pas + recommandations de reporting</span></li>
+        <li>Morris, T.P., White, I.R. &amp; Crowther, M.J. (2019) — Using simulation studies to evaluate statistical methods<span class="note">Statistics in Medicine, 38(11):2074-2102 — guide général, cité par la synthèse de l'encadrant</span></li>
         <li><a href="https://arxiv.org/html/2409.01316v1" target="_blank" rel="noopener">Plasmode simulation for the evaluation of causal inference methods in homophilous social networks</a><span class="note">arXiv 2409.01316</span></li>
         <li><a href="https://link.springer.com/article/10.1186/s12874-023-02062-9" target="_blank" rel="noopener">Longitudinal plasmode algorithms to evaluate statistical methods in realistic scenarios</a><span class="note">BMC Medical Research Methodology, 2023</span></li>
         <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12129352/" target="_blank" rel="noopener">Simulation study to evaluate when Plasmode simulation is superior to parametric simulation (haute dimension)</a><span class="note">PMC12129352, 2025 — voir aussi la note de prudence méthodologique arXiv 2504.11740</span></li>
@@ -569,7 +753,7 @@
 
     <div class="biblio-group">
       <h3>Empirical Monte Carlo Study (EMCS)</h3>
-      <ol class="biblio" start="8">
+      <ol class="biblio">
         <li>Huber, M., Lechner, M. &amp; Wunsch, C. (2013) — introduit l'Empirical Monte Carlo Study<span class="note">cité dans Knaus, Lechner &amp; Strittmatter ci-dessous</span></li>
         <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1002/jae.2724" target="_blank" rel="noopener">Advani, Kitagawa &amp; Słoczyński (2019) — Mostly harmless simulations? Using Monte Carlo studies for estimator selection</a><span class="note">Journal of Applied Econometrics — critique méthodologique de l'EMCS structuré</span></li>
         <li><a href="https://arxiv.org/abs/1810.13237" target="_blank" rel="noopener">Knaus, Lechner &amp; Strittmatter — Machine Learning Estimation of Heterogeneous Causal Effects: Empirical Monte Carlo Evidence</a><span class="note">The Econometrics Journal — 24 DGPs dérivés de données réelles, 11 estimateurs causaux ML</span></li>
@@ -578,8 +762,17 @@
     </div>
 
     <div class="biblio-group">
+      <h3>Benchmarks causaux classiques (real-X / synthetic-Y)</h3>
+      <ol class="biblio">
+        <li>Dorie, V., Hill, J., Shalit, U., Scott, M. &amp; Cervone, D. (2019) — Automated versus do-it-yourself methods for causal inference<span class="note">Statistical Science, 34(1):43-68 — benchmark ACIC</span></li>
+        <li>Hill, J.L. (2011) — Bayesian nonparametric modeling for causal inference<span class="note">Journal of Computational and Graphical Statistics, 20(1):217-240 — dataset IHDP</span></li>
+        <li>Candès, E., Fan, Y., Janson, L. &amp; Lv, J. (2018) — Panning for gold: model-X knockoffs<span class="note">JRSS-B, 80(3) — famille G, spike-in / vrais négatifs contrôlés</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
       <h3>Génératif (GAN / flows / VAE)</h3>
-      <ol class="biblio" start="12">
+      <ol class="biblio">
         <li><a href="https://arxiv.org/pdf/2011.15007" target="_blank" rel="noopener">Neal, Huang et al. (2020) — RealCause: Realistic Causal Inference Benchmarking</a><span class="note">arXiv 2011.15007 — <a href="https://github.com/bradyneal/realcause" target="_blank" rel="noopener">code sur GitHub</a></span></li>
         <li><a href="https://arxiv.org/pdf/2605.05752" target="_blank" rel="noopener">Generative AI-Based Monte Carlo Simulation for Method Evaluation Using Synthetic Multilevel Data</a><span class="note">arXiv 2605.05752, 2026 — pipeline en six étapes, données hiérarchiques</span></li>
         <li>Xu, L. et al. (2019) — CTGAN ; TVAE (variational autoencoder tabulaire)<span class="note">générateurs tabulaires génériques réutilisables comme moteur, pas conçus pour l'inférence structurelle</span></li>
@@ -588,8 +781,35 @@
     </div>
 
     <div class="biblio-group">
+      <h3>Alternatives sans discriminateur (recommandées par l'encadrant)</h3>
+      <ol class="biblio">
+        <li>Shen, X. &amp; Meinshausen, N. (2024) — Engression: extrapolation through the lens of distributional regression<span class="note">JRSS-B (à vérifier) — package R <code>engression</code>, régression générative par score d'énergie</span></li>
+        <li>Ćevid, D. et al. (2022) — Distributional random forests<span class="note">JMLR — package R <code>drf</code></span></li>
+        <li>Jolicoeur-Martineau, A., Fatras, K. &amp; Kachman, T. (2024) — Generating and imputing tabular data via diffusion and flow-based gradient-boosted trees (Forest-Flow)<span class="note">AISTATS 2024</span></li>
+        <li>Wang, Y., Awaya, N. &amp; Ma, L. (2024) — Nonparametric Bayesian deep learning with tree flows<span class="note">arXiv 2406.05260</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
+      <h3>Validation de l'indiscernabilité</h3>
+      <ol class="biblio">
+        <li>Snoke, J. et al. (2018) — General and specific utility measures for synthetic data<span class="note">JRSS-A — métrique pMSE</span></li>
+        <li>Lopez-Paz, D. &amp; Oquab, M. (2017) — Revisiting classifier two-sample tests<span class="note">ICLR 2017</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
+      <h3>Synthèse pour confidentialité (famille H)</h3>
+      <ol class="biblio">
+        <li>Rubin, D.B. (1993) — Statistical disclosure limitation<span class="note">Journal of Official Statistics</span></li>
+        <li>Reiter, J.P. (2003) — Inference for partially synthetic, public use microdata sets<span class="note">Survey Methodology</span></li>
+        <li>Nowok, B., Raab, G.M. &amp; Dibben, C. (2016) — synthpop: Bespoke creation of synthetic data in R<span class="note">Journal of Statistical Software, 74(11)</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
       <h3>Morphing &amp; F̂ non-linéaire</h3>
-      <ol class="biblio" start="16">
+      <ol class="biblio">
         <li><a href="https://arxiv.org/pdf/2312.01344" target="_blank" rel="noopener">Enhancing Algorithm Performance Understanding through tsMorph: Generating Semi-Synthetic Time Series for Robust Forecasting Evaluation</a><span class="note">arXiv 2312.01344</span></li>
         <li>Friedman, J. (1991) — Multivariate Adaptive Regression Splines<span class="note">Annals of Statistics — source du benchmark synthétique « Friedman #1 »</span></li>
         <li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/pirs.12738" target="_blank" rel="noopener">López, F. et al. (2023) — Putting MARS into space. Non-linearities and spatial effects in hedonic models</a><span class="note">Papers in Regional Science</span></li>
@@ -597,16 +817,19 @@
     </div>
 
     <div class="biblio-group">
-      <h3>Spatial (Monte Carlo, non ancré sur données réelles)</h3>
-      <ol class="biblio" start="19">
+      <h3>Spatial (Monte Carlo &amp; benchmark spatial)</h3>
+      <ol class="biblio">
         <li><a href="https://link.springer.com/article/10.1007/s00181-017-1330-6" target="_blank" rel="noopener">LeSage, J.P. &amp; Pace, R.K. (2018) — Spatial econometric Monte Carlo studies: raising the bar</a><span class="note">Empirical Economics, 55(1), 17-34</span></li>
         <li><a href="https://journals.sagepub.com/doi/abs/10.1177/0049124119882467" target="_blank" rel="noopener">Rüttenauer, T. (2022) — Spatial Regression Models: A Systematic Comparison of Different Model Specifications Using Monte Carlo Experiments</a><span class="note">Sociological Methods &amp; Research</span></li>
+        <li>LeSage, J.P. &amp; Pace, R.K. (2009) — Introduction to Spatial Econometrics<span class="note">CRC Press — référence pour les impacts directs/indirects, cité par la synthèse de l'encadrant</span></li>
+        <li>Tec, M., Trisovic, A., Audirac, M., Woodward, S., Khoshnevis, N. &amp; Dominici, F. (2024) — SpaCE: The Spatial Confounding Environment<span class="note">ICLR 2024 — voir section Convergence ci-dessus</span></li>
+        <li>Grinsztajn, L., Oyallon, E. &amp; Varoquaux, G. (2022) — Why do tree-based models still outperform deep learning on tabular data?<span class="note">NeurIPS Datasets &amp; Benchmarks — source de l'idée de regret relatif au meilleur estimateur</span></li>
       </ol>
     </div>
 
     <div class="biblio-group">
       <h3>Temporel (suites de benchmark)</h3>
-      <ol class="biblio" start="21">
+      <ol class="biblio">
         <li><a href="https://arxiv.org/pdf/2305.11567" target="_blank" rel="noopener">TSGM: A Flexible Framework for Generative Modeling of Synthetic Time Series</a><span class="note">arXiv 2305.11567</span></li>
         <li><a href="https://arxiv.org/html/2606.03184v1" target="_blank" rel="noopener">FinStressTS: A Parametric Synthetic Benchmark for Time-Series Forecasting in Finance</a><span class="note">arXiv 2606.03184, 2026</span></li>
         <li><a href="https://arxiv.org/html/2510.04900v1" target="_blank" rel="noopener">Benchmarking M-LTSF: Frequency and Noise-Based Evaluation of Multivariate Long Time Series Forecasting Models</a><span class="note">arXiv 2510.04900</span></li>
@@ -615,7 +838,7 @@
   </section>
 
   <footer>
-    Compilé à partir d'une recherche web du 4 septembre 2026 — à recouper avec une lecture directe des papiers avant citation dans le data paper.
+    1ᵉʳ passage compilé le 4 septembre 2026 (recherche web). Recoupé et enrichi le 7 septembre 2026 avec la synthèse de l'encadrant et le papier SpaCE (ICLR 2024) — à recouper encore avec une lecture directe des papiers avant citation dans le data paper.
   </footer>
 
 </div>
