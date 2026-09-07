@@ -6,7 +6,7 @@
 
 - [`revue_donnees_semi_synthetiques.html`](revue_donnees_semi_synthetiques.html) — le document complet (source de l'artefact publié), incluant depuis le 7 sept. une section « Convergence » comparant notre revue, la synthèse de l'encadrant et le papier SpaCE.
 - [`synthese_encadrant_2026-09.md`](synthese_encadrant_2026-09.md) — copie de la synthèse transmise par l'encadrant (7 sept.), taxonomie F1–F7 + protocole de benchmark spatial D0–D9.
-- Le papier source de la seconde comparaison, *SpaCE: The Spatial Confounding Environment* (Tec et al., ICLR 2024), reste dans les téléchargements de l'encadrant (`C:\Users\jdoliveira\Downloads\ICLR-2024-space-the-spatial-confounding-environment-Paper-Conference.pdf`) — pas copié ici (papier tiers, à conserver côté source plutôt que dupliqué dans le repo).
+- [`ICLR-2024-space-the-spatial-confounding-environment.pdf`](ICLR-2024-space-the-spatial-confounding-environment.pdf) — *SpaCE: The Spatial Confounding Environment* (Tec et al., ICLR 2024), papier source de la comparaison ci-dessus.
 - `revue_donnees_semi_synthetiques.bib` — à ajouter : généré via biblio from pdf à partir des PDF des papiers clés listés ci-dessous, une fois la lecture approfondie faite.
 
 ## Résumé
