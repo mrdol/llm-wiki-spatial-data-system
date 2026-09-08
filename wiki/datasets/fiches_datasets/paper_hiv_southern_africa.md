@@ -2,7 +2,7 @@
 title: paper_hiv_southern_africa
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_hiv_southern_africa.rds
   - DataCite_2024_SpatialDistributionHIVSouthernAfrica_10_1371_journal_pone_0301850
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial di
 - Candidate X variables in local artifact: `DHSYEAR`, `URBAN_RURA`, `NEG`, `POS`, `TOT`
 - Candidate X count in local artifact: 5
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: URBAN_RURA (classification urbain/rural du cluster), country (6 pays d'Afrique australe), DHSYEAR (annee d'enquete DHS, 2013-2018), region administrative ADM1
+- Published X variables from paper: URBAN_RURA, country, DHSYEAR, region administrative ADM1
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `LONGNUM`, `LATNUM`
 - Identifier columns (excluded from X candidates): `DHSID`, `country`, `region`
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial di
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `PER` | `integer` | count | [0, 100] | 0% |
+| `PER` | `integer` | rate | [0, 100] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `hiv_southern_africa`, la ou les reponses `PER` viennent du loader papier et/ou des preuves de l article `Spatial distribution and determinants of HIV high burden in the Southern African sub-region`. Les covariables X retenues sont `URBAN_RURA` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LONGNUM`, `LATNUM`), identifiants (`DHSID`, `country`, `region`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `hiv_southern_africa`, la ou les reponses `PER` viennent du loader papier et/ou des preuves de l article `Spatial distribution and determinants of HIV high burden in the Southern African sub-region`. Les covariables X retenues sont `URBAN_RURA` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LONGNUM`, `LATNUM`), identifiants (`DHSID`, `country`, `region`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -64,8 +64,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial di
 ### Formule - niveau publication
 
 - formula_pub: PER ~ URBAN_RURA + country + DHSYEAR [regression multivariable, plus autocorrelation spatiale (LISA/hotspot) sur PER par pays]
-- x_terms_pub: URBAN_RURA (classification urbain/rural du cluster), country (6 pays d'Afrique australe), DHSYEAR (annee d'enquete DHS, 2013-2018), region administrative ADM1
-- y_term_pub: PER (taux de positivite VIH par cluster DHS, %)
+- x_terms_pub: URBAN_RURA, country, DHSYEAR, region administrative ADM1
+- y_term_pub: PER
 - Reference publication: Adetokunboh, O.O. & Are, E.B. (2024), PLoS ONE 19(4): e0301850, doi:10.1371/journal.pone.0301850. Le depot figshare (10.25413/sun.26976469, mirroir https://figshare.com/s/33e95ee4594a7c146e3b) ne contient QUE les donnees geographiques agregees par cluster DHS (NEG/POS/TOT/PER + coordonnees + URBAN_RURA) utilisees pour l'analyse d'autocorrelation spatiale (LISA/hotspot par pays). La regression multivariable complete du papier (determinants: divorce, age, ISTs recentes) utilise des microdonnees DHS individuelles (DHS Individual Recode) qui necessitent un enregistrement separe aupres du DHS Program et ne sont PAS incluses dans ce depot -- formula_used se limite donc aux covariables reellement presentes dans les donnees locales.
 
 ### Statut regression canonique
@@ -79,6 +79,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial di
 ### Formule - niveau systeme
 
 - formula_used: PER ~ URBAN_RURA + country
+- Recommended validation: N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: PER est un pourcentage de positivite, pas un nombre de cas; le stockage entier ne change pas son sens.
+- Selected Y evidence: PER est un pourcentage de positivite, pas un nombre de cas; le stockage entier ne change pas son sens.
+- Selected Y typology: rate
 - x_terms_used: URBAN_RURA
 - y_term_used: PER
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -99,8 +103,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PER ~ URBAN_RURA + country"
-    response: "PER (taux de positivite VIH par cluster DHS, %)"
-    predictors: ["URBAN_RURA (classification urbain/rural du cluster)", "country (6 pays d'Afrique australe)", "DHSYEAR (annee d'enquete DHS, 2013-2018)", "region administrative ADM1"]
+    response: "PER"
+    predictors: ["URBAN_RURA", "country", "DHSYEAR", "region administrative ADM1"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -151,27 +155,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous_rate"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "regression multivariable complete du papier (divorce, age, ISTs) necessite les microdonnees DHS individuelles (DHS Individual Recode), non incluses dans le depot public et non re-telechargeables sans enregistrement DHS Program separe -- formula_used se limite aux covariables cluster-level reellement presentes (URBAN_RURA, country, DHSYEAR)"
-  reason: "Y continu reel (PER, taux de positivite VIH par cluster DHS, %), coordonnees GPS reelles des clusters (LATNUM/LONGNUM), N=3347 sur 6 pays d'Afrique australe (2013-2018). Depot recupere via mirroir figshare cite explicitement dans le papier (Data Availability Statement), pas une reconstruction."
+  missing_items: "N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: regression multivariable complete du papier (divorce, age, ISTs) necessite les microdonnees DHS individuelles (DHS Individual Recode), non incluses dans le depot public et non re-telechargeables sans enregistrement DHS Program separe -- formula_used se limite aux covariables cluster-level reellement presentes (URBAN_RURA, country, DHSYEAR)
-- Raison: Y continu reel (PER, taux de positivite VIH par cluster DHS, %), coordonnees GPS reelles des clusters (LATNUM/LONGNUM), N=3347 sur 6 pays d'Afrique australe (2013-2018). Depot recupere via mirroir figshare cite explicitement dans le papier (Data Availability Statement), pas une reconstruction.
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +227,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial distribution and determinants of HIV high burden in the Southern African sub-region
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=3347; T declare=4; variable temporelle declaree=DHSYEAR; repetitions de coordonnees controlees=9. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : rate. PER est un pourcentage de positivite, pas un nombre de cas; le stockage entier ne change pas son sens.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

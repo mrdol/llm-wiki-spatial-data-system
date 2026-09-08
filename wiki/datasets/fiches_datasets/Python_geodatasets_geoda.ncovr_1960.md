@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.ncovr_1960
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.ncovr_1960.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`ncovr_1960`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.ncovr_1960
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 3085 enregistrements dans l’artefact local Python_geodatasets_geoda.ncovr_1960.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-124.208955460193, -67.554446611081], y [25.53857425, 48.86431695]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`ncovr_1960`).
 - Description source: package Python `geodatasets`
@@ -73,6 +73,8 @@ Dataset spatial issu du package Python `geodatasets` (`ncovr_1960`).
 ### Formule — niveau systeme
 
 - formula_used: homicide_rate ~ resource_deprivation + population_structure + median_age + unemployment_rate + divorce_rate + SOUTH
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: resource_deprivation, population_structure, median_age, unemployment_rate, divorce_rate, SOUTH
 - y_term_used: homicide_rate
 
@@ -179,13 +181,32 @@ benchmark_readiness:
   package_include: "yes"
   has_local_rds: true
   missing_items: "aucun blocage automatique detecte"
-  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: scientific_evidence
+      source_ref: "Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590, section 'Data' p.568."
+      notes: "Modele de base homicide_rate ~ covariables structurelles, tel que documente dans le texte cite du papier."
+    - estimator: sar_lag
+      basis: scientific_evidence
+      source_ref: "Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590."
+      notes: "Titre du papier ('incorporating spatial effects') et objet meme de l'article : modeles de regression spatiale (spatial lag/regime) sur homicide_rate. Verification page-par-page des coefficients non encore faite -- basis restera a affiner si une lecture plus fine devient necessaire."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -201,3 +222,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

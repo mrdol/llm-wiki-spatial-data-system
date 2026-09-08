@@ -2,7 +2,7 @@
 title: paper_chaco_bird_richness
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_chaco_bird_richness.rds
   - DataCite_2020_TradeOffsBetweenBiodiversity_10_1111_1365_266
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 - Candidate X variables in local artifact: `use`, `cover`, `habitat.type`, `htype`, `year`, `season`, `month`, `date`, `julian.date`, `season.rain`, `day.time`, `daytime`, `mmdet`, `ierdet`, `yieldE`, `yieldP`, `yieldM`, `monthly.rain`, `annual.rain`, `aridity`, `forest_3km`, `forest_6km`, `forest_10km`
 - Candidate X count in local artifact: 23
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: yieldM (rendement en viande, metrique d'intensite agricole), forest_6km (etendue boisee, tampon 6km), aridity (indice d'aridite)
+- Published X variables from paper: yieldM, forest_6km, aridity
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `site`, `source`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 |---|---|---|---|---|
 | `species_richness` | `integer` | count | [0, 56] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `chaco_bird_richness`, la ou les reponses `species_richness` viennent du loader papier et/ou des preuves de l article `Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes`. Les covariables X retenues sont `yieldM`, `forest_6km`, `aridity` ; 20 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`site`, `source`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `chaco_bird_richness`, la ou les reponses `species_richness` viennent du loader papier et/ou des preuves de l article `Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes`. Les covariables X retenues sont `yieldM`, `forest_6km`, `aridity` ; 20 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`site`, `source`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -82,8 +82,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 ### Formule - niveau publication
 
 - formula_pub: occupancy_ij ~ agricultural_intensity + woodland_extent + environmental_covariate + agricultural_intensity:woodland_extent [modele hierarchique bayesien d'occupation (detection/occupancy) par espece, 197 especes x 234 sites, avec 24 combinaisons de modeles testees (3 metriques d'intensite agricole: yieldE/yieldP/yieldM x 2 mesures d'etendue boisee: forest_6km/forest_10km OU 2 covariables environnementales: rainfall/aridity, avec termes d'interaction)]
-- x_terms_pub: yieldM (rendement en viande, metrique d'intensite agricole), forest_6km (etendue boisee, tampon 6km), aridity (indice d'aridite)
-- y_term_pub: richesse specifique d'oiseaux par site (agregation de l'occupation par espece publiee par le papier en richesse communautaire au niveau site, N=234 sites, 197 especes recensees)
+- x_terms_pub: yieldM, forest_6km, aridity
+- y_term_pub: richesse specifique d'oiseaux par site
 - Reference publication: Macchi et al. (2020), Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes, Journal of Applied Ecology, doi:10.1111/1365-2664.13699. Le papier ajuste un modele hierarchique bayesien d'occupation par espece (197 especes, 234 sites du Chaco argentin) avec 3 metriques d'intensite agricole (meat/energy/profit yield), 2 mesures d'etendue boisee et 2 covariables environnementales (24 combinaisons de modeles, avec interactions). Ce modele par espece n'est pas reproductible directement (historiques de detection par espece non incluses dans ce depot). formula_used agrege les occurrences en richesse specifique par site (mesure communautaire standard) et utilise exactement les covariables reelles du papier (yieldM, forest_6km, aridity) au niveau site. Donnees brutes (covas_sitios_03012018.csv + species_sitios_03012018.csv) telechargees directement depuis Dryad (10.5061/dryad.msbcc2fvt) -- pas une reconstruction, N=234 sites, coordonnees reelles (Chaco argentin).
 
 ### Statut regression canonique
@@ -97,6 +97,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 ### Formule - niveau systeme
 
 - formula_used: species_richness ~ yieldM + forest_6km + aridity
+- Recommended validation: N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: yieldM, forest_6km, aridity
 - y_term_used: species_richness
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -117,8 +120,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "species_richness ~ yieldM + forest_6km + aridity"
-    response: "richesse specifique d'oiseaux par site (agregation de l'occupation par espece publiee par le papier en richesse communautaire au niveau site, N=234 sites, 197 especes recensees)"
-    predictors: ["yieldM (rendement en viande, metrique d'intensite agricole)", "forest_6km (etendue boisee, tampon 6km)", "aridity (indice d'aridite)"]
+    response: "richesse specifique d'oiseaux par site"
+    predictors: ["yieldM", "forest_6km", "aridity"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -169,27 +172,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "le papier publie un modele d'occupation par espece (197 modeles), pas une regression de richesse au niveau site -- formula_used est une agregation communautaire standard et documentee (richesse specifique), pas la specification per-espece du papier -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)"
-  reason: "Y continu/comptage reel (richesse specifique agregee de vraies observations d'oiseaux), N=234 sites avec coordonnees reelles (Chaco argentin), covariables agricoles/environnementales exactement celles du papier (yieldM, forest_6km, aridity parmi les 7 covariables testees). Fichiers originaux telecharges directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la nature du modele publie (occupation hierarchique par espece) et les covariables exactes."
+  missing_items: "N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: le papier publie un modele d'occupation par espece (197 modeles), pas une regression de richesse au niveau site -- formula_used est une agregation communautaire standard et documentee (richesse specifique), pas la specification per-espece du papier -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
-- Raison: Y continu/comptage reel (richesse specifique agregee de vraies observations d'oiseaux), N=234 sites avec coordonnees reelles (Chaco argentin), covariables agricoles/environnementales exactement celles du papier (yieldM, forest_6km, aridity parmi les 7 covariables testees). Fichiers originaux telecharges directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la nature du modele publie (occupation hierarchique par espece) et les covariables exactes.
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -241,3 +244,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.auckland
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.auckland.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`auckland`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_spdata.auckland
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 167 enregistrements dans l’artefact local Python_geodatasets_spdata.auckland.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [15.9525, 82], y [-2.15, 85.65]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`auckland`).
 - Description source: package Python `geodatasets`
@@ -196,3 +196,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

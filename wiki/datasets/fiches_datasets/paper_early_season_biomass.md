@@ -2,7 +2,7 @@
 title: paper_early_season_biomass
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_early_season_biomass.rds
   - DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 |---|---|---|---|---|
 | `late_bm_kg_ha` | `numeric` | continuous | [0, 11892] | 3.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `early_season_biomass`, la ou les reponses `late_bm_kg_ha` viennent du loader papier et/ou des preuves de l article `Early-season biomass and weather enable robust cereal rye cover crop biomass predictions`. Les covariables X retenues sont `early_bm_kg_ha`, `CGDD_plant_early_term`, `CGDD_early_late_term`, `mean_PAR`, `cuml_precip_plant_early_term`, `cuml_precip_early_late_term` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`state`, `block`, `site`, `early_plot`, `late_plot`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `early_season_biomass`, la ou les reponses `late_bm_kg_ha` viennent du loader papier et/ou des preuves de l article `Early-season biomass and weather enable robust cereal rye cover crop biomass predictions`. Les covariables X retenues sont `early_bm_kg_ha`, `CGDD_plant_early_term`, `CGDD_early_late_term`, `mean_PAR`, `cuml_precip_plant_early_term`, `cuml_precip_early_late_term` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`state`, `block`, `site`, `early_plot`, `late_plot`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -84,6 +84,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 ### Formule - niveau systeme
 
 - formula_used: late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term
+- Recommended validation: N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: early_bm_kg_ha, CGDD_plant_early_term, CGDD_early_late_term, mean_PAR, cuml_precip_plant_early_term, cuml_precip_early_late_term
 - y_term_used: late_bm_kg_ha
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -156,27 +159,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun bloquant identifie"
-  reason: "late_bm_kg_ha continu, 5 covariables meteo/agronomiques documentees dans data_dictionary.csv, coordonnees WGS84, N=512 confirmes par contenu reel. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  missing_items: "N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: aucun bloquant identifie
-- Raison: late_bm_kg_ha continu, 5 covariables meteo/agronomiques documentees dans data_dictionary.csv, coordonnees WGS84, N=512 confirmes par contenu reel. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12).
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -228,3 +231,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Early-season biomass and weather enable robust cereal rye cover crop biomass predictions
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

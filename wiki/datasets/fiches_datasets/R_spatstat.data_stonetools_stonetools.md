@@ -2,7 +2,7 @@
 title: R_spatstat.data_stonetools_stonetools
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_stonetools_stonetools.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This dataset is a spatial point pattern giving the locations of palaeolithic sto
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spatstat.data_stonetools_stonetools
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 4745 enregistrements dans l’artefact local R_spatstat.data_stonetools_stonetools.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [1483.694, 1521.5468], y [4984.511, 5015.8228]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This dataset is a spatial point pattern giving the locations of palaeolithic stone tools (‘lithic’ specimens) and animal bone fragments (‘bone’), accurately surveyed in a layer of soil at David's Site, Olduvai Gorge, Tanzania. The surveyed layer is about 20 cm thick and approximately 1.85 million years old.
 - Description source: package R `spatstat.data`
@@ -196,3 +196,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

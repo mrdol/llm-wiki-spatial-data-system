@@ -2,7 +2,7 @@
 title: Python_libpysal_Ohiolung
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_Ohiolung.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-85.489502209759, -85.489467237427], y [0.000348382813948, 0.0003768388617402]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Description source: package Python `libpysal`
@@ -91,6 +91,9 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 ### Formule — niveau systeme
 
 - formula_used: LM68 ~ AREA + POPM68 + POPF68 + POPM78 + POPF78 + POPM88 + POPF88 + LMW68
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: AREA + POPM68 + POPF68 + POPM78 + POPF78 + POPM88 + POPF88 + LMW68
 - y_term_used: LM68
 
@@ -219,3 +222,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `libpysal`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

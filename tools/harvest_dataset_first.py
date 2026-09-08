@@ -18,7 +18,8 @@ Pipeline:
   1. Query the Dryad and Zenodo search APIs with a curated list of spatial-modeling keywords
      (see DEFAULT_QUERIES). This is the dataset-first equivalent of the journal list in
      harvest_journal_first.py: the query vocabulary IS the scope filter.
-  2. Deduplicate against everything already known: inst/kg/paper_dataset_uses.json,
+  2. Keep only records with a linked publication DOI by default, then deduplicate
+     against everything already known: inst/kg/paper_dataset_uses.json,
      data/manifests/papers/paper_dataset_benchmark_candidates.json, the journal-first
      accumulator's own verified datasets, and this tool's own accumulator
      (data/manifests/papers/dataset_first_candidates.json).
@@ -93,17 +94,180 @@ ACCUMULATOR_PATH = ROOT / "data" / "manifests" / "papers" / "dataset_first_candi
 UA = {"User-Agent": "llm-wiki-spatial-data-system/0.1 dataset-first-harvest (johnny.d-oliveira@inrae.fr)"}
 
 DEFAULT_QUERIES = [
-    "spatial autoregressive model",
-    "geographically weighted regression",
-    "spatial lag model",
-    "spatial error model",
-    "spatial durbin model",
-    "spatial panel data model",
-    "conditional autoregressive model",
-    "spatial weight matrix regression",
-    "kriging regression covariates",
-    "spatial econometrics",
+    "\"spatial autoregressive\" regression dataset",
+    "\"spatial lag model\" regression dataset",
+    "\"spatial error model\" regression dataset",
+    "\"spatial Durbin model\" regression dataset",
+    "\"geographically weighted regression\" covariates dataset",
+    "\"spatially varying coefficient\" regression dataset",
+    "\"spatial weights matrix\" regression dataset",
+    "\"hedonic\" \"spatial\" regression dataset",
+    "\"regional\" \"spatial econometric\" dataset",
+    "\"areal data\" \"regression\" covariates",
 ]
+
+STRICT_SPATIAL_MODEL_TERMS = (
+    "spatial autoregressive",
+    "spatial lag",
+    "spatial error",
+    "spatial durbin",
+    "spatial econometric",
+    "geographically weighted regression",
+    "spatially varying coefficient",
+    "spatial weights",
+    "weight matrix",
+    "areal data",
+    "conditional autoregressive",
+    "moran",
+    "gwr",
+    "sar",
+    "sem",
+    "sdm",
+)
+
+REGRESSION_TERMS = (
+    "regression",
+    "linear model",
+    "generalized linear",
+    "mixed model",
+    "fixed effects",
+    "difference-in-differences",
+    "did model",
+    "econometric model",
+    "covariate",
+    "predictor",
+    "response",
+    "dependent variable",
+    "explanatory variable",
+)
+
+PURE_SPATIAL_TERMS = (
+    "cross-sectional",
+    "cross sectional",
+    "province",
+    "county",
+    "municipal",
+    "city",
+    "commune",
+    "district",
+    "region",
+    "tract",
+    "polygon",
+    "shapefile",
+    "geopackage",
+    "geojson",
+    "coordinates",
+    "latitude",
+    "longitude",
+)
+
+SPATIOTEMPORAL_PENALTY_TERMS = (
+    "spatio-temporal",
+    "spatiotemporal",
+    "space-time",
+    "time series",
+    "longitudinal",
+    "panel",
+    "panel data",
+    "daily",
+    "monthly",
+    "annual",
+    "yearly",
+    "temporal dynamics",
+    "forecast",
+    "forecasting",
+)
+
+LOW_PRIORITY_DOMAIN_TERMS = (
+    "neural",
+    "neuronal",
+    "brain",
+    "fmri",
+    "eeg",
+    "molecular",
+    "genetic",
+    "genomic",
+    "phylogenetic",
+    "phylogeny",
+    "cladogenesis",
+    "dec model",
+    "tip-state",
+    "species distribution",
+    "occurrence",
+    "presence-only",
+    "protocol",
+    "measurement protocol",
+    "simulation benchmark",
+    "simulated",
+)
+
+
+def keyword_hits(text: str, terms: tuple[str, ...]) -> list[str]:
+    return sorted({term for term in terms if term in text})
+
+
+def analyze_dataset_first_candidate(
+    text_source: str | None,
+    *,
+    strict_spatial_only: bool = True,
+    include_low_priority_domains: bool = False,
+) -> dict[str, Any]:
+    """Score dataset-first hits for the benchmark target.
+
+    The shared lit_common scorer intentionally accepts broad spatial or
+    spatio-temporal literature. Dataset-first needs a narrower default:
+    downloadable observation x variable data, linked to a paper, with a
+    regression/spatial-econometric signal. Otherwise Zenodo/Dryad search
+    returns neuroscience, protocols, phylogeny and code-only repositories that
+    use "spatial" in another sense.
+    """
+    text = (text_source or "").lower()
+    base = analyze_literature_candidate(text)
+    strict_hits = keyword_hits(text, STRICT_SPATIAL_MODEL_TERMS)
+    regression_hits = keyword_hits(text, REGRESSION_TERMS)
+    pure_spatial_hits = keyword_hits(text, PURE_SPATIAL_TERMS)
+    spatiotemporal_hits = keyword_hits(text, SPATIOTEMPORAL_PENALTY_TERMS)
+    low_priority_hits = keyword_hits(text, LOW_PRIORITY_DOMAIN_TERMS)
+
+    score = int(base["literature_score"])
+    score += min(6, 2 * len(strict_hits))
+    score += min(4, len(regression_hits))
+    score += min(3, len(pure_spatial_hits))
+    if strict_spatial_only:
+        score -= min(8, 2 * len(spatiotemporal_hits))
+    if low_priority_hits and not include_low_priority_domains:
+        score -= min(10, 2 * len(low_priority_hits))
+
+    blockers = []
+    if strict_spatial_only and spatiotemporal_hits:
+        blockers.append("spatiotemporal_or_panel_default_exclusion")
+    if low_priority_hits and not include_low_priority_domains:
+        blockers.append("low_priority_domain_default_exclusion")
+    if not strict_hits:
+        blockers.append("no_strict_spatial_model_signal")
+    if not regression_hits:
+        blockers.append("no_regression_signal")
+
+    if blockers:
+        decision = "drop_or_manual_review"
+    elif score >= 8:
+        decision = "keep"
+    elif score >= 5:
+        decision = "review"
+    else:
+        decision = "drop_or_low_priority"
+
+    return {
+        **base,
+        "dataset_first_score": score,
+        "dataset_first_decision": decision,
+        "strict_spatial_model_terms": strict_hits,
+        "regression_terms": regression_hits,
+        "pure_spatial_terms": pure_spatial_hits,
+        "spatiotemporal_penalty_terms": spatiotemporal_hits,
+        "low_priority_domain_terms": low_priority_hits,
+        "dataset_first_blockers": blockers,
+    }
 
 DRYAD_SEARCH_URL = "https://datadryad.org/api/v2/search"
 ZENODO_SEARCH_URL = "https://zenodo.org/api/records"
@@ -193,9 +357,13 @@ def normalize_dryad_hit(hit: dict[str, Any], query: str) -> dict[str, Any]:
     doi = clean_doi(hit.get("identifier", ""))
     related = hit.get("relatedWorks") or []
     pub_doi, pub_relationship = None, None
+    related_dataset_dois = []
     for rw in related:
         if (rw.get("identifierType") or "").upper() == "DOI":
             cand = clean_doi(rw.get("identifier", ""))
+            if cand and (cand.startswith("10.5061/dryad.") or str(rw.get("workType") or rw.get("resourceType") or "").lower() == "dataset"):
+                related_dataset_dois.append(cand)
+                continue
             if cand and cand != doi:
                 pub_doi, pub_relationship = cand, rw.get("relationship")
                 break
@@ -208,6 +376,7 @@ def normalize_dryad_hit(hit: dict[str, Any], query: str) -> dict[str, Any]:
         "dataset_keywords": hit.get("keywords") or [],
         "linked_publication_doi": pub_doi,
         "linked_publication_relationship": pub_relationship,
+        "related_dataset_dois": related_dataset_dois,
     }
 
 
@@ -391,6 +560,9 @@ def process_dataset_hit(
     min_score: int,
     min_size_kb: int,
     max_size_kb: int,
+    strict_spatial_only: bool,
+    include_low_priority_domains: bool,
+    require_linked_paper: bool,
     download_pdf_flag: bool,
     run_grobid_flag: bool,
     download_data_flag: bool,
@@ -403,7 +575,11 @@ def process_dataset_hit(
     text = " ".join(
         filter(None, [cand.get("dataset_title"), cand.get("dataset_abstract"), " ".join(cand.get("dataset_keywords") or [])])
     )
-    analysis = analyze_literature_candidate(text)
+    analysis = analyze_dataset_first_candidate(
+        text,
+        strict_spatial_only=strict_spatial_only,
+        include_low_priority_domains=include_low_priority_domains,
+    )
     dataset_slug = slug(dataset_doi)
 
     record: dict[str, Any] = {
@@ -414,11 +590,56 @@ def process_dataset_hit(
         "dataset_title": cand.get("dataset_title"),
         "dataset_keywords": cand.get("dataset_keywords") or [],
         "dataset_literature_score": analysis["literature_score"],
+        "dataset_first_score": analysis["dataset_first_score"],
         "dataset_candidate_decision": analysis["candidate_decision"],
+        "dataset_first_decision": analysis["dataset_first_decision"],
+        "strict_spatial_model_terms": analysis["strict_spatial_model_terms"],
+        "regression_terms": analysis["regression_terms"],
+        "pure_spatial_terms": analysis["pure_spatial_terms"],
+        "spatiotemporal_penalty_terms": analysis["spatiotemporal_penalty_terms"],
+        "low_priority_domain_terms": analysis["low_priority_domain_terms"],
+        "dataset_first_blockers": analysis["dataset_first_blockers"],
         "linked_publication_doi": cand.get("linked_publication_doi"),
         "linked_publication_relationship": cand.get("linked_publication_relationship"),
         "paper_resolved": False,
     }
+
+    pub_doi = clean_doi(cand.get("linked_publication_doi") or "")
+    if require_linked_paper and not pub_doi:
+        record.update(
+            {
+                "verified": False,
+                "n_files": 0,
+                "download_status": "screened_out_before_download",
+                "note": "no_linked_publication_doi",
+                "local_raw_dir": None,
+            }
+        )
+        if verbose:
+            print(
+                f"  [SKIP] {cand['repo']:8s} no_linked_paper {dataset_doi} "
+                f"{(cand.get('dataset_title') or '')[:55]}",
+                file=sys.stderr,
+            )
+        return record
+
+    if analysis["dataset_first_score"] < min_score or analysis["dataset_first_decision"].startswith("drop"):
+        record.update(
+            {
+                "verified": False,
+                "n_files": 0,
+                "download_status": "screened_out_before_download",
+                "note": "; ".join(analysis["dataset_first_blockers"]) or "score dataset-first insuffisant",
+                "local_raw_dir": None,
+            }
+        )
+        if verbose:
+            print(
+                f"  [SKIP] {cand['repo']:8s} score={analysis['dataset_first_score']:2d} "
+                f"{dataset_doi} {(cand.get('dataset_title') or '')[:55]}",
+                file=sys.stderr,
+            )
+        return record
 
     verified = verify_dataset_candidate(dataset_doi, cand["repo"], min_size_kb=min_size_kb)
     target_dir = None
@@ -440,8 +661,7 @@ def process_dataset_hit(
         }
     )
 
-    pub_doi = clean_doi(cand.get("linked_publication_doi") or "")
-    if pub_doi and analysis["literature_score"] >= min_score:
+    if pub_doi and analysis["dataset_first_score"] >= min_score:
         record["paper_doi"] = pub_doi
         known_files = known_paper_files.get(pub_doi)
         if known_files and known_files.get("local_pdf"):
@@ -522,7 +742,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-pages", type=int, default=2)
     parser.add_argument("--per-page", type=int, default=25)
     parser.add_argument("--min-score", type=int, default=4, help="lit_common literature_score threshold (on dataset title/abstract/keywords) to bother resolving/fetching the linked paper.")
-    parser.add_argument("--min-dataset-size-kb", type=int, default=200, help="Skip a verified repo whose total file size is below this (0 disables).")
+    parser.add_argument("--min-dataset-size-kb", type=int, default=700, help="Skip a verified repo whose total file size is below this (0 disables). Default is intentionally above README/code-only deposits.")
     parser.add_argument("--max-dataset-size-kb", type=int, default=500_000, help="Do not auto-download a verified repo whose total file size exceeds this (~500MB default, 0 disables) -- avoids one huge file blocking a run for a long time; flagged for manual retrieval instead.")
     parser.add_argument("--target", type=int, default=300, help="Max total NEW (not-already-known) dataset candidates processed this run, across queries/repos.")
     parser.add_argument("--mailto")
@@ -531,6 +751,21 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--download-data", action="store_true", help="Download verified dataset files (implies --run-grobid --download-pdf).")
     parser.add_argument("--grobid-url", default="http://localhost:8070")
     parser.add_argument("--dry-run", action="store_true", help="Only search+score, skip verification/PDF/GROBID/download entirely.")
+    parser.add_argument(
+        "--include-spatiotemporal",
+        action="store_true",
+        help="Allow panel/spatio-temporal datasets. Disabled by default: dataset-first targets pure spatial cross-sections.",
+    )
+    parser.add_argument(
+        "--include-low-priority-domains",
+        action="store_true",
+        help="Allow neuroscience, molecular/genetic, phylogenetic, protocol-only and species-distribution hits. Disabled by default.",
+    )
+    parser.add_argument(
+        "--allow-no-linked-paper",
+        action="store_true",
+        help="Allow datasets without an explicit related publication DOI. Disabled by default because Phase 2 requires paper-dataset evidence.",
+    )
     parser.add_argument(
         "--workers",
         type=int,
@@ -569,6 +804,8 @@ def main() -> int:
     else:
         queries = [q.strip() for q in (args.queries.split(",") if args.queries else DEFAULT_QUERIES) if q.strip()]
     verbose = not args.quiet
+    strict_spatial_only = not args.include_spatiotemporal
+    require_linked_paper = not args.allow_no_linked_paper
     download_pdf_flag = args.download_pdf or args.run_grobid or args.download_data
     run_grobid_flag = args.run_grobid or args.download_data
     download_data_flag = args.download_data
@@ -580,6 +817,8 @@ def main() -> int:
     # traiteraient le meme DOI en double).
     to_process: list[dict[str, Any]] = []
     skipped_known = 0
+    skipped_prescreen = 0
+    dry_run_retained = 0
     search_fns = (("dryad", search_dryad), ("zenodo", search_zenodo))
 
     for query in queries:
@@ -605,13 +844,45 @@ def main() -> int:
                     if not doi or doi in known_datasets:
                         skipped_known += 1
                         continue
+                    if require_linked_paper and not cand.get("linked_publication_doi"):
+                        skipped_prescreen += 1
+                        if verbose:
+                            print(
+                                f"  [pre-skip {repo}] no_linked_paper {doi} "
+                                f"{(cand.get('dataset_title') or '')[:60]}",
+                                file=sys.stderr,
+                            )
+                        known_datasets.add(doi)
+                        continue
+
+                    text = " ".join(
+                        filter(None, [cand.get("dataset_title"), cand.get("dataset_abstract"), " ".join(cand.get("dataset_keywords") or [])])
+                    )
+                    prescreen = analyze_dataset_first_candidate(
+                        text,
+                        strict_spatial_only=strict_spatial_only,
+                        include_low_priority_domains=args.include_low_priority_domains,
+                    )
+                    if prescreen["dataset_first_score"] < args.min_score or prescreen["dataset_first_decision"].startswith("drop"):
+                        skipped_prescreen += 1
+                        if verbose:
+                            print(
+                                f"  [pre-skip {repo}] score={prescreen['dataset_first_score']:2d} {doi} "
+                                f"{(cand.get('dataset_title') or '')[:60]}",
+                                file=sys.stderr,
+                            )
+                        known_datasets.add(doi)
+                        continue
                     known_datasets.add(doi)
 
                     if args.dry_run:
-                        text = " ".join(filter(None, [cand.get("dataset_title"), cand.get("dataset_abstract")]))
-                        score = analyze_literature_candidate(text)["literature_score"]
+                        dry_run_retained += 1
                         if verbose:
-                            print(f"  [{repo}] score={score} {doi} {(cand.get('dataset_title') or '')[:60]}", file=sys.stderr)
+                            print(
+                                f"  [{repo}] score={prescreen['dataset_first_score']} {doi} "
+                                f"{(cand.get('dataset_title') or '')[:60]}",
+                                file=sys.stderr,
+                            )
                         continue
 
                     to_process.append(cand)
@@ -619,7 +890,12 @@ def main() -> int:
                         break
 
     if args.dry_run:
-        print(json.dumps({"mode": "dataset_first_harvest_dry_run", "already_known_skipped": skipped_known}, indent=2))
+        print(json.dumps({
+            "mode": "dataset_first_harvest_dry_run",
+            "already_known_skipped": skipped_known,
+            "prescreen_skipped": skipped_prescreen,
+            "retained_after_prescreen": dry_run_retained,
+        }, indent=2))
         return 0
 
     # Phase 2: verification/telechargement/GROBID par candidat -- ce sont des
@@ -635,6 +911,9 @@ def main() -> int:
                 min_score=args.min_score,
                 min_size_kb=args.min_dataset_size_kb,
                 max_size_kb=args.max_dataset_size_kb,
+                strict_spatial_only=strict_spatial_only,
+                include_low_priority_domains=args.include_low_priority_domains,
+                require_linked_paper=require_linked_paper,
                 download_pdf_flag=download_pdf_flag,
                 run_grobid_flag=run_grobid_flag,
                 download_data_flag=download_data_flag,
@@ -654,6 +933,9 @@ def main() -> int:
                 min_score=args.min_score,
                 min_size_kb=args.min_dataset_size_kb,
                 max_size_kb=args.max_dataset_size_kb,
+                strict_spatial_only=strict_spatial_only,
+                include_low_priority_domains=args.include_low_priority_domains,
+                require_linked_paper=require_linked_paper,
                 download_pdf_flag=download_pdf_flag,
                 run_grobid_flag=run_grobid_flag,
                 download_data_flag=download_data_flag,
@@ -700,6 +982,7 @@ def main() -> int:
         "mode": "dataset_first_harvest",
         "queries": queries,
         "already_known_skipped": skipped_known,
+        "prescreen_skipped": skipped_prescreen,
         "new_candidates_processed": len(new_records),
         "new_verified_datasets": len(verified_new),
         "new_verified_with_paper_linked": len(paper_linked),

@@ -2,7 +2,7 @@
 title: paper_pallid_bat
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_pallid_bat.rds
   - DataCite_2018_PrimaryProductivityExplainsSize_10_1111_1365_243
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 |---|---|---|---|---|
 | `centroid_size` | `numeric` | continuous | [902.6937, 1171.3787] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont `NPP`, `MinWinTemp`, `TempSeas` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `pallid_bat`, la ou les reponses `centroid_size` viennent du loader papier et/ou des preuves de l article `Primary productivity explains size variation across the Pallid bat's western geographic range`. Les covariables X retenues sont `NPP`, `MinWinTemp`, `TempSeas` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`institution`, `catalog_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -79,6 +79,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Primary pr
 ### Formule - niveau systeme
 
 - formula_used: centroid_size ~ NPP + MinWinTemp + TempSeas
+- Recommended validation: N lignes=182; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=94. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: NPP, MinWinTemp, TempSeas
 - y_term_used: centroid_size
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -217,8 +220,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`pallid_bat` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Kelly2018Primary.tei.xml) montre un dataset de specimens museaux individuels georeferences via GBIF (coupe transversale, T=1), sans mention de revisite d'un meme site. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- la duplication de coordonnees (52%) reflete un regroupement spatial naturel des lieux de capture -- grouper la CV par coordonnee. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Primary productivity explains size variation across the Pallid bat's western geographic range
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=182; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=94. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

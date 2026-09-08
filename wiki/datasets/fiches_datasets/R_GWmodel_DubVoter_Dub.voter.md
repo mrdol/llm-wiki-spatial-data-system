@@ -2,7 +2,7 @@
 title: R_GWmodel_DubVoter_Dub.voter
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_GWmodel_DubVoter_Dub.voter.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [300888.2240334547, 328236.4395205436], y [220662.35184542695, 263404.7994482985]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 - Description source: package R `GWmodel`
@@ -75,6 +75,8 @@ Dataset spatial issu du package R `GWmodel` (`DubVoter`).
 ### Formule — niveau systeme
 
 - formula_used: GenEl2004~DiffAdd+LARent+SC1+Unempl+LowEduc+Age18_24+Age25_44+Age45_64
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: DiffAdd, LARent, SC1, Unempl, LowEduc, Age18_24, Age25_44, Age45_64
 - y_term_used: GenEl2004
 
@@ -222,3 +224,9 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

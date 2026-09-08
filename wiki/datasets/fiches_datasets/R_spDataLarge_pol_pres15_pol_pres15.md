@@ -2,7 +2,7 @@
 title: R_spDataLarge_pol_pres15_pol_pres15
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spDataLarge_pol_pres15_pol_pres15.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [14.222210196621, 24.017616645275], y [49.156478424924, 54.792204330942]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 - Description source: package R `spDataLarge`
@@ -92,6 +92,9 @@ Polish Presidential election 2015 data by gminy and Warsaw borough areal units
 ### Formule — niveau systeme
 
 - formula_used: I_turnout ~ types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: types + I_entitled_to_vote + II_entitled_to_vote + I_voters_voting_by_proxy + I_voters_voting_by_declaration + I_postal_voting_envelopes_received + I_invalid_votes + II_voters_voting_by_proxy
 - y_term_used: I_turnout
 
@@ -220,3 +223,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spDataLarge`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

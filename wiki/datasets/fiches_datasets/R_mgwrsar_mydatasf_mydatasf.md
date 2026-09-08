@@ -2,7 +2,7 @@
 title: R_mgwrsar_mydatasf_mydatasf
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_mgwrsar_mydatasf_mydatasf.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ mydataf is a Simple Feature object with real estate data in south of France.
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 1403 enregistrements dans l’artefact local R_mgwrsar_mydatasf_mydatasf.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [873719.58, 892123.25], y [6295180.18, 6300866.67]; CRS EPSG:2154.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: mydataf is a Simple Feature object with real estate data in south of France.
 - Description source: package R `mgwrsar`
@@ -72,6 +72,8 @@ mydataf is a Simple Feature object with real estate data in south of France.
 ### Formule — niveau systeme
 
 - formula_used: price ~ year + footage + land_area
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: year, footage, land_area
 - y_term_used: price
 
@@ -134,7 +136,7 @@ modeling_evidence:
   equation_family: regression
   model_family: "formule publication confirmee et utilisee"
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Geniaux, G. and Martinetti, D. (2018), meme papier que mydata. Formule confirmee dans la vignette officielle du package ("Estimating GWR and Mixed GWR Models with mgwrsar package: An Introduction with House Price Data"), donnees issues de data.gouv.fr (Demandes de valeurs foncieres)."
+  source_ref: "Geniaux, G. and Martinetti, D. (2018), meme papier que mydata. Formule confirmee dans la vignette officielle du package (\"Estimating GWR and Mixed GWR Models with mgwrsar package: An Introduction with House Price Data\"), donnees issues de data.gouv.fr (Demandes de valeurs foncieres)."
   confidence: medium
 ```
 
@@ -202,3 +204,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `mgwrsar`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

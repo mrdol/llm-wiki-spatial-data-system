@@ -2,7 +2,7 @@
 title: Glossary
 type: glossary
 created: 2026-04-07
-updated: 2026-07-20
+updated: 2026-09-08
 sources: []
 tags: [terminology, style, glossary]
 ---
@@ -284,6 +284,24 @@ Terms that differ between audiences, teams, or locales:
 | `BIT` | French statistical publications | French shorthand corresponding to ILO unemployment definitions |
 
 ---
+
+## Plasmode et validation spatiale (2026-09-08)
+
+- **Plasmode** : simulation dont la fonction de reference est ajustee sur des
+  donnees reelles ; sa verite est connue dans l'experience, pas certifiee pour
+  le phenomene reel. EMCS placebo est un mecanisme distinct, causal.
+- **Motif spatial sans propagation** : structure due aux covariables, a une
+  mauvaise specification ou a la mesure ; sa presence n'identifie pas SAR.
+- **Reference privilegiee** : diagnostic disposant d'informations cachees aux
+  concurrents (Z vraie ou base generatrice) ; exclu des comparaisons equitables.
+- **Moyenne latente sur sites fixes** : cible m(X complet) du pilote, y compris
+  lorsque le concurrent observe un proxy ; a distinguer de E[Y|X observe]
+  dans une population avec erreurs de mesure aleatoires.
+- **Erreur standard Monte Carlo conditionnelle** : dispersion des mesures entre
+  repetitions du bruit, divisee par la racine du nombre de repetitions ; ne
+  couvre pas l'incertitude des sources, du generateur ou des folds fixes.
+
+Voir [[protocole_plasmode_spatial_2026-09-08]].
 
 ## Related Pages
 

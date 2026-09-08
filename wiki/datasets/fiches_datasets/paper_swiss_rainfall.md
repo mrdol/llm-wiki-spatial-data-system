@@ -2,7 +2,7 @@
 title: paper_swiss_rainfall
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_swiss_rainfall.rds
   - Moller_2020_OGC_swiss_rainfall
@@ -80,6 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 ### Formule - niveau systeme
 
 - formula_used: rainfall ~ ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: ogc_000, ogc_030, ogc_060, ogc_090, ogc_120, ogc_150
 - y_term_used: rainfall
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -223,3 +225,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Oblique geographic coordinates as covariates for digital soil mapping
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

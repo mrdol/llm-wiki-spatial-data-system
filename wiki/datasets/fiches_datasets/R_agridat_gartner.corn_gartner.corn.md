@@ -2,7 +2,7 @@
 title: R_agridat_gartner.corn_gartner.corn
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_gartner.corn_gartner.corn.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Yield monitor data from a corn field in Minnesota
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-93.978422, -93.973494], y [43.920994, 43.927265]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: colonnes date/time presentes mais traitees comme attributs transactionnels
 - Source description: Yield monitor data from a corn field in Minnesota
 - Description source: package R `agridat`
@@ -70,6 +70,9 @@ Yield monitor data from a corn field in Minnesota
 ### Formule — niveau systeme
 
 - formula_used: mass ~ dist + elev
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: dist + elev
 - y_term_used: mass
 
@@ -198,3 +201,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

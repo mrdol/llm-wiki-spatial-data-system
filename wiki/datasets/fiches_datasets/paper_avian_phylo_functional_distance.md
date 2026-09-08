@@ -2,7 +2,7 @@
 title: paper_avian_phylo_functional_distance
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_avian_phylo_functional_distance.rds
   - DataCite_2023_GlobalVariationInThe_10_1111_geb_1376
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Global var
 - Candidate X variables in local artifact: `PDn`, `PDsd`, `MPDn`, `MPDsd`, `MPFDn`, `MPFDsd`, `PDe`, `MPDe`, `MPFDe`, `abs_lat`, `MPDses`, `MPFDses`, `sp_richn`
 - Candidate X count in local artifact: 13
 - Candidate X typology: continuous
-- Published X variables from paper: MPFD_SES (taille d'effet standardisee de la distance fonctionnelle moyenne par paire, MPFD, calculee via analyse en coordonnees principales sur les traits AVONET), abs_latitude (latitude absolue du centroide de l'assemblage), proportion_migratory_species (proportion d'especes migratrices dans l'assemblage, basee sur Dufour et al. 2019 -- NON incluse dans ce depot, doit etre reconstruite depuis une source externe)
+- Published X variables from paper: MPFD_SES, abs_latitude, proportion_migratory_species
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `long`, `lat`
 - Identifier columns (excluded from X candidates): `site`, `site_num`
@@ -72,8 +72,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Global var
 ### Formule - niveau publication
 
 - formula_pub: PD_SES ~ MPFD_SES * abs_latitude + proportion_migratory_species [modele d'analyse de cheminement (path analysis / SEM, fonction cfa du package lavaan), teste en 3 variantes emboitees : (1) interaction PD_SES:abs_latitude + proportion migratrice, (2) sans interaction, (3) sans proportion migratrice ; toutes les variables standardisees moyenne 0 / ecart-type 1 avant ajustement]
-- x_terms_pub: MPFD_SES (taille d'effet standardisee de la distance fonctionnelle moyenne par paire, MPFD, calculee via analyse en coordonnees principales sur les traits AVONET), abs_latitude (latitude absolue du centroide de l'assemblage), proportion_migratory_species (proportion d'especes migratrices dans l'assemblage, basee sur Dufour et al. 2019 -- NON incluse dans ce depot, doit etre reconstruite depuis une source externe)
-- y_term_pub: PD_SES (taille d'effet standardisee de la diversite phylogenetique de Faith, calculee par comparaison a des assemblages nuls bases sur les biomes/realms de Dinerstein et al. 2017)
+- x_terms_pub: MPFD_SES, abs_latitude, proportion_migratory_species
+- y_term_pub: PD_SES
 - Reference publication: Yaxley, K.J., Skeels, A. & Foley, R.A. (2024), Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints, Global Ecology and Biogeography, doi:10.1111/geb.13762. CSV original (standerdised_effect_sizes.csv) telecharge directement depuis Dryad (10.5061/dryad.05qfttf8t) -- pas une reconstruction, N=17099 assemblages d'oiseaux georeferences (grille mondiale), verifie identique au N=17,097 degres de liberte cite dans le texte du papier (correlation MPFD/dispersion fonctionnelle, df=17097 -> N=17099 sites). Le papier ajuste un modele de path analysis (lavaan::cfa) sur PD_SES ~ MPFD_SES * abs_latitude + proportion migratrice ; la proportion d'especes migratrices (Dufour et al. 2019) n'est pas incluse dans ce depot Dryad (source externe requise, cf. README) et l'interaction/la structure SEM ne sont pas reproductibles telles quelles hors lavaan. formula_used retient la relation directe documentee par le titre du papier (PD_SES ~ MPFD_SES) plus abs_lat, en regression lineaire simple -- une simplification documentee, pas le modele SEM du papier. sp_richn (richesse specifique de l'assemblage) ajoutee dans ml_formula comme covariable de controle disponible localement, non testee comme telle dans le papier.
 
 ### Statut regression canonique
@@ -87,6 +87,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Global var
 ### Formule - niveau systeme
 
 - formula_used: PDses ~ MPFDses + abs_lat
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: MPFDses, abs_lat
 - y_term_used: PDses
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -107,8 +109,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PDses ~ MPFDses + abs_lat"
-    response: "PD_SES (taille d'effet standardisee de la diversite phylogenetique de Faith, calculee par comparaison a des assemblages nuls bases sur les biomes/realms de Dinerstein et al. 2017)"
-    predictors: ["MPFD_SES (taille d'effet standardisee de la distance fonctionnelle moyenne par paire, MPFD, calculee via analyse en coordonnees principales sur les traits AVONET)", "abs_latitude (latitude absolue du centroide de l'assemblage)", "proportion_migratory_species (proportion d'especes migratrices dans l'assemblage, basee sur Dufour et al. 2019 -- NON incluse dans ce depot, doit etre reconstruite depuis une source externe)"]
+    response: "PD_SES"
+    predictors: ["MPFD_SES", "abs_latitude", "proportion_migratory_species"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -230,3 +232,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

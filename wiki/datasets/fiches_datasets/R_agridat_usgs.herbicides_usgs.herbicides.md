@@ -2,7 +2,7 @@
 title: R_agridat_usgs.herbicides_usgs.herbicides
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_usgs.herbicides_usgs.herbicides.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Concentrations of selected herbicides and degradation products determined by lab
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [82.578611111111, 97.177222222222], y [38.092222222222, 45.406944444444]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Concentrations of selected herbicides and degradation products determined by laboratory method analysis code GCS for water samples collected from 51 streams in nine Midwestern States, 2002.
 - Description source: package R `agridat`
@@ -79,6 +79,8 @@ Concentrations of selected herbicides and degradation products determined by lab
 ### Formule — niveau systeme
 
 - formula_used: atrazine ~ sampletype + date + hour + ametryn + T
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: categorical
 - x_terms_used: sampletype + date + hour + ametryn + T
 - y_term_used: atrazine
 
@@ -208,3 +210,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

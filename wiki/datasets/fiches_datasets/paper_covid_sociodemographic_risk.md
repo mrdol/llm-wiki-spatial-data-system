@@ -2,7 +2,7 @@
 title: paper_covid_sociodemographic_risk
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_covid_sociodemographic_risk.rds
   - DatasetFirst_10_5061_dryad_4j0zpc8j1
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial Mo
 - Topic: epidemiologie / mortalite COVID-19 et facteurs sociodemographiques
 - Observation unit: comte (county), Etats-Unis continentaux
 - Observed population: 3068 comtes CONUS, deces cumules COVID-19 ajustes a la population au 2022-04-27
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-124.21016217461, -67.553887853635], y [25.53896375, 48.86434775]; CRS WGS 84.
 - Temporal context: none (cross-sectional)
 - Source description: Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial Mo
 - Candidate X variables in local artifact: `STATE_FIPS`, `CNTY_FIPS`, `RPL_THEME1`, `RPL_THEME2`, `RPL_THEME3`, `RPL_THEME4`, `pct_voted_biden_2020`, `population_density`, `broadband_access`, `Age_over_65`, `vaccination_pct_apr2022`, `size`, `Obesity`, `Unemployed`, `Diabetes`, `Food_Insecurity`, `Associations`, `Uninsured_Adults`
 - Candidate X count in local artifact: 18
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: RPL_THEME1-4 (les 4 themes CDC SVI 2018 : statut socio-economique, composition menage/handicap, statut minoritaire/langue, logement/transport), pct_voted_biden_2020 (pourcentage de vote democrate 2020, proxy ideologie politique), vaccination_pct_apr2022 (taux de vaccination au 2022-04-27), population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity (CDC County Health Rankings), broadband_access, Age_over_65
+- Published X variables from paper: RPL_THEME1-4, pct_voted_biden_2020, vaccination_pct_apr2022, population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity, broadband_access, Age_over_65
 - Published X count: 7
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `FIPS`, `NAME`, `STATE_NAME`
@@ -78,8 +78,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial Mo
 ### Formule - niveau publication
 
 - formula_pub: death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65 [approche 1 : regression multilineaire de Poisson par region HHS + niveau national (10 modeles) ; approche 2 : Geographically Weighted Random Forest (GWRF), technique novatrice du papier, ajustee separement pour 3 vagues pandemiques (Alpha/Delta/Omicron)]
-- x_terms_pub: RPL_THEME1-4 (les 4 themes CDC SVI 2018 : statut socio-economique, composition menage/handicap, statut minoritaire/langue, logement/transport), pct_voted_biden_2020 (pourcentage de vote democrate 2020, proxy ideologie politique), vaccination_pct_apr2022 (taux de vaccination au 2022-04-27), population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity (CDC County Health Rankings), broadband_access, Age_over_65
-- y_term_pub: death_rate_per_100k (deces cumules COVID-19 par comte, ajustes a la population, coupe transversale au 2022-04-27)
+- x_terms_pub: RPL_THEME1-4, pct_voted_biden_2020, vaccination_pct_apr2022, population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity, broadband_access, Age_over_65
+- y_term_pub: death_rate_per_100k
 - Reference publication: Seamon, E., Ridenhour, B.J., Miller, C.R. & Johnson-Leung, J. (2023), Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality, medRxiv, doi:10.1101/2023.07.21.23292785. Shapefile UScounties_conus.shp + 8 fichiers de covariables CSV telecharges directement depuis Dryad (10.5061/dryad.4j0zpc8j1, repo GitHub du papier archive sur Dryad) -- pas une reconstruction, jointure sur FIPS via data/raw/papers/DatasetFirst_10_5061_dryad_4j0zpc8j1/build_county_covid_table.py (script documente, aucune valeur inventee). Les 15 covariables correspondent exactement a la Table 1 du papier. Le papier ajuste 3 modeles distincts par vague pandemique (Alpha/Delta/Omicron) plus un modele national/regional Poisson -- ce loader utilise une coupe transversale unique en fin de periode commune aux sources (deces cumules + vaccination au 2022-04-27) plutot que de reproduire les 3 vagues separement, reduction de perimetre assumee et documentee.
 
 ### Statut regression canonique
@@ -93,6 +93,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial Mo
 ### Formule - niveau systeme
 
 - formula_used: death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: RPL_THEME1, RPL_THEME2, RPL_THEME3, RPL_THEME4, pct_voted_biden_2020, vaccination_pct_apr2022, population_density, Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity, broadband_access, Age_over_65
 - y_term_used: death_rate_per_100k
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -113,8 +115,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65"
-    response: "death_rate_per_100k (deces cumules COVID-19 par comte, ajustes a la population, coupe transversale au 2022-04-27)"
-    predictors: ["RPL_THEME1-4 (les 4 themes CDC SVI 2018 : statut socio-economique, composition menage/handicap, statut minoritaire/langue, logement/transport)", "pct_voted_biden_2020 (pourcentage de vote democrate 2020, proxy ideologie politique)", "vaccination_pct_apr2022 (taux de vaccination au 2022-04-27)", "population_density", "Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity (CDC County Health Rankings)", "broadband_access", "Age_over_65"]
+    response: "death_rate_per_100k"
+    predictors: ["RPL_THEME1-4", "pct_voted_biden_2020", "vaccination_pct_apr2022", "population_density", "Obesity, Unemployed, Uninsured_Adults, Associations, Diabetes, Food_Insecurity", "broadband_access", "Age_over_65"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -240,3 +242,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_desert_tortoise_genotype_niche
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_desert_tortoise_genotype_niche.rds
   - DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_desert_tortoise_genotype_niche
 - Observation unit: observation spatiale du dataset "Local ecological niche models, genotype associations and environmental data for desert tortoises."
 - Observed population: ModÃ¨les de niche Ã©cologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du dÃ©sert
 - Geographic context: etendue sf: x [-1814729.18202096, -1462765.51510254], y [1243443.86900469, 1619405.05866755]
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 |---|---|---|---|---|
 | `GenAssociation` | `numeric` | rate | [0.0025, 0.9977] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `desert_tortoise_genotype_niche`, la ou les reponses `GenAssociation` viennent du loader papier et/ou des preuves de l article `Local niche differences predict genotype associations in sister taxa of desert tortoise`. Les covariables X retenues sont `CLIM1`, `CLIM3`, `LC`, `PHYS1`, `PHYS2`, `SOIL2`, `SOIL3`, `VEG1`, `VEG3`. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_response ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `desert_tortoise_genotype_niche`, la ou les reponses `GenAssociation` viennent du loader papier et/ou des preuves de l article `Local niche differences predict genotype associations in sister taxa of desert tortoise`. Les covariables X retenues sont `CLIM1`, `CLIM3`, `LC`, `PHYS1`, `PHYS2`, `SOIL2`, `SOIL3`, `VEG1`, `VEG3`. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -69,7 +69,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 
 - formula_pub: GenAssociation ~ CLIM1 + CLIM3 + LC + PHYS1 + PHYS2 + SOIL2 + SOIL3 + VEG1 + VEG3 [surface de sortie du modele de niche local original, pas une regression brute]
 - x_terms_pub: CLIM1, CLIM3, LC, PHYS1, PHYS2, SOIL2, SOIL3, VEG1, VEG3
-- y_term_pub: association genotype-habitat (surface derivee du modele de niche local)
+- y_term_pub: association genotype-habitat
 - Reference publication: Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
 
 ### Statut regression canonique
@@ -155,27 +155,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_derived_response"
-  benchmark_task: "derived_model_output"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees)"
-  reason: "GenAssociation est une sortie du modele de niche local original (surface interpolee), pas des observations genotype-habitat brutes -- meme categorie que beta0_gwr dans ce fichier."
+  missing_items: "retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  reason: "retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
 ```
 
-- Decision: not_ready_derived_response
-- Manque principal: retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees)
-- Raison: GenAssociation est une sortie du modele de niche local original (surface interpolee), pas des observations genotype-habitat brutes -- meme categorie que beta0_gwr dans ce fichier.
+- Decision: not_ready_main_benchmark
+- Manque principal: retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
+- Raison: retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_derived_response"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -226,3 +226,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Local niche differences predict genotype associations in sister taxa of desert tortoise
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

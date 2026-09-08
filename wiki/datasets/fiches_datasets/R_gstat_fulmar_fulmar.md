@@ -2,7 +2,7 @@
 title: R_gstat_fulmar_fulmar
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_fulmar_fulmar.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ Airborne counts of Fulmaris glacialis during the Aug/Sept 1998 and 1999 flights 
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 1324 enregistrements dans l’artefact local R_gstat_fulmar_fulmar.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [476209.6, 739041.8], y [5694947, 6150942]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Airborne counts of Fulmaris glacialis during the Aug/Sept 1998 and 1999 flights on the Dutch (Netherlands) part of the North Sea (NCP, Nederlands Continentaal Plat).
 - Description source: package R `gstat`
@@ -70,6 +70,8 @@ Airborne counts of Fulmaris glacialis during the Aug/Sept 1998 and 1999 flights 
 ### Formule — niveau systeme
 
 - formula_used: fulmar ~ depth + coast
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: depth, coast
 - y_term_used: fulmar
 
@@ -199,3 +201,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

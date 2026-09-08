@@ -2,7 +2,7 @@
 title: paper_hummingbird_sdm
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_hummingbird_sdm.rds
   - DataCite_2023_IntegratedSpeciesDistributionModels_10_1111_geb_1379
@@ -81,6 +81,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Integrated
 ### Formule - niveau systeme
 
 - formula_used: log1p_species_richness ~ annual_mean_temperature + mean_diurnal_range + annual_precipitation + precipitation_seasonality + evi_annual
+- Formula used evidence: reconstructed_from_data
+- benchmark_task_note: log1p_species_richness est une transformation logarithmique de richesse, pas un comptage Poisson brut.
+- Selected Y evidence: log1p_species_richness est une transformation logarithmique de richesse, pas un comptage Poisson brut.
+- Selected Y typology: continuous
 - x_terms_used: annual_mean_temperature, mean_diurnal_range, annual_precipitation, precipitation_seasonality, evi_annual
 - y_term_used: log1p_species_richness
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -224,3 +228,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Integrated species distribution models to account for sampling biases and improve range-wide occurrence predictions
 
+## Curation documentée — 2026-09-07
+
+La formule executee est une adaptation de la source, distincte des modeles publies : reponse log1p_species_richness derivee (agregation continue de comptages d'occurrence reels, pas une sortie de modele) ; ne reproduit pas les SDM PO/PA integres complets du papier et n'inclut pas cloud cover/TRI
+
+Typologie de la reponse selectionnee : continuous. log1p_species_richness est une transformation logarithmique de richesse, pas un comptage Poisson brut.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: R_GWmodel_USelect_USelect2004
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_GWmodel_USelect_USelect2004.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.208955488165, -67.554446615488], y [25.53857421875, 48.864316940308]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package R `GWmodel` (`USelect`).
 - Description source: package R `GWmodel`
@@ -72,6 +72,8 @@ Dataset spatial issu du package R `GWmodel` (`USelect`).
 ### Formule — niveau systeme
 
 - formula_used: winner ~ unemploy + pctcoled + PEROVER65 + pcturban + WHITE
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: categorical
 - x_terms_used: unemploy, pctcoled, PEROVER65, pcturban, WHITE
 - y_term_used: winner
 
@@ -200,3 +202,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

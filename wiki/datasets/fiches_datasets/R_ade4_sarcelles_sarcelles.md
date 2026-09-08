@@ -2,7 +2,7 @@
 title: R_ade4_sarcelles_sarcelles
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_sarcelles_sarcelles.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ The data frame ‘sarcelles$tab’ contains the number of the winter teals (_Ana
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_sarcelles_sarcelles
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 14 enregistrements dans l’artefact local R_ade4_sarcelles_sarcelles.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [29.41123125218, 205.768050226718], y [31.97192186955, 169.629752354377]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The data frame ‘sarcelles$tab’ contains the number of the winter teals (_Anas C. Crecca_) for which the ring was retrieved in the area _i_ during the month _j_ (_n_=3049).
 - Description source: package R `ade4`
@@ -208,3 +208,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

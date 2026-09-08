@@ -2,7 +2,7 @@
 title: R_spData_properties_properties
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_properties_properties.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [23.704688991728, 23.778956991646], y [37.95137598729, 38.027182987125]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A dataset of apartments in the municipality of Athens for 2017. Point location of the properties is given together with their main characteristics and the distance to the closest metro/train station.
 - Description source: package R `spData`
@@ -71,6 +71,9 @@ A dataset of apartments in the municipality of Athens for 2017. Point location o
 ### Formule — niveau systeme
 
 - formula_used: price ~ size + age + dist_metro
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: size + age + dist_metro
 - y_term_used: price
 
@@ -199,3 +202,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

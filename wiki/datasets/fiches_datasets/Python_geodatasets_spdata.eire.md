@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.eire
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.eire.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_spdata.eire
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 26 enregistrements dans l’artefact local Python_geodatasets_spdata.eire.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-101.792318251898, 125.285666916484], y [-70.305, 72.45]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`eire`).
 - Description source: package Python `geodatasets`
@@ -203,3 +203,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

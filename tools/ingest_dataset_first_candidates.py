@@ -128,6 +128,11 @@ def ingestion_record(rec: dict[str, Any]) -> dict[str, Any] | None:
     dataset_doi = normalize_doi(rec.get("dataset_doi"))
     paper_resolved = bool(rec.get("paper_resolved"))
     paper_doi = normalize_doi(rec.get("paper_doi")) if paper_resolved else ""
+    if paper_doi.startswith("10.5061/dryad."):
+        # A related Dryad dataset is not a resolved article, even when an older
+        # discovery record incorrectly marked paper_resolved=True.
+        paper_resolved = False
+        paper_doi = ""
     dataset_title = clean_text(rec.get("dataset_title"))
     paper_title = clean_text(rec.get("paper_title")) if paper_resolved else f"[dataset-first, publication non resolue] {dataset_title}"
 

@@ -2,7 +2,7 @@
 title: paper_coral_solenosmilia
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_coral_solenosmilia.rds
   - DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_coral_solenosmilia
 - Observation unit: observation spatiale du dataset "Climate change effects on deep-water corals - habitat suitability model input data"
 - Observed population: ModÃ¨les de suitabilitÃ© d'habitat (HSM) pour coraux profonds en Nouvelle-ZÃ©lande avec Random Forests et Boosted Regression Trees ; prÃ©dictions spatiales sous changement climatique ; correspond au pÃ©rimÃ¨tre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction
 - Geographic context: etendue sf: x [-179.996833, 179.993454], y [-56.3349991, -27.208666]
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 |---|---|---|---|---|
 | `pa` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `coral_solenosmilia`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OXY_C`, `PBO_C`, `SFR_OARG_C` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `coral_solenosmilia`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OXY_C`, `PBO_C`, `SFR_OARG_C` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -87,8 +87,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 
 ### Formule - niveau systeme
 
-- formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OXY_C + PBO_C + SFR_OARG_C + ... (2 covariables au total, voir Candidate X variables)
-- x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OXY_C, PBO_C, SFR_OARG_C
+- formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OXY_C + PBO_C + SFR_OARG_C + SO_C + OM_CAL3_C
+- Formula used evidence: generated_system_formula
+- x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OXY_C, PBO_C, SFR_OARG_C, SO_C, OM_CAL3_C
 - y_term_used: pa
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
@@ -164,23 +165,47 @@ benchmark_readiness:
   benchmark_task: "classification_binary_presence_absence"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "idem coral_bathypathes (Y binaire uniquement, estimateurs fixes sur random_forest/random_forest_spatial)"
-  reason: "Meme source/structure que coral_bathypathes."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Bloc estimator_eligibility complete le 2026-09-08. Ancien blocage 'current_package_regression_only' resolu : c'etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', jamais mise a jour apres l'ajout du routage binaire/comptage cette semaine) -- corrige a la source, le garde-fou selected_response_typology_unresolved (base sur la vraie typologie resolue) prend desormais seul le relais, correctement, pour les cas multi-classes genuinement non supportes."
 ```
 
 - Decision: ready
-- Manque principal: idem coral_bathypathes (Y binaire uniquement, estimateurs fixes sur random_forest/random_forest_spatial)
-- Raison: Meme source/structure que coral_bathypathes.
+- Manque principal: aucun blocage automatique detecte
+- Raison: Bloc estimator_eligibility complete le 2026-09-08. Ancien blocage 'current_package_regression_only' resolu : c'etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', jamais mise a jour apres l'ajout du routage binaire/comptage cette semaine) -- corrige a la source, le garde-fou selected_response_typology_unresolved (base sur la vraie typologie resolue) prend desormais seul le relais, correctement, pour les cas multi-classes genuinement non supportes.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: generated_candidate
+      source_ref: "Routage binaire/comptage ajoute au harnais cette semaine (glm(family=binomial()) sous le nom ols) ; verifie par la suite de tests du package."
+      notes: "Aucune methode publiee documentee pour ce papier (formula_pub/modeling_evidence: pending) -- eligibilite basee sur la capacite technique du harnais, pas sur une preuve de la publication."
+    - estimator: gam_spatial
+      basis: generated_candidate
+      source_ref: "Routage binaire ajoute au harnais cette semaine (mgcv::gam(family=binomial()))."
+      notes: "Meme reserve que ci-dessus : capacite technique, pas preuve documentee du papier source."
+    - estimator: random_forest
+      basis: published_model
+      source_ref: "Description de la fiche (Observed population) : 'Modeles de suitabilite d'habitat (HSM) pour coraux profonds en Nouvelle-Zelande avec Random Forests et Boosted Regression Trees' -- Random Forest est explicitement le modele publie."
+      notes: "Route technique (ranger, mode classification, response_typologies inclut binary depuis cette semaine) alignee sur la methode documentee du papier."
+    - estimator: xgboost
+      basis: published_model
+      source_ref: "Description de la fiche (Observed population) mentionne des Boosted Regression Trees (BRT) -- xgboost est l'estimateur boosting le plus proche disponible dans le harnais (BRT et gradient boosting partagent le meme principe, non strictement identiques)."
+      notes: "Route technique (mode classification, response_typologies inclut binary depuis cette semaine) analogue a la methode BRT documentee du papier, sans etre l'implementation exacte utilisee par les auteurs."
+    - estimator: sar_probit
+      basis: generated_candidate
+      source_ref: "Nouvel estimateur ajoute cette semaine specifiquement pour la reponse binaire (ProbitSpatial::ProbitSpatialFit, DGP=SAR) -- pertinent ici car 'pa' (presence/absence) est un cas d'usage typique de ce modele (SDM spatial binaire)."
+      notes: "Capacite technique du harnais, pas preuve documentee du papier source."
+    - estimator: sem_probit
+      basis: generated_candidate
+      source_ref: "Nouvel estimateur ajoute cette semaine specifiquement pour la reponse binaire (ProbitSpatial::ProbitSpatialFit, DGP=SEM)."
+      notes: "Capacite technique du harnais, pas preuve documentee du papier source."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08. Ancien blocage 'current_package_regression_only' resolu : c'etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', jamais mise a jour apres l'ajout du routage binaire/comptage cette semaine) -- corrige a la source, le garde-fou selected_response_typology_unresolved (base sur la vraie typologie resolue) prend desormais seul le relais, correctement, pour les cas multi-classes genuinement non supportes."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -231,3 +256,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?
 
+## Curation documentée — 2026-09-07
+
+La formule systeme enumere les 14 covariables deja declarees dans Candidate X variables et presentes dans le RDS. L’ancienne ellipse etait un defaut du rendu; cette liste demeure une proposition systeme, sans preuve de specification publiee et sans promotion. Sa pertinence scientifique reste en revue.
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

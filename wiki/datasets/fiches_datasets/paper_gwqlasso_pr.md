@@ -2,7 +2,7 @@
 title: paper_gwqlasso_pr
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_gwqlasso_pr.rds
   - DataCite_2022_GeographicallyWeightedQuantileLasso_10_1590_1982_7849rac2022200387_en
@@ -32,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Yield_kg_ha`
-- Candidate Y typology: categorical
+- Candidate Y typology: continuous (corrige 2026-09-08, voir note en fin de fiche)
 - Candidate X variables in local artifact: `Year`, `name_norm`, `precip_annual_mm`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)
+- Published X variables from paper: SPI_1month
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `muni_lon`, `muni_lat`
 - Identifier columns (excluded from X candidates): `Municipality`, `State`, `station_id`
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `Yield_kg_ha` | `character` | categorical | n/a | 0% |
+| `Yield_kg_ha` | `numeric` | continuous | [146, 6988] | 25.4% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `gwqlasso_pr`, la ou les reponses `Yield_kg_ha` viennent du loader papier et/ou des preuves de l article `An application of geographically weighted quantile lasso to weather index insurance design`. Les covariables X retenues sont `precip_annual_mm` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`muni_lon`, `muni_lat`), identifiants (`Municipality`, `State`, `station_id`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `gwqlasso_pr`, la ou les reponses `Yield_kg_ha` viennent du loader papier et/ou des preuves de l article `An application of geographically weighted quantile lasso to weather index insurance design`. Les covariables X retenues sont `precip_annual_mm` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`muni_lon`, `muni_lat`), identifiants (`Municipality`, `State`, `station_id`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 ### Formule - niveau publication
 
 - formula_pub: Yield_kg_ha ~ SPI_1month [Geographically Weighted Quantile LASSO (GWQLasso), regression quantile geographiquement ponderee avec selection de variables Lasso]
-- x_terms_pub: SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)
-- y_term_pub: Yield_kg_ha (rendement du soja, kg/ha, niveau municipal)
+- x_terms_pub: SPI_1month
+- y_term_pub: Yield_kg_ha
 - Reference publication: Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Le depot Dataverse (10.7910/DVN/UEZMJT) contient les donnees BRUTES completes (1030 municipalites/3 Etats, 78 stations) plus larges que l'echantillon exact du papier (41/41, Parana uniquement, non identifie dans les metadonnees) -- decision utilisateur 2026-08-15 : utiliser les donnees completes decoupees par Etat plutot que deviner le sous-echantillon. precip_annual_mm (precipitation annuelle de la station la plus proche) est un PROXY SIMPLIFIE du SPI publie (voir README_source.txt pour la methodologie complete de geocodage/jointure), PAS une reproduction exacte.
 
 ### Statut regression canonique
@@ -77,6 +77,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 ### Formule - niveau systeme
 
 - formula_used: Yield_kg_ha ~ precip_annual_mm
+- Recommended validation: N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous (corrige 2026-09-08)
 - x_terms_used: precip_annual_mm
 - y_term_used: Yield_kg_ha
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -87,8 +90,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 formula_candidates:
   univariate:
     formula: "Yield_kg_ha ~ precip_annual_mm"
-    response: "Yield_kg_ha (rendement du soja, kg/ha, niveau municipal)"
-    predictors: ["SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)"]
+    response: "Yield_kg_ha"
+    predictors: ["SPI_1month"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -149,27 +152,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "precip_annual_mm est un proxy simplifie (station la plus proche, total annuel) du SPI 1-mois publie, pas une reproduction exacte -- 7% de precip_annual_mm manquant (station la plus proche sans annee fiable) ; N=17157 vs echantillon exact du papier (41 municipalites/annees non identifiees) inconnu -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)"
-  reason: "Y continu reel (Yield_kg_ha), municipalites geocodees via reference IBGE publique (44591/44592 matchees), precipitation reelle jointe par station la plus proche. Decoupe Etat du Parana depuis le depot brut complet (1030 municipalites/3 Etats) sur decision utilisateur 2026-08-15, evite le sous-echantillonnage."
+  missing_items: "N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: precip_annual_mm est un proxy simplifie (station la plus proche, total annuel) du SPI 1-mois publie, pas une reproduction exacte -- 7% de precip_annual_mm manquant (station la plus proche sans annee fiable) ; N=17157 vs echantillon exact du papier (41 municipalites/annees non identifiees) inconnu -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
-- Raison: Y continu reel (Yield_kg_ha), municipalites geocodees via reference IBGE publique (44591/44592 matchees), precipitation reelle jointe par station la plus proche. Decoupe Etat du Parana depuis le depot brut complet (1030 municipalites/3 Etats) sur decision utilisateur 2026-08-15, evite le sous-echantillonnage.
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -216,8 +219,82 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`gwqlasso_pr` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Correction typologie Y -- 2026-09-08
+
+Bug corrige : `Yield_kg_ha` etait stocke en `character` avec des valeurs numeriques valides mais aussi des placeholders de donnee manquante encodes en texte (`"..."`, `"-"`), ce qui declenchait a tort une classification 'categorical' (Plage: n/a) au lieu de 'continuous'. Conversion en `numeric` (placeholders -> NA) appliquee au RDS local le 2026-09-08 : 12802/17157 valeurs valides, plage [146, 6988] kg/ha. `Candidate Y typology`, `Detail Y` et `Selected Y typology` ci-dessus sont mis a jour en consequence ; `formula_used`/`x_terms_used` restaient deja corrects (aucune dependance a la typologie erronee).
+
+## ATTENTION -- ce jeu de donnees a ete decoupe en sous-fiches, NE PAS supprimer
+
+Ce panel complet a ete decoupe en 43 fiches (session 2026-09-08) de granularite plus fine (coupes annuelles
+et/ou sous-panels groupes), pour elargir le nombre de jeux de donnees deja benchmarkables
+sans casser la validite spatiale. **Le parent ET tous les enfants doivent etre conserves** --
+ce ne sont pas des doublons :
+- Le PARENT (cette fiche) est le panel complet, utile pour toute analyse necessitant
+  l'integralite des unites spatiales x periodes ensemble (ex. modele spatial-panel avec
+  effets fixes, methode Elhorst 2010).
+- Chaque ENFANT est un sous-ensemble temporel du meme panel (voir la liste ci-dessous),
+  utile individuellement comme jeu de donnees benchmarkable supplementaire (coupe
+  transversale ou sous-panel reduit selon le cas).
+
+Si un futur agent (LLM ou humain) envisage de supprimer l'une de ces fiches en pensant
+qu'elle fait doublon avec une autre, VERIFIER D'ABORD cette note et la fiche
+`wiki/eval_queue.md` / les sessions d'audit du 2026-09-07/08 avant toute suppression.
+
+Sous-fiches (43 fiches (session 2026-09-08)) :
+- [[paper_gwqlasso_pr_1974]]
+- [[paper_gwqlasso_pr_1975]]
+- [[paper_gwqlasso_pr_1976]]
+- [[paper_gwqlasso_pr_1977]]
+- [[paper_gwqlasso_pr_1978]]
+- [[paper_gwqlasso_pr_1979]]
+- [[paper_gwqlasso_pr_1980]]
+- [[paper_gwqlasso_pr_1981]]
+- [[paper_gwqlasso_pr_1982]]
+- [[paper_gwqlasso_pr_1983]]
+- [[paper_gwqlasso_pr_1984]]
+- [[paper_gwqlasso_pr_1985]]
+- [[paper_gwqlasso_pr_1986]]
+- [[paper_gwqlasso_pr_1987]]
+- [[paper_gwqlasso_pr_1988]]
+- [[paper_gwqlasso_pr_1989]]
+- [[paper_gwqlasso_pr_1990]]
+- [[paper_gwqlasso_pr_1991]]
+- [[paper_gwqlasso_pr_1992]]
+- [[paper_gwqlasso_pr_1993]]
+- [[paper_gwqlasso_pr_1994]]
+- [[paper_gwqlasso_pr_1995]]
+- [[paper_gwqlasso_pr_1996]]
+- [[paper_gwqlasso_pr_1997]]
+- [[paper_gwqlasso_pr_1998]]
+- [[paper_gwqlasso_pr_1999]]
+- [[paper_gwqlasso_pr_2000]]
+- [[paper_gwqlasso_pr_2001]]
+- [[paper_gwqlasso_pr_2002]]
+- [[paper_gwqlasso_pr_2003]]
+- [[paper_gwqlasso_pr_2004]]
+- [[paper_gwqlasso_pr_2005]]
+- [[paper_gwqlasso_pr_2006]]
+- [[paper_gwqlasso_pr_2007]]
+- [[paper_gwqlasso_pr_2008]]
+- [[paper_gwqlasso_pr_2009]]
+- [[paper_gwqlasso_pr_2010]]
+- [[paper_gwqlasso_pr_2011]]
+- [[paper_gwqlasso_pr_2012]]
+- [[paper_gwqlasso_pr_2013]]
+- [[paper_gwqlasso_pr_2014]]
+- [[paper_gwqlasso_pr_2015]]
+- [[paper_gwqlasso_pr_2016]]
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: An application of geographically weighted quantile lasso to weather index insurance design
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=17157; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=16758. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

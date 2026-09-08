@@ -2,7 +2,7 @@
 title: paper_li_energy_price_co2_china
 type: dataset
 created: 2026-08-09
-updated: 2026-08-10
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot.gpkg
   - DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot
@@ -50,7 +50,7 @@ Les deux methodes convergent integralement. Confiance elevee, mais ce n'est pas 
 - Coordinates (excluded from X): `X`, `Y` (centroides projetes derives de la geometrie polygonale provinciale)
 - Identifier columns (excluded from X): `id_province`, `id_map`, `region`, `province_name`, `year` (variable temporelle)
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `paper_li_energy_price_co2_china`, la réponse retenue est `CO2`, utilisée dans le papier sous forme logarithmique pour étudier les émissions provinciales de carbone. Les covariables X retenues sont `EP`, `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU` et `ENS`, car elles correspondent à la spécification empirique publiée sur le prix de l'énergie et les facteurs socio-économiques associés. Les identifiants administratifs, les champs temporels et les géométries sont exclus de X. Statut benchmark actuel : ready_spatial_slice_2016 ; la version package utilise la coupe spatiale 2016.
+> Selection Y/X (paper-loader / curated evidence) : Pour `paper_li_energy_price_co2_china`, la réponse retenue est `CO2`, utilisée dans le papier sous forme logarithmique pour étudier les émissions provinciales de carbone. Les covariables X retenues sont `EP`, `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU` et `ENS`, car elles correspondent à la spécification empirique publiée sur le prix de l'énergie et les facteurs socio-économiques associés. Les identifiants administratifs, les champs temporels et les géométries sont exclus de X. Statut benchmark actuel : manual_review; le RDS local contient desormais le panel complet (450 obs, restaure le 2026-09-08 -- il ne contenait auparavant que la coupe 2016).
 
 #### Detail Y
 
@@ -75,7 +75,7 @@ Les deux methodes convergent integralement. Confiance elevee, mais ce n'est pas 
 ### Formule — niveau publication
 
 - formula_pub: `ln(CO2)_it = alpha_i + gamma*ln(EP)_it + beta*Control_it + rho*W*ln(CO2)_it + eta_t + xi_t + epsilon_t` (SAR-lag, eqn 5), variante SAR-error `ln(CO2)_it = alpha_i + gamma*ln(EP)_it + beta*Control_it + lambda*W*upsilon_it + eta_t + xi_t + epsilon_t` (eqn 6), variante dynamique avec retard spatio-temporel (eqn 7)
-- x_terms_pub: `ln(EP)`, `Control` = {POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS} (eqn 3)
+- x_terms_pub: `ln(EP)`, `Control` = {POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS}
 - y_term_pub: `ln(CO2)`
 - Reference publication: Li, K., Fang, L., He, Q. (2020) "The Impact of Energy Price on CO2 Emissions in China: A Spatial Econometric Analysis", Science of The Total Environment 706:135942. Equations (3), (5)-(7).
 
@@ -90,6 +90,7 @@ Les deux methodes convergent integralement. Confiance elevee, mais ce n'est pas 
 ### Formule — niveau systeme
 
 - formula_used: `CO2 ~ EP + POP + PGDP + INS + URB + RFDI + TEC + EDU + ENS`
+- Recommended validation: N lignes=30; T declare=15; variable temporelle declaree=year; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - x_terms_used: `EP, POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS`
 - y_term_used: `CO2`
 
@@ -161,29 +162,30 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: ready
-  package_include: yes
-  blocking_reason: "none for technical benchmark; province-name reconstruction remains documented"
-  required_next_step: "optional external confirmation that id_province follows the reconstructed GB/T 2260 sequence"
+  benchmark_status: "manual_review"
+  package_include: "manual_review"
+  blocking_reason: "panel spatial complet (450 obs) restaure le 2026-09-08 -- promotion en attente d'un support benchmark panel-spatial dedie, pas d'un defaut de la fiche ; province-name reconstruction reste documentee"
+  required_next_step: "implementer/valider un chemin de benchmark spatial-panel (effets fixes + SAR panel, methode Elhorst 2010) avant promotion ; en parallele, confirmation externe optionnelle que id_province suit la sequence GB/T 2260 reconstruite"
   has_local_rds: true
-  missing_items: "none for the 2016 cross-sectional benchmark"
-  reason: "Y/X et formule publiee sont confirmes; le RDS benchmark utilise la coupe 2016 pour rester compatible avec le benchmark spatial actuel, qui ne traite pas encore les panels spatiaux."
+  missing_items: "N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee)."
+  reason: "N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee)."
+  benchmark_task: "spatial_panel_estimator_support_pending"
 ```
 
-- Decision: ready for technical benchmark as 2016 cross-section
-- Manque principal: aucun pour la coupe 2016 ; le panel complet 2002-2016 demandera une route spatio-temporelle separee.
-- Raison: Y (CO2), X (prix de l'energie + 8 controles) et formule sont solidement etablis et coherents avec le papier. Le RDS final evite les coordonnees dupliquees du panel en gardant une seule observation par province.
+- Decision: manual_review
+- Manque principal: Support benchmark spatial-panel non encore disponible dans le harnais (voir 'reason' ci-dessus) ; la fiche/les donnees elles-memes sont completes et confirmees (formule verbatim eqs. 3/5-7, panel complet restaure).
+- Raison: N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee).
 
 ## Bloc 4 — Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel
-- N observations: 30
+- N observations: 450
 - k variables: 15
 - T periods: 15
 - Variable temporelle: year
-- N/T profile: N_petit_T_grand
-- Note N/T (session 2026-08-17, verification directe du `.rds`) : verification empirique montre qu'il n'y a AUCUNE repetition de geometrie (N spatial = N observations exactement) malgre la classification 'Structure: panel_ou_series' / 'Data type: spatio-temporel' ci-dessus -- chaque ligne correspond a un lieu unique. Ce n'est donc pas un panel au sens statistique (pas de correlation intra-unite a modeliser), plutot une coupe transversale avec une covariable/dimension temporelle associee a chaque point distinct.
+- N/T profile: N_petit_T_grand (30 unites spatiales x 15 periodes)
+- Note N/T corrigee (session 2026-09-08) : le RDS local ne contenait auparavant que la coupe 2016 (N=30), contrairement a la note du 2026-08-17 ci-dessous qui affirmait a tort l'absence de panel sur cette base. Verification du fichier brut `data.xlsx` (depot Mendeley) : il contient bien les 450 lignes completes (30 provinces x 15 annees 2002-2016). Sur decision explicite de l'utilisateur (jeu de petite taille -> conserver la forme panel plutot que de le decouper en coupes annuelles comme Coree), le RDS local a ete reconstruit pour contenir les 450 lignes, geometrie provinciale repetee 15 fois par province (panel spatial equilibre et legitime, conforme aux equations panel du papier). Ancienne note (2026-08-17, devenue obsolete) : "verification empirique montre qu'il n'y a AUCUNE repetition de geometrie" -- cette note se basait par erreur sur le RDS reduit a 2016 et non sur les donnees brutes completes.
 
 ## Bloc 5 — Resolution et etendue
 
@@ -211,21 +213,11 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  - estimator: sar_lag
-    eligible: true
-    basis: published_model
-    source_ref: "Li, Fang & He (2020), eq. (5)"
-    notes: "Specification principale du papier (SAR-lag statique)."
-  - estimator: sar_error
-    eligible: true
-    basis: published_model
-    source_ref: "Li, Fang & He (2020), eq. (6)"
-    notes: "Specification alternative explicitement testee (SAR-error)."
-  - estimator: ols
-    eligible: uncertain
-    basis: generated_candidate
-    source_ref: "n/a"
-    notes: "Non utilise dans le papier (dependance spatiale toujours modelisee) mais benchmark de reference standard."
+  status: "manual_review"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "N lignes=450 (panel complet restaure le 2026-09-08, 30 provinces x 15 annees) ; T declare=15 ; variable temporelle declaree=year ; chaque geometrie provinciale se repete 15 fois (panel spatial legitime, PAS une duplication a corriger). Le harnais de benchmark actuel (regression cross-sectionnelle) ne construit pas nativement une matrice W panel-coherente sur des geometries repetees -- promotion en attente d'un support panel spatial dedie (cf. Elhorst 2010, methode utilisee par le papier lui-meme : effets fixes province/annee + SAR-lag/SAR-error/dynamique). Grouper par province ET respecter la chronologie (annee) en CV manuelle en attendant ce support."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Quality Control
@@ -243,3 +235,9 @@ estimator_eligibility:
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: The impact of energy price on CO2 emissions in China - A spatial econometric analysis
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=30; T declare=15; variable temporelle declaree=year; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

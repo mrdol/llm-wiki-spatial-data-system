@@ -2,7 +2,7 @@
 title: paper_fhb_ensembling
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_fhb_ensembling.rds
   - DatasetFirst_10_5061_dryad_fn2z34trv
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Accuracy i
 - Topic: phytopathologie / prevision d'epidemies de fusariose de l'epi
 - Observation unit: essai varietal (site x annee)
 - Observed population: essais de ble/orge sur 80 sites du centre-est/centre des Etats-Unis, 1982-2015
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-101.296273, -75.3858753], y [32.0784804, 48.7744263]; CRS EPSG:4326.
 - Temporal context: 32 distinct periods (variable: year)
 - Source description: Accuracy in the prediction of disease epidemics when ensembling simple but highly correlated models
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Accuracy i
 - Candidate X variables in local artifact: `year`, `type`, `resist`, `corn`, `T.A.1`, `T.A.2`, `T.A.3`, `T.A.4`, `T.A.5`, `D.A.1`, `D.A.2`, `D.A.3`, `P.A.1`, `P.A.2`, `P.A.3`, `P.A.4`, `P.A.5`, `RH.A.1`, `RH.A.2`, `RH.A.3`, `VPD.A.1`, `VPD.A.2`, `VPD.A.3`, `VPD.A.4`, `VPD.A.5`, `TDD.A.1`, `TDD.A.2`, `TDD.A.3`, `TDD.A.4`, `TDD.A.5`, `TDD.A.6`, `RH.G80.CHD.1`, `RH.G80.CHD.2`, `RH.G80.CHD.3`, `RH.G90.CHD.1`, `RH.G90.CHD.2`, `RH.G90.CHD.3`, `T.G30.CHD.1`, `T.G30.CHD.2`, `T.G30.CHD.3`, `TRH.15T30nRHG80.CHD.1`, `TRH.15T30nRHG80.CHD.2`, `TRH.15T30nRHG80.CHD.3`, `TRH.15T30nRHG90.CHD.1`, `TRH.15T30nRHG90.CHD.2`, `TRH.15T30nRHG90.CHD.3`, `TRH.20T25nRHG85.CHD.1`, `TRH.5T30nRHG75.CHD.1`, `TRH.5T30nRHG75.CHD.2`, `TRH.5T30nRHG75.CHD.3`, `TRH.9T30nRHG90.CHD.1`, `TRH.9T30nRHG90.CHD.2`, `VPD.L11.CHD.1`, `VPD.L11.CHD.2`, `VPD.L635.CHD.1`, `VPD.L635.CHD.2`, `RH.G70.CD.1`, `RH.G70.CD.2`, `RH.G70.CD.3`, `T.14T22.CD.1`, `T.14T22.CD.2`, `VPD.L6.CD.1`, `VPD.L6.CD.2`, `VPD.L6.CD.3`, `T.MINMAXDIFF.1`, `T.MINMAXDIFF.2`, `RH.MINMAXDIFF.1`, `RH.MINMAXDIFF.2`, `RH.MINMAXDIFF.3`, `P.MINMAXDIFF.1`, `D.MINMAXDIFF.1`, `D.MINMAXDIFF.2`, `D.MINMAXDIFF.3`, `VPD.MINMAXDIFF.1`, `VPD.MINMAXDIFF.2`, `VPD.MINMAXDIFF.3`, `TDD.MINMAXDIFF.1`, `TDD.MINMAXDIFF.2`, `TDD.MINMAXDIFF.3`, `T.SD.1`, `T.SD.2`, `T.SD.3`, `D.SD.1`, `D.SD.2`, `D.SD.3`, `P.SD.1`, `VPD.SD.1`, `VPD.SD.2`, `VPD.SD.3`, `VPD.SD.4`, `RH.SD.1`, `RH.SD.2`, `TDD.SD.1`, `TDD.SD.2`, `TDD.SD.3`, `TDD.SD.4`, `MT7`, `T157`, `T15307`, `RH7`, `RH907`, `TRH907`, `TRH807`, `MT10`, `T1510`, `T153010`, `RH10`, `RH9010`, `RH8010`, `TRH9010`, `TRH8010`, `INT3`, `VPD.A.PRE5.12H`, `VPD.L20.PRE5.12H`, `VPD.L45.PRE5.12H`, `VPD.A.PRE7.12H`, `VPD.L20.PRE7.12H`, `VPD.L45.PRE7.12H`, `VPD.A.PRE10.12H`, `VPD.L20.PRE10.12H`, `VPD.L45.PRE10.12H`, `VPD.A.PRE14.12H`, `VPD.L20.PRE14.12H`, `VPD.L45.PRE14.12H`, `VPD.A.PRE15.12H`, `VPD.L20.PRE15.12H`, `VPD.L45.PRE15.12H`, `VPD.A.POST5.12H`, `VPD.L20.POST5.12H`, `VPD.L45.POST5.12H`, `VPD.A.POST7.12H`, `VPD.L20.POST7.12H`, `VPD.L45.POST7.12H`, `VPD.A.POST10.12H`, `VPD.L20.POST10.12H`, `VPD.L45.POST10.12H`, `VPD.A.POST14.12H`, `VPD.L20.POST14.12H`, `VPD.L45.POST14.12H`, `VPD.A.POST15.12H`, `VPD.L20.POST15.12H`, `VPD.L45.POST15.12H`, `DD.A.PRE5.12H`, `DD.L1.PRE5.12H`, `DD.A.PRE7.12H`, `DD.L1.PRE7.12H`, `DD.A.PRE10.12H`, `DD.L1.PRE10.12H`, `DD.A.PRE14.12H`, `DD.L1.PRE14.12H`, `DD.A.PRE15.12H`, `DD.L1.PRE15.12H`, `DD.A.POST5.12H`, `DD.L1.POST5.12H`, `DD.A.POST7.12H`, `DD.L1.POST7.12H`, `DD.A.POST10.12H`, `DD.L1.POST10.12H`, `DD.A.POST14.12H`, `DD.L1.POST14.12H`, `DD.A.POST15.12H`, `DD.L1.POST15.12H`, `RH.A.PRE5.12H`, `RH.A.PRE5.24H`, `RH.G80.PRE5.12H`, `RH.G90.PRE5.12H`, `RH.A.PRE7.12H`, `RH.G80.PRE7.12H`, `RH.G90.PRE7.12H`, `RH.A.PRE10.12H`, `RH.A.PRE10.24H`, `RH.G80.PRE10.12H`, `RH.G90.PRE10.12H`, `RH.A.PRE14.12H`, `RH.A.PRE14.24H`, `RH.G80.PRE14.12H`, `RH.G90.PRE14.12H`, `RH.A.PRE15.12H`, `RH.A.PRE15.24H`, `RH.G80.PRE15.12H`, `RH.G90.PRE15.12H`, `RH.A.POST5.12H`, `RH.A.POST5.24H`, `RH.G80.POST5.12H`, `RH.G90.POST5.12H`, `RH.A.POST7.12H`, `RH.A.POST7.24H`, `RH.G80.POST7.12H`, `RH.G90.POST7.12H`, `RH.A.POST10.12H`, `RH.G80.POST10.12H`, `RH.G90.POST10.12H`, `RH.A.POST14.12H`, `RH.A.POST14.24H`, `RH.G80.POST14.12H`, `RH.G90.POST14.12H`, `RH.A.POST15.12H`, `RH.A.POST15.24H`, `RH.G80.POST15.12H`, `RH.G90.POST15.12H`, `T.A.PRE5.24H`, `T.9T30.PRE5.24H`, `T.15T30.PRE5.24H`, `T.L9.PRE5.24H`, `T.L15.PRE5.24H`, `T.G30.PRE5.24H`, `T.A.PRE7.24H`, `T.9T30.PRE7.24H`, `T.L9.PRE7.24H`, `T.L15.PRE7.24H`, `T.G30.PRE7.24H`, `T.A.PRE10.24H`, `T.9T30.PRE10.24H`, `T.15T30.PRE10.24H`, `T.L9.PRE10.24H`, `T.L15.PRE10.24H`, `T.G30.PRE10.24H`, `T.A.PRE14.24H`, `T.9T30.PRE14.24H`, `T.15T30.PRE14.24H`, `T.L9.PRE14.24H`, `T.L15.PRE14.24H`, `T.G30.PRE14.24H`, `T.A.PRE15.24H`, `T.9T30.PRE15.24H`, `T.15T30.PRE15.24H`, `T.L9.PRE15.24H`, `T.L15.PRE15.24H`, `T.G30.PRE15.24H`, `T.A.POST5.24H`, `T.9T30.POST5.24H`, `T.15T30.POST5.24H`, `T.L9.POST5.24H`, `T.L15.POST5.24H`, `T.G30.POST5.24H`, `T.A.POST7.24H`, `T.9T30.POST7.24H`, `T.15T30.POST7.24H`, `T.L9.POST7.24H`, `T.L15.POST7.24H`, `T.G30.POST7.24H`, `T.9T30.POST10.24H`, `T.L9.POST10.24H`, `T.L15.POST10.24H`, `T.G30.POST10.24H`, `T.A.POST14.24H`, `T.9T30.POST14.24H`, `T.15T30.POST14.24H`, `T.L9.POST14.24H`, `T.L15.POST14.24H`, `T.G30.POST14.24H`, `T.A.POST15.24H`, `T.9T30.POST15.24H`, `T.15T30.POST15.24H`, `T.L9.POST15.24H`, `T.L15.POST15.24H`, `T.G30.POST15.24H`, `TRH.9T30nRHG80.PRE5.12H`, `TRH.9T30nRHG90.PRE5.12H`, `TRH.15T30nRHG80.PRE5.12H`, `TRH.15T30nRHG90.PRE5.12H`, `TRH.9T30nRHG80.PRE7.12H`, `TRH.9T30nRHG90.PRE7.12H`, `TRH.15T30nRHG80.PRE7.12H`, `TRH.15T30nRHG90.PRE7.12H`, `TRH.9T30nRHG80.PRE10.12H`, `TRH.9T30nRHG90.PRE10.12H`, `TRH.15T30nRHG80.PRE10.12H`, `TRH.15T30nRHG90.PRE10.12H`, `TRH.9T30nRHG80.PRE14.12H`, `TRH.9T30nRHG90.PRE14.12H`, `TRH.15T30nRHG80.PRE14.12H`, `TRH.15T30nRHG90.PRE14.12H`, `TRH.9T30nRHG80.PRE15.12H`, `TRH.9T30nRHG90.PRE15.12H`, `TRH.15T30nRHG80.PRE15.12H`, `TRH.15T30nRHG90.PRE15.12H`, `TRH.9T30nRHG80.POST5.12H`, `TRH.9T30nRHG90.POST5.12H`, `TRH.15T30nRHG80.POST5.12H`, `TRH.15T30nRHG90.POST5.12H`, `TRH.9T30nRHG80.POST7.12H`, `TRH.9T30nRHG90.POST7.12H`, `TRH.15T30nRHG80.POST7.12H`, `TRH.15T30nRHG90.POST7.12H`, `TRH.9T30nRHG80.POST10.12H`, `TRH.9T30nRHG90.POST10.12H`, `TRH.15T30nRHG80.POST10.12H`, `TRH.15T30nRHG90.POST10.12H`, `TRH.9T30nRHG80.POST14.12H`, `TRH.9T30nRHG90.POST14.12H`, `TRH.15T30nRHG80.POST14.12H`, `TRH.15T30nRHG90.POST14.12H`, `TRH.9T30nRHG80.POST15.12H`, `TRH.9T30nRHG90.POST15.12H`, `TRH.15T30nRHG80.POST15.12H`, `TRH.15T30nRHG90.POST15.12H`, `TRH.9T30nRHG80.PRE5.24H`, `TRH.9T30nRHG90.PRE5.24H`, `TRH.15T30nRHG80.PRE5.24H`, `TRH.15T30nRHG90.PRE5.24H`, `TRH.9T30nRHG80.PRE7.24H`, `TRH.9T30nRHG90.PRE7.24H`, `TRH.9T30nRHG80.PRE10.24H`, `TRH.9T30nRHG90.PRE10.24H`, `TRH.15T30nRHG80.PRE10.24H`, `TRH.15T30nRHG90.PRE10.24H`, `TRH.9T30nRHG80.PRE14.24H`, `TRH.9T30nRHG90.PRE14.24H`, `TRH.15T30nRHG80.PRE14.24H`, `TRH.15T30nRHG90.PRE14.24H`, `TRH.9T30nRHG80.PRE15.24H`, `TRH.9T30nRHG90.PRE15.24H`, `TRH.15T30nRHG80.PRE15.24H`, `TRH.15T30nRHG90.PRE15.24H`, `TRH.9T30nRHG80.POST5.24H`, `TRH.9T30nRHG90.POST5.24H`, `TRH.15T30nRHG80.POST5.24H`, `TRH.15T30nRHG90.POST5.24H`, `TRH.9T30nRHG80.POST7.24H`, `TRH.9T30nRHG90.POST7.24H`, `TRH.15T30nRHG80.POST7.24H`, `TRH.15T30nRHG90.POST7.24H`, `TRH.9T30nRHG80.POST10.24H`, `TRH.9T30nRHG90.POST10.24H`, `TRH.9T30nRHG80.POST14.24H`, `TRH.9T30nRHG90.POST14.24H`, `TRH.15T30nRHG80.POST14.24H`, `TRH.15T30nRHG90.POST14.24H`, `TRH.9T30nRHG80.POST15.24H`, `TRH.9T30nRHG90.POST15.24H`, `TRH.15T30nRHG80.POST15.24H`, `TRH.15T30nRHG90.POST15.24H`, `sq.T.A.PRE7.24H`, `wc`
 - Candidate X count in local artifact: 335
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: resist (4 niveaux de resistance varietale : VS/S/MS/MR), wc (type ble : sw=printemps, wwc=hiver+residus mais, wwnoc=hiver sans residus mais), corn (presence de residus de mais dans la parcelle), 340 variables meteo candidates (temperature, point de rosee, pression, humidite relative, deficit de pression de vapeur -- Section 2.1 de FHBEnsemblesCode.html), differentes selon chacun des 39 modeles de base
+- Published X variables from paper: resist, wc, corn, 340 variables meteo candidates, differentes selon chacun des 39 modeles de base
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `id`, `state`, `location`
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Accuracy i
 | `S` | `numeric` | continuous | [0, 86.18] | 0% |
 | `Class` | `character` | categorical | n/a | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `fhb_ensembling`, la ou les reponses `S`, `Class` viennent du loader papier et/ou des preuves de l article `Accuracy in the prediction of disease epidemics when ensembling simple but highly correlated models`. Les covariables X retenues sont `resist`, `wc`, `corn`, `type` ; 331 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`id`, `state`, `location`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `fhb_ensembling`, la ou les reponses `S`, `Class` viennent du loader papier et/ou des preuves de l article `Accuracy in the prediction of disease epidemics when ensembling simple but highly correlated models`. Les covariables X retenues sont `resist`, `wc`, `corn`, `type` ; 331 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`id`, `state`, `location`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -395,8 +395,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Accuracy i
 ### Formule - niveau publication
 
 - formula_pub: Class ~ resist + wc + [sous-ensemble de variables meteo, variable selon le modele] [39 modeles de regression logistique de base (M1-M39), issus de 4 papiers anterieurs (DeWolf 2003, Shah 2013/2014/2019) + 20 nouveaux modeles, ensembles via vote souple, moyenne ponderee, et stacking (ridge/lasso/elastic-net) -- le papier evalue l'ensembling de modeles simples mais fortement correles]
-- x_terms_pub: resist (4 niveaux de resistance varietale : VS/S/MS/MR), wc (type ble : sw=printemps, wwc=hiver+residus mais, wwnoc=hiver sans residus mais), corn (presence de residus de mais dans la parcelle), 340 variables meteo candidates (temperature, point de rosee, pression, humidite relative, deficit de pression de vapeur -- Section 2.1 de FHBEnsemblesCode.html), differentes selon chacun des 39 modeles de base
-- y_term_pub: Class (classification binaire epidemie/non-epidemie de fusariose de l'epi, seuil sur S) ; S (indice de severite FHB continu, %, 0-100) disponible comme variante continue directement dans les donnees
+- x_terms_pub: resist, wc, corn, 340 variables meteo candidates, differentes selon chacun des 39 modeles de base
+- y_term_pub: Class ; S disponible comme variante continue directement dans les donnees
 - Reference publication: Shah, D.A., De Wolf, E.D., Paul, P.A. & Madden, L.V. (2021), Accuracy in the prediction of disease epidemics when ensembling simple but highly correlated models, PLOS Computational Biology 17(3): e1008831, doi:10.1371/journal.pcbi.1008831 -- DOI corrige manuellement le 2026-08-16 (le lien isCitedBy du depot pointait par erreur vers un papier de methodologie anterieur de 2013, pas le papier source ; verifie via le README du depot FHBEnsemblesReadMe.txt + recherche web). EnsemblesMainData.csv (999 observations, panel non-equilibre de 80 sites x jusqu'a 32 ans, 1982-2015) telecharge directement depuis Dryad (10.5061/dryad.fn2z34trv, isCitedBy le papier de methodologie) -- pas une reconstruction. Le depot ne contient aucune coordonnee (verifie: ni CSV, ni script Rmd) ; les 80 couples (state, location) ont ete geocodes via l'API publique Nominatim/OpenStreetMap (69/80 resolus, 14 lignes exclues faute de correspondance, jamais de coordonnee inventee). formula_used se limite aux covariables categorielles bien documentees (resist/wc/corn/type) plutot qu'a l'un des 39 modeles meteo specifiques du papier, puisqu'il n'existe pas 'une' formule unique -- les 340 variables meteo candidates restent disponibles dans l'artefact local pour toute selection de variables ulterieure.
 
 ### Statut regression canonique
@@ -410,6 +410,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Accuracy i
 ### Formule - niveau systeme
 
 - formula_used: S ~ resist + wc + corn + type
+- Recommended validation: N lignes=985; T declare=32; variable temporelle declaree=year; repetitions de coordonnees controlees=919. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: resist, wc, corn, type
 - y_term_used: S
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -430,8 +433,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "S ~ resist + wc + corn + type"
-    response: "Class (classification binaire epidemie/non-epidemie de fusariose de l'epi, seuil sur S) ; S (indice de severite FHB continu, %, 0-100) disponible comme variante continue directement dans les donnees"
-    predictors: ["resist (4 niveaux de resistance varietale : VS/S/MS/MR)", "wc (type ble : sw=printemps, wwc=hiver+residus mais, wwnoc=hiver sans residus mais)", "corn (presence de residus de mais dans la parcelle)", "340 variables meteo candidates (temperature, point de rosee, pression, humidite relative, deficit de pression de vapeur -- Section 2.1 de FHBEnsemblesCode.html), differentes selon chacun des 39 modeles de base"]
+    response: "Class ; S disponible comme variante continue directement dans les donnees"
+    predictors: ["resist", "wc", "corn", "340 variables meteo candidates, differentes selon chacun des 39 modeles de base"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -549,8 +552,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`fhb_ensembling` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07) : "Plot data were available in 32 years from 1982 to 2015; not all 17 states were represented in each of those years" -- confirme un reseau de parcelles suivi dans la duree, mais ne confirme pas explicitement la re-visite exacte des memes parcelles physiques. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; la question panel reste non tranchee mais n'est pas un motif de blocage en soi -- grouper la CV par coordonnee par precaution, comme pour tout jeu a coordonnees repetees. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Accuracy in the prediction of disease epidemics when ensembling simple but highly correlated models
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=985; T declare=32; variable temporelle declaree=year; repetitions de coordonnees controlees=919. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

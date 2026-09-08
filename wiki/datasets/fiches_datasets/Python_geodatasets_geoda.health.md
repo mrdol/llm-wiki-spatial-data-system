@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.health
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.health.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.758210348822, -67.294865361691], y [24.525964, 48.987003]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`health`).
 - Description source: package Python `geodatasets`
@@ -95,6 +95,9 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 ### Formule — niveau systeme
 
 - formula_used: le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
 - y_term_used: le_agg_q1
 
@@ -223,3 +226,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

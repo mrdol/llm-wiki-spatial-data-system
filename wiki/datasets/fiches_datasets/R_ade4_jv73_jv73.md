@@ -2,7 +2,7 @@
 title: R_ade4_jv73_jv73
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_jv73_jv73.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This data set gives physical and physico-chemical variables, fish species, spati
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_jv73_jv73
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 92 enregistrements dans l’artefact local R_ade4_jv73_jv73.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [108.876474670368, 472.634281748786], y [35.346634281749, 286.214087439278]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set gives physical and physico-chemical variables, fish species, spatial coordinates about 92 sites.
 - Description source: package R `ade4`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

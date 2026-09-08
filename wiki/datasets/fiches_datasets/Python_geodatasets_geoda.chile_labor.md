@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.chile_labor
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.chile_labor.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.chile_labor
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 64 enregistrements dans l’artefact local Python_geodatasets_geoda.chile_labor.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-109.343274630702, -68.522872088163], y [-53.68889725, -18.3883508]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 - Description source: package Python `geodatasets`
@@ -202,6 +202,9 @@ Dataset spatial issu du package Python `geodatasets` (`chile_labor`).
 ### Formule — niveau systeme
 
 - formula_used: lfs2__1982 ~ pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: pop_1982 + pop_1992 + pop_2002 + area_km2 + sex1__1982 + sex2__1982 + sex1__1992 + sex2__1992
 - y_term_used: lfs2__1982
 
@@ -330,3 +333,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

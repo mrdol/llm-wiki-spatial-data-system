@@ -2,7 +2,7 @@
 title: Python_libpysal_georgia
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_libpysal_georgia
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 159 enregistrements dans l’artefact local Python_libpysal_georgia.rds; unite declaree : administrative or school-related spatial unit. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-91.489509967779, -91.489470235928], y [0.0002770273345197, 0.000314684180655]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`georgia`).
 - Description source: package Python `libpysal`
@@ -59,10 +59,10 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: PctBach ~ PctRural + PctEld + PctFB + PctPov
+- x_terms_pub: PctRural, PctEld, PctFB, PctPov
+- y_term_pub: PctBach
+- Reference publication: GWmodel, documentation primaire gwr.bootstrap, Examples, manuel CRAN p.46 : https://stat.ethz.ch/CRAN/web/packages/GWmodel/GWmodel.pdf (consulte le 2026-09-07).
 
 ### Statut regression canonique
 
@@ -74,9 +74,13 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 
 ### Formule — niveau systeme
 
-- formula_used: PctBach ~ PctRural + PctFB + PctBlack + PctEld
-- x_terms_used: PctRural + PctFB + PctBlack + PctEld
+- formula_used: PctBach ~ PctRural + PctEld + PctFB + PctPov
+- Formula used evidence: pub
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: PctRural + PctEld + PctFB + PctPov
 - y_term_used: PctBach
+- Note (2026-09-07) : la formule systeme substituait auparavant PctBlack (composition demographique) a PctPov (taux de pauvrete) sans justification technique documentee -- PctPov est present sans donnee manquante dans le jeu. Alignee sur formula_pub pour eviter d'utiliser une variable de composition raciale comme covariable sans justification scientifique explicite, dans la meme logique que la controverse de la variable "B" du jeu Boston Housing documentee dans la revue des jeux de benchmark. Verifier si des resultats de benchmark deja publies (rapport de stage, slides) citaient l'ancienne formule avant de les reutiliser.
 
 ### Formules candidates
 
@@ -227,3 +231,11 @@ estimator_eligibility:
 - Source: package Python `libpysal`
 - Duplicate/version candidate: [[R_GWmodel_Georgia_Gedu.df]]
 - Duplicate/version candidate: [[R_spgwr_georgia_gSRDF]]
+
+## Curation documentée — 2026-09-07
+
+L’exemple primaire de GWmodel est conserve dans formula_pub. La formule actuelle de l’alias remplace PctPov par PctBlack; l’equivalence exacte n’est pas attestee. formula_used est conservee et explicitement classee comme variante systeme, sans attribuer ce choix au papier. Aucune promotion effectuee.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

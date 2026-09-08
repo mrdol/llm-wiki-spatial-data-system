@@ -2,7 +2,7 @@
 title: paper_korea_hedonic_housing_1999
 type: dataset
 created: 2026-08-17
-updated: 2026-08-17
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_korea_hedonic_housing_1999.rds
   - DatasetFirst_10_5281_zenodo_14715630
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 - Topic: economie immobiliere / prix hedoniques en Coree du Sud
 - Observation unit: transaction immobiliere
 - Observed population: transactions residentielles, 4 villes coreennes (Busan, Daegu, Daejeon, Gwangju) -- sous-ensemble temporel (annee 1999) du dataset parent paper_korea_hedonic_housing (N total parent = 178719) ; voir Bloc 4 pour le N exact de ce sous-ensemble
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [126.788351, 129.181163], y [35.068213, 36.448067]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Hedonic dataset of the metropolitan housing market -- Cases in South Korea
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 - Candidate X variables in local artifact: `Area`, `Floor`, `Subway.distance`, `Subway.network.distance`, `Maximum.floor`, `Households`, `Buildings`, `Parking.space`, `Heating`, `Top.school`, `High.school`, `CBD`, `Green.space.distance`, `Waterfront.distance`, `Bus.stops`, `Population`, `Male`, `Female`, `Sex.ratio`, `Medium.age`, `Young.population.ratio`, `Elderly.population.ratio`, `Population.density`, `Higher.degree.ratio`, `Spring`, `Fall`, `Winter`
 - Candidate X count in local artifact: 27
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: Area (Size, surface, m2), Floor (etage), Subway.distance (Network distance to nearest subway station), Population.density (densite de population locale), Green.space.distance (distance a un espace vert)
+- Published X variables from paper: Area, Floor, Subway.distance, Population.density, Green.space.distance
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `City`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 |---|---|---|---|---|
 | `Housing.price` | `numeric` | continuous | [4400, 69000] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing_1999`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `Hedonic dataset of the metropolitan housing market -- Cases in South Korea`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 22 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing_1999`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `Hedonic dataset of the metropolitan housing market -- Cases in South Korea`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 22 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -86,8 +86,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 ### Formule - niveau publication
 
 - formula_pub: Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877]
-- x_terms_pub: Area (Size, surface, m2), Floor (etage), Subway.distance (Network distance to nearest subway station), Population.density (densite de population locale), Green.space.distance (distance a un espace vert)
-- y_term_pub: Housing.price (prix du logement -- Condominium price, KRW)
+- x_terms_pub: Area, Floor, Subway.distance, Population.density, Green.space.distance
+- y_term_pub: Housing.price
 - Reference publication: Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include="yes", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de l'annee 1999, donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=5572 transactions, 103 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R).
 
 ### Statut regression canonique
@@ -101,6 +101,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 ### Formule - niveau systeme
 
 - formula_used: Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance
+- Recommended validation: N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Area, Floor, Subway.distance, Population.density, Green.space.distance
 - y_term_used: Housing.price
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -121,8 +124,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance"
-    response: "Housing.price (prix du logement -- Condominium price, KRW)"
-    predictors: ["Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"]
+    response: "Housing.price"
+    predictors: ["Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -174,27 +177,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include='yes' depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau"
-  reason: "Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1999 du dataset parent deja promu package_include='yes' (paper_korea_hedonic_housing, session 2026-08-16). N=5572 transactions, 103 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire."
+  missing_items: "N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
+  reason: "N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- formule et provenance heritees telles quelles du dataset parent deja valide (package_include="yes" depuis la session 2026-08-16) ; seul le decoupage temporel est nouveau
-- Raison: Y continu reel (Housing.price), sous-ensemble temporel de l'annee 1999 du dataset parent deja promu package_include="yes" (paper_korea_hedonic_housing, session 2026-08-16). N=5572 transactions, 103 localisations distinctes (verifie sur le .rds decoupe) -- assez pour une matrice de voisinage W non degeneree. Meme formule/Y/X que le parent, aucune correction necessaire.
+- Decision: manual_review
+- Manque principal: N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
+- Raison: N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -245,3 +248,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Hedonic dataset of the metropolitan housing market -- Cases in South Korea
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

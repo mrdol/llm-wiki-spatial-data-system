@@ -2,7 +2,7 @@
 title: paper_ethiopia_clusters
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_ethiopia_clusters.rds
   - DataCite_2022_SpatialTrendsAndProjections_10_1186_s41043_0
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 | `RR` | `numeric` | continuous | [1.27, 2.23] | 0% |
 | `cases` | `numeric` | continuous | [19, 2082] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_clusters`, la ou les reponses `RR`, `cases` viennent du loader papier et/ou des preuves de l article `Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis`. Les covariables X retenues sont `radius_km`, `population`, `LLR`, `p_value`. Les coordonnees (`lon`, `lat`), identifiants (`cluster`, `year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_clusters ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_clusters`, la ou les reponses `RR`, `cases` viennent du loader papier et/ou des preuves de l article `Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis`. Les covariables X retenues sont `radius_km`, `population`, `LLR`, `p_value`. Les coordonnees (`lon`, `lat`), identifiants (`cluster`, `year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -79,6 +79,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 ### Formule - niveau systeme
 
 - formula_used: RR ~ radius_km + population + LLR + p_value
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: radius_km, population, LLR, p_value
 - y_term_used: RR
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
@@ -151,27 +153,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_derived_clusters"
-  benchmark_task: "cluster_detection_output"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "retrouver le jeu DHS/GWR original ou rester hors benchmark"
-  reason: "Le fichier contient des clusters SaTScan derives, pas les observations de malnutrition utilisees pour la GWR."
+  missing_items: "retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  reason: "retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
 ```
 
-- Decision: not_ready_derived_clusters
-- Manque principal: retrouver le jeu DHS/GWR original ou rester hors benchmark
-- Raison: Le fichier contient des clusters SaTScan derives, pas les observations de malnutrition utilisees pour la GWR.
+- Decision: not_ready_main_benchmark
+- Manque principal: retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
+- Raison: retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_derived_clusters"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +225,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019: a geographically weighted regression analysis
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : retrouver le jeu DHS/GWR original ou rester hors benchmark Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

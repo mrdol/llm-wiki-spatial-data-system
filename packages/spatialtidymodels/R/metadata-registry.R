@@ -121,6 +121,12 @@ metadata_dataset_registry <- function() {
   out$redistribution_allowed <- if ("redistribution_allowed" %in% names(records)) as.logical(records$redistribution_allowed) else NA
   out$license_verified <- if ("license_verified" %in% names(records)) as.logical(records$license_verified) else FALSE
   out$size_bytes <- if ("size_bytes" %in% names(records)) as.numeric(records$size_bytes) else NA_real_
+  for (field in c(
+    "spatial_weights_status", "spatial_weights_source", "spatial_weights_type",
+    "spatial_weights_style", "spatial_weights_object", "spatial_weights_file"
+  )) {
+    out[[field]] <- if (field %in% names(records)) as.character(records[[field]]) else NA_character_
+  }
   # benchmark_ready/license_name: read here even though metadata_dataset_registry()
   # already filtered to benchmark_ready==TRUE rows above -- a Datasets page
   # displaying this per-row is more honest than assuming it, and previously

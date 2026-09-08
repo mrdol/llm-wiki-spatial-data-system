@@ -2,7 +2,7 @@
 title: R_agridat_lasrosas.corn_lasrosas.corn_1999
 type: dataset
 created: 2026-08-21
-updated: 2026-08-21
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn_1999.rds
   - corpus/papers/raw_pdf/Anselin-SpatialEconometricApproach-2004.pdf
@@ -44,6 +44,10 @@ Coupe spatiale de 1999 du champ de mais Las Rosas, Argentine, utilisee dans l'an
 ### Formule - niveau systeme
 
 - formula_used: yield ~ nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo
+- Formula used evidence: pub
+- Selected Y evidence: Rendement de mais; specification Anselin et al. (2004) documentee dans cette fiche.
+- Selected Y typology: continuous
+- Selection Y/X: Campagne 1999 uniquement; yield est le rendement observe, nitro la dose d’azote et topo les regimes topographiques. Les termes quadratiques et interactions de formula_used reprennent la specification source citee; year reste une constante de provenance et n’est pas un X.
 - x_terms_used: nitro + I(nitro^2) + topo + nitro:topo + I(nitro^2):topo
 - y_term_used: yield
 - Note: la formule reproduit la specification quadratique a coefficients variant selon les quatre zones topographiques. La formule simplifiee `yield ~ nitro + bv` est conservee dans l'historique du projet mais n'est plus la formule par defaut de cette tache.
@@ -180,3 +184,11 @@ estimator_eligibility:
 
 - [[R_agridat_lasrosas.corn_lasrosas.corn]]
 - Documentation: [[r_package_docs/agridat/topics/lasrosas.corn]]
+
+## Curation documentée — 2026-09-07
+
+Structure sf reparee par prepare_lasrosas_benchmark_tasks.R : geometries subsettees explicitement avec sf charge. Les 1738 lignes et toutes les valeurs attributaires restent celles de la campagne 1999 du parent.
+
+Typologie de la reponse selectionnee : continuous. Rendement de mais; specification Anselin et al. (2004) documentee dans cette fiche.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

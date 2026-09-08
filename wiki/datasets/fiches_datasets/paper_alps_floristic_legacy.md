@@ -2,7 +2,7 @@
 title: paper_alps_floristic_legacy
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_alps_floristic_legacy.rds
   - DatasetFirst_10_5061_dryad_w9ghx3g12
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Limite
 - Topic: biogeographie / heritage glaciaire de la flore alpine
 - Observation unit: cellule de grille
 - Observed population: flore vasculaire des Alpes europeennes, N=509 cellules
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [5.0445002, 15.6342734], y [43.7220926, 48.0024233]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Limite
 - Candidate X variables in local artifact: `Elev_mean`, `Elev_sd`, `Slope_deg`, `Precip_total`, `Nunatak_distance`, `Periph_refugia_distance`, `Refugia_distance_all`, `Deglac`, `Temp_annual`, `Paleo_temp`, `Pet`, `Velocity_med`, `Bedrock_class`, `n`, `S.obs`, `SC`, `Tamme_mean`, `n_tamme`, `Ses_pd`, `Phylo_endem`
 - Candidate X count in local artifact: 20
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: Nunatak_distance (distance aux refuges glaciaires de haute altitude), Refugia_distance_all (distance a tous les refuges peripheriques), Deglac (temps depuis la deglaciation), Elev_mean (elevation moyenne), Precip_total (precipitation totale), Temp_annual (temperature annuelle), Pet (evapotranspiration potentielle)
+- Published X variables from paper: Nunatak_distance, Refugia_distance_all, Deglac, Elev_mean, Precip_total, Temp_annual, Pet
 - Published X count: 7
 - Coordinates (x, y - excluded from X candidates): `coords.X`, `coords.Y`
 - Identifier columns (excluded from X candidates): `Code`
@@ -79,8 +79,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Limite
 ### Formule - niveau publication
 
 - formula_pub: S.obs/Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet + Bedrock_class [modele de richesse specifique standardisee expliquee par la distance aux refuges glaciaires (nunataks/refugia peripheriques), le temps depuis la deglaciation, et les variables climatiques/topographiques actuelles, sur une grille de cellules des Alpes europeennes]
-- x_terms_pub: Nunatak_distance (distance aux refuges glaciaires de haute altitude), Refugia_distance_all (distance a tous les refuges peripheriques), Deglac (temps depuis la deglaciation), Elev_mean (elevation moyenne), Precip_total (precipitation totale), Temp_annual (temperature annuelle), Pet (evapotranspiration potentielle)
-- y_term_pub: Standardised_SR (richesse specifique vegetale standardisee par cellule de grille, echantillonnage complet effort-standardise)
+- x_terms_pub: Nunatak_distance, Refugia_distance_all, Deglac, Elev_mean, Precip_total, Temp_annual, Pet
+- y_term_pub: Standardised_SR
 - Reference publication: Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes).
 
 ### Statut regression canonique
@@ -94,6 +94,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Limite
 ### Formule - niveau systeme
 
 - formula_used: Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Nunatak_distance, Refugia_distance_all, Deglac, Elev_mean, Precip_total, Temp_annual, Pet
 - y_term_used: Standardised_SR
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -114,8 +116,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet"
-    response: "Standardised_SR (richesse specifique vegetale standardisee par cellule de grille, echantillonnage complet effort-standardise)"
-    predictors: ["Nunatak_distance (distance aux refuges glaciaires de haute altitude)", "Refugia_distance_all (distance a tous les refuges peripheriques)", "Deglac (temps depuis la deglaciation)", "Elev_mean (elevation moyenne)", "Precip_total (precipitation totale)", "Temp_annual (temperature annuelle)", "Pet (evapotranspiration potentielle)"]
+    response: "Standardised_SR"
+    predictors: ["Nunatak_distance", "Refugia_distance_all", "Deglac", "Elev_mean", "Precip_total", "Temp_annual", "Pet"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -237,3 +239,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

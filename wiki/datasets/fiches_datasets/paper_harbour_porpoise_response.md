@@ -2,7 +2,7 @@
 title: paper_harbour_porpoise_response
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_harbour_porpoise_response.rds
   - DataCite_2019_HarbourPorpoiseResponsesTo_10_1098_rsos_190
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Harbour po
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_harbour_porpoise_response
 - Observation unit: observation spatiale du dataset "Data from: Harbour porpoise responses to pile-driving diminish over time"
 - Observed population: RÃ©ponses comportementales de marsouins au bruit de battage de pieux ; dÃ©tecteurs d'Ã©cholocation et enregistreurs de bruit avec coordonnÃ©es spatiales ; rÃ©gression pour probabilitÃ© de rÃ©ponse en fonction de la distance ; 75 citations
 - Geographic context: etendue sf: x [-3.955967, -2.6177], y [57.8164, 58.33725]
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Harbour po
 | `resp24_50` | `integer` | binary | {0, 1} | 0% |
 | `resp12_50` | `integer` | binary | {0, 1} | 2.1% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `harbour_porpoise_response`, la ou les reponses `prop24`, `prop12`, `resp24_50`, `resp12_50` viennent du loader papier et/ou des preuves de l article `Harbour porpoise responses to pile-driving diminish over time`. Les covariables X retenues sont `distance`, `vessels24_1km`, `duration`, `piling_order`, `Unweighted_SS_SEL`, `NOAA_SS_SEL`, `Southall_SS_SEL`, `Aud_SS_SEL` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`dep_no`, `turbine`, `location`, `pod`, `POD_number`, `Location_ID`, `ADD`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `harbour_porpoise_response`, la ou les reponses `prop24`, `prop12`, `resp24_50`, `resp12_50` viennent du loader papier et/ou des preuves de l article `Harbour porpoise responses to pile-driving diminish over time`. Les covariables X retenues sont `distance`, `vessels24_1km`, `duration`, `piling_order`, `Unweighted_SS_SEL`, `NOAA_SS_SEL`, `Southall_SS_SEL`, `Aud_SS_SEL` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`dep_no`, `turbine`, `location`, `pod`, `POD_number`, `Location_ID`, `ADD`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -91,10 +91,15 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Harbour po
 
 ### Formule - niveau systeme
 
-- formula_used: prop24 ~ distance + vessels24_1km + duration + piling_order + Unweighted_SS_SEL + NOAA_SS_SEL + Southall_SS_SEL + Aud_SS_SEL
-- x_terms_used: distance, vessels24_1km, duration, piling_order, Unweighted_SS_SEL, NOAA_SS_SEL, Southall_SS_SEL, Aud_SS_SEL
-- y_term_used: prop24
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- formula_used: resp24_50 ~ log(distance) * piling_order + vessels24_1km
+- Formula used evidence: paper_extracted
+- Recommended validation: N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold (cle loc_pod = location x CPOD, cf. code source des auteurs), et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: Correction du 2026-09-07 -- le code source des auteurs (`Graham_BOWL_cMMMP_R_code_to_analyse_porpoise_responses_2019-05-01.R`, fourni avec le depot Dryad) montre que le papier ne modelise JAMAIS prop24 en continu : les 3 modeles 24h publies sont tous des GLMM probit binaires sur resp24_50 (m8_24, m7nz_24, m14nz_24), effet aleatoire (1|loc_pod). m8_24 (AIC=619.39) est le meilleur des 3 et correspond exactement a N=700 (variante "18 locations" du code source). formula_used reprend donc verbatim m8_24 : `resp24_50 ~ log(distance)*zorder + zvessels_1km + (1|loc_pod)`, ecrit ici sans standardisation z-score (zorder/zvessels_1km sont piling_order/vessels24_1km centres-reduits, memes variables) et sans l'effet aleatoire (non supporte par le harnais de regression actuel).
+- Selected Y evidence: resp24_50 est la reponse effectivement modelisee par les auteurs (glmer probit, m8_24, AIC le plus bas des 3 variantes 24h) ; prop24 n'est qu'une colonne de donnees brutes utilisee pour construire le seuil binaire (>= -0.50 de variation = reponse), jamais regressee directement dans le papier.
+- Selected Y typology: binary
+- x_terms_used: distance, piling_order, vessels24_1km
+- y_term_used: resp24_50
+- Note: Formule verifiee verbatim par lecture directe du code R des auteurs (session du 2026-09-07), corrigeant la formule generee par le systeme (session du 2026-08-15) qui utilisait a tort prop24 en continu.
 
 ### Formules candidates
 
@@ -111,13 +116,13 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "prop24 ~ distance + vessel activity + piling duration/order + sound exposure levels"
-    response: "binary behavioural response and proportional DPH change after piling"
-    predictors: ["distance", "received sound exposure level", "cumulative piling order", "ADD use", "piling duration", "vessel activity"]
+    formula: "resp24_50 ~ log(distance) * piling_order + vessels24_1km"
+    response: "resp24_50"
+    predictors: ["distance", "piling_order", "vessels24_1km"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    source_ref: "Graham et al. (2019), Royal Society Open Science, DOI 10.1098/rsos.190335 -- verbatim m8_24 dans Graham_BOWL_cMMMP_R_code_to_analyse_porpoise_responses_2019-05-01.R (AIC=619.39, meilleur des 3 modeles 24h)."
+    estimator_context: ["sar_probit", "sem_probit", "gam_spatial", "random_forest", "xgboost"]
     status: "confirmed"
 
   ml_or_selected:
@@ -164,27 +169,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "la reponse publiee principale est binaire ; formula_used utilise prop24 continu pour le package de regression"
-  reason: "Le tableau local fournit prop24 continu, coordonnees CPOD, distance, exposition sonore, ordre/duree de battage et activite navire. Version continue defendable et tracee."
+  missing_items: "N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: la reponse publiee principale est binaire ; formula_used utilise prop24 continu pour le package de regression
-- Raison: Le tableau local fournit prop24 continu, coordonnees CPOD, distance, exposition sonore, ordre/duree de battage et activite navire. Version continue defendable et tracee.
+- Decision: manual_review
+- Manque principal: N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -235,3 +240,14 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Harbour porpoise responses to pile-driving diminish over time
 
+## Curation documentée — 2026-09-07
+
+Correction (2026-09-07, mode production de repli) : la formule anterieure etait une adaptation continue (prop24) generee par le systeme, distincte des modeles reellement publies. Lecture du code source des auteurs (`Graham_BOWL_cMMMP_R_code_to_analyse_porpoise_responses_2019-05-01.R`, distribue avec le depot Dryad DOI 10.5061/dryad.5qg30sd) : les auteurs ne regressent jamais prop24 en continu ; leurs 3 modeles 24h publies sont des GLMM probit binaires sur resp24_50, effet aleatoire (1|loc_pod). formula_used reprend desormais verbatim le meilleur des trois (m8_24, AIC=619.39) : `resp24_50 ~ log(distance) * piling_order + vessels24_1km`. formula_status passe de generated_system_formula a paper_extracted.
+
+Le nom paper_harbour_porpoise_decline dans la demande correspond a cette fiche existante paper_harbour_porpoise_response; aucun doublon cree.
+
+Decision conservatoire : N lignes=700; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=600. Grouper les observations du meme site/immeuble/individu dans un seul fold (cle loc_pod), et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune promotion package_include automatique (reponse desormais binaire -- necessite verification du bloc benchmark_readiness/estimator_eligibility avant toute promotion, voir CLAUDE.md mode production de repli).
+
+Typologie de la reponse selectionnee : binary (resp24_50, corrige le 2026-09-07 -- anciennement continuous/prop24, jamais modelise ainsi par les auteurs).
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS, du code source R des auteurs, et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

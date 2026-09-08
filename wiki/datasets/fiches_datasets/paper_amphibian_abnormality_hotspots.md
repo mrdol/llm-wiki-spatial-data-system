@@ -2,7 +2,7 @@
 title: paper_amphibian_abnormality_hotspots
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_amphibian_abnormality_hotspots.rds
   - DatasetFirst_10_5061_dryad_dc25r
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 - Topic: ecotoxicologie / anomalies amphibiennes
 - Observation unit: evenement de collecte (site x date)
 - Observed population: amphibiens examines sur les refuges fauniques nationaux USFWS, Etats-Unis (2000-2009)
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-161.87543, -67.2583], y [26.04285, 67.21632]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 - Candidate X variables in local artifact: `sampling_date`, `species`, `sp_coded`, `avg_gosner`, `avg_svl`, `sk_plus_eye_abnormal_count`, `sk_plus_eye_ab_percent`, `sk_abnormal_count`, `eye_abnormal_count`, `surface_abnormal_count`, `surface_ab_percent`, `disease_abnormal_count`, `abnormal_count`, `total_frogs`, `SITE_ALIAS`, `SITE_DATE`, `SITE_TIME`, `ORIGINAL_LATITUDE`, `ORIGINAL_LONGITUDE`, `ELEVATION`, `DATUM`, `GPS_MODEL`, `AREA`, `WATER_DEPTH`, `HABITAT_TYPE`, `SITE_COMMENTS`
 - Candidate X count in local artifact: 26
 - Candidate X typology: unknown, categorical, continuous
-- Published X variables from paper: Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM), REFUGE (131 refuges USFWS, effet aleatoire), REGION (9 regions USFWS, effet aleatoire)
+- Published X variables from paper: Corrected_LATITUDE/Corrected_LONGITUDE, REFUGE, REGION
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Corrected_LONGITUDE`, `Corrected_LATITUDE`
 - Identifier columns (excluded from X candidates): `collection_id`, `site_id`, `REFUGE`, `REGION`
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 | `eye_ab_percent` | `numeric` | continuous | [0, 7.14] | 0% |
 | `disease_percent` | `numeric` | continuous | [0, 6.56] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `amphibian_abnormality_hotspots`, la ou les reponses `all_ab_percent`, `sk_ab_percent`, `eye_ab_percent`, `disease_percent` viennent du loader papier et/ou des preuves de l article `Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges`. Les covariables X retenues sont `sampling_date`, `species`, `sp_coded`, `avg_gosner`, `avg_svl`, `sk_plus_eye_abnormal_count`, `sk_plus_eye_ab_percent`, `sk_abnormal_count`, `eye_abnormal_count`, `surface_abnormal_count`, `surface_ab_percent`, `disease_abnormal_count` ; 14 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Corrected_LONGITUDE`, `Corrected_LATITUDE`), identifiants (`collection_id`, `site_id`, `REFUGE`, `REGION`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `amphibian_abnormality_hotspots`, la ou les reponses `all_ab_percent`, `sk_ab_percent`, `eye_ab_percent`, `disease_percent` viennent du loader papier et/ou des preuves de l article `Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges`. Les covariables X retenues sont `sampling_date`, `species`, `sp_coded`, `avg_gosner`, `avg_svl`, `sk_plus_eye_abnormal_count`, `sk_plus_eye_ab_percent`, `sk_abnormal_count`, `eye_abnormal_count`, `surface_abnormal_count`, `surface_ab_percent`, `disease_abnormal_count` ; 14 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Corrected_LONGITUDE`, `Corrected_LATITUDE`), identifiants (`collection_id`, `site_id`, `REFUGE`, `REGION`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -88,8 +88,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 ### Formule - niveau publication
 
 - formula_pub: all_ab_percent ~ s(Corrected_LATITUDE, Corrected_LONGITUDE) + (1|REFUGE) + (1|REGION) [Generalized Additive Mixed Model (GAMM), termes spatiaux non-lineaires latitude/longitude + effets aleatoires imbriques site/refuge/region ; analyse complementaire par statistique Getis-Ord Gi* pour la detection de hotspots]
-- x_terms_pub: Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM), REFUGE (131 refuges USFWS, effet aleatoire), REGION (9 regions USFWS, effet aleatoire)
-- y_term_pub: all_ab_percent (pourcentage d'amphibiens presentant une anomalie squelettique/oculaire dans une collecte)
+- x_terms_pub: Corrected_LATITUDE/Corrected_LONGITUDE, REFUGE, REGION
+- y_term_pub: all_ab_percent
 - Reference publication: Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters).
 
 ### Statut regression canonique
@@ -103,6 +103,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Localized 
 ### Formule - niveau systeme
 
 - formula_used: all_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION
+- Recommended validation: N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: sampling_date, species, sp_coded, avg_gosner, avg_svl, sk_plus_eye_abnormal_count, sk_plus_eye_ab_percent, sk_abnormal_count, eye_abnormal_count, surface_abnormal_count, surface_ab_percent, disease_abnormal_count
 - y_term_used: all_ab_percent
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -123,8 +126,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "all_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION"
-    response: "all_ab_percent (pourcentage d'amphibiens presentant une anomalie squelettique/oculaire dans une collecte)"
-    predictors: ["Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM)", "REFUGE (131 refuges USFWS, effet aleatoire)", "REGION (9 regions USFWS, effet aleatoire)"]
+    response: "all_ab_percent"
+    predictors: ["Corrected_LATITUDE/Corrected_LONGITUDE", "REFUGE", "REGION"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -175,48 +178,49 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous_rate"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "77/675 evenements de collecte sans coordonnee valide exclus (proteection d'especes listees federalement documentee dans README_for_Site.txt), pas imputes -- N=598 final vs 675 collectes au total ; 4 SITE_ID dupliques dans le depot source dedoublonnes (garde la ligne avec coordonnees valides)"
-  reason: "Y continu reel (all_ab_percent, % d'anomalies), coordonnees GPS reelles corrigees (Corrected_LATITUDE/LONGITUDE), N=598 sur 131 refuges USFWS / 9 regions. CSV original telecharge directement depuis Dryad (isSupplementTo/primary_article), pas une reconstruction. Papier lu integralement (TEI) : formule confirmee (GAMM spatial non-lineaire lat/long + effets aleatoires imbriques site/refuge/region)."
+  missing_items: "N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: 77/675 evenements de collecte sans coordonnee valide exclus (proteection d'especes listees federalement documentee dans README_for_Site.txt), pas imputes -- N=598 final vs 675 collectes au total ; 4 SITE_ID dupliques dans le depot source dedoublonnes (garde la ligne avec coordonnees valides)
-- Raison: Y continu reel (all_ab_percent, % d'anomalies), coordonnees GPS reelles corrigees (Corrected_LATITUDE/LONGITUDE), N=598 sur 131 refuges USFWS / 9 regions. CSV original telecharge directement depuis Dryad (isSupplementTo/primary_article), pas une reconstruction. Papier lu integralement (TEI) : formule confirmee (GAMM spatial non-lineaire lat/long + effets aleatoires imbriques site/refuge/region).
+- Decision: manual_review
+- Manque principal: N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel_ou_series
 - N observations: 598
 - k variables: 38
-- T periods: 1
-- Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- T periods: 383 (corrige 2026-09-07 -- voir note ci-dessous)
+- Variable temporelle: sampling_date
+- N/T profile: N_grand_T_grand
+- Note T corrigee (session 2026-09-07, verification directe du `.rds`) : la colonne `sampling_date` (classe Date, correctement parsee, 1 seule valeur NA sur 598) existe dans les donnees avec 383 dates distinctes (2000-05-25 a 2009-10-02, ~10 saisons de terrain) mais n'avait pas ete reportee comme variable temporelle ici (T=1/n/a etait errone). Une colonne alternative `SITE_DATE` (263 valeurs distinctes) existe egalement. Coherent avec la confirmation TEI deja documentee (session 2026-09-07) : "Multi-year hotspot survey design explicitly described; sites revisited across survey years." Grouper la CV par site_id (ou REFUGE/REGION), et respecter la chronologie (annee de sampling_date) si l'objectif est prospectif.
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: 383 dates distinctes (variable: sampling_date), 2000-2009
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-161.87543, -67.2583], y [26.04285, 67.21632]
-- Time range: not applicable (cross-sectional dataset)
+- Time range: 2000-05-25 to 2009-10-02 (variable: sampling_date)
 - CRS analyse recommande: pending - multi-zones (span=94.6deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -246,3 +250,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=598; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=201. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

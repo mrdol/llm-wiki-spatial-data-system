@@ -2,7 +2,7 @@
 title: R_agridat_kayad.alfalfa_kayad.alfalfa
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_kayad.alfalfa_kayad.alfalfa.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Yield monitor data for 4 cuttings of alfalfa in Saudi Arabia.
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [48.026524, 48.0335667], y [24.1727114, 24.1782975]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Yield monitor data for 4 cuttings of alfalfa in Saudi Arabia.
 - Description source: package R `agridat`
@@ -196,3 +196,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

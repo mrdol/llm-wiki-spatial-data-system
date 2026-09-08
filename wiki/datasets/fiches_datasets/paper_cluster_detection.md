@@ -2,7 +2,7 @@
 title: paper_cluster_detection
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_cluster_detection.rds
   - DataCite_2016_ClusterDetectionOfSpatial_10_1002_sim_7172
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 |---|---|---|---|---|
 | `y_response_simulated` | `numeric` | continuous | [-11.2008, 14.8403] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `cluster_detection`, la ou les reponses `y_response_simulated` viennent du loader papier et/ou des preuves de l article `Cluster detection of spatial regression coefficients`. Les covariables X retenues sont `x_covariate_simulated`. Les coordonnees (`long`, `lat`), identifiants (`State`, `County`, `FIPS`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : excluded_simulation ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `cluster_detection`, la ou les reponses `y_response_simulated` viennent du loader papier et/ou des preuves de l article `Cluster detection of spatial regression coefficients`. Les covariables X retenues sont `x_covariate_simulated`. Les coordonnees (`long`, `lat`), identifiants (`State`, `County`, `FIPS`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -75,6 +75,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 ### Formule - niveau systeme
 
 - formula_used: y_response_simulated ~ x_covariate_simulated
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: x_covariate_simulated
 - y_term_used: y_response_simulated
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -147,27 +149,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "excluded_simulation"
-  benchmark_task: "regression_continuous_simulated"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "exclu du package benchmark empirique"
-  reason: "Y/X et coordonnees sont disponibles, mais l artefact local est un jeu simule de detection de clusters de coefficients, pas un benchmark empirique."
+  missing_items: "exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  reason: "exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
 ```
 
-- Decision: excluded_simulation
-- Manque principal: exclu du package benchmark empirique
-- Raison: Y/X et coordonnees sont disponibles, mais l artefact local est un jeu simule de detection de clusters de coefficients, pas un benchmark empirique.
+- Decision: not_ready_main_benchmark
+- Manque principal: exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
+- Raison: exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "excluded_simulation"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
-  ineligible_reason: "manual review required before package promotion"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  conditionally_eligible_estimators: []
+  ineligible_reason: "exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -218,3 +220,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Cluster detection of spatial regression coefficients
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : exclu du package benchmark empirique Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

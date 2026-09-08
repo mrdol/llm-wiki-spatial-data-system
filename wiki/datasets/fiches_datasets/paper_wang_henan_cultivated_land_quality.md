@@ -61,8 +61,8 @@ Le referentiel geometrique de reference (GADM ADM3) ne couvrait que 84/159 comte
 ### Formule — niveau publication
 
 - formula_pub: indice de qualite par comte comme moyenne ponderee par la surface des cantons `Y_i = sum(X_i,max/min,i * S_i) / sum(S_i)` (eqn 1), normalisation min-max `X_bar = (x_i - min)/(max - min)` (eqn 2), Moran's I global `I = n*sum_i,j(w_ij*(X_i-Xbar)*(X_j-Xbar)) / (sum_i,j(w_ij)*sum_i((X_i-Xbar)^2))` (eqn 3), Moran's I local (eqn 4-5)
-- x_terms_pub: facteurs de qualite des sols (epaisseur, salinite, pH, drainage, irrigation, pente) agreges au niveau canton puis comte
-- y_term_pub: `Y_i` (indice de qualite des terres cultivees du comte i)
+- x_terms_pub: facteurs de qualite des sols agreges au niveau canton puis comte
+- y_term_pub: `Y_i`
 - Reference publication: Wang, H., Zhu, Y., Wang, J., Han, H., Niu, J., Chen, X. (2022) "Modeling of spatial pattern and influencing factors of cultivated land quality in Henan Province based on spatial big data", PLOS ONE 17(4):e0265613. Equations (1)-(5).
 
 ### Statut regression canonique
@@ -77,7 +77,7 @@ Le referentiel geometrique de reference (GADM ADM3) ne couvrait que 84/159 comte
 
 - formula_used: `Effective.soil.thickness ~ Soil.salinity.content + Soil.acidity.and.alkalinity + Drainage.conditions + Irrigation.guarantee.rate + Slope`
 - x_terms_used: `Soil.salinity.content, Soil.acidity.and.alkalinity, Drainage.conditions, Irrigation.guarantee.rate, Slope`
-- y_term_used: `Effective.soil.thickness` (Y de substitution - voir note ci-dessus)
+- y_term_used: `Effective.soil.thickness`
 
 ### Formules candidates
 

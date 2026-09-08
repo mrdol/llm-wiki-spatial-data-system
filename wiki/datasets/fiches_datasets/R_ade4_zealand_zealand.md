@@ -2,7 +2,7 @@
 title: R_ade4_zealand_zealand
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_zealand_zealand.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This data set gives the road distances between 13 towns in New-Zealand.
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_zealand_zealand
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 13 enregistrements dans l’artefact local R_ade4_zealand_zealand.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [23.84162808642, 149.22550154321], y [34.752700617284, 179.085262345679]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set gives the road distances between 13 towns in New-Zealand.
 - Description source: package R `ade4`
@@ -171,18 +171,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_multivariate_ecology"
-  benchmark_task: "not_current_regression_benchmark"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "definir une reponse scalaire Y et une formule regression depuis une etude source"
-  reason: "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression."
+  missing_items: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
+  reason: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
 ```
 
-- Decision: not_ready_multivariate_ecology
-- Manque principal: definir une reponse scalaire Y et une formule regression depuis une etude source
-- Raison: Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.
+- Decision: not_ready_main_benchmark
+- Manque principal: Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée.
+- Raison: Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -198,3 +209,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

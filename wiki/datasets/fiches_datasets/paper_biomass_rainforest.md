@@ -2,7 +2,7 @@
 title: paper_biomass_rainforest
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_biomass_rainforest.rds
   - DataCite_2015_SpatialStructureOfAbove_10_1371_journal_
@@ -81,6 +81,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial St
 ### Formule - niveau systeme
 
 - formula_used: AGB_mean ~ area_ha + n_stems + mean_wsg + HAND + LOG + ALT + SLO
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: area_ha, n_stems, mean_wsg, HAND, LOG, ALT, SLO
 - y_term_used: AGB_mean
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -224,3 +226,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial Structure of Above-Ground Biomass Limits Accuracy of Carbon Mapping in Rainforest but Large Scale Forest Inventories Can Help to Overcome
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

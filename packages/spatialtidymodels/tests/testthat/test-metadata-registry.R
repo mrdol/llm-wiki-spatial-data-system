@@ -101,6 +101,10 @@ test_that("les routes package des evidences sont valides et les sources restent 
 })
 
 test_that("un modele publie est mappe sans perdre son nom source", {
+  skip_if_not(
+    "paper_li_energy_price_co2_china" %in% available_benchmark_datasets()$dataset,
+    "paper_li_energy_price_co2_china absent de ce snapshot du registre benchmark_ready (voir dataset_fiches_corrections_2026-09-07: reclasse ready_panel_reduction, T=15 non gere par la CV generique)"
+  )
   published <- eligible_estimators_for_dataset(
     "paper_li_energy_price_co2_china",
     include_installed = FALSE,
@@ -114,6 +118,10 @@ test_that("un modele publie est mappe sans perdre son nom source", {
 })
 
 test_that("un jeu repo_only peut utiliser ses routes publiees par defaut", {
+  skip_if_not(
+    "paper_li_energy_price_co2_china" %in% available_benchmark_datasets()$dataset,
+    "paper_li_energy_price_co2_china absent de ce snapshot du registre benchmark_ready (voir dataset_fiches_corrections_2026-09-07: reclasse ready_panel_reduction, T=15 non gere par la CV generique)"
+  )
   loaded <- load_benchmark_dataset("paper_li_energy_price_co2_china")
   automatic <- eligible_estimators_for_dataset(
     "paper_li_energy_price_co2_china",

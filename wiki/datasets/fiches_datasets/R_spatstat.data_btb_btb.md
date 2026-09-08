@@ -2,7 +2,7 @@
 title: R_spatstat.data_btb_btb
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_btb_btb.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Geospatial data of 873 farm locations with detected bovine tuberculosis in Cornw
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [136.4, 242.5], y [21.3, 116.9]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Geospatial data of 873 farm locations with detected bovine tuberculosis in Cornwall, UK, over the years 1989-2002. This data-set was first analysed in Diggle, Zheng and Durr (2005).
 - Description source: package R `spatstat.data`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

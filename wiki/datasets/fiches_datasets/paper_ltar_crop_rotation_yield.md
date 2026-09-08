@@ -2,7 +2,7 @@
 title: paper_ltar_crop_rotation_yield
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_ltar_crop_rotation_yield.rds
   - DatasetFirst_10_6078_d1h409
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 - Topic: agronomie / diversification des rotations de cultures et rendement
 - Observation unit: parcelle-annee
 - Observed population: 11 experiences de rotation de mais de long terme, Amerique du Nord (Etats-Unis et Canada), 1959-2016
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-103.1, -76.9], y [39, 44.4]; CRS EPSG:4326.
 - Temporal context: 58 distinct periods (variable: year)
 - Source description: Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 - Candidate X variables in local artifact: `year`, `system`, `tillage`, `fertilization`
 - Candidate X count in local artifact: 4
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: system (identifiant de rotation de culture, utilise pour calculer le RCI), tillage (travail du sol : conventionnel/reduit/sans labour), fertilization (regime de fertilisation azotee), year (annee, tendance temporelle)
+- Published X variables from paper: system, tillage, fertilization, year
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `site_lon`, `site_lat`
 - Identifier columns (excluded from X candidates): `X`, `site`, `site_name`, `plot`, `block`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 |---|---|---|---|---|
 | `yield_kg_ha` | `numeric` | continuous | [0, 20481.2] | 0.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `ltar_crop_rotation_yield`, la ou les reponses `yield_kg_ha` viennent du loader papier et/ou des preuves de l article `Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America`. Les covariables X retenues sont `system`, `tillage`, `fertilization`, `year`. Les coordonnees (`site_lon`, `site_lat`), identifiants (`X`, `site`, `site_name`, `plot`, `block`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ltar_crop_rotation_yield`, la ou les reponses `yield_kg_ha` viennent du loader papier et/ou des preuves de l article `Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America`. Les covariables X retenues sont `system`, `tillage`, `fertilization`, `year`. Les coordonnees (`site_lon`, `site_lat`), identifiants (`X`, `site`, `site_name`, `plot`, `block`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -63,8 +63,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 ### Formule - niveau publication
 
 - formula_pub: maize_yield ~ RCI (indice de complexite rotationnelle) x year (effet d'interaction, modele bayesien hierarchique par site) [le papier synthetise 11 experiences de rotation de cultures de long terme en Amerique du Nord (347 site-annees) pour montrer que la diversification des rotations ameliore les rendements de mais, notamment sous conditions stressantes]
-- x_terms_pub: system (identifiant de rotation de culture, utilise pour calculer le RCI), tillage (travail du sol : conventionnel/reduit/sans labour), fertilization (regime de fertilisation azotee), year (annee, tendance temporelle)
-- y_term_pub: yield_kg_ha (rendement de mais, kg/ha, releve historique par parcelle-annee)
+- x_terms_pub: system, tillage, fertilization, year
+- y_term_pub: yield_kg_ha
 - Reference publication: Macchi et al. (2020), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth, doi:10.1016/j.oneear.2020.02.007. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees.
 
 ### Statut regression canonique
@@ -78,6 +78,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 ### Formule - niveau systeme
 
 - formula_used: yield_kg_ha ~ system + tillage + fertilization + year
+- Recommended validation: N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: system, tillage, fertilization, year
 - y_term_used: yield_kg_ha
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -98,8 +101,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "yield_kg_ha ~ system + tillage + fertilization + year"
-    response: "yield_kg_ha (rendement de mais, kg/ha, releve historique par parcelle-annee)"
-    predictors: ["system (identifiant de rotation de culture, utilise pour calculer le RCI)", "tillage (travail du sol : conventionnel/reduit/sans labour)", "fertilization (regime de fertilisation azotee)", "year (annee, tendance temporelle)"]
+    response: "yield_kg_ha"
+    predictors: ["system", "tillage", "fertilization", "year"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -150,27 +153,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- CSV original telecharge directement depuis Dryad ; coordonnees des 11 sites lues directement dans le Tableau 1 du papier (pas un geocodage approximatif)"
-  reason: "Y continu reel (rendement de mais), N=11970 parcelle-annees avec coordonnees reelles des 11 sites (Amerique du Nord, Table 1 du papier), covariables de conception experimentale reelles (systeme de rotation, travail du sol, fertilisation). CSV original telecharge directement depuis Dryad (fausse alerte 'aucun fichier' corrigee), pas une reconstruction. Papier lu integralement (TEI) pour confirmer les coordonnees exactes des 11 sites et la formule du papier (RCI x annee)."
+  missing_items: "N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective."
+  reason: "N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- CSV original telecharge directement depuis Dryad ; coordonnees des 11 sites lues directement dans le Tableau 1 du papier (pas un geocodage approximatif)
-- Raison: Y continu reel (rendement de mais), N=11970 parcelle-annees avec coordonnees reelles des 11 sites (Amerique du Nord, Table 1 du papier), covariables de conception experimentale reelles (systeme de rotation, travail du sol, fertilisation). CSV original telecharge directement depuis Dryad (fausse alerte 'aucun fichier' corrigee), pas une reconstruction. Papier lu integralement (TEI) pour confirmer les coordonnees exactes des 11 sites et la formule du papier (RCI x annee).
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective.
+- Raison: N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -222,3 +225,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

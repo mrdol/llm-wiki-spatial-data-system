@@ -2,7 +2,7 @@
 title: R_SpatialEpi_pennLC_sf_pennLC_sf
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_SpatialEpi_pennLC_sf_pennLC_sf.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-80.335018576177, -75.059570042891], y [39.8664036, 42.043644]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002, stratified on race (white vs non-white), gender and age (Under 40, 40-59, 60-69 and 70+). Additionally, county-specific smoking rates.
 - Description source: package R `SpatialEpi`
@@ -74,6 +74,9 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 ### Formule — niveau systeme
 
 - formula_used: cases ~ population + race + gender + age + smoking
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: population + race + gender + age + smoking
 - y_term_used: cases
 
@@ -202,3 +205,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `SpatialEpi`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

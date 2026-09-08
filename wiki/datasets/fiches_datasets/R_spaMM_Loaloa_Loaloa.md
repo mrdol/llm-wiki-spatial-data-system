@@ -2,7 +2,7 @@
 title: R_spaMM_Loaloa_Loaloa
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spaMM_Loaloa_Loaloa.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [8.00433, 15.13611], y [3.35, 6.878]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set describes prevalence of infection by the nematode _Loa loa_ in North Cameroon, 1991-2001. This is a superset of the data discussed by Diggle and Ribeiro (2007) and Diggle et al. (2007). The study investigated the relationship between altitude, vegetation indices, and prevalence of the parasite.
 - Description source: package R `spaMM`
@@ -75,6 +75,8 @@ This data set describes prevalence of infection by the nematode _Loa loa_ in Nor
 ### Formule — niveau systeme
 
 - formula_used: cbind(npos, ntot-npos) ~ elev1 + elev2 + elev3 + elev4 + maxNDVI1 + seNDVI + Matern(1|longitude+latitude)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: elev1, elev2, elev3, elev4, maxNDVI1, seNDVI, Matern(1|longitude+latitude)
 - y_term_used: cbind(npos, ntot-npos)
 
@@ -203,3 +205,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spaMM`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

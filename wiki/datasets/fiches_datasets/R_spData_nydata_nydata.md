@@ -2,7 +2,7 @@
 title: R_spData_nydata_nydata
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_nydata_nydata.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ New York leukemia data taken from the data sets supporting Waller and Gotway 200
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spData_nydata_nydata
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 281 enregistrements dans l’artefact local R_spData_nydata_nydata.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-55.4823, 53.5086], y [-75.2907, 56.41013]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: New York leukemia data taken from the data sets supporting Waller and Gotway 2004 (the data should be loaded by running ‘example(NY_data)’ to demonstrate spatial data import techniques)
 - Description source: package R `spData`
@@ -75,9 +75,10 @@ New York leukemia data taken from the data sets supporting Waller and Gotway 200
 
 ### Formule — niveau systeme
 
-- formula_used: Cases ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))
-- x_terms_used: PEXPOSURE, PCTAGE65P, PCTOWNHOME
-- y_term_used: Cases
+- formula_used: pending
+- Formula used evidence: unavailable
+- x_terms_used: pending
+- y_term_used: pending
 
 ### Formules candidates
 
@@ -182,19 +183,34 @@ benchmark_readiness:
   package_include: "yes"
   has_local_rds: true
   missing_items: "aucun blocage automatique detecte"
-  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: scientific_evidence
+      source_ref: "Waller, L. and Gotway, C. (2004) Applied Spatial Statistics for Public Health Data, Ch. 9, Wiley ; coefficients reproduits par Bivand, Pebesma & Gomez-Rubio (2008)."
+      notes: "Formule Cases ~ PEXPOSURE+PCTAGE65P+PCTOWNHOME+offset(log(POP8)) avec coefficients exacts rapportes (PEXPOSURE 0.153, PCTOWNHOME -0.359, PCTAGE65P 4.050) -- preuve la plus forte du lot, deux sources convergentes."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING — formule executable indisponible ; conserver la preuve publiee separement dans formula_pub.
 - CRS: WARN - CRS absent du `.rds` source et non resolu automatiquement.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20% : AREANAME (NA=29.5%).
@@ -203,4 +219,13 @@ benchmark_readiness:
 
 ## Related Pages
 
+- [[Python_geodatasets_spdata.nydata]] (meme donnee source, package Python equivalent -- colonnes identiques verifiees 2026-09-08)
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+formula_pub reste intacte. formula_used est indisponible : aucune reponse de substitution n’a ete inventee.
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

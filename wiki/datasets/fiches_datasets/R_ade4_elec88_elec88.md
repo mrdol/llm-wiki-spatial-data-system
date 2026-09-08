@@ -2,7 +2,7 @@
 title: R_ade4_elec88_elec88
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_elec88_elec88.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ This data set gives the results of the presidential election in France in 1988 f
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [125766.73801921381, 983954.9248676517], y [1732913.6375392762, 2610853.4112350703]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set gives the results of the presidential election in France in 1988 for each department and all the candidates.
 - Description source: package R `ade4`
@@ -205,3 +205,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

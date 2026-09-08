@@ -2,7 +2,7 @@
 title: paper_nyc_tract_income_ssig
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_nyc_tract_income_ssig.rds
   - DataCite_2023_WhatDictatesIncomeIn_10_1057_s41599_023_0
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 - Candidate X variables in local artifact: `ALAND`, `AWATER`, `UDG25`, `PGD25`, `Unemploy`, `Age65p`, `AgeU18`, `PopDensity`, `MaleShare`, `BlackShare`, `AsianShare`, `WhiteShare`
 - Candidate X count in local artifact: 12
 - Candidate X typology: continuous
-- Published X variables from paper: proportion bachelor >=25 ans (UDG25), proportion diplome superieur >=25 ans (PGD25), taux de chomage (Unemploy), proportion >=65 ans (Age65p), proportion <18 ans (AgeU18), densite de population (PopDensity), proportion hommes (MaleShare), proportion Black/African American (BlackShare), proportion Asian (AsianShare), proportion White (WhiteShare), latitude/longitude du centroide (spatial info)
+- Published X variables from paper: proportion bachelor >=25 ans, proportion diplome superieur >=25 ans, taux de chomage, proportion >=65 ans, proportion <18 ans, densite de population, proportion hommes, proportion Black/African American, proportion Asian, proportion White, latitude/longitude du centroide
 - Published X count: 11
 - Coordinates (x, y - excluded from X candidates): `INTPTLON`, `INTPTLAT`
 - Identifier columns (excluded from X candidates): `GEOID`, `COUNTYFP`, `TRACTCE`
@@ -47,7 +47,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `per_capita_income` | `integer` | count | [2343, 276384] | 0% |
+| `per_capita_income` | `integer` | continuous | [2343, 276384] | 0% |
 | `median_household_income` | `numeric` | continuous | [11094, 250001] | 0% |
 
 > Selection Y/X (paper-loader / curated evidence) : Pour `nyc_tract_income_ssig`, la ou les reponses `per_capita_income`, `median_household_income` viennent du loader papier et/ou des preuves de l article `What dictates income in New York City? SHAP analysis of income estimation based on Socio-economic and Spatial Information Gaussian Processes (SSIG)`. Les covariables X retenues sont `UDG25`, `PGD25`, `Unemploy`, `Age65p`, `AgeU18`, `PopDensity`, `MaleShare`, `BlackShare`, `AsianShare`, `WhiteShare` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`INTPTLON`, `INTPTLAT`), identifiants (`GEOID`, `COUNTYFP`, `TRACTCE`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
@@ -72,8 +72,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 ### Formule - niveau publication
 
 - formula_pub: per_capita_income, median_household_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare + latitude + longitude [Gaussian Process, noyau Matern-3/2, pas d'equation lineaire fermee -- SHAP utilise pour l'importance des variables]
-- x_terms_pub: proportion bachelor >=25 ans (UDG25), proportion diplome superieur >=25 ans (PGD25), taux de chomage (Unemploy), proportion >=65 ans (Age65p), proportion <18 ans (AgeU18), densite de population (PopDensity), proportion hommes (MaleShare), proportion Black/African American (BlackShare), proportion Asian (AsianShare), proportion White (WhiteShare), latitude/longitude du centroide (spatial info)
-- y_term_pub: per_capita_income (ou median_household_income), District income at Tract-level
+- x_terms_pub: proportion bachelor >=25 ans, proportion diplome superieur >=25 ans, taux de chomage, proportion >=65 ans, proportion <18 ans, densite de population, proportion hommes, proportion Black/African American, proportion Asian, proportion White, latitude/longitude du centroide
+- y_term_pub: per_capita_income, District income at Tract-level
 - Reference publication: Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs.
 
 ### Statut regression canonique
@@ -87,6 +87,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 ### Formule - niveau systeme
 
 - formula_used: per_capita_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare
+- benchmark_task_note: per_capita_income est un revenu monetaire, meme stocke en entiers.
+- Selected Y evidence: per_capita_income est un revenu monetaire, meme stocke en entiers.
+- Selected Y typology: continuous
 - x_terms_used: UDG25, PGD25, Unemploy, Age65p, AgeU18, PopDensity, MaleShare, BlackShare, AsianShare, WhiteShare
 - y_term_used: per_capita_income
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -107,8 +110,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "per_capita_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare"
-    response: "per_capita_income (ou median_household_income), District income at Tract-level"
-    predictors: ["proportion bachelor >=25 ans (UDG25)", "proportion diplome superieur >=25 ans (PGD25)", "taux de chomage (Unemploy)", "proportion >=65 ans (Age65p)", "proportion <18 ans (AgeU18)", "densite de population (PopDensity)", "proportion hommes (MaleShare)", "proportion Black/African American (BlackShare)", "proportion Asian (AsianShare)", "proportion White (WhiteShare)", "latitude/longitude du centroide (spatial info)"]
+    response: "per_capita_income, District income at Tract-level"
+    predictors: ["proportion bachelor >=25 ans", "proportion diplome superieur >=25 ans", "taux de chomage", "proportion >=65 ans", "proportion <18 ans", "densite de population", "proportion hommes", "proportion Black/African American", "proportion Asian", "proportion White", "latitude/longitude du centroide"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -230,3 +233,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: What dictates income in New York City? SHAP analysis of income estimation based on Socio-economic and Spatial Information Gaussian Processes (SSIG)
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. per_capita_income est un revenu monetaire, meme stocke en entiers.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

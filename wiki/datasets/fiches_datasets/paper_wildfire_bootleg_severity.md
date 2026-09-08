@@ -2,7 +2,7 @@
 title: paper_wildfire_bootleg_severity
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_wildfire_bootleg_severity.rds
   - DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700
@@ -110,6 +110,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Learning f
 ### Formule - niveau systeme
 
 - formula_used: rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: annual_aet_1981_2010, annual_deficit_1981_2010, annual_pet_1981_2010, annual_ppt_anl_total_1981_2010, annual_tmmean_anl_mean_1981_2010, annual_tmmin_anl_mean_1981_2010, distance_to_roads, distance_to_streams_wetlands, distance_to_trt_edge, frs, gedi_rh100_mean, gedi_rh100_sd, erc, fm100, fm1000, minrh, tmmx, vpd, LF2020_CBD, LF2020_CC, LF2020_CH, scf, sdd, elevation_10res, hli_10res, slope_10res, sri_10res, tpi_10res_2010win, tpi_10res_410win, tpi_10res_8010win, tri_10res_410win, eastwestness_mx_speed_direction_20230501, mx_speed_20230501, northsouthness_mx_speed_direction_20230501
 - y_term_used: rdnbr
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -253,3 +255,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Learning from wildfires: A scalable framework to evaluate treatment effects on burn severity
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

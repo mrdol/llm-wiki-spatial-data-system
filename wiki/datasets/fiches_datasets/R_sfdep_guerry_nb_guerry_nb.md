@@ -2,7 +2,7 @@
 title: R_sfdep_guerry_nb_guerry_nb
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_sfdep_guerry_nb_guerry_nb.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_sfdep_guerry_nb_guerry_nb
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 85 enregistrements dans l’artefact local R_sfdep_guerry_nb_guerry_nb.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [143129.70709570957, 983300.7956123737], y [1735692.5, 2615767.5]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 - Description source: package R `sfdep`
@@ -87,6 +87,9 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 ### Formule — niveau systeme
 
 - formula_used: crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
 - y_term_used: crime_pers
 
@@ -215,3 +218,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `sfdep`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

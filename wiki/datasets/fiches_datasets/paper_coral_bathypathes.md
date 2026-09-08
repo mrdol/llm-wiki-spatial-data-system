@@ -2,7 +2,7 @@
 title: paper_coral_bathypathes
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_coral_bathypathes.rds
   - DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 |---|---|---|---|---|
 | `pa` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `coral_bathypathes`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OM_CAL3_C`, `OXY_C`, `PBO_C`, `SO_C`, `SFR_OARG_C`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `coral_bathypathes`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OM_CAL3_C`, `OXY_C`, `PBO_C`, `SO_C`, `SFR_OARG_C`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -88,6 +88,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 ### Formule - niveau systeme
 
 - formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
 - y_term_used: pa
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -164,23 +166,47 @@ benchmark_readiness:
   benchmark_task: "classification_binary_presence_absence"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "Y binaire (pa) uniquement -- pas de variante continue disponible ; estimateurs de reference fixes sur random_forest/random_forest_spatial (deja dans le package)"
-  reason: "pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV). Promu package_include=yes le 2026-08-15 : le seul frein etait la typologie Y binaire, pas un manque de donnees -- traitement Y-binaire dans le package a regler plus tard globalement."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Bloc estimator_eligibility complete le 2026-09-08. Meme papier/methodologie que les 11 autres coraux du meme depot (DOI 10.1111/gcb.16389, dataset DOI 10.5061/dryad.41ns1rnht) deja resolus (Random Forest + Boosted Regression Trees documentes dans les fiches soeurs) -- N plus petit ici (390, specimens museaux via GBIF) mais meme formule (pa ~ memes covariables) et meme papier. Ancien blocage 'current_package_regression_only' resolu a la source (bug du script d'export, corrige le 2026-09-08)."
 ```
 
 - Decision: ready
-- Manque principal: Y binaire (pa) uniquement -- pas de variante continue disponible ; estimateurs de reference fixes sur random_forest/random_forest_spatial (deja dans le package)
-- Raison: pa binaire, 14 covariables environnementales et coordonnees WGS84 tous confirmes par contenu reel (README Dryad + verification du CSV). Promu package_include=yes le 2026-08-15 : le seul frein etait la typologie Y binaire, pas un manque de donnees -- traitement Y-binaire dans le package a regler plus tard globalement.
+- Manque principal: aucun blocage automatique detecte
+- Raison: Bloc estimator_eligibility complete le 2026-09-08. Meme papier/methodologie que les 11 autres coraux du meme depot (DOI 10.1111/gcb.16389, dataset DOI 10.5061/dryad.41ns1rnht) deja resolus (Random Forest + Boosted Regression Trees documentes dans les fiches soeurs) -- N plus petit ici (390, specimens museaux via GBIF) mais meme formule (pa ~ memes covariables) et meme papier. Ancien blocage 'current_package_regression_only' resolu a la source (bug du script d'export, corrige le 2026-09-08).
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: generated_candidate
+      source_ref: "Routage binaire ajoute au harnais cette semaine (glm(family=binomial()))."
+      notes: "Meme papier que les 11 autres fiches coral_* (DOI 10.1111/gcb.16389) -- eligibilite basee sur la capacite technique du harnais."
+    - estimator: gam_spatial
+      basis: generated_candidate
+      source_ref: "Routage binaire ajoute au harnais cette semaine (mgcv::gam(family=binomial()))."
+      notes: "Capacite technique du harnais, coherent avec le reste de la famille coral_*."
+    - estimator: random_forest
+      basis: published_model
+      source_ref: "Fiches soeurs coral_* (meme DOI 10.1111/gcb.16389) : \"Modeles de suitabilite d'habitat (HSM) pour coraux profonds en Nouvelle-Zelande avec Random Forests et Boosted Regression Trees\"."
+      notes: "Random Forest est la methode publiee pour cette famille de donnees (meme etude, espece differente, N plus petit car specimens museaux)."
+    - estimator: xgboost
+      basis: published_model
+      source_ref: "Fiches soeurs coral_* mentionnent des Boosted Regression Trees (BRT) -- xgboost est l'estimateur boosting le plus proche disponible."
+      notes: "Analogue a la methode BRT documentee pour cette famille de donnees, sans etre l'implementation exacte des auteurs."
+    - estimator: sar_probit
+      basis: generated_candidate
+      source_ref: "Nouvel estimateur ajoute cette semaine pour reponse binaire (ProbitSpatial, DGP=SAR)."
+      notes: "Capacite technique du harnais."
+    - estimator: sem_probit
+      basis: generated_candidate
+      source_ref: "Nouvel estimateur ajoute cette semaine pour reponse binaire (ProbitSpatial, DGP=SEM)."
+      notes: "Capacite technique du harnais."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08. Meme papier/methodologie que les 11 autres coraux du meme depot (DOI 10.1111/gcb.16389, dataset DOI 10.5061/dryad.41ns1rnht) deja resolus (Random Forest + Boosted Regression Trees documentes dans les fiches soeurs) -- N plus petit ici (390, specimens museaux via GBIF) mais meme formule (pa ~ memes covariables) et meme papier. Ancien blocage 'current_package_regression_only' resolu a la source (bug du script d'export, corrige le 2026-09-08)."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -231,3 +257,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

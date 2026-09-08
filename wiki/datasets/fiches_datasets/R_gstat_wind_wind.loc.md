@@ -2,7 +2,7 @@
 title: R_gstat_wind_wind.loc
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_wind_wind.loc.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Daily average wind speeds for 1961-1978 at 12 synoptic meteorological stations i
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_gstat_wind_wind.loc
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 12 enregistrements dans l’artefact local R_gstat_wind_wind.loc.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [1, 12], y [1, 12]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Daily average wind speeds for 1961-1978 at 12 synoptic meteorological stations in the Republic of Ireland (Haslett and raftery 1989). Wind speeds are in knots (1 knot = 0.5418 m/s), at each of the stations in the order given in Fig.4 of Haslett and Raftery (1989, see below)
 - Description source: package R `gstat`
@@ -196,3 +196,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

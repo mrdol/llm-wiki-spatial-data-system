@@ -2,7 +2,7 @@
 title: paper_amphibian_functional_diversity
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_amphibian_functional_diversity.rds
   - DatasetFirst_10_5061_dryad_nk0bj96
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Amphibian 
 - Topic: biogeographie / diversite fonctionnelle des amphibiens
 - Observation unit: cellule de grille
 - Observed population: amphibiens du Nouveau Monde (Ameriques), N=4065 cellules de grille
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-167.0655071, -34.4041591], y [-54.852941, 70.2585972]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Amphibian 
 - Candidate X variables in local artifact: `Alt`, `NPP`, `PET`, `AI`, `Pps`, `Pp`, `Ts`, `MeanAnnualTemp`, `Alt_st`, `NPP_st`, `PET_st`, `AI_st`, `Pps_st`, `Pp_st`, `Ts_st`, `T_st`, `H0_25`, `H0_5`, `H0_75`, `H1`, `H2`, `H3`, `H4`, `H5`, `Traits`
 - Candidate X count in local artifact: 25
 - Candidate X typology: continuous
-- Published X variables from paper: NPP (productivite primaire nette), T (temperature annuelle moyenne, renommee MeanAnnualTemp dans le loader -- voir source_ref), Pp (precipitation annuelle), Ts (saisonnalite de temperature), Pps (saisonnalite de precipitation), AI (indice d'aridite)
+- Published X variables from paper: MeanAnnualTemp, Pp, Ts, AI (modele final ; NPP et Pps etaient candidats au criblage de colinearite mais exclus du modele final, corrige 2026-09-08)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): `UNIQUE_ID`, `Regions`
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Amphibian 
 | `Shannon` | `numeric` | continuous | [0, 3.4622] | 0% |
 | `Gini_Simp` | `numeric` | rate | [0, 0.9612] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `amphibian_functional_diversity`, la ou les reponses `H0`, `Richness`, `Shannon`, `Gini_Simp` viennent du loader papier et/ou des preuves de l article `Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World`. Les covariables X retenues sont `NPP`, `MeanAnnualTemp`, `Pp`, `Ts`, `Pps`, `AI` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`X`, `Y`), identifiants (`UNIQUE_ID`, `Regions`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `amphibian_functional_diversity`, la ou les reponses `H0`, `Richness`, `Shannon`, `Gini_Simp` viennent du loader papier et/ou des preuves de l article `Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World`. Les covariables X retenues sont `MeanAnnualTemp`, `Pp`, `Ts`, `AI` (corrige 2026-09-08 -- modele final publie, SAR) ; 21 autres colonnes candidates (dont NPP et Pps, ecartees du modele final) restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`X`, `Y`), identifiants (`UNIQUE_ID`, `Regions`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -86,23 +86,26 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Amphibian 
 
 ### Formule - niveau publication
 
-- formula_pub: H0 ~ NPP + T + Pp + Ts + Pps + AI [Regression par Moindres Carres Ordinaires (OLS), p-value corrigee pour l'autocorrelation spatiale par le test t modifie de Dutilleul]
-- x_terms_pub: NPP (productivite primaire nette), T (temperature annuelle moyenne, renommee MeanAnnualTemp dans le loader -- voir source_ref), Pp (precipitation annuelle), Ts (saisonnalite de temperature), Pps (saisonnalite de precipitation), AI (indice d'aridite)
-- y_term_pub: H0 (richesse fonctionnelle, nombre de Hill d'ordre 0) ; Richness (richesse specifique) disponible comme variante
+- formula_pub: H0 ~ MeanAnnualTemp + Pp + Ts + AI [modele SAR (spatial autoregressive), modele final publie -- OLS+Dutilleul ne sert qu'au criblage prealable de colinearite sur le jeu complet de 6 variables candidates]
+- x_terms_pub: MeanAnnualTemp, Pp, Ts, AI
+- y_term_pub: H0 ; Richness disponible comme variante
 - Reference publication: Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction.
+- Correction APPLIQUEE (2026-09-08, lecture TEI approfondie, puis correction sur demande explicite de l'utilisateur) : le modele publie H0~environnement est un **SAR (spatial autoregressive)**, pas un OLS -- le TEI precise "We generated an SAR model for each functional diversity metric... explicit spatial dependence is allowed within a neighbourhood structure" (l'OLS+correction Dutilleul ne sert qu'au criblage prealable de colinearite sur les 6 variables candidates, pas au modele final). Le texte du papier precise : "Final models were run with annual mean temperature, annual precipitation, temperature seasonality and aridity index" (4 variables). `formula_used`/`x_terms_used`/`formula_pub` corriges pour ne garder que ces 4 variables (MeanAnnualTemp, Pp, Ts, AI -- NPP et Pps retires) et `sar_lag` ajoute comme estimateur eligible (voir Estimator eligibility). formula_status : `pub` (modele final confirme et correctement specifie).
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Statut: resolu (corrige 2026-09-08)
+- Niveau de preuve: publication -- variables ET methode (SAR) desormais conformes au modele final du papier
+- Methode d estimation: formule publication confirmee et corrigee (4 variables du modele final, SAR)
 - Correspondance Python/R: aucune identifiee
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
-- formula_used: H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI
-- x_terms_used: NPP, MeanAnnualTemp, Pp, Ts, Pps, AI
+- formula_used: H0 ~ MeanAnnualTemp + Pp + Ts + AI
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
+- x_terms_used: MeanAnnualTemp, Pp, Ts, AI
 - y_term_used: H0
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
@@ -121,23 +124,23 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI"
-    response: "H0 (richesse fonctionnelle, nombre de Hill d'ordre 0) ; Richness (richesse specifique) disponible comme variante"
-    predictors: ["NPP (productivite primaire nette)", "T (temperature annuelle moyenne, renommee MeanAnnualTemp dans le loader -- voir source_ref)", "Pp (precipitation annuelle)", "Ts (saisonnalite de temperature)", "Pps (saisonnalite de precipitation)", "AI (indice d'aridite)"]
+    formula: "H0 ~ MeanAnnualTemp + Pp + Ts + AI"
+    response: "H0"
+    predictors: ["MeanAnnualTemp", "Pp", "Ts", "AI"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["sar_lag", "ols"]
     status: "confirmed"
 
   ml_or_selected:
-    formula: "H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI"
+    formula: "H0 ~ MeanAnnualTemp + Pp + Ts + AI"
     response: "H0"
-    predictors: ["NPP", "MeanAnnualTemp", "Pp", "Ts", "Pps", "AI"]
+    predictors: ["MeanAnnualTemp", "Pp", "Ts", "AI"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_error", "gwr", "random_forest"]
+    estimator_context: ["sar_lag", "ols", "random_forest"]
     status: "executable_continuous_variant"
 ```
 
@@ -156,15 +159,15 @@ formula_candidates:
 ## Bloc 3 - Typologie des modeles
 
 - Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
-- Modele niveau 2 (famille): pending
-- Modele niveau 3 (variante): pending
+- Modele niveau 2 (famille): SAR (spatial autoregressive)
+- Modele niveau 3 (variante): sar_lag
 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "H0 ~ NPP + T + Pp + Ts + Pps + AI [Regression par Moindres Carres Ordinaires (OLS), p-value corrigee pour l'autocorrelation spatiale par le test t modifie de Dutilleul]"
+  equation_text: "H0 ~ MeanAnnualTemp + Pp + Ts + AI [modele SAR (spatial autoregressive), modele final publie -- corrige 2026-09-08, remplace l'ancienne mention OLS+Dutilleul qui ne concernait que le criblage de colinearite prealable]"
   equation_family: paper_empirical_or_dataset_specific
-  model_family: spatial_or_paper_specific_regression
+  model_family: spatial_autoregressive_sar
   source_type: scientific_publication_or_package_documentation
   source_ref: "Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction."
   confidence: medium
@@ -175,26 +178,34 @@ modeling_evidence:
 ```yaml
 benchmark_readiness:
   benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
+  benchmark_task: "regression_spatial_sar_confirmed"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "aucun -- CSV original telecharge directement depuis Dryad, N=4065 identique au depot source"
-  reason: "Y continu reel (H0, richesse fonctionnelle), N=4065 cellules de grille avec coordonnees reelles (X/Y), covariables climatiques/environnementales exactes du papier (NPP, temperature, precipitation, aridite). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la formule (OLS avec correction d'autocorrelation spatiale de Dutilleul). Papier recupere manuellement par l'utilisateur (session 2026-08-16)."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Bloc complete le 2026-09-08 apres correction de formula_used (4 variables du modele final, retrait de NPP et Pps). sar_lag est l'estimateur scientifiquement fonde (modele publie explicitement SAR, Ochoa-Ochoa et al. 2019)."
 ```
 
 - Decision: ready
-- Manque principal: aucun -- CSV original telecharge directement depuis Dryad, N=4065 identique au depot source
-- Raison: Y continu reel (H0, richesse fonctionnelle), N=4065 cellules de grille avec coordonnees reelles (X/Y), covariables climatiques/environnementales exactes du papier (NPP, temperature, precipitation, aridite). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la formule (OLS avec correction d'autocorrelation spatiale de Dutilleul). Papier recupere manuellement par l'utilisateur (session 2026-08-16).
+- Manque principal: aucun blocage automatique detecte
+- Raison: Bloc complete le 2026-09-08 apres correction de formula_used (4 variables du modele final, retrait de NPP et Pps). sar_lag est l'estimateur scientifiquement fonde (modele publie explicitement SAR, Ochoa-Ochoa et al. 2019).
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: sar_lag
+      basis: scientific_evidence
+      source_ref: "Ochoa-Ochoa, L.M. et al. (2019), Global Ecology and Biogeography, doi:10.1111/geb.12926 -- \"We generated an SAR model for each functional diversity metric... explicit spatial dependence is allowed within a neighbourhood structure.\""
+      notes: "Modele final publie, verbatim (4 variables : MeanAnnualTemp, Pp, Ts, AI)."
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Le papier utilise OLS+Dutilleul uniquement pour le criblage de colinearite prealable, pas le modele final -- conserve ici comme comparateur non-spatial standard."
+      notes: "Comparateur de reference, pas le modele publie."
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "Bloc complete le 2026-09-08 apres correction de formula_used (4 variables du modele final, retrait de NPP et Pps). sar_lag est l'estimateur scientifiquement fonde (modele publie explicitement SAR, Ochoa-Ochoa et al. 2019)."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -245,3 +256,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

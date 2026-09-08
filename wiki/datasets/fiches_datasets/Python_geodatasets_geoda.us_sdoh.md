@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.us_sdoh
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.us_sdoh.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.610572536667, -67.014337701544], y [24.549446, 48.987003]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 - Description source: package Python `geodatasets`
@@ -85,6 +85,9 @@ Dataset spatial issu du package Python `geodatasets` (`us_sdoh`).
 ### Formule — niveau systeme
 
 - formula_used: SDOH_CL ~ ep_pci + ep_nohs + ep_sngp + ep_lime + ep_crow + ep_nove + rntov30p_1 + ep_minrty
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: ep_pci + ep_nohs + ep_sngp + ep_lime + ep_crow + ep_nove + rntov30p_1 + ep_minrty
 - y_term_used: SDOH_CL
 
@@ -213,3 +216,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

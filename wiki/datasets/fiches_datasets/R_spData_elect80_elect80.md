@@ -2,7 +2,7 @@
 title: R_spData_elect80_elect80
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_elect80_elect80.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A data set for 1980 Presidential election results covering 3,107 US counties usi
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.2299, -67.60999], y [25.117067, 48.833747]; CRS +proj=longlat +datum=NAD27 +no_defs.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A data set for 1980 Presidential election results covering 3,107 US counties using geographical coordinates. In addition, three spatial neighbour objects, ‘k4’ not using Great Circle distances, ‘dll’ using Great Circle distances, and ‘e80_queen’ of Queen contiguities for equivalent County polygons taken from file ‘co1980p020.tar.gz’ on the USGS Nat...
 - Description source: package R `spData`
@@ -70,6 +70,8 @@ A data set for 1980 Presidential election results covering 3,107 US counties usi
 ### Formule — niveau systeme
 
 - formula_used: pc_turnout ~ pc_college + pc_homeownership + pc_income
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: pc_college, pc_homeownership, pc_income
 - y_term_used: pc_turnout
 
@@ -176,13 +178,32 @@ benchmark_readiness:
   package_include: "yes"
   has_local_rds: true
   missing_items: "aucun blocage automatique detecte"
-  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: scientific_evidence
+      source_ref: "Pace, R.K. & Barry, R. (1997). Geographical Analysis, 29(3), 232-247."
+      notes: "Formule pc_turnout ~ pc_college+pc_homeownership+pc_income, jeu de donnees distribue avec la Spatial Econometrics Toolbox de cet article."
+    - estimator: sar_lag
+      basis: scientific_evidence
+      source_ref: "Pace, R.K. & Barry, R. (1997). Geographical Analysis, 29(3), 232-247, 'Quick computation of spatial autoregressive estimators'."
+      notes: "Le titre meme de l'article porte sur le calcul d'estimateurs spatiaux autoregressifs (SAR) ; ce jeu de donnees sert precisement a en demontrer le calcul."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -198,3 +219,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

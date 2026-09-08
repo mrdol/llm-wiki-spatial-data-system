@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.lansing2
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.lansing2.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`lansing2`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.lansing2
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 46 enregistrements dans l’artefact local Python_geodatasets_geoda.lansing2.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-85.133897201698, -84.178265341862], y [42.39228, 43.123105]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`lansing2`).
 - Description source: package Python `geodatasets`
@@ -86,6 +86,9 @@ Dataset spatial issu du package Python `geodatasets` (`lansing2`).
 ### Formule — niveau systeme
 
 - formula_used: PCTGRO ~ POP2001 + EST98 + EMP98 + MAN98 + MAN98_12 + MAN98_39 + MAN01 + OFF98
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: POP2001 + EST98 + EMP98 + MAN98 + MAN98_12 + MAN98_39 + MAN01 + OFF98
 - y_term_used: PCTGRO
 
@@ -214,3 +217,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

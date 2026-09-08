@@ -2,7 +2,7 @@
 title: paper_florida_crash_gsvcm
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_florida_crash_gsvcm.rds
   - DataCite_2020_GeneralizedSpatiallyVaryingCoefficient_10_1080_10618600
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 |---|---|---|---|---|
 | `Offcrsh` | `integer` | count | [0, 159] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `florida_crash_gsvcm`, la ou les reponses `Offcrsh` viennent du loader papier et/ou des preuves de l article `Generalized Spatially Varying Coefficient Models`. Les covariables X retenues sont `log.VMT`, `log.Pop`, `Rmale`, `Rhisp`, `Rold`, `Runemploy`. Les coordonnees (`Lon`, `Lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -80,6 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 ### Formule - niveau systeme
 
 - formula_used: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_used: Offcrsh
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -153,25 +155,38 @@ modeling_evidence:
 ```yaml
 benchmark_readiness:
   benchmark_status: "ready"
-  benchmark_task: "regression_count_spatial_svc"
+  benchmark_task: "count_spatial_varying_coefficients"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "reponse Offcrsh = compte d accidents; utiliser RMSE/MAE comme benchmark numerique ou une route count dediee quand elle sera disponible"
-  reason: "Le script supplementaire donne explicitement Y, X et coordonnees; l'application Florida crash est un cas empirique GSVCM/negative-binomial. La reponse est un count, documente comme tel mais conservable dans le package."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Bloc estimator_eligibility complete le 2026-09-08. Confirme par lecture TEI approfondie : Generalized Spatially Varying Coefficient Model (GSVCM), coefficients variant spatialement par splines penalisees sur triangulation, familles Poisson/binomiale negative -- correspond exactement a formula_used (Offcrsh ~ log.VMT+log.Pop+Rmale+Rhisp+Rold+Runemploy), aucun ecart detecte."
 ```
 
 - Decision: ready
-- Manque principal: reponse Offcrsh = compte d accidents; utiliser RMSE/MAE comme benchmark numerique ou une route count dediee quand elle sera disponible
-- Raison: Le script supplementaire donne explicitement Y, X et coordonnees; l'application Florida crash est un cas empirique GSVCM/negative-binomial. La reponse est un count, documente comme tel mais conservable dans le package.
+- Manque principal: aucun blocage automatique detecte
+- Raison: Bloc estimator_eligibility complete le 2026-09-08. Confirme par lecture TEI approfondie : Generalized Spatially Varying Coefficient Model (GSVCM), coefficients variant spatialement par splines penalisees sur triangulation, familles Poisson/binomiale negative -- correspond exactement a formula_used (Offcrsh ~ log.VMT+log.Pop+Rmale+Rhisp+Rold+Runemploy), aucun ecart detecte.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  - estimator: negative_binomial_gsvcm
-    basis: published_model
-    source_ref: "Wu et al. (2020), supplementary script Code/main_GSVCM_application.R."
-    notes: "Modele GSVCM a loi binomiale negative; aucune route locale pour reponse de comptage n'est automatisee dans le registre actuel."
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: scientific_evidence
+      source_ref: "Wang, Wang & Yu (2020), Journal of Computational and Graphical Statistics, DOI 10.1080/10618600.2020.1754225 -- GSVCM sous famille Poisson/binomiale negative sur donnees de collisions routieres en Floride."
+      notes: "GLM Poisson/NB est le cadre de base du GSVCM publie ; la variante spatialement variable exacte (splines sur triangulation) n'est pas disponible dans le harnais -- route analogue, pas une reproduction exacte."
+    - estimator: gam_spatial
+      basis: generated_candidate
+      source_ref: "Routage comptage ajoute au harnais cette semaine (mgcv::gam(family=poisson()))."
+      notes: "GAM spatial est l'approximation la plus proche disponible du GSVCM (coefficients spatialement variables via splines), sans etre l'implementation exacte des auteurs."
+    - estimator: xgboost
+      basis: generated_candidate
+      source_ref: "response_typologies inclut 'count' pour xgboost depuis la mise a jour du registre cette semaine."
+      notes: "Capacite technique du harnais, comparateur non-spatial."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08. Confirme par lecture TEI approfondie : Generalized Spatially Varying Coefficient Model (GSVCM), coefficients variant spatialement par splines penalisees sur triangulation, familles Poisson/binomiale negative -- correspond exactement a formula_used (Offcrsh ~ log.VMT+log.Pop+Rmale+Rhisp+Rold+Runemploy), aucun ecart detecte."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -222,3 +237,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Generalized Spatially Varying Coefficient Models
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

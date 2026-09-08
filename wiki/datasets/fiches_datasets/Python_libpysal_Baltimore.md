@@ -2,7 +2,7 @@
 title: Python_libpysal_Baltimore
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_Baltimore.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_libpysal_Baltimore
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 211 enregistrements dans l’artefact local Python_libpysal_Baltimore.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-40, 87.5], y [-41, 34.5]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 - Description source: package Python `libpysal`
@@ -64,10 +64,10 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- x_terms_pub: NROOM, NBATH, PATIO, FIREPL, AC, GAR, AGE, LOTSZ, SQFT
+- y_term_pub: PRICE
+- Reference publication: Dubin, Robin A. (1992). Spatial autocorrelation and neighborhood quality. Regional Science and Urban Economics 22(3), 433-452. NOTE (confiance moyenne) : formule hedonique standard reproduite par les packages derives de ce jeu de donnees (hspm/spregimes) ; texte original de Dubin non accessible (paywall) pour verifier exactement la liste de covariables/forme fonctionnelle. Meme jeu de donnees que [[R_spData_baltimore_baltimore]] (colonnes identiques verifiees le 2026-09-08 : AC, AGE, BMENT, CITCOU, DWELL, FIREPL, GAR, LOTSZ, NBATH, NROOM, NSTOR, PATIO, PRICE, SQFT, STATION, N=211) ; formula_used ci-dessous correspond deja exactement a ce modele.
 
 ### Statut regression canonique
 
@@ -80,6 +80,8 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 ### Formule — niveau systeme
 
 - formula_used: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
 - y_term_used: PRICE
 
@@ -185,14 +187,29 @@ benchmark_readiness:
   benchmark_task: "regression_spatial_validated_generated_formula"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
-  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant. formula_pub egalement documente le 2026-09-08 par correspondance avec le jeu homologue du package R (colonnes identiques verifiees). Bloc estimator_eligibility complete le 2026-09-08 -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
-- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
-- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant. formula_pub egalement documente le 2026-09-08 par correspondance avec le jeu homologue du package R (colonnes identiques verifiees). Bloc estimator_eligibility complete le 2026-09-08 -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: published_model
+      source_ref: "Dubin, Robin A. (1992). Regional Science and Urban Economics 22(3), 433-452 (confiance moyenne, texte original paywall)."
+      notes: "Formule hedonique PRICE ~ NROOM+NBATH+PATIO+FIREPL+AC+GAR+AGE+LOTSZ+SQFT reproduite par les packages derives (hspm/spregimes) ; confiance moyenne car texte source non verifie directement."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -209,3 +226,11 @@ benchmark_readiness:
 
 - Source: package Python `libpysal`
 - Duplicate/version candidate: [[Python_libpysal_baltim]]
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_dougfir_sdm
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_dougfir_sdm.rds
   - DatasetFirst_10_5061_dryad_737gk
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 - Topic: ecologie / modelisation de distribution d'espece (SDM)
 - Observation unit: point d'occurrence/pseudo-absence
 - Observed population: sapin de Douglas (Pseudotsuga menziesii), Amerique du Nord, N=53293 points
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-171.8, -95], y [15.7, 79.88]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 - Candidate X variables in local artifact: `Elev`, `MWMT`, `MCMT`, `PPT_sm`, `MDMP`, `DD5`, `AHM`, `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6`
 - Candidate X count in local artifact: 13
 - Candidate X typology: continuous
-- Published X variables from paper: PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)
+- Published X variables from paper: PC1-PC6
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `Long`, `Lat`
 - Identifier columns (excluded from X candidates): `ID`, `X`, `x`, `y`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 |---|---|---|---|---|
 | `PRES` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `dougfir_sdm`, la ou les reponses `PRES` viennent du loader papier et/ou des preuves de l article `Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure`. Les covariables X retenues sont `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Long`, `Lat`), identifiants (`ID`, `X`, `x`, `y`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `dougfir_sdm`, la ou les reponses `PRES` viennent du loader papier et/ou des preuves de l article `Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure`. Les covariables X retenues sont `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Long`, `Lat`), identifiants (`ID`, `X`, `x`, `y`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -72,8 +72,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 ### Formule - niveau publication
 
 - formula_pub: PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 [modele de distribution d'espece (SDM) : GLM binomial stepwise (lineaire et quadratique) et Random Forest sur les composantes principales climatiques, compares sous differentes strategies de validation croisee (aleatoire, par blocs spatiaux, par blocs environnementaux)]
-- x_terms_pub: PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)
-- y_term_pub: PRES (presence/absence du sapin de Douglas, Pseudotsuga menziesii, Amerique du Nord)
+- x_terms_pub: PC1-PC6
+- y_term_pub: PRES
 - Reference publication: Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord.
 
 ### Statut regression canonique
@@ -87,6 +87,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 ### Formule - niveau systeme
 
 - formula_used: PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: PC1, PC2, PC3, PC4, PC5, PC6
 - y_term_used: PRES
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -97,8 +99,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 formula_candidates:
   univariate:
     formula: "PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6"
-    response: "PRES (presence/absence du sapin de Douglas, Pseudotsuga menziesii, Amerique du Nord)"
-    predictors: ["PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)"]
+    response: "PRES"
+    predictors: ["PC1-PC6"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -159,27 +161,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "classification_binary_presence_absence_sdm"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_binary"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- RData original telecharge directement depuis Dryad, N=53293 identique au depot source"
-  reason: "PRES binaire reel (presence/absence Douglas-fir), N=53293 avec coordonnees reelles (Amerique du Nord), covariables climatiques PC1-PC6 exactement celles du script de replication de l'article (Box 4, modvars <- paste0('PC',1:6)). RData original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) et script R de replication inspecte pour confirmer la formule exacte (GLM binomial stepwise + Random Forest)."
+  missing_items: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- RData original telecharge directement depuis Dryad, N=53293 identique au depot source
-- Raison: PRES binaire reel (presence/absence Douglas-fir), N=53293 avec coordonnees reelles (Amerique du Nord), covariables climatiques PC1-PC6 exactement celles du script de replication de l'article (Box 4, modvars <- paste0('PC',1:6)). RData original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) et script R de replication inspecte pour confirmer la formule exacte (GLM binomial stepwise + Random Forest).
+- Decision: manual_review
+- Manque principal: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
+  status: "manual_review"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -230,3 +232,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -22,7 +22,7 @@ REPO_ROOT <- "C:/Users/jdoliveira/SynologyDrive/johnny D'OLIVEIRA/Travaux stages
 source(file.path(REPO_ROOT, "code", "r_catalog", "build_sf_datasets_papers.R"))
 
 SF_DIR  <- file.path(REPO_ROOT, "data", "final_datasets", "sf")
-OUT_DIR <- file.path(REPO_ROOT, "wiki", "datasets", "fiches_datasets")
+OUT_DIR <- Sys.getenv("DATASET_FICHE_OUTPUT_DIR", unset = file.path(REPO_ROOT, "wiki", "datasets", "fiches_datasets"))
 KG_PATH <- file.path(REPO_ROOT, "inst", "kg", "paper_dataset_uses.json")
 dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
 
@@ -486,7 +486,9 @@ FORMULA_OVERRIDES <- list(
   ),
   amphibian_malformation_prevalence = list(
     formula_pub = "skeletal_abnormality_prevalence ~ dragonfly_abundance + organic_contaminants + inorganic_contaminants [regression logistique individuelle + selection AIC, Reeves et al. 2010 ; X publies (predateurs, contaminants, UVB, temperature) non presents dans le depot Dryad brut]",
-    formula_used = "prevalence_abnormal ~ ROADDISTANCE + RoadType [X partiel : seul le sous-ensemble route/contamination humaine du papier est present dans le depot brut, disponible pour 32/54 sites]",
+    formula_used = "prevalence_abnormal ~ ROADDISTANCE + RoadType",
+    formula_used_evidence = "reconstructed_from_data",
+    formula_note = "X partiel : sous-ensemble route/contamination humaine disponible pour 32/54 sites; reconstruction distincte de la regression logistique publiee.",
     source_ref = "Reeves et al. (2010), Ecological Monographs 80(3):423-440, DOI 10.1890/09-0879.1 ; verifie le 2026-08-13 sur le texte integral (corpus/papers/raw_pdf/Reeves2010Multiple.pdf, remplace ce jour apres correction d'un PDF errone). Le Table 1 de l'article publie une prevalence de malformations par site (2004-2006, seuil >=50 metamorphes) et documente aussi la distance a la route et le type de route par site (colonnes 'Distance to road (km)'/'Road type', memes champs que RoadsInfo.csv). Les autres X du modele logistique publie (dragonflies, contaminants organiques/inorganiques, UVB, temperature) ne sont PAS dans le depot Dryad 10.5061/dryad.sq72d telecharge (celui-ci contient les donnees individuelles FrogAbnormalities.csv, les coordonnees SiteLocations.csv et RoadsInfo.csv, pas les mesures de contaminants/predateurs/UVB par site). prevalence_abnormal/prevalence_skel_ab/prevalence_eye_ab sont agreges depuis 9011 individus (2000-2012, fenetre plus large que 2004-2006 dans le papier) en reprenant le seuil de fiabilite n>=50 du Table 1. Le texte de l'introduction du papier motive explicitement ROADDISTANCE/RoadType comme covariable pertinente ('abnormality frequency was higher... at road-accessible sites', Reeves et al. 2008 cite dans l'intro)."
   ),
   hyena_lion_biomass_africa = list(
@@ -2675,7 +2677,9 @@ classify_typology <- function(col, name = "") {
     if (grepl("rain|precip|temperature|temp|capacity|biomass|agb|carbon|yield|elev|alt|slope", nm)) {
       return(list(typology = "continuous", range = paste0("[", vals[1], ", ", vals[2], "]")))
     }
-    return(list(typology = "count", range = paste0("[", vals[1], ", ", vals[2], "]")))
+    # Storage as integer alone proves neither a count process nor a continuous
+    # measurement. Curated selected-response evidence resolves this uncertainty.
+    return(list(typology = "unknown", range = paste0("[", vals[1], ", ", vals[2], "]")))
   }
   list(typology = "unknown", range = NA_character_)
 }
@@ -3330,16 +3334,11 @@ for (record_id in records_to_generate) {
 
   # Formule candidate systeme : Y ~ X1 + X2 + ... (baseline "kitchen sink"),
   # generee automatiquement -- PAS une formule publiee/verifiee par le papier.
-  # Tronquee au-dela de 12 covariables pour rester lisible (ex: jeux de
-  # meta-regression a des dizaines/centaines de colonnes).
+  # Never truncate executable R syntax. Readability belongs in notes/tables.
   formula_used <- if (length(y_vars) >= 1 && length(x_vars) >= 1) {
     x_for_formula <- x_vars
-    suffix <- ""
-    if (length(x_for_formula) > 12) {
-      suffix <- sprintf(" + ... (%d covariables au total, voir Candidate X variables)", length(x_for_formula) - 12)
-      x_for_formula <- x_for_formula[1:12]
-    }
-    sprintf("%s ~ %s%s", y_vars[1], paste(x_for_formula, collapse = " + "), suffix)
+    quote_name <- function(v) ifelse(make.names(v) == v, v, paste0("`", v, "`"))
+    sprintf("%s ~ %s", quote_name(y_vars[1]), paste(quote_name(x_for_formula), collapse = " + "))
   } else "pending"
 
   formula_pub <- "pending"
@@ -3348,7 +3347,7 @@ for (record_id in records_to_generate) {
   if (!is.null(ov)) {
     if (!is.null(ov$formula_used)) formula_used <- ov$formula_used
     if (!is.null(ov$formula_pub)) formula_pub <- ov$formula_pub
-    formula_note <- paste0("Formule/reference verifiee par lecture directe du papier source (session du ", TODAY, "). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.")
+    formula_note <- ov$formula_note %||% "Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee."
   }
 
   y_typologies <- if (length(y_vars)) unique(sapply(y_vars, function(v) classify_typology(df[[v]], v)$typology)) else character(0)
@@ -3408,9 +3407,9 @@ for (record_id in records_to_generate) {
   missing_status <- if (length(high_na)) sprintf("WARN - variables avec NA > 20%%: %s.", paste(high_na, collapse = ", "))
     else "OK - aucune variable avec NA > 20% detectee."
 
-  is_published <- !is.null(ov) && !is.null(ov$formula_pub)
+  is_published <- !is.null(ov) && !is.null(ov$formula_pub) && !tolower(ov$formula_pub) %in% c("", "pending", "unknown")
   formula_x_terms <- extract_formula_terms(formula_used, x_vars)
-  x_for_yaml <- if (length(formula_x_terms)) formula_x_terms else if (length(x_vars) > 12) x_vars[1:12] else x_vars
+  x_for_yaml <- if (length(formula_x_terms)) formula_x_terms else x_vars
   formula_candidate_formula <- if (!is.null(ov) && !is.null(ov$formula_candidate_formula)) ov$formula_candidate_formula else formula_used
   y_pub_display <- if (!is.null(ov) && !is.null(ov$y_term_pub)) ov$y_term_pub else if (formula_used != "pending" && length(y_vars)) y_vars[1] else "pending"
   x_pub_display <- if (!is.null(ov) && !is.null(ov$x_terms_pub)) paste(ov$x_terms_pub, collapse = ", ") else if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
@@ -3586,6 +3585,11 @@ for (record_id in records_to_generate) {
 
   out_path <- file.path(OUT_DIR, paste0("paper_", record_id, ".md"))
   writeLines(content, out_path, useBytes = TRUE)
+  # Reapply reviewed fields after rendering; preserves the curation on future runs.
+  curation_python <- Sys.getenv("DATASET_CURATION_PYTHON", unset = Sys.which("python"))
+  if (!nzchar(curation_python)) stop("Python requis pour appliquer dataset_curation.py")
+  curation_status <- system2(curation_python, c(shQuote(file.path(REPO_ROOT, "code/r_catalog/dataset_curation.py")), "--files", shQuote(out_path)))
+  if (curation_status != 0L) stop("Echec de la curation : ", record_id)
   n_ok <- n_ok + 1L
   cat(sprintf("OK  paper_%s.md  (N=%d, k=%d, Y=%s)\n", record_id, N, k,
               if (length(y_vars)) paste(y_vars, collapse = "+") else "?"))

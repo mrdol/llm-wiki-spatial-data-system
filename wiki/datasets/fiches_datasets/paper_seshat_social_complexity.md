@@ -2,7 +2,7 @@
 title: paper_seshat_social_complexity
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_seshat_social_complexity.rds
   - DatasetFirst_10_17916_p6159w
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 - Topic: histoire quantitative / evolution de la complexite sociale
 - Observation unit: polite historique
 - Observed population: polites historiques codees par la base Seshat, 31 zones geographiques naturelles, echelle mondiale
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-155.4486983, 151.8327443], y [-13.5170887, 64.9841821]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Fitting Dynamic Regression Models to Seshat Data
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 - Candidate X variables in local artifact: `Administrative_levels`, `Polity_territory`, `Settlement_hierarchy`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: Polity_territory (superficie territoriale de la polite, km2), Administrative_levels (nombre de niveaux hierarchiques administratifs), Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)
+- Published X variables from paper: Polity_territory, Administrative_levels, Settlement_hierarchy
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `nga_lon`, `nga_lat`
 - Identifier columns (excluded from X candidates): `NGA`, `Polity`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 |---|---|---|---|---|
 | `Polity_Population` | `numeric` | continuous | [30, 3.34e+08] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `seshat_social_complexity`, la ou les reponses `Polity_Population` viennent du loader papier et/ou des preuves de l article `Fitting Dynamic Regression Models to Seshat Data`. Les covariables X retenues sont `Polity_territory`, `Administrative_levels`, `Settlement_hierarchy`. Les coordonnees (`nga_lon`, `nga_lat`), identifiants (`NGA`, `Polity`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `seshat_social_complexity`, la ou les reponses `Polity_Population` viennent du loader papier et/ou des preuves de l article `Fitting Dynamic Regression Models to Seshat Data`. Les covariables X retenues sont `Polity_territory`, `Administrative_levels`, `Settlement_hierarchy`. Les coordonnees (`nga_lon`, `nga_lat`), identifiants (`NGA`, `Polity`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 ### Formule - niveau publication
 
 - formula_pub: PolityPopulation_t ~ PolityPopulation_(t-1) + covariables de complexite sociale [modele de regression dynamique (autoregressif) ajuste separement pour chaque variable de complexite sociale Seshat -- l'article demontre comment ajuster des modeles de regression dynamique a des donnees panel NGA x Polity x temps avec autocorrelation temporelle et incertitude de codage]
-- x_terms_pub: Polity_territory (superficie territoriale de la polite, km2), Administrative_levels (nombre de niveaux hierarchiques administratifs), Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)
-- y_term_pub: Polity_Population (population totale de la polite, valeur maximale enregistree sur sa duree de vie)
+- x_terms_pub: Polity_territory, Administrative_levels, Settlement_hierarchy
+- y_term_pub: Polity_Population
 - Reference publication: Turchin (2018), Fitting Dynamic Regression Models to Seshat Data, Cliodynamics, doi:10.21237/C7clio9137696. Le papier demontre comment ajuster des modeles de regression dynamique (autoregressifs, tenant compte de l'autocorrelation temporelle) aux donnees panel de la base Seshat (Natural Geographic Area x Polity x variable x periode). formula_used simplifie le panel temporel du papier en une coupe transversale par polite (valeur maximale enregistree sur la duree de vie de chaque polite pour chacune des 4 variables, agregation documentee du format long NGA/Polity/Variable/Date vers une table large) -- ce n'est pas le modele dynamique du papier mais une regression de complexite sociale standard dans la litterature Seshat (correlation population-hierarchie administrative). Coordonnees des 33 zones geographiques naturelles (NGA) Seshat obtenues par geocodage Nominatim/OpenStreetMap de leur nom de region historique (service public, verifie individuellement, pas une estimation -- 2 NGA non appariees a une polite avec donnees de population completes exclues). Donnees brutes (SCdat.csv) telechargees directement depuis Dryad (10.17916/p6159w) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=307 polites, 31 NGA.
 
 ### Statut regression canonique
@@ -77,6 +77,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 ### Formule - niveau systeme
 
 - formula_used: Polity_Population ~ Polity_territory + Administrative_levels + Settlement_hierarchy
+- Formula used evidence: generated_system_formula
+- Recommended validation: N lignes=307; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=276. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Polity_territory, Administrative_levels, Settlement_hierarchy
 - y_term_used: Polity_Population
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -97,8 +101,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Polity_Population ~ Polity_territory + Administrative_levels + Settlement_hierarchy"
-    response: "Polity_Population (population totale de la polite, valeur maximale enregistree sur sa duree de vie)"
-    predictors: ["Polity_territory (superficie territoriale de la polite, km2)", "Administrative_levels (nombre de niveaux hierarchiques administratifs)", "Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)"]
+    response: "Polity_Population"
+    predictors: ["Polity_territory", "Administrative_levels", "Settlement_hierarchy"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -214,8 +218,22 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`seshat_social_complexity` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07, Turchin_2018) confirme un panel authentique (NGA suivies a chaque marque de siecle). La formula_used systeme (generated_system_formula) reste une proposition valide parmi le menu formula_candidates -- ce n'est pas un defaut de la fiche, l'utilisateur choisit la formule a utiliser dans le package. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par NGA (unite geographique fixe), respecter la chronologie (siecle). Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Fitting Dynamic Regression Models to Seshat Data
 
+## Curation documentée — 2026-09-07
+
+La formule executee est une adaptation de la source, distincte des modeles publies : Fiche T=1 alors que 307 enregistrements partagent 31 positions; article Turchin présente des régressions dynamiques avec lags et spécifications distinctes.
+
+Decision conservatoire : N lignes=307; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=276. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

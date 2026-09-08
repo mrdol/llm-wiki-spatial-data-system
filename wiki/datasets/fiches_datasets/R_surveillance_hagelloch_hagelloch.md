@@ -2,7 +2,7 @@
 title: R_surveillance_hagelloch_hagelloch
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_surveillance_hagelloch_hagelloch.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [7.5, 280], y [5, 240]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data on the 188 cases in the measles outbreak among children in the German city of Hagelloch (near Tübingen) 1861. The data were originally collected by Dr. Albert Pfeilsticker (1863) and augmented and re-analysed by Dr. Heike Oesterle (1992). This dataset is used to illustrate the ‘twinSIR’ model class in ‘vignette("twinSIR")’.
 - Description source: package R `surveillance`
@@ -82,6 +82,8 @@ Data on the 188 cases in the measles outbreak among children in the German city 
 ### Formule — niveau systeme
 
 - formula_used: event ~ start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: start + stop + atRiskY + AGE + SEX + CL + household + nothousehold
 - y_term_used: event
 
@@ -211,3 +213,9 @@ benchmark_readiness:
 
 - Source: package R `surveillance`
 - Duplicate/version candidate: [[R_surveillance_hagelloch_hagelloch.df]]
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

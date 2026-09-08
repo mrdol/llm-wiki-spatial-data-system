@@ -2,7 +2,7 @@
 title: paper_trillium_proportional_occupancy
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_trillium_proportional_occupancy.rds
   - DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329
@@ -71,7 +71,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 
 - formula_pub: PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]
 - x_terms_pub: Flower_Type, No_ovules, Seed_weight, Seed_setting_rate, No_seeds_plant, Biomass
-- y_term_pub: proportional occupancy of predicted suitable distribution (PO)
+- y_term_pub: proportional occupancy of predicted suitable distribution
 - Reference publication: Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background.
 
 ### Statut regression canonique
@@ -85,6 +85,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 ### Formule - niveau systeme
 
 - formula_used: PO ~ No_ovules + Seed_weight + Flower_Type
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: No_ovules, Seed_weight, Flower_Type
 - y_term_used: PO
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -105,7 +107,7 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PO ~ reproductive traits"
-    response: "proportional occupancy of predicted suitable distribution (PO)"
+    response: "proportional occupancy of predicted suitable distribution"
     predictors: ["Flower_Type", "No_ovules", "Seed_weight", "Seed_setting_rate", "No_seeds_plant", "Biomass"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
@@ -228,3 +230,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

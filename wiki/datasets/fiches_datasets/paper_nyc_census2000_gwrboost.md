@@ -2,7 +2,7 @@
 title: paper_nyc_census2000_gwrboost
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_nyc_census2000_gwrboost.rds
   - GeoDaLab_2017_NYCCensus2000_geodacenter_data_and_lab
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 - Candidate X variables in local artifact: `YOUTH_DROP`, `PER_MNRTY`, `HS_DROP`, `COL_DEGREE`, `PER_ASIAN`, `PER_WHITE`, `PER_BLACK`, `Shape_Leng`, `Shape_Area`, `NP_CT`, `pop1619`, `dropout`, `enrollhs`, `PER_PRV_SC`, `PER_PUB_SC`, `over3`, `notenroll`, `over3enr`, `pubsch`, `pub_pk`, `pub_k8`, `pub_hs`, `pub_col`, `privsch`, `priv_pk`, `priv_k8`, `priv_hs`, `priv_col`, `over25`, `subhs`, `hs`, `somecol`, `college`, `master`, `prof`, `phd`, `white`, `black`, `asian`, `sub18`, `GENDER_PAR`, `male`, `female`, `SCHOOL_CT`, `popdens`, `population`
 - Candidate X count in local artifact: 46
 - Candidate X typology: continuous
-- Published X variables from paper: sub18 (population <18 ans), PER_PRV_SC (% eleves ecole privee), YOUTH_DROP (% decrocheurs 16-19 ans), HS_DROP (% decrocheurs lycee >25 ans), COL_DEGREE (% bachelor+ >25 ans), SCHOOL_CT (nombre d'ecoles)
+- Published X variables from paper: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `POLY_ID`, `CTLabel`, `BoroCode`, `BoroName`, `CT2000`, `BoroCT2000`, `NTACode`, `NTANAme`, `PUMA`
@@ -105,8 +105,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 ### Formule - niveau publication
 
 - formula_pub: mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT [GWR/GWRBoost, Table 2-3 : OLS R2=0.557, GWR R2=0.825, GWRBoost R2=0.882]
-- x_terms_pub: sub18 (population <18 ans), PER_PRV_SC (% eleves ecole privee), YOUTH_DROP (% decrocheurs 16-19 ans), HS_DROP (% decrocheurs lycee >25 ans), COL_DEGREE (% bachelor+ >25 ans), SCHOOL_CT (nombre d'ecoles)
-- y_term_pub: mean_inc (revenu moyen par bloc de recensement)
+- x_terms_pub: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
+- y_term_pub: mean_inc
 - Reference publication: Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie.
 
 ### Statut regression canonique
@@ -120,6 +120,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 ### Formule - niveau systeme
 
 - formula_used: mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
 - y_term_used: mean_inc
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -140,8 +142,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT"
-    response: "mean_inc (revenu moyen par bloc de recensement)"
-    predictors: ["sub18 (population <18 ans)", "PER_PRV_SC (% eleves ecole privee)", "YOUTH_DROP (% decrocheurs 16-19 ans)", "HS_DROP (% decrocheurs lycee >25 ans)", "COL_DEGREE (% bachelor+ >25 ans)", "SCHOOL_CT (nombre d'ecoles)"]
+    response: "mean_inc"
+    predictors: ["sub18", "PER_PRV_SC", "YOUTH_DROP", "HS_DROP", "COL_DEGREE", "SCHOOL_CT"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -263,3 +265,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: GWRBoost: A geographically weighted gradient boosting method for explainable quantification of spatially-varying relationships
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

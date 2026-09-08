@@ -2,7 +2,7 @@
 title: paper_snake_home_range
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_snake_home_range.rds
   - DataCite_2020_EctothermyAndTheMacroecology_10_25338_b85g98
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 - Candidate X variables in local artifact: `Elevation`, `MaleMass`, `FemaleMass`, `Male100MCP`, `Male95MCP`, `Male95KD`, `Male90KD`, `Female100MCP`, `Female95MCP`, `Female95KD`, `Female90KD`, `NotesHR`, `NotesMass`, `NPP`, `Total_Precip`, `MeanAnnualTemp`, `IUCN_habitats`, `Aquatic_index`
 - Candidate X count in local artifact: 18
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: Mass (masse corporelle, log-transformee), IUCN_habitats (largeur de niche d'habitat), Aquatic_index (indice d'aquaticite), Elevation, NPP (productivite primaire nette), MeanAnnualTemp, Total_Precip
+- Published X variables from paper: Mass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
 - Published X count: 7
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 | `X100KD` | `logical` | binary | {0, 1} | 100% |
 | `X95KD` | `numeric` | continuous | [0.67, 177.07] | 78.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `snake_home_range`, la ou les reponses `X100MCP`, `X95MCP`, `X100KD`, `X95KD` viennent du loader papier et/ou des preuves de l article `Ectothermy and the macroecology of home range scaling in snakes`. Les covariables X retenues sont `MaleMass`, `IUCN_habitats`, `Aquatic_index`, `Elevation`, `NPP`, `MeanAnnualTemp`, `Total_Precip` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `snake_home_range`, la ou les reponses `X100MCP`, `X95MCP`, `X100KD`, `X95KD` viennent du loader papier et/ou des preuves de l article `Ectothermy and the macroecology of home range scaling in snakes`. Les covariables X retenues sont `MaleMass`, `IUCN_habitats`, `Aquatic_index`, `Elevation`, `NPP`, `MeanAnnualTemp`, `Total_Precip` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -80,8 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 ### Formule - niveau publication
 
 - formula_pub: HR ~ log(Mass) + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip + (1|study) + (1|species) [Modele Lineaire Mixte (LMM), package lme4, intercepts aleatoires etude/espece, comparaison de modeles emboites par AICc]
-- x_terms_pub: Mass (masse corporelle, log-transformee), IUCN_habitats (largeur de niche d'habitat), Aquatic_index (indice d'aquaticite), Elevation, NPP (productivite primaire nette), MeanAnnualTemp, Total_Precip
-- y_term_pub: HR (taille du domaine vital, home range, methodes MCP/Kernel Density selon l'etude source)
+- x_terms_pub: Mass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
+- y_term_pub: HR
 - Reference publication: Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique).
 
 ### Statut regression canonique
@@ -95,6 +95,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 ### Formule - niveau systeme
 
 - formula_used: X100MCP ~ MaleMass + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip
+- Recommended validation: N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: X100MCP mesure une surface de domaine vital, avec 41 observations non manquantes sur 109.
+- Selected Y evidence: X100MCP mesure une surface de domaine vital, avec 41 observations non manquantes sur 109.
+- Selected Y typology: continuous
 - x_terms_used: MaleMass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
 - y_term_used: X100MCP
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -115,8 +119,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "X100MCP ~ MaleMass + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip"
-    response: "HR (taille du domaine vital, home range, methodes MCP/Kernel Density selon l'etude source)"
-    predictors: ["Mass (masse corporelle, log-transformee)", "IUCN_habitats (largeur de niche d'habitat)", "Aquatic_index (indice d'aquaticite)", "Elevation", "NPP (productivite primaire nette)", "MeanAnnualTemp", "Total_Precip"]
+    response: "HR"
+    predictors: ["Mass", "IUCN_habitats", "Aquatic_index", "Elevation", "NPP", "MeanAnnualTemp", "Total_Precip"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -167,27 +171,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "X100MCP (Y principal) non-NA pour 41/109 lignes seulement -- differentes etudes sources ayant utilise differentes methodes d'estimation du domaine vital (MCP vs kernel density), NA reel documente dans le depot, pas impute ni fabrique"
-  reason: "Y continu reel (domaine vital, methode MCP), coordonnees GPS reelles (Latitude/Longitude) pour 109/113 especes, covariables ecologiques/biogeographiques exactes du papier (masse, habitat, elevation, NPP, temperature, precipitation). CSV original telecharge directement depuis le depot DataCite/Dryad du papier, pas une reconstruction. Papier lu integralement (TEI) pour confirmer le cadre LMM (lme4, intercepts aleatoires etude/espece)."
+  missing_items: "N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: X100MCP (Y principal) non-NA pour 41/109 lignes seulement -- differentes etudes sources ayant utilise differentes methodes d'estimation du domaine vital (MCP vs kernel density), NA reel documente dans le depot, pas impute ni fabrique
-- Raison: Y continu reel (domaine vital, methode MCP), coordonnees GPS reelles (Latitude/Longitude) pour 109/113 especes, covariables ecologiques/biogeographiques exactes du papier (masse, habitat, elevation, NPP, temperature, precipitation). CSV original telecharge directement depuis le depot DataCite/Dryad du papier, pas une reconstruction. Papier lu integralement (TEI) pour confirmer le cadre LMM (lme4, intercepts aleatoires etude/espece).
+- Decision: manual_review
+- Manque principal: N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -238,3 +242,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Ectothermy and the macroecology of home range scaling in snakes
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. X100MCP mesure une surface de domaine vital, avec 41 observations non manquantes sur 109.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

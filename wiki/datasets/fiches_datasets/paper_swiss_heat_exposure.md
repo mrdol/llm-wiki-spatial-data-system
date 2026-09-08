@@ -2,7 +2,7 @@
 title: paper_swiss_heat_exposure
 type: dataset
 created: 2026-08-17
-updated: 2026-08-17
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_swiss_heat_exposure.rds
   - DatasetFirst_10_5281_zenodo_16923676
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Topic: sante environnementale / mortalite liee a la chaleur
 - Observation unit: commune x jour
 - Observed population: population 65+, communes suisses (N=2145), panel journalier 2011-2022
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [2487218.9645969365, 2825377.7997474237], y [1076471.472803228, 1294284.2639934118]; CRS CH1903+ / LV95 + LN02 height.
 - Temporal context: 12 distinct periods (variable: year)
 - Source description: [dataset-first, publication non resolue] Modelling the Spatially Varying Non-Linear Effects of Heat Exposure
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate X variables in local artifact: `urbanicity`, `greenspace`, `age`, `population`, `temperature`, `year`, `month`, `temperature_lag1`, `temperature_lag2`, `temperature_lag3`, `doy`, `dom`, `dow`, `temperature_lag03`, `week`, `holiday`, `day`, `canton_deaths`, `weight`, `deaths_sim`
 - Candidate X count in local artifact: 20
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: temperature (temperature quotidienne), temperature_lag1/2/3 (temperature des 3 jours precedents), greenspace (indice d'espace vert communal -- confirme comme facteur de disparite spatiale par le resume officiel), urbanicity (statut urbain/rural de la commune)
+- Published X variables from paper: temperature, temperature_lag1/2/3, greenspace, urbanicity
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `id_region`, `region`, `KANTONSNUM`, `id_doy`, `id_year`, `daily_date`
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `deaths` | `numeric` | continuous | [0, 12] | 0% |
+| `deaths` | `numeric` | count | [0, 12] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `swiss_heat_exposure`, la ou les reponses `deaths` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Modelling the Spatially Varying Non-Linear Effects of Heat Exposure`. Les covariables X retenues sont `temperature`, `temperature_lag1`, `temperature_lag2`, `temperature_lag3`, `greenspace`, `urbanicity` ; 14 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`id_region`, `region`, `KANTONSNUM`, `id_doy`, `id_year`, `daily_date`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `swiss_heat_exposure`, la ou les reponses `deaths` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Modelling the Spatially Varying Non-Linear Effects of Heat Exposure`. Les covariables X retenues sont `temperature`, `temperature_lag1`, `temperature_lag2`, `temperature_lag3`, `greenspace`, `urbanicity` ; 14 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`id_region`, `region`, `KANTONSNUM`, `id_doy`, `id_year`, `daily_date`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -79,8 +79,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: deaths ~ f(temperature, nonlinear, spatially-varying) [modele bayesien BYM2 avec effets non-lineaires spatialement variables -- Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Mortalite toutes causes en Suisse, disparites spatiales de mortalite liee a la chaleur expliquees principalement par la structure d'age de la population, les espaces verts et les vulnerabilites liees a l'exposition a la chaleur (resume officiel)]
-- x_terms_pub: temperature (temperature quotidienne), temperature_lag1/2/3 (temperature des 3 jours precedents), greenspace (indice d'espace vert communal -- confirme comme facteur de disparite spatiale par le resume officiel), urbanicity (statut urbain/rural de la commune)
-- y_term_pub: deaths (nombre quotidien de deces, population 65 ans et plus, par commune)
+- x_terms_pub: temperature, temperature_lag1/2/3, greenspace, urbanicity
+- y_term_pub: deaths
 - Reference publication: Papier identifie via recherche web (session 2026-08-17) : Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables (pas une regression lineaire classique) sur la mortalite toutes causes en Suisse ; le resume officiel confirme que les disparites spatiales de mortalite liee a la chaleur sont expliquees principalement par la structure d'age, les espaces verts (green space) et les vulnerabilites liees a l'exposition -- ces deux dernieres correspondent aux colonnes reelles greenspace/urbanicity du shapefile joint. RDS originaux (data_60_open.rds, panel deces population 65+ ; Swiss_new_open.rds, geometrie communale + NDVI/greenspace) telecharges directement depuis Zenodo -- pas une reconstruction, N=2368080 (panel 2145 communes x ~1104 jours, 2011-2022), jointure par id_region (cle deja partagee entre les deux fichiers). Geometrie convertie en centroide avant jointure pour eviter la duplication memoire d'un polygone complexe sur 2.3M lignes (correction technique, pas une alteration des donnees). Dataset garde en un seul panel (pas de decoupage par sous-population : la colonne 'age' n'a qu'un seul niveau -- Y_GE65, population 65+ uniquement -- dans ce depot public 'open' ; decouper par annee ou par commune detruirait la structure spatio-temporelle du panel sans repondre a un critere de sous-population reellement distinct, contrairement aux cas PM2.5/O3/NO2 ou especes de corail deja separes dans ce wiki). formula_used simplifie le modele BYM2 non-lineaire en regression lineaire multiple, une simplification documentee, pas la specification exacte du papier. package_include laisse en manual_review pour cette raison.
 
 ### Statut regression canonique
@@ -94,6 +94,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau systeme
 
 - formula_used: deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity
+- benchmark_task_note: deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
+- Selected Y evidence: deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
+- Selected Y typology: count
 - x_terms_used: temperature, temperature_lag1, temperature_lag2, temperature_lag3, greenspace, urbanicity
 - y_term_used: deaths
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -114,8 +117,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity"
-    response: "deaths (nombre quotidien de deces, population 65 ans et plus, par commune)"
-    predictors: ["temperature (temperature quotidienne)", "temperature_lag1/2/3 (temperature des 3 jours precedents)", "greenspace (indice d'espace vert communal -- confirme comme facteur de disparite spatiale par le resume officiel)", "urbanicity (statut urbain/rural de la commune)"]
+    response: "deaths"
+    predictors: ["temperature", "temperature_lag1/2/3", "greenspace", "urbanicity"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -166,27 +169,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "regression_continuous"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables, pas une regression lineaire -- formula_used simplifie en regression multiple lineaire ; package_include laisse en manual_review pour cette raison"
-  reason: "Y continu/comptage reel (deaths, deces quotidiens population 65+), N=2368080 (panel 2145 communes x ~1104 jours) avec coordonnees reelles (centroides communaux). RDS originaux telecharges directement depuis Zenodo, pas une reconstruction. Papier identifie via recherche web (Chen et al. 2025, JRSS Series A)."
+  missing_items: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
+  reason: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
 ```
 
-- Decision: ready
-- Manque principal: le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables, pas une regression lineaire -- formula_used simplifie en regression multiple lineaire ; package_include laisse en manual_review pour cette raison
-- Raison: Y continu/comptage reel (deaths, deces quotidiens population 65+), N=2368080 (panel 2145 communes x ~1104 jours) avec coordonnees reelles (centroides communaux). RDS originaux telecharges directement depuis Zenodo, pas une reconstruction. Papier identifie via recherche web (Chen et al. 2025, JRSS Series A).
+- Decision: manual_review
+- Manque principal: deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue.
+- Raison: deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -238,3 +241,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: [dataset-first, publication non resolue] Modelling the Spatially Varying Non-Linear Effects of Heat Exposure
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

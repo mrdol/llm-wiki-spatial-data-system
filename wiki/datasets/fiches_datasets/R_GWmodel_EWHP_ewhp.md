@@ -2,7 +2,7 @@
 title: R_GWmodel_EWHP_ewhp
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [224000, 654600], y [47800, 574000]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A house price data set for England and Wales from 2001 with 9 hedonic (explanatory) variables.
 - Description source: package R `GWmodel`
@@ -77,6 +77,8 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 ### Formule — niveau systeme
 
 - formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
 - y_term_used: PurPrice
 
@@ -229,3 +231,9 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

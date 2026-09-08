@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.phoenix_acs
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.phoenix_acs.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`phoenix_acs`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.phoenix_acs
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 985 enregistrements dans l’artefact local Python_geodatasets_geoda.phoenix_acs.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-113.116303530531, -110.578389410455], y [32.524234, 33.9764185]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`phoenix_acs`).
 - Description source: package Python `geodatasets`
@@ -78,6 +78,9 @@ Dataset spatial issu du package Python `geodatasets` (`phoenix_acs`).
 ### Formule — niveau systeme
 
 - formula_used: inc ~ ALAND10 + AWATER10 + pop + white_rt + black_rt + hisp_rt + fem_nh_rt + hsu
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: ALAND10 + AWATER10 + pop + white_rt + black_rt + hisp_rt + fem_nh_rt + hsu
 - y_term_used: inc
 
@@ -206,3 +209,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

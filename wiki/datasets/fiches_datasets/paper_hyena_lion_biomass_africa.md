@@ -2,7 +2,7 @@
 title: paper_hyena_lion_biomass_africa
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_hyena_lion_biomass_africa.rds
   - DataCite_2021_EnvironmentalFactorsInfluencingSpotted_10_1002_ece3_835
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 | `spotted_hyaena_biomass_log10` | `numeric` | continuous | [-0.3286, 1.8861] | 0% |
 | `lion_biomass_log10` | `numeric` | continuous | [0.0504, 1.7202] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `hyena_lion_biomass_africa`, la ou les reponses `spotted_hyaena_biomass_log10`, `lion_biomass_log10` viennent du loader papier et/ou des preuves de l article `Environmental factors influencing spotted hyena and lion population biomass across Africa`. Les covariables X retenues sont `other_predator_biomass_log10`, `prey_very_small_biomass_log10`, `prey_small_biomass_log10`, `prey_medium_biomass_log10`, `prey_large_biomass_log10`, `prey_very_large_biomass_log10`, `min_temperature_coolest_month_log10`, `max_temperature_warmest_month_log10`, `precipitation_wettest_month_log10`, `precipitation_driest_month_log10`, `precipitation_seasonality_log10`, `semi_open_vegetation_clr`, `open_vegetation_clr`, `closed_vegetation_clr` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`Site`, `Year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `hyena_lion_biomass_africa`, la ou les reponses `spotted_hyaena_biomass_log10`, `lion_biomass_log10` viennent du loader papier et/ou des preuves de l article `Environmental factors influencing spotted hyena and lion population biomass across Africa`. Les covariables X retenues sont `other_predator_biomass_log10`, `prey_very_small_biomass_log10`, `prey_small_biomass_log10`, `prey_medium_biomass_log10`, `prey_large_biomass_log10`, `prey_very_large_biomass_log10`, `min_temperature_coolest_month_log10`, `max_temperature_warmest_month_log10`, `precipitation_wettest_month_log10`, `precipitation_driest_month_log10`, `precipitation_seasonality_log10`, `semi_open_vegetation_clr`, `open_vegetation_clr`, `closed_vegetation_clr` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`Site`, `Year`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -90,6 +90,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 ### Formule - niveau systeme
 
 - formula_used: spotted_hyaena_biomass_log10 ~ other_predator_biomass_log10 + prey_very_small_biomass_log10 + prey_small_biomass_log10 + prey_medium_biomass_log10 + prey_large_biomass_log10 + prey_very_large_biomass_log10 + min_temperature_coolest_month_log10 + max_temperature_warmest_month_log10 + precipitation_wettest_month_log10 + precipitation_driest_month_log10 + precipitation_seasonality_log10 + semi_open_vegetation_clr + open_vegetation_clr + closed_vegetation_clr
+- Recommended validation: N lignes=30; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=17. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: other_predator_biomass_log10, prey_very_small_biomass_log10, prey_small_biomass_log10, prey_medium_biomass_log10, prey_large_biomass_log10, prey_very_large_biomass_log10, min_temperature_coolest_month_log10, max_temperature_warmest_month_log10, precipitation_wettest_month_log10, precipitation_driest_month_log10, precipitation_seasonality_log10, semi_open_vegetation_clr, open_vegetation_clr, closed_vegetation_clr
 - y_term_used: spotted_hyaena_biomass_log10
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -229,8 +232,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`hyena_lion_biomass_africa` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Jones2021Environmental.tei.xml) confirme des observations repetees a des annees differentes aux memes sites (2 sites sur 3 en Afrique australe). La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par site. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Environmental factors influencing spotted hyena and lion population biomass across Africa
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=30; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=17. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

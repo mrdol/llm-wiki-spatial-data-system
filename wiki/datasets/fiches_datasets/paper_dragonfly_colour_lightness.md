@@ -2,7 +2,7 @@
 title: paper_dragonfly_colour_lightness
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_dragonfly_colour_lightness.rds
   - DatasetFirst_10_5061_dryad_72tp3
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 - Topic: macroecologie / thermoregulation et couleur
 - Observation unit: cellule de grille climatique
 - Observed population: assemblages de libellules (Odonata: Anisoptera), Amerique du Nord et Europe, N=9966 cellules
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-155.5, 29.6], y [25, 71]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Colour lightness of dragonfly assemblages across North America and Europe
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 - Candidate X variables in local artifact: `bio1_mean`, `bio4_mean`, `bio10_mean`, `bio12_mean`, `bio18_mean`, `alt_mean`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: bio1_mean (temperature annuelle moyenne), bio4_mean (saisonnalite de temperature), bio10_mean (temperature moyenne du trimestre le plus chaud), bio12_mean (precipitation annuelle), bio18_mean (precipitation du trimestre le plus chaud), alt_mean (altitude)
+- Published X variables from paper: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lng`, `lat`
 - Identifier columns (excluded from X candidates): `Cont`
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 ### Formule - niveau publication
 
 - formula_pub: meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean [Modeles a erreur autoregressive (SEM) pour corriger l'autocorrelation spatiale ; regressions ajustees separement par continent (Amerique du Nord / Europe)]
-- x_terms_pub: bio1_mean (temperature annuelle moyenne), bio4_mean (saisonnalite de temperature), bio10_mean (temperature moyenne du trimestre le plus chaud), bio12_mean (precipitation annuelle), bio18_mean (precipitation du trimestre le plus chaud), alt_mean (altitude)
-- y_term_pub: meanRGB (luminosite/clarte de couleur moyenne de l'assemblage de libellules)
+- x_terms_pub: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
+- y_term_pub: meanRGB
 - Reference publication: Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier.
 
 ### Statut regression canonique
@@ -80,6 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 ### Formule - niveau systeme
 
 - formula_used: meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
 - y_term_used: meanRGB
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -100,8 +102,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean"
-    response: "meanRGB (luminosite/clarte de couleur moyenne de l'assemblage de libellules)"
-    predictors: ["bio1_mean (temperature annuelle moyenne)", "bio4_mean (saisonnalite de temperature)", "bio10_mean (temperature moyenne du trimestre le plus chaud)", "bio12_mean (precipitation annuelle)", "bio18_mean (precipitation du trimestre le plus chaud)", "alt_mean (altitude)"]
+    response: "meanRGB"
+    predictors: ["bio1_mean", "bio4_mean", "bio10_mean", "bio12_mean", "bio18_mean", "alt_mean"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -223,3 +225,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Colour lightness of dragonfly assemblages across North America and Europe
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

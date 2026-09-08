@@ -2,7 +2,7 @@
 title: paper_sugarglider_occupancy
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_sugarglider_occupancy.rds
   - DatasetFirst_10_5061_dryad_4xgxd259g
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 - Topic: ecologie / occupation d'espece introduite predatrice
 - Observation unit: site de detection (camera/appel)
 - Observed population: planeur du sucre (Petaurus breviceps, espece introduite predatrice), Southern Forest, Tasmanie, N=100 sites
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [146.8177108, 147.0843991], y [-43.4253773, -43.0707424]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 - Candidate X variables in local artifact: `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m), elev (elevation)
+- Published X variables from paper: mat200-mat2000, elev
 - Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `n_detections` | `numeric` | continuous | [0, 4] | 0% |
+| `n_detections` | `numeric` | count | [0, 4] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `sugarglider_occupancy`, la ou les reponses `n_detections` viennent du loader papier et/ou des preuves de l article `Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests`. Les covariables X retenues sont `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`. Les coordonnees (`lon`, `lat`), identifiants (`site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `sugarglider_occupancy`, la ou les reponses `n_detections` viennent du loader papier et/ou des preuves de l article `Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests`. Les covariables X retenues sont `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`. Les coordonnees (`lon`, `lat`), identifiants (`site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 ### Formule - niveau publication
 
 - formula_pub: psi(occupancy) ~ mature_forest_extent(200-2000m) + elev ; p(detection) ~ temperature + wind + moonlight + owl_playback [modele d'occupation-detection (site-occupancy model), naive occupancy = 0.79, detectabilite = 0.52 +/- 0.03 sur 5 visites]
-- x_terms_pub: mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m), elev (elevation)
-- y_term_pub: n_detections (nombre de detections de planeur du sucre sur 5 visites de site, proxy continu/comptage d'occupation)
+- x_terms_pub: mat200-mat2000, elev
+- y_term_pub: n_detections
 - Reference publication: Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84).
 
 ### Statut regression canonique
@@ -80,6 +80,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 ### Formule - niveau systeme
 
 - formula_used: n_detections ~ mat200 + mat500 + mat1000 + mat1500 + mat2000 + elev
+- benchmark_task_note: n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
+- Selected Y evidence: n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
+- Selected Y typology: count
 - x_terms_used: mat200, mat500, mat1000, mat1500, mat2000, elev
 - y_term_used: n_detections
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -100,8 +103,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "n_detections ~ mat200 + mat500 + mat1000 + mat1500 + mat2000 + elev"
-    response: "n_detections (nombre de detections de planeur du sucre sur 5 visites de site, proxy continu/comptage d'occupation)"
-    predictors: ["mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m)", "elev (elevation)"]
+    response: "n_detections"
+    predictors: ["mat200-mat2000", "elev"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -152,27 +155,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_count"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "le papier ajuste un modele occupation-detection (psi/p separes), pas une regression continue -- formula_used utilise le nombre de detections sur 5 visites comme proxy continu documente, pas la specification exacte du papier -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)"
-  reason: "Y continu/comptage reel (n_detections, 0-4 sur 5 visites), N=100 sites avec coordonnees reelles (Tasmanie), covariables d'habitat exactement celles du papier (etendue de foret mature a 5 echelles de tampon, elevation). Naive occupancy confirmee empiriquement (79/100 sites avec detection >0, correspond exactement au 0.79 publie). CSV original telecharge directement depuis Dryad, pas une reconstruction. paper_doi corrige (pointait vers un papier methodologique reutilisant ces donnees, pas l'etude originale) ; original Allen et al. 2018 confirme par recherche web (session 2026-08-16)."
+  missing_items: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
+  reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
 ```
 
-- Decision: ready
-- Manque principal: le papier ajuste un modele occupation-detection (psi/p separes), pas une regression continue -- formula_used utilise le nombre de detections sur 5 visites comme proxy continu documente, pas la specification exacte du papier -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
-- Raison: Y continu/comptage reel (n_detections, 0-4 sur 5 visites), N=100 sites avec coordonnees reelles (Tasmanie), covariables d'habitat exactement celles du papier (etendue de foret mature a 5 echelles de tampon, elevation). Naive occupancy confirmee empiriquement (79/100 sites avec detection >0, correspond exactement au 0.79 publie). CSV original telecharge directement depuis Dryad, pas une reconstruction. paper_doi corrige (pointait vers un papier methodologique reutilisant ces donnees, pas l'etude originale) ; original Allen et al. 2018 confirme par recherche web (session 2026-08-16).
+- Decision: manual_review
+- Manque principal: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
+- Raison: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +226,12 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests
 
+## Curation documentée — 2026-09-07
+
+Le nom paper_sugar_glider dans la demande correspond a paper_sugarglider_occupancy. Depot local de reutilisation : 10.5061/dryad.4xgxd259g ; depot original cite : 10.5061/dryad.xgxd254bt ; article de l’etude originale : 10.1111/aec.12583. Les deux DOI Dryad sont des datasets, pas des articles; relation DERIVED_FROM conservee dans le KG. Verification : https://datadryad.org/dataset/doi%3A10.5061/dryad.4xgxd259g .
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

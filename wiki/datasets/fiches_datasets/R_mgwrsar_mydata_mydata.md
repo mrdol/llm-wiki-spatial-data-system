@@ -2,7 +2,7 @@
 title: R_mgwrsar_mydata_mydata
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_mgwrsar_mydata_mydata.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ mydata is a simulated data set of a mgwrsar model
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_mgwrsar_mydata_mydata
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 1000 enregistrements dans l’artefact local R_mgwrsar_mydata_mydata.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [860021.0001552477, 879998.0491306633], y [6220023.319530301, 6239997.445433401]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: mydata is a simulated data set of a mgwrsar model
 - Description source: package R `mgwrsar`
@@ -81,6 +81,8 @@ mydata is a simulated data set of a mgwrsar model
 ### Formule — niveau systeme
 
 - formula_used: Y_mgwrsar_0_kc_kv ~ X1 + X2 + X3
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: X1, X2, X3
 - y_term_used: Y_mgwrsar_0_kc_kv
 
@@ -188,13 +190,28 @@ benchmark_readiness:
   package_include: "yes"
   has_local_rds: true
   missing_items: "aucun blocage automatique detecte"
-  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: MGWRSAR_0_kc_kv
+      basis: published_model
+      source_ref: "Geniaux, G. and Martinetti, D. (2018), Regional Science and Urban Economics ; formule confirmee dans le manuel CRAN mgwrsar.pdf (exemple MGWRSAR())."
+      notes: "formula_pub porte litteralement le nom de la variante estimateur (Y_mgwrsar_0_kc_kv), jeu d'exemple du package mgwrsar lui-meme pour cette methode."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -210,3 +227,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `mgwrsar`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

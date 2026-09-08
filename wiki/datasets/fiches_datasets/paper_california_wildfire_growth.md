@@ -2,7 +2,7 @@
 title: paper_california_wildfire_growth
 type: dataset
 created: 2026-08-17
-updated: 2026-08-17
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_california_wildfire_growth.rds
   - DatasetFirst_10_5281_zenodo_7569337
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Topic: risques naturels / croissance journaliere de feux de foret
 - Observation unit: jour-incendie (fire day)
 - Observed population: incendies, Californie 2003-2020, N=23031 jours-incendie
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-124.3596586, -114.2090645], y [32.5458334, 42.0041667]; CRS EPSG:4326.
 - Temporal context: 5388 distinct periods (variable: Date)
 - Source description: [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate X variables in local artifact: `Date`, `Start_DT`, `Int_perim_24`, `Int_perim_48`, `Int_perim_72`, `Int_pixel_24`, `Int_pixel_48`, `Int_pixel_72`, `Final_size_pixels`, `Daily_FRP`, `FRE`, `Final_DT`, `Within_Boundary`, `Agency_Ignition_Lon`, `Agency_Ignition_Lat`, `All_Agency_Sources`, `Agency_Type`, `Agency_Cause`, `Agency_Start_DT`, `Agency_End_DT`, `Agency_Area`, `All_Agency_Names`, `Int_agency_24`, `Int_agency_48`, `Int_agency_72`, `Flag`, `PREC_ACC_NC`, `Q2`, `SMOIS`, `SWDOWN`, `T2`, `U10`, `V10`, `PSFC`, `UST`, `TSLB`, `LFM_Chamise_New`, `LFM_Chamise_Old`, `LFM_Manzanita_New`, `LU_INDEX`, `VAR_SSO`, `IVGTYP`, `ISLTYP`, `VEGFRA`, `LAI`, `HGT`, `VAR`, `PBLH`, `LFMASS`, `WOOD`, `STBLCP`, `FSA`, `SAV`, `WS`, `T2_MAX`, `WS_MAX`, `Q2_MIN`, `NFUEL_CAT`, `GREENFRAC`, `HGT_M`, `LANDUSEF`, `mean_wtd_moisture_1hr`, `mean_wtd_moisture_10hr`, `mean_wtd_moisture_100hr`, `mean_wtd_moisture_1000hr`, `SLP_WRF`, `ASP_WRF`, `ERC`, `BI`, `PET`, `PDSI`, `HAINES_AVG`, `HAINES_MAX`, `X300_HOR_WS_AVG`, `X300_HOR_WS_MAX`, `X300_VERT_WS_AVG`, `X300_VERT_WS_MAX`, `X50_TKE_AVG`, `X50_TKE_MAX`, `ASPECT`, `SLOPE`, `WIND_DIR`, `WS_PAR_SLP`, `mean_RH`, `min_RH`, `max_RH`, `mean_T`, `min_T`, `max_T`
 - Candidate X count in local artifact: 89
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: T2 (temperature a 2m, WRF), WS (vitesse du vent), mean_RH (humidite relative moyenne), ERC (Energy Release Component, indice de secheresse combustible), BI (Burning Index), PDSI (Palmer Drought Severity Index)
+- Published X variables from paper: T2, WS, mean_RH, ERC, BI, PDSI
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Ignition_lon`, `Ignition_lat`
 - Identifier columns (excluded from X candidates): `Fire_ID`, `Agency_Name`, `Agency_ID`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `Final_size_perimeter` | `numeric` | continuous | [193.9873, 1151523.521] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `california_wildfire_growth`, la ou les reponses `Final_size_perimeter` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA`. Les covariables X retenues sont `T2`, `WS`, `mean_RH`, `ERC`, `BI`, `PDSI` ; 83 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Ignition_lon`, `Ignition_lat`), identifiants (`Fire_ID`, `Agency_Name`, `Agency_ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `california_wildfire_growth`, la ou les reponses `Final_size_perimeter` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA`. Les covariables X retenues sont `T2`, `WS`, `mean_RH`, `ERC`, `BI`, `PDSI` ; 83 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Ignition_lon`, `Ignition_lat`), identifiants (`Fire_ID`, `Agency_Name`, `Agency_ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -148,8 +148,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: large_growth_binary(>10000 acres/24h) ~ weather_vars + fuel_vars + topographic_vars [modele Random Forest, feature importance -- Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p. 16013 jours-incendie CA 2003-2020. Variables meteo (temperature, vent, humidite, precipitation), combustible (type, charge, disponibilite, humidite), topographie (pente, aspect, elevation, forme) confirmees comme predicteurs testes]
-- x_terms_pub: T2 (temperature a 2m, WRF), WS (vitesse du vent), mean_RH (humidite relative moyenne), ERC (Energy Release Component, indice de secheresse combustible), BI (Burning Index), PDSI (Palmer Drought Severity Index)
-- y_term_pub: Final_size_perimeter (taille finale du perimetre de l'incendie) -- le papier utilise en realite un seuil binaire (>10000 acres en 24h de croissance journaliere), non retenu ici (formula_used utilise la taille finale continue, une variable reelle disponible mais differente de la reponse binaire exacte du papier)
+- x_terms_pub: T2, WS, mean_RH, ERC, BI, PDSI
+- y_term_pub: Final_size_perimeter -- le papier utilise en realite un seuil binaire, non retenu ici
 - Reference publication: Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee.
 
 ### Statut regression canonique
@@ -163,6 +163,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau systeme
 
 - formula_used: Final_size_perimeter ~ T2 + WS + mean_RH + ERC + BI + PDSI
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: T2, WS, mean_RH, ERC, BI, PDSI
 - y_term_used: Final_size_perimeter
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -183,8 +185,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Final_size_perimeter ~ T2 + WS + mean_RH + ERC + BI + PDSI"
-    response: "Final_size_perimeter (taille finale du perimetre de l'incendie) -- le papier utilise en realite un seuil binaire (>10000 acres en 24h de croissance journaliere), non retenu ici (formula_used utilise la taille finale continue, une variable reelle disponible mais differente de la reponse binaire exacte du papier)"
-    predictors: ["T2 (temperature a 2m, WRF)", "WS (vitesse du vent)", "mean_RH (humidite relative moyenne)", "ERC (Energy Release Component, indice de secheresse combustible)", "BI (Burning Index)", "PDSI (Palmer Drought Severity Index)"]
+    response: "Final_size_perimeter -- le papier utilise en realite un seuil binaire, non retenu ici"
+    predictors: ["T2", "WS", "mean_RH", "ERC", "BI", "PDSI"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -235,27 +237,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "regression_continuous"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "le papier (Hanley 2022, these SJSU, doi:10.31979/etd.5znn-tm8p) predit un seuil binaire de croissance journaliere (>10000 acres/24h), pas une regression continue -- formula_used utilise la taille finale du perimetre comme proxy continu, meme familles de covariables meteo/combustible/topographie ; package_include laisse en manual_review pour cette raison"
-  reason: "Y continu reel (Final_size_perimeter, taille finale de l'incendie), N=23031 incendies avec coordonnees d'ignition reelles (Californie). CSV original telecharge directement depuis Zenodo, pas une reconstruction. Papier identifie via recherche web (these avec DOI officiel)."
+  missing_items: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
+  reason: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
 ```
 
-- Decision: ready
-- Manque principal: le papier (Hanley 2022, these SJSU, doi:10.31979/etd.5znn-tm8p) predit un seuil binaire de croissance journaliere (>10000 acres/24h), pas une regression continue -- formula_used utilise la taille finale du perimetre comme proxy continu, meme familles de covariables meteo/combustible/topographie ; package_include laisse en manual_review pour cette raison
-- Raison: Y continu reel (Final_size_perimeter, taille finale de l'incendie), N=23031 incendies avec coordonnees d'ignition reelles (Californie). CSV original telecharge directement depuis Zenodo, pas une reconstruction. Papier identifie via recherche web (these avec DOI officiel).
+- Decision: manual_review
+- Manque principal: 23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion.
+- Raison: 23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -307,3 +309,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : 23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

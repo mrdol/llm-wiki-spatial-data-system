@@ -2,7 +2,7 @@
 title: paper_fire_forest_loss_dominican_republic
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_fire_forest_loss_dominican_republic.rds
   - DatasetFirst_10_5281_zenodo_6990803
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 - Topic: ecologie forestiere / feu et deforestation
 - Observation unit: cellule de grille hexagonale (statistiques zonales, ~100km2)
 - Observed population: grille hexagonale de la Republique Dominicaine (482 cellules), perte de couvert forestier et densite de feux MODIS, 2001-2018
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [192985.0044869589, 563711.6309660664], y [1961492.4603501612, 2203449.7237166977]; CRS 32619.
 - Temporal context: none (cross-sectional)
 - Source description: Fire and forest loss in the Dominican Republic during the 21st Century
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 - Candidate X variables in local artifact: `AREASQM`, `AREASQM_PCT`, `GEOMORPHONS_FLAT_PCT`, `GEOMORPHONS_PEAK_PCT`, `GEOMORPHONS_RIDGE_PCT`, `GEOMORPHONS_SHOULDER_PCT`, `GEOMORPHONS_SPUR_PCT`, `GEOMORPHONS_SLOPE_PCT`, `GEOMORPHONS_HOLLOW_PCT`, `GEOMORPHONS_FOOTSLOPE_PCT`, `GEOMORPHONS_VALLEY_PCT`, `GEOMORPHONS_PIT_PCT`, `GEOMORPHONS_<NA>`, `GEOMORPHONS_FLAT_AREASQM`, `GEOMORPHONS_PEAK_AREASQM`, `GEOMORPHONS_RIDGE_AREASQM`, `GEOMORPHONS_SHOULDER_AREASQM`, `GEOMORPHONS_SPUR_AREASQM`, `GEOMORPHONS_SLOPE_AREASQM`, `GEOMORPHONS_HOLLOW_AREASQM`, `GEOMORPHONS_FOOTSLOPE_AREASQM`, `GEOMORPHONS_VALLEY_AREASQM`, `GEOMORPHONS_PIT_AREASQM`, `GEOMORPHONS_<NA>_AREASQM`, `SLOPE_n`, `SLOPE_MIN`, `SLOPE_Q1`, `SLOPE_MEAN`, `SLOPE_MEDIAN`, `SLOPE_Q3`, `SLOPE_MAX`, `SLOPE_SD`, `ROUGHNESS_n`, `ROUGHNESS_MIN`, `ROUGHNESS_Q1`, `ROUGHNESS_MEAN`, `ROUGHNESS_MEDIAN`, `ROUGHNESS_Q3`, `ROUGHNESS_MAX`, `ROUGHNESS_SD`, `ELEVATION_n`, `ELEVATION_MIN`, `ELEVATION_Q1`, `ELEVATION_MEAN`, `ELEVATION_MEDIAN`, `ELEVATION_Q3`, `ELEVATION_MAX`, `ELEVATION_SD`, `TREECOVER2000_>=25%TC_PCT`, `TREECOVER2000_<25%TC_PCT`, `TREECOVER2000_>=25%TC_AREASQM`, `TREECOVER2000_<25%TC_AREASQM`, `LOSSYEAR_0_PCT`, `LOSSYEAR_1_PCT`, `LOSSYEAR_2_PCT`, `LOSSYEAR_3_PCT`, `LOSSYEAR_4_PCT`, `LOSSYEAR_5_PCT`, `LOSSYEAR_6_PCT`, `LOSSYEAR_7_PCT`, `LOSSYEAR_8_PCT`, `LOSSYEAR_9_PCT`, `LOSSYEAR_10_PCT`, `LOSSYEAR_11_PCT`, `LOSSYEAR_12_PCT`, `LOSSYEAR_13_PCT`, `LOSSYEAR_14_PCT`, `LOSSYEAR_15_PCT`, `LOSSYEAR_16_PCT`, `LOSSYEAR_17_PCT`, `LOSSYEAR_18_PCT`, `LOSSYEAR_<NA>_PCT`, `LOSSYEAR_0_AREASQM`, `LOSSYEAR_1_AREASQM`, `LOSSYEAR_2_AREASQM`, `LOSSYEAR_3_AREASQM`, `LOSSYEAR_4_AREASQM`, `LOSSYEAR_5_AREASQM`, `LOSSYEAR_6_AREASQM`, `LOSSYEAR_7_AREASQM`, `LOSSYEAR_8_AREASQM`, `LOSSYEAR_9_AREASQM`, `LOSSYEAR_10_AREASQM`, `LOSSYEAR_11_AREASQM`, `LOSSYEAR_12_AREASQM`, `LOSSYEAR_13_AREASQM`, `LOSSYEAR_14_AREASQM`, `LOSSYEAR_15_AREASQM`, `LOSSYEAR_16_AREASQM`, `LOSSYEAR_17_AREASQM`, `LOSSYEAR_18_AREASQM`, `LOSSYEAR_<NA>_AREASQM`, `LOSS0118_PCT`, `LOSS0118_<NA>_PCT`, `LOSS0118_AREASQM`, `LOSS0118_<NA>_AREASQM`, `LOSS1218_PCT`, `LOSS1218_<NA>_PCT`, `LOSS1218_AREASQM`, `LOSS1218_<NA>_AREASQM`, `NFIRESM6`, `NFIRESV1`, `X_UTM`, `Y_UTM`, `X_KM`, `Y_KM`, `X_KM_P2`, `Y_KM_P2`, `NFIRESM6_PSQKM`, `NFIRESV1_PSQKM`, `NFIRESM6_PSQKM_PYR`, `NFIRESV1_PSQKM_PYR`, `AREASQM_PUA`, `GEOMORPHONS_FLAT_PUA`, `GEOMORPHONS_PEAK_PUA`, `GEOMORPHONS_RIDGE_PUA`, `GEOMORPHONS_SHOULDER_PUA`, `GEOMORPHONS_SPUR_PUA`, `GEOMORPHONS_SLOPE_PUA`, `GEOMORPHONS_HOLLOW_PUA`, `GEOMORPHONS_FOOTSLOPE_PUA`, `GEOMORPHONS_VALLEY_PUA`, `GEOMORPHONS_PIT_PUA`, `TREECOVER2000_>=25%TC_PUA`, `TREECOVER2000_<25%TC_PUA`, `LOSSYEAR_0_PUA`, `LOSSYEAR_1_PUA`, `LOSSYEAR_2_PUA`, `LOSSYEAR_3_PUA`, `LOSSYEAR_4_PUA`, `LOSSYEAR_5_PUA`, `LOSSYEAR_6_PUA`, `LOSSYEAR_7_PUA`, `LOSSYEAR_8_PUA`, `LOSSYEAR_9_PUA`, `LOSSYEAR_10_PUA`, `LOSSYEAR_11_PUA`, `LOSSYEAR_12_PUA`, `LOSSYEAR_13_PUA`, `LOSSYEAR_14_PUA`, `LOSSYEAR_15_PUA`, `LOSSYEAR_16_PUA`, `LOSSYEAR_17_PUA`, `LOSSYEAR_18_PUA`, `LOSSYEAR_<NA>_PUA`, `LOSS0118_PUA`, `LOSS0118_<NA>_PUA`, `LOSS1218_PUA`, `LOSS1218_<NA>_PUA`, `LOSS0118_<NA>_PCT_PYR`, `LOSS0118_<NA>_AREASQM_PYR`, `LOSS0118_<NA>_PUA_PYR`, `LOSS1218_PCT_PYR`, `LOSS1218_<NA>_PCT_PYR`, `LOSS1218_AREASQM_PYR`, `LOSS1218_<NA>_AREASQM_PYR`, `LOSS1218_PUA_PYR`, `LOSS1218_<NA>_PUA_PYR`
 - Candidate X count in local artifact: 158
 - Candidate X typology: continuous
-- Published X variables from paper: NFIRESM6_PSQKM_PYR (densite de points de feu MODIS Collection 6, points/km2/an, filtre 'noise-free')
+- Published X variables from paper: NFIRESM6_PSQKM_PYR
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `CENTROID_X_UTM19N`, `CENTROID_Y_UTM19N`
 - Identifier columns (excluded from X candidates): `ENLACE`
@@ -219,8 +219,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 ### Formule - niveau publication
 
 - formula_pub: LOSS0118_PCT_PYR ~ NFIRESM6_PSQKM_PYR [Spatial Lag Model (SAR) ou Spatial Error Model (SEM), choix base sur le test du multiplicateur de Lagrange + test de Breusch-Pagan + AIC ; contiguite Queen's case, ponderation W row-standardized ; approche 'long-terme' 2001-2018]
-- x_terms_pub: NFIRESM6_PSQKM_PYR (densite de points de feu MODIS Collection 6, points/km2/an, filtre 'noise-free')
-- y_term_pub: LOSS0118_PCT_PYR (perte moyenne de couvert forestier par an, % de la surface de la cellule, periode 2001-2018)
+- x_terms_pub: NFIRESM6_PSQKM_PYR
+- y_term_pub: LOSS0118_PCT_PYR
 - Reference publication: Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee.
 
 ### Statut regression canonique
@@ -234,6 +234,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 ### Formule - niveau systeme
 
 - formula_used: LOSS0118_PCT_PYR ~ NFIRESM6_PSQKM_PYR
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: NFIRESM6_PSQKM_PYR
 - y_term_used: LOSS0118_PCT_PYR
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -244,8 +246,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fire and f
 formula_candidates:
   univariate:
     formula: "LOSS0118_PCT_PYR ~ NFIRESM6_PSQKM_PYR"
-    response: "LOSS0118_PCT_PYR (perte moyenne de couvert forestier par an, % de la surface de la cellule, periode 2001-2018)"
-    predictors: ["NFIRESM6_PSQKM_PYR (densite de points de feu MODIS Collection 6, points/km2/an, filtre 'noise-free')"]
+    response: "LOSS0118_PCT_PYR"
+    predictors: ["NFIRESM6_PSQKM_PYR"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -377,3 +379,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Fire and forest loss in the Dominican Republic during the 21st Century
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

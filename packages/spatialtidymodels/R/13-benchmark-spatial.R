@@ -235,6 +235,16 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
   # facteur -- confirme empiriquement, parsnip::check_outcome() rejette un
   # 0/1 numerique avec une erreur explicite) recoivent une entree coherente
   # sans dupliquer cette logique dans chaque branche.
+  y_name <- all.vars(formula)[1]
+  observed_y <- stats::na.omit(data[[y_name]])
+  if (identical(response_typology, "binary")) {
+    valid_binary <- if (is.factor(observed_y)) nlevels(droplevels(observed_y)) <= 2L else all(observed_y %in% c(0, 1))
+    if (!valid_binary) stop("Y incompatible avec binary : la conversion 0/1 perdrait des observations.", call. = FALSE)
+  }
+  if (identical(response_typology, "count") &&
+      (!is.numeric(observed_y) || any(!is.finite(observed_y) | observed_y < 0 | abs(observed_y - round(observed_y)) > 1e-8))) {
+    stop("Y incompatible avec count : valeurs finies, entieres et non negatives requises.", call. = FALSE)
+  }
   glm_family <- switch(response_typology,
     binary = stats::binomial(),
     count = stats::poisson(),

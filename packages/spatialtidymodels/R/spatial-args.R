@@ -34,6 +34,62 @@ check_spatial_W <- function(W, n = NULL, arg = "W") {
   W
 }
 
+spatial_W_to_matrix <- function(W, style = "W", zero_policy = TRUE, arg = "W") {
+  W <- rlang::eval_tidy(W)
+  if (is.null(W)) return(NULL)
+  if (inherits(W, "listw")) {
+    if (!requireNamespace("spdep", quietly = TRUE)) {
+      stop("Le package spdep est requis pour convertir un objet listw.", call. = FALSE)
+    }
+    return(spdep::listw2mat(W))
+  }
+  if (inherits(W, "nb")) {
+    if (!requireNamespace("spdep", quietly = TRUE)) {
+      stop("Le package spdep est requis pour convertir un objet nb.", call. = FALSE)
+    }
+    return(spdep::listw2mat(spdep::nb2listw(W, style = style, zero.policy = zero_policy)))
+  }
+  if (!is.matrix(W) && !inherits(W, "Matrix")) {
+    stop(sprintf("%s doit etre une matrice, une Matrix, un objet listw ou un objet nb.", arg), call. = FALSE)
+  }
+  as.matrix(W)
+}
+
+normalize_spatial_W_for_data <- function(W, data, style = "W", zero_policy = TRUE, arg = "W") {
+  W <- spatial_W_to_matrix(W, style = style, zero_policy = zero_policy, arg = arg)
+  if (is.null(W)) return(NULL)
+  n <- nrow(data)
+  if (!identical(dim(W), c(n, n))) {
+    stop(sprintf("%s doit avoir les dimensions %d x %d pour les donnees courantes.", arg, n, n), call. = FALSE)
+  }
+  W
+}
+
+subset_spatial_W_rows <- function(W, row_ids, n_expected = NULL,
+                                  style = "W", zero_policy = TRUE,
+                                  arg = "W") {
+  W <- spatial_W_to_matrix(W, style = style, zero_policy = zero_policy, arg = arg)
+  if (is.null(W)) return(NULL)
+  idx <- suppressWarnings(as.integer(row_ids))
+  if (length(idx) == 0L || anyNA(idx)) {
+    stop(
+      sprintf(
+        "%s ne peut pas etre sous-selectionnee: les noms de lignes doivent etre des indices entiers.",
+        arg
+      ),
+      call. = FALSE
+    )
+  }
+  if (any(idx < 1L | idx > nrow(W))) {
+    stop(sprintf("%s ne correspond pas aux indices de lignes du fold courant.", arg), call. = FALSE)
+  }
+  out <- W[idx, idx, drop = FALSE]
+  if (!is.null(n_expected) && !identical(dim(out), c(n_expected, n_expected))) {
+    stop(sprintf("%s sous-selectionnee doit avoir les dimensions %d x %d.", arg, n_expected, n_expected), call. = FALSE)
+  }
+  out
+}
+
 check_k_neighbors <- function(k_neighbors, n = NULL, arg = "k_neighbors") {
   if (is.null(k_neighbors)) k_neighbors <- 8L
   k_neighbors <- as.integer(k_neighbors)

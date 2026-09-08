@@ -2,7 +2,7 @@
 title: paper_bumblebee_colony_reproduction
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_bumblebee_colony_reproduction.rds
   - DataCite_2018_LowerBumblebeeColonyReproductive_10_1098_rspb_201
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 | `Tot_male` | `integer` | count | [0, 71] | 0% |
 | `Tot_gyne` | `integer` | count | [0, 19] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `bumblebee_colony_reproduction`, la ou les reponses `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne` viennent du loader papier et/ou des preuves de l article `Lower bumblebee colony reproductive success in agricultural compared with urban environments`. Les covariables X retenues sont `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower500`, `Prop_imp500`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X500PC1`, `X500PC2` ; 33 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`, `Lat`, `Lon`), identifiants (`Col`, `Site`, `LU750`, `LU500`, `LU250`, `LU100`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `bumblebee_colony_reproduction`, la ou les reponses `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne` viennent du loader papier et/ou des preuves de l article `Lower bumblebee colony reproductive success in agricultural compared with urban environments`. Les covariables X retenues sont `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower500`, `Prop_imp500`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X500PC1`, `X500PC2` ; 33 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`, `Lat`, `Lon`), identifiants (`Col`, `Site`, `LU750`, `LU500`, `LU250`, `LU100`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -111,18 +111,21 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 - x_terms_pub: temperature, humidity, precipitation, flower cover, impervious surface, urban cover, open cover, tree cover, agricultural cover, garden cover, road cover, land-use PCA axes
 - y_term_pub: colony reproductive output: total males plus gynes produced
 - Reference publication: Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
+- Correction (2026-09-08, lecture TEI approfondie) : le papier modelise "Total production of sexuals" par un **hurdle model binomial-negatif zero-altere** (partie binaire presence/absence + partie comptage tronquee a zero), pas un GLM/GLMM simple -- "Total production of sexuals... was analysed using zero-altered negative binomial hurdle models". Le predicteur d'occupation du sol est aussi different : les auteurs regroupent 80 classes d'occupation du sol en 3 clusters categoriels ("city"/"village"/"agricultural" par PCA+Ward), alors que `formula_used` utilise les proportions individuelles (Prop_flower500, Prop_imp500, etc.) et des composantes PC comme predicteurs lineaires simultanes -- combinaison non testee telle quelle dans le papier. formula_status reste `reconstructed_from_data`, pas `pub`.
 
 ### Statut regression canonique
 
-- Statut: resolu
+- Statut: mis de cote
 - Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: Tot_rep ~ Ave_temp + Ave_hum + Sum_prec + Prop_flower500 + Prop_imp500 + Prop_urb500 + Prop_open500 + Prop_tree500 + Prop_ag500 + Prop_gard500 + Prop_road500 + X500PC1 + X500PC2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: Ave_temp, Ave_hum, Sum_prec, Prop_flower500, Prop_imp500, Prop_urb500, Prop_open500, Prop_tree500, Prop_ag500, Prop_gard500, Prop_road500, X500PC1, X500PC2
 - y_term_used: Tot_rep
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -195,27 +198,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_count_small_n"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_count"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "N=38 et Y de comptage ; a signaler dans les comparaisons, mais le papier travaille a ce niveau de colonie et le package peut evaluer RMSE/MAE sur une reponse numerique."
-  reason: "ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Le petit N et la nature count de Tot_rep sont documentes, sans bloquer le benchmark numerique."
+  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
+  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
 ```
 
-- Decision: ready
-- Manque principal: N=38 et Y de comptage ; a signaler dans les comparaisons, mais le papier travaille a ce niveau de colonie et le package peut evaluer RMSE/MAE sur une reponse numerique.
-- Raison: ColonyData fournit coordonnees corrigees, sortie reproductive Tot_rep et covariables meteo/land-use/floral cover. Le petit N et la nature count de Tot_rep sont documentes, sans bloquer le benchmark numerique.
+- Decision: manual_review
+- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08) -- voir estimator_eligibility.
+- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -266,3 +269,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Lower bumblebee colony reproductive success in agricultural compared with urban environments
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

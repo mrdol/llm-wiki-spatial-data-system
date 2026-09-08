@@ -2,7 +2,7 @@
 title: R_gstat_DE_RB_2005_DE_RB_2005
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_DE_RB_2005_DE_RB_2005.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 23230 enregistrements dans l’artefact local R_gstat_DE_RB_2005_DE_RB_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
 - Description source: package R `gstat`
@@ -72,6 +72,8 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ### Formule — niveau systeme
 
 - formula_used: PM10 ~ 1
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: pending
 - y_term_used: PM10
 
@@ -201,3 +203,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

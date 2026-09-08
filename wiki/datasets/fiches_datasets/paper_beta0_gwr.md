@@ -2,7 +2,7 @@
 title: paper_beta0_gwr
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_beta0_gwr.rds
   - DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A global d
 |---|---|---|---|---|
 | `b0_annual_mean` | `numeric` | continuous | [-141.0869, 336.9121] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `beta0_gwr`, la ou les reponses `b0_annual_mean` viennent du loader papier et/ou des preuves de l article `A global dataset of air temperature derived from satellite remote sensing and weather stations`. Les covariables X retenues sont aucune covariable explicative locale. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_derived_response ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `beta0_gwr`, la ou les reponses `b0_annual_mean` viennent du loader papier et/ou des preuves de l article `A global dataset of air temperature derived from satellite remote sensing and weather stations`. Les covariables X retenues sont aucune covariable explicative locale. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -147,27 +147,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_derived_response"
-  benchmark_task: "derived_model_output"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "retrouver le dataset empirique original et ses covariables"
-  reason: "La reponse est un coefficient beta0 derive d'une GWR, pas une variable empirique brute."
+  missing_items: "retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  reason: "retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
 ```
 
-- Decision: not_ready_derived_response
-- Manque principal: retrouver le dataset empirique original et ses covariables
-- Raison: La reponse est un coefficient beta0 derive d'une GWR, pas une variable empirique brute.
+- Decision: not_ready_main_benchmark
+- Manque principal: retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
+- Raison: retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_derived_response"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -218,3 +218,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: A global dataset of air temperature derived from satellite remote sensing and weather stations
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : retrouver le dataset empirique original et ses covariables Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

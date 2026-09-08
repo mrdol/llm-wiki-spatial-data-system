@@ -2,7 +2,7 @@
 title: R_spatstat.data_clmfires_clmfires
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_clmfires_clmfires.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ This dataset is a record of forest fires in the Castilla-La Mancha region of Spa
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 8488 enregistrements dans l’artefact local R_spatstat.data_clmfires_clmfires.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [8.248001775, 385.34301], y [24.2210124, 377.1749982]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: This dataset is a record of forest fires in the Castilla-La Mancha region of Spain between 1998 and 2007. This region is approximately 400 by 400 kilometres. The coordinates are recorded in kilometres.
 - Description source: package R `spatstat.data`
@@ -69,6 +69,8 @@ This dataset is a record of forest fires in the Castilla-La Mancha region of Spa
 ### Formule — niveau systeme
 
 - formula_used: burnt.area ~ cause
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: cause
 - y_term_used: burnt.area
 
@@ -198,3 +200,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

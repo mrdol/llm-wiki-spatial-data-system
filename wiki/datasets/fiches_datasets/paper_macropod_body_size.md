@@ -2,7 +2,7 @@
 title: paper_macropod_body_size
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_macropod_body_size.rds
   - DatasetFirst_10_5061_dryad_c3tc6
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 - Topic: ecologie evolutive / evolution de la taille corporelle induite par la chasse
 - Observation unit: crane individuel (collection faunique)
 - Observed population: wallaby de Bennett (Macropus rufogriseus), Australie, N=856 cranes
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [140.9666667, 153.4713889], y [-43.15, -24.3]; CRS EPSG:4326.
 - Temporal context: 49 distinct periods (variable: Year)
 - Source description: Empirical tests of harvest‐induced body‐size evolution along a geographic gradient in A ustralian macropods
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 - Candidate X variables in local artifact: `Sex`, `Year`, `MI`, `WinterMinTemp`, `SummerMaxTemp`, `SummerWetBulbTemp`, `AnnualRain`, `AnnualNDVI`, `GrowSeasRain`, `GrowSeasNDVI`, `MinSeasRain`, `MinSeasNDVI`
 - Candidate X count in local artifact: 12
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: SummerMaxTemp (temperature maximale estivale), AnnualRain (precipitation annuelle), MI (molar progression index, proxy d'age), Sex, Year
+- Published X variables from paper: SummerMaxTemp, AnnualRain, MI, Sex, Year
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Island`, `gridLongitude`, `gridLatitude`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 |---|---|---|---|---|
 | `CL` | `numeric` | continuous | [83.91, 156.7] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `macropod_body_size`, la ou les reponses `CL` viennent du loader papier et/ou des preuves de l article `Empirical tests of harvest‐induced body‐size evolution along a geographic gradient in A ustralian macropods`. Les covariables X retenues sont `SummerMaxTemp`, `AnnualRain`, `MI`, `Sex`, `Year` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Island`, `gridLongitude`, `gridLatitude`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `macropod_body_size`, la ou les reponses `CL` viennent du loader papier et/ou des preuves de l article `Empirical tests of harvest‐induced body‐size evolution along a geographic gradient in A ustralian macropods`. Les covariables X retenues sont `SummerMaxTemp`, `AnnualRain`, `MI`, `Sex`, `Year` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Island`, `gridLongitude`, `gridLatitude`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -71,8 +71,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 ### Formule - niveau publication
 
 - formula_pub: CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Island + Year [modele spatial bayesien controlant pour l'age (MI, molar progression index), le sexe, l'effet ile, et l'annee ; teste l'hypothese de nanisme induit par la chasse le long d'un gradient geographique sur >2000 cranes de macropodes]
-- x_terms_pub: SummerMaxTemp (temperature maximale estivale), AnnualRain (precipitation annuelle), MI (molar progression index, proxy d'age), Sex, Year
-- y_term_pub: CL (longueur condylobasale du crane, indicateur standard de taille corporelle chez les macropodes), espece Macropus rufogriseus (wallaby de Bennett, N=856, la mieux representee des 3 especes du depot)
+- x_terms_pub: SummerMaxTemp, AnnualRain, MI, Sex, Year
+- y_term_pub: CL, espece Macropus rufogriseus
 - Reference publication: Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes.
 
 ### Statut regression canonique
@@ -86,6 +86,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 ### Formule - niveau systeme
 
 - formula_used: CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Year
+- Recommended validation: N lignes=856; T declare=49; variable temporelle declaree=Year; repetitions de coordonnees controlees=733. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: SummerMaxTemp, AnnualRain, MI, Sex, Year
 - y_term_used: CL
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -106,8 +109,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Year"
-    response: "CL (longueur condylobasale du crane, indicateur standard de taille corporelle chez les macropodes), espece Macropus rufogriseus (wallaby de Bennett, N=856, la mieux representee des 3 especes du depot)"
-    predictors: ["SummerMaxTemp (temperature maximale estivale)", "AnnualRain (precipitation annuelle)", "MI (molar progression index, proxy d'age)", "Sex", "Year"]
+    response: "CL, espece Macropus rufogriseus"
+    predictors: ["SummerMaxTemp", "AnnualRain", "MI", "Sex", "Year"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -225,8 +228,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`macropod_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : TEI introuvable dans le corpus (papier non accessible localement, seule la DOI apparait en bibliographie d'un autre papier) -- aucune preuve disponible dans un sens ou l'autre. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; absence de preuve n'est pas une preuve de probleme -- grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Empirical tests of harvest‐induced body‐size evolution along a geographic gradient in A ustralian macropods
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=856; T declare=49; variable temporelle declaree=Year; repetitions de coordonnees controlees=733. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

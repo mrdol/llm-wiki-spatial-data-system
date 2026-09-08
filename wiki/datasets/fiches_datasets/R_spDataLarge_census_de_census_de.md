@@ -2,7 +2,7 @@
 title: R_spDataLarge_census_de_census_de
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spDataLarge_census_de_census_de.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Data used in the geomarketing chapter in Geocomputation with R. See <https://r.g
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [4031500, 4671500], y [2689500, 3547500]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data used in the geomarketing chapter in Geocomputation with R. See <https://r.geocompx.org/location.html> for details.
 - Description source: package R `spDataLarge`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spDataLarge`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

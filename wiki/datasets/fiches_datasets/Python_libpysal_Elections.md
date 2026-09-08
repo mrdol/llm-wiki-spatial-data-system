@@ -2,7 +2,7 @@
 title: Python_libpysal_Elections
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_Elections.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`Elections`).
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.21244631009, -67.55026979829], y [24.679742, 48.8769]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`Elections`).
 - Description source: package Python `libpysal`
@@ -110,6 +110,9 @@ Dataset spatial issu du package Python `libpysal` (`Elections`).
 ### Formule — niveau systeme
 
 - formula_used: pct_dem_16 ~ ALAND + AWATER + PST045214 + PST120214 + POP010210 + AGE135214 + AGE295214 + AGE775214
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: ALAND + AWATER + PST045214 + PST120214 + POP010210 + AGE135214 + AGE295214 + AGE775214
 - y_term_used: pct_dem_16
 
@@ -238,3 +241,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `libpysal`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

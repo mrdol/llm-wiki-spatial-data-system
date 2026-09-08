@@ -265,14 +265,24 @@ def slug_filename(title: str, openalex_id: str) -> str:
 
 
 def download_pdf(url: str, dest: Path, *, timeout: int = 60) -> bool:
+    tmp_dest = dest.with_suffix(dest.suffix + ".part")
     try:
-        resp = requests.get(url, timeout=timeout, headers=UA, allow_redirects=True)
-        resp.raise_for_status()
-        if resp.headers.get("content-type", "").lower().startswith("text/html"):
+        with requests.get(url, timeout=timeout, headers=UA, allow_redirects=True, stream=True) as resp:
+            resp.raise_for_status()
+            if resp.headers.get("content-type", "").lower().startswith("text/html"):
+                return False
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            with tmp_dest.open("wb") as fh:
+                for chunk in resp.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        fh.write(chunk)
+        if tmp_dest.stat().st_size <= 1000:
+            tmp_dest.unlink(missing_ok=True)
             return False
-        dest.write_bytes(resp.content)
-        return dest.stat().st_size > 1000
-    except requests.RequestException:
+        tmp_dest.replace(dest)
+        return True
+    except (OSError, requests.RequestException):
+        tmp_dest.unlink(missing_ok=True)
         return False
 
 

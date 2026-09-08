@@ -2,7 +2,7 @@
 title: paper_eberg
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_eberg.rds
   - Moller_2020_OGC_eberg
@@ -98,8 +98,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 
 ### Formule - niveau systeme
 
-- formula_used: TAXGRSC ~ UHDICM_A + LHDICM_A + SNDMHT_A + SLTMHT_A + CLYMHT_A + UHDICM_B + LHDICM_B + SNDMHT_B + SLTMHT_B + CLYMHT_B + UHDICM_C + LHDICM_C + ... (13 covariables au total, voir Candidate X variables)
-- x_terms_used: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C
+- formula_used: TAXGRSC ~ UHDICM_A + LHDICM_A + SNDMHT_A + SLTMHT_A + CLYMHT_A + UHDICM_B + LHDICM_B + SNDMHT_B + SLTMHT_B + CLYMHT_B + UHDICM_C + LHDICM_C + SNDMHT_C + SLTMHT_C + CLYMHT_C + UHDICM_D + LHDICM_D + SNDMHT_D + SLTMHT_D + CLYMHT_D + UHDICM_E + LHDICM_E + SNDMHT_E + SLTMHT_E + CLYMHT_E
+- Formula used evidence: generated_system_formula
+- benchmark_task_note: TAXGRSC code plusieurs classes pedologiques.
+- Selected Y evidence: TAXGRSC code plusieurs classes pedologiques.
+- Selected Y typology: categorical
+- x_terms_used: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C, SNDMHT_C, SLTMHT_C, CLYMHT_C, UHDICM_D, LHDICM_D, SNDMHT_D, SLTMHT_D, CLYMHT_D, UHDICM_E, LHDICM_E, SNDMHT_E, SLTMHT_E, CLYMHT_E
 - y_term_used: TAXGRSC
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
@@ -242,3 +246,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Oblique geographic coordinates as covariates for digital soil mapping
 
+## Curation documentée — 2026-09-07
+
+La formule systeme enumere les 25 covariables deja declarees dans Candidate X variables et presentes dans le RDS. L’ancienne ellipse etait un defaut du rendu; cette liste demeure une proposition systeme, sans preuve de specification publiee et sans promotion. Sa pertinence scientifique reste en revue.
+
+Typologie de la reponse selectionnee : categorical. TAXGRSC code plusieurs classes pedologiques.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

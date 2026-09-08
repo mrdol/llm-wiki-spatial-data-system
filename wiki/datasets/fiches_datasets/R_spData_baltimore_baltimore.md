@@ -2,7 +2,7 @@
 title: R_spData_baltimore_baltimore
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_baltimore_baltimore.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ House sales price and characteristics for a spatial hedonic regression, Baltimor
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [860, 987.5], y [505.5, 581]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: House sales price and characteristics for a spatial hedonic regression, Baltimore, MD 1978. X,Y on Maryland grid, projection type unknown.
 - Description source: package R `spData`
@@ -80,6 +80,8 @@ House sales price and characteristics for a spatial hedonic regression, Baltimor
 ### Formule — niveau systeme
 
 - formula_used: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: NROOM, NBATH, PATIO, FIREPL, AC, GAR, AGE, LOTSZ, SQFT
 - y_term_used: PRICE
 
@@ -186,13 +188,28 @@ benchmark_readiness:
   package_include: "yes"
   has_local_rds: true
   missing_items: "aucun blocage automatique detecte"
-  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
 ```
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: published_model
+      source_ref: "Dubin, Robin A. (1992). Regional Science and Urban Economics 22(3), 433-452 (confiance moyenne, texte original paywall)."
+      notes: "Formule hedonique PRICE ~ NROOM+NBATH+PATIO+FIREPL+AC+GAR+AGE+LOTSZ+SQFT reproduite par les packages derives (hspm/spregimes) ; confiance moyenne car texte source non verifie directement."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -207,4 +224,13 @@ benchmark_readiness:
 
 ## Related Pages
 
+- [[Python_libpysal_Baltimore]] (meme donnee source, package Python equivalent -- colonnes identiques verifiees 2026-09-08)
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

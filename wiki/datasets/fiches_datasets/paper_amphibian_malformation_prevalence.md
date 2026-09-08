@@ -2,7 +2,7 @@
 title: paper_amphibian_malformation_prevalence
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_amphibian_malformation_prevalence.rds
   - DataCite_2010_MultipleStressorsAndThe_10_1890_09_0879_
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Multiple s
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_amphibian_malformation_prevalence
 - Observation unit: observation spatiale du dataset "Data from: Multiple stressors and the cause of amphibian abnormalities"
 - Observed population: RÃ©gression logistique pour prÃ©dire anomalies chez grenouilles en Alaska ; 21 zones humides avec coordonnÃ©es ; variables contaminants, prÃ©dateurs, parasites ; comparaison de modÃ¨les AIC ; 33 citations
 - Geographic context: etendue sf: x [-151.37911, -150.00838], y [60.20227, 60.78709]
@@ -80,7 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Multiple s
 
 ### Formule - niveau systeme
 
-- formula_used: prevalence_abnormal ~ ROADDISTANCE + RoadType [X partiel : seul le sous-ensemble route/contamination humaine du papier est present dans le depot brut, disponible pour 32/54 sites]
+- formula_used: prevalence_abnormal ~ ROADDISTANCE + RoadType
+- Formula used evidence: reconstructed_from_data
 - x_terms_used: ROADDISTANCE
 - y_term_used: prevalence_abnormal
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -224,3 +225,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Multiple stressors and the cause of amphibian abnormalities
 
+## Curation documentée — 2026-09-07
+
+Annotation de formula_used deplacee ici : X partiel : seul le sous-ensemble route/contamination humaine du papier est present dans le depot brut, disponible pour 32/54 sites. Le modele execute est une reconstruction partielle ; formula_pub conserve la specification du papier.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

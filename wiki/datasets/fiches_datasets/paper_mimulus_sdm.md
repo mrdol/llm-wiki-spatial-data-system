@@ -2,7 +2,7 @@
 title: paper_mimulus_sdm
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_mimulus_sdm.rds
   - DatasetFirst_10_5061_dryad_xsj3tx9g1
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 - Topic: ecologie / modelisation de distribution d'espece (SDM multi-especes)
 - Observation unit: point d'occurrence/fond
 - Observed population: 71 especes de Mimulus (monkeyflowers), Amerique du Nord, N=21307 points
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-136.8072033, -93.2031689], y [17.0448031, 61.5773529]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: WiBB : an integrated method for quantifying the relative importance of predictive variables
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 - Candidate X variables in local artifact: `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: T_cold (temperature du mois le plus froid), GDD0 (degres-jours de croissance > 0C), P_season (saisonnalite des precipitations), TP_syn (synchronicite temperature-precipitation), Aridity (aridite de la saison de croissance), ISO (isothermalite)
+- Published X variables from paper: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 |---|---|---|---|---|
 | `presence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `mimulus_sdm`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `WiBB : an integrated method for quantifying the relative importance of predictive variables`. Les covariables X retenues sont `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `mimulus_sdm`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `WiBB : an integrated method for quantifying the relative importance of predictive variables`. Les covariables X retenues sont `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 ### Formule - niveau publication
 
 - formula_pub: presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO [WiBB : cadre de ponderation multi-modele (AICc, poids de sommation, WiBB) pour classer l'importance relative des predicteurs dans des GLM binomiaux ajustes espece par espece]
-- x_terms_pub: T_cold (temperature du mois le plus froid), GDD0 (degres-jours de croissance > 0C), P_season (saisonnalite des precipitations), TP_syn (synchronicite temperature-precipitation), Aridity (aridite de la saison de croissance), ISO (isothermalite)
-- y_term_pub: presence (1=occurrence Mimulus, 0=point de fond aleatoire dans l'aire de distribution)
+- x_terms_pub: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
+- y_term_pub: presence
 - Reference publication: Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire).
 
 ### Statut regression canonique
@@ -80,6 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 ### Formule - niveau systeme
 
 - formula_used: presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
 - y_term_used: presence
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -100,8 +102,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO"
-    response: "presence (1=occurrence Mimulus, 0=point de fond aleatoire dans l'aire de distribution)"
-    predictors: ["T_cold (temperature du mois le plus froid)", "GDD0 (degres-jours de croissance > 0C)", "P_season (saisonnalite des precipitations)", "TP_syn (synchronicite temperature-precipitation)", "Aridity (aridite de la saison de croissance)", "ISO (isothermalite)"]
+    response: "presence"
+    predictors: ["T_cold", "GDD0", "P_season", "TP_syn", "Aridity", "ISO"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -152,27 +154,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "classification_binary_presence_absence_sdm"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_binary"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- CSV originaux telecharges directement depuis Dryad, N=21307 identique au depot source (multi-especes poolees, pas de reconstruction des valeurs)"
-  reason: "presence binaire reelle (occurrences Mimulus vs points de fond), N=21307 avec coordonnees reelles (Amerique du Nord), 6 covariables climatiques exactement celles du papier (memes noms de colonnes que la publication). CSV originaux telecharges directement depuis Dryad, pas une reconstruction. Papier lu (README du depot) pour confirmer la nature et les colonnes du jeu de donnees empirique."
+  missing_items: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- CSV originaux telecharges directement depuis Dryad, N=21307 identique au depot source (multi-especes poolees, pas de reconstruction des valeurs)
-- Raison: presence binaire reelle (occurrences Mimulus vs points de fond), N=21307 avec coordonnees reelles (Amerique du Nord), 6 covariables climatiques exactement celles du papier (memes noms de colonnes que la publication). CSV originaux telecharges directement depuis Dryad, pas une reconstruction. Papier lu (README du depot) pour confirmer la nature et les colonnes du jeu de donnees empirique.
+- Decision: manual_review
+- Manque principal: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
+  status: "manual_review"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +225,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: WiBB : an integrated method for quantifying the relative importance of predictive variables
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_o3_grid
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_o3_grid.rds
   - DataCite_2020_AnEnsembleLearningApproach_10_1021_acs_est_
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An Ensembl
 |---|---|---|---|---|
 | `O3_2016` | `numeric` | continuous | [27.116, 58.6921] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `o3_grid`, la ou les reponses `O3_2016` viennent du loader papier et/ou des preuves de l article `An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States`. Les covariables X retenues sont aucune covariable explicative locale ; cependant le papier documente les covariables publiees `meteorological_variables`, `chemical_transport_model_outputs`, `remote_sensing_observations`, `land_use_variables`, `CMAQ`, `GEOS_Chem`, `spatiotemporally_lagged_O3`, `nearby_monitor_weighted_O3`, `AOD`, `NDVI`, `road_density`, `tree_canopy`, `developed_area`, non presentes dans le .rds actuel. Les coordonnees (`lon`, `lat`), identifiants (`idx`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_prediction_product ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `o3_grid`, la ou les reponses `O3_2016` viennent du loader papier et/ou des preuves de l article `An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States`. Les covariables X retenues sont aucune covariable explicative locale ; cependant le papier documente les covariables publiees `meteorological_variables`, `chemical_transport_model_outputs`, `remote_sensing_observations`, `land_use_variables`, `CMAQ`, `GEOS_Chem`, `spatiotemporally_lagged_O3`, `nearby_monitor_weighted_O3`, `AOD`, `NDVI`, `road_density`, `tree_canopy`, `developed_area`, non presentes dans le .rds actuel. Les coordonnees (`lon`, `lat`), identifiants (`idx`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -147,27 +147,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_prediction_product"
-  benchmark_task: "prediction_product"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "retrouver les observations et covariables sources du modele ensembliste"
-  reason: "Le fichier extrait est une grille de predictions, pas un tableau Y/X brut."
+  missing_items: "retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  reason: "retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
 ```
 
-- Decision: not_ready_prediction_product
-- Manque principal: retrouver les observations et covariables sources du modele ensembliste
-- Raison: Le fichier extrait est une grille de predictions, pas un tableau Y/X brut.
+- Decision: not_ready_main_benchmark
+- Manque principal: retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
+- Raison: retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_prediction_product"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -218,3 +218,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: An Ensemble Learning Approach for Estimating High Spatiotemporal Resolution of Ground-Level Ozone in the Contiguous United States
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : retrouver les observations et covariables sources du modele ensembliste Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

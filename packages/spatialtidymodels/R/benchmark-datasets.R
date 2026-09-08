@@ -23,7 +23,7 @@ fallback_benchmark_dataset_registry <- function() {
       "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn_1999.rds"
     ),
     formula = c(
-      "PctBach ~ PctRural + PctFB + PctBlack + PctEld",
+      "PctBach ~ PctRural + PctEld + PctFB + PctPov",
       "CRIME ~ HOVAL + INC",
       "PURCHASE ~ FLOORSZ + PROF + BATH2",
       paste(
@@ -42,7 +42,7 @@ fallback_benchmark_dataset_registry <- function() {
     ),
     response = c("PctBach", "CRIME", "PURCHASE", "CMEDV", "GenEl2004", "PurPrice", "yield"),
     predictors = I(list(
-      c("PctRural", "PctFB", "PctBlack", "PctEld"),
+      c("PctRural", "PctEld", "PctFB", "PctPov"),
       c("HOVAL", "INC"),
       c("FLOORSZ", "PROF", "BATH2"),
       c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS",
@@ -340,9 +340,13 @@ derive_benchmark_coords <- function(data, coords) {
 detect_response_typology_from_spec <- function(spec) {
   raw <- tryCatch(spec$response_typology[[1]], error = function(e) character())
   raw <- as.character(raw)
-  if ("binary" %in% raw) return("binary")
-  if ("count" %in% raw) return("count")
-  "continuous"
+  if (!length(raw)) return("continuous") # legacy registry without typology
+  raw[raw %in% c("rate", "proportion")] <- "continuous"
+  raw <- unique(raw)
+  if (length(raw) != 1L || !raw %in% c("continuous", "binary", "count")) {
+    stop("La typologie doit decrire uniquement le Y selectionne (continuous/rate, binary ou count); candidats ambigus ou tache non prise en charge.", call. = FALSE)
+  }
+  raw
 }
 
 #' List registered benchmark datasets

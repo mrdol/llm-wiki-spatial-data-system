@@ -2,7 +2,7 @@
 title: paper_maipo
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_maipo.rds
   - Brenning_2023_SpatialMLDiagnostics_maipo
@@ -137,8 +137,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial ma
 
 ### Formule - niveau systeme
 
-- formula_used: croptype ~ ndvi01 + ndvi02 + ndvi03 + ndvi04 + ndvi05 + ndvi06 + ndvi07 + ndvi08 + ndwi01 + ndwi02 + ndwi03 + ndwi04 + ... (52 covariables au total, voir Candidate X variables)
-- x_terms_used: ndvi01, ndvi02, ndvi03, ndvi04, ndvi05, ndvi06, ndvi07, ndvi08, ndwi01, ndwi02, ndwi03, ndwi04
+- formula_used: croptype ~ ndvi01 + ndvi02 + ndvi03 + ndvi04 + ndvi05 + ndvi06 + ndvi07 + ndvi08 + ndwi01 + ndwi02 + ndwi03 + ndwi04 + ndwi05 + ndwi06 + ndwi07 + ndwi08 + b12 + b13 + b14 + b15 + b16 + b17 + b22 + b23 + b24 + b25 + b26 + b27 + b32 + b33 + b34 + b35 + b36 + b37 + b42 + b43 + b44 + b45 + b46 + b47 + b52 + b53 + b54 + b55 + b56 + b57 + b62 + b63 + b64 + b65 + b66 + b67 + b72 + b73 + b74 + b75 + b76 + b77 + b82 + b83 + b84 + b85 + b86 + b87
+- Formula used evidence: generated_system_formula
+- benchmark_task_note: croptype code plusieurs classes de cultures.
+- Selected Y evidence: croptype code plusieurs classes de cultures.
+- Selected Y typology: categorical
+- x_terms_used: ndvi01, ndvi02, ndvi03, ndvi04, ndvi05, ndvi06, ndvi07, ndvi08, ndwi01, ndwi02, ndwi03, ndwi04, ndwi05, ndwi06, ndwi07, ndwi08, b12, b13, b14, b15, b16, b17, b22, b23, b24, b25, b26, b27, b32, b33, b34, b35, b36, b37, b42, b43, b44, b45, b46, b47, b52, b53, b54, b55, b56, b57, b62, b63, b64, b65, b66, b67, b72, b73, b74, b75, b76, b77, b82, b83, b84, b85, b86, b87
 - y_term_used: croptype
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
@@ -281,3 +285,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial machine-learning model diagnostics: a model-agnostic distance-based approach
 
+## Curation documentée — 2026-09-07
+
+La formule systeme enumere les 64 covariables deja declarees dans Candidate X variables et presentes dans le RDS. L’ancienne ellipse etait un defaut du rendu; cette liste demeure une proposition systeme, sans preuve de specification publiee et sans promotion. Sa pertinence scientifique reste en revue.
+
+Typologie de la reponse selectionnee : categorical. croptype code plusieurs classes de cultures.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

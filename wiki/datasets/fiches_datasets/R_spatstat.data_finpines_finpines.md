@@ -2,7 +2,7 @@
 title: R_spatstat.data_finpines_finpines
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_finpines_finpines.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ The data record the locations of 126 pine saplings in a Finnish forest, their he
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spatstat.data_finpines_finpines
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 126 enregistrements dans l’artefact local R_spatstat.data_finpines_finpines.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-4.948165, 4.881354], y [-7.967419, 1.995128]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The data record the locations of 126 pine saplings in a Finnish forest, their heights and their diameters.
 - Description source: package R `spatstat.data`
@@ -196,3 +196,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

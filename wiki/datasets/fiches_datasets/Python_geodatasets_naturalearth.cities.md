@@ -2,7 +2,7 @@
 title: Python_geodatasets_naturalearth.cities
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_naturalearth.cities.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`cities`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_naturalearth.cities
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 243 enregistrements dans l’artefact local Python_geodatasets_naturalearth.cities.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-175.2205645, 179.2166471], y [-41.292068, 64.1434595]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`cities`).
 - Description source: package Python `geodatasets`
@@ -79,6 +79,8 @@ Dataset spatial issu du package Python `geodatasets` (`cities`).
 ### Formule — niveau systeme
 
 - formula_used: pop_max ~ scalerank + natscale + labelrank + adm0cap + capalt + rank_max + rank_min + min_zoom
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: scalerank + natscale + labelrank + adm0cap + capalt + rank_max + rank_min + min_zoom
 - y_term_used: pop_max
 
@@ -180,18 +182,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_non_continuous_response"
-  benchmark_task: "not_current_regression_benchmark"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
-  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+  missing_items: "La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées."
+  reason: "La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées."
 ```
 
-- Decision: not_ready_non_continuous_response
-- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
-- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+- Decision: not_ready_main_benchmark
+- Manque principal: La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées.
+- Raison: La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -207,3 +220,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : La formule propose des rangs/paramètres cartographiques (scalerank, labelrank, rank_max, zoom) comme X de population. Certains peuvent dériver de la population. Garder la couche comme référence cartographique; une tâche population nécessite des covariables indépendantes et datées. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

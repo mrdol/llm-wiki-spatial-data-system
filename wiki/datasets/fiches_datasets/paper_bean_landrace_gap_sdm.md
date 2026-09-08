@@ -2,7 +2,7 @@
 title: paper_bean_landrace_gap_sdm
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_bean_landrace_gap_sdm.rds
   - DataCite_2020_AGapAnalysisModelling_10_1111_ddi_1304
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_bean_landrace_gap_sdm
 - Observation unit: observation spatiale du dataset "A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces"
 - Observed population: ModÃ©lisation de distribution spatiale de variÃ©tÃ©s traditionnelles de haricot commun ; gap analysis avec prÃ©dicteurs environnementaux et socioÃ©conomiques ; domaine agriculture/conservation ex situ ; 35 citations
 - Geographic context: etendue sf: x [-117.033, -34.9], y [-38.45, 32.616667]
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 |---|---|---|---|---|
 | `status_H_01` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `bean_landrace_gap_sdm`, la ou les reponses `status_H_01` viennent du loader papier et/ou des preuves de l article `A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces`. Les covariables X retenues sont `bio_1`, `bio_12`, `alt`, `PETa`, `popdens`, `access`, `distgp1`, `rivers`, `irri`, `aharv`, `prod`, `yield` ; 38 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`source`, `status`, `genepool`, `ethnic`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `bean_landrace_gap_sdm`, la ou les reponses `status_H_01` viennent du loader papier et/ou des preuves de l article `A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces`. Les covariables X retenues sont `bio_1`, `bio_12`, `alt`, `PETa`, `popdens`, `access`, `distgp1`, `rivers`, `irri`, `aharv`, `prod`, `yield` ; 38 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`source`, `status`, `genepool`, `ethnic`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -124,6 +124,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 ### Formule - niveau systeme
 
 - formula_used: status_H_01 ~ bio_1 + bio_12 + alt + PETa + popdens + access + distgp1 + rivers + irri + aharv + prod + yield
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: bio_1, bio_12, alt, PETa, popdens, access, distgp1, rivers, irri, aharv, prod, yield
 - y_term_used: status_H_01
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -196,27 +198,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "classification_binary_sdm"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_binary"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "reponse binaire status_H_01 ; hors cahier de regression continue stricte, mais conserve comme cas SDM/classification documente dans le package"
-  reason: "Le fichier Excel Dryad contient coordonnees, statut/genepool et covariables climatiques, d'accessibilite et agricoles. Le loader produit une version sf executable pour benchmark SDM/classification, en documentant que formula_used est une variante binaire locale."
+  missing_items: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
-- Decision: ready
-- Manque principal: reponse binaire status_H_01 ; hors cahier de regression continue stricte, mais conserve comme cas SDM/classification documente dans le package
-- Raison: Le fichier Excel Dryad contient coordonnees, statut/genepool et covariables climatiques, d'accessibilite et agricoles. Le loader produit une version sf executable pour benchmark SDM/classification, en documentant que formula_used est une variante binaire locale.
+- Decision: manual_review
+- Manque principal: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
+  status: "manual_review"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -267,3 +269,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

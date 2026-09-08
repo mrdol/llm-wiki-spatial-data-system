@@ -2,7 +2,7 @@
 title: paper_mammals_sr_pd
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_mammals_sr_pd.rds
   - DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299
@@ -13,9 +13,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 
 ## Description du jeu de donnees
 
-- Topic: biogeographie vegetale / gradients de richesse
-- Observation unit: cellule de grille (100x100 km)
-- Observed population: especes du genre Medicago
+- Topic: biogeographie animale / correspondance richesse specifique-diversite phylogenetique (corrige 2026-09-08 -- copie-collage errone depuis la fiche paper_medicago)
+- Observation unit: cellule de grille
+- Observed population: mammiferes terrestres (richesse specifique SR et diversite phylogenetique PD)
 - Geographic context: etendue sf: x [-178.137100743291, 178.191046040827], y [-52.1756104, 82.3396486]
 - Temporal context: none (cross-sectional)
 - Source description: Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 | `SR` | `integer` | count | [6, 239] | 0% |
 | `PD` | `numeric` | continuous | [367.4006, 5651.262] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `mammals_sr_pd`, la ou les reponses `SR`, `PD` viennent du loader papier et/ou des preuves de l article `Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals`. Les covariables X retenues sont `AET`, `Temp` ; 24 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `mammals_sr_pd`, la ou les reponses `SR`, `PD` viennent du loader papier et/ou des preuves de l article `Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals`. Les covariables X retenues sont `AET`, `Temp` ; 24 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -89,18 +89,21 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Environmen
 - x_terms_pub: AET, Temp
 - y_term_pub: SR
 - Reference publication: Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.
+- Correction (2026-09-08, lecture TEI approfondie) : confirme -- le papier n'ajuste pas un GLM/Poisson simple sur SR, mais une **analyse de chemin geographiquement ponderee (GWPath)** ou les coefficients de chemin varient regionalement via GWR (package `spgwr`) : "we developed a geographically weighted path analysis (GWPath), which allows path coefficients to vary regionally... GWPath uses geographically weighted regressions (GWR)". `formula_used` (SR ~ AET + Temp) isole un seul chemin du modele complet (qui relie conjointement SR, PD et l'environnement) et perd le cadre GWPath/GWR -- simplification deja pressentie, maintenant confirmee par le texte. formula_status reste `reconstructed_from_data`, pas `pub`.
 
 ### Statut regression canonique
 
-- Statut: resolu
+- Statut: mis de cote
 - Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: SR ~ AET + Temp
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: AET, Temp
 - y_term_used: SR
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -173,27 +176,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_count"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "SR est retenu comme benchmark canonique; PD reste documente comme reponse alternative publiee"
-  reason: "Y=SR continu, covariables AET et Temp, coordonnees et formule canonique issue de la Figure 1 sont disponibles."
+  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GWPath, analyse de chemin geographiquement ponderee reliant conjointement SR et PD) sort du paradigme 'une formule = un modele' du harnais actuel : GWR existe (mgwrsar_gwr) mais pas le cadre de chemin reliant plusieurs reponses. En attente d'un futur chantier d'extension du harnais (cadre GWPath/modeles a equations structurelles spatiales). formula_used (SR ~ AET + Temp) reste documente comme un chemin isole du modele complet, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
+  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GWPath, analyse de chemin geographiquement ponderee reliant conjointement SR et PD) sort du paradigme 'une formule = un modele' du harnais actuel : GWR existe (mgwrsar_gwr) mais pas le cadre de chemin reliant plusieurs reponses. En attente d'un futur chantier d'extension du harnais (cadre GWPath/modeles a equations structurelles spatiales). formula_used (SR ~ AET + Temp) reste documente comme un chemin isole du modele complet, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
 ```
 
-- Decision: ready
-- Manque principal: SR est retenu comme benchmark canonique; PD reste documente comme reponse alternative publiee
-- Raison: Y=SR continu, covariables AET et Temp, coordonnees et formule canonique issue de la Figure 1 sont disponibles.
+- Decision: manual_review
+- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08) -- voir estimator_eligibility.
+- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GWPath, analyse de chemin geographiquement ponderee reliant conjointement SR et PD) sort du paradigme 'une formule = un modele' du harnais actuel : GWR existe (mgwrsar_gwr) mais pas le cadre de chemin reliant plusieurs reponses. En attente d'un futur chantier d'extension du harnais (cadre GWPath/modeles a equations structurelles spatiales). formula_used (SR ~ AET + Temp) reste documente comme un chemin isole du modele complet, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GWPath, analyse de chemin geographiquement ponderee reliant conjointement SR et PD) sort du paradigme 'une formule = un modele' du harnais actuel : GWR existe (mgwrsar_gwr) mais pas le cadre de chemin reliant plusieurs reponses. En attente d'un futur chantier d'extension du harnais (cadre GWPath/modeles a equations structurelles spatiales). formula_used (SR ~ AET + Temp) reste documente comme un chemin isole du modele complet, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -244,3 +247,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

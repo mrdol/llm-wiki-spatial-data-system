@@ -2,7 +2,7 @@
 title: paper_houston_lst_landcover
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_houston_lst_landcover.rds
   - DatasetFirst_10_5061_dryad_fbg79cnt2
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 - Topic: climatologie urbaine / ilot de chaleur urbain
 - Observation unit: pixel de grille satellite
 - Observed population: grille de temperature de surface (LST) et couverture du sol, Houston, Texas, N=19059 pixels
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-96, -94.49305], y [28.99305, 30.5]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 - Candidate X variables in local artifact: `land_cover`
 - Candidate X count in local artifact: 1
 - Candidate X typology: categorical
-- Published X variables from paper: land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)
+- Published X variables from paper: land_cover
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
@@ -60,8 +60,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 ### Formule - niveau publication
 
 - formula_pub: [Le papier construit un modele spatiotemporel physiquement contraint sur l'ensemble des 27 passages satellite pour combler les zones nuageuses (clear-sky reconstruction) de la temperature de surface (LST) ; il ne publie pas de regression Y~X statique unique -- la relation LST~couverture du sol est neanmoins directement mesurable dans les donnees deposees (grille appariee lat/lon/land_cover/LST par passage satellite)]
-- x_terms_pub: land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)
-- y_term_pub: LST_kelvin (temperature de surface terrestre, degres Kelvin, passage satellite du 2014-07-01 22:06 UTC, couverture non-nuageuse la plus complete parmi les 27 passages disponibles : 19059/22801 pixels)
+- x_terms_pub: land_cover
+- y_term_pub: LST_kelvin
 - Reference publication: Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas.
 
 ### Statut regression canonique
@@ -75,6 +75,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 ### Formule - niveau systeme
 
 - formula_used: LST_kelvin ~ land_cover
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: land_cover
 - y_term_used: LST_kelvin
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -85,8 +87,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 formula_candidates:
   univariate:
     formula: "LST_kelvin ~ land_cover"
-    response: "LST_kelvin (temperature de surface terrestre, degres Kelvin, passage satellite du 2014-07-01 22:06 UTC, couverture non-nuageuse la plus complete parmi les 27 passages disponibles : 19059/22801 pixels)"
-    predictors: ["land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)"]
+    response: "LST_kelvin"
+    predictors: ["land_cover"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -218,3 +220,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

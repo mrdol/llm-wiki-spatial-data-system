@@ -2,7 +2,7 @@
 title: paper_maine_baseflow
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_maine_baseflow.rds
   - DataCite_2021_ModelEstimatedBaseflowFor_10_1002_rra_3835
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Model esti
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_maine_baseflow
 - Observation unit: observation spatiale du dataset "Spatial Coverage for Estimated Baseflow for Streams Containing Endangered Atlantic Salmon in Maine, USA (version 1.1, June 2022)"
 - Observed population: ModÃ¨le de rÃ©gression pour estimer le dÃ©bit de base (baseflow) dans les cours d'eau du Maine
 - Geographic context: etendue sf: x [-70.9797222, -67.725], y [43.3791667, 46.1430556]
@@ -77,6 +77,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Model esti
 ### Formule - niveau systeme
 
 - formula_used: aug_baseflow_m3s_km2 ~ pct_sand_gravel_aquifer + july_precip_mm
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: pct_sand_gravel_aquifer, july_precip_mm
 - y_term_used: aug_baseflow_m3s_km2
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -220,3 +222,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Model estimated baseflow for streams with endangered Atlantic Salmon in Maine, USA
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

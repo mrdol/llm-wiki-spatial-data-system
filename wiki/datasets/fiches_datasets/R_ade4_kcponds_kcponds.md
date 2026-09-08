@@ -2,7 +2,7 @@
 title: R_ade4_kcponds_kcponds
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_kcponds_kcponds.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This data set contains informations about 33 ponds in De Maten reserve (Genk, Be
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_kcponds_kcponds
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 33 enregistrements dans l’artefact local R_ade4_kcponds_kcponds.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [50.3, 961.65], y [121.82124171608, 359.600279037321]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set contains informations about 33 ponds in De Maten reserve (Genk, Belgium).
 - Description source: package R `ade4`
@@ -211,3 +211,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: Pipeline d'ingestion des jeux de donnees issus de papiers
 type: metadata
 created: 2026-08-06
-updated: 2026-08-17
+updated: 2026-09-07
 sources: []
 tags: [metadata, pipeline, kg, papers, ingestion]
 ---
@@ -590,6 +590,39 @@ fiche dataset definitive. Il doit passer par :
 
 Le KG sert de sas de curation. Les fiches wiki et le package ne doivent
 consommer que les elements valides ou explicitement marques comme candidats.
+
+## Curation et controles apres generation (2026-09-07)
+
+Les deux generateurs appliquent `code/r_catalog/dataset_curation.py` et le
+manifeste versionne `data/manifests/datasets/dataset_curation_overrides.json`.
+Pour regenerer les champs deja verifies sans remplacer les autres textes :
+
+```powershell
+python code/r_catalog/dataset_curation.py
+python code/r_catalog/dataset_curation.py --check
+python code/package_metadata/export_spatialtidymodels_metadata.py
+Rscript code/r_catalog/check_curated_dataset_artifacts.R
+python tools/check_dataset_fiche_readiness.py --all --no-report
+```
+
+`formula_used` contient seulement une formule R executable ou `pending` ;
+annotations et limites vont dans les notes. `Selected Y typology` decrit
+la reponse selectionnee, sans union des typologies candidates ni deduction
+count depuis le seul stockage integer. `Formula used evidence` distingue
+la formule utilisee d'une autre formule publiee conservee dans `formula_pub`.
+Les alias du package doivent respecter le bloc d'admission de la fiche.
+
+Une jointure ade4 exige des tables de sites documentees et des cles exactes ;
+ni egalite du nombre de lignes, ni premiere colonne numerique ne prouvent
+une jointure ou un choix de Y. Les donnees panel/repetitions doivent preciser
+unite, variable temporelle et protocole de validation avant promotion. Une W
+geographique reconstructible n'est pas en elle-meme un blocage ; une W propre
+a la source ne peut pas etre remplacee sans justification.
+
+Un DOI dataset lie a un autre depot est une provenance Dataset DERIVED_FROM
+Dataset, pas une publication. Conserver `pending_source_review` quand le DOI
+article n'est pas verifie. Voir [[dataset_fiches_corrections_2026-09-07]] pour
+les corrections, preuves, exclusions et recuperations en attente.
 
 ## Related Pages
 

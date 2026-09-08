@@ -94,10 +94,10 @@ def build_graph_rows(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
 
         nodes[paper_id] = node(
             paper_id,
-            "Paper",
+            record.get("source_entity_type", "Paper"),
             record.get("paper_title") or paper_id,
             {
-                "doi": record.get("paper_doi"),
+                "doi": record.get("paper_doi") or record.get("related_dataset_doi"),
                 "bib_key": record.get("bib_key"),
                 "source": "paper_dataset_use_manifest",
             },
@@ -124,6 +124,11 @@ def build_graph_rows(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
                 if value not in (None, "", [])
             },
         )
+        if record.get("source_relation") == "DERIVED_FROM":
+            edges[f"{target_id}|DERIVED_FROM|{paper_id}"] = edge(
+                target_id, "DERIVED_FROM", paper_id,
+                {"source": record.get("source_ref"), "confidence": confidence},
+            )
         edges[f"{paper_id}|HAS_PAPER_DATASET_USE|{use_id}"] = edge(
             paper_id,
             "HAS_PAPER_DATASET_USE",

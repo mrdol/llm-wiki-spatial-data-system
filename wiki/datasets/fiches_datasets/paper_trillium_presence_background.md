@@ -2,7 +2,7 @@
 title: paper_trillium_presence_background
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_trillium_presence_background.rds
   - DataCite_2021_ReproductiveTraitsExplainOccupancy_10_1111_ddi_1329
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 |---|---|---|---|---|
 | `presence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `trillium_presence_background`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs`. Les covariables X retenues sont `bio1_annual_mean_temperature`, `bio4_temperature_seasonality`, `bio5_max_temperature_warmest_month`, `bio6_min_temperature_coldest_month`, `bio12_annual_precipitation`, `bio15_precipitation_seasonality`. Les coordonnees (`longitude`, `latitude`), identifiants (`species`, `source_file`, `background_id`, `record_type`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `trillium_presence_background`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs`. Les covariables X retenues sont `bio1_annual_mean_temperature`, `bio4_temperature_seasonality`, `bio5_max_temperature_warmest_month`, `bio6_min_temperature_coldest_month`, `bio12_annual_precipitation`, `bio15_precipitation_seasonality`. Les coordonnees (`longitude`, `latitude`), identifiants (`species`, `source_file`, `background_id`, `record_type`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -66,7 +66,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 
 - formula_pub: PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]
 - x_terms_pub: Flower_Type, No_ovules, Seed_weight
-- y_term_pub: proportional occupancy of predicted suitable distribution (PO); presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response
+- y_term_pub: proportional occupancy of predicted suitable distribution; presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response
 - Reference publication: Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297. TEI/PDF methods and abstract state that fundamental niches and predicted suitable distributions were estimated using climate-calibrated ecological niche models; PO = occupied distribution area / predicted suitable area; reproductive traits (ovule number, seed set, number of seeds per plant, seed mass, adult biomass, flower type) were related to PO using beta regression and AICc. The local Dryad folder contains occurrence CSVs and Trillium_LifeHistoryTraits.csv, but not the full ClimateNA ENM raster stack; formula_used is therefore a documented executable SDM reconstruction, not a claim to reproduce the final beta-regression exactly.
 
 ### Statut regression canonique
@@ -80,6 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 ### Formule - niveau systeme
 
 - formula_used: presence ~ bio1_annual_mean_temperature + bio4_temperature_seasonality + bio5_max_temperature_warmest_month + bio6_min_temperature_coldest_month + bio12_annual_precipitation + bio15_precipitation_seasonality
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: bio1_annual_mean_temperature, bio4_temperature_seasonality, bio5_max_temperature_warmest_month, bio6_min_temperature_coldest_month, bio12_annual_precipitation, bio15_precipitation_seasonality
 - y_term_used: presence
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -100,7 +102,7 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PO ~ Flower_Type + No_ovules + Seed_weight"
-    response: "proportional occupancy of predicted suitable distribution (PO); presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response"
+    response: "proportional occupancy of predicted suitable distribution; presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response"
     predictors: ["Flower_Type", "No_ovules", "Seed_weight"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
@@ -152,27 +154,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "classification_binary_presence_absence_sdm"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_binary"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "cas classification/binomial; le papier publie aussi une beta-regression espece-niveau PO ~ traits reproductifs mieux couverte par paper_trillium_proportional_occupancy"
-  reason: "Occurrences Trillium Dryad et covariables WorldClim publiques sont disponibles dans l'artefact local; la reconstruction presence/background est tracee et conservable dans le package, avec son type de tache explicite."
+  missing_items: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
-- Decision: ready
-- Manque principal: cas classification/binomial; le papier publie aussi une beta-regression espece-niveau PO ~ traits reproductifs mieux couverte par paper_trillium_proportional_occupancy
-- Raison: Occurrences Trillium Dryad et covariables WorldClim publiques sont disponibles dans l'artefact local; la reconstruction presence/background est tracee et conservable dans le package, avec son type de tache explicite.
+- Decision: manual_review
+- Manque principal: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
+  status: "manual_review"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +225,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

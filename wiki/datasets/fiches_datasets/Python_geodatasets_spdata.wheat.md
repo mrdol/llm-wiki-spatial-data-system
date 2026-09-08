@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.wheat
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.wheat.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [2.51, 62.75], y [3, 65.7]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`wheat`).
 - Description source: package Python `geodatasets`
@@ -70,6 +70,8 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 ### Formule — niveau systeme
 
 - formula_used: yield ~ r + c + lat1
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: r + c + lat1
 - y_term_used: yield
 
@@ -171,18 +173,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "regression_spatial_validated_generated_formula"
-  package_include: "yes"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
-  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+  missing_items: "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
+  reason: "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
 ```
 
-- Decision: ready
-- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
-- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+- Decision: manual_review
+- Manque principal: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.
+- Raison: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Aucun estimateur de regression documente : identifie via la documentation du package R spData (deja installe dans ce projet, `tools::Rd_db('spData')`) comme le jeu Mercer & Hall (1911) 'The experimental error of field trials', reproduit par Cressie (1993) Statistics for Spatial Data p.455 -- colonnes r/c/lat/lon confirmees identiques (grille reguliere 500 parcelles). C'est un jeu de rendement agricole sur grille, historiquement utilise pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas une regression Y~X avec covariable exogene distincte -- seule une surface de tendance yield~r+c serait defendable, et cette specification n'est documentee nulle part dans la fiche actuelle. Formula_pub reste 'pending' ; ne pas inventer une specification non sourcee. Statut maintenu en manual_review."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -198,3 +211,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

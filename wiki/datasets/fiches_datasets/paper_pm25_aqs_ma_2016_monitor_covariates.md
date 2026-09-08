@@ -2,7 +2,7 @@
 title: paper_pm25_aqs_ma_2016_monitor_covariates
 type: dataset
 created: 2026-08-11
-updated: 2026-08-11
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_pm25_aqs_state_25_2016_monitor_covariates.rds
   - tools/build_air_quality_monitor_covariates.R
@@ -86,6 +86,8 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 ### Formule - niveau systeme
 
 - formula_used: pm25_mean_2016 ~ elevation_m_usgs_epqs + power_t2m_mean_c + power_rh2m_mean_pct + nlcd_developed + road_density_primary_secondary_10km_m_per_km2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: elevation_m_usgs_epqs, power_t2m_mean_c, power_rh2m_mean_pct, nlcd_developed, road_density_primary_secondary_10km_m_per_km2
 - y_term_used: pm25_mean_2016
 - Note: les colonnes de prediction de grille sont exclues pour eviter la fuite dinformation.
@@ -209,3 +211,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source grid fiche: [[paper_pm25_grid]]
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

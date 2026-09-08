@@ -2,7 +2,7 @@
 title: R_spatstat.data_nbfires_nbfires
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_nbfires_nbfires.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 7108 enregistrements dans l’artefact local R_spatstat.data_nbfires_nbfires.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [13.19402191004, 988.468299464142], y [5.489931767878, 956.133394526625]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Point patterns created from yearly records, provided by the New Brunswick Department of Natural Resources, of all fires falling under their jurisdiction for the years 1987 to 2003 inclusive (with the year 1988 omitted until further notice).
 - Description source: package R `spatstat.data`
@@ -73,6 +73,8 @@ Point patterns created from yearly records, provided by the New Brunswick Depart
 ### Formule — niveau systeme
 
 - formula_used: fnl.size ~ year + fire.type + dis.julian + out.julian + cause + ign.src
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: year + fire.type + dis.julian + out.julian + cause + ign.src
 - y_term_used: fnl.size
 
@@ -202,3 +204,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.police
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.police.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 - Topic: criminalite urbaine
 - Observation unit: quartier, zone urbaine ou evenement de police selon la documentation source
 - Observed population: unites spatiales ou evenements lies a la criminalite
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-91.331431669259, -88.221578668756], y [30.42252065, 34.9319592]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`police`).
 - Description source: package Python `geodatasets`
@@ -79,6 +79,9 @@ Dataset spatial issu du package Python `geodatasets` (`police`).
 ### Formule — niveau systeme
 
 - formula_used: CRIME ~ POP + INC + UNEMP + OWN + COLLEGE + WHITE + COMMUTE + TAX
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: POP + INC + UNEMP + OWN + COLLEGE + WHITE + COMMUTE + TAX
 - y_term_used: CRIME
 
@@ -207,3 +210,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

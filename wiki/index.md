@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-07-20
+updated: 2026-09-08
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -228,6 +228,14 @@ Each entry follows this format:
 ---
 
 ## Index Maintenance Notes
+
+- [[protocole_plasmode_spatial_2026-09-08]] - Cadrage plasmode exclusif, alternatives a D9, protocole et pilote Georgia/Meuse execute | analysis | 2026-09-08
+
+- [[dataset_fiches_consistency_audit_2026-09-07]] - Audit historique des 292 fiches datasets | analysis | 2026-09-07
+- [[dataset_fiches_corrections_2026-09-07]] - Corrections des generateurs, provenance, routage et admission ; 15 recuperations prioritaires | analysis | 2026-09-07
+- [[paper_dataset_benchmark_candidates_2026-09-07]] - Candidats et HTML interactif regeneres apres corrections | analysis | 2026-09-07
+- [[paper_dataset_medium_review_2026-09-07]] - Candidats medium a examiner | analysis | 2026-09-07
+- [[paper_dataset_low_archive_2026-09-07]] - Archive des candidats low | analysis | 2026-09-07
 
 - Add new pages immediately after creation
 - Update the "last updated" date when a page changes substantially

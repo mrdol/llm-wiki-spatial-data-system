@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.columbus
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.columbus.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 - Topic: criminalite urbaine
 - Observation unit: quartier, zone urbaine ou evenement de police selon la documentation source
 - Observed population: unites spatiales ou evenements lies a la criminalite
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [6.165913078964, 10.962059072182], y [11.040885, 14.4376602]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`columbus`).
 - Description source: package Python `geodatasets`
@@ -62,10 +62,10 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: CRIME ~ HOVAL + INC
+- x_terms_pub: HOVAL, INC
+- y_term_pub: CRIME
+- Reference publication: Anselin (1988), Spatial Econometrics: Methods and Models, chapitre 12, tableau 12.3; preuve conservee dans DATASET_ALIASES, exemple spData/spdep Columbus.
 
 ### Statut regression canonique
 
@@ -78,6 +78,9 @@ Dataset spatial issu du package Python `geodatasets` (`columbus`).
 ### Formule — niveau systeme
 
 - formula_used: CRIME ~ HOVAL + INC
+- Formula used evidence: pub
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: HOVAL + INC
 - y_term_used: CRIME
 
@@ -248,3 +251,11 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Preuve de l’alias Columbus preservee; permutation de l’ordre INC/HOVAL sans modification de la specification. W original de contiguite conserve.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

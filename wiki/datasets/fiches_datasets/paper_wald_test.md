@@ -2,7 +2,7 @@
 title: paper_wald_test
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_wald_test.rds
   - DataCite_2020_TheWaldTestOf_10_1017_pan_2020
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 |---|---|---|---|---|
 | `change` | `numeric` | continuous | [-28.24, 22.73] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `wald_test`, la ou les reponses `change` viennent du loader papier et/ou des preuves de l article `The Wald Test of Common Factors in Spatial Model Specification Search Strategies`. Les covariables X retenues sont `rgdppc_growth`, `growth_govt`, `pm_growth`, `party_shift_t`, `party_shift_t1`, `ciep_perc`, `govt_ciep`, `pm_ciep`, `xregbet`, `prime_dummy`, `niche`, `gparties`, `pm_gparties`, `lag_pervote`, `pm_lag_pervote`, `niche_lag_pervote`, `eff_par` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ccode`, `iso_a2`, `party`, `ts`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -97,6 +97,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 ### Formule - niveau systeme
 
 - formula_used: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
+- Recommended validation: N lignes=1428; T declare=306; variable temporelle declaree=ts; repetitions de coordonnees controlees=1405. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_used: change
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -236,8 +239,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`wald_test` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Juhl_2021_WaldTestCommonFactorsSpatialModelSpecification) confirme la structure Williams & Whitten : memes partis suivis sur des elections successives. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par parti, respecter la chronologie (election) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: The Wald Test of Common Factors in Spatial Model Specification Search Strategies
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=1428; T declare=306; variable temporelle declaree=ts; repetitions de coordonnees controlees=1405. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

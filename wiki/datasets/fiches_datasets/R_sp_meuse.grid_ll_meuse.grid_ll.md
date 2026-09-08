@@ -2,7 +2,7 @@
 title: R_sp_meuse.grid_ll_meuse.grid_ll
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_sp_meuse.grid_ll_meuse.grid_ll.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_sp_meuse.grid_ll_meuse.grid_ll
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 3103 enregistrements dans l’artefact local R_sp_meuse.grid_ll_meuse.grid_ll.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [5.7211091, 5.7651701], y [50.95577, 50.9927167]; CRS +proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The object contains the meuse.grid data as a SpatialPointsDataFrame after transformation to WGS84 and geographical coordinates.
 - Description source: package R `sp`
@@ -71,6 +71,9 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 ### Formule — niveau systeme
 
 - formula_used: dist ~ part.a + part.b + soil + ffreq
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: part.a + part.b + soil + ffreq
 - y_term_used: dist
 
@@ -172,18 +175,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "almost_ready_generated_formula"
-  benchmark_task: "regression_spatial_generated_formula"
-  package_include: "manual_review"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "valider la formule generee avant inclusion automatique dans le package"
-  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+  missing_items: "Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille."
+  reason: "Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille."
 ```
 
-- Decision: almost_ready_generated_formula
-- Manque principal: valider la formule generee avant inclusion automatique dans le package
-- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+- Decision: not_ready_main_benchmark
+- Manque principal: Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille.
+- Raison: Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -199,3 +213,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `sp`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

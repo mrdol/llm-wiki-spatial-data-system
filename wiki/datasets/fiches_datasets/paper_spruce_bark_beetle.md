@@ -2,7 +2,7 @@
 title: paper_spruce_bark_beetle
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_spruce_bark_beetle.rds
   - DataCite_2024_ClimaticAndManagementRelated_10_1111_1365_266
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 |---|---|---|---|---|
 | `trapcounts` | `integer` | count | [7, 36735] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `spruce_vol`, `felling_border`, `temperature`, `soil_moisture`, `veg_zone` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `spruce_vol`, `felling_border`, `temperature`, `soil_moisture`, `veg_zone` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -82,6 +82,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 ### Formule - niveau systeme
 
 - formula_used: trapcounts ~ spruce_vol + felling_border + temperature + soil_moisture + veg_zone
+- Recommended validation: N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
 - y_term_used: trapcounts
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -154,27 +157,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_count_spatial"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "formula_used est une version executable sans longitude/latitude et sans interactions/quadratiques explicites du GLM negatif binomial publie"
-  reason: "Y=trapcounts, covariables retenues par le papier, coordonnees WGS84 et N=1731 sont disponibles; le papier confirme l'analyse de regression et le modele final."
+  missing_items: "N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: formula_used est une version executable sans longitude/latitude et sans interactions/quadratiques explicites du GLM negatif binomial publie
-- Raison: Y=trapcounts, covariables retenues par le papier, coordonnees WGS84 et N=1731 sont disponibles; le papier confirme l'analyse de regression et le modele final.
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -226,3 +229,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

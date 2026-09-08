@@ -2,7 +2,7 @@
 title: R_spDataLarge_lsl_lsl
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spDataLarge_lsl_lsl.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spDataLarge_lsl_lsl
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 350 enregistrements dans l’artefact local R_spDataLarge_lsl_lsl.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [712197.726935, 715737.726935], y [9556946.759956, 9560806.759956]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data used in the "Statistical learning for geographic data" chapter in Geocomputation with R. See <https://r.geocompx.org/spatial-cv.html> for details.
 - Description source: package R `spDataLarge`
@@ -72,6 +72,8 @@ Data used in the "Statistical learning for geographic data" chapter in Geocomput
 ### Formule — niveau systeme
 
 - formula_used: lslpts ~ slope + cplan + cprof + elev + log10_carea
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: categorical
 - x_terms_used: slope, cplan, cprof, elev, log10_carea
 - y_term_used: lslpts
 
@@ -200,3 +202,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spDataLarge`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

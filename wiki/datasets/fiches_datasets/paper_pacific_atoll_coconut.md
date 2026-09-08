@@ -2,7 +2,7 @@
 title: paper_pacific_atoll_coconut
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_pacific_atoll_coconut.rds
   - DatasetFirst_10_5061_dryad_0k6djhb7x
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Satellite 
 - Topic: teledetection / agriculture-foresterie tropicale (cocotier)
 - Observation unit: atoll
 - Observed population: atolls du Pacifique, N=266
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-179.452, 179.8424], y [-24.6811, 28.4226]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: Satellite imagery reveals widespread coconut plantations on Pacific atolls
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Satellite 
 - Candidate X variables in local artifact: `Type`, `Average.Rainfall..mm.yr.`, `Inhabited.`, `History.of.copra.production`, `Elevation..m.`, `cocos.km2`, `broadleaf.km2`, `shrub.km2`, `non_veg.km2`, `cloud.km2`, `total.km2`, `total.non.cloud.km2`, `broadleaf.`, `shrub.`, `non_veg.`, `cloud.`, `cocos.veg.`, `cocos.tree.`, `monocrop.km2`, `monocrop.coconut.km2`, `X..of.coconut.existing.in.monocrop`
 - Candidate X count in local artifact: 21
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: Average.Rainfall..mm.yr. (precipitation annuelle moyenne), Elevation..m. (elevation), Inhabited. (habite ou non), History.of.copra.production (histoire de production de coprah, oui/non)
+- Published X variables from paper: Average.Rainfall..mm.yr., Elevation..m., Inhabited., History.of.copra.production
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `Lon`, `Lat`
 - Identifier columns (excluded from X candidates): `Atoll`, `Alternative.names`, `Country`, `Group`, `Subgroup`, `Copra.reference`
@@ -80,8 +80,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Satellite 
 ### Formule - niveau publication
 
 - formula_pub: cocos% ~ Average.Rainfall + Elevation + Inhabited + History.of.copra.production [classification satellite (Sentinel-2/Planet) de la couverture cocos vs autre vegetation/non-vegetation par atoll, comparee aux variables environnementales et a l'histoire de production de coprah]
-- x_terms_pub: Average.Rainfall..mm.yr. (precipitation annuelle moyenne), Elevation..m. (elevation), Inhabited. (habite ou non), History.of.copra.production (histoire de production de coprah, oui/non)
-- y_term_pub: cocos. (pourcentage de couverture en cocotier, classification satellite, par atoll du Pacifique)
+- x_terms_pub: Average.Rainfall..mm.yr., Elevation..m., Inhabited., History.of.copra.production
+- y_term_pub: cocos.
 - Reference publication: Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation).
 
 ### Statut regression canonique
@@ -95,6 +95,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Satellite 
 ### Formule - niveau systeme
 
 - formula_used: cocos. ~ Average.Rainfall..mm.yr. + Elevation..m. + Inhabited. + History.of.copra.production
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Average.Rainfall..mm.yr., Elevation..m., Inhabited., History.of.copra.production
 - y_term_used: cocos.
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -115,8 +117,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "cocos. ~ Average.Rainfall..mm.yr. + Elevation..m. + Inhabited. + History.of.copra.production"
-    response: "cocos. (pourcentage de couverture en cocotier, classification satellite, par atoll du Pacifique)"
-    predictors: ["Average.Rainfall..mm.yr. (precipitation annuelle moyenne)", "Elevation..m. (elevation)", "Inhabited. (habite ou non)", "History.of.copra.production (histoire de production de coprah, oui/non)"]
+    response: "cocos."
+    predictors: ["Average.Rainfall..mm.yr.", "Elevation..m.", "Inhabited.", "History.of.copra.production"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -238,3 +240,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Satellite imagery reveals widespread coconut plantations on Pacific atolls
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: Python_libpysal_chicagoSDOH
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_chicagoSDOH.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-87.846768909437, -87.529876694019], y [41.650923554984, 42.021044246817]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 - Description source: package Python `libpysal`
@@ -108,6 +108,9 @@ Dataset spatial issu du package Python `libpysal` (`chicagoSDOH`).
 ### Formule — niveau systeme
 
 - formula_used: YPLL_rate ~ PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: PDENS14 + CarC14P + CTA14P + Undr514P + Wht14P + Blk14P + Hisp14P + Pop2014
 - y_term_used: YPLL_rate
 
@@ -236,3 +239,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `libpysal`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

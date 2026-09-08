@@ -2,7 +2,7 @@
 title: R_HistData_OldMaps_OldMaps
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_HistData_OldMaps_OldMaps.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ The data set is concerned with the problem of aligning the coordinates of points
 - Topic: elections et comportement electoral
 - Observation unit: circonscription, bureau de vote ou unite administrative
 - Observed population: resultats electoraux ou population votante
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-93.15, 99.22], y [-47.13, 49.25]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: The data set is concerned with the problem of aligning the coordinates of points read from old maps (1688 - 1818) of the Great Lakes area. 39 easily identifiable points were selected in the Great Lakes area, and their (lat, long) coordinates were recorded using a grid overlaid on each of 11 old maps, and using linear interpolation.
 - Description source: package R `HistData`
@@ -174,18 +174,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_missing_formula"
-  benchmark_task: "not_current_regression_benchmark"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "formule Y ~ X executable manquante"
-  reason: "Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package."
+  missing_items: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
+  reason: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
 ```
 
-- Decision: not_ready_missing_formula
-- Manque principal: formule Y ~ X executable manquante
-- Raison: Aucune formule systeme ou publication n est disponible pour ce jeu de donnees package.
+- Decision: not_ready_main_benchmark
+- Manque principal: Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée.
+- Raison: Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -201,3 +212,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `HistData`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

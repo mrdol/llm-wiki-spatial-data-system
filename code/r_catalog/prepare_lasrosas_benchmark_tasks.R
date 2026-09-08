@@ -16,12 +16,22 @@ if (!file.exists(source_path)) {
 }
 
 lasrosas_source <- readRDS(source_path)
+if (!requireNamespace("sf", quietly = TRUE)) stop("Le package sf est requis.", call. = FALSE)
 if (!"year" %in% names(lasrosas_source)) {
   stop("La colonne `year` est absente de la source Las Rosas.", call. = FALSE)
 }
 
+geometry_columns <- names(lasrosas_source)[vapply(lasrosas_source, inherits, logical(1), "sfc")]
+active_geometry <- attr(lasrosas_source, "sf_column")
+stopifnot(active_geometry %in% geometry_columns)
+attributes_only <- as.data.frame(lasrosas_source)
+attributes_only[geometry_columns] <- NULL
 for (campaign in c(1999L, 2001L)) {
-  task <- lasrosas_source[lasrosas_source$year == campaign, , drop = FALSE]
+  idx <- which(lasrosas_source$year == campaign)
+  task <- attributes_only[idx, , drop = FALSE]
+  for (name in geometry_columns) task[[name]] <- lasrosas_source[[name]][idx]
+  task <- sf::st_as_sf(task, sf_column_name = active_geometry)
+  stopifnot(inherits(sf::st_geometry(task), "sfc"), nrow(task) == length(idx))
   if (nrow(task) == 0L) {
     stop(sprintf("Aucune observation Las Rosas pour %d.", campaign), call. = FALSE)
   }

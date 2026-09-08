@@ -2,7 +2,7 @@
 title: R_gstat_jura_jura.val
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [6.825787677834, 6.881330909309], y [47.116100419465, 47.158943499838]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The jura data set from Pierre Goovaerts' book (see references below). It contains four ‘data.frame’s: prediction.dat, validation.dat and transect.dat and juragrid.dat, and three ‘data.frame’s with consistently coded land use and rock type factors, as well as geographic coordinates. The examples below show how to transform these into spatial (sp) ob...
 - Description source: package R `gstat`
@@ -75,6 +75,8 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 ### Formule — niveau systeme
 
 - formula_used: Cd ~ Landuse + Rock
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Landuse + Rock
 - y_term_used: Cd
 
@@ -176,18 +178,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "regression_spatial_validated_generated_formula"
-  package_include: "yes"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
-  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+  missing_items: "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
+  reason: "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
 ```
 
-- Decision: ready
-- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
-- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+- Decision: manual_review
+- Manque principal: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.
+- Raison: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Aucun estimateur de regression (SAR/OLS/GWR/etc.) documente pour ce jeu : c'est le jeu de reference classique du COKRIGING (Goovaerts 1997, Applied Geostatistics Series, Appendix C), pas un exemple de regression Y~X -- il n'y a pas de covariable exogene distincte a expliquer, seulement plusieurs metaux lourds co-mesures. Inventer une formule de regression ici serait artificiel. Statut maintenu en manual_review avec eligible_estimators=[] jusqu'a ce qu'une revue humaine tranche s'il faut router ce jeu vers un estimateur geostatistique dedie (hors perimetre actuel du harnais de regression) ou le documenter comme non applicable au benchmark de regression."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -208,3 +221,11 @@ benchmark_readiness:
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_jura.grid]]
 - Duplicate/version candidate: [[R_gstat_jura_juragrid.dat]]
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

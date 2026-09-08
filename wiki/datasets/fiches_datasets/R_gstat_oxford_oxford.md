@@ -2,7 +2,7 @@
 title: R_gstat_oxford_oxford
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_oxford_oxford.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_gstat_oxford_oxford
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 126 enregistrements dans l’artefact local R_gstat_oxford_oxford.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [100, 600], y [100, 2100]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows. Grid is oriented with long axis North-north-west to South-south-east Origin of grid is South-south-east point, 100m outside grid.
 - Description source: package R `gstat`
@@ -85,6 +85,8 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 ### Formule — niveau systeme
 
 - formula_used: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: categorical
 - x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
 - y_term_used: PROFCLASS
 
@@ -213,3 +215,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_metacomnet
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_metacomnet.rds
   - DataCite_2021_MetacomnetARandomForest_10_1111_2041_210
@@ -91,8 +91,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 
 ### Formule - niveau systeme
 
-- formula_used: Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + ... (5 covariables au total, voir Candidate X variables)
-- x_terms_used: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
+- formula_used: Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness + FacOccurrence
+- Formula used evidence: generated_system_formula
+- benchmark_task_note: Number est un comptage; Occurrence est une autre reponse binaire.
+- Selected Y evidence: Number est un comptage; Occurrence est une autre reponse binaire.
+- Selected Y typology: count
+- x_terms_used: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH, LndscpGR, DistSand, NearestOcc, RegionalCommonness, FacOccurrence
 - y_term_used: Number
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
 
@@ -235,3 +239,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions
 
+## Curation documentée — 2026-09-07
+
+La formule systeme enumere les 17 covariables deja declarees dans Candidate X variables et presentes dans le RDS. L’ancienne ellipse etait un defaut du rendu; cette liste demeure une proposition systeme, sans preuve de specification publiee et sans promotion. Sa pertinence scientifique reste en revue.
+
+Typologie de la reponse selectionnee : count. Number est un comptage; Occurrence est une autre reponse binaire.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -41,15 +41,15 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
         "dataset": "georgia",
         "data_object": "georgia",
         "rds": "data/final_datasets/sf/Python_libpysal_georgia.rds",
-        "formula": "PctBach ~ PctRural + PctFB + PctBlack + PctEld",
+        "formula": "PctBach ~ PctRural + PctEld + PctFB + PctPov",
         "response": "PctBach",
-        "predictors": ["PctRural", "PctFB", "PctBlack", "PctEld"],
+        "predictors": ["PctRural", "PctEld", "PctFB", "PctPov"],
         "coords": ["X", "Y"],
         "coords_crs": "EPSG:26916",
         "coords_source": "prepared projected coordinates",
         "formula_status": "pub",
-        "source_ref": "Georgia education example, libpysal/GWmodel",
-        "notes": "Petit dataset de reference pour tests rapides.",
+        "source_ref": "GWmodel documentation, gwr.bootstrap example, CRAN manual p.46: https://stat.ethz.ch/CRAN/web/packages/GWmodel/GWmodel.pdf",
+        "notes": "Petit dataset de reference pour tests rapides. Formule alignee sur l'exemple publie GWmodel le 2026-09-07 (remplace une variante systeme PctBlack non justifiee -- voir wiki/datasets/fiches_datasets/Python_libpysal_georgia.md).",
         "estimator_evidence": [
             evidence("ols", "benchmark_use", "Georgia education example, libpysal/GWmodel"),
             evidence("gam_spatial", "benchmark_use", "Georgia education example, libpysal/GWmodel"),
@@ -70,6 +70,12 @@ DATASET_ALIASES: dict[str, dict[str, Any]] = {
         "coords": ["X", "Y"],
         "coords_crs": "EPSG:32617",
         "coords_source": "prepared projected coordinates",
+        "spatial_weights_status": "available_original",
+        "spatial_weights_source": "spData::col.gal.nb / weights/columbus.gal",
+        "spatial_weights_type": "irregular_contiguity_neighbors",
+        "spatial_weights_style": "W",
+        "spatial_weights_object": "columbus_crime_listw",
+        "spatial_weights_file": "data/final_datasets/weights/columbus_crime_listw.rds",
         "formula_status": "pub",
         "source_ref": "spData Columbus / Anselin spatial econometrics examples",
         "notes": "Exemple classique SAR/SEM: CRIME ~ HOVAL + INC.",
@@ -542,6 +548,28 @@ ESTIMATOR_REGISTRY: list[dict[str, Any]] = [
         "tunable_parameters": "k_neighbors",
         "notes": "SDM mixed via fit_sdm().",
     },
+    {
+        "estimator": "sar_probit",
+        "package": "ProbitSpatial",
+        "backend": "ProbitSpatial::ProbitSpatialFit(DGP=SAR)",
+        "requires_coords": True,
+        "requires_W": False,
+        "spatial_args": "coords/W/k_neighbors/style/zero_policy",
+        "tunable_parameters": "k_neighbors",
+        "notes": "Probit spatial SAR (Martinetti & Geniaux, 2017) via sar_probit_reg(); reponse binaire uniquement.",
+        "wiki_key": "probit_spatial",
+    },
+    {
+        "estimator": "sem_probit",
+        "package": "ProbitSpatial",
+        "backend": "ProbitSpatial::ProbitSpatialFit(DGP=SEM)",
+        "requires_coords": True,
+        "requires_W": False,
+        "spatial_args": "coords/W/k_neighbors/style/zero_policy",
+        "tunable_parameters": "k_neighbors",
+        "notes": "Probit spatial SEM (Martinetti & Geniaux, 2017) via sem_probit_reg(); reponse binaire uniquement.",
+        "wiki_key": "probit_spatial",
+    },
 ]
 
 # Les identifiants ci-dessous sont des noms de familles rencontres dans les
@@ -687,15 +715,15 @@ ESTIMATOR_REGISTRY.extend(
 #     econometrics, boosting-of-a-spatial-model, MGWRSAR, or spatial-RF in
 #     the strict sense -- grouped under a new "Machine Learning" section.
 ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
-    "ols": {"family": "baseline", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Baselines"},
-    "gam_spatial": {"family": "gam_spatial", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
+    "ols": {"family": "baseline", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Baselines", "response_typologies": ["continuous", "binary", "count"]},
+    "gam_spatial": {"family": "gam_spatial", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning", "response_typologies": ["continuous", "binary", "count"]},
     "gamboost": {"family": "gam_spatial", "role": "variant", "reference_estimator": "gam_spatial", "variant_family": "boosting", "dashboard_group": "Boosting"},
     "earth": {"family": "earth", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
     "earth_xy": {"family": "earth", "role": "variant", "reference_estimator": "earth", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
-    "random_forest": {"family": "random_forest", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
-    "random_forest_xy": {"family": "random_forest", "role": "variant", "reference_estimator": "random_forest", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
-    "xgboost": {"family": "xgboost", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning"},
-    "xgboost_xy": {"family": "xgboost", "role": "variant", "reference_estimator": "xgboost", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning"},
+    "random_forest": {"family": "random_forest", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning", "response_typologies": ["continuous", "binary"]},
+    "random_forest_xy": {"family": "random_forest", "role": "variant", "reference_estimator": "random_forest", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning", "response_typologies": ["continuous", "binary"]},
+    "xgboost": {"family": "xgboost", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Machine Learning", "response_typologies": ["continuous", "binary", "count"]},
+    "xgboost_xy": {"family": "xgboost", "role": "variant", "reference_estimator": "xgboost", "variant_family": "coordinate_augmented", "dashboard_group": "Machine Learning", "response_typologies": ["continuous", "binary", "count"]},
     "spatialml_grf": {"family": "spatialml_grf", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
     "spatialrf": {"family": "spatialrf", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
     "rfgls": {"family": "rfgls", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial RF"},
@@ -708,6 +736,8 @@ ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
     "spboost_bspa_sem_ml": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting", "dashboard_group": "Boosting"},
     "spboost_bspa_sem_cfe": {"family": "SEM", "role": "variant", "reference_estimator": "sem_error", "variant_family": "boosting", "dashboard_group": "Boosting"},
     "sdm_mixed": {"family": "SDM", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
+    "sar_probit": {"family": "SAR_probit", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics", "mode": "classification", "response_typologies": ["binary"]},
+    "sem_probit": {"family": "SEM_probit", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics", "mode": "classification", "response_typologies": ["binary"]},
     "mgwrsar_gwr": {"family": "GWR", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "MGWRSAR"},
     "mgwrsar_mgwr": {"family": "GWR", "role": "variant", "reference_estimator": "mgwrsar_gwr", "variant_family": "multiscale", "dashboard_group": "MGWRSAR"},
     "mgwrsar_mgwrsar": {"family": "mgwrsar_hybrid", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "MGWRSAR"},
@@ -852,6 +882,24 @@ def parse_typology(value: str | None) -> list[str]:
     ]
 
 
+def selected_response_typology(body: str, response: str | None) -> list[str]:
+    """Use the selected Y, never the union of unrelated candidate outcomes."""
+    explicit = parse_typology(bullet_value(body, "Selected Y typology"))
+    if explicit:
+        return explicit
+    detail = re.search(r"#### Detail Y\s*(.*?)(?=\n#### |\n### |\Z)", body, re.S)
+    if detail and response:
+        type_column = None
+        for line in detail.group(1).splitlines():
+            cells = [cell.strip().strip('`') for cell in line.strip('|').split('|')]
+            if cells and cells[0] == 'Variable':
+                type_column = next((i for i, cell in enumerate(cells) if cell in {'Typologie', 'Typologie Y'}), None)
+            if type_column is not None and len(cells) > type_column and cells[0] == response:
+                return parse_typology(cells[type_column])
+    candidates = parse_typology(bullet_value(body, "Candidate Y typology"))
+    return candidates if len(candidates) == 1 else ["unknown"]
+
+
 def is_continuous_regression_record(record: dict[str, Any]) -> bool:
     response_types = set(record.get("response_typology") or [])
     task = str(record.get("benchmark_task") or "").lower()
@@ -861,7 +909,7 @@ def is_continuous_regression_record(record: dict[str, Any]) -> bool:
     # package ne couvrent que la regression continue : un count ne doit donc
     # jamais recevoir par erreur la liste generique de comparateurs.
     if response_types:
-        return "continuous" in response_types and not bool(
+        return bool(response_types & {"continuous", "rate", "proportion"}) and not bool(
             response_types & {"count", "binary", "ordinal", "categorical"}
         )
     return "regression_continuous" in task or "regression_spatiale_continue" in task
@@ -1176,9 +1224,6 @@ def package_promotion_blockers(
         blockers.append("estimator_eligibility_block_missing")
     if "Selection Y/X" not in body:
         blockers.append("selection_yx_block_missing")
-    task = str(benchmark_readiness.get("benchmark_task") or "").lower()
-    if any(token in task for token in ("classification", "presence_absence", "binary_panel")):
-        blockers.append("current_package_regression_only")
     return blockers
 
 
@@ -1192,7 +1237,7 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     formula_candidate_1 = strip_inline_code(bullet_value(body, "formula_candidate_1"))
     formula = formula_used or formula_pub or formula_candidate_1
     response, predictors = formula_parts(formula)
-    response_typology = parse_typology(bullet_value(body, "Candidate Y typology"))
+    response_typology = selected_response_typology(body, response)
     predictor_typology = parse_typology(bullet_value(body, "Candidate X typology"))
     coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
     if not coords:
@@ -1355,8 +1400,16 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
                 for row in evidence_rows
                 if row.get("basis") in {"scientific_evidence", "benchmark_use"}
             ]
-        record["benchmark_ready"] = True
+        # An alias supplies storage/provenance, not permission to promote.
+        record["benchmark_ready"] = not promotion_blockers
 
+    record["response_typology"] = selected_response_typology(body, record.get("response"))
+    record["candidate_response_typology"] = parse_typology(bullet_value(body, "Candidate Y typology"))
+    record["formula_status"] = _formula_status(body, record.get("formula"), record.get("formula_pub"))
+    validation = bullet_value(body, "Recommended validation")
+    if validation:
+        record["validation_notes"] = validation
+    record["selected_response_evidence"] = bullet_value(body, "Selected Y evidence")
     # Normalisation apres les alias : ceux-ci peuvent fournir une formule ou
     # des coordonnees supplementaires utiles a la proposition par typologie.
     normalized_evidence = normalize_estimator_evidence(
@@ -1402,6 +1455,12 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     record.setdefault("license_verified", False)
     record.setdefault("checksum_sha256", None)
     record.setdefault("size_bytes", None)
+    # Fail closed on unresolved Y/provenance, including historical aliases.
+    if record["formula_status"] == "unavailable":
+        record["package_promotion_blockers"].append("formula_evidence_unavailable")
+    if record["response_typology"] not in (["continuous"], ["rate"], ["proportion"], ["binary"], ["count"]):
+        record["package_promotion_blockers"].append("selected_response_typology_unresolved")
+    record["benchmark_ready"] = not record["package_promotion_blockers"]
     return record
 
 
@@ -1426,20 +1485,27 @@ def _int_or_none(value: str | None) -> int | None:
 
 
 def _formula_status(body: str, formula_used: str | None, formula_pub: str | None) -> str:
-    status = bullet_value(body, "Statut")
-    if status and status.lower() in {"resolved", "resolu", "résolu"}:
-        return "pub" if formula_pub else "used"
-    if formula_pub:
-        return "pub"
-    if formula_used:
-        return "used"
-    return "pending"
+    if is_pending_value(formula_used):
+        return "unavailable"
+    declared = bullet_value(body, "Formula used evidence")
+    allowed = {"pub", "paper_extracted", "reconstructed_from_data", "generated_system_formula", "unavailable"}
+    if declared in allowed:
+        # A bare label cannot manufacture a missing published equation.
+        if declared == "pub" and (is_pending_value(formula_pub) or is_pending_value(_source_ref(body))):
+            return "unavailable"
+        return declared
+    level = (bullet_value(body, "Niveau de preuve") or "").lower()
+    if "generat" in level or "generated_formula" in body:
+        return "generated_system_formula"
+    if not is_pending_value(formula_pub) and not is_pending_value(_source_ref(body)):
+        return "pub" if formula_used == formula_pub else "paper_extracted"
+    return "unavailable"
 
 
 def _source_ref(body: str) -> str | None:
     for label in ("Reference publication", "source_ref", "Source"):
         value = bullet_value(body, label)
-        if value:
+        if value and not is_pending_value(value):
             return value
     match = re.search(r"source_ref:\s*\"([^\"]+)\"", body)
     return match.group(1) if match else None

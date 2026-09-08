@@ -2,7 +2,7 @@
 title: paper_crane
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_crane.rds
   - DataCite_2022_BalancingStructuralComplexityWith_10_1111_2041_210
@@ -78,6 +78,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Balancing 
 ### Formule - niveau systeme
 
 - formula_used: mark ~ ti + Urb_Den_cov + PA_Ratio_cov + Area_cov
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: ti, Urb_Den_cov, PA_Ratio_cov, Area_cov
 - y_term_used: mark
 - Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
@@ -222,3 +224,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Balancing structural complexity with ecological insight in Spatio-temporal species distribution models
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

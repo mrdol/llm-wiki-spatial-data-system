@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.cincinnati
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.cincinnati.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.cincinnati
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 457 enregistrements dans l’artefact local Python_geodatasets_geoda.cincinnati.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-89.317669574279, -89.317668888429], y [37.796219292264, 37.796219641294]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 - Description source: package Python `geodatasets`
@@ -96,6 +96,8 @@ Dataset spatial issu du package Python `geodatasets` (`cincinnati`).
 ### Formule — niveau systeme
 
 - formula_used: BURGLARY ~ AREA + POPULATION + MEDIAN_AGE + AGE_0_5 + AGE_15_19 + AGE_20_24 + AGE_25_34 + AGE_35_44
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: AREA + POPULATION + MEDIAN_AGE + AGE_0_5 + AGE_15_19 + AGE_20_24 + AGE_25_34 + AGE_35_44
 - y_term_used: BURGLARY
 
@@ -224,3 +226,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

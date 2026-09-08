@@ -2,7 +2,7 @@
 title: Python_libpysal_NYC_Socio-Demographics
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_libpysal_NYC_Socio-Demographics.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`NYC Socio-Demographics`).
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-74.239703047685, -73.705028283977], y [40.50239345, 40.91268425]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`NYC Socio-Demographics`).
 - Description source: package Python `libpysal`
@@ -114,6 +114,8 @@ Dataset spatial issu du package Python `libpysal` (`NYC Socio-Demographics`).
 ### Formule — niveau systeme
 
 - formula_used: UNEMP_RATE ~ poptot + popover18 + popinlabou + households + african + hispanic + asian + european
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: poptot + popover18 + popinlabou + households + african + hispanic + asian + european
 - y_term_used: UNEMP_RATE
 
@@ -242,3 +244,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `libpysal`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

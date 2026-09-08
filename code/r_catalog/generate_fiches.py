@@ -23,6 +23,7 @@ import sys
 from datetime import date
 from pathlib import Path
 from typing import Any
+from dataset_curation import apply_curation
 
 
 TODAY = date.today().isoformat()
@@ -823,15 +824,23 @@ def infer_dataset_description_fields(
         observed_population = "population territoriale documentee par le package source"
 
     if topic == "pending":
-        topic = f"dataset spatial {data_type}"
+        topic = f"Donnees de {package}::{dataset}"
     if observation_unit == "pending":
         observation_unit = f"observation spatiale de type {geom_type}"
+    if observed_population == "pending":
+        observed_population = f"{b4.get('N', 'Nombre non renseigne de')} enregistrements locaux de {package}::{dataset}; unite source et nombre de sites independants a verifier."
+    bbox = b5.get('bbox') or {}
+    geographic_context = (
+        f"Etendue locale : x [{bbox.get('xmin')}, {bbox.get('xmax')}], y [{bbox.get('ymin')}, {bbox.get('ymax')}]; CRS {b5.get('crs_epsg') or 'non renseigne'}."
+        if all(key in bbox for key in ('xmin','xmax','ymin','ymax'))
+        else f"Support {geom_type} du dataset {package}::{dataset}; emprise/unites absentes des metadonnees locales, consulter la documentation source."
+    )
 
     return {
         "topic": topic,
         "observation_unit": observation_unit,
         "observed_population": observed_population,
-        "geographic_context": "a preciser depuis la documentation, l'article ou l'etendue spatiale",
+        "geographic_context": geographic_context,
         "temporal_context": temporal_note,
         "source_description": intro,
         "description_source": source_label,
@@ -1269,7 +1278,7 @@ def make_fiche(
     if did == LASROSAS_CANONICAL_ID:
         alias_line = "- Dataset aliases: `lasrosas`, `lasrosas.corn`, `Python_geodatasets_geoda.lasrosas`, `python_geodatasets_geoda_lasrosas`\n"
 
-    return f"""\
+    content = f"""\
 ---
 title: {did}
 type: dataset
@@ -1413,6 +1422,7 @@ modeling_evidence:
 
 {related_block}
 """
+    return apply_curation(content, entry['dataset_id'])
 
 
 def should_keep(entry: dict[str, Any]) -> bool:

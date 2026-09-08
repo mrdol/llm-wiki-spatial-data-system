@@ -2,7 +2,7 @@
 title: R_spData_depmunic_depmunic
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_depmunic_depmunic.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spData_depmunic_depmunic
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 7 enregistrements dans l’artefact local R_spData_depmunic_depmunic.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [23.704169216128, 23.765731532647], y [37.96253085508, 38.020349912389]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The geographic boundaries of departments (sf) of the municipality of Athens. This is accompanied by various characteristics in these areas.
 - Description source: package R `spData`
@@ -57,8 +57,8 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 ### Formule — niveau publication
 
 - formula_pub: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
-- x_terms_pub: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
-- y_term_pub: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
+- x_terms_pub: x_{i,j}, z_j, W_i, M_j
+- y_term_pub: y_{i,j}
 - Reference publication: Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis.
 
 ### Statut regression canonique
@@ -71,9 +71,10 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 
 ### Formule — niveau systeme
 
-- formula_used: y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j
-- x_terms_used: x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)
-- y_term_used: y_{i,j} (outcome for lower-level unit i in higher-level unit j)
+- formula_used: pending
+- Formula used evidence: unavailable
+- x_terms_used: pending
+- y_term_used: pending
 
 ### Formules candidates
 
@@ -81,8 +82,8 @@ The geographic boundaries of departments (sf) of the municipality of Athens. Thi
 formula_candidates:
   univariate:
     formula: "y_{i,j} = rho * W_i * y + x'_{i,j} * beta + z'_j * gamma + theta_j + epsilon_{i,j}; theta_j = lambda * M_j * theta + mu_j"
-    response: "y_{i,j} (outcome for lower-level unit i in higher-level unit j)"
-    predictors: ["x_{i,j} (lower-level covariates), z_j (higher-level covariates), W_i (lower-level spatial weights matrix), M_j (higher-level spatial weights matrix)"]
+    response: "y_{i,j}"
+    predictors: ["x_{i,j}, z_j, W_i, M_j"]
     role: "simple_baseline"
     source_type: "scientific_publication_or_package_documentation"
     source_ref: "Dong, G. and Harris, R. (2014) Spatial Autoregressive Models for Geographically Hierarchical Data Structures. Geographical Analysis."
@@ -173,24 +174,35 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_too_small"
-  benchmark_task: "not_current_regression_benchmark"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "n < 10 observations"
-  reason: "Le jeu est trop petit pour une validation spatiale stable."
+  missing_items: "N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique."
+  reason: "N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique."
 ```
 
-- Decision: not_ready_too_small
-- Manque principal: n < 10 observations
-- Raison: Le jeu est trop petit pour une validation spatiale stable.
+- Decision: not_ready_main_benchmark
+- Manque principal: N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique.
+- Raison: N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
+- Formula: PENDING — formule executable indisponible ; conserver la preuve publiee separement dans formula_pub.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
@@ -200,3 +212,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Equation hierarchique mathematique conservee dans formula_pub; aucune traduction executable inventee pour les sept lignes disponibles.
+
+Decision conservatoire : N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

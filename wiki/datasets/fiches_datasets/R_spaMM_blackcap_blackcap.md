@@ -2,7 +2,7 @@
 title: R_spaMM_blackcap_blackcap
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spaMM_blackcap_blackcap.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ This data set is extracted from a study of genetic polymorphisms potentially ass
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-23.601, 37.6197], y [-0.1671, 55.7559]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set is extracted from a study of genetic polymorphisms potentially associated to migration behaviour in the blackcap (Sylvia atricapilla). Across different populations in Europe and Africa, the average migration behaviour was found to correlate with average allele size (dependent on the number of repeats of a small DNA motif) at the locus...
 - Description source: package R `spaMM`
@@ -68,6 +68,8 @@ This data set is extracted from a study of genetic polymorphisms potentially ass
 ### Formule — niveau systeme
 
 - formula_used: migStatus ~ means + Matern(1|longitude+latitude)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: means
 - y_term_used: migStatus
 
@@ -196,3 +198,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spaMM`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

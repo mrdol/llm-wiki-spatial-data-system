@@ -2,7 +2,7 @@
 title: paper_stwr_precip_isotope
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_stwr_precip_isotope.rds
   - MediumPriorityRetry_10_5281_zenodo_3637689
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 - Topic: geochimie / isotopes des precipitations et modelisation spatio-temporelle
 - Observation unit: station de mesure
 - Observed population: stations de mesure d'isotopes de precipitation, nord-est des Etats-Unis, N=272
-- Geographic context: Journal-first discovery: paper published in a spatial-econometrics-scoped journal (see tools/harvest_journal_first.py DEFAULT_SOURCES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-124.053, -68.8349], y [34.27935, 44.734433]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 - Candidate X variables in local artifact: `Elevation`, `ppt`, `tmean`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: ppt (precipitation totale journaliere, pluie + neige fondue), tmean (temperature moyenne journaliere), height/Elevation (elevation du site)
+- Published X variables from paper: ppt, tmean, height/Elevation
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `timestamp`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 |---|---|---|---|---|
 | `d2h` | `numeric` | continuous | [-170.6813, -17.0496] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `stwr_precip_isotope`, la ou les reponses `d2h` viennent du loader papier et/ou des preuves de l article `A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time`. Les covariables X retenues sont `ppt`, `tmean`, `Elevation`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`timestamp`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `stwr_precip_isotope`, la ou les reponses `d2h` viennent du loader papier et/ou des preuves de l article `A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time`. Les covariables X retenues sont `ppt`, `tmean`, `Elevation`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`timestamp`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 ### Formule - niveau publication
 
 - formula_pub: d2h ~ ppt + tmean + height [Eq. 21 du papier : modele de regression spatio-temporelle ponderee (STWR), compare a GWR et GTWR, sur les isotopes d'hydrogene des precipitations (delta2H) dans le nord-est des Etats-Unis]
-- x_terms_pub: ppt (precipitation totale journaliere, pluie + neige fondue), tmean (temperature moyenne journaliere), height/Elevation (elevation du site)
-- y_term_pub: d2h (isotope d'hydrogene des precipitations, delta2H, per mille)
+- x_terms_pub: ppt, tmean, height/Elevation
+- y_term_pub: d2h
 - Reference publication: Que et al. (2020), A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time, Geoscientific Model Development, doi:10.5194/gmd-13-6149-2020. Le papier presente l'equation exacte (Eq. 21) : y = b0 + b1*ppt + b2*tmean + b3*height + e, appliquee a un jeu de donnees reel de 272 points de mesure d'isotopes d'hydrogene des precipitations dans le nord-est des Etats-Unis ('272 points for model calibration', correspond exactement a N=272 du fichier precip_isotope_D3.csv). Donnees brutes telechargees directement depuis le depot logiciel Zenodo du papier (10.5281/zenodo.3637689) -- pas une reconstruction, formule et N confirmes par lecture directe du texte (TEI).
 
 ### Statut regression canonique
@@ -77,6 +77,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 ### Formule - niveau systeme
 
 - formula_used: d2h ~ ppt + tmean + Elevation
+- Recommended validation: N lignes=272; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=156. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: ppt, tmean, Elevation
 - y_term_used: d2h
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -97,8 +100,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "d2h ~ ppt + tmean + Elevation"
-    response: "d2h (isotope d'hydrogene des precipitations, delta2H, per mille)"
-    predictors: ["ppt (precipitation totale journaliere, pluie + neige fondue)", "tmean (temperature moyenne journaliere)", "height/Elevation (elevation du site)"]
+    response: "d2h"
+    predictors: ["ppt", "tmean", "height/Elevation"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -174,23 +177,24 @@ estimator_eligibility:
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatial
-- Structure: coupe_transversale
+- Data type: spatio-temporel
+- Structure: panel_ou_series
 - N observations: 272
 - k variables: 9
-- T periods: 1
-- Variable temporelle: n/a
+- T periods: 3 (corrige 2026-09-08 -- voir note ci-dessous)
+- Variable temporelle: timestamp
 - N/T profile: N_moyen_T_petit
+- Note T corrigee (session 2026-09-08) : le champ `timestamp` (valeurs 24/48/72, heures ecoulees depuis le debut de la fenetre) existe dans les donnees et code les 3 jours de l'experience (29-31 octobre 2012) mais n'avait pas ete reporte comme variable temporelle ici (T=1/n/a etait errone). Verification empirique : 116 sites distincts au total, dont 102 (88%) apparaissent a plus d'un timestamp -- confirme explicitement par le papier lui-meme (Que et al., GMD 2020) : "we collected a total of 782 measurements from 116 sites located in the northeastern United States during the 3 d period and prepared the data on a daily average". Repetitions de coordonnees = vraie structure de mini-panel (memes sites mesures sur plusieurs jours), pas un artefact. Grouper la CV par site (coordonnee) et respecter la chronologie (timestamp) si prospectif.
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: not applicable (cross-sectional dataset)
+- Temporal resolution: 3 jours (29-31 octobre 2012), variable timestamp (24/48/72h)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-124.053, -68.8349], y [34.27935, 44.734433]
-- Time range: not applicable (cross-sectional dataset)
+- Time range: 2012-10-29 to 2012-10-31 (variable: timestamp)
 - CRS analyse recommande: pending - multi-zones (span=55.2deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -215,8 +219,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`stwr_precip_isotope` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07) : mention d'une fenetre de calibration de 3 jours avec des effectifs de points differents par jour, sans confirmer explicitement que ce sont les memes stations mesurees a chaque date. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=272; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=156. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

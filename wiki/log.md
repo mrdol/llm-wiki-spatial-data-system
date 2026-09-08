@@ -2028,3 +2028,60 @@ Graph rebuild:
 
 Failures:
 - Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## 2026-09-07 — Corrections des fiches datasets après audit
+
+Corrections appliquées aux générateurs R/Python, à l’export metadata, au routage
+des réponses et aux loaders Las Rosas/ade4. 286 fiches modifiées sur 292 ;
+20 constats critiques corrigés et 2 neutralisés sans prétendre à une résolution
+scientifique. 119 passages yes vers manual_review, 1 yes vers no et 3
+manual_review vers no ; 3 réouvertures no vers manual_review, aucune promotion
+vers yes. État final : 35 yes, 175 manual_review, 82 no.
+
+Vérifications : 292 RDS lisibles et structures sf utilisables, 231 formules
+disponibles valides avec variables présentes, 61 indisponibles, 35 chargements
+package réussis, 6 tests Python et 9 assertions R de routage passants.
+Jointures ade4 testées sur clés permutées/manquantes ; sous-ensembles Las Rosas
+comparés au parent. Curation idempotente, CSV 292 lignes/33 colonnes contrôlé,
+JavaScript du HTML régénéré parseable. Aucun benchmark complet.
+
+KG : red deer relié au dépôt et à l’article vérifiés ; sugar glider distingue
+dataset réutilisé, dataset source et article. Extraction, graphe et index
+régénérés sans nouveau GROBID. Les archives brutes et l’audit initial sont
+conservés. Quinze récupérations sont priorisées sans promotion automatique.
+
+Livrables : [[dataset_fiches_corrections_2026-09-07]],
+data/manifests/datasets/dataset_fiches_corrections_2026-09-07.csv,
+dataset_curation_overrides.json, dataset_fiches_validation_2026-09-07.json et
+dataset_recovery_priorities_2026-09-07.json. Candidats et HTML :
+[[paper_dataset_benchmark_candidates_2026-09-07]].
+
+## 2026-09-08 — Plasmode : cadrage encadrant et pilote exécuté
+
+Programme actif limité au plasmode ; EMCS placebo, GAN et morphing restent
+bibliographiques. Les deux HTML sont actualisés ; la synthèse originale de
+l'encadrant est conservée. Une structure spatiale peut résulter d'information
+omise, d'une forme inadéquate ou du processus d'observation : D9 n'est pas unique.
+
+Page créée : [[protocole_plasmode_spatial_2026-09-08]].
+Sorties dans extensions_projet_2026-09/revue_donnees_semi_synthetiques/ :
+scripts de génération, tests et rapport ; objets de calibration, vérités,
+graines, folds, W, results.rds/results.json, figure PNG et rapport Markdown/HTML.
+
+Exécution : Georgia et Meuse, 7 scénarios, 20 réplications, 3 concurrents et
+une référence privilégiée séparée ; 1120 évaluations / 3360 ajustements de fold,
+0 échec et 0 warning de modèle. Tests de partitions, non-fuite des Y de test,
+covariance du bruit, SNR, masquage, proxy et reproductibilité passants.
+Figure scientifique inspectée. Aucun benchmark complet ni changement
+d'admission ; les résultats sont descriptifs et conditionnels.
+
+Point matériel : la géométrie convertie de Georgia est incohérente ; le pilote
+utilise les longitude/latitude vérifiées contre spgwr::gSRDF et projetées en
+mètres, sans modifier l'artefact. R² du générateur réel hors calibration :
+0.235 Georgia, 0.747 Meuse ; sa fidélité Georgia reste limitée.
+
+KG consulté pour Georgia, Meuse et la confusion spatiale ; aucune nouvelle
+relation de formule publiée n'est créée pour les constructions du pilote.
+Navigation, CONTEXT, glossaire, overview et statut pipeline mis à jour.
+Suites : valider mécanismes/cibles, seconde famille génératrice, folds et
+proxies répétés, calibration/precision, puis intégration package.

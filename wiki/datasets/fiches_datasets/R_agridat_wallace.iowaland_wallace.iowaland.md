@@ -2,7 +2,7 @@
 title: R_agridat_wallace.iowaland_wallace.iowaland
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_wallace.iowaland_wallace.iowaland.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Iowa farmland values by county in 1925
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-96.216, -90.534], y [40.645, 43.378]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Iowa farmland values by county in 1925
 - Description source: package R `agridat`
@@ -72,6 +72,9 @@ Iowa farmland values by county in 1925
 ### Formule — niveau systeme
 
 - formula_used: fedval ~ yield + corn + grain + untillable
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: yield + corn + grain + untillable
 - y_term_used: fedval
 
@@ -200,3 +203,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

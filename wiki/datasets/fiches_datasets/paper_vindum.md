@@ -2,7 +2,7 @@
 title: paper_vindum
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_vindum.rds
   - Moller_2020_OGC_vindum
@@ -85,7 +85,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 
 - formula_pub: SOM ~ oblique_geographic_coordinates + auxiliary_data [random forest / OGC spatial covariates]
 - x_terms_pub: aspect_cos, aspect_sin, bluespot, curvature_plan, curvature_prof, DEM, DVI, ECa, flow_accu, midslope, MRVBF, NDVI, RVI, SAGAWI, SAVI, SL, slope_gradient, TWI, valleydepth, oblique geographic coordinates
-- y_term_pub: soil organic matter (SOM)
+- y_term_pub: soil organic matter
 - Reference publication: Moller et al. (2020), Soil, DOI 10.5194/soil-6-269-2020: Sections 2.1.1, 2.2 and 2.3.1 model SOM in the Vindum field using random forest with OGC coordinate rasters, with and without auxiliary data. The OGC package cited in the paper contains Vindum_SOM and Vindum_covariates; the local loader now extracts the 19 auxiliary raster layers (DEM terrain derivatives, Sentinel-2 vegetation indices and DUALEM apparent electrical conductivity) at the 285 SOM points and adds six generated OGC covariates. formula_used is the executable local OGC + AUX benchmark variant.
 
 ### Statut regression canonique
@@ -99,6 +99,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 ### Formule - niveau systeme
 
 - formula_used: SOM ~ aspect_cos + aspect_sin + bluespot + curvature_plan + curvature_prof + DEM + DVI + ECa + flow_accu + midslope + MRVBF + NDVI + RVI + SAGAWI + SAVI + SL + slope_gradient + TWI + valleydepth + ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: aspect_cos, aspect_sin, bluespot, curvature_plan, curvature_prof, DEM, DVI, ECa, flow_accu, midslope, MRVBF, NDVI, RVI, SAGAWI, SAVI, SL, slope_gradient, TWI, valleydepth, ogc_000, ogc_030, ogc_060, ogc_090, ogc_120, ogc_150
 - y_term_used: SOM
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -119,7 +121,7 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "SOM ~ aspect_cos + aspect_sin + bluespot + curvature_plan + curvature_prof + DEM + DVI + ECa + flow_accu + midslope + MRVBF + NDVI + RVI + SAGAWI + SAVI + SL + slope_gradient + TWI + valleydepth + ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150"
-    response: "soil organic matter (SOM)"
+    response: "soil organic matter"
     predictors: ["aspect_cos", "aspect_sin", "bluespot", "curvature_plan", "curvature_prof", "DEM", "DVI", "ECa", "flow_accu", "midslope", "MRVBF", "NDVI", "RVI", "SAGAWI", "SAVI", "SL", "slope_gradient", "TWI", "valleydepth", "oblique geographic coordinates"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
@@ -242,3 +244,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Oblique geographic coordinates as covariates for digital soil mapping
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

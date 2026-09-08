@@ -59,4 +59,17 @@ for (i in seq_len(nrow(specs))) {
   )
 }
 
+weight_source <- file.path(repo_root, "data/final_datasets/weights/columbus_crime_listw.rds")
+if (file.exists(weight_source)) {
+  columbus_crime_listw <- readRDS(weight_source)
+  save(
+    columbus_crime_listw,
+    file = file.path(data_dir, "columbus_crime_listw.rda"),
+    compress = "xz"
+  )
+}
+
 message("Datasets package generes: ", paste(specs$object, collapse = ", "))
+if (exists("columbus_crime_listw", inherits = FALSE)) {
+  message("Matrice de voisinage package generee: columbus_crime_listw")
+}

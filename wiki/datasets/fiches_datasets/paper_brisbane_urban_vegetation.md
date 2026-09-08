@@ -2,7 +2,7 @@
 title: paper_brisbane_urban_vegetation
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_brisbane_urban_vegetation.rds
   - DatasetFirst_10_5061_dryad_3bh66
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Topic: ecologie urbaine / structure verticale de la vegetation
 - Observation unit: cellule de grille (1ha)
 - Observed population: cellules urbaines, Brisbane, Australie, N=63142
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [474375.5284, 518275.5284], y [6942482, 6982382]; CRS EPSG:28356.
 - Temporal context: none (cross-sectional)
 - Source description: [dataset-first, publication non resolue] Data from: Landscape structure influences urban vegetation vertical structure
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate X variables in local artifact: `aspect_cos`, `aspect_sin`, `water_cap`, `dens_1_2`, `dens_2_5`, `dens_5_10`, `dens_above10`, `elev`, `fpc`, `ht_p95`, `mb_dwel_dens`, `sa1_avghouse`, `sa1_medage`, `sa1_medtothinc`, `slope`, `soc`, `tot_n`, `tot_p`, `tree_area`, `clumpy`, `number_patches`, `perimeter_area_mn`, `park_prop`, `lot_size`, `road_length`, `prop_noncauc`
 - Candidate X count in local artifact: 26
 - Candidate X typology: continuous
-- Published X variables from paper: tree_area (proportion de couvert arbore dans la cellule), aspect_cos (composante nord-sud de l'orientation du terrain), aspect_sin (composante est-ouest de l'orientation du terrain), slope (pente du terrain, degres)
+- Published X variables from paper: tree_area, aspect_cos, aspect_sin, slope
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `x`, `y`
 - Identifier columns (excluded from X candidates): `cell`
@@ -85,7 +85,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: log(dens_015_1+0.01) ~ poly(tree_area,2) + poly(aspect_cos,2) + poly(aspect_sin,2) + poly(slope,2) [modele SAR mixte (lagsarlm), poids de voisinage a 150m -- Mitchell, Wu, Johansen, Maron, McAlpine & Rhodes (2016), 'Landscape structure influences urban vegetation vertical structure', doi:10.1111/1365-2664.12741 (OpenAlex-linked publication non resolue dans le KG). Formule confirmee par lecture directe du script R original des auteurs (Mitchell_etal_2016_1ha_analysis_20160624.R, present dans le meme depot Dryad) -- meilleur modele combine (selection par AICc/model averaging) pour la strate de densite de vegetation 0.15-1m]
-- x_terms_pub: tree_area (proportion de couvert arbore dans la cellule), aspect_cos (composante nord-sud de l'orientation du terrain), aspect_sin (composante est-ouest de l'orientation du terrain), slope (pente du terrain, degres)
+- x_terms_pub: tree_area, aspect_cos, aspect_sin, slope
 - y_term_pub: dens_015_1 (densite de vegetation entre 0.15 et 1m de hauteur, proportion, transformee log(x+0.01) dans le papier)
 - Reference publication: Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes).
 
@@ -100,6 +100,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau systeme
 
 - formula_used: dens_015_1 ~ tree_area + aspect_cos + aspect_sin + slope
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: tree_area, aspect_cos, aspect_sin, slope
 - y_term_used: dens_015_1
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -121,7 +123,7 @@ formula_candidates:
   multivariate_constrained:
     formula: "dens_015_1 ~ tree_area + aspect_cos + aspect_sin + slope"
     response: "dens_015_1 (densite de vegetation entre 0.15 et 1m de hauteur, proportion, transformee log(x+0.01) dans le papier)"
-    predictors: ["tree_area (proportion de couvert arbore dans la cellule)", "aspect_cos (composante nord-sud de l'orientation du terrain)", "aspect_sin (composante est-ouest de l'orientation du terrain)", "slope (pente du terrain, degres)"]
+    predictors: ["tree_area", "aspect_cos", "aspect_sin", "slope"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -243,3 +245,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: [dataset-first, publication non resolue] Data from: Landscape structure influences urban vegetation vertical structure
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

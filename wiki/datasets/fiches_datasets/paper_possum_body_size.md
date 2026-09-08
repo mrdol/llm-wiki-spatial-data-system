@@ -2,7 +2,7 @@
 title: paper_possum_body_size
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_possum_body_size.rds
   - DataCite_2015_LeanSeasonPrimaryProductivity_10_1111_ecog_012
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 |---|---|---|---|---|
 | `CBL` | `numeric` | continuous | [61.61, 99.49] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `possum_body_size`, la ou les reponses `CBL` viennent du loader papier et/ou des preuves de l article `Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial`. Les covariables X retenues sont `SummerMaxTemp`, `MinSeasP.PET`, `Island_type` ; 26 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Collection`, `Registration_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `possum_body_size`, la ou les reponses `CBL` viennent du loader papier et/ou des preuves de l article `Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial`. Les covariables X retenues sont `SummerMaxTemp`, `MinSeasP.PET`, `Island_type` ; 26 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Collection`, `Registration_number`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -103,6 +103,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 ### Formule - niveau systeme
 
 - formula_used: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type
+- Recommended validation: N lignes=588; T declare=335; variable temporelle declaree=Date; repetitions de coordonnees controlees=265. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_used: CBL
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -208,6 +211,7 @@ estimator_eligibility:
 - Variable temporelle: Date
 - N/T profile: N_grand_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (588) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 323 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=23). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 323 unites spatiales distinctes, pas sur les 588 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- Note T non pertinent (session 2026-09-07, lecture TEI du papier) : le modele publie (SAR, CBL ~ SummerMaxTemp + MinSeasP-PET + Island) n'utilise AUCUNE variable temporelle -- les auteurs moyennent les mesures de CBL par cellule de grille (316 cellules) avant regression pour eliminer la pseudo-replication, et supposent explicitement les parametres environnementaux stationnaires sur toute la periode de collecte (1923-2005 selon le texte, 1891-2005 dans les donnees une fois `Date` correctement parsee). "Structure: panel_ou_series" et "T periods: 335" ci-dessus decrivent donc une dimension temporelle absente du modele scientifique de reference -- a traiter comme un jeu purement spatial/transversal (regrouper la CV par unite spatiale/cellule de grille, pas par Date).
 
 ## Bloc 5 - Resolution et etendue
 
@@ -217,7 +221,7 @@ estimator_eligibility:
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [114.8, 153.3], y [-43.15, -11.1]
-- Time range: 08/08/1892 to 9/12/1909 (variable: Date)
+- Time range: 1891-07-15 to 2005-03-16 (variable: Date ; corrige 2026-09-07 -- l'ancienne plage "08/08/1892 to 9/12/1909" resultait d'un tri/min-max alphabetique sur la chaine de caracteres JJ/MM/AAAA non parsee, pas d'une plage chronologique reelle ; parsee en Date R, ~112/588 valeurs (19%) ne parsent pas au format %d/%m/%Y et restent NA, coherent avec le taux de NA deja documente pour cette colonne)
 - CRS analyse recommande: pending - multi-zones (span=38.5deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -242,8 +246,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`possum_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI montre que le modele publie (SAR, CBL ~ SummerMaxTemp + MinSeasP-PET + Island) n'utilise AUCUNE variable temporelle -- CBL moyenne par cellule de grille (316 cellules) avant regression. Un bug de fiche a aussi ete corrige (Time range errone par tri alphabetique sur la date non parsee, corrige en 1891-2005). La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- jeu purement spatial/transversal -- grouper la CV par cellule de grille, pas par Date. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=588; T declare=335; variable temporelle declaree=Date; repetitions de coordonnees controlees=265. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

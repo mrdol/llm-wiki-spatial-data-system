@@ -2,7 +2,7 @@
 title: R_agridat_gotway.hessianfly_gotway.hessianfly
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_gotway.hessianfly_gotway.hessianfly.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Hessian fly damage to wheat varieties
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [1, 8], y [1, 8]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Hessian fly damage to wheat varieties
 - Description source: package R `agridat`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

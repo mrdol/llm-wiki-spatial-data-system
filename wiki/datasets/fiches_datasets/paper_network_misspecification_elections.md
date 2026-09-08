@@ -2,7 +2,7 @@
 title: paper_network_misspecification_elections
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_network_misspecification_elections.rds
   - DataCite_2020_BiasFromNetworkMisspecification_10_1017_pan_2020
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Bias from 
 |---|---|---|---|---|
 | `votelead` | `numeric` | continuous | [2.2, 57.8] | 1.6% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `network_misspecification_elections`, la ou les reponses `votelead` viennent du loader papier et/ou des preuves de l article `Bias from Network Misspecification Under Spatial Dependence`. Les covariables X retenues sont `gr_an`, `unem_an`, `coalsize`, `pop`, `enep` ; 16 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`name`, `ccode`, `key1`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `network_misspecification_elections`, la ou les reponses `votelead` viennent du loader papier et/ou des preuves de l article `Bias from Network Misspecification Under Spatial Dependence`. Les covariables X retenues sont `gr_an`, `unem_an`, `coalsize`, `pop`, `enep` ; 16 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`name`, `ccode`, `key1`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -95,6 +95,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Bias from 
 ### Formule - niveau systeme
 
 - formula_used: votelead ~ gr_an + unem_an + coalsize + pop + enep
+- Recommended validation: N lignes=386; T declare=65; variable temporelle declaree=elecyr; repetitions de coordonnees controlees=364. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: gr_an, unem_an, coalsize, pop, enep
 - y_term_used: votelead
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -234,8 +237,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`network_misspecification_elections` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07, Betz2020Bias.tei.xml) : papier essentiellement une etude de simulation Monte Carlo, l'application empirique (Kayser & Peress) est mentionnee brievement sans description explicite de la structure repetee de ce dataset precis. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Bias from Network Misspecification Under Spatial Dependence
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=386; T declare=65; variable temporelle declaree=elecyr; repetitions de coordonnees controlees=364. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

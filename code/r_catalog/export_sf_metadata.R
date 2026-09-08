@@ -153,7 +153,7 @@ classify_typology <- function(col, name) {
                 range = paste0("[", round(vals[1],4), ", ", round(vals[2],4), "]")))
   }
   if (cls == "integer")
-    return(list(typology = "count",
+    return(list(typology = "unknown",
                 range = paste0("[", vals[1], ", ", vals[2], "]")))
   return(list(typology = "unknown", range = NA_character_))
 }

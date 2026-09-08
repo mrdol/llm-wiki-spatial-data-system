@@ -2,7 +2,7 @@
 title: paper_mistletoe_bird_abundance
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_mistletoe_bird_abundance.rds
   - DataCite_2022_MistletoesCouldModerateDrought_10_1098_rspb_202
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Mistletoes
 - Candidate X variables in local artifact: `Season`, `total_live_mistletoe`, `total_dead_mistletoe`, `canopy_cover`, `shrub_cover`, `large_old_tree_total`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: total_live_mistletoe (abondance de gui vivant, log+1 transformee dans le papier), canopy_cover (couverture de canopee), shrub_cover (couverture arbustive), Season (saison de reproduction, interaction avec le gui), land_use, distance a l'eau, heure de releve (non retenus dans formula_used, disponibles dans l'artefact local)
+- Published X variables from paper: total_live_mistletoe, canopy_cover, shrub_cover, Season, land_use, distance a l'eau, heure de releve
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Long`, `Lat`
 - Identifier columns (excluded from X candidates): `Region`
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Mistletoes
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `Total_abundance` | `numeric` | continuous | [0, 226] | 0% |
+| `Total_abundance` | `numeric` | count | [0, 226] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `mistletoe_bird_abundance`, la ou les reponses `Total_abundance` viennent du loader papier et/ou des preuves de l article `Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback`. Les covariables X retenues sont `total_live_mistletoe`, `total_dead_mistletoe`, `canopy_cover`, `shrub_cover`, `large_old_tree_total`, `Season`. Les coordonnees (`Long`, `Lat`), identifiants (`Region`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `mistletoe_bird_abundance`, la ou les reponses `Total_abundance` viennent du loader papier et/ou des preuves de l article `Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback`. Les covariables X retenues sont `total_live_mistletoe`, `total_dead_mistletoe`, `canopy_cover`, `shrub_cover`, `large_old_tree_total`, `Season`. Les coordonnees (`Long`, `Lat`), identifiants (`Region`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Mistletoes
 ### Formule - niveau publication
 
 - formula_pub: TotalBirdAbundance ~ blossom_score + Season + noisy_miner_abundance + canopy_cover + shrub_cover + tree_species_composition + land_use + water_distance + survey_time + log1p(live_mistletoe_abundance) + live_mistletoe_abundance:Season [modele INLA GLMM avec effet aleatoire spatial SPDE (Matern), erreur de Poisson, effets aleatoires observateur/region, testant l'interaction mistletoe x saison de reproduction pour evaluer la moderation de la secheresse]
-- x_terms_pub: total_live_mistletoe (abondance de gui vivant, log+1 transformee dans le papier), canopy_cover (couverture de canopee), shrub_cover (couverture arbustive), Season (saison de reproduction, interaction avec le gui), land_use, distance a l'eau, heure de releve (non retenus dans formula_used, disponibles dans l'artefact local)
-- y_term_pub: Total_abundance (abondance totale d'oiseaux, toutes especes hors bruyant polyphonique noisy miner, par visite de site)
+- x_terms_pub: total_live_mistletoe, canopy_cover, shrub_cover, Season, land_use, distance a l'eau, heure de releve
+- y_term_pub: Total_abundance
 - Reference publication: Crates et al. (2022), Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback, Proceedings of the Royal Society B, doi:10.1098/rspb.2022.0358. Le papier ajuste des modeles INLA GLMM (erreur de Poisson, effet spatial SPDE/Matern, effets aleatoires observateur/region) sur l'abondance totale d'oiseaux, avec l'abondance de gui vivant (log+1) comme predicteur cle en interaction avec la saison de reproduction, pour tester si le gui attenue les impacts de la secheresse. formula_used retient les covariables de vegetation/gui reelles directement presentes dans le fichier de donnees (simplification en regression fixe, sans le terme spatial SPDE ni l'interaction). Donnees brutes (Bird_data.csv) telechargees directement depuis Dryad (10.5061/dryad.76hdr7sxp) -- pas une reconstruction, N=9012 visites de site (correspond exactement au chiffre publie dans le README), sud-est de l'Australie.
 
 ### Statut regression canonique
@@ -80,6 +80,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Mistletoes
 ### Formule - niveau systeme
 
 - formula_used: Total_abundance ~ total_live_mistletoe + total_dead_mistletoe + canopy_cover + shrub_cover + large_old_tree_total + Season
+- Recommended validation: N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: Total_abundance denombre les observations d’oiseaux.
+- Selected Y evidence: Total_abundance denombre les observations d’oiseaux.
+- Selected Y typology: count
 - x_terms_used: total_live_mistletoe, total_dead_mistletoe, canopy_cover, shrub_cover, large_old_tree_total, Season
 - y_term_used: Total_abundance
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -100,8 +104,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Total_abundance ~ total_live_mistletoe + total_dead_mistletoe + canopy_cover + shrub_cover + large_old_tree_total + Season"
-    response: "Total_abundance (abondance totale d'oiseaux, toutes especes hors bruyant polyphonique noisy miner, par visite de site)"
-    predictors: ["total_live_mistletoe (abondance de gui vivant, log+1 transformee dans le papier)", "canopy_cover (couverture de canopee)", "shrub_cover (couverture arbustive)", "Season (saison de reproduction, interaction avec le gui)", "land_use, distance a l'eau, heure de releve (non retenus dans formula_used, disponibles dans l'artefact local)"]
+    response: "Total_abundance"
+    predictors: ["total_live_mistletoe", "canopy_cover", "shrub_cover", "Season", "land_use, distance a l'eau, heure de releve"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -152,27 +156,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- CSV original telecharge directement depuis Dryad, N=9012 identique au chiffre publie dans le README ; formula_used omet le terme spatial SPDE et l'interaction mistletoe x saison du modele complet, disponible en X supplementaires (Season deja inclus)"
-  reason: "Y continu/comptage reel (abondance totale d'oiseaux), N=9012 visites de site avec coordonnees reelles (sud-est de l'Australie), covariables de gui et de vegetation exactement celles du papier (memes noms de colonnes). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la reponse et les predicteurs (question 2 du papier)."
+  missing_items: "N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- CSV original telecharge directement depuis Dryad, N=9012 identique au chiffre publie dans le README ; formula_used omet le terme spatial SPDE et l'interaction mistletoe x saison du modele complet, disponible en X supplementaires (Season deja inclus)
-- Raison: Y continu/comptage reel (abondance totale d'oiseaux), N=9012 visites de site avec coordonnees reelles (sud-est de l'Australie), covariables de gui et de vegetation exactement celles du papier (memes noms de colonnes). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la reponse et les predicteurs (question 2 du papier).
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -224,3 +228,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=9012; T declare=5; variable temporelle declaree=Season; repetitions de coordonnees controlees=7794. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Total_abundance denombre les observations d’oiseaux.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

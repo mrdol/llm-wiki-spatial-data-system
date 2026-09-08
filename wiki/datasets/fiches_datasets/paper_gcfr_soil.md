@@ -2,7 +2,7 @@
 title: paper_gcfr_soil
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_gcfr_soil.rds
   - DatasetFirst_10_5061_dryad_37qc017
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 - Topic: pedologie / cartographie regionale du sol
 - Observation unit: point d'echantillonnage de sol
 - Observed population: Greater Cape Floristic Region, Afrique du Sud, N=2767 points
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [17.73, 25.151], y [-34.75, -29.1833333]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 - Candidate X variables in local artifact: `pH_H2O`, `pH_extract`, `EC_mS.m`, `CEC_cmol.kg`, `H._cmol.kg`, `Total_exchangable_cations_cmol.kg`, `K_extractable_cmol....kg`, `Na_extractable_cmol....kg`, `P_extractable_mg.kg`, `P_total_mg.kg`, `C_organic_.`, `C_total_.`
 - Candidate X count in local artifact: 12
 - Candidate X typology: continuous
-- Published X variables from paper: pH_extract (pH du sol par extraction, meilleure couverture que pH_H2O), C_total_. (carbone total du sol, %, correlat classique de l'azote)
+- Published X variables from paper: pH_extract, C_total_.
 - Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `Lon_deg`, `Lat_deg`
 - Identifier columns (excluded from X candidates): none detected
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 |---|---|---|---|---|
 | `N_total_.` | `numeric` | continuous | [0.0084, 1.14] | 20.7% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `gcfr_soil`, la ou les reponses `N_total_.` viennent du loader papier et/ou des preuves de l article `New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models`. Les covariables X retenues sont `pH_extract`, `C_total_.` ; 10 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Lon_deg`, `Lat_deg`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `gcfr_soil`, la ou les reponses `N_total_.` viennent du loader papier et/ou des preuves de l article `New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models`. Les covariables X retenues sont `pH_extract`, `C_total_.` ; 10 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Lon_deg`, `Lat_deg`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -71,8 +71,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 ### Formule - niveau publication
 
 - formula_pub: [Pas de regression Y~X unique dans le papier pour cette table -- les echantillons ponctuels de sol servent d'entree a une interpolation spatiale (krigeage/apprentissage automatique avec covariables environnementales, dans la lignee de SoilGrids) produisant des couches regionales de sol, elles-memes utilisees comme covariables dans un modele separe de prediction du type de vegetation (non inclus dans ce depot)]
-- x_terms_pub: pH_extract (pH du sol par extraction, meilleure couverture que pH_H2O), C_total_. (carbone total du sol, %, correlat classique de l'azote)
-- y_term_pub: N_total_. (azote total du sol, %) -- reponse choisie pour ce benchmark parmi les proprietes de sol mesurees (le papier n'ayant pas de formule Y~X unique pour cette table de points) ; N_total_. retenue plutot que pH_H2O ou C_organic_. car ces deux dernieres n'ont que 31/2767 et 110/2767 valeurs non-NA respectivement (0 cas complets avec les autres covariables candidates), rendant toute regression non executable -- N_total_. a 2195/2767 valeurs non-NA (79%) et 1927 cas complets avec pH_extract + C_total_.
+- x_terms_pub: pH_extract, C_total_.
+- y_term_pub: N_total_. -- reponse choisie pour ce benchmark parmi les proprietes de sol mesurees ; N_total_. retenue plutot que pH_H2O ou C_organic_. car ces deux dernieres n'ont que 31/2767 et 110/2767 valeurs non-NA respectivement, rendant toute regression non executable -- N_total_. a 2195/2767 valeurs non-NA et 1927 cas complets avec pH_extract + C_total_.
 - Reference publication: Cramer, M.D. & Verboom, G.A. (2019), New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models, Diversity and Distributions, doi:10.1111/ddi.12973. CSV original (GCFR_soil.csv) telecharge directement depuis Dryad (10.5061/dryad.37qc017) -- pas une reconstruction, N=2767 points d'echantillonnage de sol (Greater Cape Floristic Region, Afrique du Sud). Le papier utilise ces points pour interpoler des couches de sol regionales (methode SoilGrids ameliore), elles-memes covariables d'un modele separe de type de vegetation non inclus dans ce depot -- formula_used est une reformulation raisonnable en regression continue (N_total_. ~ pH_extract + C_total_.), documentee comme telle, pas la formule publiee du papier. Verification empirique (session 2026-08-16) : 1927/2767 cas complets pour ce triplet (contre 0 cas complets pour la formule initiale pH_H2O ~ 7 covariables, pH_H2O n'ayant que 31 valeurs non-NA).
 
 ### Statut regression canonique
@@ -86,6 +86,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "New region
 ### Formule - niveau systeme
 
 - formula_used: N_total_. ~ pH_extract + C_total_.
+- Recommended validation: N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: pH_extract, C_total_.
 - y_term_used: N_total_.
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -106,8 +109,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "N_total_. ~ pH_extract + C_total_."
-    response: "N_total_. (azote total du sol, %) -- reponse choisie pour ce benchmark parmi les proprietes de sol mesurees (le papier n'ayant pas de formule Y~X unique pour cette table de points) ; N_total_. retenue plutot que pH_H2O ou C_organic_. car ces deux dernieres n'ont que 31/2767 et 110/2767 valeurs non-NA respectivement (0 cas complets avec les autres covariables candidates), rendant toute regression non executable -- N_total_. a 2195/2767 valeurs non-NA (79%) et 1927 cas complets avec pH_extract + C_total_."
-    predictors: ["pH_extract (pH du sol par extraction, meilleure couverture que pH_H2O)", "C_total_. (carbone total du sol, %, correlat classique de l'azote)"]
+    response: "N_total_. -- reponse choisie pour ce benchmark parmi les proprietes de sol mesurees ; N_total_. retenue plutot que pH_H2O ou C_organic_. car ces deux dernieres n'ont que 31/2767 et 110/2767 valeurs non-NA respectivement, rendant toute regression non executable -- N_total_. a 2195/2767 valeurs non-NA et 1927 cas complets avec pH_extract + C_total_."
+    predictors: ["pH_extract", "C_total_."]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -158,27 +161,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "le papier n'a pas de formule Y~X unique pour cette table de points d'echantillonnage (utilisee pour interpolation spatiale de couches de sol, pas pour une regression directe) -- formula_used (N_total_. ~ pH_extract + C_total_.) est une reformulation raisonnable documentee comme telle, pas la specification publiee -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)"
-  reason: "Y continu reel (N_total_., azote total du sol), N=2767 points d'echantillonnage avec coordonnees reelles, 1927 cas complets pour la formule retenue (79% de couverture sur N_total_.). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) : la table sert d'entree a une interpolation spatiale, pas a une regression Y~X du papier -- reformulation transparente en regression continue pour ce benchmark. Y initial (pH_H2O) ecarte car seulement 31/2767 valeurs non-NA (0 cas complets avec les covariables), non executable."
+  missing_items: "N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: le papier n'a pas de formule Y~X unique pour cette table de points d'echantillonnage (utilisee pour interpolation spatiale de couches de sol, pas pour une regression directe) -- formula_used (N_total_. ~ pH_extract + C_total_.) est une reformulation raisonnable documentee comme telle, pas la specification publiee -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
-- Raison: Y continu reel (N_total_., azote total du sol), N=2767 points d'echantillonnage avec coordonnees reelles, 1927 cas complets pour la formule retenue (79% de couverture sur N_total_.). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) : la table sert d'entree a une interpolation spatiale, pas a une regression Y~X du papier -- reformulation transparente en regression continue pour ce benchmark. Y initial (pH_H2O) ecarte car seulement 31/2767 valeurs non-NA (0 cas complets avec les covariables), non executable.
+- Decision: manual_review
+- Manque principal: N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -229,3 +232,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=2767; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=1928. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

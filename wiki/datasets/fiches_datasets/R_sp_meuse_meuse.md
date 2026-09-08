@@ -2,7 +2,7 @@
 title: R_sp_meuse_meuse
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_sp_meuse_meuse
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 155 enregistrements dans l’artefact local R_sp_meuse_meuse.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [178605, 181390], y [329714, 333611]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set gives locations and topsoil heavy metal concentrations, along with a number of soil and landscape variables at the observation locations, collected in a flood plain of the river Meuse, near the village of Stein (NL). Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m.
 - Description source: package R `sp`
@@ -78,6 +78,8 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 ### Formule — niveau systeme
 
 - formula_used: log(zinc) ~ sqrt(dist)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: sqrt(dist)
 - y_term_used: log(zinc)
 
@@ -217,3 +219,9 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `sp`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

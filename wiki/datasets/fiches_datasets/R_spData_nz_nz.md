@@ -2,7 +2,7 @@
 title: R_spData_nz_nz
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_nz_nz.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spData_nz_nz
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 16 enregistrements dans l’artefact local R_spData_nz_nz.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [167.948793773008, 177.907383233388], y [-45.449626495693, -35.43905422096]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Polygons representing the 16 regions of New Zealand (2018). See <https://en.wikipedia.org/wiki/Regions_of_New_Zealand> for a description of these regions and <https://www.stats.govt.nz> for information on the data source
 - Description source: package R `spData`
@@ -71,6 +71,8 @@ Polygons representing the 16 regions of New Zealand (2018). See <https://en.wiki
 ### Formule — niveau systeme
 
 - formula_used: Population ~ Land_area + Island
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Land_area + Island
 - y_term_used: Population
 
@@ -199,3 +201,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

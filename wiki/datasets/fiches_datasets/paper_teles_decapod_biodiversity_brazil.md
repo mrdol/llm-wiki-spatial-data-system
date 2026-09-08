@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Candidate X variables in local artifact: `ph`, `chlomean`, `chloRange`, `chloSS`, `curvel`, `O2`, `O2range`, `O2Lmax`, `nit`, `phosp`, `sal`, `salrange`, `salLmax`, `tempmean`, `temprange`, `bathym`, `iron`, `pp`, `sil`, `tempSS`, `SalSS`, `light`, `carbophyto`, `carbophytoLmax`, `carbophytorange`, `calcite`, `carbophytoSS`, `ppSS`, `pprange`, `tempLmax`, `WE`, `ED`, `PD.SES`, `WE.SES`, `PE.SES`, `ED.SES`, `fishing_effort`
 - Candidate X count in local artifact: 37
 - Candidate X typology: continuous
-- Published X variables from paper: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
+- Published X variables from paper: tempmean, pp, curvel, sal, light, fishing_effort
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): none detected
@@ -98,8 +98,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 ### Formule - niveau publication
 
 - formula_pub: PD.SES ~ tempmean + pp + curvel [Random Forest ; PD.SES = effet standardise de diversite phylogenetique, principale reponse continue modelisee par le papier avec SR (count) et PE.SES]
-- x_terms_pub: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
-- y_term_pub: PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)
+- x_terms_pub: tempmean, pp, curvel, sal, light, fishing_effort
+- y_term_pub: PD.SES
 - Reference publication: Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
 
 ### Statut regression canonique
@@ -133,8 +133,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort"
-    response: "PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)"
-    predictors: ["tempmean (temperature moyenne du fond)", "pp (productivite primaire)", "curvel (vitesse du courant)", "sal (salinite)", "light (disponibilite lumineuse)", "fishing_effort (effort de peche)"]
+    response: "PD.SES"
+    predictors: ["tempmean", "pp", "curvel", "sal", "light", "fishing_effort"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."

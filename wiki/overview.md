@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-04-21
-updated: 2026-07-20
+updated: 2026-09-08
 sources:
   - AGENTS.md
   - README.md
@@ -18,6 +18,16 @@ This page is the working synthesis of the LLM wiki, corpus and knowledge graph
 system. It updates after major ingest, query, lint or architecture changes.
 
 ---
+
+## Plasmode extension — 2026-09-08
+
+The supervisor's current scope selects plasmode simulation exclusively.
+An autonomous pilot now evaluates seven scenarios on Georgia and Meuse with
+known fixed-site latent means, spatial held-out stripes and separate privileged
+diagnostics. It completed 1,120 evaluations (3,360 fold fits), without model
+failures. These are feasibility results, not package admission decisions or a
+general estimator ranking. The full D0-D9 grid and dashboard integration remain
+future work. See [[protocole_plasmode_spatial_2026-09-08]].
 
 ## Current State
 

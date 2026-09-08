@@ -2,7 +2,7 @@
 title: paper_rocha_agricultural_technology_brazil
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_rocha_agricultural_technology_brazil.rds
   - DataCite_2019_AgriculturalTechnologyAdoptionAnd_10_1080_1747423x
@@ -128,6 +128,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 ### Formule - niveau systeme
 
 - formula_used: SOY ~ TDJF + TMAM + TJJA + TSON + PDJF + PMAM + PJJA + PSON + DAMZ + DCAA + DCER + DPMP + DPTN + DMATL
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: rate
 - x_terms_used: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
 - y_term_used: SOY
 - Note: Formule importee depuis inst/kg/paper_dataset_uses.json (curation papier/DataCite). Agricultural technology adoption and land use: evidence for Brazilian municipalities
@@ -271,3 +273,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Agricultural technology adoption and land use: evidence for Brazilian municipalities
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

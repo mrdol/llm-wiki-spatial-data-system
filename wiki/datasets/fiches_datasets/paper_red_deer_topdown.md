@@ -2,7 +2,7 @@
 title: paper_red_deer_topdown
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_red_deer_topdown.rds
   - DataCite_2023_NumericalTopdownEffectsOn_10_5061_dryad_0cfxpnw7w
@@ -15,15 +15,15 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: a preciser depuis le papier source
+- Observed population: 534 enregistrements dans l’artefact local paper_red_deer_topdown.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
 - Geographic context: etendue sf: x [-8.25, 43.45], y [37, 64.54]
-- Temporal context: 29 distinct periods (variable: Year_publ)
+- Temporal context: Synthese de sites issus de la litterature; Year_publ date les publications, temporalite d’observation a retrouver.
 - Source description: unknown
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
-- Paper DOI: unknown
-- Dataset DOI: none
-- Source URL: unknown
+- Paper DOI: 10.1111/1365-2664.14526
+- Dataset DOI: 10.5061/dryad.0cfxpnw7w
+- Source URL: https://doi.org/10.5061/dryad.0cfxpnw7w
 - Local raw dir: `data/raw/papers/DataCite_2023_NumericalTopdownEffectsOn_10_5061_dryad_0cfxpnw7w/`
 - Local sf output: `data/final_datasets/sf/paper_red_deer_topdown.rds`
 
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 - Candidate X variables in local artifact: `Year_publ`, `hunting`, `Human_influence_index`, `Forest_integrity`, `Bear_presence`, `Wolf_presence`, `Lynx_presence`, `Nr_predators`, `Predation`, `IUCN_Catergory`, `Biogeographic`, `NDVI`, `NPP`, `Prec_all_year`, `Prec_summer`, `Min_Temp_summer`, `Min_Temp_winter`, `NDSI_Snow_Cover`, `Tree_canopy_cover`, `Palmer_drought_summer`
 - Candidate X count in local artifact: 20
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: NPP (productivite primaire nette), Bear_presence/Wolf_presence/Lynx_presence (presence des 3 grands carnivores), hunting (chasse par l'homme), Human_influence_index (indice d'influence humaine), IUCN_Catergory (statut de protection du site), Prec_all_year (precipitation annuelle), Min_Temp_summer/Min_Temp_winter (temperatures minimales), NDSI_Snow_Cover (indice de couverture neigeuse), Tree_canopy_cover (% couverture forestiere), Palmer_drought_summer (indice de secheresse de Palmer)
+- Published X variables from paper: NPP, Bear_presence/Wolf_presence/Lynx_presence, hunting, Human_influence_index, IUCN_Catergory, Prec_all_year, Min_Temp_summer/Min_Temp_winter, NDSI_Snow_Cover, Tree_canopy_cover, Palmer_drought_summer
 - Published X count: 10
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Country`, `Study_area`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 |---|---|---|---|---|
 | `Deer_density` | `numeric` | continuous | [0.03, 44.64] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `red_deer_topdown`, la ou les reponses `Deer_density` viennent du loader papier et/ou des preuves de l article `unknown`. Les covariables X retenues sont `NPP`, `Bear_presence`, `Wolf_presence`, `Lynx_presence`, `hunting`, `Human_influence_index`, `IUCN_Catergory`, `Prec_all_year`, `Min_Temp_summer`, `Min_Temp_winter`, `NDSI_Snow_Cover`, `Tree_canopy_cover`, `Palmer_drought_summer` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Country`, `Study_area`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `red_deer_topdown`, la ou les reponses `Deer_density` viennent du loader papier et/ou des preuves de l article `unknown`. Les covariables X retenues sont `NPP`, `Bear_presence`, `Wolf_presence`, `Lynx_presence`, `hunting`, `Human_influence_index`, `IUCN_Catergory`, `Prec_all_year`, `Min_Temp_summer`, `Min_Temp_winter`, `NDSI_Snow_Cover`, `Tree_canopy_cover`, `Palmer_drought_summer` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Country`, `Study_area`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -79,8 +79,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 ### Formule - niveau publication
 
 - formula_pub: Deer_density ~ NPP + Bear_presence + Wolf_presence + Lynx_presence + hunting + Human_influence_index + IUCN_Catergory + Prec_all_year + Min_Temp_summer + Min_Temp_winter + NDSI_Snow_Cover + Tree_canopy_cover + Palmer_drought_summer [Generalized Additive Model (GAM), effets top-down numeriques sur le cerf elaphe]
-- x_terms_pub: NPP (productivite primaire nette), Bear_presence/Wolf_presence/Lynx_presence (presence des 3 grands carnivores), hunting (chasse par l'homme), Human_influence_index (indice d'influence humaine), IUCN_Catergory (statut de protection du site), Prec_all_year (precipitation annuelle), Min_Temp_summer/Min_Temp_winter (temperatures minimales), NDSI_Snow_Cover (indice de couverture neigeuse), Tree_canopy_cover (% couverture forestiere), Palmer_drought_summer (indice de secheresse de Palmer)
-- y_term_pub: Deer_density (densite de cerf elaphe, Cervus elaphus)
+- x_terms_pub: NPP, Bear_presence/Wolf_presence/Lynx_presence, hunting, Human_influence_index, IUCN_Catergory, Prec_all_year, Min_Temp_summer/Min_Temp_winter, NDSI_Snow_Cover, Tree_canopy_cover, Palmer_drought_summer
+- y_term_pub: Deer_density
 - Reference publication: van Beeck Calkoen, S.T.S., Kuijper, D.P.J., Apollonio, M., Blondel, L., Dormann, C.F., Storch, I. & Heurich, M. (2023), Numerical top-down effects on red deer (Cervus elaphus) are mainly shaped by humans rather than large carnivores across Europe, Journal of Applied Ecology, doi:10.1111/1365-2664.14526. CSV telecharge directement depuis Dryad (10.5061/dryad.0cfxpnw7w, API OAuth) -- pas une reconstruction, N=534 sites d'etude identique au depot source (Data_SvBC_RedDeer.csv). README.md du depot documente exactement les variables : recherche litterature (annee, pays, zone d'etude, latitude, longitude, densite, chasse) + facteurs additionnels (productivite primaire nette, presence de grands carnivores, indice d'influence humaine, statut de protection, couverture forestiere, indice de secheresse de Palmer, indice de couverture neigeuse).
 
 ### Statut regression canonique
@@ -94,6 +94,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "unknown" (
 ### Formule - niveau systeme
 
 - formula_used: Deer_density ~ NPP + Bear_presence + Wolf_presence + Lynx_presence + hunting + Human_influence_index + IUCN_Catergory + Prec_all_year + Min_Temp_summer + Min_Temp_winter + NDSI_Snow_Cover + Tree_canopy_cover + Palmer_drought_summer
+- Recommended validation: N lignes=534; T declare=29; variable temporelle declaree=Year_publ; repetitions de coordonnees controlees=8. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: NPP, Bear_presence, Wolf_presence, Lynx_presence, hunting, Human_influence_index, IUCN_Catergory, Prec_all_year, Min_Temp_summer, Min_Temp_winter, NDSI_Snow_Cover, Tree_canopy_cover, Palmer_drought_summer
 - y_term_used: Deer_density
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -114,8 +117,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Deer_density ~ NPP + Bear_presence + Wolf_presence + Lynx_presence + hunting + Human_influence_index + IUCN_Catergory + Prec_all_year + Min_Temp_summer + Min_Temp_winter + NDSI_Snow_Cover + Tree_canopy_cover + Palmer_drought_summer"
-    response: "Deer_density (densite de cerf elaphe, Cervus elaphus)"
-    predictors: ["NPP (productivite primaire nette)", "Bear_presence/Wolf_presence/Lynx_presence (presence des 3 grands carnivores)", "hunting (chasse par l'homme)", "Human_influence_index (indice d'influence humaine)", "IUCN_Catergory (statut de protection du site)", "Prec_all_year (precipitation annuelle)", "Min_Temp_summer/Min_Temp_winter (temperatures minimales)", "NDSI_Snow_Cover (indice de couverture neigeuse)", "Tree_canopy_cover (% couverture forestiere)", "Palmer_drought_summer (indice de secheresse de Palmer)"]
+    response: "Deer_density"
+    predictors: ["NPP", "Bear_presence/Wolf_presence/Lynx_presence", "hunting", "Human_influence_index", "IUCN_Catergory", "Prec_all_year", "Min_Temp_summer/Min_Temp_winter", "NDSI_Snow_Cover", "Tree_canopy_cover", "Palmer_drought_summer"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -139,10 +142,10 @@ formula_candidates:
 - Dataset name: unknown
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
-- Paper title: unknown
-- Paper DOI: unknown
-- Dataset DOI: none
-- Source URL: unknown
+- Paper title: Numerical top-down effects on red deer (Cervus elaphus) are mainly shaped by humans rather than large carnivores across Europe
+- Paper DOI: 10.1111/1365-2664.14526
+- Dataset DOI: 10.5061/dryad.0cfxpnw7w
+- Source URL: https://doi.org/10.5061/dryad.0cfxpnw7w
 - Year: unknown
 
 ## Bloc 3 - Typologie des modeles
@@ -166,27 +169,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "regression_continuous"
-  package_include: "yes"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- CSV original telecharge directement depuis Dryad (pas une reconstruction), N=534 identique au depot source"
-  reason: "Y continu reel (Deer_density), X = 10+ covariables environnementales/humaines exactes decrites dans le README du depot et le papier, coordonnees reelles (Latitude/Longitude) pour 534 sites d'etude dans 28 pays europeens. CSV telecharge directement depuis Dryad via API OAuth, N identique au depot source. Promu package_include=yes le 2026-08-15 (decision utilisateur explicite) : le domaine ecologie n'est pas un motif de blocage en soi, coherent avec les autres datasets ecologie-regression-continue deja promus dans le corpus."
+  missing_items: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
+  reason: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- CSV original telecharge directement depuis Dryad (pas une reconstruction), N=534 identique au depot source
-- Raison: Y continu reel (Deer_density), X = 10+ covariables environnementales/humaines exactes decrites dans le README du depot et le papier, coordonnees reelles (Latitude/Longitude) pour 534 sites d'etude dans 28 pays europeens. CSV telecharge directement depuis Dryad via API OAuth, N identique au depot source. Promu package_include=yes le 2026-08-15 (decision utilisateur explicite) : le domaine ecologie n'est pas un motif de blocage en soi, coherent avec les autres datasets ecologie-regression-continue deja promus dans le corpus.
+- Decision: manual_review
+- Manque principal: Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark.
+- Raison: Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -196,7 +199,7 @@ estimator_eligibility:
 - N observations: 534
 - k variables: 28
 - T periods: 29
-- Variable temporelle: Year_publ
+- Variable temporelle: Year_publ (annee de publication, pas une periode d’observation)
 - N/T profile: N_grand_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (534) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 526 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=3). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 526 unites spatiales distinctes, pas sur les 534 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
@@ -238,3 +241,12 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: unknown
 
+## Curation documentée — 2026-09-07
+
+DOI article verifie sur la page Dryad : https://datadryad.org/dataset/doi%3A10.5061/dryad.0cfxpnw7w ; auteurs et DOI dataset egalement dans le README local. La source est identifiee; cette verification ne valide pas la formule comparative actuelle.
+
+Decision conservatoire : Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

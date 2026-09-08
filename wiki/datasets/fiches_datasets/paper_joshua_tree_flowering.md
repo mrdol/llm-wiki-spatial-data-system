@@ -2,7 +2,7 @@
 title: paper_joshua_tree_flowering
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_joshua_tree_flowering.rds
   - DataCite_2024_Reconstructing120YearsOf_10_1111_ele_1447
@@ -13,9 +13,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 
 ## Description du jeu de donnees
 
-- Topic: ecologie / interactions plantes-pollinisateurs
+- Topic: Phenologie de Joshua tree
 - Observation unit: site d'observation ou cellule de grille d'occurrence
-- Observed population: communautes de pollinisateurs ou d'oiseaux nectarivores
+- Observed population: Sorties de hindcast de floraison de Joshua tree, incluant des differences entre periodes; observations binaires flr a traiter separement.
 - Geographic context: etendue sf: x [-118.6666666, -112.7916662], y [33.7916662, 38.0833332]
 - Temporal context: none (cross-sectional)
 - Source description: Reconstructing 120 years of climate change impacts on Joshua tree flowering
@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `flyrs` | `integer` | count | [-7, 20] | 0% |
+| `flyrs` | `integer` | continuous | [-7, 20] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `joshua_tree_flowering`, la ou les reponses `flyrs` viennent du loader papier et/ou des preuves de l article `Reconstructing 120 years of climate change impacts on Joshua tree flowering`. Les covariables X retenues sont `Delta.Y1.2..PPT..mm.`, `Delta.Y0.1..PPT..mm.`, `Max.VPD.Y0...hPa.`, `Delta.Y0.1..Min.VPD..hPa.`, `Min.Temp.Y0...degree.C.`, `Delta.Y0.1..Max.Temp..degree.C.`. Les coordonnees (`lon`, `lat`), identifiants (`timeframe`, `ri.model`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `joshua_tree_flowering`, la ou les reponses `flyrs` viennent du loader papier et/ou des preuves de l article `Reconstructing 120 years of climate change impacts on Joshua tree flowering`. Les covariables X retenues sont `Delta.Y1.2..PPT..mm.`, `Delta.Y0.1..PPT..mm.`, `Max.VPD.Y0...hPa.`, `Delta.Y0.1..Min.VPD..hPa.`, `Min.Temp.Y0...degree.C.`, `Delta.Y0.1..Max.Temp..degree.C.`. Les coordonnees (`lon`, `lat`), identifiants (`timeframe`, `ri.model`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -80,6 +80,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 ### Formule - niveau systeme
 
 - formula_used: flyrs ~ Delta.Y1.2..PPT..mm. + Delta.Y0.1..PPT..mm. + Max.VPD.Y0...hPa. + Delta.Y0.1..Min.VPD..hPa. + Delta.Y0.1..Max.Temp..degree.C. + Min.Temp.Y0...degree.C.
+- Formula used evidence: generated_system_formula
+- Recommended validation: N lignes=11133; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=7422. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: flyrs est un produit de hindcast incluant des differences negatives entre periodes, pas la reponse binaire observee flr.
+- Selected Y evidence: flyrs est un produit de hindcast incluant des differences negatives entre periodes, pas la reponse binaire observee flr.
+- Selected Y typology: continuous
 - x_terms_used: Delta.Y1.2..PPT..mm., Delta.Y0.1..PPT..mm., Max.VPD.Y0...hPa., Delta.Y0.1..Min.VPD..hPa., Min.Temp.Y0...degree.C., Delta.Y0.1..Max.Temp..degree.C.
 - y_term_used: flyrs
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -152,27 +157,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous_model_output"
-  package_include: "yes"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "la reponse locale flyrs est une sortie continue du hindcast BART, pas l'observation binaire brute flr ; conserver cette nuance dans toute interpretation benchmark"
-  reason: "Le papier entraine un BART sur flr binaire, puis publie des sorties continues de hindcast par cellule et periode. Le loader utilise flyrs et les six predicteurs climatiques de changement fournis dans l'archive, ce qui cree une version continue documentee sans transformer arbitrairement flr."
+  missing_items: "Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes."
+  reason: "Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes."
 ```
 
-- Decision: ready
-- Manque principal: la reponse locale flyrs est une sortie continue du hindcast BART, pas l'observation binaire brute flr ; conserver cette nuance dans toute interpretation benchmark
-- Raison: Le papier entraine un BART sur flr binaire, puis publie des sorties continues de hindcast par cellule et periode. Le loader utilise flyrs et les six predicteurs climatiques de changement fournis dans l'archive, ce qui cree une version continue documentee sans transformer arbitrairement flr.
+- Decision: not_ready_main_benchmark
+- Manque principal: Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes.
+- Raison: Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -223,3 +228,12 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Reconstructing 120 years of climate change impacts on Joshua tree flowering
 
+## Curation documentée — 2026-09-07
+
+La formule executee est une adaptation de la source, distincte des modeles publies : Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree.
+
+Decision conservatoire : Y flyrs est une sortie de hindcast BART, avec 689 valeurs négatives (différences entre périodes); routage count incompatible. Description de pollinisateurs/oiseaux sans rapport avec Joshua tree. Isoler cette tâche de sortie modèle; privilégier les observations flr originales du dépôt, avec route binaire et sélection climatique publiée. Corriger la description et les périodes. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. flyrs est un produit de hindcast incluant des differences negatives entre periodes, pas la reponse binaire observee flr.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.boston
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.boston.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_spdata.boston
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 506 enregistrements dans l’artefact local Python_geodatasets_spdata.boston.rds; unite declaree : house, real-estate transaction, or residential area. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-71.477517316028, -70.689020600411], y [42.04898645, 42.6363945]; CRS NAD27.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`boston`).
 - Description source: package Python `geodatasets`
@@ -85,6 +85,8 @@ Dataset spatial issu du package Python `geodatasets` (`boston`).
 ### Formule — niveau systeme
 
 - formula_used: CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT
 - y_term_used: CMEDV
 
@@ -272,3 +274,9 @@ estimator_eligibility:
 
 - Source: package Python `geodatasets`
 - Duplicate/version candidate: [[R_spData_boston_boston.c]]
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

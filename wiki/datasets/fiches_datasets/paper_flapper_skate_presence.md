@@ -2,7 +2,7 @@
 title: paper_flapper_skate_presence
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_flapper_skate_presence.rds
   - DataCite_2025_OnTheBrinkMapping_10_1002_ece3_716
@@ -13,7 +13,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de paper-derived : paper_flapper_skate_presence
 - Observation unit: observation spatiale du dataset "Data from: On the brink: Mapping the last strongholds of the critically endangered flapper skate ( Dipturus intermedius )"
 - Observed population: Ã‰cologie marine spatiale : distribution flapper skate, Bayesian spatial binomial GAMM, covariables environnementales, pression de pÃªche, coordonnÃ©es gÃ©ographiques
 - Geographic context: etendue sf: x [-14.908, 10.0467], y [48.21, 61.8933]
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 - Candidate X variables in local artifact: `haul_dur`, `present`, `current`, `dcoast`, `bath`, `btemp`, `xm`, `ym`, `xkm`, `ykm`, `fishing_hours`, `pp_mean`
 - Candidate X count in local artifact: 12
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: bath, dcoast, current, btemp, pp_mean, fishing_hours
+- Published X variables from paper: bath, dcoast, current, pp_mean, fishing_hours (btemp retire par les auteurs pour colinearite, voir correction 2026-09-08 ci-dessous)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `survey`, `ship`, `year`, `quarter`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 |---|---|---|---|---|
 | `present_01` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `flapper_skate_presence`, la ou les reponses `present_01` viennent du loader papier et/ou des preuves de l article `On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )`. Les covariables X retenues sont `bath`, `dcoast`, `current`, `btemp`, `pp_mean`, `fishing_hours` ; 6 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`survey`, `ship`, `year`, `quarter`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `flapper_skate_presence`, la ou les reponses `present_01` viennent du loader papier et/ou des preuves de l article `On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )`. Les covariables X retenues sont `bath`, `dcoast`, `current`, `pp_mean`, `fishing_hours` (btemp retire pour colinearite, voir correction 2026-09-08) ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`survey`, `ship`, `year`, `quarter`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -70,10 +70,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 
 ### Formule - niveau publication
 
-- formula_pub: presence_absence ~ depth + distance_to_coast + current + bottom_temperature + benthic_productivity + fishing_pressure [INLA/SPDE presence-only or presence-absence model with cloglog link]
-- x_terms_pub: bath, dcoast, current, btemp, pp_mean, fishing_hours
+- formula_pub: presence_absence ~ depth + distance_to_coast + current + benthic_productivity + fishing_pressure [INLA/SPDE presence-absence model with cloglog link, champ spatial SPDE explicite]
+- x_terms_pub: bath, dcoast, current, pp_mean, fishing_hours
 - y_term_pub: flapper skate presence/absence by survey haul
-- Reference publication: Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV.
+- Reference publication: Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. Le papier ajuste un modele INLA/SPDE (champ aleatoire spatial explicite, lien cloglog).
+- Correction (2026-09-08, lecture TEI approfondie, Loca2025OnThe.tei.xml) : `btemp` (bottom temperature) a ete RETIRE par les auteurs de leur modele final pour cause de colinearite ("bottom temperature was dropped from the analysis"). formula_used/x_terms_used/formula_pub corriges pour ne plus inclure `btemp`, qui restait a tort dans la specification executable malgre son exclusion documentee par le papier. La colonne `btemp` reste disponible dans Detail X (candidate non retenue).
 
 ### Statut regression canonique
 
@@ -85,8 +86,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 
 ### Formule - niveau systeme
 
-- formula_used: present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours
-- x_terms_used: bath, dcoast, current, btemp, pp_mean, fishing_hours
+- formula_used: present_01 ~ bath + dcoast + current + pp_mean + fishing_hours
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
+- x_terms_used: bath, dcoast, current, pp_mean, fishing_hours
 - y_term_used: present_01
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
@@ -105,9 +108,9 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours"
+    formula: "present_01 ~ bath + dcoast + current + pp_mean + fishing_hours"
     response: "flapper skate presence/absence by survey haul"
-    predictors: ["bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"]
+    predictors: ["bath", "dcoast", "current", "pp_mean", "fishing_hours"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -115,9 +118,9 @@ formula_candidates:
     status: "confirmed"
 
   ml_or_selected:
-    formula: "present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours"
+    formula: "present_01 ~ bath + dcoast + current + pp_mean + fishing_hours"
     response: "present_01"
-    predictors: ["bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"]
+    predictors: ["bath", "dcoast", "current", "pp_mean", "fishing_hours"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -159,26 +162,42 @@ modeling_evidence:
 ```yaml
 benchmark_readiness:
   benchmark_status: "ready"
-  benchmark_task: "classification_binary_sdm"
+  benchmark_task: "classification_binary_presence_absence"
   package_include: "yes"
   has_local_rds: true
-  missing_items: "reponse binaire present_01 ; hors cahier de regression continue stricte, mais conserve comme cas SDM/classification documente dans le package"
-  reason: "Le dossier Dryad contient full_dataset.csv avec presence/absence, lon/lat et covariables bathymetrie, distance a la cote, courant, temperature de fond, productivite benthique et effort de peche. Le loader applique les exclusions documentees par le papier/code puis produit un sf WGS84."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite)."
 ```
 
 - Decision: ready
-- Manque principal: reponse binaire present_01 ; hors cahier de regression continue stricte, mais conserve comme cas SDM/classification documente dans le package
-- Raison: Le dossier Dryad contient full_dataset.csv avec presence/absence, lon/lat et covariables bathymetrie, distance a la cote, courant, temperature de fond, productivite benthique et effort de peche. Le loader applique les exclusions documentees par le papier/code puis produit un sf WGS84.
+- Manque principal: aucun blocage automatique detecte
+- Raison: Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite).
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial"]
-  ineligible_reason: "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: sar_probit
+      basis: scientific_evidence
+      source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence."
+      notes: "SAR probit est l'estimateur du harnais le plus proche du cadre publie (dependance spatiale explicite + reponse binaire) ; l'implementation exacte SPDE/INLA des auteurs n'est pas disponible dans le harnais, ceci est un estimateur analogue, pas une reproduction exacte."
+    - estimator: sem_probit
+      basis: scientific_evidence
+      source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650 -- meme justification que sar_probit."
+      notes: "Estimateur analogue au cadre spatial publie, pas une reproduction exacte de SPDE/INLA."
+    - estimator: ols
+      basis: generated_candidate
+      source_ref: "Routage binaire ajoute au harnais cette semaine (glm(family=binomial()))."
+      notes: "Capacite technique du harnais ; ne modelise pas la dependance spatiale contrairement au modele publie."
+    - estimator: random_forest
+      basis: generated_candidate
+      source_ref: "response_typologies inclut 'binary' pour random_forest depuis la mise a jour du registre cette semaine."
+      notes: "Capacite technique du harnais, comparateur non-spatial."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite)."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -229,3 +248,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache binary a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

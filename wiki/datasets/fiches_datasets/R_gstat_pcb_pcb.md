@@ -2,7 +2,7 @@
 title: R_gstat_pcb_pcb
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_pcb_pcb.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ PCB138 measurements in sediment at the NCP, which is the Dutch part of the North
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 216 enregistrements dans l’artefact local R_gstat_pcb_pcb.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [477952.45, 736018.82], y [5692380.66, 6132475.4]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: PCB138 measurements in sediment at the NCP, which is the Dutch part of the North Sea
 - Description source: package R `gstat`
@@ -199,3 +199,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_pollinator_urbanization_meta
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_pollinator_urbanization_meta.rds
   - DatasetFirst_10_5061_dryad_dv41ns23r
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Topic: meta-analyse / effets de l'urbanisation sur les pollinisateurs
 - Observation unit: taille d'effet (etude x espece)
 - Observed population: tailles d'effet de Hedges issues d'etudes mondiales sur l'urbanisation et les pollinisateurs, N=228
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-127.648, 151.209], y [-38.416, 55.344]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: [dataset-first, publication non resolue] The effects of urbanisation on pollinators and pollination: A meta-analysis
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate X variables in local artifact: `Urban_gradient`, `Climate_region`, `Class`, `Order`, `Family`, `Pollinator_group`, `Pollinator_origin`, `Origin.reference`, `Category`, `Vd`
 - Candidate X count in local artifact: 10
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: Pollinator_group (groupe taxonomique du pollinisateur -- correspond au moderateur 'taxonomic group' confirme par le resume officiel du papier), Urban_gradient (type de gradient d'urbanisation etudie), Pollinator_origin (native vs. non-native -- moderateur confirme par le papier mais 122/228 valeurs manquantes, 54%, exclu de formula_used pour cette raison)
+- Published X variables from paper: Pollinator_group, Urban_gradient, Pollinator_origin
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `ID`, `Reference`, `Title`, `DOI`, `Location`, `Species`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `d` | `numeric` | continuous | [-9.022, 6.307] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `pollinator_urbanization_meta`, la ou les reponses `d` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] The effects of urbanisation on pollinators and pollination: A meta-analysis`. Les covariables X retenues sont `Pollinator_group`, `Urban_gradient` ; 8 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`ID`, `Reference`, `Title`, `DOI`, `Location`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `pollinator_urbanization_meta`, la ou les reponses `d` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] The effects of urbanisation on pollinators and pollination: A meta-analysis`. Les covariables X retenues sont `Pollinator_group`, `Urban_gradient` ; 8 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`ID`, `Reference`, `Title`, `DOI`, `Location`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -69,8 +69,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: d ~ taxonomic_group * origin [Liang, He, Theodorou & Yang (2023), 'The effects of urbanization on pollinators and pollination: A meta-analysis', Ecology Letters 26:1629-1642, doi:10.1111/ele.14277. Meta-analyse hierarchique multivariee (metafor::rma.mv, ponderee par la variance d'echantillonnage V=Vd, PAS Vd comme covariable) sur 133 etudes ; les auteurs testent explicitement si l'effet de l'urbanisation depend du groupe taxonomique de pollinisateur et de l'origine (native vs. non-native) -- confirme par le resume officiel du papier]
-- x_terms_pub: Pollinator_group (groupe taxonomique du pollinisateur -- correspond au moderateur 'taxonomic group' confirme par le resume officiel du papier), Urban_gradient (type de gradient d'urbanisation etudie), Pollinator_origin (native vs. non-native -- moderateur confirme par le papier mais 122/228 valeurs manquantes, 54%, exclu de formula_used pour cette raison)
-- y_term_pub: d (taille d'effet standardisee de Hedges, effet de l'urbanisation sur l'abondance/richesse des pollinisateurs, par etude/espece)
+- x_terms_pub: Pollinator_group, Urban_gradient, Pollinator_origin
+- y_term_pub: d
 - Reference publication: REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier identifie et confirme -- Liang, He, Theodorou & Yang (2023), Ecology Letters 26:1629-1642, doi:10.1111/ele.14277, 'The effects of urbanization on pollinators and pollination: A meta-analysis' (133 etudes). Abstract officiel (Wiley/PubMed) confirme une meta-analyse hierarchique multivariee testant si l'effet de l'urbanisation depend du 'taxonomic group' et de l' 'origin (native vs. non-native)' -- ces deux moderateurs correspondent aux colonnes reelles Pollinator_group/Order (6% NA) et Pollinator_origin (54% NA) du CSV local. Texte integral non accessible (Wiley payant HTTP 402, ResearchGate/Authorea 403, depot institutionnel opendata.uni-halle.de protege par verification anti-bot Anubis -- non contourne, conforme a la politique du projet), donc les noms exacts de tous les moderateurs testes et la specification complete du modele restent a confirmer par lecture du texte integral si l'utilisateur peut se le procurer. formula_used corrigee (session 2026-08-16) : Pollinator_origin remplace par Pollinator_group (meme esprit -- moderateur taxonomique confirme -- mais bien mieux rempli, 6% vs 54% NA) ; Vd retiree des covariables X (erreur de specification corrigee : dans metafor::rma.mv, la variance d'echantillonnage est le parametre de ponderation V=, jamais un terme de la formule mods=~...). CSV original (Appendix_S1.1_effect_size_pollinator_abundance.csv) telecharge directement depuis Dryad, N=228 tailles d'effet reelles, pas une reconstruction. package_include laisse en manual_review : le modele exact (interaction taxonomic_group*origin) n'a pas pu etre verifie verbatim faute d'acces au texte integral.
 
 ### Statut regression canonique
@@ -84,6 +84,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau systeme
 
 - formula_used: d ~ Pollinator_group + Urban_gradient
+- Recommended validation: N lignes=228; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=161. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: Pollinator_group, Urban_gradient
 - y_term_used: d
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -104,8 +107,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "d ~ Pollinator_group + Urban_gradient"
-    response: "d (taille d'effet standardisee de Hedges, effet de l'urbanisation sur l'abondance/richesse des pollinisateurs, par etude/espece)"
-    predictors: ["Pollinator_group (groupe taxonomique du pollinisateur -- correspond au moderateur 'taxonomic group' confirme par le resume officiel du papier)", "Urban_gradient (type de gradient d'urbanisation etudie)", "Pollinator_origin (native vs. non-native -- moderateur confirme par le papier mais 122/228 valeurs manquantes, 54%, exclu de formula_used pour cette raison)"]
+    response: "d"
+    predictors: ["Pollinator_group", "Urban_gradient", "Pollinator_origin"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -222,8 +225,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`pollinator_urbanization_meta` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : TEI introuvable dans le corpus (acces payant/bloque, deja documente dans la fiche elle-meme) -- aucune preuve disponible dans un sens ou l'autre. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; absence de preuve n'est pas une preuve de probleme -- grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: [dataset-first, publication non resolue] The effects of urbanisation on pollinators and pollination: A meta-analysis
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=228; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=161. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

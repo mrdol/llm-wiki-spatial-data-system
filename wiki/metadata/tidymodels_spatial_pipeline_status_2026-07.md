@@ -2,7 +2,7 @@
 title: Etat du pipeline tidymodels spatial - juillet 2026
 type: metadata
 created: 2026-07-03
-updated: 2026-08-21
+updated: 2026-09-08
 sources:
   - code/R/estimators/benchmark_manual_test_2026-07.R
   - code/R/estimators/spatial_tidymodels_api.R
@@ -16,6 +16,17 @@ sources:
 tags: [metadata, tidymodels, spatial, benchmark, r]
 status: spatial-estimators-expansion
 ---
+
+## Extension plasmode autonome — 2026-09-08
+
+Le cadrage actif retient le plasmode exclusivement. Le prototype technique
+`extensions_projet_2026-09/revue_donnees_semi_synthetiques/plasmode_pilot.R`
+est execute sur deux sources et sept scenarios, avec resultats natifs RDS,
+trois bandes spatiales, verite latente enregistree et tests de non-fuite des Y
+de test. Il n'est pas encore une route de spatialtidymodels ni du dashboard.
+Les registres d'admission et les wrappers du package restent inchanges.
+Les resultats sont descriptifs ; aucun verdict de comparaison n'est recalcule
+hors du moteur officiel. Voir [[protocole_plasmode_spatial_2026-09-08]].
 
 ## Mise a jour 2026-08-21 - eligibilite dataset-estimateur executable
 

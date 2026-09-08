@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.seattle1
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.seattle1.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`seattle1`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.seattle1
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 664 enregistrements dans l’artefact local Python_geodatasets_geoda.seattle1.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-122.760446707592, -121.35287114963], y [46.851862, 48.261598]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`seattle1`).
 - Description source: package Python `geodatasets`
@@ -93,6 +93,9 @@ Dataset spatial issu du package Python `geodatasets` (`seattle1`).
 ### Formule — niveau systeme
 
 - formula_used: HH_INC ~ TOT_POP + POP_16 + POP_65 + WHITE_ + BLACK_ + ASIAN_ + HISP_ + MULTI_RA
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: TOT_POP + POP_16 + POP_65 + WHITE_ + BLACK_ + ASIAN_ + HISP_ + MULTI_RA
 - y_term_used: HH_INC
 
@@ -221,3 +224,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

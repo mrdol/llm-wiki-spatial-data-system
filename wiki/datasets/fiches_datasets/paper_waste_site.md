@@ -2,7 +2,7 @@
 title: paper_waste_site
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_waste_site.rds
   - DataCite_2021_SystematicVariationInWaste_10_1007_s10640_0
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Candidate X variables in local artifact: `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL`, `active`, `job`, `cleanup_stage`, `HDI_subnational`, `HDI_national`, `GDP_p.c._national_2010_USD`, `data_year`, `time`, `sample`, `dist_mean`, `p_mean`, `converter_dich`, `sales`, `sale_ind`, `demoecon`, `log_log`, `num_sig_var`, `num_expl`, `num_struc`, `num_nb`, `num_env`, `oth_disamen`, `oth_amen`, `access`, `industry`, `miles_km`, `OLS`, `DF`, `ß`, `SE`, `t-value`, `p-value`, `sig`, `sig_level`, `sign`, `time_dummy`, `time_cont`, `time_disc`, `direction`, `interaction`, `spatial`, `elas_SE`, `comments`, `further comments`
 - Candidate X count in local artifact: 56
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
+- Published X variables from paper: author, title, weight, second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
 - Published X count: 0
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 |---|---|---|---|---|
 | `elas` | `numeric` | continuous | [-2.0938, 1.762] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL` ; 44 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL` ; 44 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -115,7 +115,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 ### Formule - niveau publication
 
 - formula_pub: elas ~ meta-regression (WLS/REML) sur 727 estimations, correction du biais de publication (PET-PEESE)
-- x_terms_pub: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
+- x_terms_pub: author, title, weight, second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
 - y_term_pub: elas
 - Reference publication: Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
 
@@ -129,9 +129,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 
 ### Formule - niveau systeme
 
-- formula_used: elas ~ author + title + weight (sample_reuse) + second coding + year_publish + publish + element + site_cat + site_m + region + subnational state / district + NPL + ... (44 covariables au total, voir Candidate X variables)
-- x_terms_used: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
-- y_term_used: elas
+- formula_used: pending
+- Formula used evidence: unavailable
+- x_terms_used: pending
+- y_term_used: pending
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formules candidates
@@ -151,7 +152,7 @@ formula_candidates:
   multivariate_constrained:
     formula: "elas ~ author + title + weight (sample_reuse) + second coding + year_publish + publish + element + site_cat + site_m + region + subnational state / district + NPL + ... (44 covariables au total, voir Candidate X variables)"
     response: "elas"
-    predictors: ["author", "title", "weight (sample_reuse)", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL"]
+    predictors: ["author", "title", "weight", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -202,27 +203,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_current_package"
-  benchmark_task: "meta_regression"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "traiter comme meta-analyse, pas comme observations spatiales"
-  reason: "Les lignes sont des estimations d'etudes, pas des observations geographiques elementaires."
+  missing_items: "727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude."
+  reason: "727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude."
 ```
 
-- Decision: not_ready_current_package
-- Manque principal: traiter comme meta-analyse, pas comme observations spatiales
-- Raison: Les lignes sont des estimations d'etudes, pas des observations geographiques elementaires.
+- Decision: not_ready_main_benchmark
+- Manque principal: 727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude.
+- Raison: 727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_current_package"
+  status: "not_ready_main_benchmark"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -262,7 +263,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: PENDING — formule executable indisponible ; conserver la preuve publiee separement dans formula_pub.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20%: comments (NA=71.8%), further comments (NA=86.2%).
@@ -274,3 +275,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer
 
+## Curation documentée — 2026-09-07
+
+La prose/formule precedente ne definit pas une specification executable defendable. Elle est conservee dans dataset_curation_overrides.json.previous_formula_used ; une equation source exacte et ses variables sont a retrouver.
+
+Decision conservatoire : 727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

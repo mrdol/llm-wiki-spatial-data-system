@@ -2,7 +2,7 @@
 title: paper_influenza_mortality_chicago
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_influenza_mortality_chicago.rds
   - DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 |---|---|---|---|---|
 | `counts` | `integer` | count | [0, 31] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `influenza_mortality_chicago`, la ou les reponses `counts` viennent du loader papier et/ou des preuves de l article `Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918`. Les covariables X retenues sont `illit`, `den.r`, `unemployed.pct`, `ho.pct`, `agecat1`, `agecat2`, `agecat3`, `agecat4`, `agecat5`, `agecat6`, `agecat7` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GISJOIN`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `influenza_mortality_chicago`, la ou les reponses `counts` viennent du loader papier et/ou des preuves de l article `Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918`. Les covariables X retenues sont `illit`, `den.r`, `unemployed.pct`, `ho.pct`, `agecat1`, `agecat2`, `agecat3`, `agecat4`, `agecat5`, `agecat6`, `agecat7` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GISJOIN`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -89,6 +89,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 ### Formule - niveau systeme
 
 - formula_used: counts ~ illit + den.r + unemployed.pct + ho.pct + agecat1 + agecat2 + agecat3 + agecat4 + agecat5 + agecat6 + agecat7
+- Recommended validation: N lignes=3472; T declare=7; variable temporelle declaree=week; repetitions de coordonnees controlees=2976. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: illit, den.r, unemployed.pct, ho.pct, agecat1, agecat2, agecat3, agecat4, agecat5, agecat6, agecat7
 - y_term_used: counts
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -228,8 +231,20 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`influenza_mortality_chicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+
+## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
+
+Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Grantz2016Disparities.tei.xml) confirme : "We calculated the reproduction number for each census tract in each week of the epidemic" -- panel tract x semaine authentique. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par census tract, respecter la chronologie (semaine) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
+
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=3472; T declare=7; variable temporelle declaree=week; repetitions de coordonnees controlees=2976. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

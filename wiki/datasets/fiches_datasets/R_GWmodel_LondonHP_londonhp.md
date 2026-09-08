@@ -2,7 +2,7 @@
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [507399.99999999965, 552300.0000000005], y [159400.00000000081, 194900.000000001]; CRS EPSG:27700.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A house price data set with 18 hedonic variables for London in 2001.
 - Description source: package R `GWmodel`
@@ -88,6 +88,8 @@ A house price data set with 18 hedonic variables for London in 2001.
 ### Formule — niveau systeme
 
 - formula_used: PURCHASE ~ FLOORSZ + PROF + BATH2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: FLOORSZ, PROF, BATH2
 - y_term_used: PURCHASE
 
@@ -246,3 +248,9 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

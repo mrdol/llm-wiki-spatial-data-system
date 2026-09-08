@@ -2,7 +2,7 @@
 title: paper_wildfire_greenup_nbr5
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_wildfire_greenup_nbr5.rds
   - DataCite_2024_ClimateLimitsVegetationGreen_10_1186_s42408_0
@@ -84,6 +84,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate li
 ### Formule - niveau systeme
 
 - formula_used: nbr_5_year ~ postfire_precipitation_total + postfire_precipitation_coefvar + ls_factor + KFACTWS_DC + nbr_0_year + vpd5 + def5 + ppt5 + tmax5 + month
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: postfire_precipitation_total, postfire_precipitation_coefvar, ls_factor, KFACTWS_DC, nbr_0_year, vpd5, def5, ppt5, tmax5, month
 - y_term_used: nbr_5_year
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -227,3 +229,8 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Climate limits vegetation green-up more than slope, soil erodibility, and immediate precipitation following high-severity wildfire
 
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

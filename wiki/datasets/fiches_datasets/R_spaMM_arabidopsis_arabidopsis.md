@@ -2,7 +2,7 @@
 title: R_spaMM_arabidopsis_arabidopsis
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spaMM_arabidopsis_arabidopsis.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-13.4811, 77], y [29.2144, 65.25]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: For 948 “accessions” from European Arabidopsis thaliana populations, this data set merges the genotypic information at four single nucleotide polymorphisms (SNP) putatively involved in adaptation to climate (Fournier-Level et al, 2011, Table 1), with 13 climatic variables from Hancock et al. (2011).
 - Description source: package R `spaMM`
@@ -85,6 +85,8 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 ### Formule — niveau systeme
 
 - formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: seasonal, Matern(1|LAT+LONG)
 - y_term_used: cbind(pos1046738, 1-pos1046738)
 
@@ -213,3 +215,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spaMM`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

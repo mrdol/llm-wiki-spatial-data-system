@@ -2,7 +2,7 @@
 title: paper_groundfish_cpue
 type: dataset
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_groundfish_cpue.rds
   - DatasetFirst_10_5061_dryad_s23g7bc
@@ -16,7 +16,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Topic: halieutique / prevision de capture (poissons de fond)
 - Observation unit: station de peche a la palangre (annee)
 - Observed population: poissons de fond d'Alaska (morue, fletan, grenadier), releves longline AFSC
-- Geographic context: Dataset-first discovery via Dryad/Zenodo keyword search (see tools/harvest_dataset_first.py DEFAULT_QUERIES); coordinates, geometry or W must still be verified from the downloaded data files before any fiche is written.
+- Geographic context: Etendue mesuree dans le RDS : x [-168.988, -132.838], y [52.663, 59.747]; CRS EPSG:4326.
 - Temporal context: 23 distinct periods (variable: Year)
 - Source description: Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch
 - Description source: paper_dataset_uses.json + lecture directe du papier
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Candidate X variables in local artifact: `Year`, `SST_cvW`, `SST_cvW5`, `SST_cvW4`, `SST_cvW3`, `SST_cvW2`, `SST_cvW1`
 - Candidate X count in local artifact: 7
 - Candidate X typology: continuous
-- Published X variables from paper: SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)
+- Published X variables from paper: SST_cvW1-W5
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Station`, `Area`, `Species`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 |---|---|---|---|---|
 | `CPUE` | `numeric` | continuous | [0.019, 16.445] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `groundfish_cpue`, la ou les reponses `CPUE` viennent du loader papier et/ou des preuves de l article `Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch`. Les covariables X retenues sont `SST_cvW1`, `SST_cvW2`, `SST_cvW3`, `SST_cvW4`, `SST_cvW5` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Station`, `Area`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `groundfish_cpue`, la ou les reponses `CPUE` viennent du loader papier et/ou des preuves de l article `Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch`. Les covariables X retenues sont `SST_cvW1`, `SST_cvW2`, `SST_cvW3`, `SST_cvW4`, `SST_cvW5` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Station`, `Area`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -66,8 +66,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 ### Formule - niveau publication
 
 - formula_pub: CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5 [Moyenne de modeles (multimodel averaging, AIC), modeles candidats a differentes fenetres temporelles de coefficient de variation de la temperature de surface de la mer (SST) hivernale]
-- x_terms_pub: SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)
-- y_term_pub: CPUE (capture par unite d'effort, standardisee par palangre, especes de poissons de fond d'Alaska)
+- x_terms_pub: SST_cvW1-W5
+- y_term_pub: CPUE
 - Reference publication: Correia, H.E. (2018), Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch, Ecology and Evolution, doi:10.1002/ece3.4488. CSV original (stema_data.csv) telecharge directement depuis Dryad (10.5061/dryad.s23g7bc) -- pas une reconstruction, N=6716 (panel station x annee). Y et X correspondent exactement aux variables decrites dans le papier (CPUE standardisee AFSC, coefficient de variation de la SST hivernale sur grille 0.25 degre, plusieurs fenetres temporelles).
 
 ### Statut regression canonique
@@ -81,6 +81,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 ### Formule - niveau systeme
 
 - formula_used: CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5
+- Recommended validation: N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: SST_cvW1, SST_cvW2, SST_cvW3, SST_cvW4, SST_cvW5
 - y_term_used: CPUE
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -91,8 +94,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 formula_candidates:
   univariate:
     formula: "CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5"
-    response: "CPUE (capture par unite d'effort, standardisee par palangre, especes de poissons de fond d'Alaska)"
-    predictors: ["SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)"]
+    response: "CPUE"
+    predictors: ["SST_cvW1-W5"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -153,27 +156,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun -- CSV original telecharge directement depuis Dryad, N=6716 identique au depot source"
-  reason: "Y continu reel (CPUE), N=6716 (panel station x annee) avec coordonnees reelles, covariables SST exactes du papier (5 fenetres temporelles). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la formule (moyenne de modeles, AIC). Papier recupere manuellement par l'utilisateur (session 2026-08-16)."
+  missing_items: "N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: aucun -- CSV original telecharge directement depuis Dryad, N=6716 identique au depot source
-- Raison: Y continu reel (CPUE), N=6716 (panel station x annee) avec coordonnees reelles, covariables SST exactes du papier (5 fenetres temporelles). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer la formule (moyenne de modeles, AIC). Papier recupere manuellement par l'utilisateur (session 2026-08-16).
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -225,3 +228,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

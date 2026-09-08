@@ -2,7 +2,7 @@
 title: R_ade4_pcw_pcw
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_pcw_pcw.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Abundance of tropical trees, environmental variables and spatial coordinates for
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_pcw_pcw
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 50 enregistrements dans l’artefact local R_ade4_pcw_pcw.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-80.084462321527, -79.286785128696], y [8.709536991176, 9.459614871798]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Abundance of tropical trees, environmental variables and spatial coordinates for 50 sites. Data are available at doi:10.1126/science.1066854 <https://doi.org/10.1126/science.1066854> but plots from Barro Colorado Island were removed.
 - Description source: package R `ade4`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

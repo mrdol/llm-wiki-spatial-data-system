@@ -2,7 +2,7 @@
 title: R_ade4_macon_macon
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_ade4_macon_macon.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ The ‘macon’ data frame has 8 rows-wines and 25 columns-tasters. Each column 
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_ade4_macon_macon
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 8 enregistrements dans l’artefact local R_ade4_macon_macon.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [1, 8], y [1, 8]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: The ‘macon’ data frame has 8 rows-wines and 25 columns-tasters. Each column is a classification of 8 wines (Beaujolais, France).
 - Description source: package R `ade4`
@@ -192,18 +192,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_multivariate_ecology"
-  benchmark_task: "not_current_regression_benchmark"
+  benchmark_status: "not_ready_main_benchmark"
+  benchmark_task: "source_or_specialized_task_only"
   package_include: "no"
   has_local_rds: true
-  missing_items: "definir une reponse scalaire Y et une formule regression depuis une etude source"
-  reason: "Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression."
+  missing_items: "Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon."
+  reason: "Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon."
 ```
 
-- Decision: not_ready_multivariate_ecology
-- Manque principal: definir une reponse scalaire Y et une formule regression depuis une etude source
-- Raison: Les jeux ade4 sont principalement des donnees ecologiques multivariees/ordination; le generateur ne promeut pas automatiquement une colonne en reponse de regression.
+- Decision: not_ready_main_benchmark
+- Manque principal: Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon.
+- Raison: Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "not_ready_main_benchmark"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -219,3 +230,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `ade4`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Huit lignes d’un tableau de vins; les colonnes nommées x/y ne suffisent pas à prouver un support géographique. Garder hors benchmark spatial jusqu’à preuve d’un repère réel; examiner la documentation de macon. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: R_spData_house_house
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spData_house_house.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-83.882392, -83.239929], y [41.416896, 41.732258]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from the county auditor, together with an ‘nb’ neighbour object constructed as a sphere of influence graph from projected coordinates.
 - Description source: package R `spData`
@@ -26,7 +26,7 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 ### Variables (niveau systeme — inspection directe du sf)
 
 - Candidate Y variables: `price`, `avalue`
-- Candidate Y typology: count
+- Candidate Y typology: continuous
 - Candidate X variables: `yrbuilt`, `stories`, `TLA`, `wall`, `beds`, `baths`, `halfbaths`, `frontage`, `depth`, `garage`, `garagesqft`, `rooms`, `lotsize`, `s1993`, `s1994`, `s1995`, `s1996`, `s1997`, `s1998`, `syear`, `age`
 - Candidate X typology: continuous, categorical
 - Coordinates (x, y — excluded from X candidates): `X`, `Y`
@@ -38,8 +38,10 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `price` | `integer` | count | [2000, 875000] | 0% |
-| `avalue` | `integer` | count | [1714, 788114] | 0% |
+| `price` | `integer` | continuous | [2000, 875000] | 0% |
+| `avalue` | `integer` | continuous | [1714, 788114] | 0% |
+
+> Note typologie corrigee (2026-09-08) : `price`/`avalue` sont des prix immobiliers (dollars entiers, Lucas County OH, confirme via `tools::Rd_db("spData")` -- "price: a numeric vector") -- classes en `integer` cote R car sans decimales, mais ce sont des grandeurs monetaires continues, pas des denombrements. L'heuristique de detection automatique confond a tort "classe R integer" et "typologie count" ; a verifier plus largement sur d'autres fiches (signale separement).
 
 
 > Selection Y/X (claude-sonnet-4-6) : Le prix de vente (price) est la cible naturelle d'un modèle hédonique immobilier ; la valeur cadastrale (avalue) peut aussi servir de variable réponse alternative. Les caractéristiques structurelles du logement (surface, chambres, salles de bain, garage, etc.), du terrain (frontage, depth, lotsize), de l'âge et de l'année de vente constituent les covariables explicatives classiques. Les colonnes sdate et T sont exclues car redondantes avec syear/s199x.
@@ -89,6 +91,8 @@ Data on 25,357 single family homes sold in Lucas County, Ohio, 1993-1998 from th
 ### Formule — niveau systeme
 
 - formula_used: price ~ yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage
 - y_term_used: price
 
@@ -190,18 +194,29 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_spatial_validated_generated_formula"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_continuous"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
-  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+  missing_items: "Reclasse le 2026-09-08 : Y (price/avalue) est continu, pas count (voir Bloc 1) -- ce n'est donc PAS un cas de routage binaire/count a documenter, mais un cas de regression continue classique necessitant sa propre revue individuelle (formula_pub encore pending malgre la reference Pace & Barry 1997 deja citee ; formula_status=unavailable). Hors perimetre du lot binaire/count traite le 2026-09-08."
+  reason: "Reclasse le 2026-09-08 : Y (price/avalue) est continu, pas count (voir Bloc 1) -- ce n'est donc PAS un cas de routage binaire/count a documenter, mais un cas de regression continue classique necessitant sa propre revue individuelle (formula_pub encore pending malgre la reference Pace & Barry 1997 deja citee ; formula_status=unavailable). Hors perimetre du lot binaire/count traite le 2026-09-08."
 ```
 
-- Decision: ready
-- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
-- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
+- Decision: manual_review
+- Manque principal: formula_pub a completer a partir de Pace & Barry (1997) avant toute promotion -- revue individuelle requise, distincte du lot binaire/count.
+- Raison: Reclasse le 2026-09-08 : Y (price/avalue) est continu, pas count -- hors perimetre du lot binaire/count traite ce jour.
 
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators: []
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
 
 ## Quality Control
 
@@ -217,3 +232,11 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spData`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_plant_invasion_fia
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_plant_invasion_fia.rds
   - DataCite_2024_SpatialPredictionOfPlant_10_1002_ece3_116
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 | `InvTotalCover` | `numeric` | continuous | [0, 297.7] | 0% |
 | `InvSpRichness` | `integer` | count | [0, 12] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `plant_invasion_fia`, la ou les reponses `InvTotalCover`, `InvSpRichness` viennent du loader papier et/ou des preuves de l article `Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method`. Les covariables X retenues sont `Mean_Annual_Temp`, `annual_Precip`, `Seasonability`, `alt`, `PLT_TPA`, `Tpha`, `RelDen`, `prpfor`, `plt_drybio_adj`, `native_spp`, `PD_all`, `PSV_all`, `PSR_all`, `anmeantemp`, `anprecip`, `soilcarbon` ; 35 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LON`, `LAT`), identifiants (`STATEAB`, `FIPS`, `county`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `plant_invasion_fia`, la ou les reponses `InvTotalCover`, `InvSpRichness` viennent du loader papier et/ou des preuves de l article `Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method`. Les covariables X retenues sont `Mean_Annual_Temp`, `annual_Precip`, `Seasonability`, `alt`, `PLT_TPA`, `Tpha`, `RelDen`, `prpfor`, `plt_drybio_adj`, `native_spp`, `PD_all`, `PSV_all`, `PSR_all`, `anmeantemp`, `anprecip`, `soilcarbon` ; 35 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LON`, `LAT`), identifiants (`STATEAB`, `FIPS`, `county`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -126,6 +126,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 ### Formule - niveau systeme
 
 - formula_used: InvTotalCover ~ Mean_Annual_Temp + annual_Precip + Seasonability + alt + PLT_TPA + Tpha + RelDen + prpfor + plt_drybio_adj + native_spp + PD_all + PSV_all + PSR_all + anmeantemp + anprecip + soilcarbon
+- Recommended validation: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- benchmark_task_note: InvTotalCover mesure une couverture vegetale avec valeurs fractionnaires; MEASYEAR identifie les campagnes.
+- Selected Y evidence: InvTotalCover mesure une couverture vegetale avec valeurs fractionnaires; MEASYEAR identifie les campagnes.
+- Selected Y typology: continuous
 - x_terms_used: Mean_Annual_Temp, annual_Precip, Seasonability, alt, PLT_TPA, Tpha, RelDen, prpfor, plt_drybio_adj, native_spp, PD_all, PSV_all, PSR_all, anmeantemp, anprecip, soilcarbon
 - y_term_used: InvTotalCover
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -198,27 +202,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_continuous"
-  package_include: "yes"
+  benchmark_status: "ready_panel_reduction"
+  benchmark_task: "grouped_or_temporal_validation_review"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "InvTotalCover retenu comme reponse principale (formula_used) ; InvSpRichness reste une reponse alternative candidate dans le meme artefact"
-  reason: "41 covariables ecologiques documentees dans README.md, LAT/LON confirmes, N=42612 apres apurement complete.cases() (papier: N=42314 apres exclusion des placettes a valeurs manquantes, p.4) -- le plus grand jeu du lot. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+  missing_items: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  reason: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
 ```
 
-- Decision: ready
-- Manque principal: InvTotalCover retenu comme reponse principale (formula_used) ; InvSpRichness reste une reponse alternative candidate dans le meme artefact
-- Raison: 41 covariables ecologiques documentees dans README.md, LAT/LON confirmes, N=42612 apres apurement complete.cases() (papier: N=42314 apres exclusion des placettes a valeurs manquantes, p.4) -- le plus grand jeu du lot. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12).
+- Decision: ready_panel_reduction
+- Manque principal: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Raison: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "ready_panel_reduction"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -270,3 +274,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. InvTotalCover mesure une couverture vegetale avec valeurs fractionnaires; MEASYEAR identifie les campagnes.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

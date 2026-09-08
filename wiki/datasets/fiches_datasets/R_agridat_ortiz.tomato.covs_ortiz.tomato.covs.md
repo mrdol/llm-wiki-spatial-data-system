@@ -2,7 +2,7 @@
 title: R_agridat_ortiz.tomato.covs_ortiz.tomato.covs
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_ortiz.tomato.covs_ortiz.tomato.covs.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [9.2, 89.3], y [2, 36.3]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: colonnes date/time presentes mais traitees comme attributs transactionnels
 - Source description: Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 - Description source: package R `agridat`
@@ -83,6 +83,8 @@ Dataset spatial issu du package R `agridat` (`ortiz.tomato.covs`).
 ### Formule — niveau systeme
 
 - formula_used: Day ~ Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
 - x_terms_used: Dha + Driv + ExK + ExN + ExP + Irr + K + MeT
 - y_term_used: Day
 
@@ -211,3 +213,9 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

@@ -2,7 +2,7 @@
 title: paper_medicago
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_medicago.rds
   - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
@@ -47,11 +47,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `richness` | `numeric` | continuous | [1, 41] | 0% |
+| `richness` | `numeric` | count | [1, 41] | 0% |
 | `annual` | `numeric` | continuous | [0, 37] | 0% |
 | `perennial` | `numeric` | continuous | [0, 12] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `medicago`, la ou les reponses `richness`, `annual`, `perennial` viennent du loader papier et/ou des preuves de l article `Niche conservatism limits the distribution of Medicago in the tropics`. Les covariables X retenues sont `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GRIDCODE`, `Continent`, `Biome`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `medicago`, la ou les reponses `richness`, `annual`, `perennial` viennent du loader papier et/ou des preuves de l article `Niche conservatism limits the distribution of Medicago in the tropics`. Les covariables X retenues sont `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`GRIDCODE`, `Continent`, `Biome`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -88,18 +88,22 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
 - y_term_pub: species richness of Medicago on 100 x 100 km grid cells
 - Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
+- Correction (2026-09-08, lecture TEI approfondie) : confirme -- les GLM binomiaux-negatifs du papier sont **univaries** (une seule variable climatique a la fois : "we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable"), et le GWR ne porte que sur un **PC1 agrege** ("environmental energy"), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait `formula_used`. Le papier n'ajuste donc jamais ce modele multivarie precis. formula_status reste `reconstructed_from_data` (additive non testee telle quelle), pas `pub`.
 
 ### Statut regression canonique
 
-- Statut: resolu
+- Statut: mis de cote
 - Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
 
 ### Formule - niveau systeme
 
 - formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad
+- benchmark_task_note: richesse specifique observee : denombrement, sans transformation continue imposee.
+- Selected Y evidence: richesse specifique observee : denombrement, sans transformation continue imposee.
+- Selected Y typology: count
 - x_terms_used: MAT, MTCQ, PET, WI, Solar_rad
 - y_term_used: richness
 - Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
@@ -172,27 +176,27 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
-  benchmark_task: "regression_gwr"
-  package_include: "yes"
+  benchmark_status: "manual_review"
+  benchmark_task: "review_count"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "formula_used retient le bloc environmental energy du GWR; les GLM par variables individuelles et les PC1 par categories restent documentes comme variantes papier non toutes reproduites dans une formule unique"
-  reason: "Le papier confirme richesse Medicago, 24 covariables environnementales, GLM negatif binomial et GWR sur la relation richesse-energie. Les variables du bloc energie environnementale sont disponibles localement et fournissent une formule benchmark defendable."
+  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension."
+  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension."
 ```
 
-- Decision: ready
-- Manque principal: formula_used retient le bloc environmental energy du GWR; les GLM par variables individuelles et les PC1 par categories restent documentes comme variantes papier non toutes reproduites dans une formule unique
-- Raison: Le papier confirme richesse Medicago, 24 covariables environnementales, GLM negatif binomial et GWR sur la relation richesse-energie. Les variables du bloc energie environnementale sont disponibles localement et fournissent une formule benchmark defendable.
+- Decision: manual_review
+- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08) -- voir estimator_eligibility.
+- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  status: "manual_review"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: ""
-  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+  ineligible_reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -243,3 +247,10 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Niche conservatism limits the distribution of Medicago in the tropics
 
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. richesse specifique observee : denombrement, sans transformation continue imposee. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : count. richesse specifique observee : denombrement, sans transformation continue imposee.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

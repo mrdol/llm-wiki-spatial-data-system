@@ -2,7 +2,7 @@
 title: R_spatstat.data_gorillas_gorillas
 type: dataset
 created: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spatstat.data_gorillas_gorillas.rds
 tags: [dataset, r-package, spatial, point]
@@ -14,8 +14,8 @@ Locations of nesting sites of gorillas, and associated covariates, in a National
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 647 enregistrements dans l’artefact local R_spatstat.data_gorillas_gorillas.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [580797.3, 584945.34], y [675238.68, 678313.46]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Locations of nesting sites of gorillas, and associated covariates, in a National Park in Cameroon.
 - Description source: package R `spatstat.data`
@@ -198,3 +198,7 @@ benchmark_readiness:
 ## Related Pages
 
 - Source: package R `spatstat.data`
+
+## Curation documentée — 2026-09-07
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
