@@ -1,0 +1,10 @@
+library(sf)
+library(jsonlite)
+ids <- c('paper_sfbay_contaminated_sites','paper_harbour_porpoise_response','paper_li_energy_price_co2_china','paper_no2_aqs_state_25_2016_monitor_covariates')
+audit <- lapply(ids, function(id) {
+ d <- readRDS(file.path('data/final_datasets/sf',paste0(id,'.rds')))
+ a <- st_drop_geometry(d)
+ list(id=id,n=nrow(d),columns=ncol(d),attributes=ncol(a),names=names(d),unique_geometry=length(unique(st_as_binary(st_geometry(d)))),summary=lapply(a,function(v) list(class=class(v),na=sum(is.na(v)),unique=length(unique(v)),values=if(length(unique(v))<18) unique(v) else NULL,range=if(is.numeric(v)) range(v[is.finite(v)],na.rm=TRUE) else NULL)),positive=if('CO2'%in%names(a)) sapply(a[c('CO2','EP','POP','PGDP','INS','URB','RFDI','TEC','EDU','ENS')],function(v)all(is.finite(v)&v>0)) else NULL)
+})
+write_json(audit,'tmp/dataset_review_2026-09-09/rds_audit.json',pretty=TRUE,auto_unbox=TRUE,na='null')
+for(a in audit) cat(a$id,':',a$n,'rows;',a$columns,'columns;',a$attributes,'attributes;',a$unique_geometry,'geometries\n',paste(a$names,collapse=', '),'\n')

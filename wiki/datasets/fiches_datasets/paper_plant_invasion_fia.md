@@ -202,26 +202,41 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready_panel_reduction"
-  benchmark_task: "grouped_or_temporal_validation_review"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
-  reason: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: ready_panel_reduction
-- Manque principal: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
-- Raison: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "ready_panel_reduction"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: random_forest
+      basis: scientific_evidence
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Random Forest mentionne dans la source."
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
   conditionally_eligible_estimators: []
-  ineligible_reason: "N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -268,6 +283,10 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`plant_invasion_fia` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

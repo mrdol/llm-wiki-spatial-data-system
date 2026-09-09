@@ -70,6 +70,11 @@ metadata_dataset_registry <- function() {
   } else {
     out$response_typology <- I(rep(list(character()), nrow(out)))
   }
+  if ("glm_link" %in% names(records)) {
+    out$glm_link <- as_character_list_column(records$glm_link)
+  } else {
+    out$glm_link <- I(rep(list(character()), nrow(out)))
+  }
   if ("predictor_typology" %in% names(records)) {
     out$predictor_typology <- as_character_list_column(records$predictor_typology)
   } else {

@@ -1,0 +1,6 @@
+library(sf)
+library(jsonlite)
+ids<-c('paper_sfbay_contaminated_sites','paper_harbour_porpoise_response','paper_li_energy_price_co2_china','paper_no2_aqs_state_25_2016_monitor_covariates')
+out<-lapply(ids,function(id){d<-readRDS(file.path('data/final_datasets/sf',paste0(id,'.rds')));list(id=id,n=nrow(d),k=sum(!vapply(d,inherits,logical(1),'sfc')),columns=ncol(d),bbox=as.list(st_bbox(d)),unique_geometry=length(unique(st_as_binary(st_geometry(d)))),names=names(d))})
+write_json(out,'tmp/dataset_review_2026-09-09/final_data_counts.json',auto_unbox=TRUE,pretty=TRUE)
+print(out[[1]][c('bbox','unique_geometry')])

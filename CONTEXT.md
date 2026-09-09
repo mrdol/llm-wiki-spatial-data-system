@@ -186,6 +186,17 @@ superiorite generale. Voir `wiki/analyses/protocole_plasmode_spatial_2026-09-08.
 
 ## Trois familles de sources
 
+**ready_in_data_bank** -- Panel conserve et documente dans la banque de donnees,
+dont le support d'estimation/validation dans le harnais n'est pas encore disponible.
+Ce statut ne vaut pas `benchmark_status: ready` ni `package_include: yes`.
+L'absence du seul moteur panel n'entraine pas un `manual_review` ; les lacunes
+de provenance ou de contenu restent documentees separement. Premiere application :
+CO2 Chine, revue du 2026-09-09. Les autres panels ne sont pas requalifies sans audit.
+
+**k variables (fiche)** -- Nombre d'attributs hors colonnes geometriques ; a
+distinguer du nombre de covariables X du modele et du nombre de voisins de W.
+La revue du 2026-09-09 explicite ces trois decomptes pour les quatre fiches concernees.
+
 1. **Packages R/Python** -- priorite actuelle.
 2. **Datasets lies a des papers scientifiques**.
 3. **Entrepots et portails institutionnels** -- Zenodo, Dryad, GBIF,

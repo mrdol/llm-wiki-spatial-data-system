@@ -241,3 +241,7 @@ Each entry follows this format:
 - Update the "last updated" date when a page changes substantially
 - Mark orphan pages with `orphan`
 - Prefer linking pages together
+
+- [[revue_fidelite_quatre_datasets_2026-09-09]] - Audit des quatre fiches, données restaurées, équations vérifiées et modèles marsouin reproduits | analysis | 2026-09-09
+- [[revue_panel_spatial_2026-09-09]] - Revue ciblée Li/Elhorst/Baltagi et préparation du support panel spatial | analysis | 2026-09-09
+- [[plan_implementation_panel_spatial_2026-09-09]] - Architecture, jalons et critères d'acceptation pour intégrer les panels spatiaux à spatialtidymodels | analysis | 2026-09-09

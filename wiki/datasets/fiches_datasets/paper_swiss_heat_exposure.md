@@ -32,7 +32,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `deaths`
-- Candidate Y typology: continuous
+- Candidate Y typology: count
 - Candidate X variables in local artifact: `urbanicity`, `greenspace`, `age`, `population`, `temperature`, `year`, `month`, `temperature_lag1`, `temperature_lag2`, `temperature_lag3`, `doy`, `dom`, `dow`, `temperature_lag03`, `week`, `holiday`, `day`, `canton_deaths`, `weight`, `deaths_sim`
 - Candidate X count in local artifact: 20
 - Candidate X typology: categorical, continuous
@@ -93,13 +93,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 
 ### Formule - niveau systeme
 
-- formula_used: deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity
-- benchmark_task_note: deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
-- Selected Y evidence: deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
+- formula_used: deaths ~ offset(log(population)) + temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity
+- benchmark_task_note: deaths denombre les deces (count, confirme) ; deaths_sim n'est PAS la reponse du modele publie (voir Note ci-dessous, verifie contre le code source des auteurs).
+- Selected Y evidence: deaths denombre les deces ; confirme comme reponse exacte du modele publie par lecture directe du script de replication des auteurs (voir Note).
 - Selected Y typology: count
-- x_terms_used: temperature, temperature_lag1, temperature_lag2, temperature_lag3, greenspace, urbanicity
+- x_terms_used: population (offset log), temperature, temperature_lag1, temperature_lag2, temperature_lag3, greenspace, urbanicity
 - y_term_used: deaths
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: CORRECTION (2026-09-09) -- Le depot Zenodo n'a pas de README expliquant `deaths` vs `deaths_sim` ; verification faite en lisant le code de replication des auteurs (repository GitHub associe au papier, `fxinyichen/SwissHeat_svc`, script `1. SH_model_12.R`) : la reponse du modele BYM2 publie est bien `deaths` (deaths_sim sert a autre chose, non identifie precisement, mais n'est jamais utilise comme y dans le modele). Le script confirme aussi un offset `log(population)` -- absent de la formule precedente -- desormais ajoute. Modele publie complet (non reproduit ici, cf. formula_pub) : Poisson avec offset log(population), factor(dow), factor(holiday), 4 termes de base temperature (splines DLNM), effet aleatoire jour-de-l'annee (RW2), effet aleatoire annee (iid), effet spatial regional BYM2, et 4 coefficients spatialement variables pour la temperature (BYM2 x spline). Formule systeme simplifiee en regression additive standard (sans les effets spatialement variables ni les effets aleatoires temporels), approximation documentee -- pas la specification exacte.
 
 ### Formules candidates
 
@@ -116,14 +116,14 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity"
+    formula: "deaths ~ offset(log(population)) + temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity"
     response: "deaths"
-    predictors: ["temperature", "temperature_lag1/2/3", "greenspace", "urbanicity"]
+    predictors: ["population (offset)", "temperature", "temperature_lag1/2/3", "greenspace", "urbanicity"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
-    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
+    source_ref: "Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), JRSS A, doi:10.1093/jrsssa/qnaf208. Offset et reponse confirmes via le script de replication des auteurs (fxinyichen/SwissHeat_svc, 1. SH_model_12.R)."
+    estimator_context: ["gam_spatial", "xgboost"]
+    status: "confirmed_simplified"
 
   ml_or_selected:
     formula: "deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity + population + holiday + dow"
@@ -169,26 +169,33 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_count"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
-  reason: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "CORRECTION 2026-09-09 : typologie corrigee (count, pas continuous -- deaths est deja correctement type 'count' dans Detail Y et Selected Y typology, seul le resume Candidate Y typology etait obsolete). Reponse (deaths, pas deaths_sim) et offset (log(population), absent avant) confirmes en lisant le script de replication des auteurs (fxinyichen/SwissHeat_svc). Le modele publie exact (BYM2 spatialement variable) reste hors de portee du harnais -- estimateurs generiques (gam_spatial, xgboost) en base benchmark_use."
 ```
 
-- Decision: manual_review
-- Manque principal: deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue.
-- Raison: deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Typologie corrigee (count), reponse et offset confirmes contre le code de replication des auteurs -- voir Note en Bloc 1.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "mgcv::gam supporte nativement offset() + famille Poisson -- estimateur le plus proche du modele BYM2 publie (non reproduit exactement, pas de terme spatialement variable dans le harnais)."
+      notes: "Approximation generique du modele publie (Poisson, offset log(population)), sans les effets spatialement variables BYM2 ni les effets aleatoires temporels (jour-de-l'annee, annee)."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Aucune -- comparateur ML generique, objectif Poisson possible, offset a gerer manuellement (non natif)."
+      notes: "Comparateur ML, pas le modele publie."
   conditionally_eligible_estimators: []
-  ineligible_reason: "deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

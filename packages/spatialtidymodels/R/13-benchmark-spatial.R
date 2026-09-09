@@ -112,12 +112,40 @@ add_coords_to_baseline_formula <- function(formula, coords, data) {
   add_coords_to_formula(formula, check_spatial_coords(coords, data = data), data)
 }
 
+group_random_intercept_pattern <- function() "^1\\s*\\|\\s*([A-Za-z._][A-Za-z0-9._]*)$"
+
+extract_group_re_terms <- function(formula, data) {
+  # Detecte les termes d'intercept aleatoire groupe de type lme4/glmmTMB
+  # `(1 | groupe)` dans une formule R. `stats::terms()` ne comprend pas cette
+  # syntaxe mais ne plante pas dessus non plus : le terme apparait tel quel,
+  # verbatim, dans term.labels (confirme empiriquement) -- on peut donc le
+  # detecter par regex et le retirer des effets fixes.
+  term_labels <- attr(stats::terms(formula, data = data), "term.labels")
+  is_re <- grepl(group_random_intercept_pattern(), term_labels)
+  list(
+    fixed_terms = term_labels[!is_re],
+    re_groups = sub(group_random_intercept_pattern(), "\\1", term_labels[is_re])
+  )
+}
+
 add_spatial_smooth_to_formula <- function(formula, coords, data) {
   # Formule GAM: les coordonnees sont ajoutees comme lisseur spatial global.
+  # Un terme d'intercept aleatoire groupe `(1 | groupe)` eventuellement present
+  # dans la formule (ex. formula_used fidele a un GLMM publie) est traduit en
+  # lisseur d'effet aleatoire `s(groupe, bs="re")`, mathematiquement equivalent
+  # en REML a un intercept aleatoire (verifie empiriquement contre
+  # lme4::glmer() sur donnees synthetiques -- coefficients quasi identiques).
+  # Ce n'est PAS un GLMM exact (pas de vraisemblance partagee entre effets fixes
+  # et aleatoires comme dans lme4) mais une approximation defendable qui reste
+  # dans l'engine mgcv deja utilise par gam_spatial, sans nouvelle dependance.
   coords <- check_spatial_coords(coords, data = data)
   response <- deparse(formula[[2]])
-  rhs_terms <- attr(stats::terms(formula, data = data), "term.labels")
-  rhs <- paste(c(rhs_terms, sprintf("s(%s, %s)", coords[[1]], coords[[2]])), collapse = " + ")
+  parsed <- extract_group_re_terms(formula, data)
+  re_smooths <- sprintf('s(%s, bs = "re")', parsed$re_groups)
+  rhs <- paste(
+    c(parsed$fixed_terms, sprintf("s(%s, %s)", coords[[1]], coords[[2]]), re_smooths),
+    collapse = " + "
+  )
   out <- stats::as.formula(paste(response, "~", rhs), env = environment(formula))
   environment(out)$s <- mgcv::s
   out
@@ -224,7 +252,8 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         rfgls_cov_model = "exponential",
                                         rfgls_param_estimate = FALSE,
                                         mgwrsar_control = list(),
-                                        response_typology = "continuous") {
+                                        response_typology = "continuous",
+                                        glm_link = NULL) {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
   #
@@ -245,9 +274,14 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       (!is.numeric(observed_y) || any(!is.finite(observed_y) | observed_y < 0 | abs(observed_y - round(observed_y)) > 1e-8))) {
     stop("Y incompatible avec count : valeurs finies, entieres et non negatives requises.", call. = FALSE)
   }
+  # glm_link: NULL preserve le lien par defaut de chaque famille (logit pour
+  # binomial, log pour poisson) -- comportement inchange pour tous les jeux
+  # deja curés. Un lien explicite (ex. "probit") n'est pertinent que pour
+  # response_typology %in% c("binary", "count"); ignore pour "continuous"
+  # (gaussian() n'a pas de lien alternatif utilise ici).
   glm_family <- switch(response_typology,
-    binary = stats::binomial(),
-    count = stats::poisson(),
+    binary = if (is.null(glm_link)) stats::binomial() else stats::binomial(link = glm_link),
+    count = if (is.null(glm_link)) stats::poisson() else stats::poisson(link = glm_link),
     stats::gaussian()
   )
   if (identical(response_typology, "binary")) {
@@ -260,7 +294,14 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
     ols = stats::glm(formula, data = data, family = glm_family),
     gam_spatial = {
       require_package("mgcv", "benchmark GAM spatial")
-      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = data, family = glm_family)
+      # s(groupe, bs="re") exige un facteur cote donnees, pas seulement cote
+      # formule -- coercion locale, sans modifier `data` pour les autres
+      # branches du switch().
+      gam_data <- data
+      for (re_group in extract_group_re_terms(formula, data)$re_groups) {
+        if (!is.factor(gam_data[[re_group]])) gam_data[[re_group]] <- factor(gam_data[[re_group]])
+      }
+      mgcv::gam(add_spatial_smooth_to_formula(formula, coords, data), data = gam_data, family = glm_family)
     },
     gamboost = {
       require_package("mboost", "benchmark GAMBoost")
@@ -1840,6 +1881,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
   )
 
   response_typology <- params$response_typology %||% "continuous"
+  glm_link <- params$glm_link %||% NULL
   fit <- tryCatch(
     fit_one_benchmark_estimator(
       estimator = estimator, formula = formula, data = train, coords = coords,
@@ -1847,6 +1889,7 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       zero_policy = params$zero_policy,
       W = W_train,
       response_typology = response_typology,
+      glm_link = glm_link,
       spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
       gamboost_mstop = params$gamboost_mstop, gamboost_nu = params$gamboost_nu,
       mgwrsar_bandwidth = params$mgwrsar_bandwidth,
@@ -2157,6 +2200,8 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
     fit <- tryCatch(
       fit_one_benchmark_estimator(
         estimator = estimator, formula = formula, data = data, coords = coords,
+        response_typology = params$response_typology %||% "continuous",
+        glm_link = params$glm_link %||% NULL,
         k_neighbors = params$k_neighbors, style = params$style,
         zero_policy = params$zero_policy,
         W = params$W %||% NULL,
@@ -2397,7 +2442,8 @@ benchmark_spatial <- function(formula, data, coords,
                               workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
                               allow_heavy_tuning = FALSE,
                               fold_timeout_sec = NA_real_,
-                              response_typology = "continuous") {
+                              response_typology = "continuous",
+                              glm_link = NULL) {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
   W <- normalize_spatial_W_for_data(W, data = data, style = style, zero_policy = zero_policy)
@@ -2441,7 +2487,8 @@ benchmark_spatial <- function(formula, data, coords,
     rfgls_nthsize = 20L,
     rfgls_cov_model = "exponential",
     rfgls_param_estimate = FALSE,
-    response_typology = response_typology
+    response_typology = response_typology,
+    glm_link = glm_link
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -2524,6 +2571,7 @@ benchmark_spatial <- function(formula, data, coords,
         fit_one_benchmark_estimator(
           estimator = estimator, formula = formula, data = data, coords = coords,
           response_typology = params$response_typology %||% "continuous",
+          glm_link = params$glm_link %||% NULL,
           k_neighbors = params$k_neighbors, style = params$style, zero_policy = params$zero_policy,
           W = params$W %||% NULL,
           spboost_mstop = params$spboost_mstop, spboost_nu = params$spboost_nu,
@@ -2690,15 +2738,17 @@ print.spatial_benchmark <- function(x, ...) {
 #' @return A `spatial_dataset_spec` object.
 #' @export
 spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
-                                 response_typology = NULL) {
+                                 response_typology = NULL, glm_link = NULL) {
   # Petit conteneur explicite pour benchmarker plusieurs jeux sans imposer un
   # registre interne rigide au package.
   # response_typology: "continuous" (defaut si absent)/"binary"/"count",
   # permet a benchmark_spatial_datasets() de router chaque jeu correctement
   # meme au sein d'un meme appel (suite mixte continu/binaire/comptage).
+  # glm_link: NULL (lien par defaut de la famille) ou un lien explicite (ex.
+  # "probit") pour ols/gam_spatial quand response_typology est binary/count.
   structure(
     list(name = name, data = data, formula = formula, coords = coords, W = W,
-         response_typology = response_typology),
+         response_typology = response_typology, glm_link = glm_link),
     class = "spatial_dataset_spec"
   )
 }
@@ -2758,6 +2808,7 @@ benchmark_spatial_datasets <- function(datasets,
       coords = spec$coords,
       W = spec$W %||% NULL,
       response_typology = spec$response_typology %||% "continuous",
+      glm_link = spec$glm_link %||% NULL,
       estimators = estimators,
       k_neighbors = k_neighbors,
       style = style,

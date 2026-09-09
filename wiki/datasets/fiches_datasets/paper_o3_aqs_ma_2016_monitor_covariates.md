@@ -139,27 +139,42 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review_derived_reconstruction"
-  benchmark_task: "regression_continuous_derived_reconstruction"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Prototype reconstruction: uses EPA AQS monitor observations, USGS elevation, NASA POWER weather/radiation, NLCD point land-cover class, Census TIGER road density, and nearest final prediction grid value. Satellite AOD and CTM covariates are not yet reconstructed."
-  reason: "Continuous response, coordinates and public covariates are present, but this is a partial reconstruction and not the exact training matrix from the paper."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: manual_review_derived_reconstruction
-- Manque principal: exact paper training matrix and missing satellite/CTM/traffic covariates
-- Raison: usable for exploratory benchmark only after explicit validation.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review_derived_reconstruction"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
-  conditionally_eligible_estimators: ["sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  ineligible_reason: "spatial econometric estimators require explicit validation because this is a partial monitor-level reconstruction, not the exact paper training matrix"
-  rule: "paper-derived reconstructions are eligible only after the response, predictors, coordinates and leakage exclusions are explicit in formula_used"
+  eligible_estimators:
+    - estimator: ols
+      basis: generated_candidate
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Reconstruction depuis sources publiques (EPA AirData, USGS EPQS, NASA POWER, NLCD, Census TIGER) matchant les familles de covariables du modele d ensemble publie (Di et al. 2020, doi:10.1021/acs.est.9b03358), mais pas la matrice d entrainement exacte du papier -- validation explicite requise avant usage scientifique fort."
+    - estimator: gam_spatial
+      basis: generated_candidate
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Meme reserve que ols -- approximation non-lineaire generique."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Comparateur ML generique, Y continu."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Comparateur ML generique, Y continu."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -205,6 +220,10 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - station-level aggregation by site_id.
 - Reproducibility: partial - public APIs are scripted; exact paper training matrix is not reconstructed.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

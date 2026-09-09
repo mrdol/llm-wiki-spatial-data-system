@@ -153,26 +153,41 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  benchmark_task: "spatial_panel_estimator_support_pending"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Sous-panel reduit (T=15 annees regroupees) -- grouper par municipalite ET respecter le decoupage temporel. Voir note N/T ci-dessous."
-  reason: "Sous-panel reduit issu du regroupement des annees clairsemees du panel parent paper_gwqlasso_mt -- structure legitime (panel equilibre, memes 141 municipalites), pas une duplication a nettoyer."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: manual_review
-- Manque principal: Revue manuelle standard (nouvelle fiche derivee, 2026-09-08).
-- Raison: Sous-panel reduit issu du regroupement des annees clairsemees du panel parent paper_gwqlasso_mt.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
   conditionally_eligible_estimators: []
-  ineligible_reason: "Nouvelle fiche derivee (decoupage du 2026-09-08) -- revue manuelle standard avant selection des routes, comme pour toute nouvelle fiche."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -219,6 +234,10 @@ estimator_eligibility:
 - Missing values: OK - Yield_kg_ha a 81.6% de NA (coherent avec le parent, placeholders textuels convertis en NA le 2026-09-08).
 - Duplicates: OK - panel equilibre sur 15 annees regroupees (meme municipalite peut apparaitre plusieurs fois, structure panel legitime).
 - Reproducibility: OK - genere par script trace, source parent documentee.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

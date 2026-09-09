@@ -1998,15 +1998,17 @@ load_harbour_porpoise_response <- function() {
   names(pod)[names(pod) == "Dep_no"] <- "dep_no"
   df <- merge(resp, pod[, c("dep_no", "POD_number", "Location_ID", "Latitude", "Longitude")],
               by = "dep_no", all.x = TRUE)
-  df <- df[is.finite(df$Longitude) & is.finite(df$Latitude) & is.finite(df$prop24), ]
+  # Keep the common source table: filtering on the 24-hour response removes
+  # valid observations from the distinct published 12-hour model.
+  df <- df[is.finite(df$Longitude) & is.finite(df$Latitude), ]
   sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
   list(
     obj = sf_obj,
     row = list(
       coordinate_columns = "Longitude,Latitude",
-      identifier_variables = "dep_no,turbine,location,pod,POD_number,Location_ID,ADD",
+      identifier_variables = "dep_no,turbine,location,pod,POD_number,Location_ID",
       datetime_columns = "",
-      candidate_y_variables = "prop24,prop12,resp24_50,resp12_50"
+      candidate_y_variables = "resp24_50,resp12_50"
     )
   )
 }
@@ -2993,23 +2995,21 @@ load_uk_linear_features_birds <- function() {
 load_sfbay_contaminated_sites <- function() {
   dir <- find_paper_raw_dir("10_6078_d15x4n")
   extract_dir <- file.path(dir, "sites_extract")
-  keep_cols <- c("FID_DTSC_S", "COUNTY", "SITE_TYPE", "ACRES", "STATUS", "RESTRICTED",
-                 "LATITUDE", "LONGITUDE", "gridcode", "FID_Rise_S")
   closed <- sf::st_read(file.path(extract_dir, "ClosedSites_Kh1_SLR1m_RGWorInund.shp"), quiet = TRUE)
   open_s <- sf::st_read(file.path(extract_dir, "OpenSites_Kh1_SLR1m_RGWorInund.shp"), quiet = TRUE)
-  closed <- sf::st_drop_geometry(closed)[, keep_cols]
-  open_s <- sf::st_drop_geometry(open_s)[, keep_cols]
+  # FID_DTSC_S is not a global site key: 4496 source rows have value zero.
+  # The authors already curated these layers. Preserve their records, fields
+  # and native point geometry instead of rebuilding points from DTSC fields.
   closed$is_open_case <- 0L
   open_s$is_open_case <- 1L
-  df <- rbind(closed, open_s)
-  df <- df[!is.na(df$LATITUDE) & !is.na(df$LONGITUDE), ]
-  df <- df[!duplicated(df$FID_DTSC_S), ]
-  sf_obj <- sf::st_as_sf(df, coords = c("LONGITUDE", "LATITUDE"), crs = 4326, remove = FALSE)
+  closed$source_file <- "ClosedSites_Kh1_SLR1m_RGWorInund.shp"
+  open_s$source_file <- "OpenSites_Kh1_SLR1m_RGWorInund.shp"
+  sf_obj <- sf::st_transform(rbind(closed, open_s), 4326)
   list(
     obj = sf_obj,
     row = list(
-      coordinate_columns = "LONGITUDE,LATITUDE",
-      identifier_variables = "FID_DTSC_S",
+      coordinate_columns = "",
+      identifier_variables = "FID_DTSC_S,FID_WRCB_S,GLOBAL_ID,ENVIROSTOR,source_file",
       datetime_columns = "none",
       candidate_y_variables = "is_open_case"
     )

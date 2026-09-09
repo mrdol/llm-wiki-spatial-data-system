@@ -2085,3 +2085,24 @@ relation de formule publiée n'est créée pour les constructions du pilote.
 Navigation, CONTEXT, glossaire, overview et statut pipeline mis à jour.
 Suites : valider mécanismes/cibles, seconde famille génératrice, folds et
 proxies répétés, calibration/precision, puis intégration package.
+
+## [2026-09-09] bibliographie | Deux revues des extensions
+Trois PDF fournis par l’utilisateur reçus depuis Downloads, contrôlés et classés. Biblio_from_pdf : 20 notices semi-synthétiques et 11 notices benchmark relues ; deux exports .bib dans les dossiers correspondants, PDF originaux conservés. Validation : 31 clés et 24 DOI sans doublon, liens/empreintes PDF et compilation LaTeX/BibTeX réussis. Corrections de DOI et versions documentées dans extensions_projet_2026-09/bilan_recherche_articles_2026-09-09.md. Aucun changement de fiche dataset, de statut d’admission ni ingestion dans le corpus/KG. Pilote en pause.
+
+## [2026-09-09] curation | Fidélité de quatre datasets aux publications
+Fiches SFBay, harbour porpoise, CO2 Chine et NO2 AQS corrigées contre PDF/données/code auteur. SFBay : retrait du dédoublonnage sur FID_DTSC_S=0, 5297 lignes et attributs source restaurés. Marsouin : 722 lignes conservées, 3 GLMM probit du tableau 1 réexécutés (N=654/654/623, AIC conformes). CO2 : neuf X et Y en log, He L., statut ready_in_data_bank ; NO2 : réponse annuelle et matrice dérivée reconnues non conformes à la tâche quotidienne publiée. Deux loaders corrigés, sorties antérieures sauvegardées. Huit tests Python réussis, curation idempotente, zéro contradiction de promotion sur les quatre fiches. Quatre notices du registre synchronisées ; KG régénéré par extraction des preuves modèle, construction et résumés. Revues et preuves : revue_fidelite_quatre_datasets_2026-09-09, revue_panel_spatial_2026-09-09, data/manifests/datasets/review_2026-09-09/. Aucun moteur panel ni ensemble NN/RF/GB/GAM implémenté ; provenance géographique CO2 et matrice quotidienne NO2 restent ouvertes.
+
+
+## 2026-09-09 — Recensement des applications de panel spatial dans les fiches
+
+Criblage des 409 fiches datasets et vérification ciblée des sources : Li–Fang–He confirmé ; diffusion spatiale retardée testée dans Seshat ; faux positifs documentés. Deux applications supplémentaires identifiées dans le corpus sans fiche dataset correspondante (Yun–Gramig, De Siano–Chiariello). Inventaire JSON traçable et revue [[revue_panel_spatial_2026-09-09]] enrichie. Aucun changement de statut dataset par ce recensement.
+
+## 2026-09-09 — Enrichissement externe de la revue panel spatial
+
+Quinze références empiriques proposées ont été contrôlées et ajoutées à [[revue_panel_spatial_2026-09-09]], avec DOI, structure, méthode, intérêt pour la banque et vérifications de données encore nécessaires. Priorités : Yun–Gramig, Baylis–Paulson–Piras, Pu et al., Parent–LeSage, Bouayad-Agha–Védrine, puis Baltagi–Bresson. Les études provinciales chinoises sur le carbone sont conservées comme lot comparatif afin de préserver la diversité méthodologique et thématique. Aucun PDF, dataset, statut de fiche ou composant du harnais n'a été modifié.
+
+## 2026-09-09 — Plan d'implémentation des panels spatiaux
+
+Plan [[plan_implementation_panel_spatial_2026-09-09]] ajouté à partir de l'architecture réelle de `spatialtidymodels` et de la revue des articles. La route commence par un contrat unité–temps–W et les modèles FE/SAR statiques, puis SEM/SAC/SDM et validation temporelle. Les modèles dynamiques, SUR, flux dyadiques et panels non équilibrés sont reportés jusqu'à validation du socle. Aucun code du package n'est modifié par ce plan.
+
+Précision de périmètre : les SAR/SEM existants sont transversaux ; les futurs SAR/SEM de panel formeront un harnais distinct, sans comparaison automatique avec les coupes. Le tableau de bord est reporté. L'entrée du nouveau harnais sera constituée des panels parents conservés dans les fiches, après inventaire de leurs liens `parent_dataset`/`source_dataset_id`, et non de leurs coupes temporelles dérivées.

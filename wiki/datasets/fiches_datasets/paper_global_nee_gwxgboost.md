@@ -47,9 +47,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `NEE.g.C.m.2.day.1.` | `numeric` | continuous | [-9999, 14.85] | 0% |
+| `NEE.g.C.m.2.day.1.` | `numeric` | continuous | [-12.94, 14.85] | 0.05% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `global_nee_gwxgboost`, la ou les reponses `NEE.g.C.m.2.day.1.` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Dataset and Code for "Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework"`. Les covariables X retenues sont `LSWI`, `NDVImax`, `LAI`, `LSTnight.K.`, `Ratio_ET_PET` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Site.Name`, `IGBP`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `global_nee_gwxgboost`, la ou les reponses `NEE.g.C.m.2.day.1.` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Dataset and Code for "Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework"`. Les covariables X retenues sont `LSWI`, `NDVImax`, `LAI`, `LSTnight.K.`, `Ratio_ET_PET` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Site.Name`, `IGBP`), geometries et champs techniques sont exclus de X. CORRECTION (2026-09-09) : 56 lignes (0.05%) portaient une sentinelle -9999 dans `NEE.g.C.m.2.day.1.` (moyenne contaminee -5.59 au lieu de -0.46 apres correction) -- confirme par inspection directe du RDS, converties en NA (`data/final_datasets/sf/paper_global_nee_gwxgboost.rds` corrige, script `fix_nee_sentinel.R`). Les 5 covariables retenues ont ete verifiees indemnes de la meme sentinelle. Statut benchmark actuel : ready.
 
 #### Detail X
 
@@ -164,26 +164,41 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "NEE contient -9999 et le loader ne filtre que is.na; 387 sites pour 109 154 lignes, publication non résolue. Lire les codes manquants du dépôt, convertir les sentinelles avec preuve, auditer les X, puis CV groupée par site/temps ou agrégation justifiée."
-  reason: "NEE contient -9999 et le loader ne filtre que is.na; 387 sites pour 109 154 lignes, publication non résolue. Lire les codes manquants du dépôt, convertir les sentinelles avec preuve, auditer les X, puis CV groupée par site/temps ou agrégation justifiée."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "CORRECTION 2026-09-09 : sentinelle -9999 (56/109154 lignes, 0.05%) confirmee par inspection directe du RDS et convertie en NA (les 5 X retenues verifiees indemnes de la meme sentinelle) -- voir Note en Bloc 1. Publication non identifiee avec certitude (recherche web 2026-08-17 et 2026-09-09) ; formula_used reste une proposition du curateur exploitant les variables de teledetection reelles conformes au cadre methodologique du titre du depot (GW-XGBoost), pas une formule extraite verbatim d'un texte publie -- estimateurs en base generated_candidate/benchmark_use en consequence."
 ```
 
-- Decision: manual_review
-- Manque principal: NEE contient -9999 et le loader ne filtre que is.na; 387 sites pour 109 154 lignes, publication non résolue. Lire les codes manquants du dépôt, convertir les sentinelles avec preuve, auditer les X, puis CV groupée par site/temps ou agrégation justifiée.
-- Raison: NEE contient -9999 et le loader ne filtre que is.na; 387 sites pour 109 154 lignes, publication non résolue. Lire les codes manquants du dépôt, convertir les sentinelles avec preuve, auditer les X, puis CV groupée par site/temps ou agrégation justifiée.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Sentinelle -9999 corrigee (voir Bloc 1) ; formule generee/proposee par le curateur, pas verbatim d'une publication confirmee -- estimateurs eligibles en consequence a base non-scientifique.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: xgboost
+      basis: generated_candidate
+      source_ref: "Titre du depot Zenodo : 'Geographically Weighted XGBoost Framework' -- XGBoost est explicitement le moteur nomme, mais la variante geographiquement ponderee exacte n'est pas implementee dans le harnais."
+      notes: "Correspond au nom de la methode du depot, mais pas a la ponderation geographique exacte (GW-XGBoost complet non disponible)."
+    - estimator: mgwrsar_gwr
+      basis: generated_candidate
+      source_ref: "Composante 'geographically weighted' du nom de la methode -- non testee specifiquement pour ce jeu."
+      notes: "Approximation de la composante spatiale du GW-XGBoost, pas une reproduction du framework hybride."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Aucune -- comparateur ML generique, Y continu."
+      notes: "Comparateur ML standard, pas le modele du depot."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Aucune -- alternative non-lineaire generique, Y continu."
+      notes: "Comparateur generique."
   conditionally_eligible_estimators: []
-  ineligible_reason: "NEE contient -9999 et le loader ne filtre que is.na; 387 sites pour 109 154 lignes, publication non résolue. Lire les codes manquants du dépôt, convertir les sentinelles avec preuve, auditer les X, puis CV groupée par site/temps ou agrégation justifiée."
+  ineligible_reason: "n/a -- estimateurs eligibles en base generated_candidate/benchmark_use (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

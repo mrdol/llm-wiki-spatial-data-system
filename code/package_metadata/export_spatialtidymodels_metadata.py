@@ -1237,6 +1237,17 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     formula_candidate_1 = strip_inline_code(bullet_value(body, "formula_candidate_1"))
     formula = formula_used or formula_pub or formula_candidate_1
     response, predictors = formula_parts(formula)
+    # A transformed response such as log(CO2) is an expression, not a column.
+    # Prefer explicitly curated source-column names while keeping the complete
+    # expression (including interactions/random effects) in formula_used.
+    if formula_used and "~" in formula_used:
+        y_column = (bullet_value(body, "y_term_used") or "").strip(" `")
+        x_columns = (bullet_value(body, "x_terms_used") or "").replace("`", "")
+        names = [name.strip() for name in x_columns.split(",") if name.strip()]
+        if re.fullmatch(r"[A-Za-z_.][A-Za-z0-9_.]*", y_column) and not is_pending_value(y_column):
+            response = y_column
+        if names and all(re.fullmatch(r"[A-Za-z_.][A-Za-z0-9_.]*", name) and not is_pending_value(name) for name in names):
+            predictors = names
     response_typology = selected_response_typology(body, response)
     predictor_typology = parse_typology(bullet_value(body, "Candidate X typology"))
     coords = backtick_list(bullet_value(body, "Coordinates (x, y — excluded from X candidates)"))
@@ -1405,6 +1416,8 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
 
     record["response_typology"] = selected_response_typology(body, record.get("response"))
     record["candidate_response_typology"] = parse_typology(bullet_value(body, "Candidate Y typology"))
+    glm_link = bullet_value(body, "Response link function")
+    record["glm_link"] = glm_link if glm_link and glm_link != "pending" else None
     record["formula_status"] = _formula_status(body, record.get("formula"), record.get("formula_pub"))
     validation = bullet_value(body, "Recommended validation")
     if validation:

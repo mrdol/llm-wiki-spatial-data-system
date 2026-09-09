@@ -1016,3 +1016,7 @@ pour etre presentes au superviseur.
 - [[spboost]]
 - [[mgwrsar]]
 - [[mgwr]]
+
+### Revue du 9 septembre 2026 : panel et fidélité aux papiers
+
+`ready_in_data_bank` distingue la conservation d’un panel documenté de son exécution dans le harnais : CO2 Chine reste dans la banque avec package_include=no. SAR/SEM transversaux ne constituent pas des routes de panel ; GLMM probit du marsouin ne constitue pas SAR-probit. RF, XGBoost et GAM spatial sont disponibles séparément ; aucun ensemble natif NN/RF/GB combiné par le GAM du papier NO2 n’a été identifié. Voir [[revue_fidelite_quatre_datasets_2026-09-09]] et [[revue_panel_spatial_2026-09-09]]. Les quatre fiches examinées ne sont pas admises automatiquement ; leurs données restent conservées.

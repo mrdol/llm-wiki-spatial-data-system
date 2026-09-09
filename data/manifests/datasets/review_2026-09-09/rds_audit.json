@@ -1,0 +1,711 @@
+[
+  {
+    "id": "paper_sfbay_contaminated_sites",
+    "n": 802,
+    "columns": 17,
+    "attributes": 16,
+    "names": ["FID_DTSC_S", "COUNTY", "SITE_TYPE", "ACRES", "STATUS", "RESTRICTED", "LATITUDE", "LONGITUDE", "gridcode", "FID_Rise_S", "is_open_case", "X", "Y", "geom_point", "geom_origine", "ACRES_numeric", "COUNTY_clean"],
+    "unique_geometry": 802,
+    "summary": {
+      "FID_DTSC_S": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 802,
+        "values": {},
+        "range": [0, 2459]
+      },
+      "COUNTY": {
+        "class": "character",
+        "na": 0,
+        "unique": 10,
+        "values": ["SANTA CLARA", "SAN MATEO", "ALAMEDA", "SAN FRANCISCO", "MARIN", "CONTRA COSTA", "SOLANO", "SONOMA", "Santa Clara", "NAPA"],
+        "range": {}
+      },
+      "SITE_TYPE": {
+        "class": "character",
+        "na": 1,
+        "unique": 12,
+        "values": ["Tiered Permit", "Evaluation", "Voluntary Cleanup", "School Cleanup", "School Investigation", "Military Evaluation", "State Response", "Historical", null, "Corrective Action", "Federal Superfund", "Border Zone / Haz Waste Evaluation"],
+        "range": {}
+      },
+      "ACRES": {
+        "class": "character",
+        "na": 244,
+        "unique": 279,
+        "values": {},
+        "range": {}
+      },
+      "STATUS": {
+        "class": "character",
+        "na": 0,
+        "unique": 18,
+        "values": {},
+        "range": {}
+      },
+      "RESTRICTED": {
+        "class": "character",
+        "na": 1,
+        "unique": 3,
+        "values": ["NO", "YES", null],
+        "range": {}
+      },
+      "LATITUDE": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 798,
+        "values": {},
+        "range": [37.3855, 38.3224]
+      },
+      "LONGITUDE": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 799,
+        "values": {},
+        "range": [-122.6498, -121.8702]
+      },
+      "gridcode": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 2,
+        "values": [0, 1],
+        "range": [0, 1]
+      },
+      "FID_Rise_S": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [0, 3, 4, 9, 5, 7, 8, 2, 6, 1],
+        "range": [0, 9]
+      },
+      "is_open_case": {
+        "class": "integer",
+        "na": 0,
+        "unique": 2,
+        "values": [0, 1],
+        "range": [0, 1]
+      },
+      "X": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 799,
+        "values": {},
+        "range": [-122.6498, -121.8702]
+      },
+      "Y": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 799,
+        "values": {},
+        "range": [37.3855, 38.3224]
+      },
+      "geom_origine": {
+        "class": ["sfc_POINT", "sfc"],
+        "na": 0,
+        "unique": 802,
+        "values": {},
+        "range": {}
+      },
+      "ACRES_numeric": {
+        "class": "numeric",
+        "na": 245,
+        "unique": 278,
+        "values": {},
+        "range": [0, 12992]
+      },
+      "COUNTY_clean": {
+        "class": "character",
+        "na": 0,
+        "unique": 9,
+        "values": ["SANTA CLARA", "SAN MATEO", "ALAMEDA", "SAN FRANCISCO", "MARIN", "CONTRA COSTA", "SOLANO", "SONOMA", "NAPA"],
+        "range": {}
+      }
+    },
+    "positive": {}
+  },
+  {
+    "id": "paper_harbour_porpoise_response",
+    "n": 700,
+    "columns": 32,
+    "attributes": 31,
+    "names": ["dep_no", "turbine", "dph24", "dph12", "base24", "base12", "prop24", "prop12", "resp24_50", "resp12_50", "location", "distance", "vessels24_1km", "vessels12_1km", "vessels24_500m", "vessels12_500m", "duration", "piling_order", "ADD", "pod", "Unweighted_SS_SEL", "NOAA_SS_SEL", "Southall_SS_SEL", "Aud_SS_SEL", "POD_number", "Location_ID", "Latitude", "Longitude", "X", "Y", "geom_point", "geom_origine"],
+    "unique_geometry": 100,
+    "summary": {
+      "dep_no": {
+        "class": "integer",
+        "na": 0,
+        "unique": 100,
+        "values": {},
+        "range": [712, 888]
+      },
+      "turbine": {
+        "class": "character",
+        "na": 0,
+        "unique": 18,
+        "values": {},
+        "range": {}
+      },
+      "dph24": {
+        "class": "integer",
+        "na": 0,
+        "unique": 25,
+        "values": {},
+        "range": [0, 24]
+      },
+      "dph12": {
+        "class": "integer",
+        "na": 0,
+        "unique": 13,
+        "values": [2, 0, 3, 6, 7, 4, 5, 1, 9, 8, 11, 12, 10],
+        "range": [0, 12]
+      },
+      "base24": {
+        "class": "integer",
+        "na": 0,
+        "unique": 24,
+        "values": {},
+        "range": [1, 24]
+      },
+      "base12": {
+        "class": "integer",
+        "na": 0,
+        "unique": 13,
+        "values": [4, 0, 1, 3, 6, 9, 5, 7, 10, 2, 8, 11, 12],
+        "range": [0, 12]
+      },
+      "prop24": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 178,
+        "values": {},
+        "range": [-1, 6]
+      },
+      "prop12": {
+        "class": "numeric",
+        "na": 15,
+        "unique": 77,
+        "values": {},
+        "range": [-1, 5]
+      },
+      "resp24_50": {
+        "class": "integer",
+        "na": 0,
+        "unique": 2,
+        "values": [0, 1],
+        "range": [0, 1]
+      },
+      "resp12_50": {
+        "class": "integer",
+        "na": 15,
+        "unique": 3,
+        "values": [1, null, 0],
+        "range": [0, 1]
+      },
+      "location": {
+        "class": "integer",
+        "na": 0,
+        "unique": 66,
+        "values": {},
+        "range": [17, 199]
+      },
+      "distance": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 700,
+        "values": {},
+        "range": [0.4172, 76.4602]
+      },
+      "vessels24_1km": {
+        "class": "integer",
+        "na": 0,
+        "unique": 64,
+        "values": {},
+        "range": [0, 546]
+      },
+      "vessels12_1km": {
+        "class": "integer",
+        "na": 0,
+        "unique": 50,
+        "values": {},
+        "range": [0, 282]
+      },
+      "vessels24_500m": {
+        "class": "integer",
+        "na": 0,
+        "unique": 28,
+        "values": {},
+        "range": [0, 362]
+      },
+      "vessels12_500m": {
+        "class": "integer",
+        "na": 0,
+        "unique": 22,
+        "values": {},
+        "range": [0, 195]
+      },
+      "duration": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 18,
+        "values": {},
+        "range": [3.2747, 7.9611]
+      },
+      "piling_order": {
+        "class": "integer",
+        "na": 0,
+        "unique": 18,
+        "values": {},
+        "range": [1, 86]
+      },
+      "ADD": {
+        "class": "character",
+        "na": 0,
+        "unique": 2,
+        "values": ["Y", "N"],
+        "range": {}
+      },
+      "pod": {
+        "class": "integer",
+        "na": 0,
+        "unique": 61,
+        "values": {},
+        "range": [48, 2952]
+      },
+      "Unweighted_SS_SEL": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 700,
+        "values": {},
+        "range": [103.6975, 164.6302]
+      },
+      "NOAA_SS_SEL": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 700,
+        "values": {},
+        "range": [76.0461, 128.6443]
+      },
+      "Southall_SS_SEL": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 700,
+        "values": {},
+        "range": [103.5936, 158.1868]
+      },
+      "Aud_SS_SEL": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 700,
+        "values": {},
+        "range": [28.1427, 78.0149]
+      },
+      "POD_number": {
+        "class": "integer",
+        "na": 0,
+        "unique": 61,
+        "values": {},
+        "range": [48, 2952]
+      },
+      "Location_ID": {
+        "class": "integer",
+        "na": 0,
+        "unique": 66,
+        "values": {},
+        "range": [17, 199]
+      },
+      "Latitude": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 97,
+        "values": {},
+        "range": [57.8164, 58.3372]
+      },
+      "Longitude": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 100,
+        "values": {},
+        "range": [-3.956, -2.6177]
+      },
+      "X": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 100,
+        "values": {},
+        "range": [-3.956, -2.6177]
+      },
+      "Y": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 97,
+        "values": {},
+        "range": [57.8164, 58.3373]
+      },
+      "geom_origine": {
+        "class": ["sfc_POINT", "sfc"],
+        "na": 0,
+        "unique": 100,
+        "values": {},
+        "range": {}
+      }
+    },
+    "positive": {}
+  },
+  {
+    "id": "paper_li_energy_price_co2_china",
+    "n": 450,
+    "columns": 18,
+    "attributes": 17,
+    "names": ["id_province", "id_map", "region", "year", "CO2", "POP", "URB", "EP", "PGDP", "INS", "ENS", "RFDI", "EDU", "TEC", "province_name", "geometry", "X", "Y"],
+    "unique_geometry": 30,
+    "summary": {
+      "id_province": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 30,
+        "values": {},
+        "range": [1, 31]
+      },
+      "id_map": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 30,
+        "values": {},
+        "range": [1, 30]
+      },
+      "region": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 3,
+        "values": [2, 1, 3],
+        "range": [1, 3]
+      },
+      "year": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 15,
+        "values": [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        "range": [2002, 2016]
+      },
+      "CO2": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [1011.3999, 132595.1367]
+      },
+      "POP": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 438,
+        "values": {},
+        "range": [523, 10849]
+      },
+      "URB": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [24.4837, 89.6066]
+      },
+      "EP": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 449,
+        "values": {},
+        "range": [0.4154, 3.4107]
+      },
+      "PGDP": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 448,
+        "values": {},
+        "range": [3000, 107960]
+      },
+      "INS": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [13.1213, 53.0361]
+      },
+      "ENS": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [13.7, 1058.828]
+      },
+      "RFDI": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [0.0683, 14.6467]
+      },
+      "EDU": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [2.187, 11.6435]
+      },
+      "TEC": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 450,
+        "values": {},
+        "range": [0.2093, 26447.8316]
+      },
+      "province_name": {
+        "class": "character",
+        "na": 0,
+        "unique": 30,
+        "values": {},
+        "range": {}
+      },
+      "X": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 30,
+        "values": {},
+        "range": [9495617.7147, 14215481.1479]
+      },
+      "Y": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 30,
+        "values": {},
+        "range": [2178199.6493, 6110016.1522]
+      }
+    },
+    "positive": [true, true, true, true, true, true, true, true, true, true]
+  },
+  {
+    "id": "paper_no2_aqs_state_25_2016_monitor_covariates",
+    "n": 10,
+    "columns": 32,
+    "attributes": 31,
+    "names": ["site_id", "state_code", "county_code", "site_num", "latitude", "longitude", "n_daily_observations", "no2_mean_2016", "measurement_column", "response_units", "no2_grid_prediction_2016", "no2_grid_distance_m", "elevation_m_usgs_epqs", "power_t2m_mean_c", "power_rh2m_mean_pct", "power_ws10m_mean_m_s", "power_prectotcorr_sum_mm", "power_swdwn_mean_mj_m2_day", "power_ps_mean_kpa", "nlcd_land_cover_code", "nlcd_land_cover_label", "nlcd_developed", "nlcd_forest", "nlcd_agriculture", "nlcd_water", "road_density_primary_secondary_1km_m_per_km2", "road_density_primary_secondary_10km_m_per_km2", "pollutant", "year", "source_observations", "source_grid_prediction", "geometry"],
+    "unique_geometry": 10,
+    "summary": {
+      "site_id": {
+        "class": "character",
+        "na": 0,
+        "unique": 10,
+        "values": ["25-009-2006", "25-009-4005", "25-013-0008", "25-013-0016", "25-015-4002", "25-021-3003", "25-025-0002", "25-025-0042", "25-025-0044", "25-027-0023"],
+        "range": {}
+      },
+      "state_code": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "25",
+        "range": {}
+      },
+      "county_code": {
+        "class": "character",
+        "na": 0,
+        "unique": 6,
+        "values": ["009", "013", "015", "021", "025", "027"],
+        "range": {}
+      },
+      "site_num": {
+        "class": "character",
+        "na": 0,
+        "unique": 10,
+        "values": ["2006", "4005", "0008", "0016", "4002", "3003", "0002", "0042", "0044", "0023"],
+        "range": {}
+      },
+      "latitude": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [42.4746, 42.8144, 42.1944, 42.109, 42.2985, 42.2118, 42.3489, 42.3295, 42.3252, 42.264],
+        "range": [42.109, 42.8144]
+      },
+      "longitude": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [-70.9708, -70.8178, -72.5551, -72.5908, -72.3341, -71.114, -71.0972, -71.0826, -71.0561, -71.7943],
+        "range": [-72.5908, -70.8178]
+      },
+      "n_daily_observations": {
+        "class": "integer",
+        "na": 0,
+        "unique": 7,
+        "values": [361, 356, 366, 357, 360, 358, 359],
+        "range": [356, 366]
+      },
+      "no2_mean_2016": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [5.2087, 2.7206, 6.3396, 11.1265, 2.7975, 3.8059, 15.0703, 13.2167, 14.8987, 12.2758],
+        "range": [2.7206, 15.0703]
+      },
+      "measurement_column": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "Arithmetic Mean",
+        "range": {}
+      },
+      "response_units": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "ppb",
+        "range": {}
+      },
+      "no2_grid_prediction_2016": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 7,
+        "values": [16.3844, 7.3756, 16.9177, 24.7349, 6.5976, 13.4831, 14.1807],
+        "range": [6.5976, 24.7349]
+      },
+      "no2_grid_distance_m": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [3734.0993, 6540.929, 8127.1633, 4396.8826, 4224.7453, 5013.1102, 12710.5875, 11358.1373, 12313.5822, 7049.3196],
+        "range": [3734.0993, 12710.5875]
+      },
+      "elevation_m_usgs_epqs": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [47.6869, 3.8289, 85.0608, 27.2731, 307.2347, 188.6452, 4.3501, 7.32, 4.0577, 148.4525],
+        "range": [3.8289, 307.2347]
+      },
+      "power_t2m_mean_c": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 6,
+        "values": [10.3732, 10.0618, 10.3136, 9.1456, 10.8581, 9.5873],
+        "range": [9.1456, 10.8581]
+      },
+      "power_rh2m_mean_pct": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 6,
+        "values": [76.4662, 80.0158, 75.5615, 76.3299, 76.7977, 75.8208],
+        "range": [75.5615, 80.0158]
+      },
+      "power_ws10m_mean_m_s": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 6,
+        "values": [2.5833, 4.362, 2.1707, 2.2383, 2.5593, 2.2192],
+        "range": [2.1707, 4.362]
+      },
+      "power_prectotcorr_sum_mm": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 6,
+        "values": [923.43, 1064.42, 924.19, 902.66, 959.2, 896.49],
+        "range": [896.49, 1064.42]
+      },
+      "power_swdwn_mean_mj_m2_day": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 3,
+        "values": [14.3174, 14.3317, 14.3423],
+        "range": [14.3174, 14.3423]
+      },
+      "power_ps_mean_kpa": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 6,
+        "values": [100.725, 101.318, 99.6968, 98.2189, 100.8374, 99.1378],
+        "range": [98.2189, 101.318]
+      },
+      "nlcd_land_cover_code": {
+        "class": "integer",
+        "na": 0,
+        "unique": 4,
+        "values": [22, 23, 24, 41],
+        "range": [22, 41]
+      },
+      "nlcd_land_cover_label": {
+        "class": "character",
+        "na": 0,
+        "unique": 4,
+        "values": ["Developed, Low Intensity", "Developed, Medium Intensity", "Developed, High Intensity", "Deciduous Forest"],
+        "range": {}
+      },
+      "nlcd_developed": {
+        "class": "integer",
+        "na": 0,
+        "unique": 2,
+        "values": [1, 0],
+        "range": [0, 1]
+      },
+      "nlcd_forest": {
+        "class": "integer",
+        "na": 0,
+        "unique": 2,
+        "values": [0, 1],
+        "range": [0, 1]
+      },
+      "nlcd_agriculture": {
+        "class": "integer",
+        "na": 0,
+        "unique": 1,
+        "values": 0,
+        "range": [0, 0]
+      },
+      "nlcd_water": {
+        "class": "integer",
+        "na": 0,
+        "unique": 1,
+        "values": 0,
+        "range": [0, 0]
+      },
+      "road_density_primary_secondary_1km_m_per_km2": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 7,
+        "values": [0, 2875.6396, 3256.0173, 9091.2669, 1453.9279, 8914.7074, 3432.58],
+        "range": [0, 9091.2669]
+      },
+      "road_density_primary_secondary_10km_m_per_km2": {
+        "class": "numeric",
+        "na": 0,
+        "unique": 10,
+        "values": [1540.3255, 508.0362, 1462.3272, 1530.6675, 423.3396, 1757.1642, 2717.1473, 2442.1941, 2325.0263, 1586.7954],
+        "range": [423.3396, 2717.1473]
+      },
+      "pollutant": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "no2",
+        "range": {}
+      },
+      "year": {
+        "class": "integer",
+        "na": 0,
+        "unique": 1,
+        "values": 2016,
+        "range": [2016, 2016]
+      },
+      "source_observations": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "EPA AirData daily_42602_2016.zip",
+        "range": {}
+      },
+      "source_grid_prediction": {
+        "class": "character",
+        "na": 0,
+        "unique": 1,
+        "values": "paper_no2_grid.rds",
+        "range": {}
+      }
+    },
+    "positive": {}
+  }
+]

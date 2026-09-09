@@ -154,26 +154,37 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous_comparative_not_ssn"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée."
-  reason: "110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "CORRECTION 2026-09-09 : verifie directement dans le RDS -- Year_ ne prend qu'une seule valeur (2018) sur les 110 lignes, T=1 est donc correct, pas une incoherence (l'ancienne reserve comparait a tort la presence de la colonne Year_ a la declaration T=1). Promu comme tache COMPARATIVE explicitement distincte du modele SSN/INLA du papier (reseau hydrographique) : W standard (distance euclidienne sur Easting/Northing), pas une matrice de flux sur reseau -- voir Note ci-dessous."
 ```
 
-- Decision: manual_review
-- Manque principal: 110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée.
-- Raison: 110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: T=1 confirme correct (Year_ constant=2018) ; tache comparative avec W euclidienne standard, explicitement distincte du modele SSN/INLA publie.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Comparateur non-spatial standard -- le papier utilise SSN/INLA (reseau hydrographique), pas OLS."
+      notes: "Regression lineaire simple sur les covariables reelles (Elev, RSlope, h2oAreaKm2, logRCA)."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Approximation spatiale generique (W euclidienne sur Easting/Northing), PAS une reproduction du modele SSN sur reseau hydrographique du papier."
+      notes: "Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval)."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Aucune -- comparateur ML generique, Y continu."
+      notes: "Comparateur ML, pas le modele publie."
   conditionally_eligible_estimators: []
-  ineligible_reason: "110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée."
+  ineligible_reason: "n/a -- estimateurs eligibles comme tache comparative (voir eligible_estimators), explicitement non equivalente au modele SSN/INLA publie."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

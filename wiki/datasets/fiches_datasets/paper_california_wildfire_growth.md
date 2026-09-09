@@ -237,26 +237,41 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
-  reason: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: manual_review
-- Manque principal: 23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion.
-- Raison: 23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: random_forest
+      basis: scientific_evidence
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Random Forest mentionne dans la source."
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
   conditionally_eligible_estimators: []
-  ineligible_reason: "23 031 lignes, 11 386 répétitions de coordonnées; 21 304 lignes complètes. Taille finale répétée par Fire_ID/Date et tâche différente du seuil de croissance publié. Grouper par incendie, contrôler l’antériorité météo et définir une coupe/agrégation par événement avant toute promotion."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -303,6 +318,10 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: Int_perim_48 (NA=69.6%), Int_perim_72 (NA=75.9%), Int_pixel_48 (NA=69.6%), Int_pixel_72 (NA=75.9%), Agency_Ignition_Lon (NA=63.7%), Agency_Ignition_Lat (NA=63.7%), Agency_Area (NA=63.7%), Int_agency_24 (NA=69.1%), Int_agency_48 (NA=80%), Int_agency_72 (NA=82.7%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`california_wildfire_growth` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

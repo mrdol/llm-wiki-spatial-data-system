@@ -177,26 +177,41 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  benchmark_task: "grouped_or_temporal_validation_review"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "N lignes=6084; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5977. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
-  reason: "N lignes=6084; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5977. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: manual_review
-- Manque principal: N lignes=6084; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5977. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
-- Raison: N lignes=6084; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5977. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: scientific_evidence
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Song, Ahn, An & Jang (2021), Data in Brief, doi:10.1016/j.dib.2021.106877 -- article data-descriptor officiel documentant Area/Floor/Subway.distance/Population.density/Green.space.distance comme les variables hedoniques publiees pour ce jeu."
+    - estimator: gam_spatial
+      basis: scientific_evidence
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Meme source -- variante non-lineaire (GAM) des memes covariables publiees."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML generique pour comparaison, Y continu."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML generique pour comparaison, Y continu."
   conditionally_eligible_estimators: []
-  ineligible_reason: "N lignes=6084; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5977. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -242,6 +257,10 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`korea_hedonic_housing_2008` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

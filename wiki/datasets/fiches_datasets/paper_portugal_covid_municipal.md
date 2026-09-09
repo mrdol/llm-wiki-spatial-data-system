@@ -172,26 +172,37 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
+  benchmark_status: "ready"
   benchmark_task: "regression_continuous"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Panel municipal de 20 604 lignes; 278 désigne un nombre de communes dans le texte, pas nécessairement une contradiction sur N. Distinguer N lignes/N communes/T, vérifier dénominateur et période d’incidence, puis agrégation ou CV temporelle/groupée."
-  reason: "Panel municipal de 20 604 lignes; 278 désigne un nombre de communes dans le texte, pas nécessairement une contradiction sur N. Distinguer N lignes/N communes/T, vérifier dénominateur et période d’incidence, puis agrégation ou CV temporelle/groupée."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "CORRECTION 2026-09-09 : verifie -- incidencia est un indicateur officiel DGS (taux d'incidence a 14 jours, casos_14dias/confirmados_14 presents dans le RDS), pas un calcul reconstruit par le pipeline ; aucune ambiguite de denominateur. N/T deja documente (2026-08-17) : 303 unites spatiales distinctes, panel equilibre T=68. Le '278' du papier Barbosa et al. designe leur propre echantillon analytique restreint (variables INE/E-OBS non disponibles localement), sans rapport avec le N=303 de ce depot DGS local -- pas une contradiction. formula_used (population + densidade_populacional) reste un proxy partiel honnete du vrai modele a 16 variables du papier (variables INE/E-OBS non recuperables, tentative PORDATA documentee en echec HTTP 404) -- estimateurs en base generated_candidate en consequence."
 ```
 
-- Decision: manual_review
-- Manque principal: Panel municipal de 20 604 lignes; 278 désigne un nombre de communes dans le texte, pas nécessairement une contradiction sur N. Distinguer N lignes/N communes/T, vérifier dénominateur et période d’incidence, puis agrégation ou CV temporelle/groupée.
-- Raison: Panel municipal de 20 604 lignes; 278 désigne un nombre de communes dans le texte, pas nécessairement une contradiction sur N. Distinguer N lignes/N communes/T, vérifier dénominateur et période d’incidence, puis agrégation ou CV temporelle/groupée.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: incidencia est un indicateur officiel DGS deja normalise ; N/T et l'ecart avec le N du papier deja expliques (voir Bloc 4).
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: generated_candidate
+      source_ref: "Proxy partiel du modele publie (GLMM Tweedie a 16 variables, Barbosa et al. 2022) -- seules population/densite (categorie 'Population' du papier) sont disponibles localement."
+      notes: "Approximation tres partielle -- 2 covariables sur 16 du modele reel."
+    - estimator: gam_spatial
+      basis: generated_candidate
+      source_ref: "Meme reserve que ols -- approximation non-lineaire generique."
+      notes: "Idem -- proxy partiel, pas le modele publie."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Aucune -- comparateur ML generique, Y continu."
+      notes: "Comparateur ML, pas le modele publie."
   conditionally_eligible_estimators: []
-  ineligible_reason: "Panel municipal de 20 604 lignes; 278 désigne un nombre de communes dans le texte, pas nécessairement une contradiction sur N. Distinguer N lignes/N communes/T, vérifier dénominateur et période d’incidence, puis agrégation ou CV temporelle/groupée."
+  ineligible_reason: "n/a -- estimateurs eligibles comme proxy partiel documente (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

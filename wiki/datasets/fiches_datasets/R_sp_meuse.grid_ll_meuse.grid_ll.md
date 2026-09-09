@@ -25,10 +25,10 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 ### Variables (niveau systeme — inspection directe du sf)
 
-- Candidate Y variables: `dist`
-- Candidate Y typology: rate
-- Candidate X variables: `part.a`, `part.b`, `soil`, `ffreq`
-- Candidate X typology: categorical
+- Candidate Y variables: aucune (voir Note ci-dessous -- grille de prediction, pas de reponse observee)
+- Candidate Y typology: unknown
+- Candidate X variables: `dist`, `part.a`, `part.b`, `soil`, `ffreq`
+- Candidate X typology: continuous, binary, categorical
 - Coordinates (x, y — excluded from X candidates): `X`, `Y`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto — export_sf_metadata.R)
@@ -38,10 +38,9 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `dist` | `numeric` | rate | [0, 0.9926] | 0% |
+| (aucune) | -- | -- | -- | -- |
 
-
-> Selection Y/X (claude-sonnet-4-6) : dist (distance normalisée à la Meuse) est une variable continue graduée naturellement modélisable comme réponse spatiale. Les variables part.a, part.b (partitions binaires de zone), soil (type de sol) et ffreq (fréquence d'inondation) sont des covariables catégorielles ou binaires typiquement utilisées comme prédicteurs dans les modèles spatiaux sur meuse.grid.
+> CORRECTION (2026-09-09) : `dist` n'est PAS une reponse a modeliser -- meme correction et meme raisonnement que [[R_sp_meuse.grid_meuse.grid]] (dont cette fiche est la reprojection WGS84/geographique, memes 3103 points, memes covariables). Voir cette fiche pour le detail complet et [[R_sp_meuse_meuse]] pour la tache de regression reelle (zinc/cadmium/copper/lead ~ dist + ...).
 
 #### Detail X
 
@@ -70,12 +69,13 @@ The object contains the meuse.grid data as a SpatialPointsDataFrame after transf
 
 ### Formule — niveau systeme
 
-- formula_used: dist ~ part.a + part.b + soil + ffreq
-- Formula used evidence: generated_system_formula
-- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-- Selected Y typology: rate
-- x_terms_used: part.a + part.b + soil + ffreq
-- y_term_used: dist
+- formula_used: not_applicable (grille de prediction, aucune reponse observee -- voir Note Bloc 1)
+- Formula used evidence: not_applicable
+- Selected Y evidence: not_applicable -- aucune ligne Detail Y (aucun Y candidat).
+- Selected Y typology: not_applicable
+- x_terms_used: not_applicable
+- y_term_used: not_applicable
+- Note: CORRECTION 2026-09-09 -- l'ancienne formule `dist ~ part.a + part.b + soil + ffreq` etait generee automatiquement en confondant une covariable (dist) avec une reponse. Retiree ; voir [[R_sp_meuse_meuse]] pour la tache de regression reelle.
 
 ### Formules candidates
 
@@ -92,24 +92,24 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
+    formula: "not_applicable -- voir R_sp_meuse_meuse (cadmium/copper/lead/zinc ~ dist + ...)"
+    response: "not_applicable"
     predictors: []
     role: "paper_main_specification"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
-    status: "unavailable"
+    status: "not_applicable_prediction_grid"
 
   ml_or_selected:
-    formula: "dist ~ part.a + part.b + soil + ffreq"
-    response: "dist"
-    predictors: ["part.a", "part.b", "soil", "ffreq"]
+    formula: "not_applicable"
+    response: "not_applicable"
+    predictors: []
     role: "ml_candidate_features"
-    source_type: "generated_system_formula"
-    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
-    status: "generated"
+    source_type: "none_found"
+    source_ref: "CORRECTION 2026-09-09 : l'ancienne formule generee automatiquement (dist ~ part.a + part.b + soil + ffreq) confondait une covariable avec une reponse ; retiree."
+    estimator_context: []
+    status: "not_applicable_prediction_grid"
 ```
 
 ## Bloc 2 — Identification et DOI
@@ -132,12 +132,12 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "dist ~ part.a + part.b + soil + ffreq"
-  equation_family: regression_candidate
-  model_family: "regression_candidate"
-  source_type: generated_system_formula
-  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-  confidence: medium
+  equation_text: "not_applicable -- grille de prediction spatiale (reprojection WGS84 de sp::meuse.grid), pas un jeu de regression autonome"
+  equation_family: not_applicable
+  model_family: "prediction_support_grid"
+  source_type: package_documentation
+  source_ref: "sp::meuse.grid (documentation du package), reprojete en WGS84. Voir R_sp_meuse_meuse pour le modele reel."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -212,12 +212,18 @@ estimator_eligibility:
 
 ## Related Pages
 
+- [[R_sp_meuse.grid_meuse.grid]] -- meme grille en coordonnees RD New (EPSG:28992), fiche de reference pour le detail complet
+- [[R_sp_meuse_meuse]] -- jeu d'observations reel (N=155) dont ce jeu est la grille de prediction/krigeage
 - Source: package R `sp`
 
-## Curation documentée — 2026-09-07
+## Curation documentée — 2026-09-09
 
-Decision conservatoire : Grille de prédiction meuse; dist est une distance géographique et part.a/part.b des partitions, pas la concentration de zinc observée. Les deux fiches décrivent deux représentations du même support. Conserver comme support de prédiction et rattacher à R_sp_meuse_meuse; ne pas promouvoir la régression dist sur champs de grille. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+Rattachement explicite a [[R_sp_meuse_meuse]] sur decision de l'utilisateur (2026-09-09) --
+meme correction que [[R_sp_meuse.grid_meuse.grid]] (voir cette fiche pour le detail complet) :
+ce jeu est une simple reprojection WGS84/geographique de la meme grille de prediction
+`sp::meuse.grid` (memes 3103 points, memes covariables). Ancienne formule generee
+automatiquement (`dist ~ part.a + part.b + soil + ffreq`) retiree -- elle confondait une
+covariable partagee avec une reponse a modeliser. `package_include: no` inchange (n'est pas
+un jeu de regression autonome), mais desormais documente comme support de prediction.
 
-Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+Curation anterieure (2026-09-07) : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

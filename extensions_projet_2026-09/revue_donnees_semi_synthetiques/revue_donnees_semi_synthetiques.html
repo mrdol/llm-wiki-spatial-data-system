@@ -435,6 +435,7 @@
   <nav class="toc">
     <a href="#cadrage">Cadrage</a>
     <a href="#vocabulaire">Vocabulaire</a>
+    <a href="#corrections">Lecture complète</a>
     <a href="#taxonomie">Taxonomie</a>
     <a href="#spatial">Côté spatial</a>
     <a href="#temporel">Côté temporel</a>
@@ -457,19 +458,45 @@
     <div class="vocab-grid">
       <div class="vocab-card">
         <div class="vocab-term">Plasmode simulation</div>
-        <div class="vocab-def">Les covariables X viennent d'un vrai jeu de données ; seule une partie du mécanisme générant Y est connue/imposée. Le terme vient de la biostatistique (pharmaco-épidémiologie), pas de l'économétrie.</div>
-        <div class="vocab-src">Franklin et al. 2014 — voir biblio [1]</div>
+        <div class="vocab-def">Les covariables X sont rééchantillonnées depuis un vrai jeu de données ; l'outcome Y est ensuite <strong>régénéré</strong> à partir d'un modèle générateur (OGM) ajusté sur les vraies données. Le terme lui-même est ancien (biométrie), la pratique moderne vient de la pharmaco-épidémiologie.</div>
+        <div class="vocab-src">Terme introduit par Cattell &amp; Jaspers (1967, voir fin de bibliographie) ; popularisé pour la pharmaco-épidémiologie par Franklin et al. 2014 — voir biblio [1]</div>
       </div>
       <div class="vocab-card">
         <div class="vocab-term">Empirical Monte Carlo Study (EMCS)</div>
-        <div class="vocab-def">Version économétrique de la même idée : on estime un DGP « de référence » sur données réelles, on en réduit au minimum la part purement synthétique, puis on simule à partir de ce DGP estimé pour comparer des estimateurs.</div>
-        <div class="vocab-src">Huber, Lechner &amp; Wunsch 2013 — voir biblio [7]</div>
+        <div class="vocab-def">Version économétrique <strong>différente</strong> du plasmode, pas un synonyme : X <em>et</em> Y restent tous les deux 100&nbsp;% réels (rééchantillonnés tels quels) ; seule l'étiquette de traitement est fabriquée via une équation de sélection réaliste. L'effet vrai est nul par construction (ou une fonction explicitement fixée, pas ajustée par ML).</div>
+        <div class="vocab-src">Huber, Lechner &amp; Wunsch 2013 — voir biblio [8]</div>
       </div>
       <div class="vocab-card">
         <div class="vocab-term">DGM semi-paramétrique</div>
         <div class="vocab-def">Compromis entre DGP 100&nbsp;% paramétrique (contrôle total, réalisme faible) et DGP purement rééchantillonné (réalisme fort, contrôle faible) : on fixe une forme fonctionnelle souple pour F, mais on laisse les résidus suivre la distribution empirique.</div>
         <div class="vocab-src">Synthèse récente — voir biblio [10]</div>
       </div>
+    </div>
+  </section>
+
+  <section id="corrections">
+    <div class="sec-label">Lecture complète — 5 papiers, 7 sept.</div>
+    <h2>Ce que le premier passage avait mal tranché</h2>
+    <p class="lede">Le 1ᵉʳ passage (recherche web) traitait « EMCS » et « plasmode » comme deux noms pour la même idée (famille C). Après lecture intégrale de cinq papiers phares, ce n'est pas exact — ce sont deux mécanismes distincts, qu'on a fusionnés à tort. Un troisième mécanisme (« EMCS structuré ») était complètement absent.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Mécanisme</th><th>X</th><th>Y</th><th>Effet vrai</th><th>Référence lue en entier</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Plasmode</strong></td><td>rééchantillonné du réel</td><td><strong>régénéré</strong> par un OGM ajusté (ML) sur le réel</td><td>dépend de l'OGM choisi</td><td>Schreck et al. 2024</td></tr>
+          <tr><td><strong>EMCS « placebo »</strong></td><td>réel, tel quel</td><td><strong>réel, jamais touché</strong></td><td>exactement zéro (par construction)</td><td>Huber, Lechner &amp; Wunsch 2013</td></tr>
+          <tr><td><strong>EMCS « placebo », version hétérogène</strong></td><td>réel, tel quel</td><td>réel + effet <strong>fixé à la main</strong> (fonction sinus de p(x), pas ajustée par ML)</td><td>connu car imposé, non estimé</td><td>Knaus, Lechner &amp; Strittmatter 2018</td></tr>
+          <tr><td><strong>EMCS « structuré »</strong></td><td>tiré de lois paramétriques calées sur le réel</td><td>idem, forme distributionnelle imposée (ex : log-normale)</td><td>connu par construction</td><td>cité dans Advani et al. 2019</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>La différence est concrète : dans un plasmode, on <em>refait</em> l'outcome avec un modèle ajusté (le prix de la maison redevient une prédiction). Dans un EMCS placebo, on ne touche <em>jamais</em> à l'outcome — on prend de vrais non-traités, on leur invente une fausse étiquette « traité »/« non-traité », et comme personne n'a réellement été traité, l'effet vrai est zéro sans qu'on ait rien dû estimer. C'est un design beaucoup plus conservateur que ce que le premier passage laissait penser.</p>
+
+    <div class="callout">
+      <div class="callout-label">La critique d'Advani et al. est plus sévère qu'on ne l'a dit</div>
+      <p>On avait résumé ça comme « peut induire en erreur si mal spécifié ». En réalité, testé sur de vraies données (NSW) où la performance des estimateurs est connue : les deux designs EMCS (placebo et structuré) choisissent le <strong>meilleur estimateur moins souvent qu'un tirage au hasard</strong> quand on juge par le biais absolu. Sur l'erreur quadratique (MSE) ils font un peu mieux que le hasard, mais jamais mieux qu'un simple bootstrap non-paramétrique — et l'estimateur qu'ils préfèrent peut avoir un MSE jusqu'à deux fois supérieur au meilleur.</p>
+      <p>Conséquence directe pour nous : si le package documente un mode EMCS, il faut être explicite que <strong>ce n'est pas un outil de sélection d'estimateur fiable</strong> — seulement un outil de test relatif, à comparer à un bootstrap simple avant de conclure quoi que ce soit.</p>
     </div>
   </section>
 
@@ -508,23 +535,25 @@
 
     <div class="family">
       <div class="family-head">
-        <div class="family-name">C · Empirical Monte Carlo Study / Plasmode</div>
+        <div class="family-name">C · Plasmode &amp; Empirical Monte Carlo Study — <span style="font-weight:400;">deux mécanismes distincts</span></div>
         <div class="family-tag">le socle le plus solide pour le package</div>
       </div>
       <div class="spectrum">
         <div class="labels"><span>réel</span><span>synthétique</span></div>
         <div class="track"></div>
-        <div class="marker" style="left:22%; background:var(--real);"></div>
+        <div class="marker" style="left:8%; background:var(--real);" title="EMCS placebo"></div>
+        <div class="marker" style="left:32%; background:var(--real);" title="Plasmode"></div>
       </div>
-      <p>On estime un DGP « de référence » complet (souvent avec un modèle flexible ou du ML) sur les vraies données, puis on l'utilise directement comme vérité-terrain pour simuler — au lieu d'ajouter du bruit paramétrique après coup, la part synthétique est réduite au strict minimum. Un courant complémentaire, né en pharmaco-épidémiologie (« plasmode »), fait exactement la même chose avec un vocabulaire différent, et a été depuis étendu à l'inférence causale en réseaux, à l'épidémiologie longitudinale, et à la classification en haute dimension.</p>
-      <p><strong>Limite documentée et importante :</strong> si le DGP estimé est mal spécifié, un EMCS « structuré » peut orienter la comparaison d'estimateurs dans le mauvais sens — la critique méthodologique d'Advani et al. est directement pertinente pour cadrer comment le package devra présenter ce mode (jamais comme une vérité absolue).</p>
-      <p><span class="pill new">confirmé le 7 sept.</span> Le papier <strong>SpaCE</strong> (ICLR 2024, voir <a href="#convergence">Convergence</a>) implémente exactement cette famille en contexte spatial : f̂ par ensemble AutoML, résidus régénérés par un champ markovien gaussien calé sur l'autocorrélation réelle. C'est la première implémentation spatiale concrète de la famille C trouvée à ce jour.</p>
+      <p><strong>Plasmode</strong> (marqueur de droite) : les covariables sont rééchantillonnées depuis le réel, puis l'<em>outcome est régénéré</em> à partir d'un modèle générateur (OGM) ajusté sur les vraies données — un LASSO ou une forêt fitté sur le vrai Y, dont les prédictions deviennent la nouvelle vérité. <strong>EMCS « placebo »</strong> (marqueur de gauche, le plus proche du réel de toute cette revue) : X <em>et</em> Y restent 100&nbsp;% réels, rééchantillonnés tels quels — on ne fabrique qu'une étiquette de traitement factice via une équation de sélection réaliste, si bien que l'effet vrai est zéro sans qu'on ait rien eu à estimer. Une extension à effets hétérogènes (Knaus et al.) ajoute un effet <em>fixé à la main</em> (une fonction sinus de la probabilité de traitement, pas ajustée par ML) au-dessus du vrai Y⁰ — toujours pas de régénération de l'outcome par un modèle.</p>
+      <p>Un troisième mécanisme, l'<strong>EMCS « structuré »</strong>, tire covariables et outcome de lois paramétriques dont les paramètres sont calés sur le réel (ex. revenu ~ log-normale de moyenne/variance estimées) — plus synthétique qu'un plasmode, mais plus réaliste qu'un DGP purement inventé.</p>
+      <p><span class="pill new">correction du 7 sept.</span> Voir la section <a href="#corrections">Lecture complète</a> pour le détail : le premier passage fusionnait ces trois mécanismes sous une seule étiquette « EMCS/plasmode », et la critique d'Advani et al. y est nettement plus sévère qu'on ne l'avait rapporté.</p>
+      <p>Le papier <strong>SpaCE</strong> (ICLR 2024, voir <a href="#convergence">Convergence</a>) est du côté <em>plasmode</em> : f̂ par ensemble AutoML, résidus régénérés par un champ markovien gaussien calé sur l'autocorrélation réelle — la première implémentation spatiale concrète de ce côté de la famille trouvée à ce jour.</p>
       <div class="refs">
-        <span class="ref-item">Huber, Lechner &amp; Wunsch 2013 — introduit l'EMCS — voir biblio [7]</span>
-        <span class="ref-item">Knaus, Lechner &amp; Strittmatter — 24 DGPs dérivés de données réelles, 11 estimateurs ML causaux — voir biblio [9]</span>
-        <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — critique méthodologique de l'EMCS — voir biblio [8]</span>
+        <span class="ref-item">Huber, Lechner &amp; Wunsch 2013 — introduit l'EMCS placebo, lu intégralement — voir biblio [7]</span>
+        <span class="ref-item">Knaus, Lechner &amp; Strittmatter 2018 — extension à effets hétérogènes, lu intégralement — voir biblio [9]</span>
+        <span class="ref-item">Advani, Kitagawa &amp; Słoczyński 2019 — critique des deux EMCS (placebo et structuré), lu intégralement — voir biblio [8]</span>
         <span class="ref-item">Franklin et al. 2014 et suites (causal/réseaux, longitudinal, haute dimension) — voir biblio [1], [4]–[6]</span>
-        <span class="ref-item">Schreck, Slynko, Saadati &amp; Benner 2024 — protocole pas-à-pas et recommandations de reporting — voir biblio [2]</span>
+        <span class="ref-item">Schreck, Slynko, Saadati &amp; Benner 2024 — protocole pas-à-pas ADEMP, lu intégralement — voir biblio [2]</span>
         <span class="ref-item">Tec, Trisovic, Audirac et al. 2024, SpaCE — voir biblio [30]</span>
       </div>
     </div>
@@ -716,15 +745,19 @@
       </div>
       <div class="reco-row">
         <div class="term">validation</div>
-        <div class="def">Classifier two-sample test ou pMSE sur (X,Y) réel vs (X,Y*) simulé, complété par Moran's I et variogramme réel vs simulé côté spatial — un protocole de validation concret, repris de la synthèse de l'encadrant.</div>
+        <div class="def">Classifier two-sample test ou pMSE sur (X,Y) réel vs (X,Y*) simulé, complété par Moran's I et variogramme réel vs simulé côté spatial ; au minimum, comparer les histogrammes/densités empiriques de Y réel vs Y simulé et vérifier la plage de valeurs (le contrôle le plus simple utilisé par Schreck et al., avant tout test formel).</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">N et m ne sont pas arbitraires</div>
+        <div class="def">Le nombre de réplications N et la taille de rééchantillonnage m sont trop souvent choisis ad hoc dans la littérature (N=500 ou 1000, m fixé sans justification). Schreck et al. recommandent de vérifier la convergence des mesures de performance en fonction de N (dans leur exemple, stabilisation vers N≈300) et d'utiliser l'algorithme de Bickel &amp; Sakov pour choisir m plutôt qu'une valeur arbitraire — directement transposable au futur mode Monte&nbsp;Carlo du dashboard.</div>
       </div>
       <div class="reco-row">
         <div class="term">piste originale</div>
         <div class="def">Le morphing (famille E) entre deux datasets réels déjà curés dans le catalogue reste quasiment gratuit à implémenter et personne ne l'a fait en spatial à notre connaissance.</div>
       </div>
       <div class="reco-row">
-        <div class="term">garde-fou</div>
-        <div class="def">Documenter la mise en garde d'Advani et al. : un EMCS structuré peut induire en erreur si F̂ est mal spécifié. Reporter le regret « maison » (H(e)) séparément du regret sous DGP aléatoire, comme le propose la synthèse — jamais présenter le mode Monte&nbsp;Carlo comme une vérité absolue sur les propriétés des estimateurs.</div>
+        <div class="term">garde-fou, chiffré</div>
+        <div class="def">Sur données réelles (NSW), Advani et al. montrent que les deux designs EMCS choisissent le meilleur estimateur <strong>moins souvent qu'un tirage au hasard</strong> sur le critère du biais absolu, et jamais mieux qu'un simple bootstrap sur le MSE. Le mode Monte&nbsp;Carlo du package devra donc toujours être présenté comme un test relatif entre estimateurs sur un DGP donné — jamais comme une preuve qu'un estimateur est objectivement le meilleur en général. Reporter aussi le regret « maison » (H(e)) séparément du regret sous DGP aléatoire, comme le propose la synthèse.</div>
       </div>
     </div>
   </section>
@@ -732,7 +765,7 @@
   <section id="limites">
     <div class="sec-label">Périmètre</div>
     <h2>Limites de cette revue et prochaines étapes</h2>
-    <p>Le premier passage (4 sept.) était une recherche web exploratoire, pas une lecture exhaustive des papiers eux-mêmes. Le recoupement du 7 sept. avec la synthèse de l'encadrant et SpaCE renforce la confiance dans le noyau de méthode identifié, mais ne remplace pas la lecture complète des sources listées ci-dessous avant citation dans le data paper. Toujours en attente : mail à « Flash » pour suggestions complémentaires ; recherche ciblée sur la géostatistique pure (krigeage + simulation conditionnelle), qui pourrait recouper la famille D côté spatial et n'a pas été creusée. À faire avant lundi : lire au minimum Schreck et al. (2024, le tutoriel plasmode le plus récent) et la section 3 complète de la synthèse de l'encadrant (protocole D0–D9).</p>
+    <p>Le premier passage (4 sept.) était une recherche web exploratoire ; la lecture intégrale de 5 papiers phares le 7 sept. (voir <a href="#corrections">Lecture complète</a>) a corrigé une confusion réelle entre EMCS et plasmode, pas juste confirmé le premier passage — signe qu'une lecture complète reste nécessaire avant toute citation dans le data paper, y compris pour les sources encore non lues ci-dessous (Dorie et al. 2019, Hill 2011, Schreck et al. dans son intégralité au-delà de ce qui est résumé ici, la section 3 complète de la synthèse de l'encadrant). Toujours en attente : mail à « Flash » pour suggestions complémentaires ; recherche ciblée sur la géostatistique pure (krigeage + simulation conditionnelle), qui pourrait recouper la famille D côté spatial et n'a pas été creusée ; lecture du papier RealCause (Neal et al. 2020) au-delà de son résumé.</p>
   </section>
 
   <section id="biblio">
@@ -743,7 +776,7 @@
       <h3>Plasmode &amp; guides méthodologiques</h3>
       <ol class="biblio">
         <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3935334/" target="_blank" rel="noopener">Franklin et al. (2014) — Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases</a><span class="note">Statistics in Medicine / PMC3935334 — papier fondateur du terme moderne « plasmode »</span></li>
-        <li>Schreck, N., Slynko, A., Saadati, M. &amp; Benner, A. (2024) — Statistical plasmode simulations – potentials, challenges and recommendations<span class="note">Statistics in Medicine, doi:10.1002/sim.10012 — protocole pas-à-pas + recommandations de reporting</span></li>
+        <li>Schreck, N., Slynko, A., Saadati, M. &amp; Benner, A. (2024) — Statistical plasmode simulations – potentials, challenges and recommendations<span class="note">Statistics in Medicine, doi:10.1002/sim.10012 (lu intégralement le 7 sept.) — distingue plasmodes biologiques (vrai labo) et statistiques (rééchantillonnage + OGM), protocole en 9 étapes basé sur les critères ADEMP (Morris et al.), et met en garde sur le choix non-arbitraire du nombre de réplications N et de la taille de rééchantillonnage m</span></li>
         <li>Morris, T.P., White, I.R. &amp; Crowther, M.J. (2019) — Using simulation studies to evaluate statistical methods<span class="note">Statistics in Medicine, 38(11):2074-2102 — guide général, cité par la synthèse de l'encadrant</span></li>
         <li><a href="https://arxiv.org/html/2409.01316v1" target="_blank" rel="noopener">Plasmode simulation for the evaluation of causal inference methods in homophilous social networks</a><span class="note">arXiv 2409.01316</span></li>
         <li><a href="https://link.springer.com/article/10.1186/s12874-023-02062-9" target="_blank" rel="noopener">Longitudinal plasmode algorithms to evaluate statistical methods in realistic scenarios</a><span class="note">BMC Medical Research Methodology, 2023</span></li>
@@ -752,11 +785,11 @@
     </div>
 
     <div class="biblio-group">
-      <h3>Empirical Monte Carlo Study (EMCS)</h3>
+      <h3>Empirical Monte Carlo Study (EMCS) — les 3 lus intégralement le 7 sept.</h3>
       <ol class="biblio">
-        <li>Huber, M., Lechner, M. &amp; Wunsch, C. (2013) — introduit l'Empirical Monte Carlo Study<span class="note">cité dans Knaus, Lechner &amp; Strittmatter ci-dessous</span></li>
-        <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1002/jae.2724" target="_blank" rel="noopener">Advani, Kitagawa &amp; Słoczyński (2019) — Mostly harmless simulations? Using Monte Carlo studies for estimator selection</a><span class="note">Journal of Applied Econometrics — critique méthodologique de l'EMCS structuré</span></li>
-        <li><a href="https://arxiv.org/abs/1810.13237" target="_blank" rel="noopener">Knaus, Lechner &amp; Strittmatter — Machine Learning Estimation of Heterogeneous Causal Effects: Empirical Monte Carlo Evidence</a><span class="note">The Econometrics Journal — 24 DGPs dérivés de données réelles, 11 estimateurs causaux ML</span></li>
+        <li>Huber, M., Lechner, M. &amp; Wunsch, C. (2013) — The performance of estimators based on the propensity score<span class="note">Journal of Econometrics, 175(1):1-21 (IZA DP 5268) — introduit l'EMCS « placebo » : X et Y réels tels quels, seule l'étiquette de traitement est fabriquée, effet vrai = 0 par construction</span></li>
+        <li><a href="https://onlinelibrary.wiley.com/doi/full/10.1002/jae.2724" target="_blank" rel="noopener">Advani, Kitagawa &amp; Słoczyński (2019) — Mostly harmless simulations? Using Monte Carlo studies for estimator selection</a><span class="note">Journal of Applied Econometrics, 34(6):893-910 — critique théorique et empirique des designs EMCS « placebo » (Huber et al.) et « structuré » (Busso et al. 2014) ; sur données réelles NSW, les deux font pire que le hasard sur le biais absolu</span></li>
+        <li><a href="https://arxiv.org/abs/1810.13237" target="_blank" rel="noopener">Knaus, Lechner &amp; Strittmatter (2018) — Machine Learning Estimation of Heterogeneous Causal Effects: Empirical Monte Carlo Evidence</a><span class="note">The Econometrics Journal — étend l'EMCS placebo à des effets hétérogènes : Y¹ = Y⁰ réel + effet fixé à la main (fonction sinus de la propension), jamais un outcome ré-estimé par ML</span></li>
         <li><a href="https://arxiv.org/pdf/2504.04864" target="_blank" rel="noopener">Statistical parametric simulation studies based on real data</a><span class="note">arXiv 2504.04864 — taxonomie générale paramétrique / semi-paramétrique / rééchantillonnage / génératif</span></li>
       </ol>
     </div>
@@ -835,10 +868,17 @@
         <li><a href="https://arxiv.org/html/2510.04900v1" target="_blank" rel="noopener">Benchmarking M-LTSF: Frequency and Noise-Based Evaluation of Multivariate Long Time Series Forecasting Models</a><span class="note">arXiv 2510.04900</span></li>
       </ol>
     </div>
+
+    <div class="biblio-group">
+      <h3>Référence historique du terme « plasmode »</h3>
+      <ol class="biblio">
+        <li>Cattell, R.B. &amp; Jaspers, J. (1967) — A general plasmode (No. 30-10-5-2) for factor analytic exercises and research<span class="note">Multivariate Behavioral Research Monographs, 67-3 — cité par Schreck et al. (2024) comme l'origine du terme « plasmode », bien avant sa reprise en pharmaco-épidémiologie par Franklin et al. (2014)</span></li>
+      </ol>
+    </div>
   </section>
 
   <footer>
-    1ᵉʳ passage compilé le 4 septembre 2026 (recherche web). Recoupé et enrichi le 7 septembre 2026 avec la synthèse de l'encadrant et le papier SpaCE (ICLR 2024) — à recouper encore avec une lecture directe des papiers avant citation dans le data paper.
+    1ᵉʳ passage compilé le 4 septembre 2026 (recherche web). Recoupé le 7 septembre 2026 avec la synthèse de l'encadrant et le papier SpaCE (ICLR 2024), puis corrigé le même jour après lecture intégrale de 5 papiers phares (Huber/Lechner/Wunsch 2013, Schreck et al. 2024, Advani/Kitagawa/Słoczyński 2019, Knaus/Lechner/Strittmatter 2018, Neal et al. 2020) — voir la section « Lecture complète » pour ce que ça a corrigé.
   </footer>
 
 </div>

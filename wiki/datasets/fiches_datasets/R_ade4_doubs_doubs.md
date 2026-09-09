@@ -211,6 +211,17 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - source package et licence renseignes (GPL (>= 2)).
 
+## Note -- verification regression 2026-09-09
+
+Verifie : ni la documentation officielle `ade4::doubs` (`tools::Rd_db("ade4")`, exemples =
+`dudi.pca` + `coinertia`, references = analyse canonique des correspondances), ni aucune
+fiche/papier de ce corpus, ne proposent d'usage en regression univariee (un seul Y ~ X).
+C'est un jeu multivarie (30 sites x 27 especes de poissons x 11 variables environnementales)
+concu pour l'ordination (PCA/CCA/co-inertie), pas pour un benchmark Y~X. Laisse en
+`manual_review` sur decision explicite de l'utilisateur (2026-09-09) tant qu'aucune source
+ne propose de tache de regression exploitable. Ne pas choisir une colonne numerique au
+hasard comme Y sans justification scientifique.
+
 ## Related Pages
 
 - Source: package R `ade4`

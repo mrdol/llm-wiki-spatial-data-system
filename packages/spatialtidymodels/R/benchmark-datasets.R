@@ -185,6 +185,13 @@ benchmark_dataset_registry <- function() {
   if (!"response_typology" %in% names(out)) {
     out$response_typology <- I(rep(list("continuous"), nrow(out)))
   }
+  # glm_link: meme garde-fou que response_typology ci-dessus. NA_character_ (et
+  # non "logit"/"log") pour laisser fit_one_benchmark_estimator() appliquer le
+  # lien par defaut de chaque famille -- un jeu sans ce champ ne doit jamais
+  # forcer un lien explicite.
+  if (!"glm_link" %in% names(out)) {
+    out$glm_link <- I(rep(list(NA_character_), nrow(out)))
+  }
   if (!"predictor_typology" %in% names(out)) {
     out$predictor_typology <- I(rep(list(character()), nrow(out)))
   }
@@ -347,6 +354,17 @@ detect_response_typology_from_spec <- function(spec) {
     stop("La typologie doit decrire uniquement le Y selectionne (continuous/rate, binary ou count); candidats ambigus ou tache non prise en charge.", call. = FALSE)
   }
   raw
+}
+
+#' Detecter glm_link depuis une ligne de registre de jeu de donnees
+#'
+#' @keywords internal
+detect_glm_link_from_spec <- function(spec) {
+  if (!"glm_link" %in% names(spec)) return(NULL)
+  raw <- tryCatch(spec$glm_link[[1]], error = function(e) character())
+  raw <- as.character(raw)
+  if (!length(raw) || is.na(raw[[1L]]) || !nzchar(raw[[1L]])) return(NULL)
+  raw[[1L]]
 }
 
 #' List registered benchmark datasets
@@ -512,6 +530,9 @@ benchmark_spatial_dataset <- function(dataset,
   }
   if (is.null(dots$response_typology)) {
     dots$response_typology <- detect_response_typology_from_spec(loaded$spec)
+  }
+  if (is.null(dots$glm_link)) {
+    dots$glm_link <- detect_glm_link_from_spec(loaded$spec)
   }
   bench <- do.call(
     benchmark_spatial,

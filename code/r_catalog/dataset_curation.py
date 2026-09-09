@@ -89,8 +89,20 @@ def apply_curation(text: str, dataset_id: str, manifest: Path = MANIFEST) -> str
         pattern=re.compile(r'^## Curation documentée — 2026-09-07\n.*?(?=^## |\Z)',re.M|re.S)
         if pattern.search(text):text=pattern.sub(lambda _:block,text)
         else:text=text.rstrip()+'\n\n'+block
+    # Whole reviewed sections are applied last so obsolete generator prose and
+    # older field overrides cannot reintroduce a disproven published formula.
+    if row.get('reviewed_preamble'):
+        first_section = re.search(r'^## ', text, re.M)
+        text = row['reviewed_preamble'].rstrip()+'\n\n'+text[first_section.start():]
+    for heading, content in row.get('reviewed_sections', {}).items():
+        pattern = re.compile(r'^## '+re.escape(heading)+r'\n.*?(?=^## |\Z)', re.M|re.S)
+        block = '## '+heading+'\n\n'+content.strip()+'\n\n' if content else ''
+        if pattern.search(text):
+            text = pattern.sub(lambda _: block, text)
+        elif content:
+            text = text.rstrip()+'\n\n'+block
     if text != original:
-        text=re.sub(r'^updated:.*$', 'updated: 2026-09-07', text, count=1, flags=re.M)
+        text=re.sub(r'^updated:.*$', 'updated: '+row.get('reviewed_date', '2026-09-07'), text, count=1, flags=re.M)
     return text.rstrip()+'\n'
 
 

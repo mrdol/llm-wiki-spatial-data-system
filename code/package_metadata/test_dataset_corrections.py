@@ -14,6 +14,25 @@ spec.loader.exec_module(exporter)
 
 
 class DatasetCorrectionTests(unittest.TestCase):
+    def test_reviewed_panel_preserves_logs_without_promoting(self):
+        path = ROOT / 'wiki/datasets/fiches_datasets/paper_li_energy_price_co2_china.md'
+        record = exporter.parse_dataset_fiche(path, ROOT)
+        self.assertEqual(record['response'], 'CO2')
+        self.assertEqual(len(record['predictors']), 9)
+        self.assertIn('log(CO2)', record['formula_used'])
+        self.assertEqual(record['benchmark_status'], 'ready_in_data_bank')
+        self.assertFalse(record['benchmark_ready'])
+
+    def test_reviewed_sections_survive_old_generator_output(self):
+        from dataset_curation import apply_curation
+        dataset = 'paper_sfbay_contaminated_sites'
+        path = ROOT / 'wiki/datasets/fiches_datasets' / (dataset + '.md')
+        text = path.read_text(encoding='utf-8')
+        corrupted = text.replace('- formula_pub: not_applicable', '- formula_pub: is_open_case ~ gridcode')
+        restored = apply_curation(corrupted, dataset)
+        self.assertIn('- formula_pub: not_applicable', restored)
+        self.assertEqual(apply_curation(restored, dataset), restored)
+
     def test_curation_preserves_short_table_range(self):
         sys.path.insert(0, str(ROOT / 'code/r_catalog'))
         from dataset_curation import apply_curation

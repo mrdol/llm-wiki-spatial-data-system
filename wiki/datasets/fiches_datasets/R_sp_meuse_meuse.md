@@ -218,6 +218,8 @@ estimator_eligibility:
 
 ## Related Pages
 
+- [[R_sp_meuse.grid_meuse.grid]] -- grille de prediction/krigeage compagnon (N=3103, EPSG:28992), a utiliser pour predire zinc/cadmium/copper/lead hors-echantillon apres ajustement du modele sur ce jeu (rattachement documente le 2026-09-09)
+- [[R_sp_meuse.grid_ll_meuse.grid_ll]] -- meme grille, reprojetee en coordonnees geographiques
 - Source: package R `sp`
 
 ## Curation documentée — 2026-09-07

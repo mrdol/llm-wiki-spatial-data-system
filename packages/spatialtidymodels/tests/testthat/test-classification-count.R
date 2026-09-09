@@ -257,6 +257,93 @@ test_that("sar_reg()/sem_reg() default to pred_type=TS and accept KP2 as opt-in 
   expect_equal(attr(fit_kp2, "spatialreg_pred_type"), "KP2")
 })
 
+# --- Effet aleatoire groupe (1 | groupe) -> s(groupe, bs="re") via gam_spatial ---
+#
+# Ajoute 2026-09-09 : formula_used de paper_harbour_porpoise_response contient
+# un intercept aleatoire lme4 (`(1 | loc_pod)`) que glm()/gam() ne comprennent
+# pas nativement (`|` interprete comme un OU logique -- confirme empiriquement
+# avant ce correctif, glm() plantait avec "L'argument mu doit etre un vecteur
+# numerique non vide"). gam_spatial traduit desormais ce terme en lisseur
+# d'effet aleatoire mgcv, mathematiquement equivalent en REML (verifie contre
+# lme4::glmer() sur donnees synthetiques : coefficients quasi identiques).
+
+grouped_binary_test_data <- function(n_groups = 10L, per_group = 10L, seed = 1L) {
+  set.seed(seed)
+  n <- n_groups * per_group
+  groupe <- factor(rep(paste0("g", seq_len(n_groups)), each = per_group))
+  group_effect <- stats::rnorm(n_groups, sd = 1.5)[as.integer(groupe)]
+  x1 <- stats::rnorm(n)
+  latent <- 0.2 + 0.9 * x1 + group_effect + stats::rnorm(n, sd = 0.4)
+  y <- as.integer(latent > 0)
+  g <- grid_coords(n)
+  data.frame(
+    y = y, x1 = x1, groupe = groupe,
+    x_coord = g$x_coord, y_coord = g$y_coord
+  )
+}
+
+test_that("extract_group_re_terms() detects a (1 | groupe) term and separates it from fixed effects", {
+  f <- y ~ x1 * x2 + (1 | groupe)
+  dat <- data.frame(y = 1:4, x1 = 1:4, x2 = 1:4, groupe = factor(c("a", "a", "b", "b")))
+  parsed <- extract_group_re_terms(f, dat)
+  expect_equal(parsed$re_groups, "groupe")
+  expect_setequal(parsed$fixed_terms, c("x1", "x2", "x1:x2"))
+})
+
+test_that("add_spatial_smooth_to_formula() translates (1 | groupe) into s(groupe, bs='re')", {
+  f <- y ~ x1 + (1 | groupe)
+  dat <- data.frame(y = 1:4, x1 = 1:4, groupe = factor(c("a", "a", "b", "b")), lon = 1:4, lat = 1:4)
+  translated <- add_spatial_smooth_to_formula(f, c("lon", "lat"), dat)
+  deparsed <- deparse(translated)
+  expect_true(grepl('s\\(groupe, bs = "re"\\)', deparsed))
+  expect_true(grepl("s\\(lon, lat\\)", deparsed))
+  expect_false(grepl("\\|", deparsed))
+})
+
+test_that("fit_one_benchmark_estimator() fits gam_spatial with a grouped random intercept and a probit link", {
+  dat <- grouped_binary_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "gam_spatial", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord"),
+    response_typology = "binary", glm_link = "probit"
+  )
+  expect_true(inherits(fit, "gam"))
+  expect_equal(fit$family$family, "binomial")
+  expect_equal(fit$family$link, "probit")
+  expect_true(any(grepl("groupe", names(fit$coefficients))))
+})
+
+test_that("glm_link = NULL keeps the default logit link unchanged (no regression on existing binary datasets)", {
+  dat <- binary_test_data()
+  fit_default <- fit_one_benchmark_estimator(
+    "ols", y ~ x1 + x2, dat, coords = c("x_coord", "y_coord"), response_typology = "binary"
+  )
+  expect_equal(fit_default$family$link, "logit")
+})
+
+test_that("benchmark_spatial() runs end-to-end on a formula with a grouped random intercept and a probit link", {
+  dat <- grouped_binary_test_data()
+  bench <- benchmark_spatial(
+    formula = y ~ x1 + (1 | groupe), data = dat, coords = c("x_coord", "y_coord"),
+    estimators = "gam_spatial",
+    cv_scheme = "holdout_10pct", seed = 1L, response_typology = "binary", glm_link = "probit"
+  )
+  expect_true(all(is.na(bench$results$fit_error)))
+  expect_true(all(is.finite(bench$results$accuracy)))
+  expect_true(all(is.finite(bench$results$auc)))
+  expect_true(inherits(bench$fits$gam_spatial, "gam"))
+  expect_equal(bench$fits$gam_spatial$family$link, "probit")
+})
+
+test_that("detect_glm_link_from_spec() reads an explicit link or falls back to NULL", {
+  spec_probit <- data.frame(glm_link = I(list("probit")))
+  spec_absent <- data.frame(glm_link = I(list(NA_character_)))
+  spec_missing_col <- data.frame(x = 1)
+
+  expect_equal(detect_glm_link_from_spec(spec_probit), "probit")
+  expect_null(detect_glm_link_from_spec(spec_absent))
+  expect_null(detect_glm_link_from_spec(spec_missing_col))
+})
+
 test_that("spatialreg_fit_impl() refuses pred_type=KP2 above the 200-observation size guard", {
   set.seed(4)
   n <- 220L

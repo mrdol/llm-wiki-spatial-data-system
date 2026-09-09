@@ -262,3 +262,9 @@ Recent durable additions include:
 - [[tidymodels_spatial_pipeline_status_2026-07]]
 - [[spboost]]
 - [[mgwrsar]]
+
+### Fidélité des datasets — 9 septembre 2026
+
+La [[revue_fidelite_quatre_datasets_2026-09-09]] corrige deux pertes de lignes (SFBay et marsouin), restitue les équations et retire les attributions de benchmark non établies. Le panel CO2 est conservé sous `ready_in_data_bank`, sans admission automatique au benchmark. La [[revue_panel_spatial_2026-09-09]] prépare le support de panel à partir de Li, Elhorst, Baltagi et splm.
+
+Le [[plan_implementation_panel_spatial_2026-09-09]] traduit cette revue en huit jalons : inventaire des panels parents, contrat unité–temps–W, FE/SAR statiques, SEM/SAC/SDM, validation temporelle, intégration au catalogue panel, effets aléatoires et enfin modèles dynamiques ou spécialisés. Les moteurs panel restent séparés des SAR/SEM transversaux et de leurs coupes dérivées. Le tableau de bord et les comparaisons panel–coupe sont reportés. La première cible est la réplication économétrique ; la prédiction n'est activée que famille par famille après validation de son contrat.

@@ -108,7 +108,8 @@ normalize_suite_dataset_specs <- function(datasets, data_dir, formula_role) {
         formula = loaded$formula,
         coords = loaded$coords,
         W = loaded$W,
-        response_typology = detect_response_typology_from_spec(loaded$spec)
+        response_typology = detect_response_typology_from_spec(loaded$spec),
+        glm_link = detect_glm_link_from_spec(loaded$spec)
       )
     }))
   }

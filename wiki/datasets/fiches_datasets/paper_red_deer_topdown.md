@@ -170,16 +170,16 @@ modeling_evidence:
 ```yaml
 benchmark_readiness:
   benchmark_status: "manual_review"
-  benchmark_task: "regression_continuous"
+  benchmark_task: "reference_raw_see_child_filtered_sample"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
-  reason: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
+  missing_items: "RESOLU (2026-09-09) : le RDS local (534 lignes) est le jeu brut fusionne/deduplique, AVANT les 3 filtres du papier (exclusion de 7 sites en enclos, na.omit, Year_publ>2000). Ces filtres, reexecutes verbatim depuis 01. Model.R, reproduisent exactement les 492 sites du papier -- voir paper_red_deer_topdown_492 (benchmark_status: ready). Ce jeu PARENT (534, brut) reste manual_review car il ne correspond a aucune specification publiee telle quelle."
+  reason: "CORRECTION 2026-09-09 : mismatch N=492/534 entierement explique -- differences d'etape de filtrage, pas de divergence de source. Voir paper_red_deer_topdown_492 pour la tache benchmark-ready correspondant exactement a l'echantillon publie."
 ```
 
-- Decision: manual_review
-- Manque principal: Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark.
-- Raison: Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark.
+- Decision: manual_review (voir [[paper_red_deer_topdown_492]] pour l'echantillon filtre ready)
+- Manque principal: Jeu brut sans filtrage papier applique -- voir la fiche enfant pour la tache executable.
+- Raison: Les 3 filtres documentes dans 01. Model.R (enclos, na.omit, Year_publ>2000) ont ete reexecutes et reproduisent exactement N=492 -- fiche enfant creee.
 
 ## Estimator eligibility
 
@@ -188,7 +188,7 @@ estimator_eligibility:
   status: "manual_review"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exclusions du script 01.Model.R avant benchmark."
+  ineligible_reason: "Jeu brut (534 lignes, avant filtrage papier) -- voir [[paper_red_deer_topdown_492]] pour la tache benchmark-ready correspondant a l'echantillon publie (492 sites)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -236,8 +236,22 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`red_deer_topdown` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
+## ATTENTION -- un echantillon filtre executable a ete extrait de ce jeu brut, NE PAS supprimer
+
+Ce jeu (534 lignes) est le jeu BRUT fusionne/deduplique, avant les 3 filtres documentes dans
+le script de replication original `01. Model.R` (exclusion de 7 sites en enclos, na.omit,
+Year_publ>2000). Ces filtres, reexecutes verbatim le 2026-09-09, reproduisent exactement les
+492 sites de l'echantillon d'analyse du papier :
+
+- [[paper_red_deer_topdown_492]] -- echantillon filtre, N=492, benchmark_status: ready, package_include: yes.
+
+Le PARENT (cette fiche, 534 lignes brutes) reste utile pour toute analyse necessitant les
+sites exclus (enclos) ou les lignes incompletes. Ne pas supprimer au pretexte que la fiche
+enfant fait doublon.
+
 ## Related Pages
 
+- [[paper_red_deer_topdown_492]]
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: unknown
 

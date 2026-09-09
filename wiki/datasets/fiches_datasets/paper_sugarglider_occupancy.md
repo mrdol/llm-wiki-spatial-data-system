@@ -155,26 +155,37 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  benchmark_task: "review_count"
-  package_include: "manual_review"
+  benchmark_status: "ready"
+  benchmark_task: "regression_count"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
-  reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (count) ajoutes en revue de lot du 2026-09-09."
 ```
 
-- Decision: manual_review
-- Manque principal: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
-- Raison: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (count) ajoutes en revue de lot du 2026-09-09.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Regression (famille Poisson) generique pour reponse de comptage."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "GAM (famille Poisson), baseline generique pour reponse de comptage."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip."
   conditionally_eligible_estimators: []
-  ineligible_reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. n_detections denombre les detections; occupation et detectabilite doivent rester distinguees."
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -220,6 +231,10 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: survey5 (NA=76%), d5 (NA=77%), temp5 (NA=76%), wind5 (NA=76%), moon5 (NA=76%), owl5 (NA=76%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`sugarglider_occupancy` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Note -- promotion en lot (2026-09-09)
+
+Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (count), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

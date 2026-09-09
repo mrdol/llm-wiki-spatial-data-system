@@ -2,16 +2,14 @@
 title: paper_no2_aqs_ma_2016_monitor_covariates
 type: dataset
 created: 2026-08-11
-updated: 2026-09-07
+updated: 2026-09-09
 sources:
   - data/final_datasets/sf/paper_no2_aqs_state_25_2016_monitor_covariates.rds
   - tools/build_air_quality_monitor_covariates.R
 tags: [dataset, paper-derived, spatial, point, air-quality, derived-reconstruction, benchmark-candidate]
 ---
 
-Dataset spatial derive pour transformer le produit de prediction NO2 en petit benchmark de regression continue au niveau des stations EPA AQS du Massachusetts en 2016.
-
-Important: cette fiche ne remplace pas la fiche de grille predite du papier. Elle documente une reconstruction publique partielle, fondee uniquement sur des familles de covariables explicitement citees dans le papier et recuperables depuis des sources officielles. Ce nest pas une replication exacte de la matrice dapprentissage des auteurs.
+Cette fiche documente une reconstruction locale EPA AQS Massachusetts 2016 associée au papier de Di et al. Elle ne contient ni la matrice d'apprentissage originale ni les prédictions de grille du dépôt Dataverse comme réponse observée. L'écart avec la tâche publiée est établi et la reconstruction n'est pas admise au benchmark fidèle au papier.
 
 ## Description du jeu de donnees
 
@@ -32,24 +30,23 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 
 ### Variables (niveau systeme - inspection directe du sf)
 
-- Candidate Y variables: `no2_mean_2016`
+- Candidate Y variables: `no2_mean_2016`, réponse dérivée locale, différente de la réponse publiée
 - Candidate Y typology: continuous
-- Candidate X variables: `elevation_m_usgs_epqs`, `power_t2m_mean_c`, `power_rh2m_mean_pct`, `power_ws10m_mean_m_s`, `power_prectotcorr_sum_mm`, `power_swdwn_mean_mj_m2_day`, `nlcd_land_cover_code`, `nlcd_developed`, `nlcd_forest`, `road_density_primary_secondary_1km_m_per_km2`, `road_density_primary_secondary_10km_m_per_km2`, `power_ps_mean_kpa`
-- Candidate X count: 12
+- Candidate X variables: `elevation_m_usgs_epqs`, `power_t2m_mean_c`, `power_rh2m_mean_pct`, `power_ws10m_mean_m_s`, `power_prectotcorr_sum_mm`, `power_swdwn_mean_mj_m2_day`, `power_ps_mean_kpa`, `nlcd_land_cover_code`, `nlcd_developed`, `nlcd_forest`, `road_density_primary_secondary_1km_m_per_km2`, `road_density_primary_secondary_10km_m_per_km2`
 - Candidate X typology: continuous, categorical, binary
+- Candidate X count: 12 variables candidates non constantes parmi 14 colonnes publiques de covariables ; 5 dans l'ancienne formule compacte
 - Coordinates (x, y - excluded from X candidates): `longitude`, `latitude`
-- Identifier columns (excluded from X candidates): `site_id`, `state_code`, `county_code`, `site_num`, `measurement_column`, `response_units`, `pollutant`, `year`, `source_observations`, `source_grid_prediction`
-- Variables inspected: yes (auto - generate_air_quality_monitor_fiches.R)
-- Presence of imputed X: unknown
-- Diagnostic/proxy columns excluded from formula_used: `no2_grid_prediction_2016`, `no2_grid_distance_m`
+- Identifier columns (excluded from X candidates): site_id, state_code, county_code, site_num, year, provenance et diagnostics
+- Variables inspected: yes ; 10 stations, `measurement_column` vaut Arithmetic Mean partout
+- Presence of imputed X: absence de NA ne prouve pas l'absence d'imputation en amont
 
 #### Detail Y
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `no2_mean_2016` | `numeric` | continuous | [2.7206, 15.0703] | 0% |
+| `no2_mean_2016` | `numeric` | continuous | [2.720621, 15.07027] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : no2_mean_2016 est la reponse naturelle car elle correspond a la moyenne annuelle 2016 observee aux stations EPA AQS. Les covariables X retenues sont les familles publiques explicitement mentionnees par l article (10.1021/acs.est.9b03358) et reconstruites localement: elevation, meteo/radiation, occupation du sol et routes. Les predictions de grille originales (`no2_grid_prediction_2016`, `no2_grid_distance_m`) sont conservees comme colonnes diagnostiques mais exclues de formula_used pour eviter une fuite d information.
+> Selection Y/X (paper-loader / curated evidence) : `no2_mean_2016` est la moyenne annuelle des valeurs `Arithmetic Mean` sélectionnées par le builder dans les données AQS (`pick_response_col()`, puis `mean(x$.y)`) ; elle ne restitue pas le maximum quotidien horaire employé par Di et al., qui utilisent le logarithme du NO2 observé lors de l'apprentissage. Les covariables X retenues sont les familles publiques reconstruites localement (élévation, météo/rayonnement NASA POWER, occupation du sol NLCD, densité routière). Les coordonnées (`longitude`, `latitude`), identifiants (`site_id`, `state_code`, `county_code`, `site_num`, `year`) et diagnostics (`no2_grid_prediction_2016`, sa distance de jointure, `n_daily_observations`) sont exclus de X. Statut benchmark actuel : not_ready_training_data ; la reconstruction n'est pas admise comme benchmark fidèle au papier.
 
 #### Detail X
 
@@ -61,116 +58,141 @@ Important: cette fiche ne remplace pas la fiche de grille predite du papier. Ell
 | `power_ws10m_mean_m_s` | `numeric` | continuous | 0% |
 | `power_prectotcorr_sum_mm` | `numeric` | continuous | 0% |
 | `power_swdwn_mean_mj_m2_day` | `numeric` | continuous | 0% |
-| `nlcd_land_cover_code` | `integer` | count | 0% |
+| `power_ps_mean_kpa` | `numeric` | continuous | 0% |
+| `nlcd_land_cover_code` | `integer` | categorical | 0% |
 | `nlcd_developed` | `integer` | binary | 0% |
 | `nlcd_forest` | `integer` | binary | 0% |
 | `road_density_primary_secondary_1km_m_per_km2` | `numeric` | continuous | 0% |
 | `road_density_primary_secondary_10km_m_per_km2` | `numeric` | continuous | 0% |
-| `power_ps_mean_kpa` | `numeric` | continuous | 0% |
+
+> Note : `nlcd_land_cover_code` est une catégorie, pas un comptage. `no2_grid_prediction_2016`, sa distance de jointure et `n_daily_observations` sont des diagnostics, pas des prédicteurs publiés. Agriculture et water (NLCD) sont constantes sur ces 10 stations et ne sont pas retenues.
 
 ### Formule - niveau publication
 
-- formula_pub: no single monitor-level regression formula published in the extracted article text.
-- x_terms_pub: air-quality observations, remote-sensing/satellite products, meteorology, land-use/land-cover, elevation, road/traffic proxies and chemical transport model outputs are cited as covariate families in the paper.
-- y_term_pub: NO2 concentration.
-- Reference publication: Di et al. (2020), Assessing NO2 Concentration and Model Uncertainty with High Spatiotemporal Resolution across the Contiguous United States Using Ensemble Model Averaging
+- formula_pub: NO2_hat = f1(Location_i, NO2_hat_nn_ij) + f2(Location_i, NO2_hat_rf_ij) + f3(Location_i, NO2_hat_gb_ij)
+- x_terms_pub: prédicteurs satellitaires, modèles de transport chimique, météorologie, occupation du sol, routes/trafic, topographie et variables auxiliaires ; puis prédictions NN/RF/GB et localisation pour le GAM d'ensemble
+- y_term_pub: NO2 observé, maximum journalier sur une heure, transformé en logarithme pour l'apprentissage
+- Reference publication: Di et al. (2020), Environmental Science & Technology 54:1372–1384, DOI 10.1021/acs.est.9b03358, sections 2.1 et 3.2–3.4 ; équation de la section 3.3, page publiée 1375 (page PDF 4).
+
+L'équation ci-dessus conserve les notations et les trois fonctions du papier : splines thin-plate faisant interagir la localisation et les prédictions de chaque apprenant. Le papier utilise 912 stations sur 2000–2016, un downscaling des résidus et des étapes itératives supplémentaires. Une formule R avec cinq covariables et un simple lisseur spatial ne représente pas cet ensemble.
 
 ### Statut regression canonique
 
 - Statut: derived_reconstruction
-- Niveau de preuve: paper covariate families + public data sources
-- Methode d estimation: benchmark regression candidate, not exact paper replication
-- Correspondance Python/R: aucune identifiee
-- Note: formule compacte derivee pour garder un ratio n/p stable sur une coupe Massachusetts 2016.
+- Niveau de preuve: modèle publié identifié ; matrice d'apprentissage originale absente localement
+- Methode d estimation: réseau neuronal, forêt aléatoire et gradient boosting, puis GAM d'ensemble géographiquement pondéré
+- Note: Le DOI Dataverse désigne les prédictions finales sur grille, pas les observations et covariables d'apprentissage originales. La reconstruction Massachusetts 2016 a été construite par le projet pour disposer d'une petite table locale ; ce choix n'est pas une spécification de l'article.
 
 ### Formule - niveau systeme
 
-- formula_used: no2_mean_2016 ~ elevation_m_usgs_epqs + power_t2m_mean_c + power_rh2m_mean_pct + nlcd_developed + road_density_primary_secondary_10km_m_per_km2
-- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- formula_used: pending
+- x_terms_used: pending
+- y_term_used: pending
 - Selected Y typology: continuous
-- x_terms_used: elevation_m_usgs_epqs, power_t2m_mean_c, power_rh2m_mean_pct, nlcd_developed, road_density_primary_secondary_10km_m_per_km2
-- y_term_used: no2_mean_2016
-- Note: les colonnes de prediction de grille sont exclues pour eviter la fuite dinformation.
+- Note: La formule annuelle à cinq X est retirée de l'usage actif, sans effacer le RDS dérivé. Reconstituer ou obtenir la réponse quotidienne et les prédicteurs des auteurs avant de proposer une tâche fidèle au papier.
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
   multivariate_constrained:
-    formula: "no2_mean_2016 ~ elevation_m_usgs_epqs + power_t2m_mean_c + power_rh2m_mean_pct + nlcd_developed + road_density_primary_secondary_10km_m_per_km2"
-    response: "no2_mean_2016"
-    predictors: ["elevation_m_usgs_epqs", "power_t2m_mean_c", "power_rh2m_mean_pct", "nlcd_developed", "road_density_primary_secondary_10km_m_per_km2"]
-    role: "derived_public_covariate_benchmark"
-    source_type: "derived_reconstruction"
-    source_ref: "10.1021/acs.est.9b03358; EPA AirData; USGS EPQS; NASA POWER; NLCD ImageServer; Census TIGER/Line"
-    estimator_context: ["ols", "gam_spatial", "random_forest", "xgboost", "sar_lag"]
-    status: "derived_reconstruction"
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "Aucune formule locale n'est presentee comme la formule publiee (ensemble NN/RF/GB + GAM geographiquement pondere, section 3.3) ; la table annuelle de dix stations reste un artefact de reconstruction documente, non une replication."
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
 ```
 
 ## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_no2_aqs_ma_2016_monitor_covariates`
 - Dataset name: NO2 AQS Massachusetts 2016 monitor covariates
-- Source family: paper-derived / DataCite-derived / public covariate reconstruction
-- Source: Di et al. (2020), Assessing NO2 Concentration and Model Uncertainty with High Spatiotemporal Resolution across the Contiguous United States Using Ensemble Model Averaging
-- Source URL: Dataverse dataset DOI 10.7910/DVN/LUFKYG
-- Dataset DOI: 10.7910/DVN/LUFKYG
+- Source family: derived_reconstruction
+- Source: reconstruction EPA AirData, USGS, NASA POWER, NLCD et Census ; associée thématiquement à Di et al. (2020)
+- Source URL: https://www.epa.gov/outdoor-air-quality-data
+- Dataset DOI: none
+- Dataset DOI note: cette reconstruction locale ne possède pas le DOI du produit Dataverse (voir Dataset DOI original ci-dessous)
+- Dataset DOI original: 10.7910/DVN/LUFKYG, produit de prédiction associé uniquement
 - Publication DOI: 10.1021/acs.est.9b03358
-- Year: 2016
+- Year: 2020 (publication) ; données dérivées : 2016
 
 ## Bloc 3 - Typologie des modeles
 
-- Modele niveau 1 (tache): regression continue spatiale
-- Modele niveau 2 (famille): benchmark derive avec covariables publiques
-- Modele niveau 3 (variante): monitor-level annual cross-section
+- Modele niveau 1 (tache): prédiction quotidienne spatio-temporelle de NO2
+- Modele niveau 2 (famille): ensemble géographiquement pondéré de machine learning
+- Modele niveau 3 (variante): NN + RF + gradient boosting combinés par GAM ; downscaling et étapes itératives
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "no single monitor-level formula found; system formula is a derived reconstruction"
-  equation_family: derived_system_candidate
-  model_family: "spatial regression / machine learning benchmark candidate"
-  source_type: derived_reconstruction_from_public_sources
-  source_ref: "10.1021/acs.est.9b03358"
-  confidence: medium
+  existing_model_found: true
+  equation_text: "NO2_hat = f1(Location_i, NO2_hat_nn_ij) + f2(Location_i, NO2_hat_rf_ij) + f3(Location_i, NO2_hat_gb_ij)"
+  model_family: "geographically weighted ensemble machine learning"
+  source_type: scientific_publication
+  source_ref: "10.1021/acs.est.9b03358, section 3.3 page 1375"
+  confidence: high
 ```
 
 ## Benchmark readiness
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review_derived_reconstruction"
-  benchmark_task: "regression_continuous_derived_reconstruction"
-  package_include: "manual_review"
+  benchmark_status: "not_ready_training_data"
+  benchmark_task: "regression_continuous"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "Prototype reconstruction: uses EPA AQS monitor observations, USGS elevation, NASA POWER weather/radiation, NLCD point land-cover class, Census TIGER road density, and nearest final prediction grid value. Satellite AOD and CTM covariates are not yet reconstructed."
-  reason: "Continuous response, coordinates and public covariates are present, but this is a partial reconstruction and not the exact training matrix from the paper."
+  missing_items: "Matrice quotidienne originale absente ; réponse annuelle différente, dix stations seulement ; reconstruction non admise comme benchmark fidèle au papier."
+  reason: "Matrice quotidienne originale absente ; réponse annuelle différente, dix stations seulement ; reconstruction non admise comme benchmark fidèle au papier."
 ```
 
-- Decision: manual_review_derived_reconstruction
-- Manque principal: exact paper training matrix and missing satellite/CTM/traffic covariates
-- Raison: usable for exploratory benchmark only after explicit validation.
+- Decision: not_ready_training_data
+- Manque principal: Matrice quotidienne originale absente ; réponse annuelle différente, dix stations seulement ; reconstruction non admise comme benchmark fidèle au papier.
+- Raison: Données conservées dans la banque ; le statut ne vaut pas admission au benchmark automatique.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review_derived_reconstruction"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
-  conditionally_eligible_estimators: ["sar_lag", "sem_error", "sdm_mixed", "gwr"]
-  ineligible_reason: "spatial econometric estimators require explicit validation because this is a partial monitor-level reconstruction, not the exact paper training matrix"
-  rule: "paper-derived reconstructions are eligible only after the response, predictors, coordinates and leakage exclusions are explicit in formula_used"
+  eligible_estimators: []
+  conditionally_eligible_estimators: ["random_forest", "xgboost", "gam_spatial"]
+  ineligible_reason: "Le harnais offre RF, XGBoost et GAM spatial séparément, pas le réseau neuronal ni le GAM combinant leurs prédictions comme dans le papier. Avec dix stations et une réponse différente, aucune admission automatique."
+  rule: "Conserver la méthode du papier ; une famille voisine ne constitue pas une reproduction."
 ```
+
+Les trois routes conditionnelles ne valent que pour une future tâche correctement reconstruite et suffisamment documentée. XGBoost appartient à la famille du gradient boosting, mais l'identité du moteur avec celui des auteurs n'est pas établie. `gam_spatial` ajoute `s(x,y)` aux X ; ce n'est pas le GAM d'ensemble publié. Aucun SAR classique n'est attribué au papier.
 
 ## Bloc 4 - Typologie des donnees
 
 - Data type: spatial
-- Structure: coupe_transversale
+- Structure: coupe_transversale dérivée ; le papier étudie des observations quotidiennes spatio-temporelles
 - N observations: 10
 - k variables: 31
 - T periods: 1
-- Variable temporelle: annualized 2016
+- Variable temporelle: agrégation annuelle 2016
 - N/T profile: N_petit_T_petit
+- Note: 32 colonnes, dont une géométrie ; k=31 attributs hors géométrie, incluant identifiants et diagnostics. Ce nombre n'est pas celui des covariables du papier.
 
 ## Bloc 5 - Resolution et etendue
 
@@ -185,11 +207,11 @@ estimator_eligibility:
 
 ## Bloc 6 - Reproductibilite
 
-- License present: yes
-- License name: Creative Commons Zero v1.0 Universal
+- License present: partial
+- License name: conditions des différentes sources publiques à documenter
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
-- License open: yes
-- License evidence: DataCite API record for DOI 10.7910/dvn/lufkyg (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
+- License open: not_confirmed_for_combined_artifact
+- License evidence: La licence CC0 de 10.7910/DVN/LUFKYG concerne le produit de prédiction ; elle ne suffit pas à établir la licence combinée de cette reconstruction multisource.
 - Reproducibility status: partial - public APIs are scripted; exact paper training matrix is not reconstructed
 - Code available: yes (`tools/build_air_quality_monitor_covariates.R`, `code/r_catalog/generate_air_quality_monitor_fiches.R`)
 - Repository: paper-derived reconstruction
@@ -197,22 +219,14 @@ estimator_eligibility:
 
 ## Quality Control
 
-- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_air_quality_monitor_fiches.R`.
-- Variables: OK - formula variables present in the RDS.
-- Formula: WARN - derived compact formula, not a verbatim published equation.
-- CRS: OK - EPSG:4326 in Bloc 5.
-- Geometry: OK - point geometry from EPA AQS station coordinates.
-- Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - station-level aggregation by site_id.
-- Reproducibility: partial - public APIs are scripted; exact paper training matrix is not reconstructed.
+- Variables: colonnes locales contrôlées ; réponse Arithmetic Mean annuelle distincte du maximum quotidien horaire publié.
+- Formula: équation d'ensemble identifiée dans le PDF ; aucune formule de réplication locale exécutable.
+- CRS: EPSG:4326 ; géométrie des dix stations.
+- Missing values: covariables remplies dans le RDS ; familles originales manquantes malgré cette complétude locale.
+- Duplicates: table agrégée par station ; ce n'est pas la structure station-jour d'apprentissage.
+- Reproducibility: builder retrouvé ; RDS dérivé conservé, non remplacé par des valeurs inventées.
 
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source grid fiche: [[paper_no2_grid]]
-
-## Curation documentée — 2026-09-07
-
-Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

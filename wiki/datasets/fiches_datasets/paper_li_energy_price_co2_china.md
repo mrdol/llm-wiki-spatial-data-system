@@ -2,9 +2,9 @@
 title: paper_li_energy_price_co2_china
 type: dataset
 created: 2026-08-09
-updated: 2026-09-07
+updated: 2026-09-09
 sources:
-  - data/final_datasets/sf/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot.gpkg
+  - data/final_datasets/sf/paper_li_energy_price_co2_china.rds
   - DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot
   - corpus/papers/tei/The impact of energy price on CO2 emissions in China - A spatial econometric analysis.tei.xml
 tags: [dataset, paper-derived, spatial, polygon, panel]
@@ -21,12 +21,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Impact
 - Temporal context: panel, 15 annees (2002-2016)
 - Source description: le papier modelise le logarithme des emissions de CO2 en fonction du prix de l'energie (EP) et de variables de controle (population, PIB/habitant, structure industrielle, urbanisation, investissement direct etranger, technologie, education, structure energetique), avec un terme de dependance spatiale (SAR-lag, SAR-error, ou dynamique avec retard temporel)
 - Description source: corpus/papers/tei/The impact of energy price on CO2 emissions in China - A spatial econometric analysis.tei.xml
-- Description confidence: high (les variables de controle citees dans l'equation (3) du papier - POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS - correspondent exactement aux colonnes du fichier)
+- Description confidence: medium
+- Description confidence note: high pour les variables et transformations ; attribution géographique reconstruite, non confirmée par un codebook auteur
 - Paper DOI: 10.1016/j.scitotenv.2019.135942
 - Dataset DOI: 10.17632/hm29shxmfc.1
 - Source URL: https://data.mendeley.com/datasets/hm29shxmfc/1
 - Local raw dir: `data/raw/papers/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot/`
-- Local sf output: `data/final_datasets/sf/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot.gpkg`
+- Local sf output: `data/final_datasets/sf/paper_li_energy_price_co2_china.rds`
 - Local benchmark RDS: `data/final_datasets/sf/paper_li_energy_price_co2_china.rds`
 
 ### ⚠️ Avertissement — identification des provinces par reconstruction, pas par codebook officiel
@@ -42,81 +43,94 @@ Les deux methodes convergent integralement. Confiance elevee, mais ce n'est pas 
 
 ### Variables (niveau systeme — inspection directe du sf)
 
-- Candidate Y variables: `CO2` (utilisee en log dans le papier : ln(CO2))
+- Candidate Y variables: `CO2`, utilisée en logarithme naturel
 - Candidate Y typology: continuous
-- Candidate X variables: `EP` (prix de l'energie, variable principale), `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU`, `ENS`
+- Candidate X variables: `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU`, `ENS`, `EP`, toutes utilisées en logarithme naturel
+- Candidate X count: 9
 - Candidate X typology: continuous
-- Presence of imputed X: unknown
-- Coordinates (excluded from X): `X`, `Y` (centroides projetes derives de la geometrie polygonale provinciale)
-- Identifier columns (excluded from X): `id_province`, `id_map`, `region`, `province_name`, `year` (variable temporelle)
-
-> Selection Y/X (paper-loader / curated evidence) : Pour `paper_li_energy_price_co2_china`, la réponse retenue est `CO2`, utilisée dans le papier sous forme logarithmique pour étudier les émissions provinciales de carbone. Les covariables X retenues sont `EP`, `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU` et `ENS`, car elles correspondent à la spécification empirique publiée sur le prix de l'énergie et les facteurs socio-économiques associés. Les identifiants administratifs, les champs temporels et les géométries sont exclus de X. Statut benchmark actuel : manual_review; le RDS local contient desormais le panel complet (450 obs, restaure le 2026-09-08 -- il ne contenait auparavant que la coupe 2016).
+- Coordinates (excluded from X): `X`, `Y` ; géométrie provinciale
+- Identifier columns (excluded from X): `id_province`, `id_map`, `region`, `province_name`, `year`
+- Presence of imputed X: non établie par le seul fichier disponible
+- Variables inspected: yes ; 450 lignes, dix variables Y/X présentes, finies et strictement positives
 
 #### Detail Y
 
-| Variable | Typologie | Plage |
-|---|---|---|
-| `CO2` | continuous | [1011.4, 132595.14] |
+| Variable | Classe R | Typologie Y | Plage | NA (%) |
+|---|---|---|---|---|
+| `CO2` | `numeric` | continuous | [1011.4, 132595.1] | 0% |
+
+> Selection Y/X (paper-loader / curated evidence) : Pour `li_energy_price_co2_china`, la réponse `CO2` (émissions provinciales, utilisée en `log(CO2)`) vient du loader papier et des preuves de l'article Li, Fang et He (2020). Les covariables X retenues sont `POP`, `PGDP`, `INS`, `URB`, `RFDI`, `TEC`, `EDU`, `ENS`, `EP`, toutes utilisées en logarithme naturel (équation 3). Les coordonnées (`X`, `Y`, géométrie provinciale), identifiants (`id_province`, `id_map`, `region`, `province_name`) et la variable de panel (`year`) sont exclus de X. Statut benchmark actuel : ready_in_data_bank ; package_include: no (support panel spatial du harnais à implémenter).
 
 #### Detail X
 
-| Variable | Typologie | Plage |
-|---|---|---|
-| `EP` (prix de l'energie) | continuous | [0.4154, 3.4107] |
-| `POP` | count | [523, 10849] |
-| `PGDP` | count | [3000, 107960] |
-| `INS` (structure industrielle) | continuous | [13.12, 53.04] |
-| `URB` (urbanisation) | continuous | [24.48, 89.61] |
-| `RFDI` (investissement direct etranger relatif) | continuous | [0.068, 14.65] |
-| `TEC` (technologie) | continuous | [0.21, 26447.83] |
-| `EDU` (education) | continuous | [2.19, 11.64] |
-| `ENS` (structure energetique) | continuous | [13.70, 1058.83] |
+| Variable | Classe R | Role X | NA (%) |
+|---|---|---|---|
+| `POP` | `numeric` | continuous (log) | 0% |
+| `PGDP` | `numeric` | continuous (log) | 0% |
+| `INS` | `numeric` | continuous (log) | 0% |
+| `URB` | `numeric` | continuous (log) | 0% |
+| `RFDI` | `numeric` | continuous (log) | 0% |
+| `TEC` | `numeric` | continuous (log) | 0% |
+| `EDU` | `numeric` | continuous (log) | 0% |
+| `ENS` | `numeric` | continuous (log) | 0% |
+| `EP` | `numeric` | continuous (log) | 0% |
+
+> Note : EP = prix de l'énergie ; POP = population ; PGDP = PIB par habitant ; INS = structure industrielle ; URB = urbanisation ; RFDI = intensité relative des investissements directs étrangers ; TEC = efficacité d'utilisation de l'énergie ; EDU = niveau d'éducation ; ENS = structure de consommation énergétique. Le papier transforme aussi les huit contrôles en logarithme (équation 3 et début de la page PDF 15).
 
 ### Formule — niveau publication
 
-- formula_pub: `ln(CO2)_it = alpha_i + gamma*ln(EP)_it + beta*Control_it + rho*W*ln(CO2)_it + eta_t + xi_t + epsilon_t` (SAR-lag, eqn 5), variante SAR-error `ln(CO2)_it = alpha_i + gamma*ln(EP)_it + beta*Control_it + lambda*W*upsilon_it + eta_t + xi_t + epsilon_t` (eqn 6), variante dynamique avec retard spatio-temporel (eqn 7)
-- x_terms_pub: `ln(EP)`, `Control` = {POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS}
-- y_term_pub: `ln(CO2)`
-- Reference publication: Li, K., Fang, L., He, Q. (2020) "The Impact of Energy Price on CO2 Emissions in China: A Spatial Econometric Analysis", Science of The Total Environment 706:135942. Equations (3), (5)-(7).
+- formula_pub: lnCO2 = alpha + beta1*lnPOP + beta2*lnPGDP + beta3*lnINS + beta4*lnURB + beta5*lnRFDI + beta6*lnTEC + beta7*lnEDU + beta8*lnENS + beta9*lnEP + epsilon
+- x_terms_pub: lnPOP, lnPGDP, lnINS, lnURB, lnRFDI, lnTEC, lnEDU, lnENS, lnEP
+- y_term_pub: lnCO2
+- Reference publication: Li, K., Fang, L. et He, L. (Lerong He), 2020, Science of the Total Environment 706:135942, DOI 10.1016/j.scitotenv.2019.135942, équation 3.
+
+Le modèle principal retenu est le **panel spatial lag à effets fixes provinciaux** (section 3.1). Les équations (4)–(6) présentent SAC, lag et erreur ; le modèle dynamique (7) est une analyse de robustesse. Transcription des notations imprimées, sans correction silencieuse de leurs indices :
+
+- (5) `lnCO2_it = alpha_i + gamma*lnEP_it + beta*Control_it + rho*W*lnCO2_it + eta_t + xi_t + epsilon_t`.
+- (6) `lnCO2_it = alpha_i + gamma*lnEP_it + beta*Control_it + lambda*W*upsilon_it + eta_t + xi_t + epsilon_t`.
+- (7) ajoute `delta*lnCO2_i,t-1` à (5).
+
+Control désigne les huit contrôles transformés en logarithme. La notation générale inclut un effet temporel ; elle ne signifie pas que le modèle principal retenu soit nécessairement à doubles effets fixes. Le texte privilégie les effets fixes provinciaux. W principale : contiguïté binaire des provinces avec frontière commune, normalisée par ligne (pages PDF 16–17). La géométrie jointe du projet ne suffit pas à garantir l'identité avec W des auteurs.
 
 ### Statut regression canonique
 
 - Statut: resolu
-- Niveau de preuve: verbatim (equations 3, 5-7 extraites du TEI)
-- Methode d'estimation: panel spatial (SAR-lag / SAR-error / dynamique avec retard temporel et spatial), matrices de poids spatiaux alternatives testees
-- Correspondance Python/R: aucune
-- Note: le papier teste plusieurs specifications spatiales (lag, erreur, dynamique) sur le meme jeu de variables ; toutes les variables de controle citees dans l'equation (3) sont presentes dans le fichier converti.
+- Niveau de preuve: équations du PDF contrôlées visuellement, et non TEI seul
+- Methode d'estimation: panel spatial lag à effets fixes provinciaux ; SEM/SAC et dynamique en comparaison ou robustesse
+- Note: Statut resolu pour les variables et transformations (composante de régression de l'équation 3) ; l'implémentation panel spatial complète (effets fixes, W, retards) reste différée, faute de route panel dans le harnais. Les dix variables nécessaires au terme de régression sont présentes et positives. Les paramètres spatiaux, effets fixes et retards temporels relèvent du modèle, pas de neuf colonnes X ordinaires.
 
 ### Formule — niveau systeme
 
-- formula_used: `CO2 ~ EP + POP + PGDP + INS + URB + RFDI + TEC + EDU + ENS`
-- Recommended validation: N lignes=30; T declare=15; variable temporelle declaree=year; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
-- x_terms_used: `EP, POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS`
-- y_term_used: `CO2`
+- formula_used: log(CO2) ~ log(POP) + log(PGDP) + log(INS) + log(URB) + log(RFDI) + log(TEC) + log(EDU) + log(ENS) + log(EP)
+- Selected Y typology: continuous
+- x_terms_used: POP, PGDP, INS, URB, RFDI, TEC, EDU, ENS, EP
+- y_term_used: CO2
+- Recommended validation: 450 lignes = 30 provinces × 15 années 2002–2016 ; une observation par couple province-année ; protocole de panel et alignement explicite de W
+- Note: Cette formule R conserve exactement les variables et logarithmes de (3). Elle est la composante de régression à transmettre au futur estimateur de panel ; l'exécuter dans un OLS ou SAR transversal ne reproduirait pas le modèle principal.
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
-    formula: "CO2 ~ EP"
-    response: "CO2"
-    predictors: ["EP"]
+    formula: "pending"
+    response: "pending"
+    predictors: []
     role: "simple_baseline"
-    source_type: "published"
-    source_ref: "Li, Fang & He (2020), Science of the Total Environment, eq. (5), variable principale EP"
-    estimator_context: ["ols", "sar_lag", "sar_error"]
-    status: "confirmed"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
 
   multivariate_constrained:
-    formula: "CO2 ~ EP + POP + PGDP + INS + URB + RFDI + TEC + EDU + ENS"
+    formula: "log(CO2) ~ log(POP) + log(PGDP) + log(INS) + log(URB) + log(RFDI) + log(TEC) + log(EDU) + log(ENS) + log(EP)"
     response: "CO2"
-    predictors: ["EP", "POP", "PGDP", "INS", "URB", "RFDI", "TEC", "EDU", "ENS"]
+    predictors: ["POP", "PGDP", "INS", "URB", "RFDI", "TEC", "EDU", "ENS", "EP"]
     role: "paper_main_specification"
-    source_type: "published"
-    source_ref: "Li, Fang & He (2020), eq. (3) et (5)-(7)"
-    estimator_context: ["sar_lag", "sar_error"]
-    status: "confirmed"
+    source_type: "scientific_publication"
+    source_ref: "Li, Fang et He (2020), Science of the Total Environment 706:135942, DOI 10.1016/j.scitotenv.2019.135942, equation 3 -- composante de regression du modele principal panel spatial lag a effets fixes provinciaux (equations 4-7) ; parametres spatiaux, effets fixes et retards temporels non representes par ce champ tabulaire."
+    estimator_context: []
+    status: "confirmed_pending_panel_route"
 
   ml_or_selected:
     formula: "pending"
@@ -129,10 +143,12 @@ formula_candidates:
     status: "unavailable"
 ```
 
+La formule brute `CO2 ~ EP` et la formule multivariée sans logarithmes sont retirées des spécifications publiées. Les variantes spatiales à conserver sont les équations (4)–(7) décrites ci-dessus ; aucun estimateur transversal n'est déclaré reproduction exacte.
+
 ## Bloc 2 — Identification et DOI
 
 - Dataset ID: `paper_li_energy_price_co2_china`
-- Dataset name: Data for: The impact of energy price on CO2 emissions in China: A spatial econometric analysis
+- Dataset name: Data for: Assessing the impact of energy price on China's carbon emissions: A spatial econometric method
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
 - Paper title: The Impact of Energy Price on CO2 Emissions in China: A Spatial Econometric Analysis
@@ -143,18 +159,17 @@ formula_candidates:
 
 ## Bloc 3 — Typologie des modeles
 
-- Modele niveau 1 (tache): effet du prix de l'energie sur les emissions de CO2 avec dependance spatiale
-- Modele niveau 2 (famille): panel spatial (SAR-lag / SAR-error / dynamique)
-- Modele niveau 3 (variante): 3 specifications testees (statique lag, statique erreur, dynamique avec retard temporel)
+- Modele niveau 1 (tache): expliquer les émissions provinciales de CO2
+- Modele niveau 2 (famille): panel spatial à effets fixes
+- Modele niveau 3 (variante): lag principal ; erreur et SAC comparatifs ; dynamique en robustesse
 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "ln(CO2)_it = alpha_i + gamma*ln(EP)_it + beta*Control_it + rho*W*ln(CO2)_it + eta_t + xi_t + epsilon_t (eq.5)"
-  equation_family: spatial_panel_co2_energy_price
-  model_family: sar_lag_error_dynamic
+  equation_text: "Equations (3) à (7), logarithmes de toutes les variables ; modèle principal spatial lag à effets fixes provinciaux."
+  model_family: spatial_panel
   source_type: published
-  source_ref: "Li, Fang & He (2020), Science of the Total Environment, eq. (3), (5)-(7)"
+  source_ref: "10.1016/j.scitotenv.2019.135942, sections 2.1, 2.4, 3.1, 3.4"
   confidence: high
 ```
 
@@ -162,30 +177,30 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
-  package_include: "manual_review"
-  blocking_reason: "panel spatial complet (450 obs) restaure le 2026-09-08 -- promotion en attente d'un support benchmark panel-spatial dedie, pas d'un defaut de la fiche ; province-name reconstruction reste documentee"
-  required_next_step: "implementer/valider un chemin de benchmark spatial-panel (effets fixes + SAR panel, methode Elhorst 2010) avant promotion ; en parallele, confirmation externe optionnelle que id_province suit la sequence GB/T 2260 reconstruite"
+  benchmark_status: "ready_in_data_bank"
+  benchmark_task: "regression_continuous_panel"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee)."
-  reason: "N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee)."
-  benchmark_task: "spatial_panel_estimator_support_pending"
+  missing_items: "Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication."
+  reason: "Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication."
 ```
 
-- Decision: manual_review
-- Manque principal: Support benchmark spatial-panel non encore disponible dans le harnais (voir 'reason' ci-dessus) ; la fiche/les donnees elles-memes sont completes et confirmees (formule verbatim eqs. 3/5-7, panel complet restaure).
-- Raison: N lignes=450 (panel complet, 30 provinces x 15 annees, restaure le 2026-09-08 -- l'ancien RDS ne contenait que la coupe 2016, N=30). Chaque province se repete 15 fois : panel spatial legitime, pas une duplication a nettoyer. Le harnais de regression actuel (cross-sectionnel) ne gere pas nativement une matrice W construite sur des geometries repetees -- CV manuelle recommandee : grouper par province, respecter la chronologie (annee).
+- Decision: ready_in_data_bank
+- Manque principal: Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication.
+- Raison: Données conservées dans la banque ; le statut ne vaut pas admission au benchmark automatique.
 
 ## Bloc 4 — Typologie des donnees
 
 - Data type: spatio-temporel
 - Structure: panel
 - N observations: 450
-- k variables: 15
+- k variables: 17
 - T periods: 15
 - Variable temporelle: year
-- N/T profile: N_petit_T_grand (30 unites spatiales x 15 periodes)
-- Note N/T corrigee (session 2026-09-08) : le RDS local ne contenait auparavant que la coupe 2016 (N=30), contrairement a la note du 2026-08-17 ci-dessous qui affirmait a tort l'absence de panel sur cette base. Verification du fichier brut `data.xlsx` (depot Mendeley) : il contient bien les 450 lignes completes (30 provinces x 15 annees 2002-2016). Sur decision explicite de l'utilisateur (jeu de petite taille -> conserver la forme panel plutot que de le decouper en coupes annuelles comme Coree), le RDS local a ete reconstruit pour contenir les 450 lignes, geometrie provinciale repetee 15 fois par province (panel spatial equilibre et legitime, conforme aux equations panel du papier). Ancienne note (2026-08-17, devenue obsolete) : "verification empirique montre qu'il n'y a AUCUNE repetition de geometrie" -- cette note se basait par erreur sur le RDS reduit a 2016 et non sur les donnees brutes completes.
+- N/T profile: 30 unités spatiales × 15 périodes
+- Note: 18 colonnes dont 1 géométrie ; k=17 attributs hors géométrie, dont 9 covariables de régression, 1 réponse, 5 identifiants/champs de panel et 2 coordonnées. Les coefficients, effets fixes et termes spatiaux ne sont pas comptés comme colonnes du RDS.
+
+Le fichier contient exactement les années 2002–2016. La version PDF locale présente une incohérence : résumé 2002–2016, section 2.2 annonçant 2001–2016 et 480 observations. Les 30 observations de 2001 ne sont pas dans le RDS ; ne pas prétendre les avoir restaurées. Les anciennes mentions N=30 décrivaient une coupe 2016 et sont retirées.
 
 ## Bloc 5 — Resolution et etendue
 
@@ -196,7 +211,7 @@ benchmark_readiness:
 - CRS nom: WGS 84
 - Spatial extent: x [73.56, 134.77], y [18.16, 53.56] (coherent avec la Chine continentale)
 - Time range: 2002-2016
-- CRS analyse recommande: 4479 (CGCS2000 / China Albers Equal Area) — a confirmer
+- CRS analyse recommande: projection adaptée aux provinces à choisir selon le calcul ; ancienne attribution EPSG:4479 à China Albers retirée
 
 ## Bloc 6 — Reproductibilite
 
@@ -213,31 +228,25 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "N lignes=450 (panel complet restaure le 2026-09-08, 30 provinces x 15 annees) ; T declare=15 ; variable temporelle declaree=year ; chaque geometrie provinciale se repete 15 fois (panel spatial legitime, PAS une duplication a corriger). Le harnais de benchmark actuel (regression cross-sectionnelle) ne construit pas nativement une matrice W panel-coherente sur des geometries repetees -- promotion en attente d'un support panel spatial dedie (cf. Elhorst 2010, methode utilisee par le papier lui-meme : effets fixes province/annee + SAR-lag/SAR-error/dynamique). Grouper par province ET respecter la chronologie (annee) en CV manuelle en attendant ce support."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+  ineligible_reason: "Les routes transversales sar_lag et sem_error ne sont pas les estimateurs de panel du papier. Préparer une route dédiée avant tout benchmark."
+  rule: "Conserver la méthode du papier ; une famille voisine ne constitue pas une reproduction."
 ```
 
 ## Quality Control
 
-- Schema: OK - fiche alignee sur le format stabilise des fiches package.
-- Variables: OK - Y (CO2) et X (EP + 8 controles) confirmes verbatim contre l'equation (3) du papier.
-- Formula: OK - formule publiee et verbatim (equations 3, 5-7 du TEI), statut confirmed.
-- CRS: OK - CRS renseigne (4326), etendue coherente avec la Chine.
-- Geometry: OK - type geometrique controle (POLYGON/MULTIPOLYGON), 30 provinces.
-- Missing values: OK - aucune variable avec NA > 20% detectee.
-- Duplicates: OK - un enregistrement par province x annee (450 = 30 x 15).
-- Reproducibility: PARTIEL - identification geographique par reconstruction documentee (voir avertissement), pas de codebook officiel disponible.
+- Variables: neuf X et CO2 présents ; toutes les valeurs sont finies et strictement positives, logarithmes définis sur les 450 lignes.
+- Formula: transformations de l'équation (3) restaurées ; composante de régression distincte du modèle complet de panel.
+- Geometry: 30 géométries provinciales répétées par année ; attribution des noms reconstruite, pas un codebook auteur.
+- Duplicates: un couple id_province × year par ligne ; 30 unités à chacune des 15 dates.
+- Reproducibility: attributs Mendeley conservés ; provenance de la jointure géographique et W à vérifier avant réplication exacte.
 
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: The impact of energy price on CO2 emissions in China - A spatial econometric analysis
 
-## Curation documentée — 2026-09-07
+## ⚠️ Avertissement — identification des provinces par reconstruction, pas par codebook officiel
 
-Decision conservatoire : N lignes=30; T declare=15; variable temporelle declaree=year; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+Les attributs viennent du dépôt Mendeley. Les noms de province et géométries ont été ajoutés par le projet ; ils ne sont pas fournis directement dans la table auteur. La curation antérieure rapporte une identification à partir de la population et de l'ordre des codes, sans codebook auteur. Cette revue confirme 30 géométries répétées sur 15 années, mais ne transforme pas cette reconstruction en provenance officiellement confirmée. La source géographique exacte et la correspondance province-identifiant doivent être tracées avant de prétendre reproduire W. Le référentiel GADM présent dans le dépôt ne prouve pas à lui seul qu'il a servi à cet objet précis.
