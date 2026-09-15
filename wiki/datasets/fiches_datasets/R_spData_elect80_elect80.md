@@ -2,7 +2,7 @@
 title: R_spData_elect80_elect80
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-15
 sources:
   - data/final_datasets/sf/R_spData_elect80_elect80.rds
 tags: [dataset, r-package, spatial, point]
@@ -118,7 +118,7 @@ formula_candidates:
 - Source: package R `spData` (version 2.3.4)
 - Source URL: https://CRAN.R-project.org/package=spData
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: 10.1111/j.1538-4632.1997.tb00959.x
 - Year: 2017
 
 ## Bloc 3 — Typologie des modeles
@@ -152,12 +152,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-124.2299, -67.61], y [25.1171, 48.8337] (CRS unknown)
+- Spatial extent: x [-124.2299, -67.61], y [25.1171, 48.8337] (EPSG:4267, NAD27)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 4267 (verifie 2026-09-15 via inspection directe du .rds : proj4 "+proj=longlat +datum=NAD27 +no_defs", correspond a l'EPSG standard NAD27 geographique)
+- CRS nom: NAD27
+- CRS analyse recommande: reprojection recommandee vers un CRS metrique (ex. Albers Equal Area CONUS) avant tout calcul de distance/voisinage
 
 ## Bloc 6 — Reproductibilite
 
@@ -222,8 +222,4 @@ estimator_eligibility:
 
 ## Curation documentée — 2026-09-07
 
-Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
-
-Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+Verification 2026-09-15 (mode production de secours) : incoherence interne corrigee -- la section 'Description du jeu de donnees' mentionnait deja le CRS reel (+proj=longlat +datum=NAD27 +no_defs, confirme par inspection directe du .rds), mais le Bloc 5 indiquait encore 'CRS EPSG: unknown'. Complete avec EPSG:4267 (NAD27 geographique, correspondance standard et non ambigue du proj4 string). Publication DOI (Pace & Barry 1997, Geographical Analysis 29(3):232-247) trouve et verifie via Crossref (10.1111/j.1538-4632.1997.tb00959.x) ; champ etait 'pending'.

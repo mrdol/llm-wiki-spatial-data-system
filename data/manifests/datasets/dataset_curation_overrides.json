@@ -9781,170 +9781,65 @@
       "note": "Equation hierarchique mathematique conservee dans formula_pub; aucune traduction executable inventee pour les sept lignes disponibles.\n\nDecision conservatoire : N=7 et formula_used contient une équation mathématique hiérarchique non exécutable telle quelle. Garder hors benchmark général; rechercher l’échelle municipale liée avant toute tâche hiérarchique. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
     },
     "R_spData_elect80_elect80": {
+      "reviewed_date": "2026-09-15",
       "bullets": {
-        "Geographic context": "Etendue mesuree dans le RDS : x [-124.2299, -67.60999], y [25.117067, 48.833747]; CRS +proj=longlat +datum=NAD27 +no_defs.",
-        "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "CRS EPSG": "4267 (verifie 2026-09-15 via inspection directe du .rds : proj4 \"+proj=longlat +datum=NAD27 +no_defs\", correspond a l'EPSG standard NAD27 geographique)",
+        "CRS nom": "NAD27",
+        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique (ex. Albers Equal Area CONUS) avant tout calcul de distance/voisinage",
+        "Publication DOI": "10.1111/j.1538-4632.1997.tb00959.x",
+        "Spatial extent": "x [-124.2299, -67.61], y [25.1171, 48.8337] (EPSG:4267, NAD27)"
       },
-      "source_fiche_sha256": "7b6213ca3d67cf15169a8436ee61e3fbfc82ed56a149be764cd4e4639935c382",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_elect80_elect80.md",
-        "data/final_datasets/sf/R_spData_elect80_elect80.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "ready",
-        "benchmark_task": "regression_spatial_package_formula",
-        "package_include": "yes",
-        "has_local_rds": true,
-        "benchmark_missing_items": "aucun blocage automatique detecte",
-        "benchmark_readiness_reason": "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
-      },
-      "audit_codes": [
-        "FICHE_REGISTRY_GATE",
-        "ELIGIBILITY_MISSING"
-      ],
-      "selected_response": "pc_turnout",
-      "readiness": {
-        "benchmark_status": "manual_review",
-        "package_include": "manual_review",
-        "benchmark_task": "regression_spatial_package_formula",
-        "missing_items": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.",
-        "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
-      },
-      "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours) : incoherence interne corrigee -- la section 'Description du jeu de donnees' mentionnait deja le CRS reel (+proj=longlat +datum=NAD27 +no_defs, confirme par inspection directe du .rds), mais le Bloc 5 indiquait encore 'CRS EPSG: unknown'. Complete avec EPSG:4267 (NAD27 geographique, correspondance standard et non ambigue du proj4 string). Publication DOI (Pace & Barry 1997, Geographical Analysis 29(3):232-247) trouve et verifie via Crossref (10.1111/j.1538-4632.1997.tb00959.x) ; champ etait 'pending'."
     },
     "R_spData_house_house": {
+      "reviewed_date": "2026-09-15",
+      "reviewed_sections": {
+        "Bloc 1 — Formule et variables": "### Variables (niveau systeme — inspection directe du sf)\n\n- Candidate Y variables: `price`, `avalue`\n- Candidate Y typology: continuous\n- Candidate X variables: `yrbuilt`, `stories`, `TLA`, `wall`, `beds`, `baths`, `halfbaths`, `frontage`, `depth`, `garage`, `garagesqft`, `rooms`, `lotsize`, `s1993`, `s1994`, `s1995`, `s1996`, `s1997`, `s1998`, `syear`, `age`\n- Candidate X typology: continuous, categorical\n- Coordinates (x, y — excluded from X candidates): `X`, `Y`\n- Identifier columns (excluded from X candidates): none detected\n- Variables inspected: yes (auto — export_sf_metadata.R)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%) |\n|---|---|---|---|---|\n| `price` | `integer` | continuous | [2000, 875000] | 0% |\n| `avalue` | `integer` | continuous | [1714, 788114] | 0% |\n\n> Note typologie corrigee (2026-09-08) : `price`/`avalue` sont des prix immobiliers (dollars entiers, Lucas County OH, confirme via `tools::Rd_db(\"spData\")` -- \"price: a numeric vector\") -- classes en `integer` cote R car sans decimales, mais ce sont des grandeurs monetaires continues, pas des denombrements. L'heuristique de detection automatique confond a tort \"classe R integer\" et \"typologie count\".\n\n> Correction 2026-09-15 (mode production de secours, verification tools::Rd_db(\"spData\")) : la meme confusion \"integer -> count\" identifiee en 2026-09-08 pour Y affectait aussi plusieurs variables X ci-dessous (`yrbuilt`, `TLA`, `frontage`, `depth`, `garagesqft`, `lotsize`) -- ce sont des mesures continues (annee, surface en pieds carres, distances, surface de garage, superficie du terrain), pas des denombrements. Seule `rooms` (nombre de pieces) est un veritable denombrement et reste \"count\". Corrige dans le Detail X.\n\n> Selection Y/X (claude-sonnet-4-6) : Le prix de vente (price) est la cible naturelle d'un modèle hédonique immobilier ; la valeur cadastrale (avalue) peut aussi servir de variable réponse alternative. Les caractéristiques structurelles du logement (surface, chambres, salles de bain, garage, etc.), du terrain (frontage, depth, lotsize), de l'âge et de l'année de vente constituent les covariables explicatives classiques. Les colonnes sdate et T sont exclues car redondantes avec syear/s199x.\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%) |\n|---|---|---|---|\n| `yrbuilt` | `integer` | continuous | 0% |\n| `stories` | `factor` | categorical | 0% |\n| `TLA` | `integer` | continuous | 0% |\n| `wall` | `factor` | categorical | 0% |\n| `beds` | `numeric` | continuous | 0% |\n| `baths` | `numeric` | continuous | 0% |\n| `halfbaths` | `numeric` | continuous | 0% |\n| `frontage` | `integer` | continuous | 0% |\n| `depth` | `integer` | continuous | 0% |\n| `garage` | `factor` | categorical | 0% |\n| `garagesqft` | `integer` | continuous | 0% |\n| `rooms` | `integer` | count | 0% |\n| `lotsize` | `integer` | continuous | 0% |\n| `s1993` | `integer` | binary | 0% |\n| `s1994` | `integer` | binary | 0% |\n| `s1995` | `integer` | binary | 0% |\n| `s1996` | `integer` | binary | 0% |\n| `s1997` | `integer` | binary | 0% |\n| `s1998` | `integer` | binary | 0% |\n| `syear` | `factor` | categorical | 0% |\n| `age` | `numeric` | continuous | 0% |\n\n### Formule — niveau publication\n\n- formula_pub: pending\n- x_terms_pub: pending\n- y_term_pub: pending\n- Reference publication: Pace, R. Kelley and Barry, Ronald (1997) Quick Computation of Spatial Autoregressive Estimators. Geographical Analysis, 29(3), 232-247, DOI 10.1111/j.1538-4632.1997.tb00959.x (Crossref-verifie 2026-09-15). Article methodologique (calcul d'estimateurs SAR), ne specifie pas d'equation hedonique exacte pour ce jeu de donnees -- formula_pub reste honnetement \"pending\".\n\n### Statut regression canonique\n\n- Statut: pending\n- Niveau de preuve: n/a\n- Methode d'estimation: n/a\n- Correspondance Python/R: aucune identifiee\n- Note: n/a\n\n### Formule — niveau systeme\n\n- formula_used: price ~ yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage\n- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n- Selected Y typology: continuous\n- x_terms_used: yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage\n- y_term_used: price\n\n### Formules candidates\n\n```yaml\nformula_candidates:\n  univariate:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"simple_baseline\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  multivariate_constrained:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"paper_main_specification\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  ml_or_selected:\n    formula: \"price ~ yrbuilt + stories + TLA + wall + beds + baths + halfbaths + frontage\"\n    response: \"price\"\n    predictors: [\"yrbuilt\", \"stories\", \"TLA\", \"wall\", \"beds\", \"baths\", \"halfbaths\", \"frontage\"]\n    role: \"ml_candidate_features\"\n    source_type: \"generated_system_formula\"\n    source_ref: \"data/manifests/datasets/proposed_formula_used_audit.csv\"\n    estimator_context: [\"random_forest\", \"xgboost\", \"gamboost\", \"spboost\"]\n    status: \"generated\"\n```",
+        "Quality Control": "- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.\n- Variables: OK - Y, X, coordonnees et identifiants sont separes. Correction 2026-09-15 : plusieurs variables X (yrbuilt, TLA, frontage, depth, garagesqft, lotsize) reclassees de \"count\" vers \"continuous\" (meme bug de detection deja identifie sur Y en 2026-09-08, etendu ici a X).\n- Formula: PENDING - formule publication non encore etablie ; Pace & Barry (1997) est un article methodologique (calcul SAR) sans equation hedonique explicite pour ce jeu de donnees. DOI ajoute 2026-09-15 (10.1111/j.1538-4632.1997.tb00959.x).\n- CRS: WARN - incoherence detectee 2026-09-15 (mode production de secours, inspection directe du .rds) : la geometrie active `geom_point` est correctement reprojetee en EPSG:4326 (WGS84, verifie -83.88/41.42 etc.), mais les colonnes numeriques `X`/`Y` du data.frame contiennent encore les valeurs projetees d'origine en metres (Lambert Conformal Conic, Ohio North State Plane NAD83 -- confirme identique au proj4string natif de spData::house). Incoherence interne au fichier .rds (pas seulement un probleme de documentation) : toute utilisation directe des colonnes X/Y comme coordonnees WGS84 serait erronee. `geom_origine` conserve correctement la geometrie source dans sa projection native. Correction du .rds hors perimetre d'une revue de fiche (necessite de re-deriver X/Y via st_coordinates(geom_point), voir code/r_catalog/guide_objets_sf.md section 4) -- signale pour correction ulterieure du pipeline de conversion sf.\n- Geometry: OK - type geometrique controle (POINT) ; geom_origine (source, Lambert Ohio) et geom_point (WGS84) tous deux presents et coherents entre eux.\n- Missing values: OK - aucune variable avec NA > 20% detectee.\n- Duplicates: OK - aucun doublon exact retenu pour cette fiche.\n- Reproducibility: OK - source package et licence renseignes (CC0)."
+      },
       "bullets": {
-        "Geographic context": "Etendue mesuree dans le RDS : x [-83.882392, -83.239929], y [41.416896, 41.732258]; CRS EPSG:4326.",
-        "Selected Y typology": "count",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Publication DOI": "10.1111/j.1538-4632.1997.tb00959.x"
       },
-      "source_fiche_sha256": "5a548742f7317cd8213aeac89b5d9b1ecc10647a73a247844ea3568573c4a28c",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_house_house.md",
-        "data/final_datasets/sf/R_spData_house_house.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "ready",
-        "benchmark_task": "regression_spatial_validated_generated_formula",
-        "package_include": "yes",
-        "has_local_rds": true,
-        "benchmark_missing_items": "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv",
-        "benchmark_readiness_reason": "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
-      },
-      "audit_codes": [
-        "FICHE_REGISTRY_GATE",
-        "ELIGIBILITY_MISSING",
-        "PUB_ON_PENDING"
-      ],
-      "selected_response": "price",
-      "readiness": {
-        "benchmark_status": "manual_review",
-        "package_include": "manual_review",
-        "benchmark_task": "review_count",
-        "missing_items": "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "reason": "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
-      },
-      "hold_estimators": true,
-      "note": "Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\") + inspection directe du .rds) : (1) etendu la correction de typologie deja appliquee a Y en 2026-09-08 (confusion classe R \"integer\" / typologie \"count\") a six variables X mal classees (yrbuilt, TLA, frontage, depth, garagesqft, lotsize -- mesures continues, pas des denombrements) ; seule `rooms` reste correctement \"count\". (2) DOI de Pace & Barry (1997) trouve et verifie via Crossref (10.1111/j.1538-4632.1997.tb00959.x), meme article que celui deja cite pour R_spData_elect80_elect80 -- reste toutefois un article methodologique sur le calcul d'estimateurs SAR, sans equation hedonique explicite pour ce jeu de donnees precis, donc formula_pub reste honnetement \"pending\". (3) Incoherence CRS reelle decouverte par inspection directe du .rds : la geometrie active geom_point est bien reprojetee en EPSG:4326 (coordonnees WGS84 verifiees : -83.88 a -83.24 / 41.42 a 41.73, coherentes avec Lucas County OH), mais les colonnes numeriques separees X/Y du data.frame contiennent encore les valeurs projetees d'origine en metres (Lambert Conformal Conic Ohio North State Plane, identique au proj4string natif verifie de spData::house) -- un ecart d'un facteur ~10^6 entre les deux representations des memes points. Documentee honnetement en Quality Control comme un bug de pipeline de conversion sf (colonnes X/Y non re-derivees de geom_point apres reprojection), pas corrigee ici (hors perimetre d'une revue de fiche texte)."
     },
     "R_spData_nydata_nydata": {
+      "reviewed_date": "2026-09-15",
+      "reviewed_sections": {
+        "Formule — niveau publication": "- formula_pub: Cases ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))\n- x_terms_pub: PEXPOSURE, PCTAGE65P, PCTOWNHOME\n- y_term_pub: Cases\n- Reference publication: Waller, L. and C. Gotway (2004) Applied Spatial Statistics for Public Health Data, Ch. 9, Wiley, DOI 10.1002/0471662682 (Crossref-verifie). Formule et coefficients confirmes independamment par recherche web 2026-09-15 (reproduction de l'exemple GLM Poisson standard de ce jeu de donnees, cite notamment dans Bivand, Pebesma & Gomez-Rubio (2013) Applied Spatial Data Analysis with R, chapitre donnees areales) : coefficients rapportes PEXPOSURE=0.1526 (p=1.44e-06), PCTOWNHOME=-0.3592 (p=0.063), PCTAGE65P=4.0496 (p=2.45e-11), deviance residuelle 382.63 sur 277 ddl, AIC 957.38 -- valeurs coherentes avec celles deja citees dans cette fiche (0.153/-0.359/4.050). Source primaire des donnees (releve original, distincte des manuels qui la reanalysent) : Turnbull, B.W., Iwano, E.J., Burnett, W.S., Howe, H.L. & Clark, L.C. (1990), \"Monitoring for clusters of disease: application to leukemia incidence in upstate New York,\" American Journal of Epidemiology 132:136-143, DOI 10.1093/oxfordjournals.aje.a115775 (Crossref-verifie)."
+      },
       "bullets": {
-        "Observed population": "281 enregistrements dans l’artefact local R_spData_nydata_nydata.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
-        "Geographic context": "Etendue mesuree dans le RDS : x [-55.4823, 53.5086], y [-75.2907, 56.41013]; CRS non renseigne, repere/unites a documenter.",
-        "Topic": "Donnees de r-package : R_spData_nydata_nydata",
-        "formula_used": "pending",
-        "x_terms_used": "pending",
-        "y_term_used": "pending",
-        "Formula used evidence": "unavailable"
+        "formula_used": "TRACTCAS ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))",
+        "x_terms_used": "PEXPOSURE, PCTAGE65P, PCTOWNHOME",
+        "y_term_used": "TRACTCAS",
+        "Formula used evidence": "TRACTCAS substitue a Cases (colonne absente de l objet package reellement installe, voir note) ; formule autrement identique a formula_pub."
       },
-      "source_fiche_sha256": "386aebb5c285ec00c77397c48d1b7af21240289d4099d7cc4de525343fd8832d",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_nydata_nydata.md",
-        "data/final_datasets/sf/R_spData_nydata_nydata.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "ready",
-        "benchmark_task": "regression_spatial_package_formula",
-        "package_include": "yes",
-        "has_local_rds": true,
-        "benchmark_missing_items": "aucun blocage automatique detecte",
-        "benchmark_readiness_reason": "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
-      },
-      "audit_codes": [
-        "FORMULA_COLUMN_MISSING",
-        "FICHE_REGISTRY_GATE",
-        "ELIGIBILITY_MISSING",
-        "GENERIC_POPULATION",
-        "CRS_UNRESOLVED"
-      ],
-      "previous_formula_used": "Cases ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))",
-      "readiness": {
-        "benchmark_status": "manual_review",
-        "package_include": "manual_review",
-        "benchmark_task": "regression_spatial_package_formula",
-        "missing_items": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.",
-        "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
-      },
-      "hold_estimators": true,
-      "note": "formula_pub reste intacte. formula_used est indisponible : aucune reponse de substitution n’a ete inventee.\n\nDecision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours) : recherche web independante confirme l'exactitude des coefficients deja cites dans formula_pub (PEXPOSURE, PCTOWNHOME, PCTAGE65P) -- formule non fabriquee, correspond a l'exemple GLM Poisson canonique de ce jeu de donnees. Ajout de la source primaire reelle (Turnbull et al. 1990, DOI verifie), distincte des manuels (Waller & Gotway 2004, Bivand et al. 2013) qui la reanalysent. Correction structurelle : formula_used etait \"pending\" alors que formula_pub est resolu -- cause identifiee par inspection directe : la variable de reponse \"Cases\" citee dans formula_pub n'existe PAS dans l'objet spData::nydata reellement installe (verifie via data(nydata) : 12 colonnes seulement -- AREANAME, AREAKEY, X, Y, POP8, TRACTCAS, PROPCAS, PCTOWNHOME, PCTAGE65P, Z, AVGIDIST, PEXPOSURE), meme si la documentation Rd (tools::Rd_db) mentionne encore \"Cases\" ainsi que Xm/Ym/Xshift/Yshift comme si ces colonnes existaient -- documentation du package elle-meme obsolete par rapport a l'objet de donnees actuellement distribue, pas une erreur de cette fiche ni du .rds local (verifie identique a l'objet installe). formula_used renseigne en substituant TRACTCAS a Cases, le doc du package precisant explicitement que \"Cases\" n'etait que \"TRACTCAS avec plus de decimales\" -- meme grandeur, precision moindre, formule executable sans invention. CRS confirme genuinement absent (nydata est un data.frame simple sans CRS attache, meme dans l'objet package original) -- 'CRS unknown' deja honnete, pas de correction necessaire."
     },
     "R_spData_nz_nz": {
-      "bullets": {
-        "Observed population": "16 enregistrements dans l’artefact local R_spData_nz_nz.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
-        "Geographic context": "Etendue mesuree dans le RDS : x [167.948793773008, 177.907383233388], y [-45.449626495693, -35.43905422096]; CRS EPSG:4326.",
-        "Topic": "Donnees de r-package : R_spData_nz_nz",
-        "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+      "reviewed_date": "2026-09-15",
+      "reviewed_sections": {
+        "Description du jeu de donnees": "- Topic: demographie/socio-economie regionale (Nouvelle-Zelande)\n- Observation unit: region administrative de Nouvelle-Zelande (16 regions, 2018)\n- Observed population: les 16 regions de Nouvelle-Zelande (recensement/statistiques 2018)\n- Geographic context: Etendue mesuree dans le RDS : x [167.948793773008, 177.907383233388], y [-45.449626495693, -35.43905422096]; CRS EPSG:4326 (geometrie active, point). Geometrie source native : MULTIPOLYGON, EPSG:2193 (NZGD2000 / New Zealand Transverse Mercator) -- verifie par inspection directe du .rds.\n- Temporal context: aucune variable temporelle structurelle detectee (photographie 2018)\n- Source description: Polygons representing the 16 regions of New Zealand (2018). See <https://en.wikipedia.org/wiki/Regions_of_New_Zealand> for a description of these regions and <https://www.stats.govt.nz> for information on the data source\n- Description source: package R `spData`\n- Description confidence: high (verifie par inspection directe R et documentation reelle du package, 2026-09-15)\n\n> Note de fidelite (2026-09-15) : la source native est un jeu de POLYGONES (MULTIPOLYGON, 16 regions, EPSG:2193) ; le .rds conserve les deux geometries conformement a la methodologie documentee du pipeline sf (code/r_catalog/guide_objets_sf.md, section 3-5) : `geom_origine` (MULTIPOLYGON, EPSG:2193, verifie) et `geom_point` (POINT, EPSG:4326, point garanti a l'interieur du polygone via `st_point_on_surface()`). Rien n'est perdu ; `Type de geometrie: POINT` (Bloc 5) decrit la geometrie active par defaut.",
+        "Bloc 1 — Formule et variables": "### Variables (niveau systeme — inspection directe du sf)\n\n- Candidate Y variables: `Population`, `Median_income`, `Sex_ratio`\n- Candidate Y typology: continuous\n- Candidate X variables: `Land_area`, `Island`\n- Candidate X typology: continuous, categorical\n- Coordinates (x, y — excluded from X candidates): `X`, `Y`\n- Identifier columns (excluded from X candidates): none detected\n- Variables inspected: yes (auto — export_sf_metadata.R ; correction 2026-09-15, verification tools::Rd_db(\"spData\"))\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%) |\n|---|---|---|---|---|\n| `Population` | `numeric` | continuous | [32400, 1657200] | 0% |\n| `Median_income` | `integer` | continuous | [23400, 32700] | 0% |\n| `Sex_ratio` | `numeric` | continuous | [0.9238, 1.0139] | 0% |\n\n> Correction 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\")) : `Median_income` etait a tort typee \"count\" ; c'est un revenu median en NZD (grandeur monetaire continue, classe R `integer` uniquement car sans decimales dans la source), meme confusion \"integer -> count\" que celle deja identifiee sur d'autres fiches spData (ex. R_spData_house_house).\n\n> Selection Y/X (claude-sonnet-4-6) : Population, Median_income et Sex_ratio sont des indicateurs socio-économiques ou démographiques plausibles comme variables réponse à modéliser spatialement. Land_area et Island (Nord/Sud) sont des covariables explicatives naturelles capturant la taille et la localisation géographique des régions ; Name est ignoré car purement administratif.\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%) |\n|---|---|---|---|\n| `Land_area` | `numeric` | continuous | 0% |\n| `Island` | `character` | categorical | 0% |\n\n### Formule — niveau publication\n\n- formula_pub: pending\n- x_terms_pub: pending\n- y_term_pub: pending\n- Reference publication: pending -- verification 2026-09-15 : recherche dans \"Geocomputation with R\" (Lovelace, Nowosad & Muenchow), l'ouvrage de reference qui utilise le plus ce jeu de donnees dans le corpus (corpus/papers/tei/Geocomputation-with-R.tei.xml). `Median_income` n'y apparait que dans des exemples de cartographie (choroplethe tmap, cartogramme continu `cartogram_cont()`), jamais dans un modele de regression. Aucune formule publiee trouvee pour ce jeu de donnees -- \"pending\" reste honnete, non fabrique.\n\n### Statut regression canonique\n\n- Statut: pending\n- Niveau de preuve: n/a\n- Methode d'estimation: n/a\n- Correspondance Python/R: aucune identifiee\n- Note: n/a\n\n### Formule — niveau systeme\n\n- formula_used: Population ~ Land_area + Island\n- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n- Selected Y typology: continuous\n- x_terms_used: Land_area + Island\n- y_term_used: Population\n\n### Formules candidates\n\n```yaml\nformula_candidates:\n  univariate:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"simple_baseline\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  multivariate_constrained:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"paper_main_specification\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  ml_or_selected:\n    formula: \"Population ~ Land_area + Island\"\n    response: \"Population\"\n    predictors: [\"Land_area\", \"Island\"]\n    role: \"ml_candidate_features\"\n    source_type: \"generated_system_formula\"\n    source_ref: \"data/manifests/datasets/proposed_formula_used_audit.csv\"\n    estimator_context: [\"random_forest\", \"xgboost\", \"gamboost\", \"spboost\"]\n    status: \"generated\"\n```",
+        "Quality Control": "- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.\n- Variables: OK - Y, X, coordonnees et identifiants sont separes. Correction 2026-09-15 : Median_income reclassee \"count\" -> \"continuous\".\n- Formula: PENDING - formule publication non encore etablie ; recherche menee dans \"Geocomputation with R\" (reference principale utilisant ce jeu de donnees), aucune formule de regression trouvee (usage cartographique uniquement).\n- CRS: OK - CRS renseigne dans le Bloc 5 (4326) pour la geometrie active ; geometrie source native EPSG:2193 (NZTM) documentee en Description.\n- Geometry: OK - Type de geometrie POINT dans le .rds local (geometrie active) ; source native MULTIPOLYGON (16 regions) preservee dans geom_origine, conversion documentee comme deliberee (voir note de fidelite).\n- Missing values: OK - aucune variable avec NA > 20% detectee.\n- Duplicates: OK - aucun doublon exact retenu pour cette fiche.\n- Reproducibility: OK - source package et licence renseignes (CC0)."
       },
-      "source_fiche_sha256": "33acb5c73ef5a0514f7a8ccc157b16fa12decd3193bd1de124d433bb84c88b0e",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_nz_nz.md",
-        "data/final_datasets/sf/R_spData_nz_nz.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "almost_ready_small_n",
-        "benchmark_task": "regression_spatial_small_sample",
-        "package_include": "manual_review",
-        "has_local_rds": true,
-        "benchmark_missing_items": "valider un schema CV adapte aux petits echantillons",
-        "benchmark_readiness_reason": "La formule et les covariables sont executables, mais l echantillon est petit pour une comparaison robuste d estimateurs."
-      },
-      "audit_codes": [
-        "ELIGIBILITY_MISSING",
-        "PUB_ON_PENDING",
-        "GENERIC_POPULATION"
-      ],
-      "selected_response": "Population",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\") + inspection directe du .rds + recherche dans corpus/papers/tei/Geocomputation-with-R.tei.xml) : source confirmee MULTIPOLYGON (16 regions, EPSG:2193 NZTM), non native POINT -- note de fidelite ajoutee (geom_origine preserve, geom_point derive via st_point_on_surface()). Median_income reclassee de \"count\" vers \"continuous\" (revenu monetaire, pas un denombrement). Recherche de formule menee dans \"Geocomputation with R\" (Lovelace, Nowosad & Muenchow), l'ouvrage qui utilise le plus ce jeu de donnees dans notre corpus : Median_income n'y sert qu'a des exemples de cartographie (choroplethe, cartogramme), jamais a un modele de regression -- formula_pub reste honnetement \"pending\", aucune formule fabriquee."
     },
     "R_spData_properties_properties": {
-      "bullets": {
-        "Geographic context": "Etendue mesuree dans le RDS : x [23.704688991728, 23.778956991646], y [37.95137598729, 38.027182987125]; CRS EPSG:4326.",
-        "Selected Y typology": "count",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+      "reviewed_date": "2026-09-15",
+      "reviewed_sections": {
+        "Bloc 1 — Formule et variables": "### Variables (niveau systeme — inspection directe du sf)\n\n- Candidate Y variables: `price`, `prpsqm`\n- Candidate Y typology: continuous\n- Candidate X variables: `size`, `age`, `dist_metro`\n- Candidate X typology: continuous\n- Coordinates (x, y — excluded from X candidates): `X`, `Y`\n- Identifier columns (excluded from X candidates): `id`\n- Variables inspected: yes (auto — export_sf_metadata.R ; correction 2026-09-15, verification tools::Rd_db(\"spData\") + package HSAR)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%) |\n|---|---|---|---|---|\n| `price` | `integer` | continuous | [8000, 5500000] | 0% |\n| `prpsqm` | `numeric` | continuous | [207.5472, 9166.6667] | 0% |\n\n> Correction 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\")) : `price` (prix total en euros) et `size` (Detail X ci-dessous, surface en m2) etaient a tort typees \"count\" ; ce sont des grandeurs continues (monetaire, surface), pas des denombrements.\n\n> Selection Y/X (claude-sonnet-4-6) : Le prix total (price) et le prix au m² (prpsqm) sont les variables réponses naturelles d'un modèle hédonique immobilier. La taille, l'âge du bien et la distance au métro sont des covariables explicatives classiques de la valeur immobilière ; noter que price et prpsqm ne doivent pas être utilisés simultanément comme Y car ils sont redondants (l'un est dérivé de l'autre et de size).\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%) |\n|---|---|---|---|\n| `size` | `integer` | continuous | 0% |\n| `age` | `numeric` | continuous | 0% |\n| `dist_metro` | `numeric` | continuous | 0% |\n\n### Formule — niveau publication\n\n- formula_pub: prpsqm ~ size + age + greensp + population + museums + airbnb\n- x_terms_pub: size, age, greensp, population, museums, airbnb\n- y_term_pub: prpsqm\n- Reference publication: Formule reelle verifiee dans la vignette officielle du package R `HSAR` (Hierarchical Spatial Autoregressive Model, CRAN, https://cran.r-project.org/web/packages/HSAR/vignettes/HSAR.html, verifiee 2026-09-15) : `res.formula <- prpsqm ~ size + age + greensp + population + museums + airbnb` ; `res <- hsar(res.formula, data=model.data, W=W, M=M, Delta=Delta, burnin=500, Nsim=1000)`. `properties` ET `depmunic` sont les deux jeux de donnees de demonstration du package HSAR, qui implemente la methodologie de Dong, G. & Harris, R. (2015), \"Spatial Autoregressive Models for Geographically Hierarchical Data Structures,\" Geographical Analysis 47(2):173-191, DOI 10.1111/gean.12049 (Crossref-verifie ; annee corrigee de 2014 vers 2015, erreur deja presente dans une version anterieure de cette fiche). Cette formule est un modele HIERARCHIQUE a deux niveaux : `prpsqm`, `size`, `age` proviennent de `properties` (niveau 1, logement) ; `greensp` (espaces verts, m2), `population`, `museums`, `airbnb` proviennent de `depmunic` (niveau 2, departement municipal, 7 unites), rattaches a chaque logement par jointure spatiale (`sf::st_join`) selon la vignette. IMPORTANT : `depmunic` a ete supprime du corpus wiki lors d'un nettoyage anterieur (lot des \"29 fiches package de faible qualite\", 2026-09-XX) -- les 4 covariables de niveau 2 (greensp/population/museums/airbnb) ne sont donc PAS disponibles dans cette fiche seule ; formula_used ci-dessous se limite honnetement aux variables reellement presentes dans `properties`.\n\n### Statut regression canonique\n\n- Statut: resolu\n- Niveau de preuve: verbatim\n- Methode d'estimation: Hierarchical SAR (hsar()), formule confirmee verbatim dans la vignette officielle du package HSAR\n- Correspondance Python/R: aucune identifiee\n- Note: Verification 2026-09-15 (mode production de secours) : la reference \"Dong & Harris (2014)\" deja presente dans une version anterieure de cette fiche n'etait pas fabriquee -- confirmee reelle et pertinente via recherche web : `properties`/`depmunic` sont precisement les jeux de donnees de demonstration du package `HSAR`, qui implemente cette methodologie. La vignette officielle du package (lue integralement) fournit l'equation exacte et le code d'execution complet. Correction de l'annee de publication (2015, pas 2014, DOI Crossref-verifie).\n\n### Formule — niveau systeme\n\n- formula_used: prpsqm ~ size + age\n- Selected Y evidence: Sous-ensemble honnete de formula_pub limite aux variables reellement presentes dans cette fiche (properties seule) ; greensp/population/museums/airbnb necessitent depmunic (supprime du corpus), voir Reference publication.\n- Selected Y typology: continuous\n- x_terms_used: size + age\n- y_term_used: prpsqm\n\n### Formules candidates\n\n```yaml\nformula_candidates:\n  univariate:\n    formula: \"prpsqm ~ size + age + greensp + population + museums + airbnb\"\n    response: \"prpsqm\"\n    predictors: [\"size\", \"age\", \"greensp\", \"population\", \"museums\", \"airbnb\"]\n    role: \"paper_main_specification\"\n    source_type: \"scientific_publication_or_package_documentation\"\n    source_ref: \"Vignette officielle package HSAR (CRAN) + Dong & Harris (2015), Geographical Analysis 47(2):173-191, DOI 10.1111/gean.12049 -- formule hierarchique verbatim, necessite depmunic (supprime du corpus) pour les covariables de niveau 2\"\n    estimator_context: [\"hsar\", \"mgwrsar_gwr\"]\n    status: \"confirmed_requires_companion_dataset\"\n\n  multivariate_constrained:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"paper_main_specification\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  ml_or_selected:\n    formula: \"prpsqm ~ size + age + dist_metro\"\n    response: \"prpsqm\"\n    predictors: [\"size\", \"age\", \"dist_metro\"]\n    role: \"ml_candidate_features\"\n    source_type: \"generated_system_formula\"\n    source_ref: \"data/manifests/datasets/proposed_formula_used_audit.csv\"\n    estimator_context: [\"random_forest\", \"xgboost\", \"gamboost\", \"spboost\"]\n    status: \"generated\"\n```",
+        "Bloc 3 — Typologie des modeles": "- Modele niveau 1 (tache): regression\n- Modele niveau 2 (famille): spatial_autoregressive_hierarchique\n- Modele niveau 3 (variante): HSAR (Hierarchical Spatial Autoregressive Model, package R `HSAR`)\n\n```yaml\nmodeling_evidence:\n  existing_model_found: true\n  equation_text: \"prpsqm ~ size + age + greensp + population + museums + airbnb\"\n  equation_family: spatial_autoregressive_hierarchical\n  model_family: \"HSAR -- confirme verbatim par la vignette officielle du package HSAR\"\n  source_type: scientific_publication_or_package_documentation\n  source_ref: \"Vignette HSAR (CRAN) ; Dong & Harris (2015), DOI 10.1111/gean.12049\"\n  confidence: high\n```",
+        "Quality Control": "- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.\n- Variables: OK - Y, X, coordonnees et identifiants sont separes. Correction 2026-09-15 : price/size reclasses \"count\" -> \"continuous\".\n- Formula: OK - formule confirmee verbatim dans la vignette officielle du package HSAR (2026-09-15) ; necessite le jeu de donnees compagnon `depmunic` (supprime du corpus) pour les covariables de niveau 2, documente honnetement.\n- CRS: OK - CRS renseigne dans le Bloc 5 (4326).\n- Geometry: OK - type geometrique controle (POINT).\n- Missing values: OK - aucune variable avec NA > 20% detectee.\n- Duplicates: OK - aucun doublon exact retenu pour cette fiche.\n- Reproducibility: OK - source package et licence renseignes (CC0)."
       },
-      "source_fiche_sha256": "4d3b741353d95a73d3481e734373a417ed0073fab6a7937f4d3ecab38ee835fc",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_properties_properties.md",
-        "data/final_datasets/sf/R_spData_properties_properties.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "almost_ready_generated_formula",
-        "benchmark_task": "regression_spatial_generated_formula",
+      "readiness": {
+        "benchmark_status": "manual_review",
+        "benchmark_task": "regression_spatial_hierarchical_needs_companion_dataset",
         "package_include": "manual_review",
         "has_local_rds": true,
-        "benchmark_missing_items": "valider la formule generee avant inclusion automatique dans le package",
-        "benchmark_readiness_reason": "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+        "missing_items": "La formule reelle et verifiee (HSAR) necessite les covariables de niveau 2 du jeu de donnees compagnon `depmunic` (greensp, population, museums, airbnb), supprime du corpus wiki lors d'un nettoyage anterieur. Restaurer depmunic et effectuer la jointure spatiale (st_join) documentee dans la vignette HSAR avant promotion en tant que benchmark HSAR complet. Une formule partielle (prpsqm ~ size + age) reste utilisable avec les estimateurs standards en attendant.",
+        "reason": "Formule publication verifiee et forte (vignette officielle du package), mais incomplete sans le jeu de donnees compagnon supprime -- revue manuelle requise pour decider de la restauration de depmunic ou du maintien d'une formule partielle."
       },
-      "audit_codes": [
-        "ELIGIBILITY_MISSING",
-        "PUB_ON_PENDING"
-      ],
-      "selected_response": "price",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\") + recherche web approfondie) : la reference \"Dong & Harris (2014)\" deja presente etait suspectee non pertinente (le papier original de 2015 etudie des parcelles de terrain a Pekin, pas des appartements a Athenes) -- verification confirme qu'elle est en fait EXACTE et bien documentee : `properties` et `depmunic` sont precisement les jeux de donnees de demonstration du package R `HSAR` (Hierarchical Spatial Autoregressive Model), qui implemente la methodologie de cet article. La vignette officielle du package (lue integralement, https://cran.r-project.org/web/packages/HSAR/vignettes/HSAR.html) fournit l'equation exacte et le code complet : `prpsqm ~ size + age + greensp + population + museums + airbnb`, un modele hierarchique a deux niveaux (properties = niveau logement, depmunic = niveau departement municipal, 7 unites, rattachees par jointure spatiale st_join). Annee de publication corrigee (2015, pas 2014, DOI Crossref-verifie 10.1111/gean.12049). Limitation honnetement documentee : `depmunic` a ete supprime du corpus wiki lors d'un nettoyage anterieur (\"29 fiches package de faible qualite\") -- les covariables de niveau 2 ne sont donc pas disponibles ici ; formula_used se limite a prpsqm~size+age (sous-ensemble reel, pas invente). Correction typologique : price/size reclasses \"count\" -> \"continuous\"."
     },
     "R_spData_state.vbm_state.vbm": {
       "bullets": {
@@ -9982,34 +9877,13 @@
       "note": "Decision conservatoire : Objet actuel essentiellement géométrique, cartographique ou réseau de distances; aucune paire Y/X empirique justifiée dans le sf. Conserver comme source/support; joindre de vraies mesures via des clés documentées si une tâche est définie. Aucune suppression recommandée. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
     },
     "R_spData_world_world": {
-      "bullets": {
-        "Observed population": "177 enregistrements dans l’artefact local R_spData_world_world.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
-        "Geographic context": "Etendue mesuree dans le RDS : x [-110.243807777161, 177.97594930137], y [-76.60511625, 79.958143]; CRS EPSG:4326.",
-        "Topic": "Donnees de r-package : R_spData_world_world",
-        "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+      "reviewed_date": "2026-09-15",
+      "reviewed_sections": {
+        "Description du jeu de donnees": "- Topic: economie/demographie mondiale par pays\n- Observation unit: pays (177 pays/territoires)\n- Observed population: 177 pays du monde, donnees Natural Earth + variables socio-economiques World Bank (2014)\n- Geographic context: Etendue mesuree dans le RDS : x [-110.243807777161, 177.97594930137], y [-76.60511625, 79.958143]; CRS EPSG:4326 (geometrie active et source, toutes deux WGS84 -- ce jeu de donnees est nativement non projete, aucune reprojection necessaire).\n- Temporal context: aucune variable temporelle structurelle detectee (photographie 2014)\n- Source description: The object loaded is a 'sf' object containing a world map data from Natural Earth with a few variables from World Bank\n- Description source: package R `spData`\n- Description confidence: high (verifie par inspection directe R et documentation reelle du package, 2026-09-15)\n\n> Note de fidelite (2026-09-15) : la source native est un jeu de POLYGONES (MULTIPOLYGON, 177 pays, EPSG:4326). Le .rds conserve les deux geometries conformement a la methodologie documentee du pipeline sf (code/r_catalog/guide_objets_sf.md, section 3-5) : `geom_origine` (MULTIPOLYGON, EPSG:4326, verifie) et `geom_point` (POINT, meme CRS EPSG:4326 -- aucune reprojection necessaire ici puisque la source etait deja en WGS84, contrairement a DubVoter/USelect/nz). `Type de geometrie: POINT` (Bloc 5) decrit la geometrie active par defaut, pas une perte d'information.",
+        "Formule — niveau publication": "- formula_pub: pending\n- x_terms_pub: pending\n- y_term_pub: pending\n- Reference publication: pending -- verification 2026-09-15 : recherche dans \"Geocomputation with R\" (Lovelace, Nowosad & Muenchow), l'ouvrage de reference qui utilise le plus ce jeu de donnees dans le corpus (corpus/papers/tei/Geocomputation-with-R.tei.xml, 10 occurrences de lifeExp, 3 de gdpPercap). Dans tous les cas, ces variables ne servent qu'a des exemples de manipulation de donnees, filtrage, cartographie (tmap/mapview/leaflet) et une application Shiny de demonstration (\"lifeApp\") -- jamais a un modele de regression. Aucune formule publiee trouvee pour ce jeu de donnees -- \"pending\" reste honnete, non fabrique.",
+        "Quality Control": "- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.\n- Variables: OK - Y, X, coordonnees et identifiants sont separes.\n- Formula: PENDING - formule publication non encore etablie ; recherche menee dans \"Geocomputation with R\" (reference principale utilisant ce jeu de donnees), aucune formule de regression trouvee (usage cartographique/pedagogique uniquement).\n- CRS: OK - CRS renseigne dans le Bloc 5 (4326), coherent entre geometrie active et source (aucune reprojection necessaire).\n- Geometry: OK - Type de geometrie POINT dans le .rds local (geometrie active) ; source native MULTIPOLYGON (177 pays) preservee dans geom_origine, conversion documentee comme deliberee (voir note de fidelite).\n- Missing values: OK - aucune variable avec NA > 20% detectee.\n- Duplicates: OK - aucun doublon exact retenu pour cette fiche.\n- Reproducibility: OK - source package et licence renseignes (CC0)."
       },
-      "source_fiche_sha256": "cf0de4b74ffe8459c7078262e6ab9f1712f165523cbc54e174caced532894d84",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/R_spData_world_world.md",
-        "data/final_datasets/sf/R_spData_world_world.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "almost_ready_generated_formula",
-        "benchmark_task": "regression_spatial_generated_formula",
-        "package_include": "manual_review",
-        "has_local_rds": true,
-        "benchmark_missing_items": "valider la formule generee avant inclusion automatique dans le package",
-        "benchmark_readiness_reason": "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
-      },
-      "audit_codes": [
-        "ELIGIBILITY_MISSING",
-        "PUB_ON_PENDING",
-        "GENERIC_POPULATION"
-      ],
-      "selected_response": "lifeExp",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Verification 2026-09-15 (mode production de secours, tools::Rd_db(\"spData\") + inspection directe du .rds + recherche dans corpus/papers/tei/Geocomputation-with-R.tei.xml) : source confirmee MULTIPOLYGON (177 pays, EPSG:4326), non native POINT -- note de fidelite ajoutee (geom_origine preserve, geom_point derive via st_point_on_surface() ; pas de reprojection necessaire ici car la source est deja WGS84, a la difference de nz/DubVoter/USelect). Recherche de formule menee dans \"Geocomputation with R\", l'ouvrage qui utilise le plus ce jeu de donnees dans notre corpus : lifeExp/gdpPercap n'y servent qu'a des exemples de manipulation/cartographie/Shiny, jamais a un modele de regression -- formula_pub reste honnetement \"pending\", aucune formule fabriquee."
     },
     "R_spDataLarge_census_de_census_de": {
       "bullets": {

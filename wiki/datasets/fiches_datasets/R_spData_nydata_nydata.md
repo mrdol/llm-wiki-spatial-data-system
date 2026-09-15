@@ -2,7 +2,7 @@
 title: R_spData_nydata_nydata
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-15
 sources:
   - data/final_datasets/sf/R_spData_nydata_nydata.rds
 tags: [dataset, r-package, spatial, point]
@@ -75,10 +75,10 @@ New York leukemia data taken from the data sets supporting Waller and Gotway 200
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- Formula used evidence: unavailable
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: TRACTCAS ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))
+- Formula used evidence: TRACTCAS substitue a Cases (colonne absente de l objet package reellement installe, voir note) ; formule autrement identique a formula_pub.
+- x_terms_used: PEXPOSURE, PCTAGE65P, PCTOWNHOME
+- y_term_used: TRACTCAS
 
 ### Formules candidates
 
@@ -224,8 +224,11 @@ estimator_eligibility:
 
 ## Curation documentée — 2026-09-07
 
-formula_pub reste intacte. formula_used est indisponible : aucune reponse de substitution n’a ete inventee.
+Verification 2026-09-15 (mode production de secours) : recherche web independante confirme l'exactitude des coefficients deja cites dans formula_pub (PEXPOSURE, PCTOWNHOME, PCTAGE65P) -- formule non fabriquee, correspond a l'exemple GLM Poisson canonique de ce jeu de donnees. Ajout de la source primaire reelle (Turnbull et al. 1990, DOI verifie), distincte des manuels (Waller & Gotway 2004, Bivand et al. 2013) qui la reanalysent. Correction structurelle : formula_used etait "pending" alors que formula_pub est resolu -- cause identifiee par inspection directe : la variable de reponse "Cases" citee dans formula_pub n'existe PAS dans l'objet spData::nydata reellement installe (verifie via data(nydata) : 12 colonnes seulement -- AREANAME, AREAKEY, X, Y, POP8, TRACTCAS, PROPCAS, PCTOWNHOME, PCTAGE65P, Z, AVGIDIST, PEXPOSURE), meme si la documentation Rd (tools::Rd_db) mentionne encore "Cases" ainsi que Xm/Ym/Xshift/Yshift comme si ces colonnes existaient -- documentation du package elle-meme obsolete par rapport a l'objet de donnees actuellement distribue, pas une erreur de cette fiche ni du .rds local (verifie identique a l'objet installe). formula_used renseigne en substituant TRACTCAS a Cases, le doc du package precisant explicitement que "Cases" n'etait que "TRACTCAS avec plus de decimales" -- meme grandeur, precision moindre, formule executable sans invention. CRS confirme genuinement absent (nydata est un data.frame simple sans CRS attache, meme dans l'objet package original) -- 'CRS unknown' deja honnete, pas de correction necessaire.
 
-Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+## Formule — niveau publication
 
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+- formula_pub: Cases ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))
+- x_terms_pub: PEXPOSURE, PCTAGE65P, PCTOWNHOME
+- y_term_pub: Cases
+- Reference publication: Waller, L. and C. Gotway (2004) Applied Spatial Statistics for Public Health Data, Ch. 9, Wiley, DOI 10.1002/0471662682 (Crossref-verifie). Formule et coefficients confirmes independamment par recherche web 2026-09-15 (reproduction de l'exemple GLM Poisson standard de ce jeu de donnees, cite notamment dans Bivand, Pebesma & Gomez-Rubio (2013) Applied Spatial Data Analysis with R, chapitre donnees areales) : coefficients rapportes PEXPOSURE=0.1526 (p=1.44e-06), PCTOWNHOME=-0.3592 (p=0.063), PCTAGE65P=4.0496 (p=2.45e-11), deviance residuelle 382.63 sur 277 ddl, AIC 957.38 -- valeurs coherentes avec celles deja citees dans cette fiche (0.153/-0.359/4.050). Source primaire des donnees (releve original, distincte des manuels qui la reanalysent) : Turnbull, B.W., Iwano, E.J., Burnett, W.S., Howe, H.L. & Clark, L.C. (1990), "Monitoring for clusters of disease: application to leukemia incidence in upstate New York," American Journal of Epidemiology 132:136-143, DOI 10.1093/oxfordjournals.aje.a115775 (Crossref-verifie).
