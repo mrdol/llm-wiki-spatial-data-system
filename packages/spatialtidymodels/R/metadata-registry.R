@@ -138,6 +138,17 @@ metadata_dataset_registry <- function() {
   # this field was silently dropped by the required-columns subsetting (same
   # bug class fixed for n_observations/dashboard_group elsewhere).
   out$benchmark_ready <- if ("benchmark_ready" %in% names(records)) as.logical(records$benchmark_ready) else TRUE
+  # data_structure: presque tous les jeux sont "cross_sectional" par defaut ;
+  # un jeu "spatial_panel" ne devrait de toute facon jamais atteindre ce
+  # registre (filtre benchmark_ready == TRUE ci-dessus exclut aujourd'hui tout
+  # panel, tant qu'aucun n'est promu package_include=yes) -- ce champ est un
+  # garde-fou explicite pour get_benchmark_dataset_spec()/
+  # benchmark_spatial_dataset(), pas une simple redondance, au cas ou ca change.
+  out$data_structure <- if ("data_structure" %in% names(records)) {
+    ifelse(is.na(records$data_structure) | !nzchar(as.character(records$data_structure)), "cross_sectional", as.character(records$data_structure))
+  } else {
+    "cross_sectional"
+  }
   out$license_name <- if ("license_name" %in% names(records)) as.character(records$license_name) else NA_character_
   out$dataset <- as.character(out$dataset)
   out$data_object <- as.character(out$data_object)
@@ -150,6 +161,55 @@ metadata_dataset_registry <- function() {
   out$formula_status <- as.character(out$formula_status)
   out$source_ref <- as.character(out$source_ref)
   out$notes <- as.character(out$notes)
+  rownames(out) <- NULL
+  out
+}
+
+#' Read the spatial-panel dataset registry from the installed JSON metadata
+#'
+#' Deliberately NOT filtered to `benchmark_ready == TRUE`, unlike
+#' [metadata_dataset_registry()]: a spatial-panel dataset can be genuinely
+#' "traceable from its fiche to a result" (J5 of
+#' wiki/analyses/plan_implementation_panel_spatial_2026-09-09.md) while still
+#' being conditional (unproven W/unit provenance) and therefore excluded from
+#' automatic cross-sectional benchmarking. Whether a dataset is included here
+#' is purely structural (`data_structure == "spatial_panel"` in the fiche),
+#' never a promotion signal.
+#'
+#' @return A data frame, or `NULL` if no panel dataset is registered.
+#' @keywords internal
+metadata_panel_dataset_registry <- function() {
+  records <- read_spatialtidymodels_metadata("datasets")
+  if (is.null(records) || !is.data.frame(records)) return(NULL)
+  if (!"data_structure" %in% names(records)) return(NULL)
+  is_panel <- !is.na(records$data_structure) & records$data_structure == "spatial_panel"
+  records <- records[is_panel, , drop = FALSE]
+  if (nrow(records) == 0L) return(NULL)
+
+  get_chr <- function(field, default = NA_character_) {
+    if (field %in% names(records)) as.character(records[[field]]) else rep(default, nrow(records))
+  }
+  get_int <- function(field) {
+    if (field %in% names(records)) suppressWarnings(as.integer(records[[field]])) else rep(NA_integer_, nrow(records))
+  }
+
+  out <- data.frame(
+    dataset = as.character(records$dataset),
+    dataset_id = if ("dataset_id" %in% names(records)) as.character(records$dataset_id) else as.character(records$dataset),
+    rds = get_chr("rds"),
+    formula = get_chr("formula"),
+    panel_unit = get_chr("panel_unit"),
+    panel_time = get_chr("panel_time"),
+    panel_effect = get_chr("panel_effect", "individual"),
+    panel_balance = get_chr("panel_balance", "balanced"),
+    w_file = get_chr("w_file"),
+    n_units = get_int("panel_n_units"),
+    n_periods = get_int("panel_n_periods"),
+    prediction_target = get_chr("prediction_target", "fit_only"),
+    package_include = get_chr("package_include"),
+    benchmark_ready = if ("benchmark_ready" %in% names(records)) as.logical(records$benchmark_ready) else rep(FALSE, nrow(records)),
+    stringsAsFactors = FALSE
+  )
   rownames(out) <- NULL
   out
 }

@@ -195,6 +195,13 @@ benchmark_dataset_registry <- function() {
   if (!"predictor_typology" %in% names(out)) {
     out$predictor_typology <- I(rep(list(character()), nrow(out)))
   }
+  # data_structure : garde-fou pour que get_benchmark_dataset_spec() puisse
+  # toujours refuser explicitement un jeu "spatial_panel" (voir la verification
+  # dans benchmark_spatial_dataset()), meme si le registre de repli (sans JSON)
+  # ne l'a jamais connu -- tous les jeux de repli sont des coupes transversales.
+  if (!"data_structure" %in% names(out)) {
+    out$data_structure <- "cross_sectional"
+  }
   out
 }
 
@@ -379,6 +386,16 @@ available_benchmark_datasets <- function() {
   benchmark_dataset_registry()
 }
 
+reject_if_spatial_panel <- function(spec, dataset) {
+  if (identical(spec$data_structure[[1]], "spatial_panel")) {
+    stop(sprintf(
+      "%s est un jeu de panel spatial (data_structure: spatial_panel) : utilisez benchmark_spatial_panel_dataset(), pas benchmark_spatial_dataset()/load_benchmark_dataset(). Le harnais transversal (near_prediction/block_spatial/vfold_cv, sar_lag/sem_error/sdm_mixed) ne s'applique pas a des observations unite-temps.",
+      dataset
+    ), call. = FALSE)
+  }
+  invisible(spec)
+}
+
 get_benchmark_dataset_spec <- function(dataset) {
   registry <- benchmark_dataset_registry()
   if (length(dataset) != 1L || !dataset %in% registry$dataset) {
@@ -390,7 +407,9 @@ get_benchmark_dataset_spec <- function(dataset) {
       call. = FALSE
     )
   }
-  registry[registry$dataset == dataset, , drop = FALSE]
+  spec <- registry[registry$dataset == dataset, , drop = FALSE]
+  reject_if_spatial_panel(spec, dataset)
+  spec
 }
 
 load_benchmark_dataset <- function(dataset, data_dir = NULL, formula_role = "default") {
