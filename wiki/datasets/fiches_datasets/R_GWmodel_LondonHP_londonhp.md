@@ -2,7 +2,7 @@
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-15
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -40,8 +40,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 |---|---|---|---|---|
 | `PURCHASE` | `numeric` | continuous | [45000, 567500] | 0% |
 
-
-> Note doc : y is detached (i
+> Correction 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : la ligne "Note doc" precedente etait tronquee/corrompue (bug d'extraction automatique) et a ete retiree.
 
 > Selection Y/X (claude-sonnet-4-6) : PURCHASE (prix d'achat) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Toutes les autres colonnes sont des attributs hédoniques du logement (surface, type, époque de construction, équipements) ou des indicateurs socio-économiques du voisinage (chômage, proportion de professions libérales), qui constituent des covariables explicatives classiques dans ce type de modèle.
 
@@ -69,21 +68,20 @@ A house price data set with 18 hedonic variables for London in 2001.
 | `UNEMPLOY` | `numeric` | rate | 0% |
 | `PROF` | `numeric` | rate | 0% |
 
-
 ### Formule — niveau publication
 
 - formula_pub: PURCHASE ~ FLOORSZ + PROF + BATH2
 - x_terms_pub: FLOORSZ, PROF, BATH2
 - y_term_pub: PURCHASE
-- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681
+- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739
 
 ### Statut regression canonique
 
 - Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
-- Correspondance Python/R: R_GWmodel_LondonBorough_londonborough
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Niveau de preuve: verbatim
+- Methode d'estimation: procedure "pseudo stepwise" OLS/GWR decrite en Section 4.2.1 du papier (selection ascendante par AICc)
+- Correspondance Python/R: aucune identifiee
+- Note: Citation verbatim retrouvee dans le texte integral du papier (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section "Hedonic variable selection") : "a model with FLOORSZ as the hedonic variable produces the lowest AICc for the first round of bivariate regressions... for the regressions with two hedonic variables, a model with FLOORSZ and PROF produces the lowest AICc... (i.e. first FLOORSZ, then PROF, then BATH2, etc., which is the order given in the legend)." Confirme exactement formula_pub. Correction 2026-09-15 : le champ "Correspondance Python/R" citait a tort R_GWmodel_LondonBorough_londonborough, qui n'est pas une fiche existante ni une correspondance Python/R (LondonBorough est un fichier de contours administratifs du meme package GWmodel, utilise uniquement pour l'affichage cartographique).
 
 ### Formule — niveau systeme
 
@@ -103,7 +101,7 @@ formula_candidates:
     predictors: ["FLOORSZ, PROF, BATH2"]
     role: "simple_baseline"
     source_type: "scientific_publication_or_package_documentation"
-    source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
+    source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739"
     estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
     status: "confirmed"
 
@@ -164,7 +162,7 @@ modeling_evidence:
 - T periods: 1
 - Variable temporelle: none
 - N/T profile: N_moyen_T_petit
-- Temporal note: aucune variable temporelle structurelle detectee
+- Temporal note: aucune variable temporelle structurelle detectee ; verification 2026-09-15 (tools::Rd_db("GWmodel")) : la documentation du package mentionne 372 observations, mais l'objet reellement charge par data(LondonHP) et le .rds local n'en comptent que 316 (verifie directement via nrow()) -- N observations reflete l'artefact local reel, pas le chiffre de la documentation.
 
 ## Bloc 5 — Resolution et etendue
 
@@ -251,6 +249,4 @@ estimator_eligibility:
 
 ## Curation documentée — 2026-09-07
 
-Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+Verification 2026-09-15 (mode production de secours) : lecture directe du texte integral du papier Lu et al. (2014) disponible dans le corpus (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section 4.2.1 "Global regressions"/"Hedonic variable selection") confirme verbatim l'ordre d'inclusion des variables (FLOORSZ, puis PROF, puis BATH2) deja retenu dans formula_pub -- Niveau de preuve releve de "publication" a "verbatim". Ligne "Note doc" tronquee supprimee. Champ "Correspondance Python/R" corrige (citait a tort une fiche R_GWmodel_LondonBorough_londonborough qui n'existe pas). N observations (316) verifie coherent avec l'objet R reellement charge par data(LondonHP), bien que la documentation du package mentionne 372 -- ecart documente honnetement plutot que silencieusement ignore.

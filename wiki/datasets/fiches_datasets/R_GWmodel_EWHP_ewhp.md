@@ -2,7 +2,7 @@
 title: R_GWmodel_EWHP_ewhp
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-15
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -27,11 +27,11 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 - Candidate Y variables: `PurPrice`
 - Candidate Y typology: continuous
-- Candidate X variables: `BldIntWr`, `BldPostW`, `Bld60s`, `Bld70s`, `Bld80s`, `TypDetch`, `TypFlat`, `FlrArea`
+- Candidate X variables: `BldIntWr`, `BldPostW`, `Bld60s`, `Bld70s`, `Bld80s`, `TypDetch`, `TypSemiD`, `TypFlat`, `FlrArea`
 - Candidate X typology: categorical, continuous
 - Coordinates (x, y — excluded from X candidates): `Easting`, `Northing`, `X`, `Y`
-- Identifier columns (excluded from X candidates): `TypSemiD`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Identifier columns (excluded from X candidates): none detected
+- Variables inspected: yes (auto — export_sf_metadata.R ; correction 2026-09-15, verification tools::Rd_db("GWmodel"))
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -40,10 +40,9 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 |---|---|---|---|---|
 | `PurPrice` | `numeric` | continuous | [8750, 325000] | 0% |
 
+> Correction 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : `TypSemiD` ("1 if the property is semi detached, 0 otherwise") etait a tort classee comme colonne identifiant ; c'est en realite une variable X binaire au meme titre que TypDetch/TypFlat, corrigee ci-dessous. La ligne "Note doc" precedente etait tronquee/corrompue (bug d'extraction automatique) et a ete retiree.
 
-> Note doc : y is detached (i
-
-> Selection Y/X (claude-sonnet-4-6) : PurPrice (purchase price) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Les 8 autres colonnes sont des caractéristiques du logement (période de construction, type de bien, surface habitable) constituant les covariables explicatives classiques d'un modèle hédonique.
+> Selection Y/X (claude-sonnet-4-6) : PurPrice (purchase price) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Les 9 autres colonnes sont des caractéristiques du logement (période de construction, type de bien, surface habitable) constituant les covariables explicatives classiques d'un modèle hédonique.
 
 #### Detail X
 
@@ -55,16 +54,16 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 | `Bld70s` | `integer` | binary | 0% |
 | `Bld80s` | `integer` | binary | 0% |
 | `TypDetch` | `integer` | binary | 0% |
+| `TypSemiD` | `integer` | binary | 0% |
 | `TypFlat` | `integer` | binary | 0% |
 | `FlrArea` | `numeric` | continuous | 0% |
-
 
 ### Formule — niveau publication
 
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley.
+- Reference publication: [MANUEL/LIVRE, pas un article] Fotheringham, A.S., Brunsdon, C. & Charlton, M.E. (2002), Geographically Weighted Regression: The Analysis of Spatially Varying Relationships, Wiley, Chichester, ISBN 978-0-471-49616-8 (verifie via Open Library, https://openlibrary.org/isbn/9780471496168).
 
 ### Statut regression canonique
 
@@ -76,10 +75,10 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Formule — niveau systeme
 
-- formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+- formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea
+- x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea
 - y_term_used: PurPrice
 
 ### Formules candidates
@@ -107,9 +106,9 @@ formula_candidates:
     status: "unavailable"
 
   ml_or_selected:
-    formula: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea"
+    formula: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea"
     response: "PurPrice"
-    predictors: ["BldIntWr", "BldPostW", "Bld60s", "Bld70s", "Bld80s", "TypDetch", "TypFlat", "FlrArea"]
+    predictors: ["BldIntWr", "BldPostW", "Bld60s", "Bld70s", "Bld80s", "TypDetch", "TypSemiD", "TypFlat", "FlrArea"]
     role: "ml_candidate_features"
     source_type: "generated_system_formula"
     source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
@@ -234,6 +233,4 @@ estimator_eligibility:
 
 ## Curation documentée — 2026-09-07
 
-Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : documentation reelle du package EWHP relue integralement. Correction structurelle : `TypSemiD` etait classee a tort comme colonne identifiant (exclue des candidats X) alors que c'est une variable binaire de type de logement ("1 if the property is semi detached, 0 otherwise"), au meme titre que TypDetch/TypFlat deja presentes. Ajoutee aux candidats X, au Detail X, et a formula_used/formula_candidates (9 covariables au lieu de 8). Ligne "Note doc" tronquee (bug d'extraction anterieur, texte coupe a "y is detached (i") supprimee. Reference Fotheringham et al. (2002) etiquetee explicitement comme MANUEL/LIVRE avec lien verifie (Open Library, ISBN 978-0-471-49616-8, titre/auteurs confirmes), conformement a la consigne standing sur les references de type manuel.
