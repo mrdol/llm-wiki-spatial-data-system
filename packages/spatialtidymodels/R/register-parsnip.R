@@ -12,6 +12,7 @@
   register_mgwrsar_reg()
   register_spmoran_reg()
   register_probitspatial_reg()
+  register_inlaspde_reg()
 }
 
 register_spatialreg_reg <- function() {
@@ -166,6 +167,69 @@ register_probitspatial_reg <- function() {
         unname(ifelse(results >= 0.5, lvl[2], lvl[1]))
       },
       func = c(pkg = "spatialtidymodels", fun = "probitspatial_pred_impl"),
+      args = list(
+        object = quote(object),
+        new_data = quote(new_data)
+      )
+    )
+  )
+
+  invisible(TRUE)
+}
+
+register_inlaspde_reg <- function() {
+  if ("inla_spde_reg" %in% parsnip::get_model_env()$models) return(invisible(TRUE))
+
+  parsnip::set_new_model("inla_spde_reg")
+  parsnip::set_model_mode(model = "inla_spde_reg", mode = "regression")
+  parsnip::set_model_engine("inla_spde_reg", mode = "regression", eng = "inlabru")
+  parsnip::set_dependency("inla_spde_reg", eng = "inlabru", pkg = "inlabru")
+  parsnip::set_dependency("inla_spde_reg", eng = "inlabru", pkg = "INLA")
+
+  for (arg in c("coords", "family", "link", "prior_range", "prior_sigma", "mesh_max_edge", "mesh_cutoff")) {
+    parsnip::set_model_arg(
+      model = "inla_spde_reg",
+      eng = "inlabru",
+      parsnip = arg,
+      original = arg,
+      func = list(pkg = "dials", fun = "unknown"),
+      has_submodel = FALSE
+    )
+  }
+
+  parsnip::set_fit(
+    model = "inla_spde_reg",
+    eng = "inlabru",
+    mode = "regression",
+    value = list(
+      interface = "formula",
+      protect = c("formula", "data"),
+      func = c(pkg = "spatialtidymodels", fun = "inlaspde_fit_impl"),
+      defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "inla_spde_reg",
+    eng = "inlabru",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  parsnip::set_pred(
+    model = "inla_spde_reg",
+    eng = "inlabru",
+    mode = "regression",
+    type = "numeric",
+    value = list(
+      pre = NULL,
+      post = function(results, object) as.numeric(results),
+      func = c(pkg = "spatialtidymodels", fun = "inlaspde_pred_impl"),
       args = list(
         object = quote(object),
         new_data = quote(new_data)

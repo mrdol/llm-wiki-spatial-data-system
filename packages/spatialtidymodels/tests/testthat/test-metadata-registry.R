@@ -262,7 +262,8 @@ test_that("le registre expose dashboard_group, distinct de family (groupement vi
 
   expect_setequal(
     unique(estimators$dashboard_group),
-    c("Baselines", "Spatial Econometrics", "Boosting", "MGWRSAR", "Spatial RF", "Machine Learning")
+    c("Baselines", "Spatial Econometrics", "Boosting", "MGWRSAR", "Spatial RF",
+      "Machine Learning", "Bayesian Spatial")
   )
 })
 

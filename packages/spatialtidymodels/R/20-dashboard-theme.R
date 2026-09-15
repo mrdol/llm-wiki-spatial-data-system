@@ -47,7 +47,7 @@ dashboard_family_palette <- function() {
   )
 }
 
-#' Sidebar/legend order and color for the 6 known dashboard_group sections
+#' Sidebar/legend order and color for the 7 known dashboard_group sections
 #'
 #' The sidebar's "Estimator families" section and every chart colored by
 #' group (performance/duration scatter, residual spatial dependence bars)
@@ -55,7 +55,12 @@ dashboard_family_palette <- function() {
 #' scientific model family, see [dashboard_family_palette()]) -- so a
 #' boosting variant of a SAR model reads as "Boosting" everywhere in the UI,
 #' matching how it's grouped in the sidebar. `names()` also gives the
-#' canonical section order.
+#' canonical section order. `Bayesian Spatial` added 2026-09 for `inla_spde`
+#' (INLA SPDE, see `R/51-parsnip-inlaspde.R`) -- a genuinely new group
+#' (Bayesian latent Gaussian spatial models), not a reuse of `Other`, so it
+#' is added deliberately here rather than falling back to the `Other`/`other`
+#' NA-fallback used by `dashboard_estimator_families()` for estimators with
+#' no taxonomy entry at all.
 #' @noRd
 dashboard_group_palette <- function() {
   c(
@@ -65,6 +70,7 @@ dashboard_group_palette <- function() {
     MGWRSAR                  = "#2c5f8a",
     `Spatial RF`              = "#e8590c",
     `Machine Learning`       = "#ae3ec9",
+    `Bayesian Spatial`       = "#5c3d99",
     Other                    = "#adb5bd"
   )
 }

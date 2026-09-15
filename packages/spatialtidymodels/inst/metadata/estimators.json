@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-09-09T22:15:49.396095+00:00",
+  "generated_at": "2026-09-14T09:20:41.616853+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -1576,7 +1576,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_malformation_prevalence",
@@ -1653,6 +1652,7 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
+        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_malformation_prevalence",
@@ -1771,6 +1771,43 @@
       "reference_estimator": null,
       "variant_family": null,
       "dashboard_group": "Spatial Econometrics"
+    },
+    {
+      "estimator": "inla_spde",
+      "package": "inlabru",
+      "backend": "inlabru::bru (INLA SPDE)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+      "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+      "notes": "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); priors et maillage calcules par defaut depuis la bounding box des coordonnees et l'ecart-type de Y, surchargeables. Famille derivee de response_typology (continuous->gaussian, binary->binomial logit/cloglog via glm_link, count->poisson) -- motive par 3 papiers du corpus utilisant reellement INLA en binomial/poisson (paper_flapper_skate_presence, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal). Toujours mode=regression, y compris pour binary: la prediction retournee est la probabilite continue, meme convention que ols/gam_spatial. Binomiale negative/gamma restent hors perimetre.",
+      "status": "automatic",
+      "mode": "regression",
+      "automatic": true,
+      "response_typologies": [
+        "continuous",
+        "binary",
+        "count"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
+      "test_datasets": [
+        "paper_banff_stream_temperature",
+        "paper_flapper_skate_presence",
+        "paper_mistletoe_bird_abundance"
+      ],
+      "wiki_key": "inla",
+      "wiki_path": "wiki/estimators/inla.md",
+      "metadata_status": "wiki_fiche_found",
+      "family": "INLA_SPDE",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null,
+      "dashboard_group": "Bayesian Spatial"
     },
     {
       "estimator": "spboost",

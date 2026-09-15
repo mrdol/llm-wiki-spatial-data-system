@@ -44,6 +44,7 @@ fallback_spatial_benchmark_registry <- function() {
     row("sdm_mixed", "spatialreg", "spatialreg::lagsarlm(Durbin)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "SDM mixed via fit_sdm()."),
     row("sar_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SAR)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SAR (Martinetti & Geniaux, 2017) via sar_probit_reg(); reponse binaire uniquement.", mode = "classification"),
     row("sem_probit", "ProbitSpatial", "ProbitSpatial::ProbitSpatialFit(DGP=SEM)", TRUE, FALSE, "coords/W/k_neighbors/style/zero_policy", "k_neighbors", "Probit spatial SEM (Martinetti & Geniaux, 2017) via sem_probit_reg(); reponse binaire uniquement.", mode = "classification"),
+    row("inla_spde", "inlabru", "inlabru::bru (INLA SPDE)", TRUE, FALSE, "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff", "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff", "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); continue (gaussian), binaire (binomial, logit/cloglog) ou comptage (poisson) selon response_typology."),
     row("spboost", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."),
     row("spboost_bspa_sar_ml", "spboost", "spboost::spbgam(BSPA_SAR_ML)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; ML estime le parametre spatial rho; nu reste fixe."),
     row("spboost_bspa_sar_cfe", "spboost", "spboost::spbgam(BSPA_SAR_CFE)", TRUE, FALSE, "coords/k_neighbors", "mstop, k_neighbors", "BSPA SAR; CFE estime le parametre spatial rho; nu reste fixe."),
@@ -424,6 +425,35 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
         formula, coords, data
       ) |>
         workflows::fit(data = data)
+    },
+    inla_spde = {
+      require_package("workflows", "benchmark INLA SPDE")
+      require_package("INLA", "benchmark INLA SPDE")
+      require_package("inlabru", "benchmark INLA SPDE")
+      # Meme derivation family/link que ols/gam_spatial ci-dessus (response_typology
+      # -> binomial/poisson/gaussian, glm_link -> lien explicite), pour un
+      # comportement coherent projet-large. Motive par 3 papiers du corpus
+      # utilisant reellement INLA en binomial/poisson: paper_flapper_skate_presence
+      # (cloglog), paper_mistletoe_bird_abundance, paper_goa_trawl_demersal.
+      inla_family <- switch(response_typology, binary = "binomial", count = "poisson", "gaussian")
+      inla_data <- data
+      if (identical(response_typology, "binary")) {
+        # parsnip::check_outcome() refuse un facteur pour un spec mode="regression"
+        # (confirme empiriquement) -- inla_spde_reg() reste volontairement en
+        # mode="regression" meme pour le binaire (meme convention que ols/
+        # gam_spatial: la prediction retournee est une probabilite continue,
+        # pas une classe). Le facteur c(0,1) impose plus haut dans cette
+        # fonction pour les routes parsnip mode="classification" (sar_probit/
+        # sem_probit) est donc reconverti en 0/1 numerique ici, localement a
+        # cette branche uniquement.
+        inla_data[[y_name]] <- as.integer(inla_data[[y_name]]) - 1L
+      }
+      make_benchmark_workflow(
+        inla_spde_reg(coords = coords, family = inla_family, link = glm_link) |>
+          parsnip::set_engine("inlabru"),
+        formula, coords, inla_data
+      ) |>
+        workflows::fit(data = inla_data)
     },
     spboost = {
       require_package("workflows", "benchmark SpBoost")

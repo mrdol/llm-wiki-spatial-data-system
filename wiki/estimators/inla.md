@@ -2,7 +2,7 @@
 title: INLA
 type: estimator
 created: 2026-04-23
-updated: 2026-07-06
+updated: 2026-09-15
 sources:
   - OpitzINLA.pdf
   - Rue, Martino and Chopin 2009, Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations
@@ -145,14 +145,72 @@ out-of-sample validation when the goal is prediction.
 - Compatible `Y`: Gaussian, count, binary and other R-INLA-supported likelihoods.
 - Compatible `X`: fixed effects plus spatial/temporal indexing fields.
 - Spatial requirement: adjacency for areal models or coordinates/mesh for SPDE models.
-- Current benchmark note: INLA is allowed by policy but not yet wired in `benchmark_manual_test_2026-07.R`.
+- Current benchmark note: wired in as `inla_spde` in the modern
+  `packages/spatialtidymodels/` package (`R/51-parsnip-inlaspde.R`,
+  `inla_spde_reg()`/`inlabru::bru()`), not in the older, parallel
+  `code/R/estimators/benchmark_manual_test_2026-07.R` harness (out of scope).
+  First validated on a small synthetic SPDE dataset and on
+  `paper_banff_stream_temperature` (N=110, point-referenced, `test_datasets`
+  entry in `inst/metadata/estimators.json`).
 - Validation: posterior criteria do not replace external spatial or space-time validation.
+
+## Statut d'implementation actuel (2026-09-15)
+
+- **Construit (Phase 1, 2026-09-14)** : champ spatial SPDE (Matérn continu,
+  PC-priors via `INLA::inla.spde2.pcmatern()`), réponse gaussienne (continue),
+  via `inlabru::bru()` (interface à base de composants, pas
+  `INLA::inla()` + `inla.stack()` manuel). Wrapper `parsnip` complet
+  (`inla_spde_reg()`, `inlaspde_fit_impl()`, `inlaspde_pred_impl()`,
+  `register_inlaspde_reg()`), estimateur `inla_spde` dans
+  `fit_one_benchmark_estimator()` et `inst/metadata/estimators.json`.
+- **Construit (Phase 2, 2026-09-15)** : familles non-gaussiennes ajoutées à
+  `inla_spde_reg()`/`inlaspde_fit_impl()` via un argument `family`
+  (`"gaussian"`/`"binomial"`/`"poisson"`) et un argument `link` optionnel
+  (seul `"cloglog"` est accepté pour `"binomial"`, vérifié empiriquement
+  contre `inlabru::bru(..., control.family = list(link = ...))`). Dérivées
+  automatiquement de `response_typology`/`glm_link` dans
+  `fit_one_benchmark_estimator()`, exactement comme `ols`/`gam_spatial`.
+  Motivé par la lecture directe de 3 papiers du corpus déjà validés qui
+  utilisent réellement INLA en binomial/poisson :
+  `paper_flapper_skate_presence` (Loca et al. 2025, binomial+cloglog),
+  `paper_mistletoe_bird_abundance` (INLA négative-binomiale/Poisson) et
+  `paper_goa_trawl_demersal` (Shelton et al. 2017, script R original des
+  auteurs sur Dryad : binomial+gamma, delta-GLMM). `inla_spde_reg()` reste
+  volontairement en `mode = "regression"` même pour le binaire — la
+  prédiction retournée est une probabilité continue, pas une classe, même
+  convention que `ols`/`gam_spatial` (pas de mode `"classification"` séparé
+  comme pour `ProbitSpatial`). Validé de bout en bout sur les vraies fiches
+  curées `paper_flapper_skate_presence` et `paper_mistletoe_bird_abundance`.
+- **Différé** : BYM2/ICAR (aucune matrice d'adjacence précalculée dans le
+  corpus de jeux curés — un seul jeu polygone `ready`+`package_include`, sans
+  W), le modèle barrière `INLAspacetime` (aucune géométrie non convexe/côte/
+  réseau hydrographique stockée), les vraisemblances binomiale négative et
+  gamma (aucun routage `response_typology` existant pour ces deux familles —
+  seuls continuous/binary/count existent dans le projet), et le champ
+  spatio-temporel groupé AR1 (`f(field, group=annee, control.group=list(model='ar1'))`
+  — utilisé par `paper_crane` et `paper_goa_trawl_demersal`, candidat crédible
+  pour une Phase 3 mais pas encore construit).
 
 ## Open Questions From Papers
 
-- Which INLA formulation should be the first benchmark route: BYM2, SPDE, or another latent spatial effect.
-- How to standardize priors so results are comparable across datasets.
-- How to expose INLA in the project without forcing a full `parsnip` wrapper immediately.
+- ~~Which INLA formulation should be the first benchmark route: BYM2, SPDE,
+  or another latent spatial effect.~~ **Résolu** : SPDE d'abord — recensement
+  du corpus (`wiki/datasets/fiches_datasets/`) : 376/380 fiches en géométrie
+  POINT, 2 seulement en POLYGON (aucune avec W précalculé), 0 en LINE/réseau ;
+  SPDE sur coordonnées ponctuelles est la seule formulation qui dessert
+  immédiatement un nombre substantiel de jeux déjà curés.
+- ~~How to standardize priors so results are comparable across datasets.~~
+  **Résolu** : règle déterministe calculée depuis les données
+  (`inla_spde_default_priors()`) — `prior.range = c(diagonale_bbox / 5, 0.5)`,
+  `prior.sigma = c(ecart_type(y), 0.5)` (forme PC-prior standard, "weak
+  default"), surchargeable par jeu via `prior_range`/`prior_sigma`.
+- ~~How to expose INLA in the project without forcing a full `parsnip`
+  wrapper immediately.~~ **Résolu** : un wrapper complet est nécessaire (INLA/
+  inlabru n'ont pas de moteur `parsnip` natif, contrairement à MARS/XGBoost
+  qui réutilisent le moteur natif de `earth`/`xgboost`), mais `inlabru::bru()`
+  + `predict.bru(newdata=...)` (prédiction hors échantillon native) rendent ce
+  wrapper nettement plus léger que celui de `ProbitSpatial`, qui doit
+  reconstruire la prédiction à la main.
 
 ## Related Pages
 
