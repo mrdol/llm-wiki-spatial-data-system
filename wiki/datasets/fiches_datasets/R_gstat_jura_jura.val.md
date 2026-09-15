@@ -62,7 +62,7 @@ The jura data set from Pierre Goovaerts' book (see references below). It contain
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p. [Appendix C describes and provides the Jura data set]
+- Reference publication: [MANUEL/LIVRE, pas un article] Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p., ISBN 978-0-19-511538-3 (verifie via Open Library, https://openlibrary.org/isbn/9780195115383) [Appendix C decrit et fournit le jeu de donnees Jura] ; deux articles analysant le meme jeu de donnees (metaux traces dans les sols du Jura suisse) sont egalement documentes dans gstat::jura : Atteia, O., Dubois, J.-P., Webster, R. (1994), Geostatistical analysis of soil contamination in the Swiss Jura, Environmental Pollution 86:315-327, DOI 10.1016/0269-7491(94)90172-4 ; Webster, R., Atteia, O., Dubois, J.-P. (1994), Coregionalization of trace metals in the soil in the Swiss Jura, European Journal of Soil Science 45:205-218, DOI 10.1111/j.1365-2389.1994.tb00502.x.
 
 ### Statut regression canonique
 
@@ -161,7 +161,7 @@ modeling_evidence:
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
 - CRS EPSG: 4326 (source: documentation du package, .rds sans CRS embarque)
-- CRS nom: unknown
+- CRS nom: WGS 84
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
@@ -198,7 +198,7 @@ estimator_eligibility:
   status: "manual_review"
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "Aucun estimateur de regression (SAR/OLS/GWR/etc.) documente pour ce jeu : c'est le jeu de reference classique du COKRIGING (Goovaerts 1997, Applied Geostatistics Series, Appendix C), pas un exemple de regression Y~X -- il n'y a pas de covariable exogene distincte a expliquer, seulement plusieurs metaux lourds co-mesures. Inventer une formule de regression ici serait artificiel. Statut maintenu en manual_review avec eligible_estimators=[] jusqu'a ce qu'une revue humaine tranche s'il faut router ce jeu vers un estimateur geostatistique dedie (hors perimetre actuel du harnais de regression) ou le documenter comme non applicable au benchmark de regression."
+  ineligible_reason: "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -216,7 +216,7 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `gstat`
-- Duplicate/version candidate: [[R_gstat_jura_jura.pred]]
+- Fusion complete (359 pts, jura.pred + jura.val) : [[R_gstat_jura_jura.full]]
 - Duplicate/version candidate: [[R_gstat_jura_prediction.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_validation.dat]]
 - Duplicate/version candidate: [[R_gstat_jura_jura.grid]]
@@ -229,3 +229,7 @@ Decision conservatoire : Ancienne declaration yes incoherente avec les condition
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : CRS confirme WGS84 pour long/lat (documentation gstat::jura, "Longitude, WGS84 datum") ; EPSG:4326 deja correctement renseigne, seul le nom manquait. Deux articles reels analysant precisement ce jeu de donnees identifies dans les references officielles gstat::jura (Atteia et al. 1994, DOI 10.1016/0269-7491(94)90172-4 ; Webster et al. 1994, DOI 10.1111/j.1365-2389.1994.tb00502.x) et ajoutes a Reference publication -- texte integral non recupere (pas dans corpus/papers/tei), donc aucune formule exacte extraite ; formula_pub reste honnetement "pending" plutot que d'inventer une equation a partir des seuls titres/resumes.
+
+Complement 2026-09-15 (mode production de secours) : lecture directe des PDF complets des deux papiers ci-dessus (telecharges par l'utilisateur) confirme qu'ils analysent le releve ORIGINAL complet (366 sites), pas ce sous-ensemble de validation (100 pts) isolement. La coupure calibration (jura.pred, 259 pts) / validation (jura.val, ce fichier, 100 pts) est une construction posterieure de Goovaerts (1997, Appendix C), a but pedagogique. Une fiche fusionnee [[R_gstat_jura_jura.full]] (359 pts = jura.pred + jura.val, proxy le plus proche du releve complet disponible via gstat) a ete creee en complement ; elle porte desormais formula_pub etabli a partir d'une citation directe de Webster et al. (1994) (resultats ANOVA). Cette fiche `jura.val` est conservee telle quelle (sous-ensemble reel et distinct du package, utile pour des scenarios de validation croisee reproduisant Goovaerts 1997), pas fusionnee destructivement ; formula_pub reste "pending" ici car ce sous-ensemble seul n'a pas ete analyse independamment par les papiers sources.

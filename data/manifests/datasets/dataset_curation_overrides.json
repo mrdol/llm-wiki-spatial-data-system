@@ -8758,7 +8758,9 @@
         "Observed population": "23230 enregistrements dans l’artefact local R_gstat_DE_RB_2005_DE_RB_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS non renseigne, repere/unites a documenter.",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Temporal resolution": "daily (365 pas de temps quotidiens, annee civile complete)",
+        "Time range": "2005-01-01 to 2005-12-31"
       },
       "source_fiche_sha256": "794fd3489b9fc1cf67dbe15dca9cdb784a0ba93f99aefce8b3b559a24acad718",
       "evidence": [
@@ -8780,14 +8782,21 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "PM10",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : documentation confirme la dimension temporelle de l'objet STSDF -- \"An 'xts' object on 2005-01-01/2005-12-31\", 365 pas de temps quotidiens (annee civile 2005 complete). Temporal resolution/Time range corriges de \"pending inspection\" a ces valeurs verifiees. CRS (EPSG:32632) et formule (PM10 ~ 1, verifiee contre le code publie des auteurs) deja corrects et inchanges."
     },
     "R_gstat_fulmar_fulmar": {
       "bullets": {
         "Observed population": "1324 enregistrements dans l’artefact local R_gstat_fulmar_fulmar.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [476209.6, 739041.8], y [5694947, 6150942]; CRS non renseigne, repere/unites a documenter.",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Publication DOI": "10.1002/env.723",
+        "CRS EPSG": "32631",
+        "CRS nom": "WGS 84 / UTM zone 31N",
+        "CRS analyse recommande": "32631 (deja en projection UTM zone 31N, directement utilisable, aucune reprojection necessaire)",
+        "Temporal resolution": "annual (deux campagnes aeriennes distinctes : aout/septembre 1998 et 1999)",
+        "Time range": "1998 to 1999",
+        "Spatial extent": "x [476209.6, 739041.8], y [5694947, 6150942], EPSG:32631 (UTM zone 31N)"
       },
       "source_fiche_sha256": "531894607c1b78a2b81224ac1f2fff3271245811b0424a1118d928c52336f90a",
       "evidence": [
@@ -8808,13 +8817,15 @@
         "CRS_UNRESOLVED"
       ],
       "selected_response": "fulmar",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : documentation confirmee -- x/y explicitement documentees comme \"UTM zone 31\" (donc EPSG:32631), annee documentee comme \"1998 or 1999\" (2 campagnes aeriennes aout/septembre). CORRECTION DOI : 10.1002/env.720 -> 10.1002/env.723, verifie via l'API Crossref (query bibliographique sur le titre exact) -- le DOI precedent etait un chiffre errone, pas le bon article. Reference/formule (Pebesma, Duin & Burrough 2005, fulmar ~ depth + coast) restent correctes et inchangees."
     },
     "R_gstat_jura_jura.val": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [6.825787677834, 6.881330909309], y [47.116100419465, 47.158943499838]; CRS non renseigne, repere/unites a documenter.",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "CRS nom": "WGS 84",
+        "Reference publication": "Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p. [Appendix C decrit et fournit le jeu de donnees Jura] ; deux articles analysant le meme jeu de donnees (metaux traces dans les sols du Jura suisse) sont egalement documentes dans gstat::jura : Atteia, O., Dubois, J.-P., Webster, R. (1994), Geostatistical analysis of soil contamination in the Swiss Jura, Environmental Pollution 86:315-327, DOI 10.1016/0269-7491(94)90172-4 ; Webster, R., Atteia, O., Dubois, J.-P. (1994), Coregionalization of trace metals in the soil in the Swiss Jura, European Journal of Soil Science 45:205-218, DOI 10.1111/j.1365-2389.1994.tb00502.x."
       },
       "source_fiche_sha256": "d9b6392abaae32da2a72e336351b3061874783003f03e9d7fd2758d6f38a4391",
       "evidence": [
@@ -8844,7 +8855,7 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : CRS confirme WGS84 pour long/lat (documentation gstat::jura, \"Longitude, WGS84 datum\") ; EPSG:4326 deja correctement renseigne, seul le nom manquait. Deux articles reels analysant precisement ce jeu de donnees identifies dans les references officielles gstat::jura (Atteia et al. 1994, DOI 10.1016/0269-7491(94)90172-4 ; Webster et al. 1994, DOI 10.1111/j.1365-2389.1994.tb00502.x) et ajoutes a Reference publication -- texte integral non recupere (pas dans corpus/papers/tei), donc aucune formule exacte extraite ; formula_pub reste honnetement \"pending\" plutot que d'inventer une equation a partir des seuls titres/resumes."
     },
     "R_gstat_oxford_oxford": {
       "bullets": {
@@ -8852,7 +8863,13 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [100, 600], y [100, 2100]; CRS non renseigne, repere/unites a documenter.",
         "Topic": "Donnees de r-package : R_gstat_oxford_oxford",
         "Selected Y typology": "categorical",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Publication DOI": "none",
+        "CRS EPSG": "not_applicable (grille de terrain locale non projetee)",
+        "CRS nom": "not_applicable (repere local, non georeference)",
+        "CRS analyse recommande": "not_applicable — XCOORD/YCOORD sont une grille de terrain locale non projetee (documentation gstat::oxford : \"non-projected field coordinates\", origine a 100m au sud-sud-est de la grille), pas des coordonnees geographiques ; aucune reprojection ne peut etre deduite sans georeferencement externe.",
+        "Spatial extent": "x [100, 600], y [100, 2100] (grille de terrain locale non projetee, pas de CRS)",
+        "Reference publication": "Burrough, P.A. & McDonnell, R.A. (1998). Principles of Geographical Information Systems. Oxford University Press, Oxford. ISBN 978-0-19-823365-7. TYPE: manuel (livre), pas un article -- aucun DOI n'existe pour un ouvrage de ce type. Lien : https://openlibrary.org/isbn/9780198233657 (fiche verifiee : titre, auteurs et annee correspondent exactement)."
       },
       "source_fiche_sha256": "b688bb35a4a06aafd0d0d3fa80e810d54459ee9eeda47524dc38415c5895bb29",
       "evidence": [
@@ -8874,12 +8891,16 @@
         "CRS_UNRESOLVED"
       ],
       "selected_response": "PROFCLASS",
-      "note": "Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : documentation confirmee -- leve de sols par P.A. Burrough (1967, Berkshire Downs, Oxfordshire, UK), 126 sondages sur grille 100x100m ; reference = un manuel (Burrough & McDonnell 1998, Oxford University Press), pas un article -- Publication DOI corrige de \"pending\" a \"none\" (les manuels n'ont pas de DOI). XCOORD/YCOORD explicitement decrites comme \"non-projected field coordinates\" dans la doc -- CRS corrige de \"unknown [lookup required]\" (implique une recherche possible) a \"not_applicable\" (rien a chercher, ce sont des coordonnees de terrain non georeferencees).\n\nComplement 2026-09-15 : reference explicitement etiquetee comme un manuel (pas un article scientifique), avec lien de reference verifie (Open Library, ISBN 9780198233657 confirme resoudre vers le bon titre/auteurs/annee)."
     },
     "R_gstat_pcb_pcb": {
       "bullets": {
         "Observed population": "216 enregistrements dans l’artefact local R_gstat_pcb_pcb.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
-        "Geographic context": "Etendue mesuree dans le RDS : x [477952.45, 736018.82], y [5692380.66, 6132475.4]; CRS non renseigne, repere/unites a documenter."
+        "Geographic context": "Etendue mesuree dans le RDS : x [477952.45, 736018.82], y [5692380.66, 6132475.4]; CRS non renseigne, repere/unites a documenter.",
+        "Publication DOI": "10.1007/3-540-26535-x_31",
+        "CRS EPSG": "32631",
+        "CRS nom": "WGS 84 / UTM zone 31N",
+        "CRS analyse recommande": "32631 (deja en projection UTM zone 31N, meme region NCP que gstat::fulmar, directement utilisable)"
       },
       "source_fiche_sha256": "6cf461c6407c5ba14c771d213e00f505f80f3b09fd1ae346f4d2beca4821d2df",
       "evidence": [
@@ -8900,13 +8921,18 @@
         "CRS_UNRESOLVED",
         "INDIVIDUAL_REVIEW"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : x/y confirmees \"UTM zone 31\" (EPSG:32631) dans la documentation. Publication DOI resolu (10.1007/3-540-26535-x_31, chapitre \"Spatio-temporal mapping of sea floor sediment pollution in the North Sea\", verifie via Crossref -- auteurs et pages 367-378 identiques a la reference deja citee dans la fiche, Pebesma & Duin 2005, seul le DOI manquait). AVERTISSEMENT D'USAGE (documentation officielle gstat::pcb) : les valeurs PCB138 ont subi des normalisations non documentees ni dans l'aide R ni dans l'article -- les auteurs demandent explicitement de contacter RIKZ avant toute utilisation hors reproduction de leur propre analyse. formula_pub reste a juste titre \"pending\" (aucune formule exacte confirmee, article non recupere en texte integral)."
     },
     "R_gstat_walker_walker": {
       "bullets": {
         "Observed population": "470 enregistrements dans l’artefact local R_gstat_walker_walker.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [8, 251], y [8, 291]; CRS non renseigne, repere/unites a documenter.",
-        "Topic": "Donnees de r-package : R_gstat_walker_walker"
+        "Topic": "Donnees de r-package : R_gstat_walker_walker",
+        "Publication DOI": "none",
+        "CRS EPSG": "not_applicable (grille de terrain locale, jeu pedagogique Isaaks & Srivastava)",
+        "CRS nom": "not_applicable (coordonnees non georeferencees)",
+        "CRS analyse recommande": "not_applicable — X/Y sont des coordonnees en metres d'un jeu pedagogique (Walker Lake, Isaaks & Srivastava, Applied Geostatistics), non rattachees a un systeme geographique reel documente.",
+        "Reference publication": "Isaaks, E.H. & Srivastava, R.M. (1989). An Introduction to Applied Geostatistics. Oxford University Press, New York, 561 p. ISBN 978-0-19-505013-4 (titre complet corrige : la documentation gstat::walker l'appelle par raccourci \"Applied Geostatistics\", le vrai titre publie est \"An Introduction to Applied Geostatistics\"). TYPE: manuel (livre), pas un article -- aucun DOI n'existe pour un ouvrage de ce type. Lien : https://global.oup.com/academic/product/an-introduction-to-applied-geostatistics-9780195050134 (page editeur verifiee)."
       },
       "source_fiche_sha256": "07778d25e4c47617e7b8c53374629461bac14833defcb7080b10f1f497e9828a",
       "evidence": [
@@ -8926,13 +8952,16 @@
         "GENERIC_POPULATION",
         "CRS_UNRESOLVED"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : reference confirmee (Isaaks & Srivastava, Applied Geostatistics, Oxford University Press -- un livre, pas d'article, donc Publication DOI corrige de \"pending\" a \"none\"). Documentation confirme aussi l'absence de CRS reel : \"X location in meter\", \"Y location in meter\", sans reference geographique -- corrige de \"unknown [lookup required]\" a \"not_applicable\". formula_pub reste correctement not_applicable (interpolation geostatistique univariee, pas une regression) -- decision deja bien fondee, non modifiee.\n\nComplement 2026-09-15 : titre complet corrige (\"An Introduction to Applied Geostatistics\", pas juste \"Applied Geostatistics\"), reference explicitement etiquetee comme un manuel, avec lien editeur verifie (Oxford University Press, ISBN 9780195050134 confirme via la recherche)."
     },
     "R_gstat_wind_wind.loc": {
       "bullets": {
         "Observed population": "12 enregistrements dans l’artefact local R_gstat_wind_wind.loc.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1, 12], y [1, 12]; CRS non renseigne, repere/unites a documenter.",
-        "Topic": "Donnees de r-package : R_gstat_wind_wind.loc"
+        "Topic": "Donnees de r-package : R_gstat_wind_wind.loc",
+        "Publication DOI": "10.2307/2347679",
+        "CRS EPSG": "4326",
+        "CRS nom": "WGS 84 (Latitude/Longitude fournies en degres-minutes-secondes dans la documentation gstat::wind, a convertir via char2dms())"
       },
       "source_fiche_sha256": "567b1a7889006c4fccc57adf10da2f34fe3cf78f13328e91638aa1544cc5111e",
       "evidence": [
@@ -8952,7 +8981,7 @@
         "GENERIC_POPULATION",
         "CRS_UNRESOLVED"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : DOI resolu (10.2307/2347679, verifie via Crossref) pour Haslett & Raftery (1989), Applied Statistics 38:1-50. CRS confirme WGS84 (Latitude/Longitude en DMS dans wind.loc, converties via sp::char2dms() dans les exemples officiels du package). formula_pub reste a juste titre not_applicable -- wind.loc est la table de localisation des stations, le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes), absent de ce depot -- decision deja bien fondee, non modifiee."
     },
     "R_GWmodel_DubVoter_Dub.voter": {
       "bullets": {

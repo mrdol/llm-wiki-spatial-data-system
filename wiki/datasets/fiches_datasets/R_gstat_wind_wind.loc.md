@@ -114,7 +114,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: 10.2307/2347679
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -151,8 +151,8 @@ modeling_evidence:
 - Spatial extent: x [1, 12], y [1, 12] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
+- CRS EPSG: 4326
+- CRS nom: WGS 84 (Latitude/Longitude fournies en degres-minutes-secondes dans la documentation gstat::wind, a convertir via char2dms())
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
@@ -200,3 +200,5 @@ benchmark_readiness:
 ## Curation documentée — 2026-09-07
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : DOI resolu (10.2307/2347679, verifie via Crossref) pour Haslett & Raftery (1989), Applied Statistics 38:1-50. CRS confirme WGS84 (Latitude/Longitude en DMS dans wind.loc, converties via sp::char2dms() dans les exemples officiels du package). formula_pub reste a juste titre not_applicable -- wind.loc est la table de localisation des stations, le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes), absent de ce depot -- decision deja bien fondee, non modifiee.

@@ -116,7 +116,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: 10.1007/3-540-26535-x_31
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -154,9 +154,9 @@ modeling_evidence:
 - Spatial extent: x [477952.45, 736018.82], y [5692380.66, 6132475.4] (CRS unknown)
 - Time range: pending inspection
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 32631
+- CRS nom: WGS 84 / UTM zone 31N
+- CRS analyse recommande: 32631 (deja en projection UTM zone 31N, meme region NCP que gstat::fulmar, directement utilisable)
 
 ## Bloc 6 — Reproductibilite
 
@@ -203,3 +203,5 @@ benchmark_readiness:
 ## Curation documentée — 2026-09-07
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : x/y confirmees "UTM zone 31" (EPSG:32631) dans la documentation. Publication DOI resolu (10.1007/3-540-26535-x_31, chapitre "Spatio-temporal mapping of sea floor sediment pollution in the North Sea", verifie via Crossref -- auteurs et pages 367-378 identiques a la reference deja citee dans la fiche, Pebesma & Duin 2005, seul le DOI manquait). AVERTISSEMENT D'USAGE (documentation officielle gstat::pcb) : les valeurs PCB138 ont subi des normalisations non documentees ni dans l'aide R ni dans l'article -- les auteurs demandent explicitement de contacter RIKZ avant toute utilisation hors reproduction de leur propre analyse. formula_pub reste a juste titre "pending" (aucune formule exacte confirmee, article non recupere en texte integral).

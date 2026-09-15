@@ -88,11 +88,24 @@ CONFIRMED_KEEP = {
     "Python_geodatasets_geoda.nyc_earnings_2013",
     "Python_geodatasets_geoda.nyc_earnings_2014",
 }
+# jura.pred (259 pts) reste dans CONFIRMED_DISCARD ci-dessous (pas restaure
+# separement) : verification directe 2026-09-15 des PDF originaux (Atteia
+# et al. 1994, abstract, "sampled at 366 sites" ; Webster et al. 1994, meme
+# releve, meme region) confirme que les deux papiers analysent LE releve
+# complet (366 sites, 359 dans la version Goovaerts/gstat ici disponible),
+# pas un sous-ensemble de calibration isole. La coupure 259 (jura.pred) /
+# 100 (jura.val) est une construction pedagogique propre au livre de
+# Goovaerts (1997, posterieur de 3 ans), pour demontrer une validation
+# croisee -- pas la structure des papiers sources. jura.pred et jura.val
+# sont donc fusionnes dans une nouvelle fiche unique R_gstat_jura_jura.full
+# (359 pts, data/final_datasets/sf/R_gstat_jura_jura.full.rds, construit par
+# rbind(jura.pred, jura.val) -- 0 chevauchement de coordonnees verifie,
+# memes colonnes/niveaux de facteur) plutot que restaures separement.
 CONFIRMED_DISCARD = {
     "R_gstat_jura_prediction.dat",
     "R_gstat_jura_validation.dat",
-    "R_surveillance_hagelloch_hagelloch.df",
     "R_gstat_jura_jura.pred",
+    "R_surveillance_hagelloch_hagelloch.df",
     "Python_geodatasets_geoda.lasrosas",
     "R_GWmodel_GeorgiaCounties_Gedu.counties",
     "R_GWmodel_LondonBorough_londonborough",

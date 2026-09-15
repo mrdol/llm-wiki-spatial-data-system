@@ -118,7 +118,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: 10.1002/env.720
+- Publication DOI: 10.1002/env.723
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -152,13 +152,13 @@ modeling_evidence:
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection
-- Spatial extent: x [476209.6, 739041.8], y [5694947, 6150942] (CRS unknown)
-- Time range: pending inspection
+- Temporal resolution: annual (deux campagnes aeriennes distinctes : aout/septembre 1998 et 1999)
+- Spatial extent: x [476209.6, 739041.8], y [5694947, 6150942], EPSG:32631 (UTM zone 31N)
+- Time range: 1998 to 1999
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 32631
+- CRS nom: WGS 84 / UTM zone 31N
+- CRS analyse recommande: 32631 (deja en projection UTM zone 31N, directement utilisable, aucune reprojection necessaire)
 
 ## Bloc 6 — Reproductibilite
 
@@ -237,3 +237,5 @@ Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant c
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : documentation confirmee -- x/y explicitement documentees comme "UTM zone 31" (donc EPSG:32631), annee documentee comme "1998 or 1999" (2 campagnes aeriennes aout/septembre). CORRECTION DOI : 10.1002/env.720 -> 10.1002/env.723, verifie via l'API Crossref (query bibliographique sur le titre exact) -- le DOI precedent etait un chiffre errone, pas le bon article. Reference/formule (Pebesma, Duin & Burrough 2005, fulmar ~ depth + coast) restent correctes et inchangees.

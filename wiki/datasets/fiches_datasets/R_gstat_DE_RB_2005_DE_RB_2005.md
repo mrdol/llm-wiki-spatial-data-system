@@ -15,7 +15,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
 - Observed population: 23230 enregistrements dans l’artefact local R_gstat_DE_RB_2005_DE_RB_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS EPSG:32632 (UTM zone 32N, WGS84) -- confirme dans le `proj4string` de l'objet `SpatialPointsDataFrame` source du package `gstat` (`+init=epsg:32632 +proj=utm +zone=32 +datum=WGS84`), non embarque dans le `.rds` local.
+- Geographic context: Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
 - Description source: package R `gstat`
@@ -155,9 +155,9 @@ modeling_evidence:
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
-- Temporal resolution: pending inspection
+- Temporal resolution: daily (365 pas de temps quotidiens, annee civile complete)
 - Spatial extent: x [307809.2951, 907374.8164], y [5295751.8753, 6086661.149] (EPSG:32632, via documentation)
-- Time range: pending inspection
+- Time range: 2005-01-01 to 2005-12-31
 - Type de geometrie: POINT
 - CRS EPSG: 32632 (source: proj4string de l'objet SpatialPointsDataFrame du package `gstat`, .rds local sans CRS embarque)
 - CRS nom: WGS 84 / UTM zone 32N
@@ -210,3 +210,5 @@ benchmark_readiness:
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : documentation confirme la dimension temporelle de l'objet STSDF -- "An 'xts' object on 2005-01-01/2005-12-31", 365 pas de temps quotidiens (annee civile 2005 complete). Temporal resolution/Time range corriges de "pending inspection" a ces valeurs verifiees. CRS (EPSG:32632) et formule (PM10 ~ 1, verifiee contre le code publie des auteurs) deja corrects et inchanges.

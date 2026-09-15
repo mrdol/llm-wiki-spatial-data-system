@@ -56,7 +56,7 @@ This is the Walker Lake data sets (sample and exhaustive data set), used in Isaa
 - formula_pub: not_applicable - interpolation geostatistique univariee de V (krigeage) ; U sert de variable secondaire dans des exercices de cokrigeage ailleurs dans le livre, ce n'est pas une regression OLS/GLM.
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Applied Geostatistics by Edward H. Isaaks, R. Mohan Srivastava; Oxford University Press.
+- Reference publication: Isaaks, E.H. & Srivastava, R.M. (1989). An Introduction to Applied Geostatistics. Oxford University Press, New York, 561 p. ISBN 978-0-19-505013-4 (titre complet corrige : la documentation gstat::walker l'appelle par raccourci "Applied Geostatistics", le vrai titre publie est "An Introduction to Applied Geostatistics"). TYPE: manuel (livre), pas un article -- aucun DOI n'existe pour un ouvrage de ce type. Lien : https://global.oup.com/academic/product/an-introduction-to-applied-geostatistics-9780195050134 (page editeur verifiee).
 
 ### Statut regression canonique
 
@@ -115,7 +115,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: none
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -152,9 +152,9 @@ modeling_evidence:
 - Spatial extent: x [8, 251], y [8, 291] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: not_applicable (grille de terrain locale, jeu pedagogique Isaaks & Srivastava)
+- CRS nom: not_applicable (coordonnees non georeferencees)
+- CRS analyse recommande: not_applicable — X/Y sont des coordonnees en metres d'un jeu pedagogique (Walker Lake, Isaaks & Srivastava, Applied Geostatistics), non rattachees a un systeme geographique reel documente.
 
 ## Bloc 6 — Reproductibilite
 
@@ -201,3 +201,7 @@ benchmark_readiness:
 ## Curation documentée — 2026-09-07
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : reference confirmee (Isaaks & Srivastava, Applied Geostatistics, Oxford University Press -- un livre, pas d'article, donc Publication DOI corrige de "pending" a "none"). Documentation confirme aussi l'absence de CRS reel : "X location in meter", "Y location in meter", sans reference geographique -- corrige de "unknown [lookup required]" a "not_applicable". formula_pub reste correctement not_applicable (interpolation geostatistique univariee, pas une regression) -- decision deja bien fondee, non modifiee.
+
+Complement 2026-09-15 : titre complet corrige ("An Introduction to Applied Geostatistics", pas juste "Applied Geostatistics"), reference explicitement etiquetee comme un manuel, avec lien editeur verifie (Oxford University Press, ISBN 9780195050134 confirme via la recherche).

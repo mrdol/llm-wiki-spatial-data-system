@@ -72,7 +72,7 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press.
+- Reference publication: Burrough, P.A. & McDonnell, R.A. (1998). Principles of Geographical Information Systems. Oxford University Press, Oxford. ISBN 978-0-19-823365-7. TYPE: manuel (livre), pas un article -- aucun DOI n'existe pour un ouvrage de ce type. Lien : https://openlibrary.org/isbn/9780198233657 (fiche verifiee : titre, auteurs et annee correspondent exactement).
 
 ### Statut regression canonique
 
@@ -133,7 +133,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: none
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -167,12 +167,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [100, 600], y [100, 2100] (CRS unknown)
+- Spatial extent: x [100, 600], y [100, 2100] (grille de terrain locale non projetee, pas de CRS)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: not_applicable (grille de terrain locale non projetee)
+- CRS nom: not_applicable (repere local, non georeference)
+- CRS analyse recommande: not_applicable — XCOORD/YCOORD sont une grille de terrain locale non projetee (documentation gstat::oxford : "non-projected field coordinates", origine a 100m au sud-sud-est de la grille), pas des coordonnees geographiques ; aucune reprojection ne peut etre deduite sans georeferencement externe.
 
 ## Bloc 6 — Reproductibilite
 
@@ -221,3 +221,7 @@ benchmark_readiness:
 Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : documentation confirmee -- leve de sols par P.A. Burrough (1967, Berkshire Downs, Oxfordshire, UK), 126 sondages sur grille 100x100m ; reference = un manuel (Burrough & McDonnell 1998, Oxford University Press), pas un article -- Publication DOI corrige de "pending" a "none" (les manuels n'ont pas de DOI). XCOORD/YCOORD explicitement decrites comme "non-projected field coordinates" dans la doc -- CRS corrige de "unknown [lookup required]" (implique une recherche possible) a "not_applicable" (rien a chercher, ce sont des coordonnees de terrain non georeferencees).
+
+Complement 2026-09-15 : reference explicitement etiquetee comme un manuel (pas un article scientifique), avec lien de reference verifie (Open Library, ISBN 9780198233657 confirme resoudre vers le bon titre/auteurs/annee).
