@@ -82,14 +82,33 @@ extract_information_criteria <- function(engine, n = NA_integer_) {
   # restent prioritaires; les champs internes servent seulement de repli quand
   # le backend documente/stocker deja l'information mais ne fournit pas de
   # methode AIC/logLik robuste.
-  ll_obj <- tryCatch(stats::logLik(engine), error = function(e) NULL)
+  #
+  # logLik est aussi saute pour les moteurs mboost (spboost, gamboost) :
+  # logLik.mboost() ne renvoie pas une vraie log-vraisemblance gaussienne
+  # normalisee, mais -risk(mstop) (la somme brute des carres des residus au
+  # dernier pas de boosting, jamais divisee par la variance ni transformee en
+  # echelle log). Confirme empiriquement (2026-09-13) : sur dub_voter (n=322,
+  # reponse en %), logLik()=-6899.8 == -risk(500) a la decimale pres. Cette
+  # quantite grandit avec l'echelle brute de la reponse (grande sur des prix
+  # en livres sterling, petite sur un pourcentage), pas avec la qualite du
+  # modele -- elle n'est comparable ni au vrai logLik gaussien de ols/sar_lag/
+  # sem_error, ni d'un jeu de donnees a l'autre. Memes valeurs aberrantes
+  # reproduites sur paper_gwqlasso_mt_1989 (logLik~-7M) et london_hp
+  # (logLik~-480 milliards), dans les deux cas ~ -n*rmse^2, signature d'une
+  # SCE brute plutot que d'une vraie vraisemblance. Meme traitement que
+  # stats::AIC() ci-dessous pour ces moteurs : NA plutot qu'un chiffre faux.
+  ll_obj <- if (inherits(engine, "mboost")) {
+    NULL
+  } else {
+    tryCatch(stats::logLik(engine), error = function(e) NULL)
+  }
   loglik <- if (is.null(ll_obj)) NA_real_ else finite_scalar_or_na(ll_obj)
   k <- if (is.null(ll_obj)) NA_real_ else finite_scalar_or_na(attr(ll_obj, "df"))
 
-  if (!is.finite(loglik)) {
+  if (!is.finite(loglik) && !inherits(engine, "mboost")) {
     loglik <- finite_scalar_or_na(engine_component(engine, "logLik"))
   }
-  if (!is.finite(loglik)) {
+  if (!is.finite(loglik) && !inherits(engine, "mboost")) {
     loglik <- finite_scalar_or_na(engine_component(engine, "logl"))
   }
 
@@ -107,9 +126,10 @@ extract_information_criteria <- function(engine, n = NA_integer_) {
   # small benchmark datasets (n<=519) but confirmed to still be running after
   # 35s+ of sustained single-core CPU on lasrosas (n=3435), which is what
   # produced the ~25 minute suite stall this was root-caused from. The
-  # analytic aic = -2*logLik + 2*k fallback below (logLik is cheap; k comes
-  # from spboost_effective_df_for_ic()'s coef()-based approximation) gives an
-  # equivalent AIC without ever calling the expensive method.
+  # analytic aic = -2*logLik + 2*k fallback below never fires for these
+  # engines either now that loglik is unconditionally NA for them (see the
+  # mboost guard above) -- aic/aicc stay NA end to end for mboost-derived
+  # engines, on purpose: there is no comparable logLik to build one from.
   aic <- if (inherits(engine, "mboost")) NA_real_ else numeric_or_na(stats::AIC(engine))
   if (!is.finite(aic)) {
     aic <- finite_scalar_or_na(engine_component(engine, "AIC"))

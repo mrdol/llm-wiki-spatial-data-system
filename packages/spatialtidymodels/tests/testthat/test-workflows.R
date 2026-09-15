@@ -998,7 +998,10 @@ test_that("benchmark_spatial propage les diagnostics du fit final en validation 
 
   expect_equal(bench$results$spatial_param, "rho")
   expect_true(is.finite(bench$results$spatial_value))
-  expect_true(is.finite(bench$results$logLik))
+  # logLik.mboost() is a raw SSE (-risk(mstop)), not a real Gaussian
+  # log-likelihood -- extract_information_criteria() now reports NA for it
+  # on purpose (see test-diagnose-spatial.R), rather than a misleading number.
+  expect_true(is.na(bench$results$logLik))
 })
 
 test_that("plot_near_prediction_fold visualise un rset near-prediction", {
