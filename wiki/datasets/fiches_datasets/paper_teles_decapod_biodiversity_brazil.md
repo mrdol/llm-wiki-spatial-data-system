@@ -1,8 +1,8 @@
 ---
 title: paper_teles_decapod_biodiversity_brazil
 type: dataset
-created: 2026-08-15
-updated: 2026-08-15
+created: 2026-09-14
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_teles_decapod_biodiversity_brazil.rds
   - DataCite_2026_DataAndRCode_10_1111_jbi_7007
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Candidate X variables in local artifact: `ph`, `chlomean`, `chloRange`, `chloSS`, `curvel`, `O2`, `O2range`, `O2Lmax`, `nit`, `phosp`, `sal`, `salrange`, `salLmax`, `tempmean`, `temprange`, `bathym`, `iron`, `pp`, `sil`, `tempSS`, `SalSS`, `light`, `carbophyto`, `carbophytoLmax`, `carbophytorange`, `calcite`, `carbophytoSS`, `ppSS`, `pprange`, `tempLmax`, `WE`, `ED`, `PD.SES`, `WE.SES`, `PE.SES`, `ED.SES`, `fishing_effort`
 - Candidate X count in local artifact: 37
 - Candidate X typology: continuous
-- Published X variables from paper: tempmean, pp, curvel, sal, light, fishing_effort
+- Published X variables from paper: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): none detected
@@ -98,8 +98,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 ### Formule - niveau publication
 
 - formula_pub: PD.SES ~ tempmean + pp + curvel [Random Forest ; PD.SES = effet standardise de diversite phylogenetique, principale reponse continue modelisee par le papier avec SR (count) et PE.SES]
-- x_terms_pub: tempmean, pp, curvel, sal, light, fishing_effort
-- y_term_pub: PD.SES
+- x_terms_pub: tempmean (temperature moyenne du fond), pp (productivite primaire), curvel (vitesse du courant), sal (salinite), light (disponibilite lumineuse), fishing_effort (effort de peche)
+- y_term_pub: PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)
 - Reference publication: Teles & Mantelatto (2025), Journal of Biogeography / Dryad description et TEI : le papier modelise par Random Forest 3 reponses -- SR (richesse specifique, count, principalement expliquee par salinite/lumiere/productivite primaire), PD.SES (diversite phylogenetique standardisee, principalement temperature du fond/productivite primaire/vitesse du courant) et PE.SES (originalite phylogenetique standardisee, principalement temperature/productivite primaire). PD.SES est choisie comme reponse par defaut le 2026-08-15 (decision utilisateur : reponse principale = celle qui est continue) car c'est une metrique continue (z-score, peut etre negative) contrairement a SR (count) ; SR, PE.SES, WE, WE.SES, ED, ED.SES restent documentees et disponibles comme reponses alternatives dans le .rds (N=160, toutes colonnes presentes).
 
 ### Statut regression canonique
@@ -108,14 +108,15 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Data and R
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort
+- License evidence: DataCite API record for DOI 10.5061/dryad.0zpc8678d (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - x_terms_used: tempmean, pp, curvel, sal, light, fishing_effort
 - y_term_used: PD.SES
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -133,12 +134,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PD.SES ~ tempmean + pp + curvel + sal + light + fishing_effort"
-    response: "PD.SES"
-    predictors: ["tempmean", "pp", "curvel", "sal", "light", "fishing_effort"]
+    response: "PD.SES (diversite phylogenetique, effet standardise -- reponse continue choisie par defaut parmi les 3 reponses publiees SR/PD.SES/PE.SES, toutes les 3 disponibles en option dans le package)"
+    predictors: ["tempmean (temperature moyenne du fond)", "pp (productivite primaire)", "curvel (vitesse du courant)", "sal (salinite)", "light (disponibilite lumineuse)", "fishing_effort (effort de peche)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -162,7 +163,7 @@ formula_candidates:
 - Paper DOI: 10.1111/jbi.70076
 - Dataset DOI: 10.5061/dryad.0zpc8678d
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.0zpc8678d
-- Year: unknown
+- Year: 2026 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -235,7 +236,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.0zpc8678d (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`teles_decapod_biodiversity_brazil` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `teles_decapod_biodiversity_brazil` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -256,3 +256,6 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Data and R code for: Biogeography and conservation of bycatch decapods
 
+## Curation documentée — 2026-09-07
+
+Record cree le 2026-09-10 : protege le contenu License/Estimator eligibility/Bloc 4 deja verifie dans le wiki en direct, qui n'avait jamais ete capture dans ce JSON (regeneration Rscript l'aurait silencieusement efface).

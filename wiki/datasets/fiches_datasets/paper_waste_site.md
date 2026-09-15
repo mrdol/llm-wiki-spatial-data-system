@@ -1,7 +1,7 @@
 ---
 title: paper_waste_site
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_waste_site.rds
@@ -36,8 +36,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Candidate X variables in local artifact: `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL`, `active`, `job`, `cleanup_stage`, `HDI_subnational`, `HDI_national`, `GDP_p.c._national_2010_USD`, `data_year`, `time`, `sample`, `dist_mean`, `p_mean`, `converter_dich`, `sales`, `sale_ind`, `demoecon`, `log_log`, `num_sig_var`, `num_expl`, `num_struc`, `num_nb`, `num_env`, `oth_disamen`, `oth_amen`, `access`, `industry`, `miles_km`, `OLS`, `DF`, `ß`, `SE`, `t-value`, `p-value`, `sig`, `sig_level`, `sign`, `time_dummy`, `time_cont`, `time_disc`, `direction`, `interaction`, `spatial`, `elas_SE`, `comments`, `further comments`
 - Candidate X count in local artifact: 56
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: author, title, weight, second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
-- Published X count: 0
+- Published X variables from paper: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL, active, job, cleanup_stage, HDI_subnational, HDI_national, GDP_p.c._national_2010_USD, data_year, time, sample, dist_mean, p_mean, converter_dich, sales, sale_ind, demoecon, log_log, num_sig_var, num_expl, num_struc, num_nb, num_env, oth_disamen, oth_amen, access, industry, miles_km, OLS, DF, ß, SE, t-value, p-value, sig, sig_level, sign, time_dummy, time_cont, time_disc, direction, interaction, spatial, elas_SE, comments, further comments
+- Published X count: 56
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 |---|---|---|---|---|
 | `elas` | `numeric` | continuous | [-2.0938, 1.762] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL` ; 44 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `waste_site`, la ou les reponses `elas` viennent du loader papier et/ou des preuves de l article `Systematic Variation in Waste Site Effects on Residential Property Values: A Meta-Regression Analysis and Benefit Transfer`. Les covariables X retenues sont `author`, `title`, `weight (sample_reuse)`, `second coding`, `year_publish`, `publish`, `element`, `site_cat`, `site_m`, `region`, `subnational state / district`, `NPL`, `active`, `job`, `cleanup_stage`, `HDI_subnational`, `HDI_national`, `GDP_p.c._national_2010_USD`, `data_year`, `time`, `sample`, `dist_mean`, `p_mean`, `converter_dich`, `sales`, `sale_ind`, `demoecon`, `log_log`, `num_sig_var`, `num_expl`, `num_struc`, `num_nb`, `num_env`, `oth_disamen`, `oth_amen`, `access`, `industry`, `miles_km`, `OLS`, `DF`, `ß`, `SE`, `t-value`, `p-value`, `sig`, `sig_level`, `sign`, `time_dummy`, `time_cont`, `time_disc`, `direction`, `interaction`, `spatial`, `elas_SE`, `comments`, `further comments`. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID_Study`, `ID_Est`, `ID_Uni`, `ID_regress`, `iso_a2`, `country`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_main_benchmark; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -115,7 +115,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 ### Formule - niveau publication
 
 - formula_pub: elas ~ meta-regression (WLS/REML) sur 727 estimations, correction du biais de publication (PET-PEESE)
-- x_terms_pub: author, title, weight, second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL
+- x_terms_pub: author, title, weight (sample_reuse), second coding, year_publish, publish, element, site_cat, site_m, region, subnational state / district, NPL, active, job, cleanup_stage, HDI_subnational, HDI_national, GDP_p.c._national_2010_USD, data_year, time, sample, dist_mean, p_mean, converter_dich, sales, sale_ind, demoecon, log_log, num_sig_var, num_expl, num_struc, num_nb, num_env, oth_disamen, oth_amen, access, industry, miles_km, OLS, DF, ß, SE, t-value, p-value, sig, sig_level, sign, time_dummy, time_cont, time_disc, direction, interaction, spatial, elas_SE, comments, further comments
 - y_term_pub: elas
 - Reference publication: Schutt (2021), Environmental and Resource Economics 78:381-416 - meta-analyse d'hedonic pricing (727 estimations, 83 etudes) de l'effet des sites de dechets sur les prix immobiliers residentiels ; 'elas' = elasticite/taille d'effet corrigee du biais de publication.
 
@@ -125,15 +125,16 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Systematic
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
+- License evidence: DataCite API record for DOI 10.7910/dvn/828wud (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Formula used evidence: unavailable
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -150,13 +151,13 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "elas ~ author + title + weight (sample_reuse) + second coding + year_publish + publish + element + site_cat + site_m + region + subnational state / district + NPL + ... (44 covariables au total, voir Candidate X variables)"
+    formula: "elas ~ author + title + `weight (sample_reuse)` + `second coding` + year_publish + publish + element + site_cat + site_m + region + `subnational state / district` + NPL + active + job + cleanup_stage + HDI_subnational + HDI_national + GDP_p.c._national_2010_USD + data_year + time + sample + dist_mean + p_mean + converter_dich + sales + sale_ind + demoecon + log_log + num_sig_var + num_expl + num_struc + num_nb + num_env + oth_disamen + oth_amen + access + industry + miles_km + OLS + DF + ß + SE + `t-value` + `p-value` + sig + sig_level + sign + time_dummy + time_cont + time_disc + direction + interaction + spatial + elas_SE + comments + `further comments`"
     response: "elas"
-    predictors: ["author", "title", "weight", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL"]
+    predictors: ["author", "title", "weight (sample_reuse)", "second coding", "year_publish", "publish", "element", "site_cat", "site_m", "region", "subnational state / district", "NPL", "active", "job", "cleanup_stage", "HDI_subnational", "HDI_national", "GDP_p.c._national_2010_USD", "data_year", "time", "sample", "dist_mean", "p_mean", "converter_dich", "sales", "sale_ind", "demoecon", "log_log", "num_sig_var", "num_expl", "num_struc", "num_nb", "num_env", "oth_disamen", "oth_amen", "access", "industry", "miles_km", "OLS", "DF", "ß", "SE", "t-value", "p-value", "sig", "sig_level", "sign", "time_dummy", "time_cont", "time_disc", "direction", "interaction", "spatial", "elas_SE", "comments", "further comments"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -180,7 +181,7 @@ formula_candidates:
 - Paper DOI: 10.1007/s10640-021-00536-2
 - Dataset DOI: 10.7910/dvn/828wud
 - Source URL: https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/828WUD
-- Year: unknown
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -234,7 +235,7 @@ estimator_eligibility:
 - k variables: 66
 - T periods: 26
 - Variable temporelle: year_publish
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (727) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 14 ; panel NON EQUILIBRE (T par unite : min=2, mediane=8.5, max=606). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 14 unites spatiales distinctes, pas sur les 727 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -254,7 +255,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.7910/dvn/828wud (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`waste_site` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `waste_site` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

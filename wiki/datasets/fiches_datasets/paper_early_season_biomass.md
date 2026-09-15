@@ -1,7 +1,7 @@
 ---
 title: paper_early_season_biomass
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_early_season_biomass.rds
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `year`, `early_bm_kg_ha`, `plant_date`, `early_term_date`, `late_term_date`, `CGDD_plant_early_term`, `CGDD_early_late_term`, `mean_PAR`, `cuml_precip_plant_early_term`, `cuml_precip_early_late_term`
 - Candidate X count in local artifact: 10
-- Candidate X typology: continuous, categorical
+- Candidate X typology: unknown, continuous, categorical
 - Published X variables from paper: early_bm_kg_ha, CGDD_plant_early_term, CGDD_early_late_term, mean_PAR, cuml_precip_plant_early_term, cuml_precip_early_late_term
-- Published X count: 0
+- Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `state`, `block`, `site`, `early_plot`, `late_plot`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,13 +49,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 |---|---|---|---|---|
 | `late_bm_kg_ha` | `numeric` | continuous | [0, 11892] | 3.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `early_season_biomass`, la ou les reponses `late_bm_kg_ha` viennent du loader papier et/ou des preuves de l article `Early-season biomass and weather enable robust cereal rye cover crop biomass predictions`. Les covariables X retenues sont `early_bm_kg_ha`, `CGDD_plant_early_term`, `CGDD_early_late_term`, `mean_PAR`, `cuml_precip_plant_early_term`, `cuml_precip_early_late_term` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`state`, `block`, `site`, `early_plot`, `late_plot`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `early_season_biomass`, la ou les reponses `late_bm_kg_ha` viennent du loader papier et/ou des preuves de l article `Early-season biomass and weather enable robust cereal rye cover crop biomass predictions`. Les covariables X retenues sont `early_bm_kg_ha`, `CGDD_plant_early_term`, `CGDD_early_late_term`, `mean_PAR`, `cuml_precip_plant_early_term`, `cuml_precip_early_late_term` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`state`, `block`, `site`, `early_plot`, `late_plot`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `year` | `integer` | count | 0% |
+| `year` | `integer` | unknown | 0% |
 | `early_bm_kg_ha` | `numeric` | continuous | 3.9% |
 | `plant_date` | `character` | categorical | 9.4% |
 | `early_term_date` | `character` | categorical | 4.7% |
@@ -79,17 +79,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Early-seas
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term
+- License evidence: DataCite API record for DOI 10.5061/dryad.ngf1vhj1r (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=512; T declare=33; variable temporelle declaree=plant_date; repetitions de coordonnees controlees=494. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: early_bm_kg_ha, CGDD_plant_early_term, CGDD_early_late_term, mean_PAR, cuml_precip_plant_early_term, cuml_precip_early_late_term
 - y_term_used: late_bm_kg_ha
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -112,7 +113,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -136,7 +137,7 @@ formula_candidates:
 - Paper DOI: 10.1002/ael2.20121
 - Dataset DOI: 10.5061/dryad.ngf1vhj1r
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.ngf1vhj1r
-- Year: unknown
+- Year: 2024 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -205,7 +206,7 @@ estimator_eligibility:
 - k variables: 21
 - T periods: 33
 - Variable temporelle: plant_date
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (512) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 18 ; panel NON EQUILIBRE (T par unite : min=12, mediane=34.5, max=51). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 18 unites spatiales distinctes, pas sur les 512 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -216,7 +217,7 @@ estimator_eligibility:
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-96.42031, -75.455834], y [30.36184, 45.34478]
-- Time range: 10/1/2019 to 9/8/2017 (variable: plant_date)
+- Time range: 10/03/2016 to 12/06/2019 (variable: plant_date)
 - CRS analyse recommande: pending - multi-zones (span=21deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -225,7 +226,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.ngf1vhj1r (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`early_season_biomass` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `early_season_biomass` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -240,10 +240,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`early_season_biomass` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

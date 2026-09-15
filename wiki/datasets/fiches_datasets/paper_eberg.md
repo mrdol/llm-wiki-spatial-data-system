@@ -1,7 +1,7 @@
 ---
 title: paper_eberg
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_eberg.rds
@@ -36,8 +36,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 - Candidate X variables in local artifact: `UHDICM_A`, `LHDICM_A`, `SNDMHT_A`, `SLTMHT_A`, `CLYMHT_A`, `UHDICM_B`, `LHDICM_B`, `SNDMHT_B`, `SLTMHT_B`, `CLYMHT_B`, `UHDICM_C`, `LHDICM_C`, `SNDMHT_C`, `SLTMHT_C`, `CLYMHT_C`, `UHDICM_D`, `LHDICM_D`, `SNDMHT_D`, `SLTMHT_D`, `CLYMHT_D`, `UHDICM_E`, `LHDICM_E`, `SNDMHT_E`, `SLTMHT_E`, `CLYMHT_E`
 - Candidate X count in local artifact: 25
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C
-- Published X count: 0
+- Published X variables from paper: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C, SNDMHT_C, SLTMHT_C, CLYMHT_C, UHDICM_D, LHDICM_D, SNDMHT_D, SLTMHT_D, CLYMHT_D, UHDICM_E, LHDICM_E, SNDMHT_E, SLTMHT_E, CLYMHT_E
+- Published X count: 25
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ID`, `soiltype`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 |---|---|---|---|---|
 | `TAXGRSC` | `factor` | categorical | n/a | 12.5% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `eberg`, la ou les reponses `TAXGRSC` viennent du loader papier et/ou des preuves de l article `Oblique geographic coordinates as covariates for digital soil mapping`. Les covariables X retenues sont `UHDICM_A`, `LHDICM_A`, `SNDMHT_A`, `SLTMHT_A`, `CLYMHT_A`, `UHDICM_B`, `LHDICM_B`, `SNDMHT_B`, `SLTMHT_B`, `CLYMHT_B`, `UHDICM_C`, `LHDICM_C` ; 13 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`, `soiltype`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `eberg`, la ou les reponses `TAXGRSC` viennent du loader papier et/ou des preuves de l article `Oblique geographic coordinates as covariates for digital soil mapping`. Les covariables X retenues sont `UHDICM_A`, `LHDICM_A`, `SNDMHT_A`, `SLTMHT_A`, `CLYMHT_A`, `UHDICM_B`, `LHDICM_B`, `SNDMHT_B`, `SLTMHT_B`, `CLYMHT_B`, `UHDICM_C`, `LHDICM_C`, `SNDMHT_C`, `SLTMHT_C`, `CLYMHT_C`, `UHDICM_D`, `LHDICM_D`, `SNDMHT_D`, `SLTMHT_D`, `CLYMHT_D`, `UHDICM_E`, `LHDICM_E`, `SNDMHT_E`, `SLTMHT_E`, `CLYMHT_E`. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`ID`, `soiltype`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -84,7 +84,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 ### Formule - niveau publication
 
 - formula_pub: pending
-- x_terms_pub: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C
+- x_terms_pub: UHDICM_A, LHDICM_A, SNDMHT_A, SLTMHT_A, CLYMHT_A, UHDICM_B, LHDICM_B, SNDMHT_B, SLTMHT_B, CLYMHT_B, UHDICM_C, LHDICM_C, SNDMHT_C, SLTMHT_C, CLYMHT_C, UHDICM_D, LHDICM_D, SNDMHT_D, SLTMHT_D, CLYMHT_D, UHDICM_E, LHDICM_E, SNDMHT_E, SLTMHT_E, CLYMHT_E
 - y_term_pub: TAXGRSC
 - Reference publication: R package plotKML (Hengl et al., 2020); Moller et al. (2020), Sect. 2.1.2
 
@@ -99,6 +99,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 ### Formule - niveau systeme
 
 - formula_used: TAXGRSC ~ UHDICM_A + LHDICM_A + SNDMHT_A + SLTMHT_A + CLYMHT_A + UHDICM_B + LHDICM_B + SNDMHT_B + SLTMHT_B + CLYMHT_B + UHDICM_C + LHDICM_C + SNDMHT_C + SLTMHT_C + CLYMHT_C + UHDICM_D + LHDICM_D + SNDMHT_D + SLTMHT_D + CLYMHT_D + UHDICM_E + LHDICM_E + SNDMHT_E + SLTMHT_E + CLYMHT_E
+- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL'.
 - Formula used evidence: generated_system_formula
 - benchmark_task_note: TAXGRSC code plusieurs classes pedologiques.
 - Selected Y evidence: TAXGRSC code plusieurs classes pedologiques.
@@ -132,9 +133,9 @@ formula_candidates:
     status: "unavailable"
 
   ml_or_selected:
-    formula: "TAXGRSC ~ UHDICM_A + LHDICM_A + SNDMHT_A + SLTMHT_A + CLYMHT_A + UHDICM_B + LHDICM_B + SNDMHT_B + SLTMHT_B + CLYMHT_B + UHDICM_C + LHDICM_C + ... (13 covariables au total, voir Candidate X variables)"
+    formula: "TAXGRSC ~ UHDICM_A + LHDICM_A + SNDMHT_A + SLTMHT_A + CLYMHT_A + UHDICM_B + LHDICM_B + SNDMHT_B + SLTMHT_B + CLYMHT_B + UHDICM_C + LHDICM_C + SNDMHT_C + SLTMHT_C + CLYMHT_C + UHDICM_D + LHDICM_D + SNDMHT_D + SLTMHT_D + CLYMHT_D + UHDICM_E + LHDICM_E + SNDMHT_E + SLTMHT_E + CLYMHT_E"
     response: "TAXGRSC"
-    predictors: ["UHDICM_A", "LHDICM_A", "SNDMHT_A", "SLTMHT_A", "CLYMHT_A", "UHDICM_B", "LHDICM_B", "SNDMHT_B", "SLTMHT_B", "CLYMHT_B", "UHDICM_C", "LHDICM_C"]
+    predictors: ["UHDICM_A", "LHDICM_A", "SNDMHT_A", "SLTMHT_A", "CLYMHT_A", "UHDICM_B", "LHDICM_B", "SNDMHT_B", "SLTMHT_B", "CLYMHT_B", "UHDICM_C", "LHDICM_C", "SNDMHT_C", "SLTMHT_C", "CLYMHT_C", "UHDICM_D", "LHDICM_D", "SNDMHT_D", "SLTMHT_D", "CLYMHT_D", "UHDICM_E", "LHDICM_E", "SNDMHT_E", "SLTMHT_E", "CLYMHT_E"]
     role: "ml_candidate_features"
     source_type: "generated_system_formula"
     source_ref: "data/raw/papers (loader-derived, no published equation located)"
@@ -152,7 +153,7 @@ formula_candidates:
 - Paper DOI: 10.5194/soil-6-269-2020
 - Dataset DOI: none
 - Source URL: https://cran.r-project.org/package=plotKML
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -206,7 +207,7 @@ estimator_eligibility:
 - k variables: 30
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -225,7 +226,6 @@ estimator_eligibility:
 - License name: GPL
 - License URL: https://cran.r-project.org/package=plotKML
 - License open: yes
-- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`eberg` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `eberg` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

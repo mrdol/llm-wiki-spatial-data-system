@@ -1,8 +1,8 @@
 ---
 title: paper_uk_photovoltaic
 type: dataset
-created: 2026-08-15
-updated: 2026-08-15
+created: 2026-09-14
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_uk_photovoltaic.rds
   - DataCite_2015_RegionalDistributionOfPhotovoltaic_10_1016_j_eneco_
@@ -71,14 +71,15 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Regional d
 - Niveau de preuve: publication
 - Methode d estimation: modele/formule publication confirme, non executable avec le .rds actuel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
+- License evidence: DataCite API record for DOI 10.17632/fthhmvgm6r.1 (checked 2026-08-18): rightsList = 'Attribution-NonCommercial 3.0 Unported'.
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -101,7 +102,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -125,7 +126,7 @@ formula_candidates:
 - Paper DOI: 10.1016/j.eneco.2015.08.003
 - Dataset DOI: 10.17632/fthhmvgm6r.1
 - Source URL: https://www.gov.uk/government/statistical-data-sets/monthly-central-feed-in-tariff-register-statistics
-- Year: unknown
+- Year: 2015 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -198,7 +199,6 @@ estimator_eligibility:
 - License name: Attribution-NonCommercial 3.0 Unported
 - License URL: https://creativecommons.org/licenses/by-nc/3.0
 - License open: no
-- License evidence: DataCite API record for DOI 10.17632/fthhmvgm6r.1 (checked 2026-08-18): rightsList = 'Attribution-NonCommercial 3.0 Unported'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`uk_photovoltaic` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `uk_photovoltaic` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -219,3 +219,6 @@ estimator_eligibility:
 - [[paper_dataset_ingestion_pipeline_2026-08]]
 - Source: Regional distribution of photovoltaic deployment in the UK and its determinants: A spatial econometric approach
 
+## Curation documentée — 2026-09-07
+
+Record cree le 2026-09-10 : protege le contenu License/Estimator eligibility/Bloc 4 deja verifie dans le wiki en direct, qui n'avait jamais ete capture dans ce JSON (regeneration Rscript l'aurait silencieusement efface).

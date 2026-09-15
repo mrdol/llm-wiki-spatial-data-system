@@ -1,7 +1,7 @@
 ---
 title: paper_song_sparrow_breeding_date
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_song_sparrow_breeding_date.rds
@@ -32,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Direct and
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Breeding_Date`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `year`, `male_f`, `male_age`, `male_is`, `female_f`, `female_age`, `female_is`
 - Candidate X count in local artifact: 7
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: female_f/male_f, female_age/male_age, female_is/male_is
+- Candidate X typology: unknown, continuous, categorical
+- Published X variables from paper: female_f/male_f (coefficient de consanguinite), female_age/male_age (classe d'age: 1, 2-4, 5+), female_is/male_is (statut immigrant: 0=residente, 1=immigrante)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `nestrec`, `female.animal_Num`, `female.factor_Num`, `male.animal_Num`, `male.factor_Num`, `female_father_Num`, `female_mother_Num`, `Cell_ID_16mDiam`, `UTM_X`, `UTM_Y`
@@ -55,7 +55,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Direct and
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `year` | `integer` | count | 0% |
+| `year` | `integer` | unknown | 0% |
 | `male_f` | `numeric` | rate | 0% |
 | `male_age` | `character` | categorical | 0% |
 | `male_is` | `integer` | binary | 0% |
@@ -66,8 +66,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Direct and
 ### Formule - niveau publication
 
 - formula_pub: y = Xb + Z1*a_female + Z2*a_male + Z3*PI_female + Z4*PI_male + Z5*Year + e [modele animal quantitatif-genetique (mixed model) avec effets fixes b (coefficients de consanguinite, classes d'age, statut immigrant, par sexe) et effets aleatoires genetiques additifs (matrice de parente A issue du pedigree), effets individuels permanents, annee et residus ; trois variantes spatiales ajoutent en plus des effets de localisation de nid]
-- x_terms_pub: female_f/male_f, female_age/male_age, female_is/male_is
-- y_term_pub: Breeding_Date
+- x_terms_pub: female_f/male_f (coefficient de consanguinite), female_age/male_age (classe d'age: 1, 2-4, 5+), female_is/male_is (statut immigrant: 0=residente, 1=immigrante)
+- y_term_pub: Breeding_Date (date de premiere ponte, jour julien depuis le 1er janvier)
 - Reference publication: Germain, Wolak, Arcese, Losdat & Reid (2016), Direct and indirect genetic and fine-scale location effects on breeding date in song sparrows, Journal of Animal Ecology, doi:10.1111/1365-2656.12575. Le papier ajuste un modele animal quantitatif-genetique complet (equation 1 du texte : y = Xb + Z1a' + Z2a'' + Z3PI' + Z4PI'' + Z5Y + e) avec effets aleatoires genetiques (pedigree, matrice A) et de localisation spatiale non reproductibles sans le pedigree complet et le solveur animal model. formula_used retient exactement la partie effets fixes (b) du papier : consanguinite, classe d'age et statut immigrant, separement pour la femelle et le male. Donnees brutes (Main_Dataset.txt) telechargees directement depuis Dryad (10.5061/dryad.n0513) -- pas une reconstruction, N=1040 nids, ile de Mandarte, Colombie-Britannique, Canada, coordonnees UTM reelles converties en WGS84.
 
 ### Statut regression canonique
@@ -76,18 +76,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Direct and
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Breeding_Date ~ female_f + female_age + female_is + male_f + male_age + male_is
+- License evidence: DataCite API record for DOI 10.5061/dryad.n0513 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=1040; T declare=38; variable temporelle declaree=year; repetitions de coordonnees controlees=189. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - benchmark_task_note: Breeding_Date est un jour de l’annee, pas un nombre d’evenements.
 - Selected Y evidence: Breeding_Date est un jour de l’annee, pas un nombre d’evenements.
 - Selected Y typology: continuous
 - x_terms_used: female_f, female_age, female_is, male_f, male_age, male_is
 - y_term_used: Breeding_Date
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -105,12 +106,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Breeding_Date ~ female_f + female_age + female_is + male_f + male_age + male_is"
-    response: "Breeding_Date"
-    predictors: ["female_f/male_f", "female_age/male_age", "female_is/male_is"]
+    response: "Breeding_Date (date de premiere ponte, jour julien depuis le 1er janvier)"
+    predictors: ["female_f/male_f (coefficient de consanguinite)", "female_age/male_age (classe d'age: 1, 2-4, 5+)", "female_is/male_is (statut immigrant: 0=residente, 1=immigrante)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -134,7 +135,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2656.12575
 - Dataset DOI: 10.5061/dryad.n0513
 - Source URL: https://doi.org/10.5061/dryad.n0513
-- Year: unknown
+- Year: 2016
 
 ## Bloc 3 - Typologie des modeles
 
@@ -188,7 +189,7 @@ estimator_eligibility:
 - k variables: 23
 - T periods: 38
 - Variable temporelle: year
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (1040) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 763 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=8). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 763 unites spatiales distinctes, pas sur les 1040 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -208,7 +209,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.n0513 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`song_sparrow_breeding_date` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `song_sparrow_breeding_date` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -223,11 +223,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`song_sparrow_breeding_date` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI confirme : population de bruants suivie depuis 1975 sur l'ile Mandarte, nids localises chaque annee, 1040 tentatives sur 38 saisons, individus suivis de facon repetee. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par emplacement de nid/territoire, respecter la chronologie (annee) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

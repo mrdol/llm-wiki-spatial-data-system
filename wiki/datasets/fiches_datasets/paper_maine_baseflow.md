@@ -1,7 +1,7 @@
 ---
 title: paper_maine_baseflow
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_maine_baseflow.rds
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Model esti
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
 - Published X variables from paper: pct_sand_gravel_aquifer, july_precip_mm
-- Published X count: 0
+- Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `dec_long`, `dec_lat`
 - Identifier columns (excluded from X candidates): `id`, `site_no`, `streamgage_name_paper`, `streamgage_name_usgs`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -72,16 +72,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Model esti
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: aug_baseflow_m3s_km2 ~ pct_sand_gravel_aquifer + july_precip_mm
+- License evidence: No dataset-specific rights override found on ScienceBase (checked 2026-08-18); USGS general policy states USGS-authored data is U.S. public domain, freely usable with attribution.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: rate
 - x_terms_used: pct_sand_gravel_aquifer, july_precip_mm
 - y_term_used: aug_baseflow_m3s_km2
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -104,7 +105,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -128,7 +129,7 @@ formula_candidates:
 - Paper DOI: 10.1002/rra.3835
 - Dataset DOI: 10.5066/p9krsnu7
 - Source URL: https://www.sciencebase.gov/catalog/item/620408c1d34e622189de5ad6
-- Year: unknown
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -201,7 +202,6 @@ estimator_eligibility:
 - License name: Public Domain (U.S. Government work -- USGS)
 - License URL: https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits
 - License open: yes
-- License evidence: No dataset-specific rights override found on ScienceBase (checked 2026-08-18); USGS general policy states USGS-authored data is U.S. public domain, freely usable with attribution.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`maine_baseflow` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `maine_baseflow` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

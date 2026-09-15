@@ -1,7 +1,7 @@
 ---
 title: paper_kodiak_puffin_density
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_kodiak_puffin_density.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `modified_platform_type`, `fly_bird_method`, `transect_width`, `sample_area`, `month`, `year`, `number`, `species_code`, `transect_length`
 - Candidate X count in local artifact: 9
-- Candidate X typology: categorical, continuous
-- Published X variables from paper: depth, distance_to_shoreline, SSTa, PDO
+- Candidate X typology: categorical, unknown, continuous
+- Published X variables from paper: depth (profondeur du fond marin), distance_to_shoreline (distance a la cote), SSTa (anomalie de temperature de surface de la mer), PDO (Pacific Decadal Oscillation)
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `longitude`, `latitude`
 - Identifier columns (excluded from X candidates): `pi`, `local_date_time`, `day`, `doy`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 |---|---|---|---|---|
 | `density` | `numeric` | continuous | [0, 2810.039] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `kodiak_puffin_density`, la ou les reponses `density` viennent du loader papier et/ou des preuves de l article `Spatiotemporal species distribution models of colony census and at-sea survey data for Fratercula cirrhata (Tufted Puffin) and F. corniculata (Horned Puffin) reveal long-term declines in Kodiak, Alaska`. Les covariables X retenues sont `transect_width`, `sample_area`, `month`, `species_code` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`pi`, `local_date_time`, `day`, `doy`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `kodiak_puffin_density`, la ou les reponses `density` viennent du loader papier et/ou des preuves de l article `Spatiotemporal species distribution models of colony census and at-sea survey data for Fratercula cirrhata (Tufted Puffin) and F. corniculata (Horned Puffin) reveal long-term declines in Kodiak, Alaska`. Les covariables X retenues sont `transect_width`, `sample_area`, `month`, `species_code` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`pi`, `local_date_time`, `day`, `doy`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -57,19 +57,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 |---|---|---|---|
 | `modified_platform_type` | `character` | categorical | 0% |
 | `fly_bird_method` | `character` | categorical | 0% |
-| `transect_width` | `integer` | count | 0% |
+| `transect_width` | `integer` | unknown | 0% |
 | `sample_area` | `numeric` | continuous | 0% |
-| `month` | `integer` | count | 0% |
-| `year` | `integer` | count | 0% |
-| `number` | `integer` | count | 0% |
+| `month` | `integer` | unknown | 0% |
+| `year` | `integer` | unknown | 0% |
+| `number` | `integer` | unknown | 0% |
 | `species_code` | `integer` | binary | 0% |
 | `transect_length` | `numeric` | continuous | 0% |
 
 ### Formule - niveau publication
 
 - formula_pub: density_it(s) ~ depth + distance_to_shoreline + SSTa_t + PDO_t [modele conjoint VAST (vector autoregressive spatiotemporal), Poisson-link delta-GLMM avec erreur gamma pour la partie positive, ordination d'especes (1 facteur partage), effets spatio-temporels aleatoires en marche aleatoire, 500 noeuds spatiaux ; covariables de capturabilite (mois, heure, plateforme, qualite des donnees) modelisees separement]
-- x_terms_pub: depth, distance_to_shoreline, SSTa, PDO
-- y_term_pub: density
+- x_terms_pub: depth (profondeur du fond marin), distance_to_shoreline (distance a la cote), SSTa (anomalie de temperature de surface de la mer), PDO (Pacific Decadal Oscillation)
+- y_term_pub: density (densite de macareux en mer, individus par unite de surface de transect, Fratercula cirrhata et F. corniculata combines)
 - Reference publication: Stoner, Corcoran, Arimitsu, Piatt & Lyons (2026), Spatiotemporal species distribution models of colony census and at-sea survey data for Fratercula cirrhata (Tufted Puffin) and F. corniculata (Horned Puffin) reveal long-term declines in Kodiak, Alaska, Ornithological Applications, doi:10.1093/ornithapp/duag053. Papier en libre acces (CC-BY) ; PDF bloque par protection anti-bot du site academic.oup.com (403), resume/methodologie confirmes via la page officielle de l'article (abstract + section methodes), texte integral non recupere localement -- ajoute a la liste de recuperation manuelle. Le papier ajuste un modele VAST conjoint avec des covariables (profondeur, distance a la cote, SSTa, PDO) issues d'une grille de covariables separee (cov_data_at_sea_Stoner.et.al.csv, non jointe ici pour eviter une jointure spatiale approximative). formula_used utilise uniquement les variables deja presentes dans la table d'observation brute (puffin_data_at_sea_Stoner.et.al.csv), une simplification documentee en base de conception d'echantillonnage plutot que la specification environnementale complete du papier. Donnees brutes telechargees directement depuis Zenodo (10.5281/zenodo.17128171) -- pas une reconstruction, N=17908 (8954 transects x 2 especes), Kodiak, Alaska, 1975-2022 -- correspond exactement aux '8,954 at-sea transect samples' cites dans le resume officiel du papier.
 
 ### Statut regression canonique
@@ -78,17 +78,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: density ~ transect_width + sample_area + month + species_code
+- License evidence: DataCite API record for DOI 10.5281/zenodo.17128171 (checked 2026-08-18): rightsList = 'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)'.
 - Recommended validation: N lignes=17908; T declare=39; variable temporelle declaree=year; repetitions de coordonnees controlees=9449. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: transect_width, sample_area, month, species_code
 - y_term_used: density
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -106,12 +107,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "density ~ transect_width + sample_area + month + species_code"
-    response: "density"
-    predictors: ["depth", "distance_to_shoreline", "SSTa", "PDO"]
+    response: "density (densite de macareux en mer, individus par unite de surface de transect, Fratercula cirrhata et F. corniculata combines)"
+    predictors: ["depth (profondeur du fond marin)", "distance_to_shoreline (distance a la cote)", "SSTa (anomalie de temperature de surface de la mer)", "PDO (Pacific Decadal Oscillation)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -135,7 +136,7 @@ formula_candidates:
 - Paper DOI: 10.1093/ornithapp/duag053
 - Dataset DOI: 10.5281/zenodo.17128171
 - Source URL: https://doi.org/10.5281/zenodo.17128171
-- Year: unknown
+- Year: 2026
 
 ## Bloc 3 - Typologie des modeles
 
@@ -224,7 +225,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)
 - License URL: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 - License open: no
-- License evidence: DataCite API record for DOI 10.5281/zenodo.17128171 (checked 2026-08-18): rightsList = 'Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND)'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`kodiak_puffin_density` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `kodiak_puffin_density` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -239,10 +239,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`kodiak_puffin_density` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

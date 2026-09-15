@@ -1,7 +1,7 @@
 ---
 title: paper_goa_trawl_demersal
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_goa_trawl_demersal.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Year`, `BottomDepth`, `BottomTemp`, `SurfTemp`, `log.BottomDepth`, `log.BottomDepth2`
 - Candidate X count in local artifact: 6
-- Candidate X typology: continuous
-- Published X variables from paper: log(BottomDepth) centre, terme lineaire et quadratique
+- Candidate X typology: unknown, continuous
+- Published X variables from paper: log(BottomDepth) centre, terme lineaire et quadratique (seule covariable fixe utilisee par le papier pour tous les modeles d'occurrence et de CPUE positive)
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `Lon`, `Lat`
 - Identifier columns (excluded from X candidates): `Station`, `Stratum`
@@ -49,14 +49,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 |---|---|---|---|---|
 | `Atheresthesstomias` | `numeric` | continuous | [0, 6639.2201] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `goa_trawl_demersal`, la ou les reponses `Atheresthesstomias` viennent du loader papier et/ou des preuves de l article `Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill`. Les covariables X retenues sont `log.BottomDepth`, `log.BottomDepth2` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Lon`, `Lat`), identifiants (`Station`, `Stratum`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `goa_trawl_demersal`, la ou les reponses `Atheresthesstomias` viennent du loader papier et/ou des preuves de l article `Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill`. Les covariables X retenues sont `log.BottomDepth`, `log.BottomDepth2` ; 4 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Lon`, `Lat`), identifiants (`Station`, `Stratum`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Year` | `integer` | count | 0% |
-| `BottomDepth` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
+| `BottomDepth` | `integer` | unknown | 0% |
 | `BottomTemp` | `numeric` | continuous | 16.2% |
 | `SurfTemp` | `numeric` | continuous | 0% |
 | `log.BottomDepth` | `numeric` | continuous | 0.1% |
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 ### Formule - niveau publication
 
 - formula_pub: logit(p_it(s)) = X_t(s)*beta_i + e_it(s) [GLMM binomial pour la probabilite d'occurrence + sous-modele positif pour la CPUE conditionnelle, avec effets fixes log(profondeur) lineaire+quadratique et effets aleatoires spatio-temporels autoregressifs (AR1) par espece ; e_it(s) capture la correlation spatiale residuelle par annee de releve, non reproductible sans re-estimer le modele complet]
-- x_terms_pub: log(BottomDepth) centre, terme lineaire et quadratique
-- y_term_pub: CPUE de fletan a dents fines, espece la plus frequemment capturee du jeu de donnees
+- x_terms_pub: log(BottomDepth) centre, terme lineaire et quadratique (seule covariable fixe utilisee par le papier pour tous les modeles d'occurrence et de CPUE positive)
+- y_term_pub: CPUE de fletan a dents fines (Atheresthes stomias, arrowtooth flounder), espece la plus frequemment capturee du jeu de donnees (8270/9213 traits non-nuls)
 - Reference publication: Shelton et al. (2017), Spatio-temporal models reveal subtle changes to demersal communities following the Exxon Valdez oil spill, ICES Journal of Marine Science, doi:10.1093/icesjms/fsx079. Le papier ajuste un GLMM binomial (occurrence) + modele positif (CPUE|presence) avec log(profondeur) lineaire/quadratique comme seule covariable fixe, et des effets aleatoires spatio-temporels AR1 par espece (equation 1-2 du texte). Ces effets aleatoires ne sont pas reproductibles sans re-estimer le modele INLA complet ; formula_used retient la partie effets fixes exacte du papier (log-profondeur lineaire+quadratique) comme regression continue de base. Donnees brutes (goa_trawl_albers.csv, table station x annee x espece) telechargees directement depuis Dryad (10.5061/dryad.j3t86) -- pas une reconstruction, N=9213 traits de chalut, Golfe d'Alaska, 1984-2011. BottomTemp/SurfTemp sont des covariables reelles supplementaires du meme fichier, ajoutees uniquement a la variante ml_or_selected.
 
 ### Statut regression canonique
@@ -75,17 +75,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Atheresthesstomias ~ log.BottomDepth + log.BottomDepth2
+- License evidence: DataCite API record for DOI 10.5061/dryad.j3t86 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=9213; T declare=12; variable temporelle declaree=Year; repetitions de coordonnees controlees=1. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: log.BottomDepth, log.BottomDepth2
 - y_term_used: Atheresthesstomias
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -93,8 +94,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatio-tem
 formula_candidates:
   univariate:
     formula: "Atheresthesstomias ~ log.BottomDepth + log.BottomDepth2"
-    response: "CPUE de fletan a dents fines, espece la plus frequemment capturee du jeu de donnees"
-    predictors: ["log(BottomDepth) centre, terme lineaire et quadratique"]
+    response: "CPUE de fletan a dents fines (Atheresthes stomias, arrowtooth flounder), espece la plus frequemment capturee du jeu de donnees (8270/9213 traits non-nuls)"
+    predictors: ["log(BottomDepth) centre, terme lineaire et quadratique (seule covariable fixe utilisee par le papier pour tous les modeles d'occurrence et de CPUE positive)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -132,7 +133,7 @@ formula_candidates:
 - Paper DOI: 10.1093/icesjms/fsx079
 - Dataset DOI: 10.5061/dryad.j3t86
 - Source URL: https://doi.org/10.5061/dryad.j3t86
-- Year: unknown
+- Year: 2017
 
 ## Bloc 3 - Typologie des modeles
 
@@ -221,7 +222,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.j3t86 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`goa_trawl_demersal` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `goa_trawl_demersal` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -236,10 +236,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`goa_trawl_demersal` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

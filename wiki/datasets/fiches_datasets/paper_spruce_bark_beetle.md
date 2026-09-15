@@ -1,7 +1,7 @@
 ---
 title: paper_spruce_bark_beetle
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_spruce_bark_beetle.rds
@@ -32,12 +32,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `trapcounts`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `year`, `masl`, `spruce_vol`, `veg_zone`, `felling_border`, `temperature`, `precipitation`, `soil_moisture`
 - Candidate X count in local artifact: 8
-- Candidate X typology: continuous, categorical
+- Candidate X typology: unknown, categorical
 - Published X variables from paper: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
-- Published X count: 0
+- Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `east`, `north`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,17 +49,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 |---|---|---|---|---|
 | `trapcounts` | `integer` | count | [7, 36735] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `spruce_vol`, `felling_border`, `temperature`, `soil_moisture`, `veg_zone` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `spruce_bark_beetle`, la ou les reponses `trapcounts` viennent du loader papier et/ou des preuves de l article `Climatic and management-related drivers of endemic European spruce bark beetle populations in boreal forests`. Les covariables X retenues sont `spruce_vol`, `felling_border`, `temperature`, `soil_moisture`, `veg_zone` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`east`, `north`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `year` | `integer` | count | 0% |
+| `year` | `integer` | unknown | 0% |
 | `masl` | `character` | categorical | 0% |
 | `spruce_vol` | `character` | categorical | 0% |
 | `veg_zone` | `factor` | categorical | 0% |
-| `felling_border` | `integer` | count | 0% |
+| `felling_border` | `integer` | unknown | 0% |
 | `temperature` | `character` | categorical | 0% |
 | `precipitation` | `character` | categorical | 0% |
 | `soil_moisture` | `character` | categorical | 0% |
@@ -77,17 +77,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic a
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: trapcounts ~ spruce_vol + felling_border + temperature + soil_moisture + veg_zone
+- License evidence: DataCite API record for DOI 10.5061/dryad.kd51c5bdc (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=1731; T declare=18; variable temporelle declaree=year; repetitions de coordonnees controlees=27. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: spruce_vol, felling_border, temperature, soil_moisture, veg_zone
 - y_term_used: trapcounts
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -110,7 +111,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -134,7 +135,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2664.14606
 - Dataset DOI: 10.5061/dryad.kd51c5bdc
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.kd51c5bdc
-- Year: unknown
+- Year: 2024 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -199,7 +200,7 @@ estimator_eligibility:
 - k variables: 14
 - T periods: 18
 - Variable temporelle: year
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (1731) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 1703 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=5). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 1703 unites spatiales distinctes, pas sur les 1731 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -219,7 +220,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.kd51c5bdc (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`spruce_bark_beetle` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `spruce_bark_beetle` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -234,10 +234,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`spruce_bark_beetle` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (count), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

@@ -1,7 +1,7 @@
 ---
 title: paper_biomass_rainforest
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_biomass_rainforest.rds
@@ -76,16 +76,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial St
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: AGB_mean ~ area_ha + n_stems + mean_wsg + HAND + LOG + ALT + SLO
+- License evidence: DataCite API record for DOI 10.5061/dryad.38578 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: area_ha, n_stems, mean_wsg, HAND, LOG, ALT, SLO
 - y_term_used: AGB_mean
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -108,7 +109,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -132,7 +133,7 @@ formula_candidates:
 - Paper DOI: 10.1371/journal.pone.0138456
 - Dataset DOI: 10.5061/dryad.38578
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.38578
-- Year: unknown
+- Year: 2015 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -186,7 +187,7 @@ estimator_eligibility:
 - k variables: 13
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -205,7 +206,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.38578 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`biomass_rainforest` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `biomass_rainforest` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

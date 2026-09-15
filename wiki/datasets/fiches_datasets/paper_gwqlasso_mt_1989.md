@@ -129,7 +129,7 @@ formula_candidates:
 - Paper DOI: 10.1590/1982-7849rac2022200387.en
 - Dataset DOI: 10.7910/DVN/UEZMJT
 - Source URL: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/UEZMJT
-- Year: unknown
+- Year: 2022 (annee de publication de l'article Miquelluti, Ozaki & Miquelluti -- voir Reference publication ; distincte de l'annee ou de la periode du sous-ensemble temporel decoupe, indiquee dans le nom du dataset)
 - Parent dataset: `paper_gwqlasso_mt` (sous-ensemble temporel -- ne pas compter comme source independante)
 
 ## Bloc 3 - Typologie des modeles

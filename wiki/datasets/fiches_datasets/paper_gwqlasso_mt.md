@@ -1,7 +1,7 @@
 ---
 title: paper_gwqlasso_mt
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_gwqlasso_mt.rds
@@ -32,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Yield_kg_ha`
-- Candidate Y typology: continuous (corrige 2026-09-08, voir note en fin de fiche)
+- Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Year`, `name_norm`, `precip_annual_mm`
 - Candidate X count in local artifact: 3
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: SPI_1month
+- Candidate X typology: unknown, categorical, continuous
+- Published X variables from paper: SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `muni_lon`, `muni_lat`
 - Identifier columns (excluded from X candidates): `Municipality`, `State`, `station_id`
@@ -49,21 +49,21 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 |---|---|---|---|---|
 | `Yield_kg_ha` | `numeric` | continuous | [600, 4500] | 55.8% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `gwqlasso_mt`, la ou les reponses `Yield_kg_ha` viennent du loader papier et/ou des preuves de l article `An application of geographically weighted quantile lasso to weather index insurance design`. Les covariables X retenues sont `precip_annual_mm` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`muni_lon`, `muni_lat`), identifiants (`Municipality`, `State`, `station_id`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `gwqlasso_mt`, la ou les reponses `Yield_kg_ha` viennent du loader papier et/ou des preuves de l article `An application of geographically weighted quantile lasso to weather index insurance design`. Les covariables X retenues sont `precip_annual_mm` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`muni_lon`, `muni_lat`), identifiants (`Municipality`, `State`, `station_id`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Year` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
 | `name_norm` | `character` | categorical | 0% |
 | `precip_annual_mm` | `numeric` | continuous | 5.3% |
 
 ### Formule - niveau publication
 
 - formula_pub: Yield_kg_ha ~ SPI_1month [Geographically Weighted Quantile LASSO (GWQLasso), regression quantile geographiquement ponderee avec selection de variables Lasso]
-- x_terms_pub: SPI_1month
-- y_term_pub: Yield_kg_ha
+- x_terms_pub: SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)
+- y_term_pub: Yield_kg_ha (rendement du soja, kg/ha, niveau municipal)
 - Reference publication: Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats).
 
 ### Statut regression canonique
@@ -72,17 +72,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Yield_kg_ha ~ precip_annual_mm
+- License evidence: DataCite API record for DOI 10.7910/dvn/uezmjt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=6063; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=5922. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: precip_annual_mm
 - y_term_used: Yield_kg_ha
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -90,8 +91,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "An applica
 formula_candidates:
   univariate:
     formula: "Yield_kg_ha ~ precip_annual_mm"
-    response: "Yield_kg_ha"
-    predictors: ["SPI_1month"]
+    response: "Yield_kg_ha (rendement du soja, kg/ha, niveau municipal)"
+    predictors: ["SPI_1month (Standardized Precipitation Index, 1 mois, derive de la precipitation quotidienne par ajustement de loi gamma)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -129,7 +130,7 @@ formula_candidates:
 - Paper DOI: 10.1590/1982-7849rac2022200387.en
 - Dataset DOI: 10.7910/DVN/UEZMJT
 - Source URL: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/UEZMJT
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -218,7 +219,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.7910/dvn/uezmjt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`gwqlasso_mt` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `gwqlasso_mt` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -230,66 +230,9 @@ estimator_eligibility:
 - Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
-- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Missing values: WARN - variables avec NA > 20%: Yield_kg_ha (NA=55.8%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`gwqlasso_mt` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Correction typologie Y -- 2026-09-08
-
-Bug corrige : `Yield_kg_ha` etait stocke en `character` avec des valeurs numeriques valides mais aussi des placeholders de donnee manquante encodes en texte (`"..."`, `"-"`), ce qui declenchait a tort une classification 'categorical' (Plage: n/a) au lieu de 'continuous'. Conversion en `numeric` (placeholders -> NA) appliquee au RDS local le 2026-09-08 : 2678/6063 valeurs valides, plage [600, 4500] kg/ha. `Candidate Y typology`, `Detail Y` et `Selected Y typology` ci-dessus sont mis a jour en consequence ; `formula_used`/`x_terms_used` restaient deja corrects (aucune dependance a la typologie erronee).
-
-## ATTENTION -- ce jeu de donnees a ete decoupe en sous-fiches, NE PAS supprimer
-
-Ce panel complet a ete decoupe en 29 fiches (session 2026-09-08) de granularite plus fine (coupes annuelles
-et/ou sous-panels groupes), pour elargir le nombre de jeux de donnees deja benchmarkables
-sans casser la validite spatiale. **Le parent ET tous les enfants doivent etre conserves** --
-ce ne sont pas des doublons :
-- Le PARENT (cette fiche) est le panel complet, utile pour toute analyse necessitant
-  l'integralite des unites spatiales x periodes ensemble (ex. modele spatial-panel avec
-  effets fixes, methode Elhorst 2010).
-- Chaque ENFANT est un sous-ensemble temporel du meme panel (voir la liste ci-dessous),
-  utile individuellement comme jeu de donnees benchmarkable supplementaire (coupe
-  transversale ou sous-panel reduit selon le cas).
-
-Si un futur agent (LLM ou humain) envisage de supprimer l'une de ces fiches en pensant
-qu'elle fait doublon avec une autre, VERIFIER D'ABORD cette note et la fiche
-`wiki/eval_queue.md` / les sessions d'audit du 2026-09-07/08 avant toute suppression.
-
-Sous-fiches (29 fiches (session 2026-09-08)) :
-- [[paper_gwqlasso_mt_1989]]
-- [[paper_gwqlasso_mt_1990]]
-- [[paper_gwqlasso_mt_1991]]
-- [[paper_gwqlasso_mt_1992]]
-- [[paper_gwqlasso_mt_1993]]
-- [[paper_gwqlasso_mt_1994]]
-- [[paper_gwqlasso_mt_1995]]
-- [[paper_gwqlasso_mt_1996]]
-- [[paper_gwqlasso_mt_1997]]
-- [[paper_gwqlasso_mt_1998]]
-- [[paper_gwqlasso_mt_1999]]
-- [[paper_gwqlasso_mt_2000]]
-- [[paper_gwqlasso_mt_2001]]
-- [[paper_gwqlasso_mt_2002]]
-- [[paper_gwqlasso_mt_2003]]
-- [[paper_gwqlasso_mt_2004]]
-- [[paper_gwqlasso_mt_2005]]
-- [[paper_gwqlasso_mt_2006]]
-- [[paper_gwqlasso_mt_2007]]
-- [[paper_gwqlasso_mt_2008]]
-- [[paper_gwqlasso_mt_2009]]
-- [[paper_gwqlasso_mt_2010]]
-- [[paper_gwqlasso_mt_2011]]
-- [[paper_gwqlasso_mt_2012]]
-- [[paper_gwqlasso_mt_2013]]
-- [[paper_gwqlasso_mt_2014]]
-- [[paper_gwqlasso_mt_2015]]
-- [[paper_gwqlasso_mt_2016]]
-- [[paper_gwqlasso_mt_pre1989]]
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 
@@ -300,6 +243,6 @@ Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant c
 
 Decision conservatoire : N lignes=6063; T declare=43; variable temporelle declaree=Year; repetitions de coordonnees controlees=5922. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
 
-Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

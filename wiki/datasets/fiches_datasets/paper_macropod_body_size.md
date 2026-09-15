@@ -1,7 +1,7 @@
 ---
 title: paper_macropod_body_size
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_macropod_body_size.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Sex`, `Year`, `MI`, `WinterMinTemp`, `SummerMaxTemp`, `SummerWetBulbTemp`, `AnnualRain`, `AnnualNDVI`, `GrowSeasRain`, `GrowSeasNDVI`, `MinSeasRain`, `MinSeasNDVI`
 - Candidate X count in local artifact: 12
-- Candidate X typology: categorical, continuous
-- Published X variables from paper: SummerMaxTemp, AnnualRain, MI, Sex, Year
+- Candidate X typology: categorical, unknown, continuous
+- Published X variables from paper: SummerMaxTemp (temperature maximale estivale), AnnualRain (precipitation annuelle), MI (molar progression index, proxy d'age), Sex, Year
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Island`, `gridLongitude`, `gridLatitude`
@@ -56,7 +56,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
 | `Sex` | `character` | categorical | 6.8% |
-| `Year` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
 | `MI` | `numeric` | continuous | 0% |
 | `WinterMinTemp` | `numeric` | continuous | 0% |
 | `SummerMaxTemp` | `numeric` | continuous | 0% |
@@ -71,8 +71,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 ### Formule - niveau publication
 
 - formula_pub: CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Island + Year [modele spatial bayesien controlant pour l'age (MI, molar progression index), le sexe, l'effet ile, et l'annee ; teste l'hypothese de nanisme induit par la chasse le long d'un gradient geographique sur >2000 cranes de macropodes]
-- x_terms_pub: SummerMaxTemp, AnnualRain, MI, Sex, Year
-- y_term_pub: CL, espece Macropus rufogriseus
+- x_terms_pub: SummerMaxTemp (temperature maximale estivale), AnnualRain (precipitation annuelle), MI (molar progression index, proxy d'age), Sex, Year
+- y_term_pub: CL (longueur condylobasale du crane, indicateur standard de taille corporelle chez les macropodes), espece Macropus rufogriseus (wallaby de Bennett, N=856, la mieux representee des 3 especes du depot)
 - Reference publication: Prowse et al. (2015), Empirical tests of harvest-induced body-size evolution along a geographic gradient in Australian macropods, Journal of Animal Ecology, doi:10.1111/1365-2656.12273. Le papier mesure plus de 2000 cranes de macropodes (collections fauniques, >130 ans) et ajuste des modeles bayesiens spatiaux controlant pour l'age, le sexe et les effets d'ile ; les resultats montrent une taille de crane augmentant avec une temperature estivale maximale plus basse et des precipitations plus elevees (hypotheses de dissipation thermique et de productivite). Confirme par recherche web (resume Wiley/besjournals, session 2026-08-16), PDF non recupere localement (a ajouter a la liste de recuperation manuelle). Donnees brutes (ProwseEtAl_MacropodData.csv) telechargees directement depuis Dryad (10.5061/dryad.c3tc6) -- pas une reconstruction. Le depot pool 3 especes (M. rufogriseus, M. giganteus, M. fuliginosus) ; formula_used filtre sur M. rufogriseus (N=856, la mieux representee) pour respecter l'approche du papier qui ajuste un modele separe par espece plutot que de pooler des especes aux tailles cranio-corporelles tres differentes.
 
 ### Statut regression canonique
@@ -81,17 +81,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Empirical 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Year
+- License evidence: DataCite API record for DOI 10.5061/dryad.c3tc6 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=856; T declare=49; variable temporelle declaree=Year; repetitions de coordonnees controlees=733. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: SummerMaxTemp, AnnualRain, MI, Sex, Year
 - y_term_used: CL
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -109,12 +110,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Year"
-    response: "CL, espece Macropus rufogriseus"
-    predictors: ["SummerMaxTemp", "AnnualRain", "MI", "Sex", "Year"]
+    response: "CL (longueur condylobasale du crane, indicateur standard de taille corporelle chez les macropodes), espece Macropus rufogriseus (wallaby de Bennett, N=856, la mieux representee des 3 especes du depot)"
+    predictors: ["SummerMaxTemp (temperature maximale estivale)", "AnnualRain (precipitation annuelle)", "MI (molar progression index, proxy d'age)", "Sex", "Year"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -138,7 +139,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2656.12273
 - Dataset DOI: 10.5061/dryad.c3tc6
 - Source URL: https://doi.org/10.5061/dryad.c3tc6
-- Year: unknown
+- Year: 2014
 
 ## Bloc 3 - Typologie des modeles
 
@@ -192,7 +193,7 @@ estimator_eligibility:
 - k variables: 21
 - T periods: 49
 - Variable temporelle: Year
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (856) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 123 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=163). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 123 unites spatiales distinctes, pas sur les 856 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -212,7 +213,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.c3tc6 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`macropod_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `macropod_body_size` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -227,11 +227,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`macropod_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : TEI introuvable dans le corpus (papier non accessible localement, seule la DOI apparait en bibliographie d'un autre papier) -- aucune preuve disponible dans un sens ou l'autre. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; absence de preuve n'est pas une preuve de probleme -- grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

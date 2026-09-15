@@ -1,7 +1,7 @@
 ---
 title: paper_checkerspot_phenology
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_checkerspot_phenology.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Phenologic
 - Candidate X variables in local artifact: `basisOfRecord`, `scientificName`, `eventDate`, `year`, `month`, `day`, `dayCode`, `lifeStage`, `lifeStageNotes`, `generalNotes`, `locationNotes`, `stateProvince`, `county`, `municipality`, `locality`, `coordinateUncertaintyInMeters`, `coordinateSource`, `picture`, `within.year.duplicate...place.`, `within.year.duplicate...county.`
 - Candidate X count in local artifact: 20
 - Candidate X typology: categorical
-- Published X variables from paper: decimalLatitude, year
+- Published X variables from paper: decimalLatitude (gradient latitudinal), year (tendance temporelle, changement climatique)
 - Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `decimalLongitude`, `decimalLatitude`
 - Identifier columns (excluded from X candidates): `ocurrenceID`, `collectionCode`, `database`, `recordedBy`, `id`, `lat2`, `lon2`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Phenologic
 |---|---|---|---|---|
 | `startDayOfYear` | `numeric` | continuous | [97, 268] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `checkerspot_phenology`, la ou les reponses `startDayOfYear` viennent du loader papier et/ou des preuves de l article `Phenological mismatch is less important than total nectar availability for checkerspot butterflies`. Les covariables X retenues sont `year` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`decimalLongitude`, `decimalLatitude`), identifiants (`ocurrenceID`, `collectionCode`, `database`, `recordedBy`, `id`, `lat2`, `lon2`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `checkerspot_phenology`, la ou les reponses `startDayOfYear` viennent du loader papier et/ou des preuves de l article `Phenological mismatch is less important than total nectar availability for checkerspot butterflies`. Les covariables X retenues sont `decimalLatitude`, `year` ; 19 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`decimalLongitude`, `decimalLatitude`), identifiants (`ocurrenceID`, `collectionCode`, `database`, `recordedBy`, `id`, `lat2`, `lon2`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -79,9 +79,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Phenologic
 ### Formule - niveau publication
 
 - formula_pub: startDayOfYear ~ latitude + year [analyse de decalage phenologique sur 140 ans d'archives de musee/citizen-science de papillons demi-lune de Baltimore (Baltimore checkerspot, Euphydryas phaeton), comparee a la disponibilite de nectar sur le terrain]
-- x_terms_pub: decimalLatitude, year
-- y_term_pub: startDayOfYear
-- Reference publication: Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees.
+- x_terms_pub: decimalLatitude (gradient latitudinal), year (tendance temporelle, changement climatique)
+- y_term_pub: startDayOfYear (jour julien de premiere observation/collection du papillon demi-lune de Baltimore, proxy de phenologie de vol)
+- Reference publication: Crone, E.E., Arriens, J.V. & Brown, L.M. (2024) (auteurs confirmes via Crossref le 2026-09-14, absents des metadonnees locales), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, 105(12):e4461, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees.
 
 ### Statut regression canonique
 
@@ -89,17 +89,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Phenologic
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: startDayOfYear ~ decimalLatitude + year
+- License evidence: DataCite API record for DOI 10.5061/dryad.rr4xgxdhk (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=1989; T declare=128; variable temporelle declaree=year; repetitions de coordonnees controlees=814. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: year
+- x_terms_used: decimalLatitude, year
 - y_term_used: startDayOfYear
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -117,12 +118,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "startDayOfYear ~ decimalLatitude + year"
-    response: "startDayOfYear"
-    predictors: ["decimalLatitude", "year"]
+    response: "startDayOfYear (jour julien de premiere observation/collection du papillon demi-lune de Baltimore, proxy de phenologie de vol)"
+    predictors: ["decimalLatitude (gradient latitudinal)", "year (tendance temporelle, changement climatique)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -146,7 +147,7 @@ formula_candidates:
 - Paper DOI: 10.1002/ecy.4461
 - Dataset DOI: 10.5061/dryad.rr4xgxdhk
 - Source URL: https://doi.org/10.5061/dryad.rr4xgxdhk
-- Year: unknown
+- Year: 2024
 
 ## Bloc 3 - Typologie des modeles
 
@@ -161,7 +162,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
+  source_ref: "Crone, E.E., Arriens, J.V. & Brown, L.M. (2024) (auteurs confirmes via Crossref le 2026-09-14, absents des metadonnees locales), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, 105(12):e4461, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
   confidence: medium
 ```
 
@@ -178,7 +179,7 @@ benchmark_readiness:
 ```
 
 - Decision: ready
-- Manque principal: le papier compare phenologie historique et disponibilite de nectar sur le terrain (sites nommes sans coordonnees) ; formula_used utilise uniquement le sous-jeu georeference (occurrences de musee), pas la comparaison complete du papier ; PDF non recupere localement (bloque anti-bot) -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
+- Manque principal: le papier compare phenologie historique et disponibilite de nectar sur le terrain (sites nommes sans coordonnees) ; formula_used utilise uniquement le sous-jeu georeference (occurrences de musee), pas la comparaison complete du papier ; PDF non recupere localement (bloque anti-bot) -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)
 - Raison: Y continu reel (jour julien d'observation), N=1989 occurrences de musee/citizen-science georeferencees (1877-2017, Amerique du Nord), covariables latitude/annee reelles pour une analyse phenologie-climat standard. CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier identifie via OpenAlex (le paper_doi initial pointait vers le depot Zenodo du code, pas l'article).
 
 ## Estimator eligibility
@@ -200,7 +201,7 @@ estimator_eligibility:
 - k variables: 33
 - T periods: 128
 - Variable temporelle: year
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (1989) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 1174 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=24). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 1174 unites spatiales distinctes, pas sur les 1989 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -220,7 +221,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.rr4xgxdhk (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`checkerspot_phenology` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `checkerspot_phenology` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -235,11 +235,6 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: lifeStageNotes (NA=70.3%), generalNotes (NA=91.2%), locationNotes (NA=79.3%), county (NA=21.7%), municipality (NA=83%), coordinateUncertaintyInMeters (NA=44.9%), recordedBy (NA=36.1%), within.year.duplicate...place. (NA=56.4%), within.year.duplicate...county. (NA=72.6%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`checkerspot_phenology` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture de la documentation Dryad (TEI introuvable, papier bloque 403) montre qu'il ne s'agit PAS d'un panel structure -- enregistrements individuels compiles depuis des bases heterogenes (GBIF, iNaturalist, museums), sans colonne site/placette. La duplication de coordonnees (41%) reflete des localites populaires visitees par differents collecteurs, pas un protocole repete. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- le risque reel n'est pas une fuite de panel temporel mais une dependance spatiale classique -- grouper la CV par coordonnee (site geographique). Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

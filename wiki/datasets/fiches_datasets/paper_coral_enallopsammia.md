@@ -1,7 +1,7 @@
 ---
 title: paper_coral_enallopsammia
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_coral_enallopsammia.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 
 - Topic: Donnees de paper-derived : paper_coral_enallopsammia
 - Observation unit: observation spatiale du dataset "Climate change effects on deep-water corals - habitat suitability model input data"
-- Observed population: ModÃ¨les de suitabilitÃ© d'habitat (HSM) pour coraux profonds en Nouvelle-ZÃ©lande avec Random Forests et Boosted Regression Trees ; prÃ©dictions spatiales sous changement climatique ; correspond au pÃ©rimÃ¨tre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction
+- Observed population: Modèles de suitabilité d'habitat (HSM) pour coraux profonds en Nouvelle-Zélande avec Random Forests et Boosted Regression Trees ; prédictions spatiales sous changement climatique ; correspond au périmètre spatial random forest / boosting spatial / climate / biodiversity / spatial prediction
 - Geographic context: etendue sf: x [-179.9895, 179.9945], y [-53.916698, -24.6567]
 - Temporal context: none (cross-sectional)
 - Source description: Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 - Candidate Y typology: binary
 - Candidate X variables in local artifact: `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OXY_C`, `PBO_C`, `SFR_OARG_C`, `SO_C`, `OM_CAL3_C`
 - Candidate X count in local artifact: 14
-- Candidate X typology: continuous
-- Published X variables from paper: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OXY_C, PBO_C, SFR_OARG_C
-- Published X count: 0
+- Candidate X typology: continuous, unknown
+- Published X variables from paper: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
+- Published X count: 14
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 |---|---|---|---|---|
 | `pa` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `coral_enallopsammia`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OXY_C`, `PBO_C`, `SFR_OARG_C` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `coral_enallopsammia`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Predicting the effects of climate change on deep-water coral distribution around New Zealand-Will there be suitable refuges for protection at the end of the 21st century?`. Les covariables X retenues sont `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OM_CAL3_C`, `OXY_C`, `PBO_C`, `SO_C`, `SFR_OARG_C`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -58,8 +58,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 | `carbonate` | `numeric` | continuous | 0% |
 | `mud` | `numeric` | continuous | 0% |
 | `sand` | `numeric` | continuous | 0% |
-| `bpi_fine` | `integer` | count | 0% |
-| `depth` | `integer` | count | 0% |
+| `bpi_fine` | `integer` | unknown | 0% |
+| `depth` | `integer` | unknown | 0% |
 | `slope_per` | `numeric` | continuous | 0% |
 | `smtfinal` | `numeric` | rate | 0% |
 | `BEN_N_C` | `numeric` | continuous | 0% |
@@ -72,26 +72,27 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 
 ### Formule - niveau publication
 
-- formula_pub: pending
-- x_terms_pub: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OXY_C, PBO_C, SFR_OARG_C
+- formula_pub: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]
+- x_terms_pub: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
 - y_term_pub: pa
-- Reference publication: DataCite dataset DOI 10.5061/dryad.41ns1rnht; Publication DOI 10.1111/gcb.16389
+- Reference publication: CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- enallopsammia est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OXY_C + PBO_C + SFR_OARG_C + SO_C + OM_CAL3_C
+- License evidence: DataCite API record for DOI 10.5061/dryad.41ns1rnht (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Formula used evidence: generated_system_formula
 - x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OXY_C, PBO_C, SFR_OARG_C, SO_C, OM_CAL3_C
 - y_term_used: pa
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -108,24 +109,24 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
+    formula: "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C"
+    response: "pa"
+    predictors: ["carbonate", "mud", "sand", "bpi_fine", "depth", "slope_per", "smtfinal", "BEN_N_C", "DETFLUX3_C", "OM_CAL3_C", "OXY_C", "PBO_C", "SO_C", "SFR_OARG_C"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["random_forest", "gamboost", "xgboost"]
+    status: "confirmed"
+
+  ml_or_selected:
     formula: "pending"
     response: "pending"
     predictors: []
-    role: "paper_main_specification"
+    role: "ml_candidate_features"
     source_type: "none_found"
     source_ref: "pending"
     estimator_context: []
     status: "unavailable"
-
-  ml_or_selected:
-    formula: "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OXY_C + PBO_C + SFR_OARG_C + ... (2 covariables au total, voir Candidate X variables)"
-    response: "pa"
-    predictors: ["carbonate", "mud", "sand", "bpi_fine", "depth", "slope_per", "smtfinal", "BEN_N_C", "DETFLUX3_C", "OXY_C", "PBO_C", "SFR_OARG_C"]
-    role: "ml_candidate_features"
-    source_type: "generated_system_formula"
-    source_ref: "data/raw/papers (loader-derived, no published equation located)"
-    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
-    status: "generated"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -138,55 +139,55 @@ formula_candidates:
 - Paper DOI: 10.1111/gcb.16389
 - Dataset DOI: 10.5061/dryad.41ns1rnht
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.41ns1rnht
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
-- Modele niveau 1 (tache): pending
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
 - Modele niveau 3 (variante): pending
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "pending"
-  equation_family: generated_system_candidate
-  model_family: unknown
-  source_type: generated_system_formula
-  source_ref: "data/raw/papers (loader-derived, no published equation located)"
-  confidence: low
+  existing_model_found: true
+  equation_text: "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- enallopsammia est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  confidence: medium
 ```
 
 ## Benchmark readiness
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "manual_review"
   benchmark_task: "classification_binary_presence_absence"
-  package_include: "yes"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte"
-  reason: "Bloc estimator_eligibility complete le 2026-09-08. Ancien blocage 'current_package_regression_only' resolu : c'etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', jamais mise a jour apres l'ajout du routage binaire/comptage cette semaine) -- corrige a la source, le garde-fou selected_response_typology_unresolved (base sur la vraie typologie resolue) prend desormais seul le relais, correctement, pour les cas multi-classes genuinement non supportes."
+  missing_items: "Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats."
+  reason: "Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats."
 ```
 
-- Decision: ready
-- Manque principal: aucun blocage automatique detecte
-- Raison: Bloc estimator_eligibility complete le 2026-09-08. Ancien blocage 'current_package_regression_only' resolu : c'etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', jamais mise a jour apres l'ajout du routage binaire/comptage cette semaine) -- corrige a la source, le garde-fou selected_response_typology_unresolved (base sur la vraie typologie resolue) prend desormais seul le relais, correctement, pour les cas multi-classes genuinement non supportes.
+- Decision: manual_review
+- Manque principal: Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats.
+- Raison: Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
+  status: "ready"
   eligible_estimators:
     - estimator: ols
       basis: generated_candidate
       source_ref: "Routage binaire/comptage ajoute au harnais cette semaine (glm(family=binomial()) sous le nom ols) ; verifie par la suite de tests du package."
-      notes: "Aucune methode publiee documentee pour ce papier (formula_pub/modeling_evidence: pending) -- eligibilite basee sur la capacite technique du harnais, pas sur une preuve de la publication."
+      notes: "Regression (famille binomiale) generique pour reponse binaire. CORRECTION 2026-09-14 : formula_pub desormais confirme (meme papier/formule que coral_bathypathes, Anderson et al. 2022, DOI 10.1111/gcb.16389) -- ols reste un candidat generique technique, pas la methode publiee (RF/BRT)."
     - estimator: gam_spatial
       basis: generated_candidate
       source_ref: "Routage binaire ajoute au harnais cette semaine (mgcv::gam(family=binomial()))."
-      notes: "Meme reserve que ci-dessus : capacite technique, pas preuve documentee du papier source."
+      notes: "GAM (famille binomiale), baseline generique pour reponse binaire. Meme correction 2026-09-14 : formula_pub desormais confirme, gam_spatial reste un candidat generique technique, pas la methode publiee (RF/BRT)."
     - estimator: random_forest
       basis: published_model
       source_ref: "Description de la fiche (Observed population) : 'Modeles de suitabilite d'habitat (HSM) pour coraux profonds en Nouvelle-Zelande avec Random Forests et Boosted Regression Trees' -- Random Forest est explicitement le modele publie."
@@ -216,7 +217,7 @@ estimator_eligibility:
 - k variables: 19
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -235,7 +236,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.41ns1rnht (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`coral_enallopsammia` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `coral_enallopsammia` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -244,7 +244,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place).
+- Formula: OK - formule publication renseignee et formula_used executable.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

@@ -1,7 +1,7 @@
 ---
 title: paper_sfbay_contaminated_sites
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-09
 sources:
   - data/final_datasets/sf/paper_sfbay_contaminated_sites.rds
@@ -37,35 +37,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Rising Coa
 - Candidate X typology: unknown
 - Published X variables from paper: sans objet pour une formule de régression ; zones d'exposition et catégories de vulnérabilité pour les analyses SIG et Kendall
 - Published X count: sans objet
-- Presence of imputed X: unknown
 - Coordinates (x, y - excluded from X candidates): `X`, `Y`, dérivés de la géométrie source ; `LATITUDE` et `LONGITUDE` sont des attributs conservés et ne remplacent pas cette géométrie
 - Identifier/excluded columns (excluded from X candidates): `FID_DTSC_S`, `FID_WRCB_S`, `FID_Inun_S`, `FID_Rise_S`, identifiants de site et champs de provenance
 - Variables inspected: yes (RDS reconstruit et shapefiles comparés le 2026-09-09)
+- Presence of imputed X: not_applicable
 
 #### Detail Y
 
-| Variable | Classe R | Typologie Y | Plage | NA (%) |
-|---|---|---|---|---|
-| `is_open_case` | `integer` | binary | {0, 1} | 0% |
-
-> Note : `is_open_case` (1 = shapefile OpenSites, n=1480 ; 0 = shapefile ClosedSites, n=3817) décrit le fichier d'origine ; ce n'est pas la variable dépendante d'un modèle publié par le papier. Les champs de statut et de provenance divulguent cette étiquette et ne doivent pas devenir ses prédicteurs.
-
-> Selection Y/X (paper-loader / curated evidence) : Pour `sfbay_contaminated_sites`, aucune réponse Y ni jeu de covariables X n'est retenu : le papier ne publie pas de régression sur ces couches (superpositions SIG et corrélation de Kendall uniquement, cf. Reference publication). `is_open_case` reste documenté comme candidate Y non retenue. Les coordonnées (`X`, `Y`, `LATITUDE`, `LONGITUDE`), identifiants (`FID_DTSC_S`, `FID_WRCB_S`, `FID_Inun_S`, `FID_Rise_S`, identifiants de site) et champs de provenance sont exclus de toute liste X. Statut benchmark actuel : not_ready_no_published_regression ; package_include: no.
+`is_open_case` est ajouté par le loader : 1 pour les 1 480 lignes du shapefile OpenSites, 0 pour les 3 817 lignes ClosedSites. Il décrit le fichier d'origine ; il n'est pas la variable dépendante d'un modèle du papier. Les champs de statut et de provenance divulguent cette étiquette et ne doivent pas devenir ses prédicteurs.
 
 #### Detail X
 
-| Variable | Classe R | Role X | NA (%) |
-|---|---|---|---|
-| `gridcode` | `integer` | not_applicable (aucune régression publiée) | 0% |
-| `SITE_TYPE` | `character` | not_applicable | variable |
-| `RESTRICTED` | `character` | not_applicable | variable |
-| `COUNTY` | `character` | not_applicable | 0% |
-| `ACRES` | `numeric` | not_applicable | variable |
-| `GLOBAL_ID` | `character` | not_applicable (identifiant) | variable |
-| `ENVIROSTOR` | `character` | not_applicable (identifiant) | variable |
-| `STATUS_SHO` | `character` | not_applicable | variable |
-
-> Note : les 75 attributs des shapefiles sont conservés (liste ci-dessus non exhaustive), dont les identifiants DTSC/WRCB. Leur présence ne prouve pas leur emploi comme X dans une régression : le papier ne publie aucune régression sur ces couches (superpositions SIG et corrélation de Kendall uniquement). Le README documente une reclassification du raster de remontée de nappe au seuil de 0,1016 m ; cela ne fait pas de `gridcode` une covariable publiée. Les couches sont déjà sélectionnées pour une exposition à la remontée de nappe OU à l'inondation : ne pas interpréter automatiquement `gridcode=0` comme un site non exposé. Les champs des deux bases fusionnées comportent des valeurs manquantes et des zéros techniques.
+Les 75 attributs des shapefiles sont conservés, dont `gridcode`, `SITE_TYPE`, `RESTRICTED`, `COUNTY`, `ACRES`, `GLOBAL_ID`, `ENVIROSTOR`, `STATUS_SHO` et les identifiants DTSC/WRCB. Leur présence ne prouve pas leur emploi comme X dans une régression. Le README documente une reclassification du raster de remontée de nappe au seuil de 0,1016 m ; cela ne fait pas de `gridcode` une covariable publiée. Les couches sont déjà sélectionnées pour une exposition à la remontée de nappe OU à l'inondation : ne pas interpréter automatiquement `gridcode=0` comme un site non exposé. Les champs des deux bases fusionnées comportent des valeurs manquantes et des zéros techniques.
 
 ### Formule - niveau publication
 
@@ -91,36 +74,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Rising Coa
 ### Formules candidates
 
 ```yaml
-formula_candidates:
-  univariate:
-    formula: "pending"
-    response: "pending"
-    predictors: []
-    role: "simple_baseline"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
-
-  multivariate_constrained:
-    formula: "not_applicable"
-    response: "not_applicable"
-    predictors: []
-    role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "Hill et al. (2023), Earth's Future, DOI 10.1029/2023EF003825 -- le papier ne publie aucune regression Y~X sur ces couches (superpositions SIG et correlation de Kendall uniquement)."
-    estimator_context: []
-    status: "unavailable"
-
-  ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
-    role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+formula_candidates: {}
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -209,7 +163,6 @@ Contrôle géométrique supplémentaire : 5 297 géométries ponctuelles distinc
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6078/d15x4n (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK pour la conversion des couches source ; aucune reproduction de régression revendiquée.
 - Code available: yes (loader `sfbay_contaminated_sites` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

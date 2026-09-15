@@ -129,8 +129,8 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Li, Fang et He (2020), Science of the Total Environment 706:135942, DOI 10.1016/j.scitotenv.2019.135942, equation 3 -- composante de regression du modele principal panel spatial lag a effets fixes provinciaux (equations 4-7) ; parametres spatiaux, effets fixes et retards temporels non representes par ce champ tabulaire."
-    estimator_context: []
-    status: "confirmed_pending_panel_route"
+    estimator_context: ["panel_fe", "panel_sar_fe", "panel_sem_fe", "panel_sac_fe"]
+    status: "confirmed_route_exists_pending_w_provenance"
 
   ml_or_selected:
     formula: "pending"
@@ -144,6 +144,39 @@ formula_candidates:
 ```
 
 La formule brute `CO2 ~ EP` et la formule multivariée sans logarithmes sont retirées des spécifications publiées. Les variantes spatiales à conserver sont les équations (4)–(7) décrites ci-dessus ; aucun estimateur transversal n'est déclaré reproduction exacte.
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: province_name
+- Panel time: year
+- N units: 30
+- N periods: 15
+- Panel balance: balanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_li_energy_price_co2_china_W.rds`
+- W unit order source: reconstruction (contiguïté reine sur la géométrie jointe du projet, `spdep::poly2nb()`, standardisée par ligne, plus un rattachement k plus proche voisin par distance de centroïde pour Hainan -- voir note ci-dessous) -- voir `code/r_catalog/build_li_energy_panel_W.R`
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+- Niveau de parité atteint: non prouvé ; élasticités SAR proches des valeurs publiées (voir ci-dessous)
+
+Session du 2026-09-10 : `panel_fe`, `panel_sar_fe`, `panel_sem_fe` et `panel_sac_fe` (`packages/spatialtidymodels/R/70-panel-spatial.R`, jalon J5) ont été exécutés de bout en bout sur ces 450 lignes -- validation structurelle passée (30 unités × 15 périodes, équilibré), les quatre routes convergent sans erreur.
+
+**Traitement de Hainan (île, aucune frontière terrestre) — trois versions testées :**
+
+| Version W | log(EP), SAR | Impacts SAR log(EP) (direct/indirect) |
+|---|---:|---|
+| Hainan exclue (29 provinces) | **+0.089** (signe opposé au papier) | non calculé, signe déjà incohérent |
+| Hainan liée au Guangdong (convention littérature, non vérifiée) | -0.129 | -0.130 / -0.022 |
+| **Hainan liée à sa plus proche voisine par centroïde (Guangxi, 566 km) — retenue** | **-0.167** | **-0.170 / -0.060** |
+
+Valeurs publiées par Li, Fang et He (section 4, discussion) : élasticité directe **-0.169**, indirecte **-0.070**. La version k-NN (Guangxi) s'en rapproche nettement plus que les deux autres. Le papier (page PDF 16) documente la contiguïté binaire comme méthode principale et le k-NN comme une de ses méthodes de sensibilité reconnues ("binary adjacency matrix, K-nearest Neighbors matrix and distance threshold matrix") : rattacher spécifiquement Hainan par k-NN (k=1, plus proche voisin par centroïde, vérifié géométriquement -- Guangxi, pas Guangdong comme le suggérerait la seule proximité du détroit de Qiongzhou) reste dans l'esprit de leur méthode, sans être une preuve qu'ils ont fait exactement ce choix. **L'exclusion pure de Hainan inverse le signe du résultat principal du papier** dans notre reconstruction -- signe que Hainan (valeur de CO2 la plus basse de tout l'échantillon, économie insulaire atypique) a un poids réel dans l'estimation à effets fixes sur seulement 29-30 unités ; ce n'est pas un artefact de code (vérifié par un appel `plm::plm()` direct, indépendant du package).
+
+Le signe de `log(EP)` est négatif sur les quatre routes avec la W retenue (FE -0.060 ; SAR -0.167 ; SEM -0.115 ; SAC -0.171), cohérent avec le sens attendu par les auteurs. `panel_sac_fe` donne des paramètres spatiaux (lag=0.315, erreur=-0.096) dont le signe du terme d'erreur mérite d'être surveillé (instabilité d'identification connue du modèle SAC, colinéarité entre les deux paramètres spatiaux) plutôt que d'être silencieusement retenu comme définitif.
+
+Ceci reste une exécution réussie du harnais, **pas une réplication validée de l'article** : l'identification des 30 provinces reste elle-même une reconstruction (population + codes GB/T 2260, sans codebook auteur ; confirmé que le dépôt brut des auteurs, `data/raw/papers/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot/data.xlsx`, ne contient que des identifiants numériques et les 9 variables du modèle -- aucun nom de province, aucune géométrie, aucune matrice W), la géométrie jointe au projet n'est pas prouvée identique à celle des auteurs, et la méthode d'estimation SEM du backend (`spml(spatial.error="b")`, Baltagi-Song-Koh) n'a pas été comparée à celle effectivement utilisée par les auteurs. `package_include` reste `no` tant que ces points ne sont pas levés (voir [[revue_fidelite_quatre_datasets_2026-09-09]] et [[plan_implementation_panel_spatial_2026-09-09]], jalon J5).
 
 ## Bloc 2 — Identification et DOI
 
@@ -181,13 +214,13 @@ benchmark_readiness:
   benchmark_task: "regression_continuous_panel"
   package_include: "no"
   has_local_rds: true
-  missing_items: "Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication."
-  reason: "Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication."
+  missing_items: "Support panel spatial disponible depuis le 2026-09-10 (panel_fe/panel_sar_fe/panel_sem_fe/panel_sac_fe, execution reussie sur ces donnees) ; provenance de W (reconstruction queen contiguity + patch Hainan-Guangdong non documente par les auteurs) et identification des provinces (reconstruction, pas de codebook auteur) restent a prouver avant une replication revendiquee."
+  reason: "Support panel spatial disponible depuis le 2026-09-10 (panel_fe/panel_sar_fe/panel_sem_fe/panel_sac_fe, execution reussie sur ces donnees) ; provenance de W et identification des provinces restent a prouver avant une replication revendiquee."
 ```
 
 - Decision: ready_in_data_bank
-- Manque principal: Panel conservé dans la banque ; support panel spatial du harnais à implémenter, W et provenance géographique à contrôler pour une réplication.
-- Raison: Données conservées dans la banque ; le statut ne vaut pas admission au benchmark automatique.
+- Manque principal: Provenance de W (reconstruction, non prouvée identique aux auteurs) et identification des provinces (reconstruction, pas de codebook auteur) ; le harnais panel spatial existe et s'exécute mais n'est pas une réplication validée.
+- Raison: Données conservées dans la banque ; l'exécution réussie du harnais ne vaut pas admission au benchmark automatique tant que W n'est pas prouvée.
 
 ## Bloc 4 — Typologie des donnees
 
@@ -230,7 +263,7 @@ Le fichier contient exactement les années 2002–2016. La version PDF locale pr
 estimator_eligibility:
   eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "Les routes transversales sar_lag et sem_error ne sont pas les estimateurs de panel du papier. Préparer une route dédiée avant tout benchmark."
+  ineligible_reason: "Routes panel (panel_fe, panel_sar_fe, panel_sem_fe, panel_sac_fe) executees avec succes le 2026-09-10 -- voir section 'Panel spatial - structure et W' ci-dessus -- mais non eligibles au sens de ce bloc (registre package transversal) : W et identification des provinces restent des reconstructions non prouvees identiques a celles des auteurs. Les routes transversales sar_lag et sem_error (coupe) ne sont de toute facon pas les estimateurs de panel du papier."
   rule: "Conserver la méthode du papier ; une famille voisine ne constitue pas une reproduction."
 ```
 

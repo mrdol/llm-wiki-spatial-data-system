@@ -1,7 +1,7 @@
 ---
 title: paper_seshat_social_complexity
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_seshat_social_complexity.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 - Candidate X variables in local artifact: `Administrative_levels`, `Polity_territory`, `Settlement_hierarchy`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: Polity_territory, Administrative_levels, Settlement_hierarchy
+- Published X variables from paper: Polity_territory (superficie territoriale de la polite, km2), Administrative_levels (nombre de niveaux hierarchiques administratifs), Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `nga_lon`, `nga_lat`
 - Identifier columns (excluded from X candidates): `NGA`, `Polity`
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 ### Formule - niveau publication
 
 - formula_pub: PolityPopulation_t ~ PolityPopulation_(t-1) + covariables de complexite sociale [modele de regression dynamique (autoregressif) ajuste separement pour chaque variable de complexite sociale Seshat -- l'article demontre comment ajuster des modeles de regression dynamique a des donnees panel NGA x Polity x temps avec autocorrelation temporelle et incertitude de codage]
-- x_terms_pub: Polity_territory, Administrative_levels, Settlement_hierarchy
-- y_term_pub: Polity_Population
+- x_terms_pub: Polity_territory (superficie territoriale de la polite, km2), Administrative_levels (nombre de niveaux hierarchiques administratifs), Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)
+- y_term_pub: Polity_Population (population totale de la polite, valeur maximale enregistree sur sa duree de vie)
 - Reference publication: Turchin (2018), Fitting Dynamic Regression Models to Seshat Data, Cliodynamics, doi:10.21237/C7clio9137696. Le papier demontre comment ajuster des modeles de regression dynamique (autoregressifs, tenant compte de l'autocorrelation temporelle) aux donnees panel de la base Seshat (Natural Geographic Area x Polity x variable x periode). formula_used simplifie le panel temporel du papier en une coupe transversale par polite (valeur maximale enregistree sur la duree de vie de chaque polite pour chacune des 4 variables, agregation documentee du format long NGA/Polity/Variable/Date vers une table large) -- ce n'est pas le modele dynamique du papier mais une regression de complexite sociale standard dans la litterature Seshat (correlation population-hierarchie administrative). Coordonnees des 33 zones geographiques naturelles (NGA) Seshat obtenues par geocodage Nominatim/OpenStreetMap de leur nom de region historique (service public, verifie individuellement, pas une estimation -- 2 NGA non appariees a une polite avec donnees de population completes exclues). Donnees brutes (SCdat.csv) telechargees directement depuis Dryad (10.17916/p6159w) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=307 polites, 31 NGA.
 
 ### Statut regression canonique
@@ -72,18 +72,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Fitting Dy
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Polity_Population ~ Polity_territory + Administrative_levels + Settlement_hierarchy
+- License evidence: DataCite API record for DOI 10.17916/p6159w (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Formula used evidence: generated_system_formula
 - Recommended validation: N lignes=307; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=276. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: Polity_territory, Administrative_levels, Settlement_hierarchy
 - y_term_used: Polity_Population
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -101,12 +102,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Polity_Population ~ Polity_territory + Administrative_levels + Settlement_hierarchy"
-    response: "Polity_Population"
-    predictors: ["Polity_territory", "Administrative_levels", "Settlement_hierarchy"]
+    response: "Polity_Population (population totale de la polite, valeur maximale enregistree sur sa duree de vie)"
+    predictors: ["Polity_territory (superficie territoriale de la polite, km2)", "Administrative_levels (nombre de niveaux hierarchiques administratifs)", "Settlement_hierarchy (nombre de niveaux hierarchiques d'habitat)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.21237/c7clio9137696
 - Dataset DOI: 10.17916/p6159w
 - Source URL: https://doi.org/10.17916/p6159w
-- Year: unknown
+- Year: 2018
 
 ## Bloc 3 - Typologie des modeles
 
@@ -162,7 +163,7 @@ benchmark_readiness:
 ```
 
 - Decision: ready
-- Manque principal: le papier ajuste des modeles de regression dynamique (panel temporel avec autocorrelation), pas une regression transversale -- formula_used agrege chaque polite a sa valeur maximale enregistree (simplification documentee du format panel long) ; coordonnees des NGA obtenues par geocodage de noms de regions historiques (pas des coordonnees officielles Seshat, non publiees) -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16, groupe A)
+- Manque principal: le papier ajuste des modeles de regression dynamique (panel temporel avec autocorrelation), pas une regression transversale -- formula_used agrege chaque polite a sa valeur maximale enregistree (simplification documentee du format panel long) ; coordonnees des NGA obtenues par geocodage de noms de regions historiques (pas des coordonnees officielles Seshat, non publiees) -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16, groupe A)
 - Raison: Y continu reel (population de polite, valeurs historiques codees par les experts Seshat), N=307 polites sur 31 zones geographiques naturelles avec coordonnees reelles (geocodees individuellement et verifiees), covariables de complexite sociale reelles (territoire, hierarchie administrative, hierarchie d'habitat). CSV original telecharge directement depuis Dryad (fausse alerte 'aucun fichier' corrigee), pas une reconstruction des valeurs elles-memes.
 
 ## Estimator eligibility
@@ -202,7 +203,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.17916/p6159w (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`seshat_social_complexity` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `seshat_social_complexity` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -217,11 +217,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`seshat_social_complexity` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07, Turchin_2018) confirme un panel authentique (NGA suivies a chaque marque de siecle). La formula_used systeme (generated_system_formula) reste une proposition valide parmi le menu formula_candidates -- ce n'est pas un defaut de la fiche, l'utilisateur choisit la formule a utiliser dans le package. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par NGA (unite geographique fixe), respecter la chronologie (siecle). Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

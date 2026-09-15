@@ -1,7 +1,7 @@
 ---
 title: paper_trillium_presence_background
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_trillium_presence_background.rds
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 |---|---|---|---|---|
 | `presence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `trillium_presence_background`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs`. Les covariables X retenues sont `bio1_annual_mean_temperature`, `bio4_temperature_seasonality`, `bio5_max_temperature_warmest_month`, `bio6_min_temperature_coldest_month`, `bio12_annual_precipitation`, `bio15_precipitation_seasonality`. Les coordonnees (`longitude`, `latitude`), identifiants (`species`, `source_file`, `background_id`, `record_type`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `trillium_presence_background`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `Reproductive traits explain occupancy of predicted distributions in a genus of eastern North American understory herbs`. Les covariables X retenues sont `bio1_annual_mean_temperature`, `bio4_temperature_seasonality`, `bio5_max_temperature_warmest_month`, `bio6_min_temperature_coldest_month`, `bio12_annual_precipitation`, `bio15_precipitation_seasonality`. Les coordonnees (`longitude`, `latitude`), identifiants (`species`, `source_file`, `background_id`, `record_type`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -66,7 +66,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 
 - formula_pub: PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]
 - x_terms_pub: Flower_Type, No_ovules, Seed_weight
-- y_term_pub: proportional occupancy of predicted suitable distribution; presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response
+- y_term_pub: proportional occupancy of predicted suitable distribution (PO); presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response
 - Reference publication: Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297. TEI/PDF methods and abstract state that fundamental niches and predicted suitable distributions were estimated using climate-calibrated ecological niche models; PO = occupied distribution area / predicted suitable area; reproductive traits (ovule number, seed set, number of seeds per plant, seed mass, adult biomass, flower type) were related to PO using beta regression and AICc. The local Dryad folder contains occurrence CSVs and Trillium_LifeHistoryTraits.csv, but not the full ClimateNA ENM raster stack; formula_used is therefore a documented executable SDM reconstruction, not a claim to reproduce the final beta-regression exactly.
 
 ### Statut regression canonique
@@ -75,16 +75,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: presence ~ bio1_annual_mean_temperature + bio4_temperature_seasonality + bio5_max_temperature_warmest_month + bio6_min_temperature_coldest_month + bio12_annual_precipitation + bio15_precipitation_seasonality
+- License evidence: DataCite API record for DOI 10.5061/dryad.6m905qg03 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: bio1_annual_mean_temperature, bio4_temperature_seasonality, bio5_max_temperature_warmest_month, bio6_min_temperature_coldest_month, bio12_annual_precipitation, bio15_precipitation_seasonality
 - y_term_used: presence
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -102,7 +103,7 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PO ~ Flower_Type + No_ovules + Seed_weight"
-    response: "proportional occupancy of predicted suitable distribution; presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response"
+    response: "proportional occupancy of predicted suitable distribution (PO); presence/background occurrence model is an executable upstream SDM reconstruction, not the paper's final beta-regression response"
     predictors: ["Flower_Type", "No_ovules", "Seed_weight"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ddi.13297
 - Dataset DOI: 10.5061/dryad.6m905qg03
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.6m905qg03
-- Year: unknown
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -227,7 +228,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.6m905qg03 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`trillium_presence_background` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `trillium_presence_background` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -242,10 +242,6 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: background_id (NA=56%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`trillium_presence_background` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

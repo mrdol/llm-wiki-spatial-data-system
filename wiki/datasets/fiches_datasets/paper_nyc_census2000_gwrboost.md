@@ -1,7 +1,7 @@
 ---
 title: paper_nyc_census2000_gwrboost
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_nyc_census2000_gwrboost.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 - Candidate X variables in local artifact: `YOUTH_DROP`, `PER_MNRTY`, `HS_DROP`, `COL_DEGREE`, `PER_ASIAN`, `PER_WHITE`, `PER_BLACK`, `Shape_Leng`, `Shape_Area`, `NP_CT`, `pop1619`, `dropout`, `enrollhs`, `PER_PRV_SC`, `PER_PUB_SC`, `over3`, `notenroll`, `over3enr`, `pubsch`, `pub_pk`, `pub_k8`, `pub_hs`, `pub_col`, `privsch`, `priv_pk`, `priv_k8`, `priv_hs`, `priv_col`, `over25`, `subhs`, `hs`, `somecol`, `college`, `master`, `prof`, `phd`, `white`, `black`, `asian`, `sub18`, `GENDER_PAR`, `male`, `female`, `SCHOOL_CT`, `popdens`, `population`
 - Candidate X count in local artifact: 46
 - Candidate X typology: continuous
-- Published X variables from paper: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
+- Published X variables from paper: sub18 (population <18 ans), PER_PRV_SC (% eleves ecole privee), YOUTH_DROP (% decrocheurs 16-19 ans), HS_DROP (% decrocheurs lycee >25 ans), COL_DEGREE (% bachelor+ >25 ans), SCHOOL_CT (nombre d'ecoles)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `POLY_ID`, `CTLabel`, `BoroCode`, `BoroName`, `CT2000`, `BoroCT2000`, `NTACode`, `NTANAme`, `PUMA`
@@ -105,9 +105,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 ### Formule - niveau publication
 
 - formula_pub: mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT [GWR/GWRBoost, Table 2-3 : OLS R2=0.557, GWR R2=0.825, GWRBoost R2=0.882]
-- x_terms_pub: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
-- y_term_pub: mean_inc
-- Reference publication: Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie.
+- x_terms_pub: sub18 (population <18 ans), PER_PRV_SC (% eleves ecole privee), YOUTH_DROP (% decrocheurs 16-19 ans), HS_DROP (% decrocheurs lycee >25 ans), COL_DEGREE (% bachelor+ >25 ans), SCHOOL_CT (nombre d'ecoles)
+- y_term_pub: mean_inc (revenu moyen par bloc de recensement)
+- Reference publication: Wang, Huang, Yin, Bao, Zhou & Gao (2022) (annee corrigee 2026-09-14 -- le champ Year affichait 2017, qui est l'annee de mise en ligne du shapefile sur GeoDa Lab, pas l'annee de publication de l'article, un arXiv preprint soumis en decembre 2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie.
 
 ### Statut regression canonique
 
@@ -115,7 +115,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
@@ -124,7 +124,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "GWRBoost: 
 - Selected Y typology: continuous
 - x_terms_used: sub18, PER_PRV_SC, YOUTH_DROP, HS_DROP, COL_DEGREE, SCHOOL_CT
 - y_term_used: mean_inc
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -142,12 +142,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "mean_inc ~ sub18 + PER_PRV_SC + YOUTH_DROP + HS_DROP + COL_DEGREE + SCHOOL_CT"
-    response: "mean_inc"
-    predictors: ["sub18", "PER_PRV_SC", "YOUTH_DROP", "HS_DROP", "COL_DEGREE", "SCHOOL_CT"]
+    response: "mean_inc (revenu moyen par bloc de recensement)"
+    predictors: ["sub18 (population <18 ans)", "PER_PRV_SC (% eleves ecole privee)", "YOUTH_DROP (% decrocheurs 16-19 ans)", "HS_DROP (% decrocheurs lycee >25 ans)", "COL_DEGREE (% bachelor+ >25 ans)", "SCHOOL_CT (nombre d'ecoles)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -171,7 +171,7 @@ formula_candidates:
 - Paper DOI: 10.48550/arXiv.2212.05814
 - Dataset DOI: none
 - Source URL: https://geodacenter.github.io/data-and-lab/data/nyc_2000Census.zip
-- Year: unknown
+- Year: 2022
 
 ## Bloc 3 - Typologie des modeles
 
@@ -186,7 +186,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
+  source_ref: "Wang, Huang, Yin, Bao, Zhou & Gao (2022) (annee corrigee 2026-09-14 -- le champ Year affichait 2017, qui est l'annee de mise en ligne du shapefile sur GeoDa Lab, pas l'annee de publication de l'article, un arXiv preprint soumis en decembre 2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
   confidence: medium
 ```
 
@@ -225,7 +225,7 @@ estimator_eligibility:
 - k variables: 58
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -244,7 +244,6 @@ estimator_eligibility:
 - License name: unknown
 - License URL: unknown
 - License open: unknown
-- License evidence: manual_review - checked https://geodacenter.github.io/data-and-lab/ (2026-08-18), no license/terms-of-use statement found on the GeoDa Center data-and-lab page for this file; underlying data is derived from US Census 2000 (public domain) but the GeoDa Center repackaging itself states no explicit reuse terms.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`nyc_census2000_gwrboost` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `nyc_census2000_gwrboost` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

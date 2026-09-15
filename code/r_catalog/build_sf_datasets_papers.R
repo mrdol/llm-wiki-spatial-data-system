@@ -2520,7 +2520,7 @@ load_amphibian_abnormality_hotspots <- function() {
       coordinate_columns = "Corrected_LONGITUDE,Corrected_LATITUDE",
       identifier_variables = "collection_id,site_id,REFUGE,REGION",
       datetime_columns = "none",
-      candidate_y_variables = "all_ab_percent,sk_ab_percent,eye_ab_percent,disease_percent"
+      candidate_y_variables = "sk_plus_eye_ab_percent,all_ab_percent,sk_ab_percent,eye_ab_percent,disease_percent"
     )
   )
 }
@@ -3702,7 +3702,7 @@ load_avian_phylo_functional_distance <- function() {
       coordinate_columns = "long,lat",
       identifier_variables = "site,site_num",
       datetime_columns = "none",
-      candidate_y_variables = "PDses"
+      candidate_y_variables = "MPFDses,PDses"
     )
   )
 }

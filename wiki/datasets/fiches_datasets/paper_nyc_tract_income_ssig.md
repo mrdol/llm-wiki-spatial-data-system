@@ -1,7 +1,7 @@
 ---
 title: paper_nyc_tract_income_ssig
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_nyc_tract_income_ssig.rds
@@ -32,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `per_capita_income`, `median_household_income`
-- Candidate Y typology: count, continuous
+- Candidate Y typology: unknown, continuous
 - Candidate X variables in local artifact: `ALAND`, `AWATER`, `UDG25`, `PGD25`, `Unemploy`, `Age65p`, `AgeU18`, `PopDensity`, `MaleShare`, `BlackShare`, `AsianShare`, `WhiteShare`
 - Candidate X count in local artifact: 12
-- Candidate X typology: continuous
-- Published X variables from paper: proportion bachelor >=25 ans, proportion diplome superieur >=25 ans, taux de chomage, proportion >=65 ans, proportion <18 ans, densite de population, proportion hommes, proportion Black/African American, proportion Asian, proportion White, latitude/longitude du centroide
+- Candidate X typology: unknown, continuous
+- Published X variables from paper: proportion bachelor >=25 ans (UDG25), proportion diplome superieur >=25 ans (PGD25), taux de chomage (Unemploy), proportion >=65 ans (Age65p), proportion <18 ans (AgeU18), densite de population (PopDensity), proportion hommes (MaleShare), proportion Black/African American (BlackShare), proportion Asian (AsianShare), proportion White (WhiteShare), latitude/longitude du centroide (spatial info)
 - Published X count: 11
 - Coordinates (x, y - excluded from X candidates): `INTPTLON`, `INTPTLAT`
 - Identifier columns (excluded from X candidates): `GEOID`, `COUNTYFP`, `TRACTCE`
@@ -56,8 +56,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `ALAND` | `integer` | count | 0% |
-| `AWATER` | `integer` | count | 0% |
+| `ALAND` | `integer` | unknown | 0% |
+| `AWATER` | `integer` | unknown | 0% |
 | `UDG25` | `numeric` | continuous | 0% |
 | `PGD25` | `numeric` | continuous | 0% |
 | `Unemploy` | `numeric` | continuous | 0% |
@@ -72,8 +72,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 ### Formule - niveau publication
 
 - formula_pub: per_capita_income, median_household_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare + latitude + longitude [Gaussian Process, noyau Matern-3/2, pas d'equation lineaire fermee -- SHAP utilise pour l'importance des variables]
-- x_terms_pub: proportion bachelor >=25 ans, proportion diplome superieur >=25 ans, taux de chomage, proportion >=65 ans, proportion <18 ans, densite de population, proportion hommes, proportion Black/African American, proportion Asian, proportion White, latitude/longitude du centroide
-- y_term_pub: per_capita_income, District income at Tract-level
+- x_terms_pub: proportion bachelor >=25 ans (UDG25), proportion diplome superieur >=25 ans (PGD25), taux de chomage (Unemploy), proportion >=65 ans (Age65p), proportion <18 ans (AgeU18), densite de population (PopDensity), proportion hommes (MaleShare), proportion Black/African American (BlackShare), proportion Asian (AsianShare), proportion White (WhiteShare), latitude/longitude du centroide (spatial info)
+- y_term_pub: per_capita_income (ou median_household_income), District income at Tract-level
 - Reference publication: Bai, Lam & Li (2023), Humanities and Social Sciences Communications 10:60, DOI 10.1057/s41599-023-01548-7 (SSIG model). Table 2 documente exactement les 10 variables socio-economiques utilisees ; le depot du papier n'est pas public (donnees sur demande), reconstruit depuis les sources publiques citees (ACS via Census Reporter, geometrie TIGER/Line), millesime ACS 2020-2024 5-year au lieu de 2015-2019 (cle API Census Bureau indisponible, decision utilisateur 2026-08-15, cf. README_nyc_tract_income.txt). Modele publie = Gaussian Process (noyau Matern-3/2) + SHAP, pas une regression lineaire ; formula_used est une variante continue executable sur les memes 10 predicteurs.
 
 ### Statut regression canonique
@@ -82,17 +82,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "What dicta
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: per_capita_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare
+- License evidence: Census Reporter site text (checked 2026-08-18): "Data on Census Reporter comes from the US Census Bureau and is not copyrighted." (Census Reporter's own added content is CC BY 4.0, but the fiche only uses the underlying Census Bureau data.)
 - benchmark_task_note: per_capita_income est un revenu monetaire, meme stocke en entiers.
 - Selected Y evidence: per_capita_income est un revenu monetaire, meme stocke en entiers.
 - Selected Y typology: continuous
 - x_terms_used: UDG25, PGD25, Unemploy, Age65p, AgeU18, PopDensity, MaleShare, BlackShare, AsianShare, WhiteShare
 - y_term_used: per_capita_income
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -110,12 +111,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "per_capita_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare"
-    response: "per_capita_income, District income at Tract-level"
-    predictors: ["proportion bachelor >=25 ans", "proportion diplome superieur >=25 ans", "taux de chomage", "proportion >=65 ans", "proportion <18 ans", "densite de population", "proportion hommes", "proportion Black/African American", "proportion Asian", "proportion White", "latitude/longitude du centroide"]
+    response: "per_capita_income (ou median_household_income), District income at Tract-level"
+    predictors: ["proportion bachelor >=25 ans (UDG25)", "proportion diplome superieur >=25 ans (PGD25)", "taux de chomage (Unemploy)", "proportion >=65 ans (Age65p)", "proportion <18 ans (AgeU18)", "densite de population (PopDensity)", "proportion hommes (MaleShare)", "proportion Black/African American (BlackShare)", "proportion Asian (AsianShare)", "proportion White (WhiteShare)", "latitude/longitude du centroide (spatial info)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -139,7 +140,7 @@ formula_candidates:
 - Paper DOI: 10.1057/s41599-023-01548-7
 - Dataset DOI: none
 - Source URL: https://api.censusreporter.org
-- Year: unknown
+- Year: 2023 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -193,7 +194,7 @@ estimator_eligibility:
 - k variables: 21
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -212,7 +213,6 @@ estimator_eligibility:
 - License name: Public Domain (U.S. Census Bureau data)
 - License URL: https://censusreporter.org/topics/table-codes/
 - License open: yes
-- License evidence: Census Reporter site text (checked 2026-08-18): "Data on Census Reporter comes from the US Census Bureau and is not copyrighted." (Census Reporter's own added content is CC BY 4.0, but the fiche only uses the underlying Census Bureau data.)
 - Reproducibility status: OK - loader R enregistre et reexecutable (`nyc_tract_income_ssig` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `nyc_tract_income_ssig` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

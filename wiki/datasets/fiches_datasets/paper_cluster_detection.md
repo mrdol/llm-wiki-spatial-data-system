@@ -1,7 +1,7 @@
 ---
 title: paper_cluster_detection
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_cluster_detection.rds
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - Candidate X count in local artifact: 1
 - Candidate X typology: continuous
 - Published X variables from paper: x_covariate_simulated
-- Published X count: 0
+- Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `long`, `lat`
 - Identifier columns (excluded from X candidates): `State`, `County`, `FIPS`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -70,16 +70,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cluster de
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: y_response_simulated ~ x_covariate_simulated
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.4126881 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: x_covariate_simulated
 - y_term_used: y_response_simulated
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -126,7 +127,7 @@ formula_candidates:
 - Paper DOI: 10.1002/sim.7172
 - Dataset DOI: 10.6084/m9.figshare.4126881
 - Source URL: https://wiley.figshare.com/articles/dataset/Dataset_for_Cluster_Detection_of_Spatial_Regression_Coefficients/4126881
-- Year: unknown
+- Year: 2016 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -180,7 +181,7 @@ estimator_eligibility:
 - k variables: 9
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -199,7 +200,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6084/m9.figshare.4126881 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`cluster_detection` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `cluster_detection` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

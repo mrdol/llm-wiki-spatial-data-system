@@ -1,7 +1,7 @@
 ---
 title: paper_plant_invasion_fia
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_plant_invasion_fia.rds
@@ -32,12 +32,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `InvTotalCover`, `InvSpRichness`
-- Candidate Y typology: continuous, count
+- Candidate Y typology: continuous, unknown
 - Candidate X variables in local artifact: `PHASE`, `MEASYEAR`, `RS`, `domain`, `division`, `provname`, `prov_ID`, `sectname`, `sect_ID`, `siteclcd_n`, `siteclcd_top`, `InvAP`, `Mean_Annual_Temp`, `annual_Precip`, `Seasonability`, `alt`, `PLT_TPA`, `Tpha`, `RelDen`, `prpfor`, `plt_drybio_adj`, `plt_drybio_ha`, `native_spp`, `PD_all`, `PSV_all`, `PSV_all_var`, `PSR_all`, `PSR_all_var`, `PSE_all`, `PSC_all`, `anmeantemp`, `meandiurnrge`, `isotherm`, `tempseason`, `maxtempwarm`, `mintempcold`, `tempanrge`, `meantempwetq`, `meantempdryq`, `meantempwarm`, `meantempcold`, `precipwetm`, `precipdrym`, `precipseason`, `precipwetqu`, `precipdryqu`, `precipwarmqu`, `precipcoldqu`, `anprecip`, `soilcarbon`, `aridity`
 - Candidate X count in local artifact: 51
-- Candidate X typology: categorical, continuous
+- Candidate X typology: categorical, unknown, continuous
 - Published X variables from paper: Mean_Annual_Temp, annual_Precip, Seasonability, alt, PLT_TPA, Tpha, RelDen, prpfor, plt_drybio_adj, native_spp, PD_all, PSV_all, PSR_all, anmeantemp, anprecip, soilcarbon
-- Published X count: 0
+- Published X count: 16
 - Coordinates (x, y - excluded from X candidates): `LON`, `LAT`
 - Identifier columns (excluded from X candidates): `STATEAB`, `FIPS`, `county`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -48,16 +48,16 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
 | `InvTotalCover` | `numeric` | continuous | [0, 297.7] | 0% |
-| `InvSpRichness` | `integer` | count | [0, 12] | 0% |
+| `InvSpRichness` | `integer` | unknown | [0, 12] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `plant_invasion_fia`, la ou les reponses `InvTotalCover`, `InvSpRichness` viennent du loader papier et/ou des preuves de l article `Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method`. Les covariables X retenues sont `Mean_Annual_Temp`, `annual_Precip`, `Seasonability`, `alt`, `PLT_TPA`, `Tpha`, `RelDen`, `prpfor`, `plt_drybio_adj`, `native_spp`, `PD_all`, `PSV_all`, `PSR_all`, `anmeantemp`, `anprecip`, `soilcarbon` ; 35 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LON`, `LAT`), identifiants (`STATEAB`, `FIPS`, `county`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `plant_invasion_fia`, la ou les reponses `InvTotalCover`, `InvSpRichness` viennent du loader papier et/ou des preuves de l article `Spatial prediction of plant invasion using a hybrid of machine learning and geostatistical method`. Les covariables X retenues sont `Mean_Annual_Temp`, `annual_Precip`, `Seasonability`, `alt`, `PLT_TPA`, `Tpha`, `RelDen`, `prpfor`, `plt_drybio_adj`, `native_spp`, `PD_all`, `PSV_all`, `PSR_all`, `anmeantemp`, `anprecip`, `soilcarbon` ; 35 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LON`, `LAT`), identifiants (`STATEAB`, `FIPS`, `county`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
 | `PHASE` | `character` | categorical | 0% |
-| `MEASYEAR` | `integer` | count | 0% |
+| `MEASYEAR` | `integer` | unknown | 0% |
 | `RS` | `character` | categorical | 0% |
 | `domain` | `character` | categorical | 0% |
 | `division` | `character` | categorical | 0% |
@@ -65,12 +65,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 | `prov_ID` | `character` | categorical | 0% |
 | `sectname` | `character` | categorical | 0% |
 | `sect_ID` | `character` | categorical | 0% |
-| `siteclcd_n` | `integer` | count | 0% |
-| `siteclcd_top` | `integer` | count | 0% |
+| `siteclcd_n` | `integer` | unknown | 0% |
+| `siteclcd_top` | `integer` | unknown | 0% |
 | `InvAP` | `integer` | binary | 0% |
 | `Mean_Annual_Temp` | `integer` | continuous | 0% |
 | `annual_Precip` | `integer` | continuous | 0% |
-| `Seasonability` | `integer` | count | 0% |
+| `Seasonability` | `integer` | unknown | 0% |
 | `alt` | `integer` | continuous | 0% |
 | `PLT_TPA` | `numeric` | continuous | 0% |
 | `Tpha` | `numeric` | continuous | 0% |
@@ -78,7 +78,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 | `prpfor` | `numeric` | rate | 0% |
 | `plt_drybio_adj` | `numeric` | continuous | 0% |
 | `plt_drybio_ha` | `numeric` | continuous | 0% |
-| `native_spp` | `integer` | count | 0% |
+| `native_spp` | `integer` | unknown | 0% |
 | `PD_all` | `numeric` | continuous | 0% |
 | `PSV_all` | `numeric` | rate | 0% |
 | `PSV_all_var` | `numeric` | rate | 0% |
@@ -121,18 +121,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial pr
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: InvTotalCover ~ Mean_Annual_Temp + annual_Precip + Seasonability + alt + PLT_TPA + Tpha + RelDen + prpfor + plt_drybio_adj + native_spp + PD_all + PSV_all + PSR_all + anmeantemp + anprecip + soilcarbon
+- License evidence: DataCite API record for DOI 10.5061/dryad.0rxwdbs8t (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=42612; T declare=13; variable temporelle declaree=MEASYEAR; repetitions de coordonnees controlees=3. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - benchmark_task_note: InvTotalCover mesure une couverture vegetale avec valeurs fractionnaires; MEASYEAR identifie les campagnes.
 - Selected Y evidence: InvTotalCover mesure une couverture vegetale avec valeurs fractionnaires; MEASYEAR identifie les campagnes.
 - Selected Y typology: continuous
 - x_terms_used: Mean_Annual_Temp, annual_Precip, Seasonability, alt, PLT_TPA, Tpha, RelDen, prpfor, plt_drybio_adj, native_spp, PD_all, PSV_all, PSR_all, anmeantemp, anprecip, soilcarbon
 - y_term_used: InvTotalCover
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -155,7 +156,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -179,7 +180,7 @@ formula_candidates:
 - Paper DOI: 10.1002/ece3.11605
 - Dataset DOI: 10.5061/dryad.0rxwdbs8t
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.0rxwdbs8t
-- Year: unknown
+- Year: 2024 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -268,7 +269,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.0rxwdbs8t (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`plant_invasion_fia` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `plant_invasion_fia` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -283,10 +283,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`plant_invasion_fia` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

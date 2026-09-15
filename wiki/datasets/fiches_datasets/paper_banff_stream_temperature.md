@@ -1,7 +1,7 @@
 ---
 title: paper_banff_stream_temperature
 type: dataset
-created: 2026-08-17
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_banff_stream_temperature.rds
@@ -9,7 +9,7 @@ sources:
 tags: [dataset, paper-derived, spatial, point]
 ---
 
-Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-first, publication non resolue] Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners" (DOI unknown).
+Dataset spatial converti en sf a partir des donnees brutes du papier "Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners" (DOI 10.1139/cjfas-2023-0136).
 
 ## Description du jeu de donnees
 
@@ -18,10 +18,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Observed population: cours d'eau, Parc national de Banff, Alberta, N=110 sites
 - Geographic context: Etendue mesuree dans le RDS : x [580218, 612127], y [5642845, 5701082]; CRS EPSG:32611.
 - Temporal context: none (cross-sectional)
-- Source description: [dataset-first, publication non resolue] Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
+- Source description: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
 - Description source: paper_dataset_uses.json + lecture directe du papier
-- Description confidence: medium
-- Paper DOI: unknown
+- Description confidence: high
+- Paper DOI: 10.1139/cjfas-2023-0136
 - Dataset DOI: 10.5061/dryad.crjdfn391
 - Source URL: https://doi.org/10.5061/dryad.crjdfn391
 - Local raw dir: `data/raw/papers/DatasetFirst_10_5061_dryad_crjdfn391/`
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Year_`, `LE`, `Elev`, `RSlope`, `h2oAreaKm2`, `logRCA`
 - Candidate X count in local artifact: 6
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: Elev, RSlope, h2oAreaKm2, logRCA
-- Published X count: 4
+- Candidate X typology: unknown, categorical, continuous
+- Published X variables from paper: Elev (elevation du site, m, standardisee S.Elev/Elev.std dans les scripts), RSlope (pente du cours d'eau, standardisee S.RSlope/RSlope.std), LE (indicateur binaire d'effet lac en amont, LEf/LEf1 dans les scripts)
+- Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Easting`, `Northing`
 - Identifier columns (excluded from X candidates): `ID`, `LoggerID`, `S_N`, `WSf`, `Waterbody`, `HUC10`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,13 +49,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `WaterTemp` | `numeric` | continuous | [2.6, 13.6] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `banff_stream_temperature`, la ou les reponses `WaterTemp` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners`. Les covariables X retenues sont `Elev`, `RSlope`, `h2oAreaKm2`, `logRCA` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Easting`, `Northing`), identifiants (`ID`, `LoggerID`, `S_N`, `WSf`, `Waterbody`, `HUC10`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `banff_stream_temperature`, la ou les reponses `WaterTemp` viennent du loader papier et/ou des preuves de l article `Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners`. Les covariables X retenues sont `Elev`, `RSlope`, `LE` ; 3 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Easting`, `Northing`), identifiants (`ID`, `LoggerID`, `S_N`, `WSf`, `Waterbody`, `HUC10`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Year_` | `integer` | count | 0% |
+| `Year_` | `integer` | unknown | 0% |
 | `LE` | `integer` | binary | 0% |
 | `Elev` | `integer` | continuous | 0% |
 | `RSlope` | `numeric` | continuous | 0% |
@@ -64,27 +64,27 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 
 ### Formule - niveau publication
 
-- formula_pub: [Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), 'Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners', Canadian Journal of Fisheries and Aquatic Science 81(4):417-232. Le papier presente une methodologie de modelisation spatiale sur reseau fluvial (SSN, INLA) pour la temperature de l'eau, avec les memes variables predictives que celles presentes dans ce depot (README confirme les definitions exactes des colonnes) -- specification exacte du modele SSN/INLA non extraite (methodologie complexe, texte integral non consulte)]
-- x_terms_pub: Elev, RSlope, h2oAreaKm2, logRCA
-- y_term_pub: WaterTemp
-- Reference publication: Papier identifie avec certitude via le README.md du depot (citation complete fournie par les auteurs) : Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), Canadian Journal of Fisheries and Aquatic Science 81(4):417-232, doi non liste dans le README mais dataset DOI confirme 10.5061/dryad.crjdfn391 (Parks Canada, Banff National Park). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=110 sites de mesure de temperature avec coordonnees UTM Zone 11N (README confirme le systeme de coordonnees exact). Le papier presente une methodologie SSN (Spatial Stream Network) + INLA pour modeliser la temperature sur le reseau hydrographique, une approche geostatistique sur reseau bien plus complexe qu'une regression classique -- formula_used retient les covariables reelles disponibles (elevation, pente, aire de bassin versant, aire de contribution) en regression lineaire simple, une simplification documentee, pas la specification exacte du modele SSN/INLA du papier. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review pour cette raison.
+- formula_pub: WaterTemp ~ Elev + RSlope + LE [SSN glmssn + INLA barrier model, effet aleatoire HUC10]
+- x_terms_pub: Elev (elevation du site, m, standardisee S.Elev/Elev.std dans les scripts), RSlope (pente du cours d'eau, standardisee S.RSlope/RSlope.std), LE (indicateur binaire d'effet lac en amont, LEf/LEf1 dans les scripts)
+- y_term_pub: WaterTemp (temperature moyenne d'aout du cours d'eau, degres C, mesuree par logger)
+- Reference publication: Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2024), Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners, Canadian Journal of Fisheries and Aquatic Sciences 81:417-432, doi:10.1139/cjfas-2023-0136 (Crossref confirme publication en ligne 2024-04-01 -- la fiche precedente citait a tort '2023' et les pages '417-232', DOI 'unknown'). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad (10.5061/dryad.crjdfn391) -- pas une reconstruction, N=110 sites de mesure de temperature, Parc national de Banff, coordonnees UTM Zone 11N. CORRECTION MAJEURE (2026-09-14, recherche web + lecture directe des scripts R des auteurs via leur depot Zenodo 10.5281/zenodo.7942855, SSN_R-Script.R et INLA_R-Script.R -- rapatries dans data/raw/papers/DatasetFirst_10_5061_dryad_crjdfn391/ pour archivage local) : le modele final RETENU par les auteurs (pas seulement teste) est WaterTemp ~ Elev + RSlope + LE, confirme IDENTIQUEMENT par les deux approches (SSN glmssn ligne 263 ; INLA barrier model lignes 270-303, avec en plus un effet aleatoire iid sur HUC10/watershed). Les termes logRCA et h2oAreaKm2, presents dans la fiche precedente, ne figurent PAS dans le modele final -- ce sont des candidats explores puis ecartes (ex. modeles td3/tu3 du script SSN). CONFIRMATION INDEPENDANTE (2026-09-14, PDF obtenu par l'utilisateur, traite via GROBID, TEI local desormais disponible) : le texte du papier confirme mot pour mot -- 'The fitted model (SSN-1) included all fixed terms (i.e., elevation, reach slope, and lake effect)... we also fit an equivalent nonspatial model (SSN-2)... while retaining all fixed terms and the HUC-10 random effect' ; et explique explicitement pourquoi logRCA est absent -- 'upstream drainage area... was dropped because of collinearity with elevation (r=0.82) and had a higher VIF score'. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review du fait de l'ecart de methode (covariance de reseau/effet aleatoire non reproduits).
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d estimation: formule systeme generee (formula_pub confirmee mais non reprise telle quelle -- voir Note ci-dessous)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: formula_pub est confirmee par lecture directe des scripts R des auteurs (Zenodo 10.5281/zenodo.7942855, deposes avec le papier) : SSN_R-Script.R ligne 263, modele SSN final retenu -- 'Final <- glmssn(WaterTemp ~ S.Elev + S.RSlope + LEf, data, ...)' -- et INLA_R-Script.R lignes 270-303, modele INLA (barrier model) -- 'f2 <- y ~ -1 + y.intercept + RSlope.std + Elev.std + LEf1 + f(spatial.field, model=barrier.model) + f(HUC10f, model='iid', ...)'. Les DEUX modeles (SSN et INLA) convergent exactement sur les memes 3 predicteurs (Elev, RSlope, LE), standardises avant ajustement (prefixe S./.std) -- ni logRCA ni h2oAreaKm2 n'apparaissent dans le modele final retenu (ce sont des variables candidates testees en exploration, ex. td3/tu3 dans le script SSN, mais pas retenues). formula_used reprend exactement ces 3 variables (toutes disponibles localement, y compris LE) en regression lineaire simple -- il manque la structure de covariance spatiale sur reseau (glmssn, tail-up/tail-down) et le champ spatial barrier + effet aleatoire HUC10 (watershed) du modele INLA, une simplification documentee mais desormais sur les VRAIES variables du papier.
 
 ### Formule - niveau systeme
 
-- formula_used: WaterTemp ~ Elev + RSlope + h2oAreaKm2 + logRCA
+- formula_used: WaterTemp ~ Elev + RSlope + LE
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: Elev, RSlope, h2oAreaKm2, logRCA
+- x_terms_used: Elev, RSlope, LE
 - y_term_used: WaterTemp
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: CORRECTION MAJEURE (2026-09-14, lecture directe des scripts R des auteurs, Zenodo 10.5281/zenodo.7942855) : la fiche precedente utilisait h2oAreaKm2+logRCA (jamais dans le modele final des auteurs) et omettait LE (present dans les DEUX modeles finaux, SSN et INLA). HUC10 (watershed) sert d'effet aleatoire dans le modele INLA -- actuellement exclue comme simple identifiant dans cette fiche, disponible localement si une route avec effet aleatoire groupe est souhaitee (cf. support (1|groupe) via gam_spatial/mgcv ajoute au package le 2026-09-10).
 
 ### Formules candidates
 
@@ -101,19 +101,19 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "WaterTemp ~ Elev + RSlope + h2oAreaKm2 + logRCA"
-    response: "WaterTemp"
-    predictors: ["Elev", "RSlope", "h2oAreaKm2", "logRCA"]
-    role: "paper_main_specification"
-    source_type: "scientific_publication"
+    formula: "WaterTemp ~ Elev + RSlope + LE"
+    response: "WaterTemp (temperature moyenne d'aout du cours d'eau, degres C, mesuree par logger)"
+    predictors: ["Elev (elevation du site, m, standardisee S.Elev/Elev.std dans les scripts)", "RSlope (pente du cours d'eau, standardisee S.RSlope/RSlope.std)", "LE (indicateur binaire d'effet lac en amont, LEf/LEf1 dans les scripts)"]
+    role: "benchmark_simplified_specification"
+    source_type: "derived_from_scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
-    status: "confirmed"
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
+    status: "executable_approximation"
 
   ml_or_selected:
-    formula: "WaterTemp ~ Elev + RSlope + h2oAreaKm2 + logRCA + LE"
+    formula: "WaterTemp ~ Elev + RSlope + LE + h2oAreaKm2 + logRCA"
     response: "WaterTemp"
-    predictors: ["Elev", "RSlope", "h2oAreaKm2", "logRCA", "LE"]
+    predictors: ["Elev", "RSlope", "LE", "h2oAreaKm2", "logRCA"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -127,11 +127,11 @@ formula_candidates:
 - Dataset name: Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
-- Paper title: [dataset-first, publication non resolue] Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
-- Paper DOI: unknown
+- Paper title: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
+- Paper DOI: 10.1139/cjfas-2023-0136
 - Dataset DOI: 10.5061/dryad.crjdfn391
 - Source URL: https://doi.org/10.5061/dryad.crjdfn391
-- Year: unknown
+- Year: 2024
 
 ## Bloc 3 - Typologie des modeles
 
@@ -142,11 +142,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "[Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), 'Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners', Canadian Journal of Fisheries and Aquatic Science 81(4):417-232. Le papier presente une methodologie de modelisation spatiale sur reseau fluvial (SSN, INLA) pour la temperature de l'eau, avec les memes variables predictives que celles presentes dans ce depot (README confirme les definitions exactes des colonnes) -- specification exacte du modele SSN/INLA non extraite (methodologie complexe, texte integral non consulte)]"
+  equation_text: "WaterTemp ~ Elev + RSlope + LE [SSN glmssn + INLA barrier model, effet aleatoire HUC10]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Papier identifie avec certitude via le README.md du depot (citation complete fournie par les auteurs) : Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), Canadian Journal of Fisheries and Aquatic Science 81(4):417-232, doi non liste dans le README mais dataset DOI confirme 10.5061/dryad.crjdfn391 (Parks Canada, Banff National Park). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=110 sites de mesure de temperature avec coordonnees UTM Zone 11N (README confirme le systeme de coordonnees exact). Le papier presente une methodologie SSN (Spatial Stream Network) + INLA pour modeliser la temperature sur le reseau hydrographique, une approche geostatistique sur reseau bien plus complexe qu'une regression classique -- formula_used retient les covariables reelles disponibles (elevation, pente, aire de bassin versant, aire de contribution) en regression lineaire simple, une simplification documentee, pas la specification exacte du modele SSN/INLA du papier. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review pour cette raison."
+  source_ref: "Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2024), Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners, Canadian Journal of Fisheries and Aquatic Sciences 81:417-432, doi:10.1139/cjfas-2023-0136 (Crossref confirme publication en ligne 2024-04-01 -- la fiche precedente citait a tort '2023' et les pages '417-232', DOI 'unknown'). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad (10.5061/dryad.crjdfn391) -- pas une reconstruction, N=110 sites de mesure de temperature, Parc national de Banff, coordonnees UTM Zone 11N. CORRECTION MAJEURE (2026-09-14, recherche web + lecture directe des scripts R des auteurs via leur depot Zenodo 10.5281/zenodo.7942855, SSN_R-Script.R et INLA_R-Script.R -- rapatries dans data/raw/papers/DatasetFirst_10_5061_dryad_crjdfn391/ pour archivage local) : le modele final RETENU par les auteurs (pas seulement teste) est WaterTemp ~ Elev + RSlope + LE, confirme IDENTIQUEMENT par les deux approches (SSN glmssn ligne 263 ; INLA barrier model lignes 270-303, avec en plus un effet aleatoire iid sur HUC10/watershed). Les termes logRCA et h2oAreaKm2, presents dans la fiche precedente, ne figurent PAS dans le modele final -- ce sont des candidats explores puis ecartes (ex. modeles td3/tu3 du script SSN). CONFIRMATION INDEPENDANTE (2026-09-14, PDF obtenu par l'utilisateur, traite via GROBID, TEI local desormais disponible) : le texte du papier confirme mot pour mot -- 'The fitted model (SSN-1) included all fixed terms (i.e., elevation, reach slope, and lake effect)... we also fit an equivalent nonspatial model (SSN-2)... while retaining all fixed terms and the HUC-10 random effect' ; et explique explicitement pourquoi logRCA est absent -- 'upstream drainage area... was dropped because of collinearity with elevation (r=0.82) and had a higher VIF score'. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review du fait de l'ecart de methode (covariance de reseau/effet aleatoire non reproduits)."
   confidence: medium
 ```
 
@@ -164,7 +164,7 @@ benchmark_readiness:
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: T=1 confirme correct (Year_ constant=2018) ; tache comparative avec W euclidienne standard, explicitement distincte du modele SSN/INLA publie.
+- Raison: CORRECTION 2026-09-09 : verifie directement dans le RDS -- Year_ ne prend qu'une seule valeur (2018) sur les 110 lignes, T=1 est donc correct, pas une incoherence (l'ancienne reserve comparait a tort la presence de la colonne Year_ a la declaration T=1). Promu comme tache COMPARATIVE explicitement distincte du modele SSN/INLA du papier (reseau hydrographique) : W standard (distance euclidienne sur Easting/Northing), pas une matrice de flux sur reseau -- voir Note ci-dessous.
 
 ## Estimator eligibility
 
@@ -174,11 +174,11 @@ estimator_eligibility:
     - estimator: ols
       basis: benchmark_use
       source_ref: "Comparateur non-spatial standard -- le papier utilise SSN/INLA (reseau hydrographique), pas OLS."
-      notes: "Regression lineaire simple sur les covariables reelles (Elev, RSlope, h2oAreaKm2, logRCA)."
+      notes: "Regression lineaire simple sur les covariables reelles retenues par le modele final des auteurs (Elev, RSlope, LE -- confirme par lecture directe de leurs scripts R, Zenodo 10.5281/zenodo.7942855)."
     - estimator: gam_spatial
       basis: benchmark_use
       source_ref: "Approximation spatiale generique (W euclidienne sur Easting/Northing), PAS une reproduction du modele SSN sur reseau hydrographique du papier."
-      notes: "Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval)."
+      notes: "Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval) ni l'effet aleatoire HUC10 du modele INLA des auteurs."
     - estimator: random_forest
       basis: benchmark_use
       source_ref: "Aucune -- comparateur ML generique, Y continu."
@@ -224,7 +224,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: OK - formula_pub confirmee et verifiee (voir Reference publication) ; formula_used est une approximation generee distincte, explicitement etiquetee comme telle (voir Bloc 1 > Statut regression canonique > Note).
 - CRS: OK - CRS renseigne dans le Bloc 5 (32611).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
@@ -234,7 +234,7 @@ estimator_eligibility:
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
-- Source: [dataset-first, publication non resolue] Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
+- Source: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
 
 ## Curation documentée — 2026-09-07
 
@@ -243,3 +243,5 @@ Decision conservatoire : 110 réponses WaterTemp et quatre X complets; SSN/INLA 
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+MISE A JOUR (2026-09-14) : variables corrigees dans les notes Estimator eligibility (Elev, RSlope, LE -- pas h2oAreaKm2/logRCA, retires apres lecture directe des scripts R des auteurs sur Zenodo).

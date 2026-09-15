@@ -1,7 +1,7 @@
 ---
 title: paper_coral_bathypathes
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_coral_bathypathes.rds
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 - Candidate Y typology: binary
 - Candidate X variables in local artifact: `carbonate`, `mud`, `sand`, `bpi_fine`, `depth`, `slope_per`, `smtfinal`, `BEN_N_C`, `DETFLUX3_C`, `OM_CAL3_C`, `OXY_C`, `PBO_C`, `SO_C`, `SFR_OARG_C`
 - Candidate X count in local artifact: 14
-- Candidate X typology: continuous
+- Candidate X typology: continuous, unknown
 - Published X variables from paper: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
-- Published X count: 0
+- Published X count: 14
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -58,8 +58,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 | `carbonate` | `numeric` | continuous | 0% |
 | `mud` | `numeric` | continuous | 0% |
 | `sand` | `numeric` | continuous | 0% |
-| `bpi_fine` | `integer` | count | 0% |
-| `depth` | `integer` | count | 0% |
+| `bpi_fine` | `integer` | unknown | 0% |
+| `depth` | `integer` | unknown | 0% |
 | `slope_per` | `numeric` | continuous | 0% |
 | `smtfinal` | `numeric` | rate | 0% |
 | `BEN_N_C` | `numeric` | continuous | 0% |
@@ -83,16 +83,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Predicting
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C
+- License evidence: DataCite API record for DOI 10.5061/dryad.41ns1rnht (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: carbonate, mud, sand, bpi_fine, depth, slope_per, smtfinal, BEN_N_C, DETFLUX3_C, OM_CAL3_C, OXY_C, PBO_C, SO_C, SFR_OARG_C
 - y_term_used: pa
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -139,7 +140,7 @@ formula_candidates:
 - Paper DOI: 10.1111/gcb.16389
 - Dataset DOI: 10.5061/dryad.41ns1rnht
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.41ns1rnht
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -178,7 +179,7 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  status: "manual_review"
+  status: "ready"
   eligible_estimators:
     - estimator: ols
       basis: generated_candidate
@@ -236,7 +237,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.41ns1rnht (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`coral_bathypathes` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `coral_bathypathes` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

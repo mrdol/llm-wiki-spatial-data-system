@@ -1,7 +1,7 @@
 ---
 title: paper_dragonfly_colour_lightness
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_dragonfly_colour_lightness.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 - Candidate X variables in local artifact: `bio1_mean`, `bio4_mean`, `bio10_mean`, `bio12_mean`, `bio18_mean`, `alt_mean`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
+- Published X variables from paper: bio1_mean (temperature annuelle moyenne), bio4_mean (saisonnalite de temperature), bio10_mean (temperature moyenne du trimestre le plus chaud), bio12_mean (precipitation annuelle), bio18_mean (precipitation du trimestre le plus chaud), alt_mean (altitude)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lng`, `lat`
 - Identifier columns (excluded from X candidates): `Cont`
@@ -65,8 +65,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 ### Formule - niveau publication
 
 - formula_pub: meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean [Modeles a erreur autoregressive (SEM) pour corriger l'autocorrelation spatiale ; regressions ajustees separement par continent (Amerique du Nord / Europe)]
-- x_terms_pub: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
-- y_term_pub: meanRGB
+- x_terms_pub: bio1_mean (temperature annuelle moyenne), bio4_mean (saisonnalite de temperature), bio10_mean (temperature moyenne du trimestre le plus chaud), bio12_mean (precipitation annuelle), bio18_mean (precipitation du trimestre le plus chaud), alt_mean (altitude)
+- y_term_pub: meanRGB (luminosite/clarte de couleur moyenne de l'assemblage de libellules)
 - Reference publication: Pinkert, S., Brandl, R. & Zeuss, D. (2016), Colour lightness of dragonfly assemblages across North America and Europe, Ecography, doi:10.1111/ecog.02578. CSV original (grille poolee Amerique du Nord + Europe) telecharge directement depuis le depot Dryad (10.5061/dryad.72tp3) -- pas une reconstruction, N=9966 cellules de grille. Fichier europeen (';' separateur de champs, ',' separateur decimal), lu via read.csv2. Y et X correspondent exactement aux variables bioclimatiques WorldClim decrites dans le papier.
 
 ### Statut regression canonique
@@ -75,16 +75,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Colour lig
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean
+- License evidence: DataCite API record for DOI 10.5061/dryad.72tp3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: bio1_mean, bio4_mean, bio10_mean, bio12_mean, bio18_mean, alt_mean
 - y_term_used: meanRGB
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -102,12 +103,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean"
-    response: "meanRGB"
-    predictors: ["bio1_mean", "bio4_mean", "bio10_mean", "bio12_mean", "bio18_mean", "alt_mean"]
+    response: "meanRGB (luminosite/clarte de couleur moyenne de l'assemblage de libellules)"
+    predictors: ["bio1_mean (temperature annuelle moyenne)", "bio4_mean (saisonnalite de temperature)", "bio10_mean (temperature moyenne du trimestre le plus chaud)", "bio12_mean (precipitation annuelle)", "bio18_mean (precipitation du trimestre le plus chaud)", "alt_mean (altitude)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ecog.02578
 - Dataset DOI: 10.5061/dryad.72tp3
 - Source URL: https://doi.org/10.5061/dryad.72tp3
-- Year: unknown
+- Year: 2016
 
 ## Bloc 3 - Typologie des modeles
 
@@ -204,7 +205,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.72tp3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`dragonfly_colour_lightness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `dragonfly_colour_lightness` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

@@ -45,7 +45,6 @@ LOADER_TO_DIR <- c(
   wald_test              = "DataCite_2020_TheWaldTestOf_10_1017_pan_2020",
   uk_photovoltaic        = "DataCite_2015_RegionalDistributionOfPhotovoltaic_10_1016_j_eneco_",
   mammals_sr_pd          = "DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299",
-  beta0_gwr              = "DataCite_2018_AGlobalDatasetOf_10_1038_sdata_20",
   pm25_grid              = "DataCite_2019_AnEnsembleBasedModel_10_1016_j_envint",
   o3_grid                = "DataCite_2020_AnEnsembleLearningApproach_10_1021_acs_est_",
   no2_grid               = "DataCite_2019_AssessingNo2Concentration_10_1021_acs_est_",
@@ -228,12 +227,14 @@ FORMULA_OVERRIDES <- list(
   florida_crash_gsvcm = list(
     formula_pub = "Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy [GSVCM negative-binomial application]",
     formula_used = "Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy",
-    source_ref = "Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps()."
+    year = "2020",
+    source_ref = "Kim & Wang (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1080/10618600.2020.1754225 ; l'attribution anterieure 'Wu et al.' etait fausse, aucun auteur de ce nom sur ce papier), Generalized Spatially Varying Coefficient Models, Journal of Computational and Graphical Statistics. Formule confirmee via le script supplementaire des auteurs, Code/main_GSVCM_application.R (archive Taylor & Francis ucgs_a_1754225_sm8959.zip) : y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps()."
   ),
   possum_body_size = list(
     formula_pub = "CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type [selected aspatial and spatial SAR model]",
     formula_used = "CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type",
-    source_ref = "Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
+    year = "2015",
+    source_ref = "Correll, Prowse & Prideaux (2015) (authors and DOI corrected 2026-09-14 -- confirmed via Crossref ; the previous attribution 'Isaac et al., DOI 10.1111/ecog.01204' was fabricated, that DOI does not resolve to any real publication), Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial, Ecography 39(1):77-86, DOI 10.1111/ecog.01243. Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect (N=588 specimens, matching this artifact). The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
   ),
   cluster_detection = list(
     formula_pub = "mu_i = beta0 + beta1*x_i (hors cluster) ; mu_i = (beta0+theta_j0) + (beta1+theta_j1)*x_i (dans le cluster C_j)",
@@ -245,11 +246,45 @@ FORMULA_OVERRIDES <- list(
     formula_candidate_formula = "richness ~ MAT + MTCQ + PET + WI + Solar_rad",
     y_term_pub = "species richness of Medicago on 100 x 100 km grid cells",
     x_terms_pub = c("MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN", "ART", "PSN", "MATR", "MAPR", "Ele_range", "Ele_std", "LGMmat_ano", "LGMmap_ano", "LGMmtcq_ano", "MHmat_ano", "MHmap_ano", "MHmtcq_ano"),
-    source_ref = "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula."
+    source_ref = "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.",
+    regression_status_override = "mis de cote",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)",
+    regression_note_override = "Correction (2026-09-08, lecture TEI approfondie) : confirme -- les GLM binomiaux-negatifs du papier sont univaries (une seule variable climatique a la fois : \"we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable\"), et le GWR ne porte que sur un PC1 agrege (\"environmental energy\"), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait formula_used. Le papier n'ajuste donc jamais ce modele multivarie precis. DECISION UTILISATEUR (2026-09-08) : mis de cote explicitement plutot que resolu -- necessite un pretraitement PCA et une orchestration multi-modeles univaries absents du pipeline actuel ; ne pas promouvoir package_include=yes avant cette extension."
+  ),
+  crane = list(
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    formula_pub = "logit(P(s,t)) = beta0 + alpha1*Urb_Den_cov + alpha2*PA_Ratio_cov + alpha3*Area_cov + M(s,t) [INLA/SPDE, bayesien]",
+    formula_used = "mark ~ ti + Urb_Den_cov + PA_Ratio_cov + Area_cov",
+    formula_note = "Eq. 1-2 p.165 : modele binomial presence/absence hierarchique bayesien, champ aleatoire gaussien spatio-temporel M(s,t) approxime par SPDE, ajuste avec R-INLA/inlabru ; variante etendue Eq. 4 ajoute un second champ G(s) issu d'un processus ponctuel des zones humides. Voir formula_used_divergence_note pour l'ecart avec formula_used.",
+    formula_candidate_formula = "logit(P(s,t)) = beta0 + alpha1*Urb_Den_cov + alpha2*PA_Ratio_cov + alpha3*Area_cov + M(s,t)",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "formula_pub est confirmee et verifiee dans le texte de l'article (Eq. 1-2 p.165 : lien logit, modele binomial hierarchique bayesien, champ aleatoire gaussien spatio-temporel M(s,t) approxime par SPDE/INLA), mais n'est pas reproduite telle quelle : le harnais actuel ne modelise ni le lien logit ni ce champ latent spatio-temporel. formula_used est une approximation GLM plate generee, qui ajoute en outre 'ti' comme covariable a effet fixe alors que dans le papier 'ti' structure le champ aleatoire (IID/AR1), pas un terme x_i.",
+    formula_note = "Formule systeme = approximation GLM plate des 3 covariables reellement publiees (Urb_Den_cov, PA_Ratio_cov, Area_cov) plus 'ti' ajoute comme covariable simplifiee -- candidate generee pour un usage futur (Y binaire + panel spatial hors perimetre actuel du package), pas la specification publiee. Voir formula_used_divergence_note.",
+    y_term_pub = "O_{s,t} / mark (presence-absence d'un couple reproducteur de grues au site s, annee t ; variable Bernoulli, notee 'mark' dans l'artefact local)",
+    x_terms_pub = c("Urb_Den_cov (densite des zones urbanisees dans un buffer terrestre de 10 km)", "PA_Ratio_cov (ratio perimetre/aire de la zone humide)", "Area_cov (surface de la zone humide)"),
+    ml_formula = "mark ~ ti + Urb_Den_cov + PA_Ratio_cov + Area_cov",
+    ml_response = "mark",
+    ml_predictors = c("ti", "Urb_Den_cov", "PA_Ratio_cov", "Area_cov"),
+    ml_estimator_context = c("random_forest", "xgboost", "gamboost", "spboost"),
+    ml_status = "generated_candidate_binary_panel",
+    ml_source_type = "generated_system_formula",
+    source_ref = "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166)."
   ),
   regulatory_convergence = list(
-    formula_pub = "adoption_Basel_II ~ spatial lag (interdependance banques/regulateurs/investisseurs transfrontaliere), spatial lag model",
-    source_ref = "Jones & Zeitz (2019), International Studies Quarterly - modeles a decalage spatial (spatial lag models) sur l'adoption des standards Basel II dans ~100 juridictions peripheriques. Variable candidate 'net_bcbs' non confirmee explicitement dans les 2 premieres pages lues ; a verifier contre le texte complet."
+    formula_pub = "bii_index ~ Lreceiveforeign_wght_bin + Lsendingabroad_wght_bin + Lnetwork_spw_bin + Lsovrating_spw_same + Ltradebin30_wght + Lprivcredit1 + Lfdi_in_gdp1 + Lpolity + Lcpi + Lcbiw + Lbankcon1 + Limf_iiiyr + factor(region)",
+    formula_used = "pending",
+    y_term_pub = "bii_index",
+    x_terms_pub = c("Lreceiveforeign_wght_bin", "Lsendingabroad_wght_bin", "Lnetwork_spw_bin", "Lsovrating_spw_same", "Ltradebin30_wght", "Lprivcredit1", "Lfdi_in_gdp1", "Lpolity", "Lcpi", "Lcbiw", "Lbankcon1", "Limf_iiiyr", "region"),
+    source_ref = "Jones & Zeitz (2019), International Studies Quarterly 63(4), doi:10.1093/isq/sqz068. CORRECTION (2026-09-09) : la version precedente (lecture du 2026-08-15, limitee au resume) indiquait par erreur y_term_pub=net_bcbs. Lecture du fichier de replication Stata original (Jones & Zeitz - Replication.do, present dans data/raw/) confirme que net_bcbs est une variable de FILTRE D'ECHANTILLON (keep if net_bcbs==0), jamais la reponse. La vraie reponse est bii_index (indice d'adoption Basel II/III) ; le modele principal (Table 2) est une regression OLS robuste sur des variables de decalage spatial deja precalculees, pour deux coupes transversales separees (2008 et 2013). Voir [[paper_regulatory_convergence_2008]] pour la reproduction executable complete (Table 2, 2008).",
+    regression_status_override = "resolu",
+    regression_evidence_override = "verbatim",
+    regression_method_override = "formule confirmee verbatim dans le fichier de replication Stata original",
+    regression_note_override = "Correction du 2026-09-09 -- voir 'Reference publication' ci-dessus. Le fichier de replication a ete lu integralement (Jones & Zeitz - Replication.do), corrigeant la lecture partielle du 2026-08-15. Le panel complet (18 annees, membres et non-membres du Comite de Bale confondus) n'a pas de specification unique executable -- le papier estime deux coupes transversales separees (2008, 2013) sur l'echantillon filtre net_bcbs==0. La coupe 2008 a ete extraite en fiche separee [[paper_regulatory_convergence_2008]] (benchmark_status: ready). La coupe 2013 (N=78) n'a pas encore ete extraite -- meme methode applicable si besoin.",
+    ml_status = "not_applicable_panel_no_single_formula"
   ),
   waste_site = list(
     formula_pub = "elas ~ meta-regression (WLS/REML) sur 727 estimations, correction du biais de publication (PET-PEESE)",
@@ -266,7 +301,11 @@ FORMULA_OVERRIDES <- list(
   mammals_sr_pd = list(
     formula_pub = "SR ~ 0.47*AET + 0.31*Mean_annual_temperature (R2=0.75) ; PD ~ 0.95*SR - 0.37*LGM_velocity + 0.12*Mean_elevation (R2=0.97)",
     formula_used = "SR ~ AET + Temp",
-    source_ref = "Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres."
+    source_ref = "Barreto, Graham & Rangel (2019), Global Ecology and Biogeography, Figure 1 - modele de path analysis (coefficients standardises, moyenne +/- ecart-type mondial) reliant AET, temperature, velocite climatique depuis le LGM et elevation a la richesse specifique (SR) et la diversite phylogenetique (PD) des mammiferes terrestres.",
+    regression_status_override = "mis de cote",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)",
+    regression_note_override = "Correction (2026-09-08, lecture TEI approfondie) : confirme -- le papier n'ajuste pas un GLM/Poisson simple sur SR, mais une analyse de chemin geographiquement ponderee (GWPath) ou les coefficients de chemin varient regionalement via GWR (package spgwr) : \"we developed a geographically weighted path analysis (GWPath), which allows path coefficients to vary regionally... GWPath uses geographically weighted regressions (GWR)\". formula_used (SR ~ AET + Temp) isole un seul chemin du modele complet (qui relie conjointement SR, PD et l'environnement) et perd le cadre GWPath/GWR."
   ),
   pm25_grid = list(
     formula_pub = "PM2.5 ~ f(selected predictor variables) [neural network, random forest, gradient boosting; ensemble via geographically weighted generalized additive model]",
@@ -383,6 +422,83 @@ FORMULA_OVERRIDES <- list(
     ml_status = "executable_binary_variant",
     source_ref = "Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales). Le README documente 12 variables nommees explicitement ; le CSV reel en contient 14 (sand et PBO_C en plus, non fabriquees, presentes telles quelles dans le fichier telecharge). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels), memes 12 taxons du meme depot."
   ),
+  coral_corallium = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- corallium est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_enallopsammia = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- enallopsammia est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_errina = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- errina est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_goniocorella = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- goniocorella est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_isididae = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- isididae est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_leiopathes = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- leiopathes est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_madrepora = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- madrepora est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_paragorgia = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- paragorgia est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_primnoa = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- primnoa est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_solenosmilia = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- solenosmilia est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
+  coral_stylaster = list(
+    formula_pub = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C [Random Forests + Boosted Regression Trees ensemble SDM]",
+    formula_used = "pa ~ carbonate + mud + sand + bpi_fine + depth + slope_per + smtfinal + BEN_N_C + DETFLUX3_C + OM_CAL3_C + OXY_C + PBO_C + SO_C + SFR_OARG_C",
+    ml_estimator_context = c("random_forest", "random_forest_spatial"),
+    ml_status = "executable_binary_variant",
+    source_ref = "CORRECTION 2026-09-14 (etendue depuis coral_bathypathes, meme depot Dryad/meme papier, formule verifiee independamment) : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389; README.txt Dryad (dataset 10.5061/dryad.41ns1rnht) documente colonne-par-colonne les 12 fichiers presence/absence par taxon (lat, lon, pa, puis les variables environnementales) -- stylaster est l'un de ces 12 taxons, memes 14 covariables confirmees presentes dans l'artefact local (Candidate X count=14, identique a coral_bathypathes). Estimateurs de reference fixes le 2026-08-15 sur random_forest/random_forest_spatial (deja disponibles dans le package spatialtidymodels)."
+  ),
   early_season_biomass = list(
     formula_pub = "late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term",
     formula_used = "late_bm_kg_ha ~ early_bm_kg_ha + CGDD_plant_early_term + CGDD_early_late_term + mean_PAR + cuml_precip_plant_early_term + cuml_precip_early_late_term",
@@ -475,21 +591,60 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background."
   ),
   wildfire_bootleg_severity = list(
-    formula_pub = "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501 [modele SAR complet du papier, matching de traitement -- non reproduit ici, benchmark sur les predicteurs bruts]",
-    formula_used = "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501",
-    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c, fournis par les auteurs) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) comme reponse et la liste exacte des 35 predicteurs du modele du papier. Verifie le 2026-08-12 par recherche exhaustive dans l'archive : 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) sont absentes du depot Dryad public (memes 2 fires) -- non devinees, simplement absentes. formula_used utilise les 34 predicteurs reellement presents (forest_mask/ownership_mask exclus : ce sont des masques de zone d'etude, pas des covariables du papier). Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques)."
+    formula_pub = "rdnbr ~ treatment_type_x_time_since_treatment + top predictors RF + W [SAR, lag=35m]",
+    formula_used = "rdnbr ~ minrh + LF2020_CC + annual_tmmin_anl_mean_1981_2010 + annual_deficit_1981_2010 + distance_to_trt_edge + tri_10res_410win + scf + fm100 + gedi_rh100_mean + gedi_rh100_sd + northsouthness_mx_speed_direction_20230501",
+    formula_note = "Chamberlain et al. (2024), Ecosphere, Fig. 1 (cadre en 3 etapes RF -> appariement -> SAR), Fig. 4a (importance RF, Nagelkerke pseudo-R2=0.92, RMSE=208), p.10 (equation SAR, 300 unites traitees/controles appariees sur RH/TMIN/TRI-410m). Predicteurs RF retenus : RH, canopy cover, TMIN, CWD, distance au bord de traitement, TRI-410m, snow cover frequency, FM100, GEDI height mean/SD, wind northsouthness. Voir formula_used_divergence_note pour l'ecart avec formula_used.",
+    formula_candidate_formula = "rdnbr ~ minrh + LF2020_CC + annual_tmmin_anl_mean_1981_2010 + annual_deficit_1981_2010 + distance_to_trt_edge + tri_10res_410win + scf + fm100 + gedi_rh100_mean + gedi_rh100_sd + northsouthness_mx_speed_direction_20230501",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "Le papier n'ajuste PAS une regression lineaire/SAR sur les 34 predicteurs bruts disponibles dans le depot : (1) un Random Forest reduit d'abord ces predicteurs a 11 variables retenues par importance (Fig. 4a, apres reduction de colinearite par correlations de Spearman) ; (2) ces variables servent aussi a apparier 300 unites traitees a 300 controles non traites (matching sur RH, TMIN et TRI uniquement, un par categorie) ; (3) le modele SAR final utilise en X les 11 variables retenues PLUS le type de traitement et le temps depuis traitement (categoriel), avec une structure spatiale (lag=35m). formula_used ne reprend que les 11 variables continues retenues par le RF (correspondance verifiee colonne par colonne avec Table 2 et Figure 4a de l'article) -- treatment_type et time_since_treatment sont ABSENTS de l'artefact local (35 colonnes disponibles, aucune ne code le type/l'age de traitement), donc le coeur du modele publie (l'effet du traitement, objet meme de l'article) n'est pas reproductible ici. Precedemment la fiche listait les 34 predicteurs bruts comme si c'etait 'le' modele SAR publie, avec Statut='resolu'/'formule publication confirmee et utilisee' -- confondait les variables candidates pre-reduction avec la specification econometrique reelle (signale par l'utilisateur 2026-09-10, verifie par lecture directe du PDF, p.6-14).",
+    ml_formula = "rdnbr ~ annual_aet_1981_2010 + annual_deficit_1981_2010 + annual_pet_1981_2010 + annual_ppt_anl_total_1981_2010 + annual_tmmean_anl_mean_1981_2010 + annual_tmmin_anl_mean_1981_2010 + distance_to_roads + distance_to_streams_wetlands + distance_to_trt_edge + frs + gedi_rh100_mean + gedi_rh100_sd + erc + fm100 + fm1000 + minrh + tmmx + vpd + LF2020_CBD + LF2020_CC + LF2020_CH + scf + sdd + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230501 + mx_speed_20230501 + northsouthness_mx_speed_direction_20230501",
+    ml_response = "rdnbr",
+    ml_predictors = c("annual_aet_1981_2010", "annual_deficit_1981_2010", "annual_pet_1981_2010", "annual_ppt_anl_total_1981_2010", "annual_tmmean_anl_mean_1981_2010", "annual_tmmin_anl_mean_1981_2010", "distance_to_roads", "distance_to_streams_wetlands", "distance_to_trt_edge", "frs", "gedi_rh100_mean", "gedi_rh100_sd", "erc", "fm100", "fm1000", "minrh", "tmmx", "vpd", "LF2020_CBD", "LF2020_CC", "LF2020_CH", "scf", "sdd", "elevation_10res", "hli_10res", "slope_10res", "sri_10res", "tpi_10res_2010win", "tpi_10res_410win", "tpi_10res_8010win", "tri_10res_410win", "eastwestness_mx_speed_direction_20230501", "mx_speed_20230501", "northsouthness_mx_speed_direction_20230501"),
+    ml_source_type = "scientific_publication",
+    ml_status = "confirmed_predictor_pool_before_rf_reduction",
+    ml_estimator_context = c("random_forest", "random_forest_xy", "xgboost", "xgboost_xy"),
+    year = "2024",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables.csv (Dryad 10.5061/dryad.mcvdnck6c) documentent RdNBR (severity/2021_Bootleg_rdnbr_w_offset_DATESADJUSTED.tif, 30m) et 35 predicteurs candidats. 3 couches documentees (aspect_10res, ecostress_pet, ecostress_esi) absentes du depot Dryad public (verifie 2026-08-12) -- non devinees. Methode verifiee par lecture directe du PDF (2026-09-10) : Random Forest (Fig. 1, etape 1) sur l'ensemble des predicteurs continus apres reduction de colinearite (Spearman) ramene a 11 variables retenues (Fig. 4a) ; ces 3 variables (RH, TMIN, TRI-410m, une par categorie bioclimatique/meteo/topographique) servent a apparier 300 controles a 300 traitements (etape 2) ; modele SAR final (etape 3, lag=35m, pseudo-R2 Nagelkerke=0.92) evalue l'effet du type de traitement x temps depuis traitement en controlant pour les 11 variables retenues. Tout reprojete/reechantillonne le 2026-08-12 vers une grille commune Albers EPSG:5070 a 250m (bilineaire pour les variables continues, plus-proche-voisin pour les masques) -- resolution native du papier : 30m."
   ),
   wildfire_schneider_springs_severity = list(
-    formula_pub = "rdnbr ~ Annual_AET_V2_1981_2010 + Annual_Deficit_V2_1981_2010 + Annual_PET_1981_2010 + Annual_PPT_anl_total_1981_2010 + Annual_Tave_anl_mean_1981_2010 + Annual_Tmin_anl_mean_1981_2010 + distance_to_roads_20221021 + distance_to_strms_and_wetlands + distance_to_trt_edge + frs_ss_clipped + gedi_rh100_mean + gedi_rh100_sd + SS_erc + SS_fm100 + SS_fm1000 + SS_minrh + SS_tmmx_celsius + SS_vpd + LF2019_CBD + LF2019_CC + LF2019_CH + scf_20221011 + sdd_20221011 + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230314 + mx_speed_20230310 + northsouthness_mx_speed_direction_20230314 [meme modele SAR que Bootleg, second incendie du papier]",
-    formula_used = "rdnbr ~ Annual_AET_V2_1981_2010 + Annual_Deficit_V2_1981_2010 + Annual_PET_1981_2010 + Annual_PPT_anl_total_1981_2010 + Annual_Tave_anl_mean_1981_2010 + Annual_Tmin_anl_mean_1981_2010 + distance_to_roads_20221021 + distance_to_strms_and_wetlands + distance_to_trt_edge + frs_ss_clipped + gedi_rh100_mean + gedi_rh100_sd + SS_erc + SS_fm100 + SS_fm1000 + SS_minrh + SS_tmmx_celsius + SS_vpd + LF2019_CBD + LF2019_CC + LF2019_CH + scf_20221011 + sdd_20221011 + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230314 + mx_speed_20230310 + northsouthness_mx_speed_direction_20230314",
-    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables_20221108.csv (Dryad 10.5061/dryad.mcvdnck6c) documentent RdNBR (severity/2021_SchneiderSprings_rdnbr_w_offset_DATESADJUSTED.tif, 30m) et 34 predicteurs pour le second incendie (Washington, 2021). Memes 2 couches ecostress absentes du depot public (verifie le 2026-08-12) ; aspect_10res egalement absent. forest_mask present mais exclu de formula_used (masque de zone d'etude). Noms de fichiers legerement differents de Bootleg (versions/dates dans le nom) mais memes categories de variables."
+    formula_pub = "rdnbr ~ treatment_type_x_time_since_treatment + top predictors RF + W [SAR, lag=35m]",
+    formula_used = "rdnbr ~ Annual_Deficit_V2_1981_2010 + SS_minrh + SS_fm1000 + distance_to_roads_20221021 + LF2019_CC + gedi_rh100_mean + gedi_rh100_sd + distance_to_trt_edge + tpi_10res_8010win + northsouthness_mx_speed_direction_20230314 + mx_speed_20230310 + frs_ss_clipped + Annual_AET_V2_1981_2010",
+    formula_note = "Chamberlain et al. (2024), Ecosphere, Fig. 1 (cadre en 3 etapes RF -> appariement -> SAR), Fig. 5a (importance RF, Nagelkerke pseudo-R2=0.94, RMSE=231), p.10-13 (equation SAR, 118 unites traitees/controles appariees sur CWD/RH/TPI-8010m). Predicteurs RF retenus : CWD, RH, FM1000, distance aux routes, canopy cover, GEDI height mean/SD, distance au bord de traitement, TPI-8010m, wind northsouthness, wind speed, fire resistance score, AET. Voir formula_used_divergence_note pour l'ecart avec formula_used.",
+    formula_candidate_formula = "rdnbr ~ Annual_Deficit_V2_1981_2010 + SS_minrh + SS_fm1000 + distance_to_roads_20221021 + LF2019_CC + gedi_rh100_mean + gedi_rh100_sd + distance_to_trt_edge + tpi_10res_8010win + northsouthness_mx_speed_direction_20230314 + mx_speed_20230310 + frs_ss_clipped + Annual_AET_V2_1981_2010",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "Le papier n'ajuste PAS une regression lineaire/SAR sur les 34 predicteurs bruts disponibles dans le depot : (1) un Random Forest reduit d'abord ces predicteurs a 13 variables retenues par importance (Fig. 5a, R2=0.570, RMSE=231, apres reduction de colinearite par correlations de Spearman) ; (2) 3 de ces variables (CWD, RH, TPI-8010m, une par categorie bioclimatique/meteo/topographique) servent a apparier 118 unites traitees a 118 controles non traites ; (3) le modele SAR final (lag=35m, pseudo-R2 Nagelkerke=0.94) utilise en X les 13 variables retenues PLUS le type de traitement et le temps depuis traitement (categoriel). formula_used ne reprend que les 13 variables continues retenues par le RF (correspondance verifiee colonne par colonne avec Table 2 et Figure 5a de l'article) -- treatment_type et time_since_treatment sont ABSENTS de l'artefact local (35 colonnes disponibles, aucune ne code le type/l'age de traitement), donc le coeur du modele publie (l'effet du traitement, objet meme de l'article) n'est pas reproductible ici. Precedemment la fiche affirmait 'meme modele SAR que Bootleg' en listant les 34 predicteurs bruts comme la formule publiee, avec Statut='resolu'/'formule publication confirmee et utilisee' -- en realite chaque incendie a son propre ensemble de variables retenues par le RF (differentes entre Bootleg et Schneider Springs, cf. Fig. 4a vs 5a), seule la DEMARCHE en 3 etapes est commune aux deux feux (signale par l'utilisateur 2026-09-10 apres relecture croisee avec ChatGPT, verifie independamment par lecture directe du PDF, p.6-14).",
+    ml_formula = "rdnbr ~ Annual_AET_V2_1981_2010 + Annual_Deficit_V2_1981_2010 + Annual_PET_1981_2010 + Annual_PPT_anl_total_1981_2010 + Annual_Tave_anl_mean_1981_2010 + Annual_Tmin_anl_mean_1981_2010 + distance_to_roads_20221021 + distance_to_strms_and_wetlands + distance_to_trt_edge + frs_ss_clipped + gedi_rh100_mean + gedi_rh100_sd + SS_erc + SS_fm100 + SS_fm1000 + SS_minrh + SS_tmmx_celsius + SS_vpd + LF2019_CBD + LF2019_CC + LF2019_CH + scf_20221011 + sdd_20221011 + elevation_10res + hli_10res + slope_10res + sri_10res + tpi_10res_2010win + tpi_10res_410win + tpi_10res_8010win + tri_10res_410win + eastwestness_mx_speed_direction_20230314 + mx_speed_20230310 + northsouthness_mx_speed_direction_20230314",
+    ml_response = "rdnbr",
+    ml_predictors = c("Annual_AET_V2_1981_2010", "Annual_Deficit_V2_1981_2010", "Annual_PET_1981_2010", "Annual_PPT_anl_total_1981_2010", "Annual_Tave_anl_mean_1981_2010", "Annual_Tmin_anl_mean_1981_2010", "distance_to_roads_20221021", "distance_to_strms_and_wetlands", "distance_to_trt_edge", "frs_ss_clipped", "gedi_rh100_mean", "gedi_rh100_sd", "SS_erc", "SS_fm100", "SS_fm1000", "SS_minrh", "SS_tmmx_celsius", "SS_vpd", "LF2019_CBD", "LF2019_CC", "LF2019_CH", "scf_20221011", "sdd_20221011", "elevation_10res", "hli_10res", "slope_10res", "sri_10res", "tpi_10res_2010win", "tpi_10res_410win", "tpi_10res_8010win", "tri_10res_410win", "eastwestness_mx_speed_direction_20230314", "mx_speed_20230310", "northsouthness_mx_speed_direction_20230314"),
+    ml_source_type = "scientific_publication",
+    ml_status = "confirmed_predictor_pool_before_rf_reduction",
+    ml_estimator_context = c("random_forest", "random_forest_xy", "xgboost", "xgboost_xy"),
+    year = "2024",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    source_ref = "Chamberlain et al. (2024), Ecosphere, DOI 10.1002/ecs2.70073; README.md + csvs/predictor_variables_20221108.csv (Dryad 10.5061/dryad.mcvdnck6c) documentent RdNBR (severity/2021_SchneiderSprings_rdnbr_w_offset_DATESADJUSTED.tif, 30m) et 34 predicteurs candidats pour le second incendie (Washington, 2021). 2 couches ecostress absentes du depot public (verifie 2026-08-12) ; aspect_10res egalement absent. forest_mask present mais exclu (masque de zone d'etude). Methode verifiee par lecture directe du PDF (2026-09-10) : Random Forest (Fig. 1, etape 1) ramene les predicteurs a 13 variables retenues (Fig. 5a, R2=0.570) ; CWD/RH/TPI-8010m (une par categorie) servent a apparier 118 controles a 118 traitements (etape 2) ; modele SAR final (etape 3, lag=35m, pseudo-R2 Nagelkerke=0.94) evalue l'effet du type de traitement x temps depuis traitement en controlant pour les 13 variables retenues."
   ),
   amphibian_malformation_prevalence = list(
-    formula_pub = "skeletal_abnormality_prevalence ~ dragonfly_abundance + organic_contaminants + inorganic_contaminants [regression logistique individuelle + selection AIC, Reeves et al. 2010 ; X publies (predateurs, contaminants, UVB, temperature) non presents dans le depot Dryad brut]",
-    formula_used = "prevalence_abnormal ~ ROADDISTANCE + RoadType",
+    formula_pub = "prevalence_skel_ab ~ inorganic_contaminants_metal_PCA2 + dragonfly_abundance + organic_contaminants_PCA2 + metamorph_size + developmental_stage [logistique, selection AIC]",
+    formula_used = "prevalence_skel_ab ~ ROADDISTANCE + RoadType",
     formula_used_evidence = "reconstructed_from_data",
-    formula_note = "X partiel : sous-ensemble route/contamination humaine disponible pour 32/54 sites; reconstruction distincte de la regression logistique publiee.",
-    source_ref = "Reeves et al. (2010), Ecological Monographs 80(3):423-440, DOI 10.1890/09-0879.1 ; verifie le 2026-08-13 sur le texte integral (corpus/papers/raw_pdf/Reeves2010Multiple.pdf, remplace ce jour apres correction d'un PDF errone). Le Table 1 de l'article publie une prevalence de malformations par site (2004-2006, seuil >=50 metamorphes) et documente aussi la distance a la route et le type de route par site (colonnes 'Distance to road (km)'/'Road type', memes champs que RoadsInfo.csv). Les autres X du modele logistique publie (dragonflies, contaminants organiques/inorganiques, UVB, temperature) ne sont PAS dans le depot Dryad 10.5061/dryad.sq72d telecharge (celui-ci contient les donnees individuelles FrogAbnormalities.csv, les coordonnees SiteLocations.csv et RoadsInfo.csv, pas les mesures de contaminants/predateurs/UVB par site). prevalence_abnormal/prevalence_skel_ab/prevalence_eye_ab sont agreges depuis 9011 individus (2000-2012, fenetre plus large que 2004-2006 dans le papier) en reprenant le seuil de fiabilite n>=50 du Table 1. Le texte de l'introduction du papier motive explicitement ROADDISTANCE/RoadType comme covariable pertinente ('abnormality frequency was higher... at road-accessible sites', Reeves et al. 2008 cite dans l'intro)."
+    formula_used_generated_despite_pub = TRUE,
+    formula_note = "Reeves et al. 2010, 'best model step 3' pour les anomalies squelettiques (72% des cas) : Metal PCA2 + larval dragonfly abundance + organic PCA2, taille et stade de developpement inclus comme covariables obligatoires dans TOUS les modeles squelettiques (justifie par Reeves et al. 2008). Modele SEPARE pour les anomalies oculaires (28% des cas, best model = predatory beetle abundance + developmental stage + size), non retenu ici comme formula_pub principale. X publies (predateurs, contaminants, UVB, temperature, taille, stade) non presents dans le depot Dryad brut. Voir formula_used_divergence_note pour l'ecart avec formula_used.",
+    formula_used_divergence_note = "formula_pub est confirmee par le texte integral (Reeves et al. 2010, section 'Statistical assessment of skeletal abnormalities', best model step 3 = Metal PCA2 + larval dragonfly abundance + organic PCA2 + taille + stade), mais aucun des X publies (contaminants, predateurs, UVB, temperature, taille, stade) n'est present dans le depot Dryad brut telecharge -- seuls ROADDISTANCE/RoadType (32/54 sites) sont disponibles localement, motives par l'introduction du papier ('abnormality frequency was higher... at road-accessible sites') mais PAS le modele logistique final retenu par selection AIC.",
+    y_term_pub = "prevalence_skel_ab (prevalence d'anomalies squelettiques par site, agregee localement depuis 9011 individus 2000-2012, seuil n>=50/site repris du Table 1 -- CORRECTION 2026-09-10 : remplace prevalence_abnormal (toutes anomalies confondues), qui ne correspond a AUCUN modele publie -- le papier analyse separement squelettique (72% des cas, formula_pub ci-dessus) et oculaire (28%, modele different), jamais une categorie combinee).",
+    x_terms_pub = c("inorganic contaminants (Metal PCA2, composante d'ACP sur les metaux)", "larval dragonfly abundance (predateur)", "organic contaminants (organic PCA2, composante d'ACP sur les contaminants organiques)", "metamorph size (covariable obligatoire, tous modeles squelettiques)", "developmental stage (covariable obligatoire, tous modeles squelettiques)"),
+    year = "2010",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Reeves et al. (2010), Ecological Monographs 80(3):423-440, DOI 10.1890/09-0879.1 ; verifie le 2026-08-13 sur le texte integral (corpus/papers/raw_pdf/Reeves2010Multiple.pdf, remplace ce jour apres correction d'un PDF errone). Le Table 1 de l'article publie une prevalence de malformations par site (2004-2006, seuil >=50 metamorphes) et documente aussi la distance a la route et le type de route par site (colonnes 'Distance to road (km)'/'Road type', memes champs que RoadsInfo.csv). Les autres X du modele logistique publie (dragonflies, contaminants organiques/inorganiques, UVB, temperature) ne sont PAS dans le depot Dryad 10.5061/dryad.sq72d telecharge (celui-ci contient les donnees individuelles FrogAbnormalities.csv, les coordonnees SiteLocations.csv et RoadsInfo.csv, pas les mesures de contaminants/predateurs/UVB par site). prevalence_abnormal/prevalence_skel_ab/prevalence_eye_ab sont agreges depuis 9011 individus (2000-2012, fenetre plus large que 2004-2006 dans le papier) en reprenant le seuil de fiabilite n>=50 du Table 1. Le texte de l'introduction du papier motive explicitement ROADDISTANCE/RoadType comme covariable pertinente ('abnormality frequency was higher... at road-accessible sites', Reeves et al. 2008 cite dans l'intro). CORRECTION (2026-09-10, verification directe TEI) : (a) formula_pub precisait seulement 3 des 5 termes du 'best model step 3' publie (taille et stade de developpement manquaient, alors qu'ils sont des covariables obligatoires dans TOUS les modeles squelettiques du papier) ; (b) Y utilisait a tort prevalence_abnormal (agregat toutes anomalies), alors que le papier n'analyse jamais cette categorie combinee -- seulement squelettique (72% des cas, best model documente) et oculaire (28%, modele different avec predateurs coleopteres) separement. Y bascule sur prevalence_skel_ab pour correspondre au LHS deja annonce par formula_pub. Year=2010 ajoute (citation Reeves et al. 2010 sans ambiguite)."
   ),
   hyena_lion_biomass_africa = list(
     formula_pub = "spotted_hyaena_biomass_log10 / lion_biomass_log10 ~ prey biomass classes + other predator biomass + WorldClim temperature/precipitation + vegetation cover [PLS regression]",
@@ -505,7 +660,11 @@ FORMULA_OVERRIDES <- list(
     formula_candidate_formula = "Tot_rep ~ weather + floral cover + land-use composition around colony sites",
     y_term_pub = "colony reproductive output: total males plus gynes produced",
     x_terms_pub = c("temperature", "humidity", "precipitation", "flower cover", "impervious surface", "urban cover", "open cover", "tree cover", "agricultural cover", "garden cover", "road cover", "land-use PCA axes"),
-    source_ref = "Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader."
+    source_ref = "Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.",
+    regression_status_override = "mis de cote",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)",
+    regression_note_override = "Correction (2026-09-08, lecture TEI approfondie) : le papier modelise 'Total production of sexuals' par un hurdle model binomial-negatif zero-altere (partie binaire presence/absence + partie comptage tronquee a zero), pas un GLM/GLMM simple -- \"Total production of sexuals... was analysed using zero-altered negative binomial hurdle models\". Le predicteur d'occupation du sol est aussi different : les auteurs regroupent 80 classes d'occupation du sol en 3 clusters categoriels ('city'/'village'/'agricultural' par PCA+Ward), alors que formula_used utilise les proportions individuelles (Prop_flower500, Prop_imp500, etc.) et des composantes PC comme predicteurs lineaires simultanes -- combinaison non testee telle quelle dans le papier."
   ),
   rocky_mountain_tree_growth = list(
     formula_pub = "annual tree growth / ring width ~ climate + competition + topography [mixed-effects tree-growth model]",
@@ -524,12 +683,19 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Graham et al. (2019), Royal Society Open Science, DOI 10.1098/rsos.190335: Material and methods model binary response with probit GLMM; distance/log distance and received SEL are used in separate models, with cumulative piling order, ADD, duration and vessel activity. The current regression benchmark uses the continuous proportional 24h DPH change prop24 from the same response table, joined to CPOD coordinates."
   ),
   amazon_tree_dominance = list(
-    formula_pub = "mean local abundance ~ regional frequency + habitat type [beta regression for dominant species]",
-    formula_used = "mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand",
-    formula_candidate_formula = "mean_local_relative_abundance ~ regional_frequency + habitat type",
-    y_term_pub = "dominant-species mean local abundance / dominance pattern",
-    x_terms_pub = c("regional frequency", "habitat type"),
-    source_ref = "Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction."
+    formula_pub = "mean_local_relative_abundance ~ regional_frequency * habitat_type [beta regression, logit, mgcv::gam]",
+    formula_used = "mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand + regional_frequency:habitat_floodplain + regional_frequency:habitat_swamp + regional_frequency:habitat_white_sand",
+    formula_note = "Matas-Granados et al. (2024), Ecology Letters 27:e14351, section 'Local abundance-regional frequency relationship by habitat type', p.4-6. Modele le plus complexe teste inclut explicitement l'INTERACTION entre regional_frequency et habitat_type, comparaison par AIC (difference>2 = modele ecarte) ; confirme par le texte des resultats -- la pente regional_frequency differe par habitat ('the relationship was more negative in white sand, followed by swamp, floodplain and terra firme'), ce qui exige l'interaction (une simple ordonnee a l'origine differente ne suffirait pas).",
+    formula_candidate_formula = "mean_local_relative_abundance ~ regional_frequency * habitat_type",
+    y_term_pub = "mean_local_relative_abundance (abondance locale relative moyenne des especes dominantes, moyennee sur les parcelles ou l'espece est presente)",
+    x_terms_pub = c("regional_frequency (proportion de parcelles de l'habitat ou l'espece est presente)", "habitat_type (categoriel, 4 niveaux : terra firme/floodplain/swamp/white sand)", "interaction regional_frequency:habitat_type (pentes differentes par habitat, cf. Note)"),
+    model_family = "beta_regression_logit_link_gam_betar",
+    year = "2024",
+    license_name = "Creative Commons Zero v1.0 Universal (CC0 1.0)",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Matas-Granados, Draper, Cayuela, de Aledo, Arellano, Ben Saadi, Baker, Phillips, Honorio Coronado, Ruokolainen, Garcia-Villacorta, Roucoux, Gueze, Valderrama Sandoval, Fine, Amasifuen Guerra, Zarate Gomez, Stevenson Diaz, Monteagudo-Mendoza, Vasquez Martinez, Socolar, Disney, del Aguila Pasquel, Flores Llampazo, Vega Arenas, Reyna Huaymacari, Grandez Rios & Macia (2024), Understanding different dominance patterns in western Amazonian forests, Ecology Letters 27:e14351, DOI 10.1111/ele.14351 (accepte 23 nov. 2023, publie 2024 -- 'Ecology Letters. 2024;27:e14351' est la citation officielle du journal, corrige de 'Matas Granados et al. (2023)' precedent). CORRECTION (2026-09-10, verification directe PDF+TEI) : le modele beta-regression teste explicitement l'interaction regional_frequency:habitat_type comme 'the most complex model' (comparaison AIC), et le texte des resultats confirme que la pente de regional_frequency differe significativement selon l'habitat -- la formule additive precedente (sans interaction) ne pouvait pas reproduire ce resultat central du papier (Figure 2a montre 4 courbes de formes tres differentes par habitat, pas de simples decalages verticaux). Le local loader reconstruit la table espece-dominante x habitat depuis Raw_to_ecology3.csv et Metadata4.csv : p_ij = abondance de l'espece i dans la parcelle j / total d'individus dans la parcelle j, especes dominantes selectionnees jusqu'a 50% de dominance cumulee par habitat (D_i, seuil de Draper et al. 2019 / ter Steege et al. 2013), regional_frequency = parcelles ou l'espece est presente / total de parcelles de l'habitat. N=221 especes-habitat dans l'artefact local, proche mais pas identique a la somme publiee des especes dominantes par habitat (106 terra firme + 73 floodplain + 20 swamp + 18 white sand = 217, texte p.5) -- ecart de 4 non explique, a signaler comme ecart mineur non resolu plutot que suppose identique. Le modele publie (beta, lien logit) n'est pas une famille explicitement enregistree dans le harnais actuel (ols/gam_spatial/sar_lag/sem_error/sdm_mixed/random_forest/xgboost/gwr/probit) -- gam_spatial (mgcv::gam) pourrait en principe accepter family=betar() mais ce n'est pas verifie dans le code du package a ce jour, a traiter comme une approximation non confirmee, pas une reproduction exacte."
   ),
   joshua_tree_flowering = list(
     formula_pub = "flowering indicator ~ annual precipitation + maximum/minimum temperature + vapor-pressure-deficit predictors [BART classification]; hindcast flowering years ~ selected climate deltas [continuous model output]",
@@ -553,30 +719,41 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Crockett et al. (2024), Fire Ecology, DOI 10.1186/s42408-024-00264-0: Data and Results sections describe random forest models for post-fire NBR years 1-5 using year-of-fire precipitation/topography/soil variables plus growing-season climate. The Dryad README documents train_nbr5 with 1,382,557 pixels; the loader keeps a deterministic 50,000-row subset stratified by 20x20 spatial tiles and 5 quantile bins of NBR for package-scale benchmarking, and records the full raw N in the fiche rationale."
   ),
   flapper_skate_presence = list(
-    formula_pub = "presence_absence ~ depth + distance_to_coast + current + bottom_temperature + benthic_productivity + fishing_pressure [INLA/SPDE presence-only or presence-absence model with cloglog link]",
-    formula_used = "present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours",
-    formula_candidate_formula = "present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours",
+    formula_pub = "presence_absence ~ depth + distance_to_coast + current + benthic_productivity + fishing_pressure [INLA/SPDE presence-absence model with cloglog link, champ spatial SPDE explicite]",
+    formula_used = "present_01 ~ bath + dcoast + current + pp_mean + fishing_hours",
+    formula_candidate_formula = "present_01 ~ bath + dcoast + current + pp_mean + fishing_hours",
     y_term_pub = "flapper skate presence/absence by survey haul",
-    x_terms_pub = c("bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"),
-    ml_formula = "present_01 ~ bath + dcoast + current + btemp + pp_mean + fishing_hours",
+    x_terms_pub = c("bath", "dcoast", "current", "pp_mean", "fishing_hours"),
+    ml_formula = "present_01 ~ bath + dcoast + current + pp_mean + fishing_hours",
     ml_response = "present_01",
-    ml_predictors = c("bath", "dcoast", "current", "btemp", "pp_mean", "fishing_hours"),
+    ml_predictors = c("bath", "dcoast", "current", "pp_mean", "fishing_hours"),
     ml_estimator_context = c("random_forest", "xgboost", "gamboost"),
     ml_status = "executable_binary_sdm_variant",
-    source_ref = "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV."
+    source_ref = "Loca, Collins, Garbett, McGeady, Thorburn & McGonigle (2025) (auteurs corriges le 2026-09-14 -- verifies via le TEI local Loca2025OnThe.tei.xml et Crossref ; l'attribution anterieure 'Bacheler et al.' etait fausse, aucun auteur de ce nom ne figure sur le papier), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. Le papier ajuste un modele INLA/SPDE (champ aleatoire spatial explicite, lien cloglog). Correction (2026-09-08, lecture TEI approfondie, Loca2025OnThe.tei.xml) : btemp (bottom temperature) a ete RETIRE par les auteurs de leur modele final pour cause de colinearite (\"bottom temperature was dropped from the analysis\"). formula_used/x_terms_used/formula_pub corriges pour ne plus inclure btemp, qui restait a tort dans la specification executable malgre son exclusion documentee par le papier. La colonne btemp reste disponible dans Detail X (candidate non retenue)."
   ),
   bean_landrace_gap_sdm = list(
-    formula_pub = "landrace occurrence / conservation-gap status ~ climatic + accessibility + agricultural + demographic predictors [MaxEnt gap analysis]",
+    formula_pub = "landrace occurrence ~ 23 predicteurs VIF/PCA-selectionnes (16 climatiques + 7 non-climatiques) [MaxEnt/maxnet, puis score de gap seuillee]",
     formula_used = "status_H_01 ~ bio_1 + bio_12 + alt + PETa + popdens + access + distgp1 + rivers + irri + aharv + prod + yield",
     formula_candidate_formula = "status_H_01 ~ selected climate, accessibility and agricultural predictors",
-    y_term_pub = "bean landrace conservation-gap / status class",
-    x_terms_pub = c("WorldClim bioclimatic variables", "solar radiation", "wind speed", "water vapor pressure", "altitude", "potential evapotranspiration", "population density", "accessibility", "distance to genepool", "rivers", "irrigation", "harvested area", "production", "yield"),
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "CORRECTION 2026-09-14 (relecture critique externe + verification directe du fichier source) : la version precedente de cette note affirmait a tort que status_H_01 etait 'probablement' un score de gap derive du MaxEnt. Verifie faux par inspection directe de dataset_s1_revised2.xlsx (feuille bean_predicted_bd_americas, 21561 lignes, colonnes source/status/genepool/coordonnees/50 covariables) : aucune colonne de score de gap, de priorite de collecte ou de sortie MaxEnt n'existe dans ce fichier -- seulement 3 colonnes de metadonnees de provenance (source, status, genepool). status_H_01 est calcule par le loader R (`df$status_H_01 <- as.integer(df$status == \"H\")`) directement depuis la colonne brute `status` du jeu d'occurrences compile (Dataset S1 du papier, section 2.1 du TEI: 'Our full occurrence dataset for P. vulgaris is available in Dataset S1'), qui code si chaque occurrence provient d'une accession de genebank (G, 19831/21561 lignes -- CIAT/Genesys/USDA/WIEWS) ou d'un releve herbier/GBIF independant (H, 1730/21561 lignes -- confirme par le TEI: 'Additional occurrences were gathered from GBIF ... 25,670 observations from herbaria, botanic gardens and other plant repositories, to provide independent data from non-genebank sources'). C'est donc une metadonnee de provenance des points d'occurrence UTILISES EN ENTREE du MaxEnt du papier, pas une sortie de son pipeline de gap analysis (qui produit S_CON/S_ACC/S_ENV, seuilles puis sommes en une carte 0-3, jamais materialisee dans cet artefact local). formula_used est donc une tache de classification binaire entierement construite par le systeme (provenance genebank vs herbier/GBIF, prediction a partir de covariables environnementales/socioeconomiques du meme pool candidat que le papier), et non une approximation du pipeline SDM+gap du papier -- a ne plus presenter comme tel.",
+    formula_note = "23 des 50 variables candidates documentees (Table S2.1 du depot, README.txt local) ont ete retenues par les auteurs apres filtrage VIF (<10) + PCA (contribution >=15% au premier axe) -- 16 climatiques + 7 non-climatiques d'apres le texte, mais la liste exacte des 23 survivantes n'est disponible que dans le detail de Table S2.1 (non extrait de ce TEI). Les 12 covariables de formula_used (bio_1, bio_12, alt, PETa, popdens, access, distgp1, rivers, irri, aharv, prod, yield) sont un sous-ensemble plausible et documente de ce pool candidat (couvrant climat + non-climat comme le papier le souligne), pas confirme comme etant exactement les 23 survivantes du filtrage VIF/PCA. Point verifie separement : la colonne locale `ethnic` (texte, 75 groupes ethniques nommes, ex. 'Argentinians', 'Quechua') est un champ de provenance categoriel de l'accession, PAS la covariable numerique 'geographic distribution of ethnic groups' (Weidmann et al. 2010) listee en variable #47 du Tableau S2.1 -- meme nom de colonne, source differente ; exclue de X a raison, mais pour cause de non-numerique/haute-cardinalite, pas en tant qu'identifiant.",
+    y_term_pub = "status_H_01 : indicateur binaire de provenance des occurrences (1 = releve herbier/GBIF hors genebank, 0 = accession de genebank), calcule depuis la colonne brute `status` du Dataset S1 du papier -- PAS une sortie du MaxEnt SDM ni du score de gap (verification directe du fichier source, aucune colonne de ce type n'existe localement)",
+    x_terms_pub = c("WorldClim bioclimatic variables (16 candidates, bio_1-19)", "solar radiation", "wind speed", "water vapor pressure", "altitude", "potential evapotranspiration (+ variantes ENVIREM)", "population density", "accessibility (temps de trajet)", "distance to primary genepool wild relatives", "distance to rivers", "irrigation fraction", "harvested area", "production", "yield"),
     ml_formula = "status_H_01 ~ climate + accessibility + agricultural predictors",
     ml_response = "status_H_01",
     ml_predictors = c("bio_1", "bio_12", "alt", "PETa", "popdens", "access", "distgp1", "rivers", "irri", "aharv", "prod", "yield"),
     ml_estimator_context = c("random_forest", "xgboost", "gamboost"),
-    ml_status = "executable_binary_sdm_variant",
-    source_ref = "Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula."
+    ml_source_type = "derived_from_scientific_publication_plus_local_dataset_metadata",
+    year = "2020",
+    ml_status = "executable_provenance_classification_task",
+    equation_family = "sdm_maxent_then_locally_constructed_binary_classification",
+    model_family = "species_distribution_modeling",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    source_ref = "Ramirez-Villegas, Khoury, Achicanoy, Mendez, Diaz, Sosa, Debouck, Kehel & Guarino (2020), A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces, Diversity and Distributions, DOI 10.1111/ddi.13046 (Ramirez-Villegas, Julian est le premier auteur, Khoury, Colin est le 2e). Dryad 10.5061/dryad.866t1g1n0, README.txt local documente les 50 variables candidates (Table S2.1) avec definitions/unites/sources completes. Methode du papier confirmee par lecture directe du TEI (section 2.4.1) : MaxEnt (package R 'maxnet'), presence/pseudo-absence, K=5 cross-validation, variables sub-selectionnees par VIF (<10) + PCA (contribution >=15% au PC1) parmi les 50 candidates -- 23 retenues (16 climatiques + 7 non-climatiques) pour le meilleur modele ('both' config climat+non-climat). CORRECTION 2026-09-14 (verification directe de dataset_s1_revised2.xlsx + TEI section 2.1) : le fichier local est le Dataset S1 du papier, c.a.d. le jeu d'occurrences COMPILE utilise en ENTREE du MaxEnt (21561 lignes, colonnes source/status/genepool + coordonnees + 50 covariables candidates), pas une sortie du gap analysis. La colonne `status` (G=genebank accession, majoritaire ; H=releve herbier/GBIF independant, ~8% des lignes) code la provenance de chaque occurrence -- confirme par le TEI ('Additional occurrences were gathered from GBIF ... to provide independent data from non-genebank sources'). status_H_01 = as.integer(status==\"H\") est donc une metadonnee de provenance des points d'entree, pas le score de gap ou une sortie MaxEnt. formula_used est une tache de classification binaire construite par le systeme sur cette metadonnee, en reutilisant le pool de covariables environnementales/socioeconomiques documente par le papier -- voir formula_used_divergence_note."
   ),
   nyc_tract_income_ssig = list(
     formula_pub = "per_capita_income, median_household_income ~ UDG25 + PGD25 + Unemploy + Age65p + AgeU18 + PopDensity + MaleShare + BlackShare + AsianShare + WhiteShare + latitude + longitude [Gaussian Process, noyau Matern-3/2, pas d'equation lineaire fermee -- SHAP utilise pour l'importance des variables]",
@@ -600,7 +777,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("sub18", "PER_PRV_SC", "YOUTH_DROP", "HS_DROP", "COL_DEGREE", "SCHOOL_CT"),
     ml_estimator_context = c("ols", "gwr", "random_forest", "xgboost", "gamboost"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Wang, Huang, Yin, Bao, Zhou & Gao (2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
+    year = "2022",
+    source_ref = "Wang, Huang, Yin, Bao, Zhou & Gao (2022) (annee corrigee 2026-09-14 -- le champ Year affichait 2017, qui est l'annee de mise en ligne du shapefile sur GeoDa Lab, pas l'annee de publication de l'article, un arXiv preprint soumis en decembre 2022), arXiv:2212.05814 (GWRBoost, preprint). Section 4.3 'Empirical case study' cite explicitement le jeu de donnees et son URL (https://geodacenter.github.io/data-and-lab//NYC-Census-2000), Table 2 documente les 6 variables independantes exactes + mean_inc en reponse, Table 3-4 rapportent les resultats OLS/GWR/GWRBoost. Shapefile telecharge directement depuis GeoDa Lab -- N=2216 identique au papier, pas une reconstruction. Les 49 autres colonnes du shapefile (race, scolarisation detaillee, sexe, densite) ne font pas partie du cas d'etude publie."
   ),
   hiv_southern_africa = list(
     formula_pub = "PER ~ URBAN_RURA + country + DHSYEAR [regression multivariable, plus autocorrelation spatiale (LISA/hotspot) sur PER par pays]",
@@ -636,6 +814,7 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("NPP", "Bear_presence", "Wolf_presence", "Lynx_presence", "hunting", "Human_influence_index", "Prec_all_year", "Min_Temp_summer", "Min_Temp_winter", "NDSI_Snow_Cover", "Tree_canopy_cover", "Palmer_drought_summer"),
     ml_estimator_context = c("gam_spatial", "random_forest", "xgboost"),
     ml_status = "executable_continuous_variant",
+    year = "2023",
     source_ref = "van Beeck Calkoen, S.T.S., Kuijper, D.P.J., Apollonio, M., Blondel, L., Dormann, C.F., Storch, I. & Heurich, M. (2023), Numerical top-down effects on red deer (Cervus elaphus) are mainly shaped by humans rather than large carnivores across Europe, Journal of Applied Ecology, doi:10.1111/1365-2664.14526. CSV telecharge directement depuis Dryad (10.5061/dryad.0cfxpnw7w, API OAuth) -- pas une reconstruction, N=534 sites d'etude identique au depot source (Data_SvBC_RedDeer.csv). README.md du depot documente exactement les variables : recherche litterature (annee, pays, zone d'etude, latitude, longitude, densite, chasse) + facteurs additionnels (productivite primaire nette, presence de grands carnivores, indice d'influence humaine, statut de protection, couverture forestiere, indice de secheresse de Palmer, indice de couverture neigeuse)."
   ),
   fire_forest_loss_dominican_republic = list(
@@ -651,16 +830,24 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Martinez Batlle, J.R. (2021), Fire and forest loss in the Dominican Republic during the 21st Century, bioRxiv, doi:10.1101/2021.06.15.448604. Fichier grd_zonal_statistics.RDS extrait directement du depot Zenodo (10.5281/zenodo.6990803, isSupplementTo le papier), lui-meme reference dans le depot comme le jeu de donnees exact de l'approche 'long-terme' (grille hexagonale de 482 cellules ~100km2, >=45% de surface terrestre, texte du papier section 'Long-term approach') -- pas une reconstruction. Y et X correspondent exactement a la description du papier ('average forest loss per unit area per year' et 'fire density' = points de feu / aire / annees). NFIRESM6_PSQKM_PYR est NA pour 24/482 cellules (aucune valeur exacte de 0 n'existe ailleurs dans la colonne source, minimum non-NA = 1) -- impute a 0 (absence de feu detecte dans la cellule), coherent avec la definition de densite du papier (comptage/aire/annees), pas une donnee fabriquee."
   ),
   amphibian_abnormality_hotspots = list(
-    formula_pub = "all_ab_percent ~ s(Corrected_LATITUDE, Corrected_LONGITUDE) + (1|REFUGE) + (1|REGION) [Generalized Additive Mixed Model (GAMM), termes spatiaux non-lineaires latitude/longitude + effets aleatoires imbriques site/refuge/region ; analyse complementaire par statistique Getis-Ord Gi* pour la detection de hotspots]",
-    formula_used = "all_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION",
-    y_term_pub = "all_ab_percent (pourcentage d'amphibiens presentant une anomalie squelettique/oculaire dans une collecte)",
-    x_terms_pub = c("Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM)", "REFUGE (131 refuges USFWS, effet aleatoire)", "REGION (9 regions USFWS, effet aleatoire)"),
-    ml_formula = "all_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION",
-    ml_response = "all_ab_percent",
+    formula_pub = "sk_plus_eye_ab_percent ~ s(Corrected_LATITUDE, Corrected_LONGITUDE) + (1|site.year) [GAMM, binomial/logit]",
+    formula_used = "sk_plus_eye_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION",
+    formula_used_generated_despite_pub = TRUE,
+    formula_note = "mgcv, distribution binomiale + lien logit, estimation PQL (1000 iterations), terme spatial non-lineaire lat/long, effet aleatoire UNIQUE concatene 'site.year' (retenu par comparaison AIC contre Region/Refuge/Site/Year/Species nested et non-nested) ; analyse complementaire par Getis-Ord Gi* pour la detection de hotspots (echantillon au niveau site, pas le GAMM). Modele SEPARE de variance partitioning (aucun effet fixe, effets aleatoires nested site/refuge/region) pour les % de variance par echelle spatiale (site=53%, refuge=28%, region=17%) -- pas le meme modele que le GAMM. Voir formula_used_divergence_note pour l'ecart avec formula_used.",
+    formula_used_divergence_note = "formula_pub est confirmee par le texte de l'article (section 'Spatially explicit analyses', GAMM mgcv, famille binomiale/lien logit, effet aleatoire 'site.year'), mais n'est pas reproduite telle quelle : le harnais actuel ne modelise ni le lien logit/famille binomiale, ni l'effet aleatoire site.year, ni le smooth s(lat,long) dans sa forme GAMM native. formula_used est une approximation continue (lien identite) generee, avec REFUGE/REGION en covariables categoriques plates plutot qu'en effet aleatoire imbrique -- une simplification documentee, pas la specification publiee. Le smooth complet reste disponible via ml_formula (variante gam_spatial).",
+    y_term_pub = "sk_plus_eye_ab_percent (pourcentage d'amphibiens d'une collecte presentant AU MOINS une anomalie squelettique OU oculaire -- categorie combinee definie dans README_for_CoreDataset.txt, distincte de all_ab_percent qui inclut EN PLUS les categories surface et maladie). CORRECTION (2026-09-10) : la fiche precedente utilisait a tort all_ab_percent comme Y en affirmant une correspondance exacte au papier -- le GAMM du papier est explicitement decrit comme ajuste sur 'skeletal and eye abnormality prevalence', qui correspond au nom et a la definition README de sk_plus_eye_ab_percent, pas de all_ab_percent.",
+    x_terms_pub = c("Corrected_LATITUDE/Corrected_LONGITUDE (terme spatial non-lineaire principal du GAMM, s(lat,long))", "site.year (effet aleatoire unique concatene du GAMM -- PAS des effets separes REFUGE/REGION, cf. Note)"),
+    ml_formula = "sk_plus_eye_ab_percent ~ Corrected_LATITUDE + Corrected_LONGITUDE + REFUGE + REGION",
+    ml_response = "sk_plus_eye_ab_percent",
     ml_predictors = c("Corrected_LATITUDE", "Corrected_LONGITUDE", "REFUGE", "REGION"),
     ml_estimator_context = c("gam_spatial", "gamm", "random_forest", "xgboost"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Gray, M.J., Rogers, J.D., Miller, D.L. et al. (2013), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. Y et coordonnees correspondent exactement a la description du papier (variance partitioning site/refuge/region, GAMM lat/long non-lineaire, Getis-Ord Gi* pour la detection de clusters)."
+    year = "2013",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Reeves, Medley, Pinkney, Holyoak, Johnson & Lannoo (2013) (auteurs corriges le 2026-09-14 -- confirmes via le TEI local, Crossref et OpenAlex ; l'attribution anterieure 'Gray, M.J., Rogers, J.D., Miller, D.L. et al.' etait fausse, aucun de ces noms ne figure sur ce papier), Localized Hotspots Drive Continental Geography of Abnormal Amphibians on U.S. Wildlife Refuges, PLoS ONE 8(11): e77467, doi:10.1371/journal.pone.0077467. CoreDataset.csv (675 evenements de collecte) joint a Site.csv (666 sites apres dedoublonnage de 4 SITE_ID dupliques dans le depot source) via site_id, telecharge directement depuis Dryad (10.5061/dryad.dc25r, isSupplementTo/primary_article) -- pas une reconstruction. 77/675 evenements sans coordonnee valide (protection d'especes listees federalement, documente dans README_for_Site.txt) sont exclus (N final=598), pas imputes. CORRECTION (2026-09-10, verification directe TEI + README_for_CoreDataset.txt) : la fiche precedente affirmait a tort 'Y et coordonnees correspondent exactement a la description du papier' en utilisant all_ab_percent et (1|REFUGE)+(1|REGION) comme effets aleatoires du GAMM. Le texte TEI (section 'Spatially explicit analyses') confirme que (a) le GAMM cite est ajuste sur 'skeletal and eye abnormality prevalence' = sk_plus_eye_ab_percent (nom et definition confirmes par README_for_CoreDataset.txt, categorie combinee squelettique+oculaire, distincte de all_ab_percent qui inclut aussi surface+maladie), avec famille binomiale et lien logit (PQL, 1000 iterations) ; (b) l'effet aleatoire du GAMM est un terme UNIQUE concatene 'site.year', retenu apres comparaison AIC de plusieurs structures (Region/Refuge/Site/Year/Species, nested/non-nested, Table S6) -- PAS des effets separes (1|REFUGE)+(1|REGION) ; (c) la structure nichee site/refuge/region (53%/28%/17% de variance) provient d'un modele DIFFERENT et plus simple ('simple variance components analysis', sans effet fixe), utilise uniquement pour le partitionnement de variance, jamais combine avec le smooth s(lat,long) dans le meme modele. Year=2013 ajoute (citation Gray et al. 2013 sans ambiguite ; aucun bib_key/record KG associe a ce dataset dans paper_dataset_uses.json, donc pas de derivation automatique possible)."
   ),
   covid_sociodemographic_risk = list(
     formula_pub = "death_rate_per_100k ~ RPL_THEME1 + RPL_THEME2 + RPL_THEME3 + RPL_THEME4 + pct_voted_biden_2020 + vaccination_pct_apr2022 + population_density + Obesity + Unemployed + Uninsured_Adults + Associations + Diabetes + Food_Insecurity + broadband_access + Age_over_65 [approche 1 : regression multilineaire de Poisson par region HHS + niveau national (10 modeles) ; approche 2 : Geographically Weighted Random Forest (GWRF), technique novatrice du papier, ajustee separement pour 3 vagues pandemiques (Alpha/Delta/Omicron)]",
@@ -699,16 +886,25 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique)."
   ),
   amphibian_functional_diversity = list(
-    formula_pub = "H0 ~ NPP + T + Pp + Ts + Pps + AI [Regression par Moindres Carres Ordinaires (OLS), p-value corrigee pour l'autocorrelation spatiale par le test t modifie de Dutilleul]",
-    formula_used = "H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI",
-    y_term_pub = "H0 (richesse fonctionnelle, nombre de Hill d'ordre 0) ; Richness (richesse specifique) disponible comme variante",
-    x_terms_pub = c("NPP (productivite primaire nette)", "T (temperature annuelle moyenne, renommee MeanAnnualTemp dans le loader -- voir source_ref)", "Pp (precipitation annuelle)", "Ts (saisonnalite de temperature)", "Pps (saisonnalite de precipitation)", "AI (indice d'aridite)"),
-    ml_formula = "H0 ~ NPP + MeanAnnualTemp + Pp + Ts + Pps + AI",
+    formula_pub = "H0 ~ MeanAnnualTemp + Pp + Ts + AI [modele SAR (spatial autoregressive), modele final publie -- OLS+Dutilleul ne sert qu'au criblage prealable de colinearite sur le jeu complet de 6 variables candidates]",
+    formula_used = "H0 ~ MeanAnnualTemp + Pp + Ts + AI",
+    y_term_pub = "H0 ; Richness disponible comme variante",
+    x_terms_pub = c("MeanAnnualTemp", "Pp", "Ts", "AI"),
+    ml_formula = "H0 ~ MeanAnnualTemp + Pp + Ts + AI",
     ml_response = "H0",
-    ml_predictors = c("NPP", "MeanAnnualTemp", "Pp", "Ts", "Pps", "AI"),
-    ml_estimator_context = c("ols", "sar_error", "gwr", "random_forest"),
+    ml_predictors = c("MeanAnnualTemp", "Pp", "Ts", "AI"),
+    ml_estimator_context = c("ols", "sar_lag", "sar_error", "gwr", "random_forest"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). Y et X correspondent exactement aux variables environnementales decrites dans le papier (NPP, temperature/precipitation annuelles et leur saisonnalite, indice d'aridite). CORRECTION (session 2026-08-16, detectee par le verificateur de coherence inter-blocs) : la colonne source 'T' (temperature annuelle moyenne, terme publie du papier) entrait en collision avec la convention TIME_VAR <- 'T' du pipeline partage (build_sf_datasets.R), qui l'excluait donc automatiquement des candidats X en la traitant comme variable temporelle technique. Renommee 'MeanAnnualTemp' dans le loader pour lever l'ambiguite -- meme colonne/valeurs, pas une reconstruction."
+    year = "2019",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Ochoa-Ochoa, L.M. et al. (2019), Amphibian functional diversity is related to high annual precipitation and low precipitation seasonality in the New World, Global Ecology and Biogeography, doi:10.1111/geb.12926. Appendix S3 CSV telecharge directement depuis le depot Dryad (10.5061/dryad.nk0bj96) -- pas une reconstruction, N=4065 cellules de grille (Ameriques, X/Y en degres decimaux). CORRECTION (session 2026-08-16) : colonne source 'T' renommee 'MeanAnnualTemp' dans le loader pour lever la collision avec la convention TIME_VAR du pipeline partage -- meme colonne/valeurs, pas une reconstruction. CORRECTION APPLIQUEE (2026-09-08, lecture TEI approfondie) : le modele publie H0~environnement est un SAR (spatial autoregressive), pas un OLS -- le TEI precise 'We generated an SAR model for each functional diversity metric... explicit spatial dependence is allowed within a neighbourhood structure' (l'OLS+correction Dutilleul ne sert qu'au criblage prealable de colinearite sur les 6 variables candidates, pas au modele final). Le texte precise : 'Final models were run with annual mean temperature, annual precipitation, temperature seasonality and aridity index' (4 variables, NPP et Pps retires) -- desormais disponibles telles quelles dans le RDS local, sar_lag ajoute comme estimateur eligible.",
+    regression_status_override = "resolu (corrige 2026-09-08)",
+    regression_evidence_override = "publication -- variables ET methode (SAR) desormais conformes au modele final du papier",
+    regression_method_override = "formule publication confirmee et corrigee (4 variables du modele final, SAR)",
+    regression_note_override = "Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique."
   ),
   dragonfly_colour_lightness = list(
     formula_pub = "meanRGB ~ bio1_mean + bio4_mean + bio10_mean + bio12_mean + bio18_mean + alt_mean [Modeles a erreur autoregressive (SEM) pour corriger l'autocorrelation spatiale ; regressions ajustees separement par continent (Amerique du Nord / Europe)]",
@@ -736,15 +932,19 @@ FORMULA_OVERRIDES <- list(
   ),
   leishmaniasis_occurrence = list(
     formula_pub = "P(occurrence) ~ [modele boosted regression trees (BRT) sur points de presence, pour cartographier la niche environnementale de la leishmaniose cutanee et viscerale a l'echelle mondiale, avec covariables climatiques/environnementales et generation de pseudo-absences]",
-    formula_used = "DISEASE ~ YEAR + SOURCE_TYPE + ADMIN_LEVEL + COUNTRY",
-    y_term_pub = "DISEASE (type clinique de leishmaniose au point d'occurrence : Cutaneous, Mucocutaneous, Visceral -- classification a 3 classes)",
+    formula_used = "DISEASE_binary ~ YEAR + SOURCE_TYPE + ADMIN_LEVEL + COUNTRY",
+    y_term_pub = "DISEASE",
     x_terms_pub = c("YEAR (annee du releve)", "SOURCE_TYPE (type de source bibliographique)", "ADMIN_LEVEL (niveau administratif de la localisation)", "COUNTRY (pays)"),
-    ml_formula = "DISEASE ~ YEAR + SOURCE_TYPE + ADMIN_LEVEL + COUNTRY",
-    ml_response = "DISEASE",
+    ml_formula = "DISEASE_binary ~ YEAR + SOURCE_TYPE + ADMIN_LEVEL + COUNTRY",
+    ml_response = "DISEASE_binary",
     ml_predictors = c("YEAR", "SOURCE_TYPE", "ADMIN_LEVEL", "COUNTRY"),
     ml_estimator_context = c("glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"),
     ml_status = "executable_binary_variant",
-    source_ref = "Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Les fichiers deposes (CL_final_dataset.xlsx, VL_final_dataset.xlsx) ne contiennent que les points de presence reels (pas de pseudo-absences, ni les covariables environnementales du modele BRT complet, qui necessitent des rasters climatiques externes non inclus dans ce depot). formula_used reformule en classification du type clinique (Cutaneous/Mucocutaneous/Visceral) a partir des seules variables presentes dans le depot (annee, source, niveau administratif, pays), une simplification documentee -- pas le modele BRT du papier. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale."
+    source_ref = "Pigott et al. (2014), Global distribution maps of the leishmaniases, eLife, doi:10.7554/elife.02851. Le papier compile des points d'occurrence bibliographiques de leishmaniose cutanee et viscerale a l'echelle mondiale et ajuste des modeles boosted regression trees (BRT) avec covariables environnementales/climatiques et pseudo-absences generees pour cartographier le risque. Donnees brutes (CL_final_dataset.xlsx + VL_final_dataset.xlsx, localites de type 'point' uniquement) telechargees directement depuis Dryad (10.5061/dryad.05f5h) -- pas une reconstruction, N=7762 occurrences ponctuelles, echelle mondiale. Reduction binaire APPLIQUEE (2026-09-08, investigation complete : dossier brut re-ouvert, papier relu, ecart d'effectifs elucide) : le TEI confirme que les auteurs modelisent CL et VL SEPAREMENT comme deux taches binaires (jamais une classification a 3 niveaux). Mucocutaneous est un sous-type clinique reconnu de la leishmaniose cutanee, donc le regroupement Cutaneous+Mucocutaneous=CL vs Visceral=VL est a la fois clinique et fidele au cadre de modelisation separee CL/VL du papier. Nouvelle colonne DISEASE_binary (factor, VL/CL) ajoutee au RDS local (2026-09-08) ; formula_used/x_terms_used/Selected Y typology corriges en consequence.",
+    regression_status_override = "resolu (corrige 2026-09-08)",
+    regression_evidence_override = "publication -- reponse binaire (DISEASE_binary) alignee sur la modelisation separee CL/VL des auteurs ; covariables X restent une adaptation (BRT+covariables climatiques du papier non disponibles localement)",
+    regression_method_override = "formule adaptee (covariables du depot uniquement) mais reponse desormais fidele au cadre binaire CL/VL du papier",
+    regression_note_override = "Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16), reponse corrigee en binaire le 2026-09-08 apres investigation complete (dossier brut + TEI)."
   ),
   mistletoe_bird_abundance = list(
     formula_pub = "TotalBirdAbundance ~ blossom_score + Season + noisy_miner_abundance + canopy_cover + shrub_cover + tree_species_composition + land_use + water_distance + survey_time + log1p(live_mistletoe_abundance) + live_mistletoe_abundance:Season [modele INLA GLMM avec effet aleatoire spatial SPDE (Matern), erreur de Poisson, effets aleatoires observateur/region, testant l'interaction mistletoe x saison de reproduction pour evaluer la moderation de la secheresse]",
@@ -768,19 +968,21 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("ppt", "tmean", "Elevation"),
     ml_estimator_context = c("ols", "gwr", "sar_lag", "sem_error", "random_forest"),
     ml_status = "confirmed_continuous_response",
+    year = "2020",
     source_ref = "Que et al. (2020), A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time, Geoscientific Model Development, doi:10.5194/gmd-13-6149-2020. Le papier presente l'equation exacte (Eq. 21) : y = b0 + b1*ppt + b2*tmean + b3*height + e, appliquee a un jeu de donnees reel de 272 points de mesure d'isotopes d'hydrogene des precipitations dans le nord-est des Etats-Unis ('272 points for model calibration', correspond exactement a N=272 du fichier precip_isotope_D3.csv). Donnees brutes telechargees directement depuis le depot logiciel Zenodo du papier (10.5281/zenodo.3637689) -- pas une reconstruction, formule et N confirmes par lecture directe du texte (TEI)."
   ),
   airbnb_europe_prices = list(
-    formula_pub = "log(price) ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index + W*log(price) [modeles spatiaux (SAR, modele autoregressif spatial ; SEM, modele a erreur spatiale) sur les prix Airbnb log-transformes, matrice de ponderation spatiale W, 10 villes europeennes, weekday/weekend separement]",
-    formula_used = "log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index",
+    formula_pub = "SDM (spatial Durbin model, WX+WY, modele retenu) : log_price ~ rho*W*log_price + room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + W*X [Gyodi & Nawaro (2021), Eq. 5 p.6 ; 4 modeles estimes -- OLS, SLX (WX), SAR (WY), SDM (WX+WY) -- SDM retenu (meilleure log-vraisemblance dans les 10 villes, AIC le plus bas dans 7/10) ; SAR second meilleur ; aucun modele SEM n'est estime par ce papier (SEM cite uniquement dans la revue de litterature d'autres etudes, jamais ajuste ici) ; rest_index teste separement d'attr_index (colinearite VIF documentee, jamais dans la meme regression) ; W = k plus proches voisins (k=10) standardise par ligne, robustesse testee avec k=5/25/50 et W de distance a 500m/1000m]",
+    formula_used = "log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index",
+    formula_candidate_formula = "log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index",
     y_term_pub = "log_price (logarithme du prix Airbnb, distribution asymetrique justifiant la transformation log selon le papier)",
-    x_terms_pub = c("room_type", "person_capacity", "host_is_superhost", "multi/biz (professionnalisation de l'hote)", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist (distance au centre-ville)", "metro_dist (distance au metro)", "attr_index (indice d'attractivite touristique)", "rest_index (indice de densite de restaurants)"),
-    ml_formula = "log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index + city + period",
+    x_terms_pub = c("room_private (dummy chambre privee, reference = logement entier)", "room_shared (dummy chambre partagee)", "person_capacity", "host_is_superhost", "multi/biz (professionnalisation de l'hote)", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist (distance au centre-ville)", "metro_dist (distance au metro)", "attr_index (indice d'attractivite touristique, specification principale -- rest_index teste separement, cf. Note)"),
+    ml_formula = "log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + city + period",
     ml_response = "log_price",
-    ml_predictors = c("room_type", "person_capacity", "host_is_superhost", "multi", "biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "rest_index", "city", "period"),
-    ml_estimator_context = c("ols", "sar_lag", "sem_error", "gam_spatial", "random_forest", "gwr"),
+    ml_predictors = c("room_private", "room_shared", "person_capacity", "host_is_superhost", "multi", "biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "city", "period"),
+    ml_estimator_context = c("ols", "sar_lag", "sdm_mixed", "gam_spatial", "random_forest", "gwr"),
     ml_status = "confirmed_continuous_response",
-    source_ref = "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
+    source_ref = "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management 86:104319, doi:10.1016/j.tourman.2021.104319. CORRECTION (2026-09-10, verification directe PDF+TEI apres signalement utilisateur) : (1) room_type (colonne locale) n'est pas la variable publiee -- Table 1 documente room_private et room_shared comme 2 dummies separes (reference = logement entier), confirme par Fig. 3 (coefficients direct_room_shared/direct_room_private distincts) ; les 2 vraies colonnes existent dans l'artefact local et remplacent room_type. (2) Le papier N'ESTIME PAS de modele SEM : Section 4.1 confirme 4 modeles compares (OLS, SLX/WX, SAR/WY, SDM/WX+WY, Eq. 3-5), SDM retenu ('we will focus on the results of the SDM model', meilleure log-vraisemblance/AIC), SAR second. SEM n'apparait que dans la revue de litterature d'autres etudes (Section 3.2, ex. Halleck Vega & Elhorst 2015), jamais ajuste par ces auteurs. (3) attr_index et rest_index ne sont jamais dans la meme regression : test VIF documente une colinearite entre les 2 indices TripAdvisor, 'the two variables will be tested separately in the analysis' -- attr_index est la specification presentee en premier (Figs. 3-5), rest_index en variante secondaire (fin de section 4.2) ; formula_used retient attr_index. (4) Construction de W documentee par les auteurs (Section 3.2, p.6) : 'we decided to calculate row-standardised W with the 10 closest neighbours' (k=10, standardise par ligne) comme choix principal ; robustesse testee avec k=5/25/50 voisins et W de distance a 500m et 1000m. (5) 'weekday/weekend' n'est PAS une structure panel a 2 periodes du point de vue du papier : Section 3.1 dit explicitement 'The analysis is based on the weekday samples, while the weekend data are used for robustness checks' (Appendix B, Fig. B.1) -- modele principal sur l'echantillon weekday uniquement, weekend = re-estimation independante de robustesse, pas un panel joint. Le fait que les memes annonces apparaissent dans les 2 fichiers (repetitions de coordonnees reelles) reste vrai et justifie toujours un regroupement par annonce en CV, mais ce n'est pas une structure temporelle documentee par le papier lui-meme. Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
   ),
   seshat_social_complexity = list(
     formula_pub = "PolityPopulation_t ~ PolityPopulation_(t-1) + covariables de complexite sociale [modele de regression dynamique (autoregressif) ajuste separement pour chaque variable de complexite sociale Seshat -- l'article demontre comment ajuster des modeles de regression dynamique a des donnees panel NGA x Polity x temps avec autocorrelation temporelle et incertitude de codage]",
@@ -804,7 +1006,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("system", "tillage", "fertilization", "year", "site"),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Macchi et al. (2020), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth, doi:10.1016/j.oneear.2020.02.007. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees."
+    year = "2020",
+    source_ref = "Bowles, Mooshammer, Socolar, Calderon, Cavigelli, Culman, Deen, Drury, Garcia y Garcia, Gaudin, Harkcom, Lehman, Osborne, Robertson, Salerno, Schmer, Strock & Grandy (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1016/j.oneear.2020.02.007 ; l'attribution anterieure 'Macchi et al.' etait fausse -- Macchi est l'auteur d'un tout autre papier, chaco_bird_richness, dans ce meme corpus), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees."
   ),
   danajon_coral_distribution = list(
     formula_pub = "P(coral) ~ multiple_stressors (pression de peche, distance au marche, population humaine) + geomorphologie + zone ecologique [le papier etudie l'influence de facteurs de stress multiples (pression de peche, acces au marche, demographie des barangays) sur la distribution spatiale des coraux dans le Danajon Bank, a partir d'une carte d'habitat combinant teledetection et cartographie participative (connaissance ecologique locale)]",
@@ -852,19 +1055,30 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("LinearFeaturesLength", "WoodyLinearFeaturesLength"),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Sullivan et al. (2017), A national-scale model of linear features improves predictions of farmland biodiversity, Journal of Applied Ecology, doi:10.1111/1365-2664.12912. Le papier ajuste des modeles d'abondance par espece (18 oiseaux BBS, 24 papillons UKBMS) avec un jeu de donnees national d'elements lineaires (haies) comme covariable. Le depot Dryad original contenait 2 fichiers -- seul le fichier de covariables (elements lineaires) avait ete recupere lors du harvest initial ; le fichier de donnees d'abondance par espece (Species abundance data from Sullivan et al...) a ete identifie et telecharge separement via l'API Dryad (session 2026-08-16, apres verification qu'il existait bien sur le depot). formula_used agrege l'abondance BBS toutes especes (reponse communautaire) plutot que les 18 modeles par espece du papier. Coordonnees converties depuis les references de grille nationale britannique (British National Grid, ex. 'TQ5114') vers WGS84 via le package rnrfa::osg_parse (conversion deterministe standard, verifiee sur references de test connues). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.m5g04) -- pas une reconstruction, N=3312 sites (intersection BBS x elements lineaires), Royaume-Uni."
+    source_ref = "Sullivan et al. (2017), A national-scale model of linear features improves predictions of farmland biodiversity, Journal of Applied Ecology, doi:10.1111/1365-2664.12912. Le papier ajuste des modeles d'abondance par espece (18 oiseaux BBS, 24 papillons UKBMS) avec un jeu de donnees national d'elements lineaires (haies) comme covariable. Le depot Dryad original contenait 2 fichiers -- seul le fichier de covariables (elements lineaires) avait ete recupere lors du harvest initial ; le fichier de donnees d'abondance par espece (Species abundance data from Sullivan et al...) a ete identifie et telecharge separement via l'API Dryad (session 2026-08-16, apres verification qu'il existait bien sur le depot). formula_used agrege l'abondance BBS toutes especes (reponse communautaire) plutot que les 18 modeles par espece du papier. Coordonnees converties depuis les references de grille nationale britannique (British National Grid, ex. 'TQ5114') vers WGS84 via le package rnrfa::osg_parse (conversion deterministe standard, verifiee sur references de test connues). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.m5g04) -- pas une reconstruction, N=3312 sites (intersection BBS x elements lineaires), Royaume-Uni.",
+    regression_status_override = "mis de cote",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule adaptee/reconstruite -- ne reproduit PAS la structure GLMM/effets aleatoires du papier (voir correction 2026-09-08)",
+    regression_note_override = "Correction/confirmation (2026-09-08, PDF fourni par l'utilisateur, converti en TEI via GROBID) : methode confirmee verbatim -- \"We modelled bird and butterfly abundance at each site in each year as a function of environmental variables using generalised linear mixed models with a Poisson error term... we fitted year as a fixed effect, with site... as a random effect... we used the 50-km British Ordnance Survey grid square... as a random effect\". Modele exact par espece : log(N_it) = a + b1*X1_i + ... + bn*Xn_i + bt*Year_t + [log(P_iv)] + Observation_it + Site_i + 50kmRegion_j + e (eqn 1, GLMM Poisson). 42 modeles distincts (18 oiseaux + 24 papillons), chacun avec sa propre structure d'effets aleatoires. DECISION UTILISATEUR (2026-09-08) : mis de cote -- aucun estimateur GLMM Poisson multi-niveaux (effet aleatoire site + region + observation) n'existe dans le harnais actuel."
   ),
   alps_floristic_legacy = list(
-    formula_pub = "S.obs/Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet + Bedrock_class [modele de richesse specifique standardisee expliquee par la distance aux refuges glaciaires (nunataks/refugia peripheriques), le temps depuis la deglaciation, et les variables climatiques/topographiques actuelles, sur une grille de cellules des Alpes europeennes]",
-    formula_used = "Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet",
-    y_term_pub = "Standardised_SR (richesse specifique vegetale standardisee par cellule de grille, echantillonnage complet effort-standardise)",
-    x_terms_pub = c("Nunatak_distance (distance aux refuges glaciaires de haute altitude)", "Refugia_distance_all (distance a tous les refuges peripheriques)", "Deglac (temps depuis la deglaciation)", "Elev_mean (elevation moyenne)", "Precip_total (precipitation totale)", "Temp_annual (temperature annuelle)", "Pet (evapotranspiration potentielle)"),
-    ml_formula = "Standardised_SR ~ Nunatak_distance + Refugia_distance_all + Deglac + Elev_mean + Precip_total + Temp_annual + Pet + Slope_deg + Velocity_med",
+    formula_pub = "Standardised_SR ~ Refugia_distance_all + Velocity_med [SAR, lagsarlm]",
+    formula_used = "Standardised_SR ~ Refugia_distance_all + Velocity_med",
+    formula_note = "Wootton et al. (2025), Systematic Botany 50(1):83-98, Table 1 : W='all neighbours of each grid cell', effets totaux verifies -- distance aux refuges=-7.43 (p<0.001), vitesse de changement climatique=131.16 (p<0.001) ; regression lineaire de base + confirmation SAR car Moran's I detecte une autocorrelation spatiale residuelle.",
+    formula_candidate_formula = "Standardised_SR ~ Refugia_distance_all + Velocity_med",
+    y_term_pub = "Standardised_SR (richesse specifique standardisee a 95% de completude d'echantillonnage, via rarefaction iNEXT::estimateD() -- PAS S.obs, richesse brute observee, non corrigee de l'effort d'echantillonnage variable)",
+    x_terms_pub = c("Refugia_distance_all (distance au refuge glaciaire le plus proche, nunatak OU peripherique)", "Velocity_med (vitesse de changement climatique depuis le LGM, VoCC)"),
+    ml_formula = "Standardised_SR ~ Refugia_distance_all + Velocity_med + Deglac + Temp_annual + Precip_total + Pet + Elev_sd + Bedrock_class",
     ml_response = "Standardised_SR",
-    ml_predictors = c("Nunatak_distance", "Refugia_distance_all", "Deglac", "Elev_mean", "Precip_total", "Temp_annual", "Pet", "Slope_deg", "Velocity_med"),
+    ml_predictors = c("Refugia_distance_all", "Velocity_med", "Deglac", "Temp_annual", "Precip_total", "Pet", "Elev_sd", "Bedrock_class"),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Auteurs, The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany, doi:10.1600/036364425x17466502618876. Le papier explique les patrons de richesse specifique et de diversite phylogenetique vegetale des Alpes par la distance aux refuges glaciaires post-Pleistocene, le temps depuis la deglaciation et les variables climatiques actuelles, sur une grille de cellules echantillonnee. Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction, N=509 cellules avec coordonnees reelles (Alpes europeennes)."
+    year = "2025",
+    license_name = "Creative Commons Zero v1.0 Universal (CC0 1.0)",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Wootton, Boucher, Renaud, Valla, Midolo, Lososova, Thuiller & Lavergne (2025), The Limited Legacy of Post-Glacial Recolonization in the Floristic Patterns of the European Alps, Systematic Botany 50(1):83-98, DOI 10.1600/036364425X17466502618876. CORRECTION (2026-09-10) : papier obtenu et lu integralement (l'utilisateur a telecharge le PDF, traite via GROBID/KG 2026-09-10 ; aucune version locale n'existait avant, la fiche precedente affirmait a tort 'formule verifiee par lecture directe du papier' avec Statut=resolu alors que inst/kg/paper_dataset_uses.json montrait local_pdf={}/local_tei={}/formula=null/ingestion_status='raw_data_downloaded_pending_loader' -- jamais lu). Table 1 (verifiee, page 47 du PDF) confirme que le modele SAR retenu pour la richesse specifique standardisee n'utilise QUE 2 predicteurs -- distance au refuge le plus proche et vitesse de changement climatique -- PAS Deglac (temps depuis deglaciation, contrairement a une phrase du texte page 21 qui semble erronee/contredite par sa propre Table 1 et par la phrase suivante du meme papier), PAS de variables climatiques contemporaines (Temp_annual/Precip_total/Pet) ni de landscape (Elev_sd/Bedrock_class) : ces dernieres n'apparaissent que dans une analyse SEPAREE de partitionnement de variance (vegan::varpart(), pas une formule de regression). Echantillon : grille Alpine 10x10km (n=1611 cellules initiales, GMBA v2) filtree a >=95% de completude d'echantillonnage et >=250 observations (-1088 cellules), puis exclusion des cellules jamais englacees au dernier cycle glaciaire (-14) = 509 cellules, EXACTEMENT N=509 confirme sur le .rds local. W construit sur 'tous les voisins de chaque cellule de grille' (contigue, pas kNN). Le papier appelle sa methode 'spatial simultaneous autoregressive ERROR modelling approach (SAR)' tout en utilisant lagsarlm() (fonction LAG de spatialreg, pas errorsarlm()) -- ambiguite terminologique du papier lui-meme, non resolue par le texte, mappee ici sur sar_lag (fonction R explicitement citee, signal le plus fiable). Donnees brutes (Supplementary_data_legacy.csv) telechargees directement depuis Dryad (10.5061/dryad.w9ghx3g12) -- pas une reconstruction. R2 note : le modele lineaire de base n'explique que 9% de la variance de la richesse specifique (bien moins que pour les 3 autres indices du papier, 31-45%) -- attente de performance faible a documenter pour le benchmark. Correspondance Y/X revérifiée (2026-09-10, question explicite de l'utilisateur) contre le README des auteurs (data/raw/papers/DatasetFirst_10_5061_dryad_w9ghx3g12/README.md, dictionnaire de donnees Dryad) : confirme 'Refugia_distance_all = distance to the closest refugium whether nunatak of peripheral (km)', 'Velocity_med = median value of climate change velocity (km/ky)', 'Standardised_SR = standardised species richness' (distinct de 'S.obs = observed number of species') -- source primaire independante du texte de l'article, qui accorde le nom de colonne mais pas necessairement la methode de calcul detaillee (rarefaction iNEXT a 95% de completude, decrite uniquement dans le texte p.11-12, pas dans ce README)."
   ),
   pacific_atoll_coconut = list(
     formula_pub = "cocos% ~ Average.Rainfall + Elevation + Inhabited + History.of.copra.production [classification satellite (Sentinel-2/Planet) de la couverture cocos vs autre vegetation/non-vegetation par atoll, comparee aux variables environnementales et a l'histoire de production de coprah]",
@@ -876,7 +1090,7 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("Average.Rainfall..mm.yr.", "Elevation..m.", "Inhabited.", "History.of.copra.production", "broadleaf.", "shrub.", "non_veg."),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Auteurs (2024), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation)."
+    source_ref = "Burnett, French, Jones, Fischer, Holland, Roybal, White, Steibl, Anderegg, Young, Holmes & Wegmann (2024) (auteurs completes le 2026-09-14 -- confirmes via Crossref, le placeholder 'Auteurs' n'en nommait aucun), Satellite imagery reveals widespread coconut plantations on Pacific atolls, Environmental Research Letters, doi:10.1088/1748-9326/ad8c66. Le papier classifie la couverture vegetale par imagerie satellite (Sentinel-2/Planet) sur des atolls du Pacifique et relie la prevalence du cocotier a l'histoire de production de coprah et aux variables environnementales. Donnees brutes (master-atoll-database-2024-04-16.csv) telechargees directement depuis Dryad (10.5061/dryad.0k6djhb7x) -- pas une reconstruction, N=266 atolls avec coordonnees reelles, statistiques de couverture vegetale issues de la classification satellite du papier lui-meme (pas une reconstruction/estimation)."
   ),
   checkerspot_phenology = list(
     formula_pub = "startDayOfYear ~ latitude + year [analyse de decalage phenologique sur 140 ans d'archives de musee/citizen-science de papillons demi-lune de Baltimore (Baltimore checkerspot, Euphydryas phaeton), comparee a la disponibilite de nectar sur le terrain]",
@@ -888,7 +1102,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("decimalLatitude", "decimalLongitude", "year"),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Auteurs non individualises dans les metadonnees locales (2024), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
+    year = "2024",
+    source_ref = "Crone, E.E., Arriens, J.V. & Brown, L.M. (2024) (auteurs confirmes via Crossref le 2026-09-14, absents des metadonnees locales), Phenological mismatch is less important than total nectar availability for checkerspot butterflies, Ecology, 105(12):e4461, doi:10.1002/ecy.4461. Le papier compare la phenologie historique (archives de musee/citizen-science, 1877-2017) du papillon demi-lune de Baltimore (Euphydryas phaeton, dossier bcbformattedFINAL.csv) a des mesures de terrain de disponibilite de nectar (transects.csv, nectar.csv) sur des sites nommes sans coordonnees precises -- formula_used utilise uniquement le sous-jeu georeference (occurrences de musee avec decimalLatitude/decimalLongitude reelles) pour une regression continue latitude-annee, standard pour ce type d'etude phenologique. PDF non recupere localement (bloque par anti-bot Wiley, 403) -- confirme via OpenAlex et le depot Zenodo du code d'analyse associe (10.5281/zenodo.13760920). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.rr4xgxdhk) -- pas une reconstruction, N=1989 occurrences georeferencees."
   ),
   sugarglider_occupancy = list(
     formula_pub = "psi(occupancy) ~ mature_forest_extent(200-2000m) + elev ; p(detection) ~ temperature + wind + moonlight + owl_playback [modele d'occupation-detection (site-occupancy model), naive occupancy = 0.79, detectabilite = 0.52 +/- 0.03 sur 5 visites]",
@@ -900,7 +1115,7 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("mat200", "mat500", "mat1000", "mat1500", "mat2000", "elev"),
     ml_estimator_context = c("glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
+    source_ref = "Allen, Webb, Alves, Heinsohn & Stojanovic (2018) (auteurs corriges le 2026-09-14 -- confirmes via Crossref ; 'Cooper' n'est pas un auteur de ce papier, les vrais 3e et 4e auteurs sont Alves et Heinsohn), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
   ),
   macropod_body_size = list(
     formula_pub = "CL ~ SummerMaxTemp + AnnualRain + MI + Sex + Island + Year [modele spatial bayesien controlant pour l'age (MI, molar progression index), le sexe, l'effet ile, et l'annee ; teste l'hypothese de nanisme induit par la chasse le long d'un gradient geographique sur >2000 cranes de macropodes]",
@@ -948,7 +1163,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("land_cover"),
     ml_estimator_context = c("ols", "gam_spatial", "random_forest", "gwr"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
+    year = "2019",
+    source_ref = "Collins, Heaton & Hu (2019) (auteurs corriges le 2026-09-14 -- confirmes via Crossref et OpenAlex, DOI 10.1080/02664763.2019.1681384 ; l'attribution anterieure 'Chang & Wikle' etait fausse, aucun auteur de ce nom sur ce papier), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
   ),
   song_sparrow_breeding_date = list(
     formula_pub = "y = Xb + Z1*a_female + Z2*a_male + Z3*PI_female + Z4*PI_male + Z5*Year + e [modele animal quantitatif-genetique (mixed model) avec effets fixes b (coefficients de consanguinite, classes d'age, statut immigrant, par sexe) et effets aleatoires genetiques additifs (matrice de parente A issue du pedigree), effets individuels permanents, annee et residus ; trois variantes spatiales ajoutent en plus des effets de localisation de nid]",
@@ -996,7 +1212,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("PC1", "PC2", "PC3", "PC4", "PC5", "PC6"),
     ml_estimator_context = c("glm_logistic", "random_forest", "random_forest_xy", "xgboost", "gwr"),
     ml_status = "executable_binary_variant",
-    source_ref = "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
+    year = "2017",
+    source_ref = "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881 (annee de publication confirmee via Crossref le 2026-09-14, volume 40(8):913-929 -- corrige de '2016', qui etait l'annee de depot Dryad extraite du bib_key, non l'annee de publication de l'article). Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
   ),
   gcfr_soil = list(
     formula_pub = "[Pas de regression Y~X unique dans le papier pour cette table -- les echantillons ponctuels de sol servent d'entree a une interpolation spatiale (krigeage/apprentissage automatique avec covariables environnementales, dans la lignee de SoilGrids) produisant des couches regionales de sol, elles-memes utilisees comme covariables dans un modele separe de prediction du type de vegetation (non inclus dans ce depot)]",
@@ -1047,16 +1264,25 @@ FORMULA_OVERRIDES <- list(
     source_ref = "Miquelluti, D.L., Ozaki, V.A. & Miquelluti, D.J. (2022), Revista de Administracao Contemporanea 26(3): e200387, doi:10.1590/1982-7849rac2022200387.en. Meme depot/methodologie que gwqlasso_pr (voir cette entree et README_source.txt) -- decoupe Mato Grosso du meme jeu de donnees brutes complet (1030 municipalites/3 Etats)."
   ),
   avian_phylo_functional_distance = list(
-    formula_pub = "PD_SES ~ MPFD_SES * abs_latitude + proportion_migratory_species [modele d'analyse de cheminement (path analysis / SEM, fonction cfa du package lavaan), teste en 3 variantes emboitees : (1) interaction PD_SES:abs_latitude + proportion migratrice, (2) sans interaction, (3) sans proportion migratrice ; toutes les variables standardisees moyenne 0 / ecart-type 1 avant ajustement]",
-    formula_used = "PDses ~ MPFDses + abs_lat",
-    y_term_pub = "PD_SES (taille d'effet standardisee de la diversite phylogenetique de Faith, calculee par comparaison a des assemblages nuls bases sur les biomes/realms de Dinerstein et al. 2017)",
-    x_terms_pub = c("MPFD_SES (taille d'effet standardisee de la distance fonctionnelle moyenne par paire, MPFD, calculee via analyse en coordonnees principales sur les traits AVONET)", "abs_latitude (latitude absolue du centroide de l'assemblage)", "proportion_migratory_species (proportion d'especes migratrices dans l'assemblage, basee sur Dufour et al. 2019 -- NON incluse dans ce depot, doit etre reconstruite depuis une source externe)"),
-    ml_formula = "PDses ~ MPFDses + abs_lat + sp_richn",
-    ml_response = "PDses",
-    ml_predictors = c("MPFDses", "abs_lat", "sp_richn"),
+    formula_pub = "MPFD_SES ~ PD_SES * abs_latitude + proportion_migratory_species + altitude + species_richness [path analysis/SEM, lavaan cfa]",
+    formula_used = "MPFDses ~ PDses + abs_lat + sp_richn",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "formula_pub est confirmee par le texte des resultats (Yaxley et al. 2023, p.2127 : 'the model with the lowest BIC ... included both the proportion of migratory species and the interaction between PD_SES and latitude as predictors of MPFD_SES', coefficients PD_SES beta=-0.323 [-0.346,-0.23] p<0.001, Migration beta=-0.298 [-0.329,-0.267] p<0.001 ; altitude et richesse specifique sont des covariables communes aux trois variantes de modele comparees -- Altitude beta=0.032 [0.018,0.047] p<0.001, Species richness beta=-0.012 [-0.032,0.007] p=0.205). L'altitude (source externe Weeks et al. 2022, Bioclim, disponible pour 16979/17099 sites seulement dans le papier) n'est PAS dans ce depot Dryad et reste absente de formula_used ; la proportion d'especes migratrices (source externe Dufour et al. 2019) n'y est pas non plus. species_richness (sp_richn) EST disponible localement et ajoutee a formula_used. Le terme d'interaction PD_SES:abs_latitude n'est PAS en soi un obstacle -- une interaction est un simple terme produit, calculable dans n'importe quelle regression classique (PDses*abs_lat) ; ce qui manque reellement pour reproduire le papier est le systeme complet a 4 equations simultanees (path analysis lavaan::cfa sur MPFD_SES/PD_SES/migration/richesse, verifie robuste par une variante spatiale sesem) et la migration externe -- pas la syntaxe de l'interaction elle-meme. formula_used reste une regression lineaire simple sur les variables disponibles localement -- une simplification documentee, pas le systeme SEM du papier.",
+    formula_note = "CORRECTION (2026-09-10, verification PDF p.2127) : la fiche precedente avait Y et X inverses (PD_SES ~ MPFD_SES au lieu de MPFD_SES ~ PD_SES). Le texte des resultats et le resume du papier ('PD is an unreliable surrogate for functional diversity') confirment sans ambiguite que MPFD_SES est la variable expliquee (outcome) et PD_SES (en interaction avec la latitude) plus la proportion migratrice sont les predicteurs -- pas l'inverse. CORRECTION (2026-09-14, relecture suite a une revue externe) : altitude et richesse specifique avaient ete a tort exclues de formula_pub en interpretant 'very little effect' comme 'non retenues du modele' -- le texte precise en realite qu'elles sont des covariables communes aux 3 variantes de modele comparees, avec un coefficient rapporte pour chacune (altitude significative, p<0.001 ; richesse specifique non significative, p=0.205). species_richness (sp_richn) est disponible localement et ajoutee a formula_used ; altitude reste absente (source externe Weeks et al. 2022, non incluse dans ce depot).",
+    y_term_pub = "MPFD_SES (taille d'effet standardisee de la distance fonctionnelle moyenne par paire, variable expliquee du modele le mieux ajuste)",
+    x_terms_pub = c("PD_SES (taille d'effet standardisee de la diversite phylogenetique de Faith, en interaction avec la latitude)", "abs_latitude", "proportion_migratory_species (source externe Dufour et al. 2019, absente de ce depot)", "altitude (source externe Weeks et al. 2022/Bioclim, disponible pour 16979/17099 sites dans le papier, absente de ce depot)", "species_richness (disponible localement : sp_richn)"),
+    ml_formula = "MPFDses ~ PDses + abs_lat + sp_richn",
+    ml_response = "MPFDses",
+    ml_predictors = c("PDses", "abs_lat", "sp_richn"),
     ml_estimator_context = c("sem_path_analysis", "gwr", "sar_lag", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Yaxley, K.J., Skeels, A. & Foley, R.A. (2024), Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints, Global Ecology and Biogeography, doi:10.1111/geb.13762. CSV original (standerdised_effect_sizes.csv) telecharge directement depuis Dryad (10.5061/dryad.05qfttf8t) -- pas une reconstruction, N=17099 assemblages d'oiseaux georeferences (grille mondiale), verifie identique au N=17,097 degres de liberte cite dans le texte du papier (correlation MPFD/dispersion fonctionnelle, df=17097 -> N=17099 sites). Le papier ajuste un modele de path analysis (lavaan::cfa) sur PD_SES ~ MPFD_SES * abs_latitude + proportion migratrice ; la proportion d'especes migratrices (Dufour et al. 2019) n'est pas incluse dans ce depot Dryad (source externe requise, cf. README) et l'interaction/la structure SEM ne sont pas reproductibles telles quelles hors lavaan. formula_used retient la relation directe documentee par le titre du papier (PD_SES ~ MPFD_SES) plus abs_lat, en regression lineaire simple -- une simplification documentee, pas le modele SEM du papier. sp_richn (richesse specifique de l'assemblage) ajoutee dans ml_formula comme covariable de controle disponible localement, non testee comme telle dans le papier."
+    model_family = "path_analysis_structural_equation_model",
+    year = "2023",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
+    source_ref = "Yaxley, K.J., Skeels, A. & Foley, R.A. (2023), Global variation in the relationship between avian phylogenetic diversity and functional distance is driven by environmental context and constraints, Global Ecology and Biogeography 32:2122-2134, doi:10.1111/geb.13762 (Crossref confirme publication 2023-09-28 -- la fiche precedente et le source_ref citaient a tort '2024'). CSV original (standerdised_effect_sizes.csv) telecharge directement depuis Dryad (10.5061/dryad.05qfttf8t) -- pas une reconstruction, N=17099 assemblages d'oiseaux georeferences (grille mondiale), verifie identique au N=17,097 degres de liberte cite dans le texte. CORRECTION MAJEURE (2026-09-10, lecture directe du PDF p.2127, section 3.2) : le modele le mieux ajuste (BIC le plus bas) a pour variable expliquee MPFD_SES, pas PD_SES -- 'the two most important predictors of MPFD_SES were PD_SES and migration' (coefficients cites ci-dessus dans formula_used_divergence_note). La fiche precedente inversait Y et X (PD_SES ~ MPFD_SES), erreur non detectee lors de la premiere lecture du 2026-08-16. Le resume du papier motive aussi ce sens : PD est teste comme 'surrogate' (predicteur) de la diversite fonctionnelle, pas l'inverse. CORRECTION (2026-09-14, revue externe croisee avec relecture directe du PDF p.2127) : altitude et richesse specifique sont en realite des covariables communes aux 3 variantes de modele comparees par les auteurs ('across all three models', avec coefficient et p-value rapportes pour chacune), pas des predicteurs testes-puis-ecartes comme la fiche l'affirmait a tort -- formula_pub corrigee pour les inclure. species_richness (sp_richn) est disponible localement et ajoutee a formula_used ; altitude (Weeks et al. 2022, Bioclim, 16979/17099 sites seulement dans le papier) et la proportion d'especes migratrices (Dufour et al. 2019) restent des sources externes absentes de ce depot Dryad. Le papier utilise une path analysis / Structural Equation Model (lavaan::cfa, verifiee robuste par une variante spatiale sesem) sur un systeme de 4 equations simultanees (MPFD_SES, PD_SES, migration, richesse specifique comme variables endogenes) -- PAS un SAR/SEM-error/SDM/GWR au sens econometrie spatiale du benchmark (ambiguite de vocabulaire : 'SEM' designe ici Structural Equation Model, pas Spatial Error Model). Un terme d'interaction (PD_SES:abs_latitude) reste un simple terme produit, parfaitement calculable hors lavaan dans une regression classique -- ce n'est pas ce qui empeche la reproduction du systeme complet."
   ),
   spatial_confounding_diabetes = list(
     formula_pub = "[obesity_pct_est, diabetes_pct_est, diabetes_cancer_mortality] ~ XB_S + G + E_S [Wu, K.L. & Banerjee, S., 'Spatial Confounding in Multivariate Areal Data Analysis', arXiv:2505.07232 (texte integral libre acces consulte, session 2026-08-16). Modele areolaire bayesien coregionalise MULTIVARIE (3 reponses simultanees, structure spatiale BYM2 partagee via matrice de dependance M), avec 15 predicteurs exacts groupes en 5 domaines : contexte economique (Poverty Rate, Median Income, Unemployment, SNAP Assistance), contexte sanitaire (Uninsured Rate, PCP Density, Outpatient Visits, Low Access), environnement (Physical Inactivity, Recreation Facilities), education (HS Diploma Rate), demographie (Percent NH-Black, Percent Hispanic, Percent >=65, Percent <=18, Urban Percent). CORRESPONDANCE VERIFIEE A 100% (session 2026-08-16) entre les 15 predicteurs du papier et les colonnes reelles de RDA_data.csv -- ce depot Zenodo est manifestement le jeu de donnees original des auteurs, pas une source secondaire]",
@@ -1068,18 +1294,29 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("PCT_18YOUNGER10", "PCT_65OLDER10", "PCT_HISP10", "PCT_LACCESS_POP15", "PCT_NHBLACK10", "RECFACPTH16", "physical_inactivity_2015", "pcps_2015_100k", "outpatient_visits_2015_100k", "urban_percent_2010", "hs_dipl_percent_2011_15", "unemployment_2015", "med_hh_inc_2015", "poverty_rate_2015", "snap_pct_2015", "uninsured_2015", "obesity_pct_est"),
     ml_estimator_context = c("ols", "sar_lag", "sar_error", "car_besag", "bym2", "gwr", "random_forest"),
     ml_status = "executable_continuous_variant",
-    source_ref = "CONFIRMED (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier retrouve avec certitude quasi-absolue -- Wu, K.L. & Banerjee, S., 'Spatial Confounding in Multivariate Areal Data Analysis', arXiv:2505.07232, texte integral libre acces consulte. Le papier analyse des donnees de comtes americains sur obesite/diabete/mortalite par cancer lie au diabete avec un modele areolaire bayesien coregionalise multivarie (Y=XB_S+G+E_S, structure BYM2 partagee entre les 3 reponses via une matrice de dependance M), 15 predicteurs exacts groupes en 5 domaines de determinants sanitaires (economique, sanitaire, environnemental, educatif, demographique). CORRESPONDANCE VERIFIEE A 100% : les 15 predicteurs cites dans le papier (Poverty Rate->poverty_rate_2015, Median Income->med_hh_inc_2015, Unemployment->unemployment_2015, SNAP Assistance->snap_pct_2015, Uninsured Rate->uninsured_2015, PCP Density->pcps_2015_100k, Outpatient Visits->outpatient_visits_2015_100k, Low Access->PCT_LACCESS_POP15, Physical Inactivity->physical_inactivity_2015, Recreation Facilities->RECFACPTH16, HS Diploma Rate->hs_dipl_percent_2011_15, Percent NH-Black->PCT_NHBLACK10, Percent Hispanic->PCT_HISP10, Percent >=65->PCT_65OLDER10, Percent <=18->PCT_18YOUNGER10, Urban Percent->urban_percent_2010) correspondent tous exactement aux colonnes de RDA_data.csv, et diabetes_cancer_mortality (une des 3 reponses du modele multivarie du papier) est deja une colonne du depot -- ce Zenodo est manifestement le jeu de donnees original de Wu & Banerjee, pas une source secondaire. formula_used corrigee (session 2026-08-16) : passe de 6 covariables choisies par analogie a la totalite des 15 predicteurs exacts du papier (obesity_pct_est retiree du role de covariable et notee comme reponse multivariee alternative du vrai modele, mais gardee en ml_formula comme covariable disponible pour un usage benchmark simple univariee). Le vrai modele du papier reste multivarie (3 reponses simultanees, structure BYM2 coregionalisee) -- non reproductible tel quel par une regression univariee simple, formula_used documente donc une regression classique diabetes_pct_est~X sur les vrais predicteurs, pas le modele multivarie complet. RDA_data.csv (2984 comtes americains) telecharge directement depuis Zenodo -- pas une reconstruction. Geometrie jointe par code FIPS (5 chiffres, zero-pad corrige) au shapefile officiel Census cb_2017_us_county_500k inclus dans le meme depot -- pas une reconstruction, N=2984/2984 comtes joints (couverture complete). package_include laisse en manual_review : papier et predicteurs desormais confirmes a 100%, mais formula_used reste une simplification univariee du vrai modele multivarie coregionalise."
+    year = "2025",
+    source_ref = "CONFIRMED (session 2026-08-16, recherche bibliographique demandee par l'utilisateur ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : papier retrouve avec certitude quasi-absolue -- Wu, K.L. & Banerjee, S., 'Spatial Confounding in Multivariate Areal Data Analysis', arXiv:2505.07232, DOI 10.48550/arXiv.2505.07232, texte integral libre acces consulte. Le papier analyse des donnees de comtes americains sur obesite/diabete/mortalite par cancer lie au diabete avec un modele areolaire bayesien coregionalise multivarie (Y=XB_S+G+E_S, structure BYM2 partagee entre les 3 reponses via une matrice de dependance M), 15 predicteurs exacts groupes en 5 domaines de determinants sanitaires (economique, sanitaire, environnemental, educatif, demographique). CORRESPONDANCE VERIFIEE A 100% : les 15 predicteurs cites dans le papier (Poverty Rate->poverty_rate_2015, Median Income->med_hh_inc_2015, Unemployment->unemployment_2015, SNAP Assistance->snap_pct_2015, Uninsured Rate->uninsured_2015, PCP Density->pcps_2015_100k, Outpatient Visits->outpatient_visits_2015_100k, Low Access->PCT_LACCESS_POP15, Physical Inactivity->physical_inactivity_2015, Recreation Facilities->RECFACPTH16, HS Diploma Rate->hs_dipl_percent_2011_15, Percent NH-Black->PCT_NHBLACK10, Percent Hispanic->PCT_HISP10, Percent >=65->PCT_65OLDER10, Percent <=18->PCT_18YOUNGER10, Urban Percent->urban_percent_2010) correspondent tous exactement aux colonnes de RDA_data.csv, et diabetes_cancer_mortality (une des 3 reponses du modele multivarie du papier) est deja une colonne du depot -- ce Zenodo est manifestement le jeu de donnees original de Wu & Banerjee, pas une source secondaire. formula_used corrigee (session 2026-08-16) : passe de 6 covariables choisies par analogie a la totalite des 15 predicteurs exacts du papier (obesity_pct_est retiree du role de covariable et notee comme reponse multivariee alternative du vrai modele, mais gardee en ml_formula comme covariable disponible pour un usage benchmark simple univariee). Le vrai modele du papier reste multivarie (3 reponses simultanees, structure BYM2 coregionalisee) -- non reproductible tel quel par une regression univariee simple, formula_used documente donc une regression classique diabetes_pct_est~X sur les vrais predicteurs, pas le modele multivarie complet. RDA_data.csv (2984 comtes americains) telecharge directement depuis Zenodo -- pas une reconstruction. Geometrie jointe par code FIPS (5 chiffres, zero-pad corrige) au shapefile officiel Census cb_2017_us_county_500k inclus dans le meme depot -- pas une reconstruction, N=2984/2984 comtes joints (couverture complete). package_include laisse en manual_review : papier et predicteurs desormais confirmes a 100%, mais formula_used reste une simplification univariee du vrai modele multivarie coregionalise."
   ),
   antarctic_biodiversity_completeness = list(
-    formula_pub = "[CONFIRME (session 2026-08-16) : pas de formule Y~X dans le papier pour cette table. Le script R original des auteurs (SUPPORTING FILE 4 Spatial Completeness R CODE.R, present dans ce meme depot) utilise uniquement KnowBR::KnowBPolygon() pour produire Estimators.csv (= ce CSV) suivi d'une visualisation cartographique -- aucune regression ajustee, confirmant que Cmpltns est un diagnostic descriptif, pas une variable expliquee. Source : Pertierra et al. (2025), 'Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity', Science 387:609-615, doi:10.1126/science.adk2118 (DOI trouve par recherche web, annee/pages corrigees -- README local disait a tort '2024')]",
+    formula_pub = "aucune regression Y~X publiee -- Cmpltns est un indice descriptif (KnowBR), voir Note",
     formula_used = "Cmpltns ~ Records + Shap_Ar",
+    formula_note = "Formule proposee par le curateur, pas une formule publiee. Le script R original des auteurs (SUPPORTING FILE 4, present dans le depot Zenodo) utilise uniquement KnowBR::KnowBPolygon() pour produire ce CSV, suivi d'une carte -- aucune regression ajustee. Slope et Obsrvd_ sont des ingredients directs du calcul de Cmpltns (documentation CRAN KnowBR) et ont ete exclus des X pour eviter la circularite ; ne restent que Records et Shap_Ar (entrees independantes). Voir source_ref pour la citation complete et le detail methodologique.",
     y_term_pub = "Cmpltns (completude de l'inventaire biodiversite par cellule de grille Antarctique, %, calculee via le package KnowBR a partir de courbes d'accumulation d'especes, estimateur de Ugland et al. 2003)",
     x_terms_pub = c("Records (nombre d'enregistrements d'occurrence dans la cellule, proxy d'effort d'echantillonnage -- entree independante du calcul KnowBR)", "Shap_Ar (aire de la cellule de grille -- geometrie independante)"),
+    regression_status_override = "generated_system_formula",
+    regression_evidence_override = "system_generated",
+    regression_method_override = "formule proposee par le curateur (Records + Shap_Ar) ; aucune regression Y~X publiee pour cette table -- voir Note",
+    regression_note_override = "Cmpltns est un diagnostic descriptif KnowBR, pas une variable expliquee dans le papier (script R original des auteurs confirme aucune regression ajustee). Slope/Obsrvd_ exclus des X car ingredients directs du calcul (circularite). Voir 'Reference publication' pour le detail complet.",
     ml_formula = "Cmpltns ~ Records + Shap_Ar",
     ml_response = "Cmpltns",
     ml_predictors = c("Records", "Shap_Ar"),
     ml_estimator_context = c("ols", "gwr", "random_forest", "sar_lag"),
     ml_status = "executable_continuous_variant",
+    year = "2025",
+    license_name = "Creative Commons Attribution 4.0 International",
+    license_url = "https://creativecommons.org/licenses/by/4.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-10",
     source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier retrouve et DOI corrige -- Pertierra et al. (2025, pas 2024), 'Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity', Science 387:609-615, doi:10.1126/science.adk2118. Le script R original des auteurs est present dans ce meme depot (SUPPORTING FILE 4 Spatial Completeness R CODE.R) et confirme sans ambiguite que le pipeline se limite a KnowBR::KnowBPolygon() (calcul de completude par courbe d'accumulation d'especes) suivi d'une carte -- aucune regression Y~X publiee sur cette table. DECOUVERTE METHODOLOGIQUE IMPORTANTE (documentation officielle CRAN du package KnowBR, Lobo et al.) : Slope et Obsrvd_ (richesse observee) sont des INGREDIENTS DIRECTS du calcul de Completeness lui-meme (la completude = richesse observee / richesse extrapolee par la courbe d'accumulation, dont Slope est la pente finale) -- les inclure comme covariables X d'une regression Cmpltns~... serait quasi-circulaire (tautologique par construction de l'algorithme), pas une relation causale testable. formula_used corrigee (session 2026-08-16) : Slope et Obsrvd_ retires, ne restent que Records (entree brute independante, proxy d'effort d'echantillonnage) et Shap_Ar (geometrie de cellule, independante). CSV original (SUPPORTING FILE 3 Antarctic Inventories Spatial Completeness.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=1518 cellules de grille Antarctique. VERIFICATION EMPIRIQUE (session 2026-08-16) : les colonnes 'Latitude'/'Longitude' du CSV source sont inversees (colonne 'Latitude' variant sur [-175,176], plage de longitude ; colonne 'Longitude' variant sur [-89.6,-60.2], plage de latitude coherente avec l'Antarctique) -- corrige dans le loader (true_lat=Longitude, true_lon=Latitude), verifie geographiquement valide apres correction. package_include laisse en manual_review : formule corrigee pour eviter la circularite mais reste une proposition du curateur, le papier lui-meme ne publie aucune regression sur cette table."
   ),
   pollinator_urbanization_meta = list(
@@ -1092,7 +1329,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("Pollinator_group", "Urban_gradient", "Climate_region"),
     ml_estimator_context = c("meta_regression", "ols", "random_forest"),
     ml_status = "executable_continuous_variant",
-    source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier identifie et confirme -- Liang, He, Theodorou & Yang (2023), Ecology Letters 26:1629-1642, doi:10.1111/ele.14277, 'The effects of urbanization on pollinators and pollination: A meta-analysis' (133 etudes). Abstract officiel (Wiley/PubMed) confirme une meta-analyse hierarchique multivariee testant si l'effet de l'urbanisation depend du 'taxonomic group' et de l' 'origin (native vs. non-native)' -- ces deux moderateurs correspondent aux colonnes reelles Pollinator_group/Order (6% NA) et Pollinator_origin (54% NA) du CSV local. Texte integral non accessible (Wiley payant HTTP 402, ResearchGate/Authorea 403, depot institutionnel opendata.uni-halle.de protege par verification anti-bot Anubis -- non contourne, conforme a la politique du projet), donc les noms exacts de tous les moderateurs testes et la specification complete du modele restent a confirmer par lecture du texte integral si l'utilisateur peut se le procurer. formula_used corrigee (session 2026-08-16) : Pollinator_origin remplace par Pollinator_group (meme esprit -- moderateur taxonomique confirme -- mais bien mieux rempli, 6% vs 54% NA) ; Vd retiree des covariables X (erreur de specification corrigee : dans metafor::rma.mv, la variance d'echantillonnage est le parametre de ponderation V=, jamais un terme de la formule mods=~...). CSV original (Appendix_S1.1_effect_size_pollinator_abundance.csv) telecharge directement depuis Dryad, N=228 tailles d'effet reelles, pas une reconstruction. package_include laisse en manual_review : le modele exact (interaction taxonomic_group*origin) n'a pas pu etre verifie verbatim faute d'acces au texte integral."
+    year = "2023",
+    source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : papier identifie et confirme -- Liang, He, Theodorou & Yang (2023), Ecology Letters 26:1629-1642, doi:10.1111/ele.14277, 'The effects of urbanization on pollinators and pollination: A meta-analysis' (133 etudes). Abstract officiel (Wiley/PubMed) confirme une meta-analyse hierarchique multivariee testant si l'effet de l'urbanisation depend du 'taxonomic group' et de l' 'origin (native vs. non-native)' -- ces deux moderateurs correspondent aux colonnes reelles Pollinator_group/Order (6% NA) et Pollinator_origin (54% NA) du CSV local. Texte integral non accessible (Wiley payant HTTP 402, ResearchGate/Authorea 403, depot institutionnel opendata.uni-halle.de protege par verification anti-bot Anubis -- non contourne, conforme a la politique du projet), donc les noms exacts de tous les moderateurs testes et la specification complete du modele restent a confirmer par lecture du texte integral si l'utilisateur peut se le procurer. formula_used corrigee (session 2026-08-16) : Pollinator_origin remplace par Pollinator_group (meme esprit -- moderateur taxonomique confirme -- mais bien mieux rempli, 6% vs 54% NA) ; Vd retiree des covariables X (erreur de specification corrigee : dans metafor::rma.mv, la variance d'echantillonnage est le parametre de ponderation V=, jamais un terme de la formule mods=~...). CSV original (Appendix_S1.1_effect_size_pollinator_abundance.csv) telecharge directement depuis Dryad, N=228 tailles d'effet reelles, pas une reconstruction. package_include laisse en manual_review : le modele exact (interaction taxonomic_group*origin) n'a pas pu etre verifie verbatim faute d'acces au texte integral."
   ),
   portugal_covid_municipal = list(
     formula_pub = "log(cases_per_10k_15days) ~ pct_emploi_services + temps_trajet_moyen_individuel + pct_emploi_agricole + taille_moyenne_famille + [12 autres variables retenues sur 33 candidates, VIF<2.5] [Barbosa, Silva, Capinha, Garcia & Rocha (2022), 'Spatial correlates of COVID-19 first wave across continental Portugal', Geospatial Health 17(s1):1073, doi:10.4081/gh.2022.1073, texte integral lu (PDF telecharge depuis repositorio.ulisboa.pt, licence CC-BY-NC 4.0). GLMM distribution Tweedie avec effet aleatoire NUTS-3, sur N=278 municipalites (Portugal continental, Acores/Madere exclus faute de donnees), 12 modeles separes (un par periode de 15 jours, avril-septembre 2020). 33 variables candidates en 6 categories (population, socio-economique, habitat, mobilite, sante, environnement -- source principale INE/Statistics Portugal + E-OBS pour temperature/precipitation), reduites a 16 apres diagnostic de multicollinearite (VIF>2.5 retire)]",
@@ -1104,7 +1342,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("population", "densidade_populacional", "population_65_mais"),
     ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "gam_spatial"),
     ml_status = "executable_continuous_variant",
-    source_ref = "REVISE x2 (session 2026-08-16) : (1) papier trouve et confirme -- Barbosa, Silva, Capinha, Garcia & Rocha (2022), 'Spatial correlates of COVID-19 first wave across continental Portugal', Geospatial Health 17(s1):1073, doi:10.4081/gh.2022.1073. (2) TEXTE INTEGRAL LU (recherche web demandee par l'utilisateur, PDF en libre acces telecharge depuis le depot institutionnel repositorio.ulisboa.pt, CC-BY-NC 4.0) : etude sur N=278 municipalites du Portugal continental (Acores et Madere exclus, donnees indisponibles pour plusieurs variables explicatives), periode avril-septembre 2020, 12 fenetres de 15 jours. Y = nombre de nouveaux cas COVID-19 par periode de 15 jours, converti en incidence pour 10000 habitants, transformation logarithmique. 33 VARIABLES CANDIDATES EXHAUSTIVES identifiees (Figure 2 du papier), groupees en 6 categories : (a) Population -- densite de population, population par groupe d'age (0-9/10-19/20-64/65+), nombre de familles classiques, dimension des familles classiques, indice de dependance ; (b) Socio-economique -- emploi par secteur (agriculture/industrie/infrastructure/services), remuneration moyenne, taux de chomage, population illettree, population avec/sans enseignement superieur, taux d'abandon scolaire, pouvoir d'achat par habitant, pensionnes securite sociale en age actif, retraits aux distributeurs ; (c) Habitation -- logements familiaux classiques, logements avec tout confort, logements occupes, logements surpeuples/collectifs/non-classiques, densite de logements, nombre de quartiers sociaux ; (d) Mobilite -- duree moyenne des trajets domicile-travail en transport individuel, mobilite en transport prive/collectif (interne/externe), proportion d'usage de la voiture ; (e) Sante -- existence de services d'urgence de base/permanents/etendus ; (f) Environnement -- temperature moyenne et precipitation totale (source E-OBS, Cornes et al. 2018), emissions de polluants. Apres diagnostic de multicollinearite (VIF>2.5 retire), 16 variables retenues pour l'analyse finale (modele GLMM distribution Tweedie, effet aleatoire NUTS-3). Covariables significatives confirmees 'de facon consistante dans le temps' : pourcentage d'emploi dans les services, temps de trajet moyen en transport individuel, pourcentage d'emploi agricole, taille moyenne des familles. AUCUNE DE CES 33 VARIABLES INE/E-OBS N'EST PRESENTE dans le depot Zenodo local (dgs_data_concelhos_new.csv contient uniquement population/densite/incidence, source DGS pas INE) -- tentative de recuperation directe des donnees PORDATA (base de statistiques municipales portugaises certifiees, https://www.pordata.pt) : lien de telechargement direct teste, retourne HTTP 404 (URL expiree), non poursuivi. formula_used (population + densidade_populacional) reste donc une proposition du curateur, dans l'esprit de la litterature confirmee (densite demographique = categorie 'Population' du papier) mais tres partielle face aux 16 variables retenues du vrai modele. CSV original (dgs_data_concelhos_new.csv) telecharge directement depuis Zenodo -- pas une reconstruction, panel journalier des 308 concelhos portugais. Geometrie jointe a la couche publique geoBoundaries PRT/ADM2 (CC0), 298/308 concelhos apparies (96.8%), N=20604 observations. package_include laisse en manual_review : papier et structure exacte du modele desormais entierement documentes, mais les vraies covariables INE/E-OBS restent hors de portee sans acces direct a un portail de donnees municipales portugaises fonctionnel."
+    year = "2022",
+    source_ref = "REVISE x2 (session 2026-08-16 ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : (1) papier trouve et confirme -- Barbosa, Silva, Capinha, Garcia & Rocha (2022), 'Spatial correlates of COVID-19 first wave across continental Portugal', Geospatial Health 17(s1):1073, doi:10.4081/gh.2022.1073. (2) TEXTE INTEGRAL LU (recherche web demandee par l'utilisateur, PDF en libre acces telecharge depuis le depot institutionnel repositorio.ulisboa.pt, CC-BY-NC 4.0) : etude sur N=278 municipalites du Portugal continental (Acores et Madere exclus, donnees indisponibles pour plusieurs variables explicatives), periode avril-septembre 2020, 12 fenetres de 15 jours. Y = nombre de nouveaux cas COVID-19 par periode de 15 jours, converti en incidence pour 10000 habitants, transformation logarithmique. 33 VARIABLES CANDIDATES EXHAUSTIVES identifiees (Figure 2 du papier), groupees en 6 categories : (a) Population -- densite de population, population par groupe d'age (0-9/10-19/20-64/65+), nombre de familles classiques, dimension des familles classiques, indice de dependance ; (b) Socio-economique -- emploi par secteur (agriculture/industrie/infrastructure/services), remuneration moyenne, taux de chomage, population illettree, population avec/sans enseignement superieur, taux d'abandon scolaire, pouvoir d'achat par habitant, pensionnes securite sociale en age actif, retraits aux distributeurs ; (c) Habitation -- logements familiaux classiques, logements avec tout confort, logements occupes, logements surpeuples/collectifs/non-classiques, densite de logements, nombre de quartiers sociaux ; (d) Mobilite -- duree moyenne des trajets domicile-travail en transport individuel, mobilite en transport prive/collectif (interne/externe), proportion d'usage de la voiture ; (e) Sante -- existence de services d'urgence de base/permanents/etendus ; (f) Environnement -- temperature moyenne et precipitation totale (source E-OBS, Cornes et al. 2018), emissions de polluants. Apres diagnostic de multicollinearite (VIF>2.5 retire), 16 variables retenues pour l'analyse finale (modele GLMM distribution Tweedie, effet aleatoire NUTS-3). Covariables significatives confirmees 'de facon consistante dans le temps' : pourcentage d'emploi dans les services, temps de trajet moyen en transport individuel, pourcentage d'emploi agricole, taille moyenne des familles. AUCUNE DE CES 33 VARIABLES INE/E-OBS N'EST PRESENTE dans le depot Zenodo local (dgs_data_concelhos_new.csv contient uniquement population/densite/incidence, source DGS pas INE) -- tentative de recuperation directe des donnees PORDATA (base de statistiques municipales portugaises certifiees, https://www.pordata.pt) : lien de telechargement direct teste, retourne HTTP 404 (URL expiree), non poursuivi. formula_used (population + densidade_populacional) reste donc une proposition du curateur, dans l'esprit de la litterature confirmee (densite demographique = categorie 'Population' du papier) mais tres partielle face aux 16 variables retenues du vrai modele. CSV original (dgs_data_concelhos_new.csv) telecharge directement depuis Zenodo -- pas une reconstruction, panel journalier des 308 concelhos portugais. Geometrie jointe a la couche publique geoBoundaries PRT/ADM2 (CC0), 298/308 concelhos apparies (96.8%), N=20604 observations. package_include laisse en manual_review : papier et structure exacte du modele desormais entierement documentes, mais les vraies covariables INE/E-OBS restent hors de portee sans acces direct a un portail de donnees municipales portugaises fonctionnel."
   ),
   colombia_leptospirosis_risk = list(
     formula_pub = "monthly_incidence ~ rainfall + temperature + overflooding + confondants_sociodemographiques [modele bayesien hierarchique BYM spatio-temporel, 180 mois (2007-2021), tous les municipalites colombiennes ; 'Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach', Journal of Public Health/Taylor & Francis, doi:10.1080/09581596.2025.2578588. La pluviometrie (rainfall) est identifiee comme le determinant environnemental le plus important apres ajustement pour les confondants socio-economiques/environnementaux et la structure spatiale. RR (risque relatif spatial) et la statistique de Mann-Kendall (tendance temporelle emergente) sont les deux SORTIES du modele BYM, pas des variables d'entree]",
@@ -1116,7 +1355,8 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("MannKendall", "emerging_trend", "mean_annual_temp_c", "annual_precip_mm"),
     ml_estimator_context = c("ols", "gwr", "car_besag", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "REVISE x2 (session 2026-08-16) : (1) recherche bibliographique demandee par l'utilisateur -- papier identifie avec un haut degre de confiance -- 'Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach', doi:10.1080/09581596.2025.2578588. Correspondance structurelle exacte confirmee : le papier utilise un test de Mann-Kendall pour identifier les tendances emergentes de risque spatio-temporel ET un modele hierarchique bayesien BYM produisant des cartes de risque relatif spatial (RR) par municipalite, sur exactement 180 mois (2007-2021), ce qui correspond exactement aux 180 colonnes 'month 1' a 'month 180' de la feuille '1. iar_lepto' du fichier Sup_materials_lepto.xlsx local. Selon le resume de l'article, le vrai modele est incidence mensuelle ~ pluviometrie + temperature + inondation (overflooding), la pluviometrie etant le determinant environnemental le plus important. (2) CORRECTION METHODOLOGIQUE (signalee par l'utilisateur, session 2026-08-16) : p_value retiree des covariables -- la significativite d'un test statistique n'est pas une variable explicative independante, elle mesure l'incertitude sur MannKendall lui-meme (correlation empirique MannKendall~p_value = 0.70, confirmant leur non-independance), meme famille d'erreur que la circularite deja corrigee pour antarctic_biodiversity_completeness. emerging_trend conservee : verifiee empiriquement NON redondante avec le signe de MannKendall (35% de desaccord de signe dans les donnees reelles, cf. table de contingence). COVARIABLES CLIMATIQUES REELLES AJOUTEES (recherche demandee par l'utilisateur) : mean_annual_temp_c et annual_precip_mm, normales climatiques CHELSA V2.1 1981-2010 (https://chelsa-climate.org, licence CC-BY-4.0, lecture directe via GDAL /vsicurl/ sans telechargement du raster mondial complet), extraites par moyenne zonale sur les polygones municipaux geoBoundaries deja utilises pour la geometrie -- proxy legitime et verifie geographiquement coherent (temperature 7.8-28.5 degres C, precipitation 399-6553 mm/an sur les 931 municipalites, plages plausibles pour la Colombie) de la pluviometrie/temperature identifiees par le papier comme determinants principaux -- CE SONT DES NORMALES CLIMATIQUES (moyennes 1981-2010), PAS les covariables mensuelles exactes du modele BYM original (qui utiliserait des donnees IDEAM/CHIRPS mensuelles alignees sur la periode 2007-2021 exacte du papier) ; approximation documentee, pas une reconstruction des vraies donnees d'entree du papier. Texte integral du papier toujours non accessible (Taylor & Francis HTTP 403, PubMed cookie-gated). Geometrie : jointe par nom de municipalite normalise a la couche ADM2 publique geoBoundaries (source officielle DANE, CC BY 4.0, COL/ADM2, 1122 unites) ; 987/1036 municipalites uniques appariees par nom (95.3%), puis 65 noms ambigus (homonymes entre departements colombiens) retires -- N final=931 municipalites univoques, aucune supplementaire perdue lors de la jointure climatique (0 NA climat/mm2 sur les 931). package_include laisse en manual_review : papier et structure confirmes, covariables climatiques reelles ajoutees mais restent des normales/proxy, pas les vraies donnees mensuelles du modele original."
+    year = "2025",
+    source_ref = "Cortes-Ramirez, Wilches-Vega, Parvez, Galvis-Serrano, Parada-Jurado & Gutierrez (2025) (auteurs et journal Critical Public Health confirmes via Crossref le 2026-09-14 -- corrige de l'attribution generique anterieure 'Journal of Public Health/Taylor & Francis'), Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach, Critical Public Health, doi:10.1080/09581596.2025.2578588. REVISE x2 (session 2026-08-16) : (1) recherche bibliographique demandee par l'utilisateur -- papier identifie avec un haut degre de confiance. Correspondance structurelle exacte confirmee : le papier utilise un test de Mann-Kendall pour identifier les tendances emergentes de risque spatio-temporel ET un modele hierarchique bayesien BYM produisant des cartes de risque relatif spatial (RR) par municipalite, sur exactement 180 mois (2007-2021), ce qui correspond exactement aux 180 colonnes 'month 1' a 'month 180' de la feuille '1. iar_lepto' du fichier Sup_materials_lepto.xlsx local. Selon le resume de l'article, le vrai modele est incidence mensuelle ~ pluviometrie + temperature + inondation (overflooding), la pluviometrie etant le determinant environnemental le plus important. (2) CORRECTION METHODOLOGIQUE (signalee par l'utilisateur, session 2026-08-16) : p_value retiree des covariables -- la significativite d'un test statistique n'est pas une variable explicative independante, elle mesure l'incertitude sur MannKendall lui-meme (correlation empirique MannKendall~p_value = 0.70, confirmant leur non-independance), meme famille d'erreur que la circularite deja corrigee pour antarctic_biodiversity_completeness. emerging_trend conservee : verifiee empiriquement NON redondante avec le signe de MannKendall (35% de desaccord de signe dans les donnees reelles, cf. table de contingence). COVARIABLES CLIMATIQUES REELLES AJOUTEES (recherche demandee par l'utilisateur) : mean_annual_temp_c et annual_precip_mm, normales climatiques CHELSA V2.1 1981-2010 (https://chelsa-climate.org, licence CC-BY-4.0, lecture directe via GDAL /vsicurl/ sans telechargement du raster mondial complet), extraites par moyenne zonale sur les polygones municipaux geoBoundaries deja utilises pour la geometrie -- proxy legitime et verifie geographiquement coherent (temperature 7.8-28.5 degres C, precipitation 399-6553 mm/an sur les 931 municipalites, plages plausibles pour la Colombie) de la pluviometrie/temperature identifiees par le papier comme determinants principaux -- CE SONT DES NORMALES CLIMATIQUES (moyennes 1981-2010), PAS les covariables mensuelles exactes du modele BYM original (qui utiliserait des donnees IDEAM/CHIRPS mensuelles alignees sur la periode 2007-2021 exacte du papier) ; approximation documentee, pas une reconstruction des vraies donnees d'entree du papier. Texte integral du papier toujours non accessible (Taylor & Francis HTTP 403, PubMed cookie-gated). Geometrie : jointe par nom de municipalite normalise a la couche ADM2 publique geoBoundaries (source officielle DANE, CC BY 4.0, COL/ADM2, 1122 unites) ; 987/1036 municipalites uniques appariees par nom (95.3%), puis 65 noms ambigus (homonymes entre departements colombiens) retires -- N final=931 municipalites univoques, aucune supplementaire perdue lors de la jointure climatique (0 NA climat/mm2 sur les 931). package_include laisse en manual_review : papier et structure confirmes, covariables climatiques reelles ajoutees mais restent des normales/proxy, pas les vraies donnees mensuelles du modele original."
   ),
   korea_hedonic_housing = list(
     formula_pub = "Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 -- article 'data descriptor' officiel de ce meme jeu de donnees (26 variables en 4 categories : housing properties, local demographics, local amenities, seasonal controls). Etude d'application liee trouvee : Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900, confirmant 'network distance to nearest subway station' comme la variable la plus importante pour expliquer le prix, avec les caracteristiques du logement]",
@@ -1128,6 +1368,7 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance", "Maximum.floor", "Higher.degree.ratio", "City"),
     ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
     ml_status = "executable_continuous_variant",
+    year = "2021",
     source_ref = "CONFIRMED (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : le papier 'data descriptor' officiel de ce jeu de donnees a ete retrouve -- Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 (texte consulte via PMC, article en libre acces). Structure officielle confirmee : 26 variables en 4 categories (housing properties : size/floor/parking/annee construction ; demographie locale : population/densite/education/age ; amenites locales : distance metro/bus/espaces verts/CBD ; controles saisonniers). Une etude d'application du meme jeu de donnees a egalement ete identifiee -- Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900 -- confirmant explicitement que la distance au metro et les caracteristiques du logement sont les determinants les plus importants du prix. formula_used (deja proposee par le curateur avant cette recherche) s'avere BIEN ALIGNEE avec la structure officiellement documentee (Area/Floor/Subway.distance/Population.density/Green.space.distance correspondent directement aux 4 categories du data descriptor, Subway.distance confirmee comme variable cle) -- aucune correction necessaire, seule la reference bibliographique est ajoutee. 4 fichiers xlsx (Busan.xlsx, Daegu.xlsx, Daejeon.xlsx, Gwangju.xlsx) telecharges directement depuis Zenodo (DOI 10.5281/zenodo.14715630, tres probablement une extension/mise a jour du dataset original de Song et al. par les memes auteurs ou un groupe associe) -- pas une reconstruction, N=178719 transactions immobilieres (Busan 53458, Daegu 56606, Daejeon 24350, Gwangju 44305). Coordonnees reelles (Longitude/Latitude) verifiees coherentes par ville, pas d'inversion. package_include laisse en manual_review : formule alignee avec la documentation officielle du dataset, mais pas verifiee terme-a-terme contre une regression publiee precise (le data descriptor ne publie pas lui-meme d'equation de regression, seulement la structure des variables)."
   ),
   wildebeest_movement_env = list(
@@ -1140,19 +1381,20 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("Nitrogen", "D_drainage", "AID"),
     ml_estimator_context = c("ols", "gwr", "gam_spatial", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee)."
+    year = "2022",
+    source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee)."
   ),
   dragonfly_diversity_europe = list(
-    formula_pub = "diversity_measure ~ latitude (broken-line/piecewise) + prop_lelo + iso.LGM [Pinkert, Dijkstra, Zeuss, Reudenbach, Brandl & Hof (2017), Ecography 40, doi:10.1111/ecog.03137, 'Evolutionary processes, dispersal limitation and climatic history shape current diversity patterns of European dragonflies'. Abstract confirme (WebFetch, session 2026-08-16) : le papier teste si endemisme/diversite phylogenetique sont structures par 1) conservatisme phylogenetique des adaptations thermiques et 2) differences de capacite de recolonisation post-glaciaire entre especes lotiques/lentiques -- via regression par segments (broken-line) le long de la latitude ; variables explicites confirmees : latitude, proportion d'especes lentiques, statut de glaciation historique (LGM). Le texte integral (variables bioclimatiques exactes des modeles) reste hors de portee -- resume/abstract uniquement]",
-    formula_used = "sp_rich ~ center_lat + prop_lelo + iso.LGM",
-    y_term_pub = "sp_rich (richesse specifique de libellules par cellule d'assemblage ; le papier utilise aussi endemisme pondere et distance phylogenetique moyenne comme reponses alternatives, non retenues ici)",
-    x_terms_pub = c("center_lat (latitude du centre de la cellule -- le papier utilise une regression par segments le long de la latitude)", "prop_lelo (proportion d'especes lentiques/lotiques -- variable explicitement testee par le papier, capacite de recolonisation post-glaciaire)", "iso.LGM (statut de glaciation historique au Dernier Maximum Glaciaire, binaire -- variable explicitement testee par le papier)"),
-    ml_formula = "sp_rich ~ center_lat + prop_lelo + iso.LGM + bio1_mean + alt_mean",
+    formula_pub = "sp_rich ~ pc_thermo_1 + pc_thermo_2 + pc_preci_1 + pc_preci_2 + prop_lelo + iso.LGM [Pinkert, Dijkstra, Zeuss, Reudenbach, Brandl & Hof (2017), Ecography 40, doi:10.1111/ecog.03137, Table 1 -- GAM (mgcv::gam) avec famille gamma pour la richesse, quasi-Poisson pour l'endemisme (CWE), gaussienne pour SES MPD]",
+    formula_used = "sp_rich ~ pc_thermo_1 + pc_thermo_2 + pc_preci_1 + pc_preci_2 + prop_lelo + iso.LGM",
+    y_term_pub = "sp_rich",
+    x_terms_pub = c("pc_thermo_1", "pc_thermo_2", "pc_preci_1", "pc_preci_2", "prop_lelo", "iso.LGM"),
+    ml_formula = "sp_rich ~ pc_thermo_1 + pc_thermo_2 + pc_preci_1 + pc_preci_2 + prop_lelo + iso.LGM",
     ml_response = "sp_rich",
-    ml_predictors = c("center_lat", "prop_lelo", "iso.LGM", "bio1_mean", "alt_mean"),
-    ml_estimator_context = c("ols", "sar_error", "gwr", "random_forest"),
+    ml_predictors = c("pc_thermo_1", "pc_thermo_2", "pc_preci_1", "pc_preci_2", "prop_lelo", "iso.LGM"),
+    ml_estimator_context = c("gam_spatial", "ols", "sar_error", "gwr", "random_forest"),
     ml_status = "executable_continuous_variant",
-    source_ref = "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier confirme avec DOI -- Pinkert et al. (2017), Ecography 40, doi:10.1111/ecog.03137. L'abstract officiel (WebFetch ecography.org) confirme que le papier teste la richesse/endemisme/diversite phylogenetique en fonction de la latitude (regression par segments/broken-line), de la proportion d'especes lentiques vs lotiques (capacite de recolonisation post-glaciaire) et du statut de glaciation historique (LGM) -- ces trois variables correspondent exactement aux colonnes reelles center_lat, prop_lelo et iso.LGM du CSV local (0% NA sur les trois, N=4192). formula_used corrigee (session 2026-08-16) : remplace bio1_mean/alt_mean/pc_thermo_1/pc_preci_1 (proposition initiale du curateur sans preuve textuelle) par center_lat/prop_lelo/iso.LGM (variables explicitement confirmees par l'abstract du papier). Le texte integral (specification exacte du modele de regression par segments, variables bioclimatiques additionnelles eventuelles) n'a pas pu etre consulte -- CSV original (Assemblage-level data) telecharge directement depuis Dryad, pas une reconstruction. package_include laisse en manual_review : variables alignees avec l'abstract confirme, mais pas la specification complete du modele publie (broken-line regression, pas OLS standard)."
+    source_ref = "Pinkert et al. (2017), Ecography 40, doi:10.1111/ecog.03137, 'Evolutionary processes, dispersal limitation and climatic history shape current diversity patterns of European dragonflies'. CORRECTION FINALE (2026-09-08, PDF fourni par l'utilisateur, converti en TEI via GROBID, texte integral Material and Methods + Table 1 lus directement) : le modele reellement publie (Table 1, 'Regression models') est un GAM (mgcv, Wood 2011) avec predicteurs = 4 composantes PCA du climat (pc_thermo_1/2, pc_preci_1/2 -- 'four principal components that describe temperature and precipitation') + proportion lentique/lotique (prop_lelo) + isotherme LGM (iso.LGM). La latitude (center_lat) n'est PAS un predicteur du modele GAM principal (Table 1) -- elle sert uniquement a une analyse SEPAREE de regression par segments (broken-line, package segmented) pour detecter des ruptures de pente, une analyse complementaire distincte, pas le modele principal. La correction du 2026-08-16 (basee sur l'abstract seul) avait a tort remplace pc_thermo_1/pc_preci_1 par center_lat -- cette session retablit les variables PCA, desormais confirmees par le texte integral et deja disponibles telles quelles dans le RDS local (aucune reconstruction necessaire)."
   ),
   brisbane_urban_vegetation = list(
     formula_pub = "log(dens_015_1+0.01) ~ poly(tree_area,2) + poly(aspect_cos,2) + poly(aspect_sin,2) + poly(slope,2) [modele SAR mixte (lagsarlm), poids de voisinage a 150m -- Mitchell, Wu, Johansen, Maron, McAlpine & Rhodes (2016), 'Landscape structure influences urban vegetation vertical structure', doi:10.1111/1365-2664.12741 (OpenAlex-linked publication non resolue dans le KG). Formule confirmee par lecture directe du script R original des auteurs (Mitchell_etal_2016_1ha_analysis_20160624.R, present dans le meme depot Dryad) -- meilleur modele combine (selection par AICc/model averaging) pour la strate de densite de vegetation 0.15-1m]",
@@ -1164,19 +1406,28 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("tree_area", "aspect_cos", "aspect_sin", "slope", "mb_dwel_dens", "park_prop", "sa1_medtothinc"),
     ml_estimator_context = c("ols", "sar_lag", "sar_mixed", "gwr", "random_forest"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes)."
+    year = "2016",
+    source_ref = "Publication liee identifiee automatiquement via OpenAlex dans le manifeste (10.1111/1365-2664.12741, Journal of Applied Ecology) et confirmee par lecture directe du script R original des auteurs, present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R) -- le script ajuste des modeles SAR mixtes (lagsarlm, poids de voisinage dnearneigh a 150m) pour 5 strates de hauteur de vegetation (0.15-1m, 1-2m, 2-5m, 5-10m, >10m), chacune avec un jeu de covariables physiques/pedologiques/demographiques/urbaines/paysageres teste separement puis combine. Le meilleur modele combine pour la strate 0.15-1m (retenu par model averaging/dredge, m.max=4) inclut tree_area, aspect_cos, aspect_sin et slope -- formula_used simplifie les termes polynomiaux (poly(x,2)) en lineaire et omet la structure SAR (poids spatiaux 150m), une simplification documentee, pas la specification exacte du papier. CSV original (Mitchell_etal_data_1ha_20160627.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=63142 cellules de grille 1ha (Brisbane, Australie, coordonnees UTM MGA zone 56 verifiees coherentes). DOI 10.1111/1365-2664.12741 confirme via Crossref (Mitchell, M.G.E., Wu, D., Johansen, K., Maron, M., McAlpine, C. & Rhodes, J.R. (2016), Journal of Applied Ecology, 53(5), 1477-1488) -- KG mis a jour le 2026-09-14 (paper_doi/paper_title, precedemment non resolus)."
   ),
   banff_stream_temperature = list(
-    formula_pub = "[Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), 'Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners', Canadian Journal of Fisheries and Aquatic Science 81(4):417-232. Le papier presente une methodologie de modelisation spatiale sur reseau fluvial (SSN, INLA) pour la temperature de l'eau, avec les memes variables predictives que celles presentes dans ce depot (README confirme les definitions exactes des colonnes) -- specification exacte du modele SSN/INLA non extraite (methodologie complexe, texte integral non consulte)]",
-    formula_used = "WaterTemp ~ Elev + RSlope + h2oAreaKm2 + logRCA",
+    formula_pub = "WaterTemp ~ Elev + RSlope + LE [SSN glmssn + INLA barrier model, effet aleatoire HUC10]",
+    formula_used = "WaterTemp ~ Elev + RSlope + LE",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "formula_pub est confirmee par lecture directe des scripts R des auteurs (Zenodo 10.5281/zenodo.7942855, deposes avec le papier) : SSN_R-Script.R ligne 263, modele SSN final retenu -- 'Final <- glmssn(WaterTemp ~ S.Elev + S.RSlope + LEf, data, ...)' -- et INLA_R-Script.R lignes 270-303, modele INLA (barrier model) -- 'f2 <- y ~ -1 + y.intercept + RSlope.std + Elev.std + LEf1 + f(spatial.field, model=barrier.model) + f(HUC10f, model='iid', ...)'. Les DEUX modeles (SSN et INLA) convergent exactement sur les memes 3 predicteurs (Elev, RSlope, LE), standardises avant ajustement (prefixe S./.std) -- ni logRCA ni h2oAreaKm2 n'apparaissent dans le modele final retenu (ce sont des variables candidates testees en exploration, ex. td3/tu3 dans le script SSN, mais pas retenues). formula_used reprend exactement ces 3 variables (toutes disponibles localement, y compris LE) en regression lineaire simple -- il manque la structure de covariance spatiale sur reseau (glmssn, tail-up/tail-down) et le champ spatial barrier + effet aleatoire HUC10 (watershed) du modele INLA, une simplification documentee mais desormais sur les VRAIES variables du papier.",
+    formula_note = "CORRECTION MAJEURE (2026-09-14, lecture directe des scripts R des auteurs, Zenodo 10.5281/zenodo.7942855) : la fiche precedente utilisait h2oAreaKm2+logRCA (jamais dans le modele final des auteurs) et omettait LE (present dans les DEUX modeles finaux, SSN et INLA). HUC10 (watershed) sert d'effet aleatoire dans le modele INLA -- actuellement exclue comme simple identifiant dans cette fiche, disponible localement si une route avec effet aleatoire groupe est souhaitee (cf. support (1|groupe) via gam_spatial/mgcv ajoute au package le 2026-09-10).",
     y_term_pub = "WaterTemp (temperature moyenne d'aout du cours d'eau, degres C, mesuree par logger)",
-    x_terms_pub = c("Elev (elevation du site, m)", "RSlope (pente du cours d'eau)", "h2oAreaKm2 (aire du bassin versant amont, km2)", "logRCA (log de l'aire de contribution du reseau)"),
-    ml_formula = "WaterTemp ~ Elev + RSlope + h2oAreaKm2 + logRCA + LE",
+    x_terms_pub = c("Elev (elevation du site, m, standardisee S.Elev/Elev.std dans les scripts)", "RSlope (pente du cours d'eau, standardisee S.RSlope/RSlope.std)", "LE (indicateur binaire d'effet lac en amont, LEf/LEf1 dans les scripts)"),
+    ml_formula = "WaterTemp ~ Elev + RSlope + LE + h2oAreaKm2 + logRCA",
     ml_response = "WaterTemp",
-    ml_predictors = c("Elev", "RSlope", "h2oAreaKm2", "logRCA", "LE"),
+    ml_predictors = c("Elev", "RSlope", "LE", "h2oAreaKm2", "logRCA"),
     ml_estimator_context = c("ols", "gwr", "sar_error", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Papier identifie avec certitude via le README.md du depot (citation complete fournie par les auteurs) : Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2023), Canadian Journal of Fisheries and Aquatic Science 81(4):417-232, doi non liste dans le README mais dataset DOI confirme 10.5061/dryad.crjdfn391 (Parks Canada, Banff National Park). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad -- pas une reconstruction, N=110 sites de mesure de temperature avec coordonnees UTM Zone 11N (README confirme le systeme de coordonnees exact). Le papier presente une methodologie SSN (Spatial Stream Network) + INLA pour modeliser la temperature sur le reseau hydrographique, une approche geostatistique sur reseau bien plus complexe qu'une regression classique -- formula_used retient les covariables reelles disponibles (elevation, pente, aire de bassin versant, aire de contribution) en regression lineaire simple, une simplification documentee, pas la specification exacte du modele SSN/INLA du papier. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review pour cette raison."
+    year = "2024",
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    source_ref = "Struthers, Gutowsky, Lucas, Mochnacz, Carli & Taylor (2024), Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners, Canadian Journal of Fisheries and Aquatic Sciences 81:417-432, doi:10.1139/cjfas-2023-0136 (Crossref confirme publication en ligne 2024-04-01 -- la fiche precedente citait a tort '2023' et les pages '417-232', DOI 'unknown'). CSV original (bnp_data_June2022_V5.csv) telecharge directement depuis Dryad (10.5061/dryad.crjdfn391) -- pas une reconstruction, N=110 sites de mesure de temperature, Parc national de Banff, coordonnees UTM Zone 11N. CORRECTION MAJEURE (2026-09-14, recherche web + lecture directe des scripts R des auteurs via leur depot Zenodo 10.5281/zenodo.7942855, SSN_R-Script.R et INLA_R-Script.R -- rapatries dans data/raw/papers/DatasetFirst_10_5061_dryad_crjdfn391/ pour archivage local) : le modele final RETENU par les auteurs (pas seulement teste) est WaterTemp ~ Elev + RSlope + LE, confirme IDENTIQUEMENT par les deux approches (SSN glmssn ligne 263 ; INLA barrier model lignes 270-303, avec en plus un effet aleatoire iid sur HUC10/watershed). Les termes logRCA et h2oAreaKm2, presents dans la fiche precedente, ne figurent PAS dans le modele final -- ce sont des candidats explores puis ecartes (ex. modeles td3/tu3 du script SSN). CONFIRMATION INDEPENDANTE (2026-09-14, PDF obtenu par l'utilisateur, traite via GROBID, TEI local desormais disponible) : le texte du papier confirme mot pour mot -- 'The fitted model (SSN-1) included all fixed terms (i.e., elevation, reach slope, and lake effect)... we also fit an equivalent nonspatial model (SSN-2)... while retaining all fixed terms and the HUC-10 random effect' ; et explique explicitement pourquoi logRCA est absent -- 'upstream drainage area... was dropped because of collinearity with elevation (r=0.82) and had a higher VIF score'. Fichier bnp_data_preds_June2022_V5.csv (grille de prediction, 642 lignes) present dans le meme depot mais non utilise ici (pas de Y, utile seulement pour du krigeage). package_include laisse en manual_review du fait de l'ecart de methode (covariance de reseau/effet aleatoire non reproduits)."
   ),
   global_nee_gwxgboost = list(
     formula_pub = "[Titre du depot : 'Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework'. Aucun DOI de publication resolu (recherche web, session 2026-08-17 : aucune correspondance exacte trouvee, papier probablement pas encore indexe/publie). Le titre indique un modele XGBoost pondere geographiquement (GWR-style local weighting) pour predire le NEE a partir de variables de teledetection]",
@@ -1200,19 +1451,25 @@ FORMULA_OVERRIDES <- list(
     ml_predictors = c("T2", "WS", "mean_RH", "ERC", "BI", "PDSI", "SMOIS", "Q2"),
     ml_estimator_context = c("random_forest_xy", "ols", "gwr", "xgboost_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee."
+    year = "2022",
+    source_ref = "Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee. DOI 10.31979/etd.5znn-tm8p confirme via Crossref (2026-09-14) ; KG mis a jour (paper_doi/paper_title, precedemment non resolus)."
   ),
   swiss_heat_exposure = list(
     formula_pub = "deaths ~ f(temperature, nonlinear, spatially-varying) [modele bayesien BYM2 avec effets non-lineaires spatialement variables -- Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Mortalite toutes causes en Suisse, disparites spatiales de mortalite liee a la chaleur expliquees principalement par la structure d'age de la population, les espaces verts et les vulnerabilites liees a l'exposition a la chaleur (resume officiel)]",
-    formula_used = "deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity",
+    formula_used = "deaths ~ offset(log(population)) + temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity",
     y_term_pub = "deaths (nombre quotidien de deces, population 65 ans et plus, par commune)",
     x_terms_pub = c("temperature (temperature quotidienne)", "temperature_lag1/2/3 (temperature des 3 jours precedents)", "greenspace (indice d'espace vert communal -- confirme comme facteur de disparite spatiale par le resume officiel)", "urbanicity (statut urbain/rural de la commune)"),
-    ml_formula = "deaths ~ temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity + population + holiday + dow",
+    ml_formula = "deaths ~ offset(log(population)) + temperature + temperature_lag1 + temperature_lag2 + temperature_lag3 + greenspace + urbanicity + holiday + dow",
     ml_response = "deaths",
-    ml_predictors = c("temperature", "temperature_lag1", "temperature_lag2", "temperature_lag3", "greenspace", "urbanicity", "population", "holiday", "dow"),
+    ml_predictors = c("population", "temperature", "temperature_lag1", "temperature_lag2", "temperature_lag3", "greenspace", "urbanicity", "holiday", "dow"),
     ml_estimator_context = c("bym2", "car_besag", "gam_spatial", "gwr", "random_forest_xy"),
     ml_status = "executable_continuous_variant",
-    source_ref = "Papier identifie via recherche web (session 2026-08-17) : Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables (pas une regression lineaire classique) sur la mortalite toutes causes en Suisse ; le resume officiel confirme que les disparites spatiales de mortalite liee a la chaleur sont expliquees principalement par la structure d'age, les espaces verts (green space) et les vulnerabilites liees a l'exposition -- ces deux dernieres correspondent aux colonnes reelles greenspace/urbanicity du shapefile joint. RDS originaux (data_60_open.rds, panel deces population 65+ ; Swiss_new_open.rds, geometrie communale + NDVI/greenspace) telecharges directement depuis Zenodo -- pas une reconstruction, N=2368080 (panel 2145 communes x ~1104 jours, 2011-2022), jointure par id_region (cle deja partagee entre les deux fichiers). Geometrie convertie en centroide avant jointure pour eviter la duplication memoire d'un polygone complexe sur 2.3M lignes (correction technique, pas une alteration des donnees). Dataset garde en un seul panel (pas de decoupage par sous-population : la colonne 'age' n'a qu'un seul niveau -- Y_GE65, population 65+ uniquement -- dans ce depot public 'open' ; decouper par annee ou par commune detruirait la structure spatio-temporelle du panel sans repondre a un critere de sous-population reellement distinct, contrairement aux cas PM2.5/O3/NO2 ou especes de corail deja separes dans ce wiki). formula_used simplifie le modele BYM2 non-lineaire en regression lineaire multiple, une simplification documentee, pas la specification exacte du papier. package_include laisse en manual_review pour cette raison."
+    year = "2025",
+    source_ref = "Papier identifie via recherche web (session 2026-08-17 ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), 'Modelling the spatially varying nonlinear effects of heat exposure', Journal of the Royal Statistical Society Series A, doi:10.1093/jrsssa/qnaf208 (preprint arXiv:2502.20745). Le papier ajuste un modele bayesien BYM2 avec effets non-lineaires spatialement variables (pas une regression lineaire classique) sur la mortalite toutes causes en Suisse. RDS originaux (data_60_open.rds, panel deces population 65+ ; Swiss_new_open.rds, geometrie communale + NDVI/greenspace) telecharges directement depuis Zenodo -- pas une reconstruction, N=2368080 (panel 2145 communes x ~1104 jours, 2011-2022). CORRECTION (2026-09-09) : le depot Zenodo n'a pas de README expliquant deaths vs deaths_sim ; verification faite en lisant le code de replication des auteurs (repository GitHub associe, fxinyichen/SwissHeat_svc, script '1. SH_model_12.R') : la reponse du modele BYM2 publie est bien deaths (deaths_sim sert a autre chose, jamais utilise comme y). Le script confirme aussi un offset log(population) -- absent de la formule precedente -- desormais ajoute. Modele publie complet (non reproduit ici) : Poisson avec offset log(population), factor(dow), factor(holiday), 4 termes de base temperature (splines DLNM), effet aleatoire jour-de-l'annee (RW2), effet aleatoire annee (iid), effet spatial regional BYM2, et 4 coefficients spatialement variables pour la temperature (BYM2 x spline). formula_used simplifie ce modele en regression additive standard (sans les effets spatialement variables ni les effets aleatoires temporels), approximation documentee, pas la specification exacte. package_include laisse en manual_review pour cette raison.",
+    regression_status_override = "resolu",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule publication confirmee et utilisee",
+    regression_note_override = "Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17), reponse (deaths vs deaths_sim) et offset log(population) confirmes le 2026-09-09 par lecture directe du code de replication des auteurs."
   ),
 
   korea_hedonic_housing_1989 = list(
@@ -1598,9 +1855,42 @@ FORMULA_OVERRIDES <- list(
     ml_estimator_context = c("ols", "gwr", "sar_lag", "random_forest_xy", "xgboost_xy"),
     ml_status = "executable_continuous_variant",
     source_ref = "Sous-ensemble temporel du dataset parent paper_korea_hedonic_housing (deja package_include=\"yes\", formule confirmee alignee sur le data descriptor officiel Song, Ahn, An & Jang 2021, Data in Brief, doi:10.1016/j.dib.2021.106877 -- session 2026-08-16). Decoupage effectue le 2026-08-17 pour augmenter le nombre de jeux de donnees deja benchmarkables sans casser la validite spatiale (chaque sous-ensemble garde la totalite des localisations distinctes de les annees clairsemees 1969-1988 regroupees en un seul sous-ensemble (2 a 69 localisations distinctes par annee prise isolement, jugees trop eparses pour un decoupage annuel individuel), donc une matrice W construite sur ce sous-ensemble reste non degeneree) ni la formule (Area/Floor/Subway.distance/Population.density/Green.space.distance -- aucune n'est Year, formule inchangee par rapport au parent). N=13102 transactions, 510 localisations distinctes dans ce sous-ensemble (verifie directement sur le .rds decoupe, code/r_catalog/split_korea_hedonic_housing.R)."
+  ),
+  metacomnet = list(
+    license_name = "Creative Commons Zero v1.0 Universal",
+    license_url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+    license_open = "yes",
+    license_checked = "2026-09-14",
+    yx_selection_note = "Les covariables X retenues sont les 16 predicteurs reels documentes par le papier (Table 1-2) : RegionalCommonness, NearestOcc, BeeDCA1-4, Solitary, PlantFreq, DCA1-4, MASL, LndscpGR, LnscpH, DistSand. `FacOccurrence` (17e colonne candidate du .rds) est EXCLUE : verification empirique (2026-09-10) confirme une correspondance bijective parfaite avec la variable reponse `Occurrence` (X0<->0, X1<->1, 9594/9594 lignes) -- c'est la version factorielle de l'autre reponse publiee (Table 2), pas une covariable ; l'inclure aurait constitue une fuite de donnees pour predire `Number`.",
+    formula_pub = "Number ~ RegionalCommonness + NearestOcc + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + DCA1 + DCA2 + DCA3 + DCA4 + MASL + LndscpGR + LnscpH + DistSand [Random Forest, ranger]",
+    formula_used = "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness",
+    formula_note = "Sydenham et al. (2022), Table 1-2 : Random Forest regression trees (Breiman 2001, ranger/caret) ; modele jumeau sur Occurrence (presence/absence) via arbres de classification, memes predicteurs. Voir yx_selection_note pour l'exclusion de FacOccurrence (fuite de donnees).",
+    formula_candidate_formula = "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness",
+    y_term_pub = "Number (nombre d'interactions observees entre une espece d'abeille et une espece de plante sur un site) ; Occurrence (presence/absence de cette meme interaction, {0,1}) est un second Y publie avec la meme importance -- le papier ajuste 3 modeles RF : classification sur Occurrence, regression sur Occurrence, regression sur Number (Table 2, Section 2.2)",
+    x_terms_pub = c("RegionalCommonness", "NearestOcc", "BeeDCA1", "BeeDCA2", "BeeDCA3", "BeeDCA4", "Solitary", "PlantFreq", "DCA1", "DCA2", "DCA3", "DCA4", "MASL", "LndscpGR", "LnscpH", "DistSand"),
+    regression_status_override = "resolu",
+    regression_evidence_override = "publication",
+    regression_method_override = "formule publication confirmee et utilisee (verifiee 2026-09-10)",
+    regression_note_override = "Formule etablie par lecture directe du PDF (2026-09-10, Table 1-2 p.503-504 + Section 2.2 p.504-505) : N=9594 = 39 especes d'abeilles x 44 especes de plantes x 16 sites (correspondance exacte confirmee). 16 predicteurs reels retrouves un a un dans le Table 1/2 (Regional Commonness, Distance to conspecifics, DCA1-4 abeille/plante, sociality Bombus, abondance locale de la plante, elevation, grassland 250m, Shannon landscape 250m, distance aux sols sableux). ERREUR CORRIGEE : `FacOccurrence` (17e colonne candidate) etait inclus a tort dans formula_used comme covariable -- verification empirique sur le .rds (2026-09-10) confirme une correspondance bijective parfaite avec `Occurrence` (FacOccurrence='X0' ssi Occurrence=0, 'X1' ssi Occurrence=1, 9594/9594 lignes, aucun croisement) : c'est la version factorielle de l'AUTRE variable reponse du papier (Table 2 : \"Occurrence... transformed into a two-level categorical variable for models using classification trees\"), pas une covariable -- fuite de donnees (l'autre reponse servait de predicteur). Retiree de x_terms_pub/formula_used. Occurrence reste une deuxieme cible Y legitime et documentee (non retenue comme formula_used ici, qui cible Number), a traiter si besoin comme un second modele plutot que remplacer Number.",
+    ml_formula = "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness",
+    ml_response = "Number",
+    ml_predictors = c("DCA1", "DCA2", "DCA3", "DCA4", "BeeDCA1", "BeeDCA2", "BeeDCA3", "BeeDCA4", "Solitary", "PlantFreq", "MASL", "LnscpH", "LndscpGR", "DistSand", "NearestOcc", "RegionalCommonness"),
+    ml_source_type = "scientific_publication",
+    ml_status = "confirmed",
+    ml_estimator_context = c("random_forest", "random_forest_xy", "xgboost", "xgboost_xy"),
+    year = "2022",
+    source_ref = "Sydenham, Venter, Reitan, Rasmussen, Skrindo, Skoog, Hanevik, Hegland, Dupont, Nielsen, Chipperfield & Rusch (2022), 'MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions', Methods in Ecology and Evolution 13(3):500-513, DOI 10.1111/2041-210X.13762 (recu 2 septembre 2021, accepte 12 octobre 2021, publie 2022). Table 1-2 documentent exactement les colonnes presentes dans le depot Dryad (10.5061/dryad.n02v6wwzn) : reponses Number/Occurrence par combinaison abeille x plante x site (N=9594=39x44x16, verifie), predicteurs bee/plant/site. Random Forest (Breiman 2001, package ranger via caret) est explicitement la methode publiee, pour 3 strategies de modelisation (classification Occurrence, regression Occurrence, regression Number)."
   )
 )
 
+# CRS_NOTES : caveat de lecture manuelle sur le CRS/les coordonnees qu'une
+# regeneration ne doit pas ecraser (hypothese testee et ecartee, coordonnees
+# jitterees/transformees par les auteurs, source du CRS verifiee dans le
+# package/la doc, etc.). recommend_crs_analyse() reste la source de la
+# recommandation de reprojection ; ceci n'ajoute qu'une ligne de contexte.
+CRS_NOTES <- list(
+  crane = "hypothese testee et ecartee (session 2026-09-10) -- l'etendue x/y (234-862 km, 23-627 km, Angleterre, grue eurasienne) est numeriquement compatible avec le British National Grid (EPSG:27700) en km, mais le loader (code/r_catalog/build_sf_datasets_papers.R, fonction load_crane) documente deja que le README Dryad ne precise pas la zone UTM, ET que les coordonnees sont 'aleatoirement transformees' par les auteurs pour proteger les sites de nidification -- pas les vraies positions. Assigner un CRS, meme correct, ne rendrait donc pas ces positions geographiquement exploitables : ne pas assigner de CRS ni construire de matrice de voisinage sur ce jeu tant que ce point n'est pas leve."
+)
 
 # -- Statut benchmark lisible par machine ------------------------------------
 # Ces statuts corrigent la faille principale du premier lot paper-derived :
@@ -1674,8 +1964,8 @@ PAPER_READINESS <- list(
     benchmark_status = "not_ready_current_package",
     benchmark_task = "classification_or_count_rf",
     package_include = "no",
-    missing_items = "route classification/count et specification de reponse adaptee",
-    reason = "Le papier utilise une logique Random Forest sur occurrences/interactions, pas une regression continue standard."
+    missing_items = "formule et 16 covariables reelles desormais etablies (verifie 2026-09-10, Table 1-2 du papier) et la fuite de donnees FacOccurrence corrigee -- reste a verifier concretement que la route classification/count du harnais (ajoutee 2026-09-04) fonctionne de bout en bout sur ce Y=Number (compte, plage [0,27], probablement surdisperse/zero-inflate) et sur Y=Occurrence (second Y publie, non modelise ici)",
+    reason = "Le papier ajuste 3 modeles Random Forest (Breiman 2001) : classification sur Occurrence, regression sur Occurrence, regression sur Number -- desormais documente avec formule/covariables reelles (voir FORMULA_OVERRIDES). Pas encore promu : verification d'execution de bout en bout non faite pour ce jeu specifique."
   ),
   maipo = list(
     benchmark_status = "not_ready_current_package",
@@ -1753,13 +2043,6 @@ PAPER_READINESS <- list(
     package_include = "no",
     missing_items = "retrouver les observations et covariables sources du modele ensembliste",
     reason = "Le fichier extrait est une grille de predictions, pas un tableau Y/X brut."
-  ),
-  beta0_gwr = list(
-    benchmark_status = "not_ready_derived_response",
-    benchmark_task = "derived_model_output",
-    package_include = "no",
-    missing_items = "retrouver le dataset empirique original et ses covariables",
-    reason = "La reponse est un coefficient beta0 derive d'une GWR, pas une variable empirique brute."
   ),
   ethiopia_clusters = list(
     benchmark_status = "not_ready_derived_clusters",
@@ -1953,14 +2236,14 @@ PAPER_READINESS <- list(
   wildfire_bootleg_severity = list(
     benchmark_status = "ready", benchmark_task = "regression_continuous",
     package_include = "yes",
-    missing_items = "grille reechantillonnee a 250m Albers depuis des sources heterogenes (9m a 1000m) -- compromis de resolution documente, pas la resolution native de chaque couche ; 3 couches documentees dans predictor_variables.csv du papier (aspect_10res, ecostress_pet, ecostress_esi) absentes du depot Dryad public",
-    reason = "rdnbr continu et 34 des 35 predicteurs documentes par les auteurs (csvs/predictor_variables.csv) confirmes et alignes (2026-08-12). Y continu, X defendables (liste exacte des auteurs, ecart documente pas invente), artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+    missing_items = "grille reechantillonnee a 250m Albers depuis des sources heterogenes (9m a 1000m, resolution native du papier 30m) -- compromis documente ; 3 couches (aspect_10res, ecostress_pet, ecostress_esi) absentes du depot Dryad public ; treatment_type et time_since_treatment (les predicteurs centraux du modele SAR publie sur l'effet des traitements) sont ABSENTS de l'artefact local -- corrige 2026-09-10, le modele publie n'est pas reproductible tel quel ici (voir Bloc 1, formula_used_divergence_note)",
+    reason = "Tache benchmark : predire rdnbr (continu, reel) a partir des covariables environnementales retenues par le Random Forest du papier (11 variables, Fig. 4a) -- distincte de la tache causale du papier (effet du traitement sur la severite via SAR), qui necessite treatment_type/time_since_treatment absents du depot local. Y et X reels/documentes (pas inventes), artefact local utilisable pour cette tache de regression -- corrige 2026-09-10 (la fiche affirmait auparavant a tort que les 34 predicteurs bruts formaient le modele SAR publie)."
   ),
   wildfire_schneider_springs_severity = list(
     benchmark_status = "ready", benchmark_task = "regression_continuous",
     package_include = "yes",
-    missing_items = "meme reserve que wildfire_bootleg_severity : grille reechantillonnee a 250m Albers, 3 couches du papier absentes du depot public",
-    reason = "Meme source/structure que wildfire_bootleg_severity, second incendie (Washington 2021) du meme papier. Y continu, X defendables, artefact local utilisable -- promu sans revue manuelle (2026-08-12)."
+    missing_items = "meme reserve que wildfire_bootleg_severity : grille reechantillonnee a 250m Albers (resolution native 30m), 2 couches ecostress + aspect_10res absentes du depot public ; treatment_type et time_since_treatment (predicteurs centraux du modele SAR publie) ABSENTS de l'artefact local -- corrige 2026-09-10, le modele publie n'est pas reproductible tel quel ici",
+    reason = "Tache benchmark : predire rdnbr (continu, reel) a partir des covariables environnementales retenues par le Random Forest du papier (13 variables, Fig. 5a) -- distincte de la tache causale du papier (effet du traitement sur la severite via SAR), qui necessite treatment_type/time_since_treatment absents du depot local. Meme source/structure que wildfire_bootleg_severity, second incendie (Washington 2021) du meme papier -- corrige 2026-09-10 (la fiche affirmait auparavant a tort 'meme modele SAR que Bootleg' en listant les 34 predicteurs bruts comme formule publiee)."
   ),
   amphibian_malformation_prevalence = list(
     benchmark_status = "ready", benchmark_task = "regression_continuous",
@@ -2224,8 +2507,8 @@ PAPER_READINESS <- list(
     benchmark_status = "ready",
     benchmark_task = "regression_continuous",
     package_include = "yes",
-    missing_items = "aucun -- CSV original telecharge directement depuis Dryad, N=509 cellules identique au depot source",
-    reason = "Y continu reel (richesse specifique standardisee), N=509 cellules avec coordonnees reelles (Alpes europeennes), covariables de distance aux refuges glaciaires, temps de deglaciation et climat exactement celles du papier. CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier identifie via les relatedWorks Dryad (Systematic Botany)."
+    missing_items = "aucun -- CSV original telecharge directement depuis Dryad, N=509 cellules identique au depot source ; formule desormais verifiee contre Table 1 du papier (2026-09-10, papier obtenu et lu -- corrige un blocage precedent ou aucun PDF/TEI local n'existait)",
+    reason = "Y continu reel (richesse specifique standardisee a 95% de completude), N=509 cellules avec coordonnees reelles (Alpes europeennes), covariables (distance au refuge le plus proche, vitesse de changement climatique) exactement celles du modele SAR retenu par les auteurs (Table 1, R2 faible=9% documente). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier obtenu (2026-09-10) et verifie integralement -- corrige un cas ou la fiche precedente affirmait une verification qui n'avait jamais eu lieu."
   ),
   pacific_atoll_coconut = list(
     benchmark_status = "ready",
@@ -2315,8 +2598,8 @@ PAPER_READINESS <- list(
     benchmark_status = "ready",
     benchmark_task = "regression_continuous",
     package_include = "yes",
-    missing_items = "le papier ajuste un modele de path analysis (SEM, lavaan::cfa) incluant la proportion d'especes migratrices (source externe Dufour et al. 2019, non incluse dans ce depot) et une interaction PD_SES:abs_latitude -- formula_used (PDses ~ MPFDses + abs_lat) est une simplification lineaire documentee de la relation directe testee par le papier, sans la proportion migratrice ni le terme d'interaction -- promu a package_include=\"yes\" apres validation utilisateur (session 2026-08-16, groupe A)",
-    reason = "Y continu reel (PDses, taille d'effet standardisee de la diversite phylogenetique de Faith), N=17099 assemblages d'oiseaux georeferences a l'echelle mondiale, verifie contre le degre de liberte cite dans le papier (df=17097 pour la correlation MPFD/dispersion fonctionnelle -> N=17099 sites). X (MPFDses, taille d'effet standardisee de la distance fonctionnelle) et abs_lat exactement les variables de la relation testee par le titre du papier. CSV original (standerdised_effect_sizes.csv) telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (TEI) pour confirmer PD_SES/MPFD_SES/abs_latitude comme variables du modele de path analysis (section Methods, path analysis avec lavaan)."
+    missing_items = "le papier ajuste une path analysis / Structural Equation Model (lavaan::cfa, verifiee robuste par une variante spatiale sesem) sur un systeme de 4 equations simultanees (MPFD_SES, PD_SES, migration, richesse specifique comme variables endogenes) -- pas un SAR/SEM-error/SDM/GWR au sens econometrie spatiale (attention a l'ambiguite de vocabulaire : 'SEM' du papier = Structural Equation Model, pas Spatial Error Model). formula_used (MPFDses ~ PDses + abs_lat + sp_richn) est une simplification lineaire documentee du chemin MPFD_SES du systeme complet, sans la proportion migratrice (Dufour et al. 2019) ni l'altitude (Weeks et al. 2022, Bioclim) -- toutes deux des sources externes absentes de ce depot Dryad -- promu a package_include=\"yes\" apres validation utilisateur (session 2026-08-16, groupe A ; corrige 2026-09-10 pour l'inversion Y/X, corrige 2026-09-14 pour la specification complete du chemin MPFD_SES)",
+    reason = "Y continu reel (MPFDses, taille d'effet standardisee de la distance fonctionnelle moyenne par paire -- variable expliquee du chemin le mieux ajuste du papier, PAS PDses), N=17099 assemblages d'oiseaux georeferences a l'echelle mondiale, verifie contre le degre de liberte cite dans le papier (df=17097 -> N=17099 sites). X (PDses, taille d'effet standardisee de la diversite phylogenetique de Faith, plus abs_lat et sp_richn) sont les variables du chemin MPFD_SES disponibles localement. CSV original (standerdised_effect_sizes.csv) telecharge directement depuis Dryad, pas une reconstruction. Papier lu integralement (PDF p.2127, section 3.2) pour confirmer MPFD_SES comme variable expliquee et PD_SES/abs_latitude/migration/altitude/richesse specifique comme predicteurs de ce chemin."
   ),
   spatial_confounding_diabetes = list(
     benchmark_status = "ready",
@@ -2646,6 +2929,39 @@ default_readiness <- function(record_id) {
   )
 }
 
+# Bloc 2 "Year" etait un literal "unknown" code en dur pour TOUTES les fiches
+# paper-derived (jamais derive d'aucune donnee), signale par l'utilisateur
+# (2026-09-10) sur plusieurs fiches. bib_key (inst/kg/paper_dataset_uses.json)
+# encode deja l'annee de publication reelle dans sa convention de nommage --
+# soit "Auteur AAAA Titre" (ex. Chamberlain2024Learning, verifie contre
+# l'article : Ecosphere 2024;15:e70073), soit "DataCite_AAAA_Titre_..." (ex.
+# DataCite_2021_SystematicVariationInWaste... -> Schutt 2021, verifie contre
+# le fiche waste_site). Les bib_key "JournalFirst_nd_..." utilisent "nd" (no
+# date) de facon deliberee quand l'annee n'a pas ete determinee -- laisser
+# "unknown" dans ce cas, ne pas inventer. Extraction verifiee sur un
+# echantillon (2026-09-10) : ne pas la generaliser sans revue si le taux de
+# NA remonte anormalement sur un futur lot de papiers.
+extract_year_from_bib_key <- function(bib_key) {
+  if (is.null(bib_key) || !nzchar(bib_key)) return("unknown")
+  # bib_key "DataCite_AAAA_..." encode l'annee de DEPOT Dryad/DataCite du
+  # jeu de donnees, pas necessairement l'annee de publication de l'article
+  # (verifie 2026-09-10 : concordant pour medicago/2022 et waste_site/2021,
+  # mais decale d'un an pour crane -- depot Dryad 2022, article Laxton et al.
+  # publie 2023). Marquer ce cas explicitement plutot que l'affirmer comme
+  # certain. Les conventions JournalFirst_AAAA_.../Warehouse_AAAA_.../
+  # AuteurAAAATitre (sans prefixe) proviennent d'OpenAlex/CrossRef ou de la
+  # reference bibliographique elle-meme -- traitees comme fiables.
+  is_datacite <- grepl("^DataCite_", bib_key)
+  tokens <- strsplit(bib_key, "[^0-9A-Za-z]")[[1]]
+  year_token <- tokens[grepl("^(19|20)[0-9]{2}$", tokens)]
+  year <- if (length(year_token)) year_token[1] else {
+    m <- regmatches(bib_key, regexpr("(19|20)[0-9]{2}", bib_key))
+    if (length(m) && nzchar(m)) m else NA_character_
+  }
+  if (is.na(year)) return("unknown")
+  if (is_datacite) sprintf("%s (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)", year) else year
+}
+
 # -- Metadonnees papier (DOI, titre, source) depuis le KG --------------------
 kg <- jsonlite::fromJSON(KG_PATH, simplifyVector = FALSE)
 kg_by_dir <- list()
@@ -2685,7 +3001,7 @@ classify_typology <- function(col, name = "") {
 }
 
 profil_nt <- function(N, Tt) {
-  n_cat <- if (N >= 500) "N_grand" else if (N >= 50) "N_moyen" else "N_petit"
+  n_cat <- if (N >= 5000) "N_grand" else if (N >= 50) "N_moyen" else "N_petit"
   t_cat <- if (Tt >= 10) "T_grand" else if (Tt > 1) "T_moyen" else "T_petit"
   paste0(n_cat, "_", t_cat)
 }
@@ -2830,6 +3146,17 @@ infer_description_fields <- function(record_id, paper_title, geom_type, data_typ
     topic <- "risques naturels / croissance journaliere de feux de foret"
     unit <- "jour-incendie (fire day)"
     population <- "incendies, Californie 2003-2020, N=23031 jours-incendie"
+  } else if (grepl("wildfire_bootleg_severity|wildfire_schneider_springs_severity|learning from wildfires", text)) {
+    # Corrige 2026-09-10 (signale par l'utilisateur/ChatGPT, verifie par
+    # lecture directe du PDF, Chamberlain et al. 2024) : RdNBR est la reponse
+    # CONTINUE utilisee dans toute la modelisation statistique du papier
+    # ("we used continuous RdNBR as our primary response variable in all
+    # statistical modeling"), PAS un sous-ensemble filtre aux seuls pixels de
+    # haute severite -- la population couvre la gamme complete de severite
+    # (basse/moderee/haute) sur les zones forestieres des deux perimetres.
+    topic <- "risques naturels / effets des traitements sur la severite des feux"
+    unit <- "pixel spatial (grille de 30m rééchantillonnée) au sein du perimetre forestier de l'incendie"
+    population <- "pixels forestiers du perimetre de l'incendie (Bootleg, Oregon, ou Schneider Springs, Washington, 2021), RdNBR continu (toutes classes de severite) et covariables bioclimatiques, meteorologiques, topographiques, structurelles et de gestion"
   } else if (grepl("wildfire|green-up|greenup|nbr_5|post-fire|postfire|fire ecology", text)) {
     topic <- "risques naturels / recuperation post-incendie"
     unit <- "pixel spatial echantillonne depuis une grille de feu de haute severite"
@@ -3138,7 +3465,7 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
                                      ml_source_ref = NULL, ml_status = "confirmed",
                                      ml_source_type = "scientific_publication",
                                      ml_estimator_context = c("random_forest", "xgboost", "gamboost", "spboost"),
-                                     is_binary_task = FALSE) {
+                                     is_binary_task = FALSE, formula_used_diverges = FALSE) {
   fmt_entry <- function(role, formula = "pending", response = "pending", predictors = character(0),
                         source_type = "none_found", status = "unavailable", source_ref = "pending",
                         estimator_context = character(0)) {
@@ -3176,12 +3503,32 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
     } else {
       c("ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr")
     }
-    multivariate <- fmt_entry(
-      "paper_main_specification", formula, y_term, x_terms_vec,
-      "scientific_publication", "confirmed",
-      source_ref,
-      multivariate_context
-    )
+    # formula_used_diverges (ov$formula_used_generated_despite_pub) signale que
+    # formula_pub est confirmee mais formula_used est une approximation
+    # generee -- role/status doivent le refleter ici aussi, pas seulement
+    # dans le bloc "Statut regression canonique" (les deux etaient
+    # incoherents entre eux : ce bloc affichait role="paper_main_specification"/
+    # status="confirmed" avec les estimateurs generiques du benchmark comme
+    # si c'etait la methode du papier, meme quand formula_used divergeait
+    # deja explicitement -- signale par l'utilisateur 2026-09-14 sur
+    # avian_phylo_functional_distance, ou le papier utilise en realite
+    # lavaan::cfa/sesem (structural equation modeling), pas ols/sar_lag/
+    # sem_error/sdm_mixed/mgwrsar_gwr).
+    multivariate <- if (formula_used_diverges) {
+      fmt_entry(
+        "benchmark_simplified_specification", formula, y_term, x_terms_vec,
+        "derived_from_scientific_publication", "executable_approximation",
+        source_ref,
+        multivariate_context
+      )
+    } else {
+      fmt_entry(
+        "paper_main_specification", formula, y_term, x_terms_vec,
+        "scientific_publication", "confirmed",
+        source_ref,
+        multivariate_context
+      )
+    }
   }
   ml_candidate <- fmt_entry("ml_candidate_features")
   if (!is.null(ml_formula) && !is.null(ml_response) && length(ml_predictors)) {
@@ -3208,6 +3555,39 @@ formula_candidates_block <- function(formula, y_term, x_terms_vec, is_published,
 }
 
 
+# Rend le bloc "### Panel spatial - structure et W" (jalon J5,
+# wiki/analyses/plan_implementation_panel_spatial_2026-09-09.md) pour un
+# dataset panel spatial enregistre dans PANEL_METADATA -- champs structures
+# (parses par _panel_field()/_panel_int_field() dans
+# code/package_metadata/export_spatialtidymodels_metadata.py, exportes dans
+# datasets.json) + une narrative libre pour la partie non generalisable
+# (etude de cas W, comparaison de versions testees, caveats specifiques).
+# Retourne "" pour tout dataset non panel -- aucun changement pour les
+# ~180 autres fiches paper-derived.
+panel_metadata_block <- function(record_id) {
+  pm <- PANEL_METADATA[[record_id]]
+  if (is.null(pm)) return("")
+  bullets <- paste(
+    sprintf("- Data structure: %s", pm$data_structure %||% "spatial_panel"),
+    sprintf("- Panel unit: %s", pm$panel_unit %||% "pending"),
+    sprintf("- Panel time: %s", pm$panel_time %||% "pending"),
+    sprintf("- N units: %s", pm$n_units %||% "pending"),
+    sprintf("- N periods: %s", pm$n_periods %||% "pending"),
+    sprintf("- Panel balance: %s", pm$panel_balance %||% "pending"),
+    sprintf("- Panel effect: %s", pm$panel_effect %||% "pending"),
+    sprintf("- W level: %s", pm$w_level %||% "unit"),
+    sprintf("- W time varying: %s", pm$w_time_varying %||% "no"),
+    sprintf("- W file: %s", pm$w_file %||% "pending"),
+    sprintf("- W unit order source: %s", pm$w_unit_order_source %||% "pending"),
+    sprintf("- Prediction target: %s", pm$prediction_target %||% "fit_only"),
+    sprintf("- Supported resampling: %s", pm$supported_resampling %||% "panel_full_fit"),
+    sprintf("- Niveau de parite atteint: %s", pm$niveau_parite %||% "non prouve"),
+    sep = "\n"
+  )
+  narrative <- if (!is.null(pm$narrative)) paste0("\n\n", pm$narrative) else ""
+  paste0("### Panel spatial - structure et W\n\n", bullets, narrative)
+}
+
 estimator_eligibility_block <- function(record_id, readiness, formula_used, x_terms_vec, is_published) {
   status <- readiness$benchmark_status %||% "needs_manual_review"
   task <- readiness$benchmark_task %||% ""
@@ -3215,25 +3595,37 @@ estimator_eligibility_block <- function(record_id, readiness, formula_used, x_te
   has_x <- length(x_terms_vec) > 0
   is_ready_like <- grepl("^(ready|almost_ready|manual_review)", status)
   is_not_ready <- grepl("^not_ready", status)
-  # Y binaire (SDM presence/absence, etc.) : le registre du package
-  # (packages/spatialtidymodels/R/13-benchmark-spatial.R) code en dur
-  # mode="regression" pour TOUS les estimateurs automatiques (ols/gam_spatial/
-  # gamboost/random_forest*/xgboost*/sar_lag/sem_error/sdm_mixed) -- aucun ne
-  # supporte actuellement une reponse binomiale/classification. Verifie le
-  # 2026-08-12 par lecture directe du registre. eligible_estimators doit donc
-  # rester vide pour une tache binaire ; seuls les estimateurs que le papier a
-  # reellement utilises (random forest / boosting) sont notes conditionnels,
-  # en attente d'un mode classification dans le registre. Les listes produites
-  # ici sont des comparateurs techniques; l'export les classe donc comme
-  # `benchmark_use`, non comme une preuve que l'article les a employes.
+  # Y binaire (SDM presence/absence, etc.) : depuis le 2026-09-04 (commit
+  # 6752ecd, "add binary/count response routing + spatial probit estimator"),
+  # le package a un premier moteur binaire reel : sar_probit/sem_probit
+  # (packages/spatialtidymodels/R/50-parsnip-probitspatial.R, via
+  # ProbitSpatial::ProbitSpatialFit()), route dans fit_one_benchmark_estimator()
+  # (13-benchmark-spatial.R) et teste de bout en bout
+  # (tests/testthat/test-classification-count.R, 61 tests PASS au 2026-09-10).
+  # ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr restent inadaptes (hypothese
+  # gaussienne continue) et random_forest/gamboost/xgboost (classification)
+  # restent des alternatives generiques -- mais l'affirmation anterieure
+  # "aucun estimateur ne supporte de mode classification/binomial aujourd'hui"
+  # est perimee depuis cette date (bug de staleness signale par l'utilisateur
+  # 2026-09-10, meme categorie que le bug PAPER_READINESS deja corrige ce
+  # jour). sar_probit/sem_probit restent notes conditionnels (pas eligible
+  # d'office) : ils exigent une matrice W construite sur une geometrie/CRS
+  # fiable, ce qui reste a verifier fiche par fiche (voir Bloc 5 / CRS note) ;
+  # aucune route combinee binaire+panel spatial n'existe non plus a ce jour
+  # (le panel harnais de 70-panel-spatial.R ne gere que le Y continu).
   is_binary_task <- grepl("classification|binary_panel|presence_absence", task, ignore.case = TRUE)
+  is_also_panel <- grepl("panel", task, ignore.case = TRUE) || grepl("panel", readiness$missing_items %||% "", ignore.case = TRUE)
   eligible <- character(0)
   conditional <- character(0)
   ineligible_reason <- ""
 
-  if (is_binary_task && is_ready_like) {
-    conditional <- c("random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial")
-    ineligible_reason <- "reponse binaire (presence/absence) ; le registre benchmark du package (13-benchmark-spatial.R) code en dur mode='regression' pour tous les estimateurs automatiques -- aucun ne supporte de mode classification/binomial aujourd'hui. random_forest/gamboost/xgboost sont notes conditionnels car ce sont les estimateurs que le papier source a reellement utilises (RF/BRT) ; ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr restent hors de propos pour une reponse binaire (hypothese gaussienne continue) et ne sont pas listes."
+  if (is_binary_task) {
+    conditional <- c("random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit")
+    ineligible_reason <- if (is_also_panel) {
+      "reponse binaire ET structure panel spatial : aucune route du package ne gere cette combinaison aujourd'hui (sar_probit/sem_probit sont cross-sectionnels ; le harnais panel -- 70-panel-spatial.R -- ne gere que le Y continu). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel ; sar_probit/sem_probit necessiteraient de traiter chaque periode separement (non implemente) et une matrice W fiable (voir Bloc 5 / CRS note)."
+    } else {
+      "reponse binaire (presence/absence) ; random_forest/gamboost/xgboost/gam_spatial sont des alternatives generiques, sar_probit/sem_probit (ProbitSpatial::ProbitSpatialFit(), ajoute 2026-09-04) sont le moteur spatial dedie -- tous notes conditionnels le temps de verifier au cas par cas qu'une matrice W fiable est constructible sur la geometrie locale (voir Bloc 5 / CRS note) ; ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr restent hors de propos (hypothese gaussienne continue)."
+    }
   } else if (is_ready_like && has_formula && has_x) {
     eligible <- c("ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy")
     if (is_published) eligible <- c(eligible, "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr")
@@ -3322,9 +3714,39 @@ for (record_id in records_to_generate) {
     time_range_str <- "not applicable (cross-sectional dataset)"
   } else {
     temporal_res <- sprintf("%d distinct periods (variable: %s)", time_info$T, time_info$T_var)
+    t_raw <- df[[time_info$T_var]]
+    t_min_raw <- min(t_raw, na.rm = TRUE)
+    t_max_raw <- max(t_raw, na.rm = TRUE)
+    # t_raw stocke parfois des dates "M/D/YYYY" en character (ex.
+    # early_season_biomass$plant_date) : min()/max() comparent alors les
+    # chaines lexicographiquement, pas chronologiquement (ex. "10/1/2019" <
+    # "9/8/2017" car '1' < '9'), produisant une plage affichee a l'envers.
+    # Filet de securite : si min/max brut est deja chronologiquement coherent,
+    # ne rien changer ; sinon, retenter en interpretant comme date M/D/Y
+    # (convention dominante dans ce corpus, majoritairement US) et n'utiliser
+    # le resultat que s'il corrige effectivement l'inversion.
+    t_raw_nonNA <- t_raw[!is.na(t_raw)]
+    if (is.character(t_raw) && length(t_raw_nonNA) &&
+        all(grepl("^\\d{1,2}/\\d{1,2}/\\d{4}$", t_raw_nonNA))) {
+      parsed <- tryCatch(
+        suppressWarnings(as.Date(t_raw, tryFormats = c("%m/%d/%Y"))),
+        error = function(e) rep(as.Date(NA), length(t_raw))
+      )
+      if (length(parsed) == length(t_raw) && all(is.na(parsed) == is.na(t_raw))) {
+        p_min <- min(parsed, na.rm = TRUE); p_max <- max(parsed, na.rm = TRUE)
+        if (p_max >= p_min && format(p_min) != format(p_max)) {
+          raw_min_pos <- which(t_raw == t_min_raw)[1]
+          raw_max_pos <- which(t_raw == t_max_raw)[1]
+          if (!identical(parsed[raw_min_pos] <= parsed[raw_max_pos], TRUE)) {
+            t_min_raw <- format(p_min, "%m/%d/%Y")
+            t_max_raw <- format(p_max, "%m/%d/%Y")
+          }
+        }
+      }
+    }
     time_range_str <- sprintf("%s to %s (variable: %s)",
-                               md_escape(min(df[[time_info$T_var]], na.rm = TRUE)),
-                               md_escape(max(df[[time_info$T_var]], na.rm = TRUE)),
+                               md_escape(t_min_raw),
+                               md_escape(t_max_raw),
                                time_info$T_var)
   }
 
@@ -3408,11 +3830,31 @@ for (record_id in records_to_generate) {
     else "OK - aucune variable avec NA > 20% detectee."
 
   is_published <- !is.null(ov) && !is.null(ov$formula_pub) && !tolower(ov$formula_pub) %in% c("", "pending", "unknown")
-  formula_x_terms <- extract_formula_terms(formula_used, x_vars)
+  # x_vars exclut TOUTES les colonnes candidate_y_variables, pas seulement
+  # celle effectivement choisie comme Y -- cas limite ou une colonne listee
+  # comme Y alternative sert en realite de X dans formula_used (ex.
+  # avian_phylo_functional_distance : Y=MPFDses, X inclut PDses, qui reste
+  # une reponse candidate alternative). c(x_vars, y_vars) elargit juste
+  # l'ensemble des noms de colonnes reels reconnus ; un terme doit de toute
+  # facon deja apparaitre tel quel dans formula_used pour etre retenu.
+  # coord_vars ajoute le meme jour (ex. checkerspot_phenology : le papier
+  # regresse startDayOfYear sur decimalLatitude comme covariable ordinaire,
+  # pas comme reference spatiale -- sans cet ajout, x_terms_used affichait
+  # seulement "year" alors que formula_used contenait bien decimalLatitude,
+  # une incoherence purement d'affichage, formula_used restant correct).
+  formula_x_terms <- extract_formula_terms(formula_used, c(x_vars, y_vars, coord_vars))
   x_for_yaml <- if (length(formula_x_terms)) formula_x_terms else x_vars
   formula_candidate_formula <- if (!is.null(ov) && !is.null(ov$formula_candidate_formula)) ov$formula_candidate_formula else formula_used
   y_pub_display <- if (!is.null(ov) && !is.null(ov$y_term_pub)) ov$y_term_pub else if (formula_used != "pending" && length(y_vars)) y_vars[1] else "pending"
-  x_pub_display <- if (!is.null(ov) && !is.null(ov$x_terms_pub)) paste(ov$x_terms_pub, collapse = ", ") else if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
+  # x_terms_pub_count doit compter EXACTEMENT les termes affiches par
+  # x_pub_display -- avant ce correctif, "Published X count" retombait
+  # toujours a 0 des que ov$x_terms_pub n'etait pas explicitement fixe dans
+  # FORMULA_OVERRIDES, meme quand x_pub_display affichait deja une longue
+  # liste de covariables via le repli x_for_yaml (bug signale par
+  # l'utilisateur 2026-09-10 sur wildfire_schneider_springs_severity : 33
+  # variables listees, "Published X count: 0").
+  x_terms_pub_vec <- if (!is.null(ov) && !is.null(ov$x_terms_pub)) ov$x_terms_pub else if (formula_used != "pending") x_for_yaml else character(0)
+  x_pub_display <- if (length(x_terms_pub_vec)) paste(x_terms_pub_vec, collapse = ", ") else "pending"
   x_used_display <- if (formula_used != "pending" && length(x_for_yaml)) paste(x_for_yaml, collapse = ", ") else "pending"
   y_used_display <- extract_formula_response(formula_used)
   modeling_source_ref_full <- if (!is.null(ov)) ov$source_ref else "data/raw/papers (loader-derived, no published equation located)"
@@ -3439,7 +3881,8 @@ for (record_id in records_to_generate) {
     ml_status = if (!is.null(ov) && !is.null(ov$ml_status)) ov$ml_status else "confirmed",
     ml_source_type = if (!is.null(ov) && !is.null(ov$ml_source_type)) ov$ml_source_type else "scientific_publication",
     ml_estimator_context = if (!is.null(ov) && !is.null(ov$ml_estimator_context)) ov$ml_estimator_context else c("random_forest", "xgboost", "gamboost", "spboost"),
-    is_binary_task = grepl("classification|binary_panel|presence_absence", readiness$benchmark_task %||% "", ignore.case = TRUE)
+    is_binary_task = grepl("classification|binary_panel|presence_absence", readiness$benchmark_task %||% "", ignore.case = TRUE),
+    formula_used_diverges = !is.null(ov) && isTRUE(ov$formula_used_generated_despite_pub)
   )
 
   modeling_existing <- if (is_published) "true" else "false"
@@ -3460,15 +3903,60 @@ for (record_id in records_to_generate) {
   variables_status <- if (length(y_vars) && length(x_vars)) "OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes)."
     else if (length(y_vars)) "WARN - Y identifiee, mais aucune covariable X detectee (grille/raster sans covariable additionnelle)."
     else "WARN - Y non identifiee automatiquement ; revue manuelle requise."
-  regression_status <- if (is_published && formula_used != "pending") "resolu" else if (is_published) "resolu_publication_non_executable" else "pending"
-  evidence_level <- if (is_published) "publication" else "n/a"
-  estimation_method <- if (is_published && formula_used != "pending") "formule publication confirmee et utilisee" else if (is_published) "modele/formule publication confirme, non executable avec le .rds actuel" else "n/a"
-  formula_status <- if (is_published && formula_used != "pending") "OK - formule publication renseignee et formula_used executable."
+  # Une formule publiee confirmee (is_published) ne veut PAS dire que
+  # formula_used la reprend telle quelle : un papier peut publier un modele au
+  # lien non-identite (logit/probit/log) ou avec un champ aleatoire spatial/
+  # spatio-temporel (SAR/SEM/SPDE/panel) que le harnais actuel ne sait pas
+  # reproduire tel quel. Dans ce cas formula_used reste une approximation
+  # generee (GLM plat, sans lien ni champ latent) -- il faut le dire
+  # explicitement plutot que d'annoncer a tort "formule publication confirmee
+  # ET utilisee" (bug signale par l'utilisateur sur paper_crane, 2026-09-10 :
+  # le papier publie un GLMM binomial logit + champ spatio-temporel, mais la
+  # fiche affichait quand meme "resolu / formule publication confirmee et
+  # utilisee" des que formula_pub et formula_used etaient tous deux non-vides).
+  # Marquer ov$formula_used_generated_despite_pub = TRUE (+ un
+  # ov$formula_used_divergence_note explicatif) dans FORMULA_OVERRIDES pour ces cas.
+  formula_used_diverges <- !is.null(ov) && isTRUE(ov$formula_used_generated_despite_pub)
+  divergence_note <- if (formula_used_diverges) {
+    ov$formula_used_divergence_note %||%
+      "formula_pub est confirmee (voir Reference publication) mais correspond a un lien/structure (logit, probit, log, champ spatial ou spatio-temporel latent) que le harnais actuel ne reproduit pas ; formula_used est une approximation generee distincte."
+  } else NULL
+
+  # Decision utilisateur documentee de mettre une fiche de cote (Statut
+  # 'mis de cote'), independante d'une simple divergence formula_pub/
+  # formula_used : le harnais ne sait pas encore executer la methode publiee
+  # (ex. GLM univaries + PCA, un paradigme multi-modeles) et une combinaison
+  # additive de toutes les covariables ne remplace pas cette methode -- ne
+  # PAS annoncer "resolu" tant que ce n'est pas leve. Marquer
+  # ov$regression_status_override (une valeur de REGRESSION_STATUS_VALUES,
+  # tier1_structural.py) + ov$regression_evidence_override + les champs
+  # associes dans FORMULA_OVERRIDES pour ces cas (ex: medicago, 2026-09-08).
+  has_status_override <- !is.null(ov) && !is.null(ov$regression_status_override)
+
+  regression_status <- if (has_status_override) ov$regression_status_override
+    else if (formula_used_diverges) "generated_system_formula"
+    else if (is_published && formula_used != "pending") "resolu"
+    else if (is_published) "resolu_publication_non_executable"
+    else "pending"
+  evidence_level <- if (has_status_override) (ov$regression_evidence_override %||% "publication")
+    else if (formula_used_diverges) "system_generated"
+    else if (is_published) "publication"
+    else "n/a"
+  estimation_method <- if (has_status_override) (ov$regression_method_override %||% "voir Note ci-dessous")
+    else if (formula_used_diverges) "formule systeme generee (formula_pub confirmee mais non reprise telle quelle -- voir Note ci-dessous)"
+    else if (is_published && formula_used != "pending") "formule publication confirmee et utilisee"
+    else if (is_published) "modele/formule publication confirme, non executable avec le .rds actuel"
+    else "n/a"
+  formula_status <- if (has_status_override) sprintf("OK - Statut '%s' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.", regression_status)
+    else if (formula_used_diverges) "OK - formula_pub confirmee et verifiee (voir Reference publication) ; formula_used est une approximation generee distincte, explicitement etiquetee comme telle (voir Bloc 1 > Statut regression canonique > Note)."
+    else if (is_published && formula_used != "pending") "OK - formule publication renseignee et formula_used executable."
     else if (is_published) "OK - preuve de modele/formule publication renseignee ; formula_used reste pending car le .rds local ne contient pas le tableau Y/X requis."
     else if (formula_used != "pending") "PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place)."
     else if (length(y_vars) && !length(x_vars)) "PENDING - reponse identifiee, mais aucune covariable X locale executable n est disponible."
     else "PENDING - aucune formule Y ~ X utilisable ; aucune reponse confirmee ou aucune covariable exploitable n est disponible."
+  crs_note_extra <- CRS_NOTES[[record_id]]
   crs_status <- if (epsg != "unknown") sprintf("OK - CRS renseigne dans le Bloc 5 (%s).", epsg)
+    else if (!is.null(crs_note_extra)) "WARN (verifie) - CRS absent du sf source ; caveat documente, voir Bloc 5 > CRS note."
     else "WARN - CRS absent du sf source et non resolu automatiquement."
   geometry_status <- sprintf("OK - type geometrique controle (%s).", geom_type)
   reproducibility_status <- sprintf("OK - loader R enregistre et reexecutable (`%s` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.", record_id)
@@ -3500,7 +3988,7 @@ for (record_id in records_to_generate) {
   bloc1_block <- sprintf(
     "## Bloc 1 - Formule et variables\n\n### Variables (niveau systeme - inspection directe du sf)\n\n- Candidate Y variables: %s\n- Candidate Y typology: %s\n- Candidate X variables in local artifact: %s\n- Candidate X count in local artifact: %d\n- Candidate X typology: %s\n- Published X variables from paper: %s\n- Published X count: %d\n- Coordinates (x, y - excluded from X candidates): %s\n- Identifier columns (excluded from X candidates): %s\n- Variables inspected: yes (auto - generate_fiches_papers.R)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%%) |\n|---|---|---|---|---|\n%s\n\n> Selection Y/X (paper-loader / curated evidence) : %s\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%%) |\n|---|---|---|---|\n%s\n\n### Formule - niveau publication\n\n- formula_pub: %s\n- x_terms_pub: %s\n- y_term_pub: %s\n- Reference publication: %s\n\n### Statut regression canonique\n\n- Statut: %s\n- Niveau de preuve: %s\n- Methode d estimation: %s\n- Correspondance Python/R: aucune identifiee\n- Note: %s\n\n### Formule - niveau systeme\n\n- formula_used: %s\n- x_terms_used: %s\n- y_term_used: %s\n- Note: %s\n\n### Formules candidates\n\n%s",
     y_vars_str, y_typ_str, x_vars_str, length(x_vars), x_typ_str,
-    x_pub_display, if (!is.null(ov) && !is.null(ov$x_terms_pub)) length(ov$x_terms_pub) else 0L,
+    x_pub_display, length(x_terms_pub_vec),
     coord_display, fmt_bt(id_vars),
     y_rows, yx_rationale, x_rows,
     formula_pub,
@@ -3510,7 +3998,9 @@ for (record_id in records_to_generate) {
     regression_status,
     evidence_level,
     estimation_method,
-    if (is_published) formula_note else "n/a",
+    if (has_status_override) (ov$regression_note_override %||% "n/a")
+      else if (formula_used_diverges) divergence_note
+      else if (is_published) formula_note else "n/a",
     formula_used,
     x_used_display,
     y_used_display,
@@ -3524,9 +4014,10 @@ for (record_id in records_to_generate) {
   } else {
     ""
   }
+  paper_year <- if (!is.null(ov) && !is.null(ov$year)) ov$year else extract_year_from_bib_key(kg_rec$bib_key)
   bloc2_block <- sprintf(
-    "## Bloc 2 - Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: unknown%s",
-    record_id, dataset_name, paper_title, paper_doi, dataset_doi, source_url, parent_line
+    "## Bloc 2 - Identification et DOI\n\n- Dataset ID: `paper_%s`\n- Dataset name: %s\n- Source family: paper-derived\n- Source: papier scientifique (voir Paper DOI)\n- Paper title: %s\n- Paper DOI: %s\n- Dataset DOI: %s\n- Source URL: %s\n- Year: %s%s",
+    record_id, dataset_name, paper_title, paper_doi, dataset_doi, source_url, paper_year, parent_line
   )
 
   bloc3_block <- sprintf(
@@ -3553,16 +4044,41 @@ for (record_id in records_to_generate) {
     md_escape(time_info$T_var), profil_nt(N, time_info$T)
   )
 
+  # CRS_NOTES (calcule plus haut, avant crs_status) : caveat manuel (paper lu,
+  # hypothese testee et ecartee, coord. jitterees/transformees par les
+  # auteurs, etc.) qu'une regeneration ne doit pas effacer.
+  crs_note_line <- if (!is.null(crs_note_extra)) sprintf("\n- CRS note: %s", crs_note_extra) else ""
   bloc5_block <- sprintf(
-    "## Bloc 5 - Resolution et etendue\n\n- Type de geometrie: %s\n- Spatial resolution: %s\n- Temporal resolution: %s\n- CRS EPSG: %s\n- CRS nom: %s\n- Spatial extent: x [%s, %s], y [%s, %s]\n- Time range: %s\n- CRS analyse recommande: %s",
+    "## Bloc 5 - Resolution et etendue\n\n- Type de geometrie: %s\n- Spatial resolution: %s\n- Temporal resolution: %s\n- CRS EPSG: %s\n- CRS nom: %s\n- Spatial extent: x [%s, %s], y [%s, %s]\n- Time range: %s\n- CRS analyse recommande: %s%s",
     geom_type, spatial_res, temporal_res, epsg, crs_name,
     md_escape(bbox["xmin"]), md_escape(bbox["xmax"]), md_escape(bbox["ymin"]), md_escape(bbox["ymax"]),
     time_range_str,
-    if (ca$label != "pending") sprintf("%s (%s) - %s", ca$epsg, ca$label, ca$note) else sprintf("pending - %s", ca$note)
+    if (ca$label != "pending") sprintf("%s (%s) - %s", ca$epsg, ca$label, ca$note) else sprintf("pending - %s", ca$note),
+    crs_note_line
   )
 
+  # License etait un literal "unknown" x4 code en dur pour TOUTES les fiches
+  # paper-derived -- jamais derive d'aucune donnee, meme quand un check
+  # DataCite avait deja ete fait et enregistre une fois dans le .md (perdu des
+  # qu'une fiche est regeneree, cas reel constate 2026-09-10 sur
+  # alps_floristic_legacy/amazon_tree_dominance : le texte "License present:
+  # yes / CC0..." existait dans le fichier mais ne venait d'aucun override
+  # relance-safe -- regenerer l'a efface). Marquer ov$license_name/
+  # ov$license_url/ov$license_checked dans FORMULA_OVERRIDES pour les
+  # fiches deja verifiees (source : DataCite API rightsList pour le DOI du
+  # jeu de donnees), ne pas inventer pour les autres.
+  has_license_override <- !is.null(ov) && !is.null(ov$license_name)
+  license_present <- if (has_license_override) "yes" else "unknown"
+  license_name <- if (has_license_override) ov$license_name else "unknown"
+  license_url <- if (has_license_override && !is.null(ov$license_url)) ov$license_url else "unknown"
+  license_open <- if (has_license_override) (ov$license_open %||% "yes") else "unknown"
+  license_evidence_line <- if (has_license_override) sprintf(
+    "\n- License evidence: DataCite API record for DOI %s (checked %s): rightsList = '%s'.",
+    dataset_doi, ov$license_checked %||% "2026-09-10", license_name
+  ) else ""
   bloc6_block <- sprintf(
-    "## Bloc 6 - Reproductibilite\n\n- License present: unknown\n- License name: unknown\n- License URL: unknown\n- License open: unknown\n- Reproducibility status: %s\n- Code available: yes (loader `%s` dans `code/r_catalog/build_sf_datasets_papers.R`)\n- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)",
+    "## Bloc 6 - Reproductibilite\n\n- License present: %s\n- License name: %s\n- License URL: %s\n- License open: %s%s\n- Reproducibility status: %s\n- Code available: yes (loader `%s` dans `code/r_catalog/build_sf_datasets_papers.R`)\n- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)",
+    license_present, license_name, license_url, license_open, license_evidence_line,
     reproducibility_status, record_id
   )
 

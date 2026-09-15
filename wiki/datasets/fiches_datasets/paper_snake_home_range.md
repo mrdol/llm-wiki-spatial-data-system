@@ -1,7 +1,7 @@
 ---
 title: paper_snake_home_range
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_snake_home_range.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 - Candidate Y typology: continuous, binary
 - Candidate X variables in local artifact: `Elevation`, `MaleMass`, `FemaleMass`, `Male100MCP`, `Male95MCP`, `Male95KD`, `Male90KD`, `Female100MCP`, `Female95MCP`, `Female95KD`, `Female90KD`, `NotesHR`, `NotesMass`, `NPP`, `Total_Precip`, `MeanAnnualTemp`, `IUCN_habitats`, `Aquatic_index`
 - Candidate X count in local artifact: 18
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: Mass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
+- Candidate X typology: continuous, categorical, unknown
+- Published X variables from paper: Mass (masse corporelle, log-transformee), IUCN_habitats (largeur de niche d'habitat), Aquatic_index (indice d'aquaticite), Elevation, NPP (productivite primaire nette), MeanAnnualTemp, Total_Precip
 - Published X count: 7
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`
@@ -52,7 +52,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 | `X100KD` | `logical` | binary | {0, 1} | 100% |
 | `X95KD` | `numeric` | continuous | [0.67, 177.07] | 78.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `snake_home_range`, la ou les reponses `X100MCP`, `X95MCP`, `X100KD`, `X95KD` viennent du loader papier et/ou des preuves de l article `Ectothermy and the macroecology of home range scaling in snakes`. Les covariables X retenues sont `MaleMass`, `IUCN_habitats`, `Aquatic_index`, `Elevation`, `NPP`, `MeanAnnualTemp`, `Total_Precip` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `snake_home_range`, la ou les reponses `X100MCP`, `X95MCP`, `X100KD`, `X95KD` viennent du loader papier et/ou des preuves de l article `Ectothermy and the macroecology of home range scaling in snakes`. Les covariables X retenues sont `MaleMass`, `IUCN_habitats`, `Aquatic_index`, `Elevation`, `NPP`, `MeanAnnualTemp`, `Total_Precip` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Citation`, `Family`, `TreeTaxon`, `StudySpeciesName`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -74,14 +74,14 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 | `NPP` | `numeric` | continuous | 0% |
 | `Total_Precip` | `numeric` | continuous | 0% |
 | `MeanAnnualTemp` | `numeric` | continuous | 0% |
-| `IUCN_habitats` | `integer` | count | 1.8% |
+| `IUCN_habitats` | `integer` | unknown | 1.8% |
 | `Aquatic_index` | `numeric` | rate | 1.8% |
 
 ### Formule - niveau publication
 
 - formula_pub: HR ~ log(Mass) + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip + (1|study) + (1|species) [Modele Lineaire Mixte (LMM), package lme4, intercepts aleatoires etude/espece, comparaison de modeles emboites par AICc]
-- x_terms_pub: Mass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
-- y_term_pub: HR
+- x_terms_pub: Mass (masse corporelle, log-transformee), IUCN_habitats (largeur de niche d'habitat), Aquatic_index (indice d'aquaticite), Elevation, NPP (productivite primaire nette), MeanAnnualTemp, Total_Precip
+- y_term_pub: HR (taille du domaine vital, home range, methodes MCP/Kernel Density selon l'etude source)
 - Reference publication: Todd, B.D. & Nowakowski, A.J. (2021), Ectothermy and the macroecology of home range scaling in snakes, Global Ecology and Biogeography, doi:10.1111/geb.13225. CSV original (todd_and_nowakowski_snake_home_range_full_dataset.csv) telecharge directement depuis le depot DataCite/Dryad (10.25338/b85g98) -- pas une reconstruction, N=113 especes, N=109 apres exclusion des 4 lignes sans coordonnees. Les noms de colonnes numeriques (100MCP, 95MCP, 100KD, 95KD) sont automatiquement prefixes 'X' par R a la lecture (100MCP -> X100MCP) -- comportement standard de read.csv/make.names, pas une erreur de donnee. X100MCP retenu comme Y principal (41/109 valeurs non-NA, differentes etudes ayant utilise differentes methodes d'estimation du domaine vital -- NA reel documente, pas fabrique).
 
 ### Statut regression canonique
@@ -90,18 +90,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Ectothermy
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: X100MCP ~ MaleMass + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip
+- License evidence: DataCite API record for DOI 10.25338/b85g98 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=109; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=15. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - benchmark_task_note: X100MCP mesure une surface de domaine vital, avec 41 observations non manquantes sur 109.
 - Selected Y evidence: X100MCP mesure une surface de domaine vital, avec 41 observations non manquantes sur 109.
 - Selected Y typology: continuous
 - x_terms_used: MaleMass, IUCN_habitats, Aquatic_index, Elevation, NPP, MeanAnnualTemp, Total_Precip
 - y_term_used: X100MCP
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -119,12 +120,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "X100MCP ~ MaleMass + IUCN_habitats + Aquatic_index + Elevation + NPP + MeanAnnualTemp + Total_Precip"
-    response: "HR"
-    predictors: ["Mass", "IUCN_habitats", "Aquatic_index", "Elevation", "NPP", "MeanAnnualTemp", "Total_Precip"]
+    response: "HR (taille du domaine vital, home range, methodes MCP/Kernel Density selon l'etude source)"
+    predictors: ["Mass (masse corporelle, log-transformee)", "IUCN_habitats (largeur de niche d'habitat)", "Aquatic_index (indice d'aquaticite)", "Elevation", "NPP (productivite primaire nette)", "MeanAnnualTemp", "Total_Precip"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -148,7 +149,7 @@ formula_candidates:
 - Paper DOI: 10.1111/geb.13225
 - Dataset DOI: 10.25338/b85g98
 - Source URL: https://datadryad.org/dataset/doi:10.25338/b85g98
-- Year: unknown
+- Year: 2020 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -236,7 +237,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.25338/b85g98 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`snake_home_range` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `snake_home_range` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -251,10 +251,6 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: Male100MCP (NA=32.1%), Male95MCP (NA=92.7%), Male95KD (NA=69.7%), Male90KD (NA=98.2%), Female100MCP (NA=32.1%), Female95MCP (NA=92.7%), Female95KD (NA=69.7%), Female90KD (NA=98.2%), X100MCP (NA=62.4%), X95MCP (NA=93.6%), X100KD (NA=100%), X95KD (NA=78.9%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`snake_home_range` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

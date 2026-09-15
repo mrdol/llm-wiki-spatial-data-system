@@ -1,7 +1,7 @@
 ---
 title: paper_chaco_bird_richness
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_chaco_bird_richness.rds
@@ -32,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `species_richness`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `use`, `cover`, `habitat.type`, `htype`, `year`, `season`, `month`, `date`, `julian.date`, `season.rain`, `day.time`, `daytime`, `mmdet`, `ierdet`, `yieldE`, `yieldP`, `yieldM`, `monthly.rain`, `annual.rain`, `aridity`, `forest_3km`, `forest_6km`, `forest_10km`
 - Candidate X count in local artifact: 23
-- Candidate X typology: categorical, continuous
-- Published X variables from paper: yieldM, forest_6km, aridity
+- Candidate X typology: categorical, unknown, continuous
+- Published X variables from paper: yieldM (rendement en viande, metrique d'intensite agricole), forest_6km (etendue boisee, tampon 6km), aridity (indice d'aridite)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `site`, `source`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 |---|---|---|---|---|
 | `species_richness` | `integer` | count | [0, 56] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `chaco_bird_richness`, la ou les reponses `species_richness` viennent du loader papier et/ou des preuves de l article `Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes`. Les covariables X retenues sont `yieldM`, `forest_6km`, `aridity` ; 20 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`site`, `source`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `chaco_bird_richness`, la ou les reponses `species_richness` viennent du loader papier et/ou des preuves de l article `Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes`. Les covariables X retenues sont `yieldM`, `forest_6km`, `aridity` ; 20 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`site`, `source`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -59,11 +59,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 | `cover` | `character` | categorical | 0% |
 | `habitat.type` | `character` | categorical | 0% |
 | `htype` | `integer` | binary | 0% |
-| `year` | `integer` | count | 0% |
+| `year` | `integer` | unknown | 0% |
 | `season` | `character` | categorical | 0% |
 | `month` | `character` | categorical | 0% |
 | `date` | `character` | categorical | 0% |
-| `julian.date` | `integer` | count | 0% |
+| `julian.date` | `integer` | unknown | 0% |
 | `season.rain` | `character` | categorical | 0% |
 | `day.time` | `character` | categorical | 0% |
 | `daytime` | `integer` | binary | 0% |
@@ -82,8 +82,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 ### Formule - niveau publication
 
 - formula_pub: occupancy_ij ~ agricultural_intensity + woodland_extent + environmental_covariate + agricultural_intensity:woodland_extent [modele hierarchique bayesien d'occupation (detection/occupancy) par espece, 197 especes x 234 sites, avec 24 combinaisons de modeles testees (3 metriques d'intensite agricole: yieldE/yieldP/yieldM x 2 mesures d'etendue boisee: forest_6km/forest_10km OU 2 covariables environnementales: rainfall/aridity, avec termes d'interaction)]
-- x_terms_pub: yieldM, forest_6km, aridity
-- y_term_pub: richesse specifique d'oiseaux par site
+- x_terms_pub: yieldM (rendement en viande, metrique d'intensite agricole), forest_6km (etendue boisee, tampon 6km), aridity (indice d'aridite)
+- y_term_pub: richesse specifique d'oiseaux par site (agregation de l'occupation par espece publiee par le papier en richesse communautaire au niveau site, N=234 sites, 197 especes recensees)
 - Reference publication: Macchi et al. (2020), Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes, Journal of Applied Ecology, doi:10.1111/1365-2664.13699. Le papier ajuste un modele hierarchique bayesien d'occupation par espece (197 especes, 234 sites du Chaco argentin) avec 3 metriques d'intensite agricole (meat/energy/profit yield), 2 mesures d'etendue boisee et 2 covariables environnementales (24 combinaisons de modeles, avec interactions). Ce modele par espece n'est pas reproductible directement (historiques de detection par espece non incluses dans ce depot). formula_used agrege les occurrences en richesse specifique par site (mesure communautaire standard) et utilise exactement les covariables reelles du papier (yieldM, forest_6km, aridity) au niveau site. Donnees brutes (covas_sitios_03012018.csv + species_sitios_03012018.csv) telechargees directement depuis Dryad (10.5061/dryad.msbcc2fvt) -- pas une reconstruction, N=234 sites, coordonnees reelles (Chaco argentin).
 
 ### Statut regression canonique
@@ -92,17 +92,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Trade-offs
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: species_richness ~ yieldM + forest_6km + aridity
+- License evidence: DataCite API record for DOI 10.5061/dryad.msbcc2fvt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=234; T declare=6; variable temporelle declaree=year; repetitions de coordonnees controlees=12. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: yieldM, forest_6km, aridity
 - y_term_used: species_richness
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -120,12 +121,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "species_richness ~ yieldM + forest_6km + aridity"
-    response: "richesse specifique d'oiseaux par site"
-    predictors: ["yieldM", "forest_6km", "aridity"]
+    response: "richesse specifique d'oiseaux par site (agregation de l'occupation par espece publiee par le papier en richesse communautaire au niveau site, N=234 sites, 197 especes recensees)"
+    predictors: ["yieldM (rendement en viande, metrique d'intensite agricole)", "forest_6km (etendue boisee, tampon 6km)", "aridity (indice d'aridite)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -149,7 +150,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2664.13699
 - Dataset DOI: 10.5061/dryad.msbcc2fvt
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.msbcc2fvt
-- Year: unknown
+- Year: 2020 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -234,7 +235,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.msbcc2fvt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`chaco_bird_richness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `chaco_bird_richness` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -249,10 +249,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`chaco_bird_richness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (count), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

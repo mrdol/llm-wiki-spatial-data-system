@@ -13,7 +13,8 @@ diagnose_spatial(
   k_neighbors = NULL,
   style = NULL,
   zero_policy = NULL,
-  include_baseline = TRUE
+  include_baseline = TRUE,
+  response_typology = "continuous"
 )
 }
 \arguments{

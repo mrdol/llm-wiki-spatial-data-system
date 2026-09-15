@@ -1,7 +1,7 @@
 ---
 title: paper_midwest_crop_yield
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_midwest_crop_yield.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors"
-- Observed population: ModÃ¨le bayÃ©sien Ã  coefficients spatialement variables pour prÃ©diction de rendement agricole (corn yield) dans 5 Ã©tats du Midwest USA
+- Observed population: Modèle bayésien à coefficients spatialement variables pour prédiction de rendement agricole (corn yield) dans 5 états du Midwest USA
 - Geographic context: etendue sf: x [-101.806263355221, -84.9366590770885], y [36.21377415, 43.3840075]
 - Temporal context: 22 distinct periods (variable: Year)
 - Source description: Crop Yield Prediction Using Bayesian Spatially Varying Coefficient Models with Functional Predictors
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `STUSPS`, `county_key`, `Year`, `avgPRCP`, `Area`
 - Candidate X count in local artifact: 5
-- Candidate X typology: categorical, continuous
+- Candidate X typology: categorical, unknown, continuous
 - Published X variables from paper: avgPRCP
-- Published X count: 0
+- Published X count: 1
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `State`, `County`, `CountyI`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -57,7 +57,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 |---|---|---|---|
 | `STUSPS` | `character` | categorical | 0% |
 | `county_key` | `character` | categorical | 0% |
-| `Year` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
 | `avgPRCP` | `numeric` | continuous | 0% |
 | `Area` | `numeric` | continuous | 0% |
 
@@ -74,17 +74,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Crop Yield
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Yield ~ avgPRCP
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.21082235 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Recommended validation: N lignes=6359; T declare=22; variable temporelle declaree=Year; repetitions de coordonnees controlees=5955. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: avgPRCP
 - y_term_used: Yield
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1080/01621459.2022.2123333
 - Dataset DOI: 10.6084/m9.figshare.21082235
 - Source URL: https://tandf.figshare.com/articles/dataset/Crop_Yield_Prediction_Using_Bayesian_Spatially_Varying_Coefficient_Models_with_Functional_Predictors/21082235
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -205,7 +206,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6084/m9.figshare.21082235 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`midwest_crop_yield` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `midwest_crop_yield` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -220,11 +220,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`midwest_crop_yield` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Park2022Crop.tei.xml) confirme un panel comte x annee authentique (403 comtes, mediane 17/22 annees disponibles). La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par comte, respecter la chronologie (annee) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

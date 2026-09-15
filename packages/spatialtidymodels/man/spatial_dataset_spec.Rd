@@ -4,7 +4,15 @@
 \alias{spatial_dataset_spec}
 \title{Define a dataset for \code{benchmark_spatial_datasets()}}
 \usage{
-spatial_dataset_spec(name, data, formula, coords, W = NULL)
+spatial_dataset_spec(
+  name,
+  data,
+  formula,
+  coords,
+  W = NULL,
+  response_typology = NULL,
+  glm_link = NULL
+)
 }
 \arguments{
 \item{name}{Short dataset name.}

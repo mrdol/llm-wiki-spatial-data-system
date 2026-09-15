@@ -1,7 +1,7 @@
 ---
 title: paper_houston_lst_landcover
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_houston_lst_landcover.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 - Candidate X variables in local artifact: `land_cover`
 - Candidate X count in local artifact: 1
 - Candidate X typology: categorical
-- Published X variables from paper: land_cover
+- Published X variables from paper: land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
@@ -60,9 +60,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 ### Formule - niveau publication
 
 - formula_pub: [Le papier construit un modele spatiotemporel physiquement contraint sur l'ensemble des 27 passages satellite pour combler les zones nuageuses (clear-sky reconstruction) de la temperature de surface (LST) ; il ne publie pas de regression Y~X statique unique -- la relation LST~couverture du sol est neanmoins directement mesurable dans les donnees deposees (grille appariee lat/lon/land_cover/LST par passage satellite)]
-- x_terms_pub: land_cover
-- y_term_pub: LST_kelvin
-- Reference publication: Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas.
+- x_terms_pub: land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)
+- y_term_pub: LST_kelvin (temperature de surface terrestre, degres Kelvin, passage satellite du 2014-07-01 22:06 UTC, couverture non-nuageuse la plus complete parmi les 27 passages disponibles : 19059/22801 pixels)
+- Reference publication: Collins, Heaton & Hu (2019) (auteurs corriges le 2026-09-14 -- confirmes via Crossref et OpenAlex, DOI 10.1080/02664763.2019.1681384 ; l'attribution anterieure 'Chang & Wikle' etait fausse, aucun auteur de ce nom sur ce papier), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas.
 
 ### Statut regression canonique
 
@@ -70,16 +70,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: LST_kelvin ~ land_cover
+- License evidence: DataCite API record for DOI 10.5061/dryad.fbg79cnt2 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: land_cover
 - y_term_used: LST_kelvin
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -87,8 +88,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Physically
 formula_candidates:
   univariate:
     formula: "LST_kelvin ~ land_cover"
-    response: "LST_kelvin"
-    predictors: ["land_cover"]
+    response: "LST_kelvin (temperature de surface terrestre, degres Kelvin, passage satellite du 2014-07-01 22:06 UTC, couverture non-nuageuse la plus complete parmi les 27 passages disponibles : 19059/22801 pixels)"
+    predictors: ["land_cover (categorie de couverture du sol par pixel : cropland, forest, grassland, other, savanna, urban)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -126,7 +127,7 @@ formula_candidates:
 - Paper DOI: 10.1080/02664763.2019.1681384
 - Dataset DOI: 10.5061/dryad.fbg79cnt2
 - Source URL: https://doi.org/10.5061/dryad.fbg79cnt2
-- Year: unknown
+- Year: 2019
 
 ## Bloc 3 - Typologie des modeles
 
@@ -141,7 +142,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Chang & Wikle (2019), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics, doi:10.1080/02664763.2019.1681384. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
+  source_ref: "Collins, Heaton & Hu (2019) (auteurs corriges le 2026-09-14 -- confirmes via Crossref et OpenAlex, DOI 10.1080/02664763.2019.1681384 ; l'attribution anterieure 'Chang & Wikle' etait fausse, aucun auteur de ce nom sur ce papier), Physically constrained spatiotemporal modeling: generating clear-sky constructions of land surface temperature from sparse, remotely sensed satellite data, Journal of Applied Statistics. Le papier reconstruit les zones nuageuses de LST par modele spatiotemporel a contrainte physique sur toute la sequence de 27 passages satellite (pas de formule Y~X statique). Les fichiers deposes fournissent une grille 151x151 de latitude, longitude, couverture du sol et LST par passage -- formula_used utilise le passage avec la meilleure couverture non-nuageuse (2014-07-01 22:06 UTC) comme coupe transversale ile-de-chaleur urbaine (LST~land_cover), une simplification documentee du probleme spatiotemporel complet du papier. Donnees brutes (Phoenix_Houston_LST_Dryad.zip, sous-dossier Houston) telechargees directement depuis Dryad (10.5061/dryad.fbg79cnt2) -- pas une reconstruction, grille reelle sur Houston, Texas."
   confidence: medium
 ```
 
@@ -199,7 +200,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.fbg79cnt2 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`houston_lst_landcover` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `houston_lst_landcover` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

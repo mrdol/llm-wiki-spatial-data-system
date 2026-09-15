@@ -1,7 +1,7 @@
 ---
 title: paper_korea_hedonic_housing
 type: dataset
-created: 2026-08-17
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_korea_hedonic_housing.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 - Candidate X variables in local artifact: `Area`, `Floor`, `Year`, `Subway.distance`, `Subway.network.distance`, `Maximum.floor`, `Households`, `Buildings`, `Parking.space`, `Heating`, `Top.school`, `High.school`, `CBD`, `Green.space.distance`, `Waterfront.distance`, `Bus.stops`, `Population`, `Male`, `Female`, `Sex.ratio`, `Medium.age`, `Young.population.ratio`, `Elderly.population.ratio`, `Population.density`, `Higher.degree.ratio`, `Spring`, `Fall`, `Winter`
 - Candidate X count in local artifact: 28
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: Area, Floor, Subway.distance, Population.density, Green.space.distance
+- Published X variables from paper: Area (Size, surface, m2), Floor (etage), Subway.distance (Network distance to nearest subway station -- variable confirmee comme la plus importante par l'etude d'application liee), Population.density (densite de population locale), Green.space.distance (distance a un espace vert)
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `City`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 |---|---|---|---|---|
 | `Housing.price` | `numeric` | continuous | [1000, 414340] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `Hedonic dataset of the metropolitan housing market -- Cases in South Korea`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 23 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `korea_hedonic_housing`, la ou les reponses `Housing.price` viennent du loader papier et/ou des preuves de l article `Hedonic dataset of the metropolitan housing market -- Cases in South Korea`. Les covariables X retenues sont `Area`, `Floor`, `Subway.distance`, `Population.density`, `Green.space.distance` ; 23 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`City`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -87,8 +87,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 ### Formule - niveau publication
 
 - formula_pub: Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 -- article 'data descriptor' officiel de ce meme jeu de donnees (26 variables en 4 categories : housing properties, local demographics, local amenities, seasonal controls). Etude d'application liee trouvee : Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900, confirmant 'network distance to nearest subway station' comme la variable la plus importante pour expliquer le prix, avec les caracteristiques du logement]
-- x_terms_pub: Area, Floor, Subway.distance, Population.density, Green.space.distance
-- y_term_pub: Housing.price
+- x_terms_pub: Area (Size, surface, m2), Floor (etage), Subway.distance (Network distance to nearest subway station -- variable confirmee comme la plus importante par l'etude d'application liee), Population.density (densite de population locale), Green.space.distance (distance a un espace vert)
+- y_term_pub: Housing.price (prix du logement -- Condominium price, KRW)
 - Reference publication: CONFIRMED (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : le papier 'data descriptor' officiel de ce jeu de donnees a ete retrouve -- Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 (texte consulte via PMC, article en libre acces). Structure officielle confirmee : 26 variables en 4 categories (housing properties : size/floor/parking/annee construction ; demographie locale : population/densite/education/age ; amenites locales : distance metro/bus/espaces verts/CBD ; controles saisonniers). Une etude d'application du meme jeu de donnees a egalement ete identifiee -- Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900 -- confirmant explicitement que la distance au metro et les caracteristiques du logement sont les determinants les plus importants du prix. formula_used (deja proposee par le curateur avant cette recherche) s'avere BIEN ALIGNEE avec la structure officiellement documentee (Area/Floor/Subway.distance/Population.density/Green.space.distance correspondent directement aux 4 categories du data descriptor, Subway.distance confirmee comme variable cle) -- aucune correction necessaire, seule la reference bibliographique est ajoutee. 4 fichiers xlsx (Busan.xlsx, Daegu.xlsx, Daejeon.xlsx, Gwangju.xlsx) telecharges directement depuis Zenodo (DOI 10.5281/zenodo.14715630, tres probablement une extension/mise a jour du dataset original de Song et al. par les memes auteurs ou un groupe associe) -- pas une reconstruction, N=178719 transactions immobilieres (Busan 53458, Daegu 56606, Daejeon 24350, Gwangju 44305). Coordonnees reelles (Longitude/Latitude) verifiees coherentes par ville, pas d'inversion. package_include laisse en manual_review : formule alignee avec la documentation officielle du dataset, mais pas verifiee terme-a-terme contre une regression publiee precise (le data descriptor ne publie pas lui-meme d'equation de regression, seulement la structure des variables).
 
 ### Statut regression canonique
@@ -97,17 +97,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance
+- License evidence: DataCite API record for DOI 10.5281/zenodo.14715630 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Recommended validation: N lignes=178719; T declare=46; variable temporelle declaree=Year; repetitions de coordonnees controlees=173324. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: Area, Floor, Subway.distance, Population.density, Green.space.distance
 - y_term_used: Housing.price
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -125,12 +126,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance"
-    response: "Housing.price"
-    predictors: ["Area", "Floor", "Subway.distance", "Population.density", "Green.space.distance"]
+    response: "Housing.price (prix du logement -- Condominium price, KRW)"
+    predictors: ["Area (Size, surface, m2)", "Floor (etage)", "Subway.distance (Network distance to nearest subway station -- variable confirmee comme la plus importante par l'etude d'application liee)", "Population.density (densite de population locale)", "Green.space.distance (distance a un espace vert)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -154,7 +155,7 @@ formula_candidates:
 - Paper DOI: 10.1016/j.dib.2021.106877
 - Dataset DOI: 10.5281/zenodo.14715630
 - Source URL: https://doi.org/10.5281/zenodo.14715630
-- Year: unknown
+- Year: 2021
 
 ## Bloc 3 - Typologie des modeles
 
@@ -243,7 +244,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5281/zenodo.14715630 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`korea_hedonic_housing` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `korea_hedonic_housing` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -258,61 +258,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`korea_hedonic_housing` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## ATTENTION -- ce jeu de donnees a ete decoupe en sous-fiches, NE PAS supprimer
-
-Ce panel complet a ete decoupe en 33 fiches (session 2026-08-17/2026-09-08) de granularite plus fine (coupes annuelles
-et/ou sous-panels groupes), pour elargir le nombre de jeux de donnees deja benchmarkables
-sans casser la validite spatiale. **Le parent ET tous les enfants doivent etre conserves** --
-ce ne sont pas des doublons :
-- Le PARENT (cette fiche) est le panel complet, utile pour toute analyse necessitant
-  l'integralite des unites spatiales x periodes ensemble (ex. modele spatial-panel avec
-  effets fixes, methode Elhorst 2010).
-- Chaque ENFANT est un sous-ensemble temporel du meme panel (voir la liste ci-dessous),
-  utile individuellement comme jeu de donnees benchmarkable supplementaire (coupe
-  transversale ou sous-panel reduit selon le cas).
-
-Si un futur agent (LLM ou humain) envisage de supprimer l'une de ces fiches en pensant
-qu'elle fait doublon avec une autre, VERIFIER D'ABORD cette note et la fiche
-`wiki/eval_queue.md` / les sessions d'audit du 2026-09-07/08 avant toute suppression.
-
-Sous-fiches (33 fiches (session 2026-08-17/2026-09-08)) :
-- [[paper_korea_hedonic_housing_1989]]
-- [[paper_korea_hedonic_housing_1990]]
-- [[paper_korea_hedonic_housing_1991]]
-- [[paper_korea_hedonic_housing_1992]]
-- [[paper_korea_hedonic_housing_1993]]
-- [[paper_korea_hedonic_housing_1994]]
-- [[paper_korea_hedonic_housing_1995]]
-- [[paper_korea_hedonic_housing_1996]]
-- [[paper_korea_hedonic_housing_1997]]
-- [[paper_korea_hedonic_housing_1998]]
-- [[paper_korea_hedonic_housing_1999]]
-- [[paper_korea_hedonic_housing_2000]]
-- [[paper_korea_hedonic_housing_2001]]
-- [[paper_korea_hedonic_housing_2002]]
-- [[paper_korea_hedonic_housing_2003]]
-- [[paper_korea_hedonic_housing_2004]]
-- [[paper_korea_hedonic_housing_2005]]
-- [[paper_korea_hedonic_housing_2006]]
-- [[paper_korea_hedonic_housing_2007]]
-- [[paper_korea_hedonic_housing_2008]]
-- [[paper_korea_hedonic_housing_2009]]
-- [[paper_korea_hedonic_housing_2010]]
-- [[paper_korea_hedonic_housing_2011]]
-- [[paper_korea_hedonic_housing_2012]]
-- [[paper_korea_hedonic_housing_2013]]
-- [[paper_korea_hedonic_housing_2014]]
-- [[paper_korea_hedonic_housing_2015]]
-- [[paper_korea_hedonic_housing_2016]]
-- [[paper_korea_hedonic_housing_2017]]
-- [[paper_korea_hedonic_housing_2018]]
-- [[paper_korea_hedonic_housing_2019]]
-- [[paper_korea_hedonic_housing_pre1989]]
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

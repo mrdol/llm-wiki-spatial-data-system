@@ -1,7 +1,7 @@
 ---
 title: paper_global_nee_gwxgboost
 type: dataset
-created: 2026-08-17
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_global_nee_gwxgboost.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Year`, `Day.of.Year`, `LSWI`, `ET.kg.m.2..8.day..1.`, `NDVImax`, `LSWImean`, `WUEmax.kg.C.per.kg.H2O.`, `LAI`, `NDVI`, `LSTnight.K.`, `Ratio_ET_PET`, `LSTnightmax.K.`, `LSTnightmin.K.`, `LAImin`, `Ratio_ET_PETmax`, `LSTdaymean.K.`
 - Candidate X count in local artifact: 16
-- Candidate X typology: continuous
-- Published X variables from paper: LSWI, NDVImax, LAI, LSTnight.K., Ratio_ET_PET
+- Candidate X typology: unknown, continuous
+- Published X variables from paper: LSWI (Land Surface Water Index), NDVImax (indice de vegetation normalise, maximum), LAI (indice de surface foliaire), LSTnight.K. (temperature de surface nocturne, Kelvin), Ratio_ET_PET (ratio evapotranspiration reelle/potentielle)
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Site.Name`, `IGBP`
@@ -47,36 +47,36 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
-| `NEE.g.C.m.2.day.1.` | `numeric` | continuous | [-12.94, 14.85] | 0.05% |
+| `NEE.g.C.m.2.day.1.` | `numeric` | continuous | [-12.94, 14.85] | 0.1% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `global_nee_gwxgboost`, la ou les reponses `NEE.g.C.m.2.day.1.` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Dataset and Code for "Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework"`. Les covariables X retenues sont `LSWI`, `NDVImax`, `LAI`, `LSTnight.K.`, `Ratio_ET_PET` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Site.Name`, `IGBP`), geometries et champs techniques sont exclus de X. CORRECTION (2026-09-09) : 56 lignes (0.05%) portaient une sentinelle -9999 dans `NEE.g.C.m.2.day.1.` (moyenne contaminee -5.59 au lieu de -0.46 apres correction) -- confirme par inspection directe du RDS, converties en NA (`data/final_datasets/sf/paper_global_nee_gwxgboost.rds` corrige, script `fix_nee_sentinel.R`). Les 5 covariables retenues ont ete verifiees indemnes de la meme sentinelle. Statut benchmark actuel : ready.
+> Selection Y/X (paper-loader / curated evidence) : Pour `global_nee_gwxgboost`, la ou les reponses `NEE.g.C.m.2.day.1.` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Dataset and Code for "Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework"`. Les covariables X retenues sont `LSWI`, `NDVImax`, `LAI`, `LSTnight.K.`, `Ratio_ET_PET` ; 11 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Site.Name`, `IGBP`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Year` | `integer` | count | 0% |
-| `Day.of.Year` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
+| `Day.of.Year` | `integer` | unknown | 0% |
 | `LSWI` | `numeric` | continuous | 0% |
-| `ET.kg.m.2..8.day..1.` | `integer` | count | 0% |
+| `ET.kg.m.2..8.day..1.` | `integer` | unknown | 0% |
 | `NDVImax` | `numeric` | rate | 0% |
 | `LSWImean` | `numeric` | continuous | 0% |
 | `WUEmax.kg.C.per.kg.H2O.` | `numeric` | continuous | 0% |
 | `LAI` | `numeric` | continuous | 0% |
 | `NDVI` | `numeric` | continuous | 0% |
-| `LSTnight.K.` | `integer` | count | 0% |
+| `LSTnight.K.` | `integer` | unknown | 0% |
 | `Ratio_ET_PET` | `numeric` | continuous | 0% |
-| `LSTnightmax.K.` | `integer` | count | 0% |
-| `LSTnightmin.K.` | `integer` | count | 0% |
+| `LSTnightmax.K.` | `integer` | unknown | 0% |
+| `LSTnightmin.K.` | `integer` | unknown | 0% |
 | `LAImin` | `numeric` | continuous | 0% |
 | `Ratio_ET_PETmax` | `numeric` | continuous | 0% |
-| `LSTdaymean.K.` | `integer` | count | 0% |
+| `LSTdaymean.K.` | `integer` | unknown | 0% |
 
 ### Formule - niveau publication
 
 - formula_pub: [Titre du depot : 'Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework'. Aucun DOI de publication resolu (recherche web, session 2026-08-17 : aucune correspondance exacte trouvee, papier probablement pas encore indexe/publie). Le titre indique un modele XGBoost pondere geographiquement (GWR-style local weighting) pour predire le NEE a partir de variables de teledetection]
-- x_terms_pub: LSWI, NDVImax, LAI, LSTnight.K., Ratio_ET_PET
-- y_term_pub: NEE
+- x_terms_pub: LSWI (Land Surface Water Index), NDVImax (indice de vegetation normalise, maximum), LAI (indice de surface foliaire), LSTnight.K. (temperature de surface nocturne, Kelvin), Ratio_ET_PET (ratio evapotranspiration reelle/potentielle)
+- y_term_pub: NEE (echange net d'ecosysteme, g C m-2 jour-1, mesure par eddy covariance aux tours de flux FLUXNET)
 - Reference publication: Aucune publication n'a ete identifiee avec certitude pour ce candidat dataset-first (Zenodo, DOI 10.5281/zenodo.21635729, titre du depot 'Dataset and Code for Estimating Global Site-Level Net Ecosystem Exchange with a Geographically Weighted XGBoost Framework'). Recherche web (session 2026-08-17) n'a pas trouve de correspondance exacte -- papiers proches identifies (Random Forest/XGBoost sur NEE FLUXNET, GW-XGBoost pixel-level vegetation) mais aucun ne correspond exactement au titre du depot. Data1_387_sites.csv telecharge directement depuis Zenodo -- pas une reconstruction, N=109154 observations (387 sites de flux FLUXNET mondiaux, panel site x jour x annee), coordonnees reelles verifiees coherentes (couverture mondiale -163.7 a 161.3 lon, -54.97 a 78.92 lat). formula_used est une proposition du curateur (session 2026-08-17) exploitant les variables de teledetection reellement presentes et correspondant au cadre methodologique decrit par le titre (variables satellitaires -> NEE), pas une formule extraite d'un texte publie verifie. package_include laisse en manual_review pour cette raison.
 
 ### Statut regression canonique
@@ -85,16 +85,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: NEE.g.C.m.2.day.1. ~ LSWI + NDVImax + LAI + LSTnight.K. + Ratio_ET_PET
+- License evidence: DataCite API record for DOI 10.5281/zenodo.21635729 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: LSWI, NDVImax, LAI, LSTnight.K., Ratio_ET_PET
 - y_term_used: NEE.g.C.m.2.day.1.
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -112,12 +113,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "NEE.g.C.m.2.day.1. ~ LSWI + NDVImax + LAI + LSTnight.K. + Ratio_ET_PET"
-    response: "NEE"
-    predictors: ["LSWI", "NDVImax", "LAI", "LSTnight.K.", "Ratio_ET_PET"]
+    response: "NEE (echange net d'ecosysteme, g C m-2 jour-1, mesure par eddy covariance aux tours de flux FLUXNET)"
+    predictors: ["LSWI (Land Surface Water Index)", "NDVImax (indice de vegetation normalise, maximum)", "LAI (indice de surface foliaire)", "LSTnight.K. (temperature de surface nocturne, Kelvin)", "Ratio_ET_PET (ratio evapotranspiration reelle/potentielle)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -174,7 +175,7 @@ benchmark_readiness:
 
 - Decision: ready
 - Manque principal: aucun blocage automatique detecte
-- Raison: Sentinelle -9999 corrigee (voir Bloc 1) ; formule generee/proposee par le curateur, pas verbatim d'une publication confirmee -- estimateurs eligibles en consequence a base non-scientifique.
+- Raison: CORRECTION 2026-09-09 : sentinelle -9999 (56/109154 lignes, 0.05%) confirmee par inspection directe du RDS et convertie en NA (les 5 X retenues verifiees indemnes de la meme sentinelle) -- voir Note en Bloc 1. Publication non identifiee avec certitude (recherche web 2026-08-17 et 2026-09-09) ; formula_used reste une proposition du curateur exploitant les variables de teledetection reelles conformes au cadre methodologique du titre du depot (GW-XGBoost), pas une formule extraite verbatim d'un texte publie -- estimateurs en base generated_candidate/benchmark_use en consequence.
 
 ## Estimator eligibility
 
@@ -230,7 +231,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5281/zenodo.21635729 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`global_nee_gwxgboost` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `global_nee_gwxgboost` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

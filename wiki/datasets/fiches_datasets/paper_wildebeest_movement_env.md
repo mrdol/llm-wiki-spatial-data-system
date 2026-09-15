@@ -1,7 +1,7 @@
 ---
 title: paper_wildebeest_movement_env
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_wildebeest_movement_env.rds
@@ -9,7 +9,7 @@ sources:
 tags: [dataset, paper-derived, spatial, point]
 ---
 
-Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model" (DOI unknown).
+Dataset spatial converti en sf a partir des donnees brutes du papier "Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model" (DOI 10.1111/ele.14117).
 
 ## Description du jeu de donnees
 
@@ -18,10 +18,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Observed population: communautes de pollinisateurs ou d'oiseaux nectarivores
 - Geographic context: Etendue mesuree dans le RDS : x [597344.9038, 806708.7004], y [9608835.342, 9869852.944]; CRS EPSG:32736.
 - Temporal context: 13838 distinct periods (variable: Date)
-- Source description: [dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model
+- Source description: Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
-- Paper DOI: unknown
+- Paper DOI: 10.1111/ele.14117
 - Dataset DOI: 10.5061/dryad.5tb2rbp76
 - Source URL: https://doi.org/10.5061/dryad.5tb2rbp76
 - Local raw dir: `data/raw/papers/DatasetFirst_10_5061_dryad_5tb2rbp76/`
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate X variables in local artifact: `Date`, `Nitrogen`, `D_drainage`
 - Candidate X count in local artifact: 3
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: NDVI, Nitrogen, D_drainage
+- Published X variables from paper: NDVI (indice de vegetation, covariable confirmee du papier -- via l'intercept du champ latent gaussien), Nitrogen (teneur en azote de l'herbe, meme role), D_drainage (distance au reseau de drainage, meme role)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `x`, `y`
 - Identifier columns (excluded from X candidates): `X`, `AID`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `NDVI` | `numeric` | rate | [0.0369, 0.9248] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `wildebeest_movement_env`, la ou les reponses `NDVI` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model`. Les covariables X retenues sont `Nitrogen`, `D_drainage` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`x`, `y`), identifiants (`X`, `AID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `wildebeest_movement_env`, la ou les reponses `NDVI` viennent du loader papier et/ou des preuves de l article `Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model`. Les covariables X retenues sont `Nitrogen`, `D_drainage` ; 1 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`x`, `y`), identifiants (`X`, `AID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,9 +62,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: speed(x) ~ NDVI(x) + Nitrogen(x) + D_drainage(x) [sens causal INVERSE de formula_used ci-dessous] -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), 'Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model', Ecology Letters, doi:10.1111/ele.14117 (article en libre acces, PMC9828272, texte integral consulte). Modele hierarchique gaussien a 2 niveaux (processus Ornstein-Uhlenbeck de vitesse continue) : les covariables environnementales (NDVI/azote/distance drainage) n'entrent PAS comme predicteurs lineaires directs, elles modifient la MOYENNE des champs latents spatiaux gaussiens qui controlent persistance directionnelle (tau) et vitesse moyenne (sigma) -- Eq. 21-22 du papier, transformation exponentielle pour garantir la positivite. Le resume officiel confirme : 'NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage' -- donc NDVI EXPLIQUE la vitesse, pas l'inverse
-- x_terms_pub: NDVI, Nitrogen, D_drainage
-- y_term_pub: speed/tau/sigma
-- Reference publication: REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee).
+- x_terms_pub: NDVI (indice de vegetation, covariable confirmee du papier -- via l'intercept du champ latent gaussien), Nitrogen (teneur en azote de l'herbe, meme role), D_drainage (distance au reseau de drainage, meme role)
+- y_term_pub: speed/tau/sigma (parametres latents de vitesse et persistance directionnelle du processus Ornstein-Uhlenbeck, PAS une colonne directement disponible dans ce depot)
+- Reference publication: REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee).
 
 ### Statut regression canonique
 
@@ -72,17 +72,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: NDVI ~ Nitrogen + D_drainage
+- License evidence: DataCite API record for DOI 10.5061/dryad.5tb2rbp76 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=94006; T declare=13838; variable temporelle declaree=Date; repetitions de coordonnees controlees=33. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: rate
 - x_terms_used: Nitrogen, D_drainage
 - y_term_used: NDVI
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -100,12 +101,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "NDVI ~ Nitrogen + D_drainage"
-    response: "speed/tau/sigma"
-    predictors: ["NDVI", "Nitrogen", "D_drainage"]
+    response: "speed/tau/sigma (parametres latents de vitesse et persistance directionnelle du processus Ornstein-Uhlenbeck, PAS une colonne directement disponible dans ce depot)"
+    predictors: ["NDVI (indice de vegetation, covariable confirmee du papier -- via l'intercept du champ latent gaussien)", "Nitrogen (teneur en azote de l'herbe, meme role)", "D_drainage (distance au reseau de drainage, meme role)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -125,11 +126,11 @@ formula_candidates:
 - Dataset name: Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
-- Paper title: [dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model
-- Paper DOI: unknown
+- Paper title: Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model
+- Paper DOI: 10.1111/ele.14117
 - Dataset DOI: 10.5061/dryad.5tb2rbp76
 - Source URL: https://doi.org/10.5061/dryad.5tb2rbp76
-- Year: unknown
+- Year: 2022
 
 ## Bloc 3 - Typologie des modeles
 
@@ -144,7 +145,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee)."
+  source_ref: "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur ; KG mis a jour le 2026-09-14 -- paper_doi/paper_title, precedemment non resolus malgre la citation deja identifiee) : papier confirme et texte integral consulte (article en libre acces, PMC9828272) -- Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, doi:10.1111/ele.14117. DECOUVERTE IMPORTANTE : le vrai modele du papier teste l'effet de NDVI/azote/distance-drainage SUR la vitesse de deplacement (sens causal inverse de formula_used ci-dessous, qui met NDVI comme reponse) -- confirme explicitement par le resume officiel ('NDVI values have a significant effect on the average speed of wildebeest, with lower speeds being associated with high quality forage') et par la specification mathematique exacte (Eq. 21-22, processus gaussien hierarchique Ornstein-Uhlenbeck, PAS une regression lineaire classique : les covariables modifient l'intercept de la moyenne des champs latents spatiaux tau/sigma, une relation non-parametrique flexible). 'Vitesse' n'est PAS une colonne disponible dans ce depot Dryad (seulement les positions GPS brutes x/y/Date par individu -- confirme par le README.txt) ; la calculer necessiterait de deriver des differences de position/temps successives par animal (AID), un calcul non trivial non effectue ici pour eviter de fabriquer une variable non documentee. formula_used (NDVI~Nitrogen+D_drainage) reste donc une EXPLORATION DE CORRELATION ENVIRONNEMENTALE LOCALE entre les covariables reellement disponibles, PAS un test du mecanisme causal du papier -- documentee comme telle. CSV original (wildebeest_env_data.csv) telecharge directement depuis Dryad, pas une reconstruction, N=94006 positions GPS (43 individus, Serengeti 1999-2016, coordonnees UTM 36S verifiees coherentes). package_include laisse en manual_review : papier et sens causal desormais confirmes, mais formula_used reste une proposition du curateur eloignee du vrai modele (processus gaussien non reproductible sans calcul de vitesse derivee)."
   confidence: medium
 ```
 
@@ -210,7 +211,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.5tb2rbp76 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`wildebeest_movement_env` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `wildebeest_movement_env` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -226,14 +226,10 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`wildebeest_movement_env` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (rate), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
-
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
-- Source: [dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model
+- Source: Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model
 
 ## Curation documentée — 2026-09-07
 

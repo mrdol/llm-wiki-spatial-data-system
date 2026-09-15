@@ -1,7 +1,7 @@
 ---
 title: paper_stwr_precip_isotope
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_stwr_precip_isotope.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 - Candidate X variables in local artifact: `Elevation`, `ppt`, `tmean`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: ppt, tmean, height/Elevation
+- Published X variables from paper: ppt (precipitation totale journaliere, pluie + neige fondue), tmean (temperature moyenne journaliere), height/Elevation (elevation du site)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `timestamp`
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 ### Formule - niveau publication
 
 - formula_pub: d2h ~ ppt + tmean + height [Eq. 21 du papier : modele de regression spatio-temporelle ponderee (STWR), compare a GWR et GTWR, sur les isotopes d'hydrogene des precipitations (delta2H) dans le nord-est des Etats-Unis]
-- x_terms_pub: ppt, tmean, height/Elevation
-- y_term_pub: d2h
+- x_terms_pub: ppt (precipitation totale journaliere, pluie + neige fondue), tmean (temperature moyenne journaliere), height/Elevation (elevation du site)
+- y_term_pub: d2h (isotope d'hydrogene des precipitations, delta2H, per mille)
 - Reference publication: Que et al. (2020), A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time, Geoscientific Model Development, doi:10.5194/gmd-13-6149-2020. Le papier presente l'equation exacte (Eq. 21) : y = b0 + b1*ppt + b2*tmean + b3*height + e, appliquee a un jeu de donnees reel de 272 points de mesure d'isotopes d'hydrogene des precipitations dans le nord-est des Etats-Unis ('272 points for model calibration', correspond exactement a N=272 du fichier precip_isotope_D3.csv). Donnees brutes telechargees directement depuis le depot logiciel Zenodo du papier (10.5281/zenodo.3637689) -- pas une reconstruction, formule et N confirmes par lecture directe du texte (TEI).
 
 ### Statut regression canonique
@@ -72,17 +72,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A spatiote
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: d2h ~ ppt + tmean + Elevation
+- License evidence: manual_review - DataCite rightsList only contained the generic 'Open Access' access tag; cross-checked directly against Zenodo API (checked 2026-08-18): metadata.license.id = 'other-open', metadata.access_right = 'open'. Cross-checked the archived GitHub repo (quexiang/STWR) via GitHub API: license.spdx_id = 'NOASSERTION' (no machine-readable license). The record is openly accessible but does not carry a standard, verifiable reuse license.
 - Recommended validation: N lignes=272; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=156. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: ppt, tmean, Elevation
 - y_term_used: d2h
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -100,12 +101,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "d2h ~ ppt + tmean + Elevation"
-    response: "d2h"
-    predictors: ["ppt", "tmean", "height/Elevation"]
+    response: "d2h (isotope d'hydrogene des precipitations, delta2H, per mille)"
+    predictors: ["ppt (precipitation totale journaliere, pluie + neige fondue)", "tmean (temperature moyenne journaliere)", "height/Elevation (elevation du site)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -129,7 +130,7 @@ formula_candidates:
 - Paper DOI: 10.5194/gmd-13-6149-2020
 - Dataset DOI: 10.5281/zenodo.3637689
 - Source URL: 10.5281/zenodo.3637689
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -190,11 +191,11 @@ estimator_eligibility:
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: 3 jours (29-31 octobre 2012), variable timestamp (24/48/72h)
+- Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-124.053, -68.8349], y [34.27935, 44.734433]
-- Time range: 2012-10-29 to 2012-10-31 (variable: timestamp)
+- Time range: not applicable (cross-sectional dataset)
 - CRS analyse recommande: pending - multi-zones (span=55.2deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -203,7 +204,6 @@ estimator_eligibility:
 - License name: Other/Open (Zenodo license.id = "other-open", no SPDX-recognized license text; source GitHub repo quexiang/STWR also declares no recognized license)
 - License URL: https://zenodo.org/records/3637689
 - License open: unknown
-- License evidence: manual_review - DataCite rightsList only contained the generic 'Open Access' access tag; cross-checked directly against Zenodo API (checked 2026-08-18): metadata.license.id = 'other-open', metadata.access_right = 'open'. Cross-checked the archived GitHub repo (quexiang/STWR) via GitHub API: license.spdx_id = 'NOASSERTION' (no machine-readable license). The record is openly accessible but does not carry a standard, verifiable reuse license.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`stwr_precip_isotope` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `stwr_precip_isotope` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -218,11 +218,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`stwr_precip_isotope` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (2026-09-07) : mention d'une fenetre de calibration de 3 jours avec des effectifs de points differents par jour, sans confirmer explicitement que ce sont les memes stations mesurees a chaque date. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- formule et covariables restent solides (paper_extracted) ; grouper la CV par coordonnee par precaution. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

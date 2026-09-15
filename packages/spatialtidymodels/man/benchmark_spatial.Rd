@@ -39,7 +39,9 @@ benchmark_spatial(
   parallel = FALSE,
   workers = max(1L, parallel::detectCores(logical = FALSE) - 1L),
   allow_heavy_tuning = FALSE,
-  fold_timeout_sec = NA_real_
+  fold_timeout_sec = NA_real_,
+  response_typology = "continuous",
+  glm_link = NULL
 )
 }
 \arguments{

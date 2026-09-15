@@ -1,7 +1,7 @@
 ---
 title: paper_mimulus_sdm
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_mimulus_sdm.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 - Candidate Y typology: binary
 - Candidate X variables in local artifact: `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`
 - Candidate X count in local artifact: 6
-- Candidate X typology: continuous
-- Published X variables from paper: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
+- Candidate X typology: unknown
+- Published X variables from paper: T_cold (temperature du mois le plus froid), GDD0 (degres-jours de croissance > 0C), P_season (saisonnalite des precipitations), TP_syn (synchronicite temperature-precipitation), Aridity (aridite de la saison de croissance), ISO (isothermalite)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
@@ -49,24 +49,24 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 |---|---|---|---|---|
 | `presence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `mimulus_sdm`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `WiBB : an integrated method for quantifying the relative importance of predictive variables`. Les covariables X retenues sont `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `mimulus_sdm`, la ou les reponses `presence` viennent du loader papier et/ou des preuves de l article `WiBB : an integrated method for quantifying the relative importance of predictive variables`. Les covariables X retenues sont `T_cold`, `GDD0`, `P_season`, `TP_syn`, `Aridity`, `ISO`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `T_cold` | `integer` | count | 0% |
-| `GDD0` | `integer` | count | 0% |
-| `P_season` | `integer` | count | 0% |
-| `TP_syn` | `integer` | count | 0% |
-| `Aridity` | `integer` | count | 0% |
-| `ISO` | `integer` | count | 0% |
+| `T_cold` | `integer` | unknown | 0% |
+| `GDD0` | `integer` | unknown | 0% |
+| `P_season` | `integer` | unknown | 0% |
+| `TP_syn` | `integer` | unknown | 0% |
+| `Aridity` | `integer` | unknown | 0% |
+| `ISO` | `integer` | unknown | 0% |
 
 ### Formule - niveau publication
 
 - formula_pub: presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO [WiBB : cadre de ponderation multi-modele (AICc, poids de sommation, WiBB) pour classer l'importance relative des predicteurs dans des GLM binomiaux ajustes espece par espece]
-- x_terms_pub: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
-- y_term_pub: presence
+- x_terms_pub: T_cold (temperature du mois le plus froid), GDD0 (degres-jours de croissance > 0C), P_season (saisonnalite des precipitations), TP_syn (synchronicite temperature-precipitation), Aridity (aridite de la saison de croissance), ISO (isothermalite)
+- y_term_pub: presence (1=occurrence Mimulus, 0=point de fond aleatoire dans l'aire de distribution)
 - Reference publication: Li & Kou (2021), WiBB: an integrated method for quantifying the relative importance of predictive variables, Ecography, doi:10.1111/ecog.05651. Le jeu de donnees empirique (empirical_dataset/) applique la methode WiBB a 71 especes de Mimulus avec occurrences reelles et 6 variables climatiques (memes noms de colonnes que le papier). Donnees brutes (mimulus_occ_var.csv + background_pts_var.csv) telechargees directement depuis Dryad (10.5061/dryad.xsj3tx9g1) -- pas une reconstruction, N=21307 (11362 occurrences + 9945 points de fond), especes multiples poolees en un seul jeu presence/fond pour ce benchmark (le papier ajuste un GLM separe par espece ; formula_used est le pooling multi-especes standard pour un benchmark SDM binaire).
 
 ### Statut regression canonique
@@ -75,16 +75,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "WiBB : an 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO
+- License evidence: DataCite API record for DOI 10.5061/dryad.xsj3tx9g1 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: T_cold, GDD0, P_season, TP_syn, Aridity, ISO
 - y_term_used: presence
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -102,8 +103,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "presence ~ T_cold + GDD0 + P_season + TP_syn + Aridity + ISO"
-    response: "presence"
-    predictors: ["T_cold", "GDD0", "P_season", "TP_syn", "Aridity", "ISO"]
+    response: "presence (1=occurrence Mimulus, 0=point de fond aleatoire dans l'aire de distribution)"
+    predictors: ["T_cold (temperature du mois le plus froid)", "GDD0 (degres-jours de croissance > 0C)", "P_season (saisonnalite des precipitations)", "TP_syn (synchronicite temperature-precipitation)", "Aridity (aridite de la saison de croissance)", "ISO (isothermalite)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ecog.05651
 - Dataset DOI: 10.5061/dryad.xsj3tx9g1
 - Source URL: https://doi.org/10.5061/dryad.xsj3tx9g1
-- Year: unknown
+- Year: 2021
 
 ## Bloc 3 - Typologie des modeles
 
@@ -227,7 +228,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.xsj3tx9g1 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`mimulus_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `mimulus_sdm` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -242,10 +242,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`mimulus_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

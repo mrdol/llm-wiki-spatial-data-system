@@ -15,7 +15,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale de type POINT
 - Observed population: 23230 enregistrements dans l’artefact local R_gstat_DE_RB_2005_DE_RB_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS non renseigne, repere/unites a documenter.
+- Geographic context: Etendue mesuree dans le RDS : x [307809.2950771025, 907374.8163783394], y [5295751.875273415, 6086661.149044107]; CRS EPSG:32632 (UTM zone 32N, WGS84) -- confirme dans le `proj4string` de l'objet `SpatialPointsDataFrame` source du package `gstat` (`+init=epsg:32632 +proj=utm +zone=32 +datum=WGS84`), non embarque dans le `.rds` local.
 - Temporal context: dimension temporelle structurelle detectee
 - Source description: Spatio-temporal data set with rural background PM10 concentrations in Germany 2005 (airbase v6).
 - Description source: package R `gstat`
@@ -48,7 +48,7 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `station_altitude` | `integer` | count | 0% |
+| `station_altitude` | `integer` | continuous | 0% |
 | `type_of_station` | `factor` | categorical | 0% |
 | `station_type_of_area` | `factor` | categorical | 0% |
 | `street_type` | `factor` | categorical | 0% |
@@ -57,24 +57,25 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ### Formule — niveau publication
 
 - formula_pub: PM10 ~ 1
-- x_terms_pub: pending
+- x_terms_pub: aucun (krigeage ordinaire — la syntaxe gstat `~1` denote l'absence de tendance externe/covariable, ce n'est pas un champ laisse vide par erreur)
 - y_term_pub: PM10
-- Reference publication: Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218
+- Reference publication: Gräler B., Pebesma E., Heuvelink G. (2016) Spatio-Temporal Interpolation using gstat. The R Journal, 8(1), 204–218, DOI 10.32614/RJ-2016-014. Formule verifiee directement dans le code publie par les auteurs (legende Figure 7, demo `stkrige-prediction` du package) : `krigeST(PM10 ~1, data = DE_RB_2005[, tIDS], newdata = DE_pred, fitSumMetricModel, nmax = 50, stAni = fitMetricModel$stAni / 24 / 3600)`.
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d'estimation: formule systeme generee a partir des covariables locales (formula_pub est confirmee et verifiee dans le code publie, mais correspond a un krigeage ordinaire `~1` sans covariable — non utilisable telle quelle pour un benchmark de regression supervisee Y ~ X)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: Formule publiee (`PM10 ~ 1`, krigeage ordinaire) verifiee dans le code R des auteurs (appel `krigeST()`, Figure 7 de l'article) — voir section precedente. Ce n'est PAS la formule retenue comme formula_used : le benchmark package necessite au moins une covariable X, donc formula_used bascule sur le candidat `ml_or_selected` (genere a partir des covariables de station reellement presentes dans l'artefact local), explicitement etiquete comme genere et non publie.
 
 ### Formule — niveau systeme
 
-- formula_used: PM10 ~ 1
+- formula_used: PM10 ~ station_altitude + type_of_station + station_type_of_area + street_type
+- Formula used evidence: generated_system_formula (distincte de formula_pub — voir Note ci-dessus)
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: pending
+- x_terms_used: station_altitude, type_of_station, station_type_of_area, street_type
 - y_term_used: PM10
 
 ### Formules candidates
@@ -82,14 +83,14 @@ Spatio-temporal data set with rural background PM10 concentrations in Germany 20
 ```yaml
 formula_candidates:
   univariate:
-    formula: "pending"
-    response: "pending"
+    formula: "PM10 ~ 1"
+    response: "PM10"
     predictors: []
     role: "simple_baseline"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Gräler, Pebesma & Heuvelink (2016), The R Journal 8(1):204-218, DOI 10.32614/RJ-2016-014 -- formule verifiee dans le code publie (krigeST(PM10 ~1, ...), legende Figure 7)"
+    estimator_context: ["kriging_ordinary", "spatiotemporal_covariance_baseline"]
+    status: "confirmed"
 
   multivariate_constrained:
     formula: "pending"
@@ -97,19 +98,19 @@ formula_candidates:
     predictors: []
     role: "paper_main_specification"
     source_type: "none_found"
-    source_ref: "pending"
+    source_ref: "Le papier ne publie aucune formule de regression multivariee sur ce jeu -- sa contribution porte sur la modelisation de la covariance/du variogramme spatio-temporel (modeles separable, produit-somme, metrique, sum-metric) pour le krigeage, pas sur une regression Y ~ X avec les covariables de station."
     estimator_context: []
     status: "unavailable"
 
   ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "PM10 ~ station_altitude + type_of_station + station_type_of_area + street_type"
+    response: "PM10"
+    predictors: ["station_altitude", "type_of_station", "station_type_of_area", "street_type"]
     role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "generated_system_formula"
+    source_ref: "Covariables de station presentes dans l'artefact local (cf. Detail X), non utilisees par la formule publiee (krigeage ordinaire ~1) -- candidate generee pour un usage ML/benchmark futur, pas une formule publiee ou verifiee dans l'article. Retenue comme formula_used (voir section 'Formule - niveau systeme')."
+    estimator_context: ["random_forest", "xgboost", "gam_spatial"]
+    status: "generated"
 ```
 
 ## Bloc 2 — Identification et DOI
@@ -120,7 +121,7 @@ formula_candidates:
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: 10.32614/RJ-2016-014
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -158,9 +159,9 @@ modeling_evidence:
 - Spatial extent: x [307809.2951, 907374.8164], y [5295751.8753, 6086661.149] (EPSG:32632, via documentation)
 - Time range: pending inspection
 - Type de geometrie: POINT
-- CRS EPSG: 32632 (source: documentation du package, .rds sans CRS embarque)
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: 32632 (source: proj4string de l'objet SpatialPointsDataFrame du package `gstat`, .rds local sans CRS embarque)
+- CRS nom: WGS 84 / UTM zone 32N
+- CRS analyse recommande: 32632 (deja une projection metrique adaptee, aucune reprojection necessaire)
 
 ## Bloc 6 — Reproductibilite
 
@@ -176,25 +177,25 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_no_covariates"
-  benchmark_task: "not_current_regression_benchmark"
-  package_include: "no"
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "au moins une covariable X locale est requise"
-  reason: "Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment."
+  missing_items: "formula_used generee (ml_or_selected) a partir des covariables de station reellement documentees (station_altitude, type_of_station, station_type_of_area, street_type) -- la formule publiee est un krigeage `~1` sans covariable, non utilisable telle quelle pour un benchmark supervise Y~X ; panel spatio-temporel non equilibre reel (69 stations, T par station de 79 a 365 jours, cf. Bloc 4) -- utiliser un schema de validation croisee regroupe par station pour eviter toute fuite entre train et test."
+  reason: "Y continu reel (PM10), covariables X reelles issues des metadonnees de station (pas inventees, cf. Detail X). Formule publiee confirmee mais non exploitable pour une regression supervisee (krigeage ordinaire sans covariable) ; formula_used bascule donc sur la formule candidate generee, explicitement etiquetee comme telle (source_type: generated_system_formula). Un jeu de donnees genere/panel non equilibre ne bloque pas package_include a lui seul (convention deja appliquee ailleurs, ex. paper_fhb_ensembling) -- documenter le besoin de CV groupe par station suffit."
 ```
 
-- Decision: not_ready_no_covariates
-- Manque principal: au moins une covariable X locale est requise
-- Raison: Le benchmark compare des estimateurs supervises Y ~ X; les jeux sans covariables explicatives restent hors package pour le moment.
+- Decision: ready
+- Manque principal: formula_used generee (pas publiee) ; schema de CV groupe par station recommande vu la structure panel non equilibree
+- Raison: Y et X reels et locaux ; formule publiee non exploitable en regression supervisee (krigeage `~1`) donc formula_used repose sur la candidate generee ml_or_selected ; structure panel documentee mais non bloquante.
 
 
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: OK - formule publication renseignee.
-- CRS: WARN - CRS absent du `.rds` source ; EPSG:32632 extrait de la documentation et reporte dans le Bloc 5.
+- Formula: OK (verifie 2026-09-10) - formula_pub `PM10 ~ 1` confirmee dans le code source publie par les auteurs (`krigeST()`, Figure 7) ; DOI publication renseigne (10.32614/RJ-2016-014). Ce krigeage ordinaire n'a pas de covariable, donc formula_used est deliberement distincte : formule generee (ml_or_selected) a partir des covariables de station deja documentees en Detail X (station_altitude, type_of_station, station_type_of_area, street_type), etiquetee explicitement comme generee et non publiee.
+- CRS: OK (resolu 2026-09-10) - CRS absent du `.rds` local, mais confirme dans le proj4string de l'objet source du package `gstat` (EPSG:32632) et reporte dans le Bloc 5.
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.

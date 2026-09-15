@@ -1,7 +1,7 @@
 ---
 title: paper_harbour_porpoise_response
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-09
 sources:
   - data/final_datasets/sf/paper_harbour_porpoise_response.rds
@@ -35,41 +35,27 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Harbour po
 - Candidate Y typology: binary
 - Candidate X variables in local artifact: `distance`, `piling_order`, `vessels24_1km`, `Aud_SS_SEL`, `ADD`, `vessels12_500m` pour les trois modèles du tableau 1
 - Candidate X count in local artifact: 6 (union de trois modèles distincts)
-- Candidate X typology: continuous, categorical
+- Candidate X typology: continuous, binary, count
 - Published X count: 3 pour (a), 3 pour (b), 4 pour (c), avant développement de l'interaction
-- Presence of imputed X: unknown
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`, `X`, `Y`
 - Identifier columns (excluded from X candidates): `dep_no`, `turbine`, `location`, `pod`, `POD_number`, `Location_ID` ; location et pod définissent l'effet aléatoire
 - Variables inspected: yes (source CSV, RDS et code R des auteurs)
+- Presence of imputed X: unknown
 
 #### Detail Y
 
-| Variable | Classe R | Typologie Y | Plage | NA (%) |
-|---|---|---|---|---|
-| `resp24_50` | `integer` | binary | {0, 1} | 2.1% |
-| `resp12_50` | `integer` | binary | {0, 1} | 3.5% |
-
-> Selection Y/X (paper-loader / curated evidence) : Les auteurs définissent une réponse par une diminution de plus de 50 % des heures de détection (DPH) après battage, sur 24 h (`resp24_50`, modèles a/b) ou 12 h (`resp12_50`, modèle c), reprises du CSV sans reconstruire le seuil. `dph24`, `base24`, `dph12`, `base12`, `prop24`, `prop12` participent au calcul de Y et ne sont pas des prédicteurs indépendants. Les covariables X retenues varient par modèle du tableau 1 : `distance`, `piling_order`, `vessels24_1km` pour (a) ; `Aud_SS_SEL`, `piling_order`, `vessels24_1km` pour (b) ; `distance`, `piling_order`, `ADD`, `vessels12_500m` pour (c). Les coordonnées (`Longitude`, `Latitude`, `X`, `Y`), identifiants (`dep_no`, `turbine`, `location`, `pod`, `POD_number`, `Location_ID`) sont exclus de X ; `location`/`pod` définissent l'effet aléatoire `loc_pod`. Statut benchmark actuel : not_ready_estimator_support ; package_include: no (GLMM probit hors harnais actuel).
+Les auteurs définissent une réponse par une diminution de plus de 50 % des heures de détection (DPH) après battage, sur 24 h ou 12 h. Les colonnes `resp24_50` et `resp12_50` sont reprises du CSV, sans reconstruire le seuil. `dph24`, `base24`, `dph12`, `base12` et les proportions correspondantes participent au calcul de Y : elles ne constituent pas des prédicteurs indépendants. Les lignes non admissibles à un modèle sont filtrées lors de sa préparation, pas supprimées de toute la banque.
 
 #### Detail X
 
-| Variable | Classe R | Role X | NA (%) |
-|---|---|---|---|
-| `distance` | `numeric` | continuous (log) | 0% |
-| `piling_order` | `integer` | continuous (centré-réduit : zorder) | 0% |
-| `vessels24_1km` | `integer` | count (centré-réduit : zvessels_1km) | 0% |
-| `vessels12_500m` | `integer` | count (centré-réduit : zvessels_500) | 0% |
-| `Aud_SS_SEL` | `numeric` | continuous (centré-réduit : zASS_SEL) | 0% |
-| `ADD` | `character` | binary {N, Y} | 0% |
-
-> Note : `ADD` est une covariable binaire du modèle (c), pas un identifiant. `Aud_SS_SEL` correspond à l'exposition sonore pondérée par l'audiogramme (ASS_SEL dans le tableau). Les autres pondérations acoustiques (`Unweighted_SS_SEL`, `NOAA_SS_SEL`, `Southall_SS_SEL`) sont conservées dans les données mais ne sont pas ajoutées simultanément à la distance dans une formule unique.
+`ADD` est une covariable binaire du modèle (c), pas un identifiant. `Aud_SS_SEL` correspond à l'exposition sonore pondérée par l'audiogramme (ASS_SEL dans le tableau). Les autres pondérations acoustiques sont conservées dans les données, mais ne sont pas ajoutées simultanément à la distance dans une formule unique.
 
 ### Formule - niveau publication
 
-- formula_pub: resp24_50 ~ log(distance) * piling_order + vessels24_1km [modèle (a), m8_24 ; voir tableau ci-dessous pour (b) et (c)]
+- formula_pub: trois GLMM binomiaux à lien probit, tableau 1, page 7 ; détails ci-dessous
 - x_terms_pub: distance, ordre de battage, activité des navires, exposition acoustique pondérée, ADD selon le modèle
 - y_term_pub: resp24_50 pour (a)/(b), resp12_50 pour (c)
-- Reference publication: Graham et al. (2019), Royal Society Open Science 6:190335, DOI 10.1098/rsos.190335, tableau 1 page 7 et code R Dryad.
+- Reference publication: Graham et al. (2019), Royal Society Open Science 6:190335, DOI 10.1098/rsos.190335, tableau 1 et code R Dryad.
 
 | Modèle du tableau 1 | Formule du code auteur, avec effet aléatoire | N analysé | AIC reproduit |
 |---|---|---|---|
@@ -88,54 +74,20 @@ Les trois ajustements ont été réexécutés avec `lme4::glmer(..., family=bino
 
 ### Formule - niveau systeme
 
-- formula_used: resp24_50 ~ log(distance) * scale(piling_order) + scale(vessels24_1km) + (1 | loc_pod)
+- formula_used: resp24_50 ~ log(distance) * zorder + zvessels_1km + (1 | loc_pod)
 - Formula used evidence: paper_extracted
-- Response link function: probit
 - Selected Y typology: binary
 - Selected Y evidence: modèle (a) du tableau 1 ; les modèles (b) et (c) restent documentés séparément
 - x_terms_used: distance, piling_order, vessels24_1km
 - y_term_used: resp24_50
 - Recommended validation: respecter les groupes location × pod et les événements de battage ; pas de découpage aléatoire naïf des lignes
-- Note: Formule initialement destinée à lme4 après préparation auteur. Depuis le 2026-09-09, `gam_spatial` traduit automatiquement `(1 | loc_pod)` en lisseur d'effet aléatoire mgcv `s(loc_pod, bs="re")` (equivalent REML a un intercept aleatoire, verifie empiriquement contre lme4::glmer sur donnees synthetiques) et applique le lien probit declare ci-dessus. `zorder`/`zvessels_1km` (noms du code source, section suivante) sont remplaces par `scale(piling_order)`/`scale(vessels24_1km)` : memes variables centrees-reduites, mais calculables directement depuis les colonnes reellement presentes dans le RDS (`zorder` et `zvessels_1km` n'y existent pas sous ce nom). Fit reussi sur les donnees reelles (707/722 lignes completes) -- voir Estimator eligibility. Ce n'est PAS une reproduction exacte de glmer() : gam_spatial ajoute systematiquement un lisseur spatial global s(longitude, latitude), absent du modele publie.
+- Note: Formule destinée à lme4 après préparation auteur ; elle n'est pas exécutable telle quelle par les routes automatiques actuelles du package.
 
 Préparation publiée : exclure `turbine == "D11"`, conserver `base24 > 0` et `dph24` non manquant pour (a)/(b), ou `base12 > 0` et `dph12` non manquant pour (c). Construire `loc_pod = paste(location, pod, sep="_")`. Centrer-réduire l'ordre, les navires et l'exposition sur le sous-échantillon du modèle : `zorder`, `zvessels_1km`, `zvessels_500`, `zASS_SEL` sont les noms du code source.
 
 ### Formules candidates
 
-```yaml
-formula_candidates:
-  univariate:
-    formula: "pending"
-    response: "pending"
-    predictors: []
-    role: "simple_baseline"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
-
-  multivariate_constrained:
-    formula: "resp24_50 ~ log(distance) * scale(piling_order) + scale(vessels24_1km) + (1 | loc_pod)"
-    response: "resp24_50"
-    predictors: ["distance", "piling_order", "vessels24_1km"]
-    role: "paper_main_specification"
-    source_type: "scientific_publication"
-    source_ref: "Graham et al. (2019), Royal Society Open Science, DOI 10.1098/rsos.190335 -- modele (a)/m8_24, tableau 1 page 7 et code R Dryad (AIC reproduit=619.3854). Modeles (b) m14nz_24 et (c) m7_12 documentes separement, voir tableau Bloc 1."
-    estimator_context: ["gam_spatial"]
-    status: "confirmed_benchmark_use_approximation"
-
-  ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
-    role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
-```
-
-Les trois spécifications effectivement publiées sont données dans le tableau du Bloc 1. Aucune régression continue sur prop24 ni formule réunissant toutes les expositions n'est retenue.
+Les trois spécifications effectivement publiées sont données dans le tableau ci-dessus. Aucune régression continue sur prop24 ni formule réunissant toutes les expositions n'est retenue.
 
 ## Bloc 2 - Identification et DOI
 
@@ -169,17 +121,17 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "ready"
+  benchmark_status: "not_ready_estimator_support"
   benchmark_task: "regression_binary"
-  package_include: "yes"
+  package_include: "no"
   has_local_rds: true
-  missing_items: "aucun blocage automatique detecte"
-  reason: "gam_spatial traduit (1 | loc_pod) en s(loc_pod, bs='re') et applique le lien probit declare -- fit+predict verifies de bout en bout sur les 707/722 lignes completes (session du 2026-09-09). Approximation REML d'un GLMM, pas une reproduction exacte de glmer() (gam_spatial ajoute un lisseur spatial s(longitude, latitude) absent du modele publie)."
+  missing_items: "GLMM probit et préparation par modèle requis ; aucune route automatique équivalente dans le package."
+  reason: "GLMM probit et préparation par modèle requis ; aucune route automatique équivalente dans le package."
 ```
 
-- Decision: ready
-- Manque principal: aucun blocage automatique detecte
-- Raison: gam_spatial traduit (1 | loc_pod) en s(loc_pod, bs="re") et applique le lien probit declare -- fit+predict verifies de bout en bout sur les 707/722 lignes completes (session du 2026-09-09).
+- Decision: not_ready_estimator_support
+- Manque principal: GLMM probit et préparation par modèle requis ; aucune route automatique équivalente dans le package.
+- Raison: Données conservées dans la banque ; le statut ne vaut pas admission au benchmark automatique.
 
 ## Estimator eligibility
 
@@ -223,7 +175,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.5qg30sd (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`harbour_porpoise_response` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `harbour_porpoise_response` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

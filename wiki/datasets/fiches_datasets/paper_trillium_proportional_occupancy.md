@@ -1,7 +1,7 @@
 ---
 title: paper_trillium_proportional_occupancy
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_trillium_proportional_occupancy.rds
@@ -35,7 +35,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 - Candidate Y typology: rate
 - Candidate X variables in local artifact: `EOO_Area`, `EOO_IntersectPSA.Area`, `PSA_area`, `total_occ`, `Biomass`, `No_ovules`, `No_seeds_plant`, `Seed_setting_rate`, `Seed_weight`, `Flower_Type`, `observed_occurrences_local`
 - Candidate X count in local artifact: 11
-- Candidate X typology: continuous
+- Candidate X typology: continuous, unknown
 - Published X variables from paper: Flower_Type, No_ovules, Seed_weight, Seed_setting_rate, No_seeds_plant, Biomass
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
@@ -58,20 +58,20 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 | `EOO_Area` | `numeric` | continuous | 0% |
 | `EOO_IntersectPSA.Area` | `numeric` | continuous | 0% |
 | `PSA_area` | `numeric` | continuous | 0% |
-| `total_occ` | `integer` | count | 0% |
+| `total_occ` | `integer` | unknown | 0% |
 | `Biomass` | `numeric` | continuous | 0% |
 | `No_ovules` | `numeric` | continuous | 0% |
 | `No_seeds_plant` | `numeric` | continuous | 0% |
 | `Seed_setting_rate` | `numeric` | continuous | 0% |
 | `Seed_weight` | `numeric` | continuous | 0% |
 | `Flower_Type` | `numeric` | continuous | 0% |
-| `observed_occurrences_local` | `integer` | count | 0% |
+| `observed_occurrences_local` | `integer` | unknown | 0% |
 
 ### Formule - niveau publication
 
 - formula_pub: PO ~ Flower_Type + No_ovules + Seed_weight [beta regression; model building also considered seed set, seeds per plant and adult biomass]
 - x_terms_pub: Flower_Type, No_ovules, Seed_weight, Seed_setting_rate, No_seeds_plant, Biomass
-- y_term_pub: proportional occupancy of predicted suitable distribution
+- y_term_pub: proportional occupancy of predicted suitable distribution (PO)
 - Reference publication: Miller et al. (2021), Diversity and Distributions, DOI 10.1111/ddi.13297: the paper estimates fundamental niches with ENM/MaxEnt, derives proportional occupancy PO, then relates PO to reproductive traits using beta regression and AICc model selection. The local loader uses Trillium_LifeHistoryTraits.csv from Dryad 10.5061/dryad.6m905qg03 and species occurrence centroids from the accompanying occurrence CSVs. This is the continuous regression companion to paper_trillium_presence_background.
 
 ### Statut regression canonique
@@ -80,16 +80,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reproducti
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: PO ~ No_ovules + Seed_weight + Flower_Type
+- License evidence: DataCite API record for DOI 10.5061/dryad.6m905qg03 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: rate
 - x_terms_used: No_ovules, Seed_weight, Flower_Type
 - y_term_used: PO
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -107,12 +108,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "PO ~ reproductive traits"
-    response: "proportional occupancy of predicted suitable distribution"
+    response: "proportional occupancy of predicted suitable distribution (PO)"
     predictors: ["Flower_Type", "No_ovules", "Seed_weight", "Seed_setting_rate", "No_seeds_plant", "Biomass"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -136,7 +137,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ddi.13297
 - Dataset DOI: 10.5061/dryad.6m905qg03
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.6m905qg03
-- Year: unknown
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -209,7 +210,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.6m905qg03 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`trillium_proportional_occupancy` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `trillium_proportional_occupancy` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

@@ -1,7 +1,7 @@
 ---
 title: paper_rocha_agricultural_technology_brazil
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_rocha_agricultural_technology_brazil.rds
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 - Candidate X count in local artifact: 54
 - Candidate X typology: categorical, continuous
 - Published X variables from paper: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
-- Published X count: 0
+- Published X count: 14
 - Coordinates (x, y - excluded from X candidates): `LONG`, `LATI`
 - Identifier columns (excluded from X candidates): `MUN`, `COD6`, `COD7`, `UF`, `UF_IBGE`, `MESO_IBGE`, `MICRO_IBGE`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -128,6 +128,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Agricultur
 ### Formule - niveau systeme
 
 - formula_used: SOY ~ TDJF + TMAM + TJJA + TSON + PDJF + PMAM + PJJA + PSON + DAMZ + DCAA + DCER + DPMP + DPTN + DMATL
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.11492220 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: rate
 - x_terms_used: TDJF, TMAM, TJJA, TSON, PDJF, PMAM, PJJA, PSON, DAMZ, DCAA, DCER, DPMP, DPTN, DMATL
@@ -155,7 +156,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -179,7 +180,7 @@ formula_candidates:
 - Paper DOI: 10.1080/1747423x.2019.1707312
 - Dataset DOI: 10.6084/m9.figshare.11492220
 - Source URL: https://tandf.figshare.com/articles/Agricultural_technology_adoption_and_land_use_evidence_for_Brazilian_municipalities/11492220
-- Year: unknown
+- Year: 2019 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -252,7 +253,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6084/m9.figshare.11492220 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`rocha_agricultural_technology_brazil` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `rocha_agricultural_technology_brazil` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

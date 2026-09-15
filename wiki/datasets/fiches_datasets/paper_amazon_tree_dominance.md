@@ -1,7 +1,7 @@
 ---
 title: paper_amazon_tree_dominance
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_amazon_tree_dominance.rds
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 - Candidate Y typology: rate
 - Candidate X variables in local artifact: `total_individuals`, `n_presence_plots`, `n_total_plots_habitat`, `regional_frequency`, `habitat_floodplain`, `habitat_swamp`, `habitat_white_sand`
 - Candidate X count in local artifact: 7
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: regional frequency, habitat type
-- Published X count: 2
+- Candidate X typology: continuous, unknown, categorical
+- Published X variables from paper: regional_frequency (proportion de parcelles de l'habitat ou l'espece est presente), habitat_type (categoriel, 4 niveaux : terra firme/floodplain/swamp/white sand), interaction regional_frequency:habitat_type (pentes differentes par habitat, cf. Note)
+- Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Species`, `Forest_type`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -57,7 +57,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 |---|---|---|---|
 | `total_individuals` | `numeric` | continuous | 0% |
 | `n_presence_plots` | `numeric` | continuous | 0% |
-| `n_total_plots_habitat` | `integer` | count | 0% |
+| `n_total_plots_habitat` | `integer` | unknown | 0% |
 | `regional_frequency` | `numeric` | rate | 0% |
 | `habitat_floodplain` | `integer` | binary | 0% |
 | `habitat_swamp` | `integer` | binary | 0% |
@@ -65,10 +65,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 
 ### Formule - niveau publication
 
-- formula_pub: mean local abundance ~ regional frequency + habitat type [beta regression for dominant species]
-- x_terms_pub: regional frequency, habitat type
-- y_term_pub: dominant-species mean local abundance / dominance pattern
-- Reference publication: Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction.
+- formula_pub: mean_local_relative_abundance ~ regional_frequency * habitat_type [beta regression, logit, mgcv::gam]
+- x_terms_pub: regional_frequency (proportion de parcelles de l'habitat ou l'espece est presente), habitat_type (categoriel, 4 niveaux : terra firme/floodplain/swamp/white sand), interaction regional_frequency:habitat_type (pentes differentes par habitat, cf. Note)
+- y_term_pub: mean_local_relative_abundance (abondance locale relative moyenne des especes dominantes, moyennee sur les parcelles ou l'espece est presente)
+- Reference publication: Matas-Granados, Draper, Cayuela, de Aledo, Arellano, Ben Saadi, Baker, Phillips, Honorio Coronado, Ruokolainen, Garcia-Villacorta, Roucoux, Gueze, Valderrama Sandoval, Fine, Amasifuen Guerra, Zarate Gomez, Stevenson Diaz, Monteagudo-Mendoza, Vasquez Martinez, Socolar, Disney, del Aguila Pasquel, Flores Llampazo, Vega Arenas, Reyna Huaymacari, Grandez Rios & Macia (2024), Understanding different dominance patterns in western Amazonian forests, Ecology Letters 27:e14351, DOI 10.1111/ele.14351 (accepte 23 nov. 2023, publie 2024 -- 'Ecology Letters. 2024;27:e14351' est la citation officielle du journal, corrige de 'Matas Granados et al. (2023)' precedent). CORRECTION (2026-09-10, verification directe PDF+TEI) : le modele beta-regression teste explicitement l'interaction regional_frequency:habitat_type comme 'the most complex model' (comparaison AIC), et le texte des resultats confirme que la pente de regional_frequency differe significativement selon l'habitat -- la formule additive precedente (sans interaction) ne pouvait pas reproduire ce resultat central du papier (Figure 2a montre 4 courbes de formes tres differentes par habitat, pas de simples decalages verticaux). Le local loader reconstruit la table espece-dominante x habitat depuis Raw_to_ecology3.csv et Metadata4.csv : p_ij = abondance de l'espece i dans la parcelle j / total d'individus dans la parcelle j, especes dominantes selectionnees jusqu'a 50% de dominance cumulee par habitat (D_i, seuil de Draper et al. 2019 / ter Steege et al. 2013), regional_frequency = parcelles ou l'espece est presente / total de parcelles de l'habitat. N=221 especes-habitat dans l'artefact local, proche mais pas identique a la somme publiee des especes dominantes par habitat (106 terra firme + 73 floodplain + 20 swamp + 18 white sand = 217, texte p.5) -- ecart de 4 non explique, a signaler comme ecart mineur non resolu plutot que suppose identique. Le modele publie (beta, lien logit) n'est pas une famille explicitement enregistree dans le harnais actuel (ols/gam_spatial/sar_lag/sem_error/sdm_mixed/random_forest/xgboost/gwr/probit) -- gam_spatial (mgcv::gam) pourrait en principe accepter family=betar() mais ce n'est pas verifie dans le code du package a ce jour, a traiter comme une approximation non confirmee, pas une reproduction exacte.
 
 ### Statut regression canonique
 
@@ -76,16 +76,16 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Understand
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Matas-Granados et al. (2024), Ecology Letters 27:e14351, section 'Local abundance-regional frequency relationship by habitat type', p.4-6. Modele le plus complexe teste inclut explicitement l'INTERACTION entre regional_frequency et habitat_type, comparaison par AIC (difference>2 = modele ecarte) ; confirme par le texte des resultats -- la pente regional_frequency differe par habitat ('the relationship was more negative in white sand, followed by swamp, floodplain and terra firme'), ce qui exige l'interaction (une simple ordonnee a l'origine differente ne suffirait pas).
 
 ### Formule - niveau systeme
 
-- formula_used: mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand
+- formula_used: mean_local_relative_abundance ~ regional_frequency + habitat_floodplain + habitat_swamp + habitat_white_sand + regional_frequency:habitat_floodplain + regional_frequency:habitat_swamp + regional_frequency:habitat_white_sand
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: rate
 - x_terms_used: regional_frequency, habitat_floodplain, habitat_swamp, habitat_white_sand
 - y_term_used: mean_local_relative_abundance
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Matas-Granados et al. (2024), Ecology Letters 27:e14351, section 'Local abundance-regional frequency relationship by habitat type', p.4-6. Modele le plus complexe teste inclut explicitement l'INTERACTION entre regional_frequency et habitat_type, comparaison par AIC (difference>2 = modele ecarte) ; confirme par le texte des resultats -- la pente regional_frequency differe par habitat ('the relationship was more negative in white sand, followed by swamp, floodplain and terra firme'), ce qui exige l'interaction (une simple ordonnee a l'origine differente ne suffirait pas).
 
 ### Formules candidates
 
@@ -102,13 +102,13 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "mean_local_relative_abundance ~ regional_frequency + habitat type"
-    response: "dominant-species mean local abundance / dominance pattern"
-    predictors: ["regional frequency", "habitat type"]
+    formula: "mean_local_relative_abundance ~ regional_frequency * habitat_type"
+    response: "mean_local_relative_abundance (abondance locale relative moyenne des especes dominantes, moyennee sur les parcelles ou l'espece est presente)"
+    predictors: ["regional_frequency (proportion de parcelles de l'habitat ou l'espece est presente)", "habitat_type (categoriel, 4 niveaux : terra firme/floodplain/swamp/white sand)", "interaction regional_frequency:habitat_type (pentes differentes par habitat, cf. Note)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -132,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ele.14351
 - Dataset DOI: 10.5061/dryad.pk0p2ngsd
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.pk0p2ngsd
-- Year: unknown
+- Year: 2024
 
 ## Bloc 3 - Typologie des modeles
 
@@ -143,11 +143,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "mean local abundance ~ regional frequency + habitat type [beta regression for dominant species]"
+  equation_text: "mean_local_relative_abundance ~ regional_frequency * habitat_type [beta regression, logit, mgcv::gam]"
   equation_family: paper_empirical_or_dataset_specific
-  model_family: spatial_or_paper_specific_regression
+  model_family: beta_regression_logit_link_gam_betar
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Matas Granados et al. (2023), Ecology Letters, DOI 10.1111/ele.14351: the paper's best-fit beta regression relates mean local abundance and regional frequency of dominant tree species by habitat type. The local loader now reconstructs the dominant-species/habitat table from Raw_to_ecology3.csv and Metadata4.csv: p_ij = abundance of species i in plot j / total individuals in plot j, dominant species are selected until 50% cumulative habitat dominance, regional_frequency is the proportion of habitat plots where the species occurs, and coordinates are occurrence centroids. This is closer to the published beta-regression than the earlier plot-level reduction."
+  source_ref: "Matas-Granados, Draper, Cayuela, de Aledo, Arellano, Ben Saadi, Baker, Phillips, Honorio Coronado, Ruokolainen, Garcia-Villacorta, Roucoux, Gueze, Valderrama Sandoval, Fine, Amasifuen Guerra, Zarate Gomez, Stevenson Diaz, Monteagudo-Mendoza, Vasquez Martinez, Socolar, Disney, del Aguila Pasquel, Flores Llampazo, Vega Arenas, Reyna Huaymacari, Grandez Rios & Macia (2024), Understanding different dominance patterns in western Amazonian forests, Ecology Letters 27:e14351, DOI 10.1111/ele.14351 (accepte 23 nov. 2023, publie 2024 -- 'Ecology Letters. 2024;27:e14351' est la citation officielle du journal, corrige de 'Matas Granados et al. (2023)' precedent). CORRECTION (2026-09-10, verification directe PDF+TEI) : le modele beta-regression teste explicitement l'interaction regional_frequency:habitat_type comme 'the most complex model' (comparaison AIC), et le texte des resultats confirme que la pente de regional_frequency differe significativement selon l'habitat -- la formule additive precedente (sans interaction) ne pouvait pas reproduire ce resultat central du papier (Figure 2a montre 4 courbes de formes tres differentes par habitat, pas de simples decalages verticaux). Le local loader reconstruit la table espece-dominante x habitat depuis Raw_to_ecology3.csv et Metadata4.csv : p_ij = abondance de l'espece i dans la parcelle j / total d'individus dans la parcelle j, especes dominantes selectionnees jusqu'a 50% de dominance cumulee par habitat (D_i, seuil de Draper et al. 2019 / ter Steege et al. 2013), regional_frequency = parcelles ou l'espece est presente / total de parcelles de l'habitat. N=221 especes-habitat dans l'artefact local, proche mais pas identique a la somme publiee des especes dominantes par habitat (106 terra firme + 73 floodplain + 20 swamp + 18 white sand = 217, texte p.5) -- ecart de 4 non explique, a signaler comme ecart mineur non resolu plutot que suppose identique. Le modele publie (beta, lien logit) n'est pas une famille explicitement enregistree dans le harnais actuel (ols/gam_spatial/sar_lag/sem_error/sdm_mixed/random_forest/xgboost/gwr/probit) -- gam_spatial (mgcv::gam) pourrait en principe accepter family=betar() mais ce n'est pas verifie dans le code du package a ce jour, a traiter comme une approximation non confirmee, pas une reproduction exacte."
   confidence: medium
 ```
 
@@ -172,7 +172,7 @@ benchmark_readiness:
 ```yaml
 estimator_eligibility:
   status: "ready"
-  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
   conditionally_eligible_estimators: []
   ineligible_reason: ""
   rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
@@ -202,10 +202,10 @@ estimator_eligibility:
 ## Bloc 6 - Reproductibilite
 
 - License present: yes
-- License name: Creative Commons Zero v1.0 Universal
+- License name: Creative Commons Zero v1.0 Universal (CC0 1.0)
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.pk0p2ngsd (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
+- License evidence: DataCite API record for DOI 10.5061/dryad.pk0p2ngsd (checked 2026-09-10): rightsList = 'Creative Commons Zero v1.0 Universal (CC0 1.0)'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`amazon_tree_dominance` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `amazon_tree_dominance` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

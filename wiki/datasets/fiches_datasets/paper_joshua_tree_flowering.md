@@ -1,7 +1,7 @@
 ---
 title: paper_joshua_tree_flowering
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_joshua_tree_flowering.rds
@@ -32,7 +32,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `flyrs`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `Delta.Y1.2..PPT..mm.`, `Delta.Y0.1..PPT..mm.`, `Max.VPD.Y0...hPa.`, `Delta.Y0.1..Min.VPD..hPa.`, `Min.Temp.Y0...degree.C.`, `Delta.Y0.1..Max.Temp..degree.C.`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
@@ -75,11 +75,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: flyrs ~ Delta.Y1.2..PPT..mm. + Delta.Y0.1..PPT..mm. + Max.VPD.Y0...hPa. + Delta.Y0.1..Min.VPD..hPa. + Delta.Y0.1..Max.Temp..degree.C. + Min.Temp.Y0...degree.C.
+- License evidence: DataCite API record for DOI 10.5061/dryad.9kd51c5rr (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Formula used evidence: generated_system_formula
 - Recommended validation: N lignes=11133; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=7422. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - benchmark_task_note: flyrs est un produit de hindcast incluant des differences negatives entre periodes, pas la reponse binaire observee flr.
@@ -87,7 +88,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Reconstruc
 - Selected Y typology: continuous
 - x_terms_used: Delta.Y1.2..PPT..mm., Delta.Y0.1..PPT..mm., Max.VPD.Y0...hPa., Delta.Y0.1..Min.VPD..hPa., Min.Temp.Y0...degree.C., Delta.Y0.1..Max.Temp..degree.C.
 - y_term_used: flyrs
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -110,7 +111,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -134,7 +135,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ele.14478
 - Dataset DOI: 10.5061/dryad.9kd51c5rr
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.9kd51c5rr
-- Year: unknown
+- Year: 2024 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -207,7 +208,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.9kd51c5rr (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`joshua_tree_flowering` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `joshua_tree_flowering` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

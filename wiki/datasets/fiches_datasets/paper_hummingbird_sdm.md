@@ -1,7 +1,7 @@
 ---
 title: paper_hummingbird_sdm
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_hummingbird_sdm.rds
@@ -32,7 +32,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Integrated
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `log1p_species_richness`, `species_richness`, `n_occurrences`
-- Candidate Y typology: continuous, count
+- Candidate Y typology: continuous, unknown
 - Candidate X variables in local artifact: `annual_mean_temperature`, `mean_diurnal_range`, `annual_precipitation`, `precipitation_seasonality`, `evi_annual`
 - Candidate X count in local artifact: 5
 - Candidate X typology: continuous
@@ -48,8 +48,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Integrated
 | Variable | Classe R | Typologie Y | Plage | NA (%) |
 |---|---|---|---|---|
 | `log1p_species_richness` | `numeric` | continuous | [0.6931, 3.9318] | 0% |
-| `species_richness` | `integer` | count | [1, 50] | 0% |
-| `n_occurrences` | `integer` | count | [1, 739] | 0% |
+| `species_richness` | `integer` | unknown | [1, 50] | 0% |
+| `n_occurrences` | `integer` | unknown | [1, 739] | 0% |
 
 > Selection Y/X (paper-loader / curated evidence) : Pour `hummingbird_sdm`, la ou les reponses `log1p_species_richness`, `species_richness`, `n_occurrences` viennent du loader papier et/ou des preuves de l article `Integrated species distribution models to account for sampling biases and improve range-wide occurrence predictions`. Les covariables X retenues sont `annual_mean_temperature`, `mean_diurnal_range`, `annual_precipitation`, `precipitation_seasonality`, `evi_annual`. Les coordonnees (`cell_lon`, `cell_lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
 
@@ -76,18 +76,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Integrated
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: log1p_species_richness ~ annual_mean_temperature + mean_diurnal_range + annual_precipitation + precipitation_seasonality + evi_annual
+- License evidence: DataCite API record for DOI 10.5061/dryad.k98sf7mdg (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Formula used evidence: reconstructed_from_data
 - benchmark_task_note: log1p_species_richness est une transformation logarithmique de richesse, pas un comptage Poisson brut.
 - Selected Y evidence: log1p_species_richness est une transformation logarithmique de richesse, pas un comptage Poisson brut.
 - Selected Y typology: continuous
 - x_terms_used: annual_mean_temperature, mean_diurnal_range, annual_precipitation, precipitation_seasonality, evi_annual
 - y_term_used: log1p_species_richness
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -110,7 +111,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -134,7 +135,7 @@ formula_candidates:
 - Paper DOI: 10.1111/geb.13792
 - Dataset DOI: 10.5061/dryad.k98sf7mdg
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.k98sf7mdg
-- Year: unknown
+- Year: 2023 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -207,7 +208,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.k98sf7mdg (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`hummingbird_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `hummingbird_sdm` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

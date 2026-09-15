@@ -1,7 +1,7 @@
 ---
 title: paper_wald_test
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_wald_test.rds
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `countryname`, `clear1`, `lag_pervote`, `party_shift_t`, `party_shift_t1`, `niche`, `ciep_perc`, `rgdppc_growth`, `gparties`, `majority`, `prime_dummy`, `xregbet`, `govt_lag_pervote`, `govt_gparties`, `niche_lag_pervote`, `eff_par`, `govt_ciep`, `pm_ciep`, `growth_govt`, `pm_growth`, `pm_lag_pervote`, `pm_majority`, `pm_gparties`
 - Candidate X count in local artifact: 23
-- Candidate X typology: categorical, continuous
+- Candidate X typology: categorical, continuous, unknown
 - Published X variables from paper: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
-- Published X count: 0
+- Published X count: 17
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `ccode`, `iso_a2`, `party`, `ts`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -63,7 +63,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 | `niche` | `numeric` | binary | 0% |
 | `ciep_perc` | `numeric` | continuous | 0% |
 | `rgdppc_growth` | `numeric` | continuous | 0% |
-| `gparties` | `integer` | count | 0% |
+| `gparties` | `integer` | unknown | 0% |
 | `majority` | `numeric` | binary | 0% |
 | `prime_dummy` | `numeric` | binary | 0% |
 | `xregbet` | `integer` | binary | 0% |
@@ -92,17 +92,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The Wald T
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: change ~ rgdppc_growth + growth_govt + pm_growth + party_shift_t + party_shift_t1 + ciep_perc + govt_ciep + pm_ciep + xregbet + prime_dummy + niche + gparties + pm_gparties + lag_pervote + pm_lag_pervote + niche_lag_pervote + eff_par
+- License evidence: Harvard Dataverse API termsOfUse field (checked 2026-08-18): "This dataset is made available without information on how it can be used. You should communicate with the Contact(s) specified before use."
 - Recommended validation: N lignes=1428; T declare=306; variable temporelle declaree=ts; repetitions de coordonnees controlees=1405. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: rgdppc_growth, growth_govt, pm_growth, party_shift_t, party_shift_t1, ciep_perc, govt_ciep, pm_ciep, xregbet, prime_dummy, niche, gparties, pm_gparties, lag_pervote, pm_lag_pervote, niche_lag_pervote, eff_par
 - y_term_used: change
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -125,7 +126,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -149,7 +150,7 @@ formula_candidates:
 - Paper DOI: 10.1017/pan.2020.23
 - Dataset DOI: 10.7910/dvn/cy7ywe
 - Source URL: https://dataverse.harvard.edu/citation?persistentId=doi:10.7910/DVN/CY7YWE
-- Year: unknown
+- Year: 2020 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -203,7 +204,7 @@ estimator_eligibility:
 - k variables: 31
 - T periods: 306
 - Variable temporelle: ts
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (1428) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 23 ; panel NON EQUILIBRE (T par unite : min=17, mediane=58, max=163). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 23 unites spatiales distinctes, pas sur les 1428 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -223,7 +224,6 @@ estimator_eligibility:
 - License name: no defined terms of use -- contact dataset depositor before use
 - License URL: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/CY7YWE
 - License open: no
-- License evidence: Harvard Dataverse API termsOfUse field (checked 2026-08-18): "This dataset is made available without information on how it can be used. You should communicate with the Contact(s) specified before use."
 - Reproducibility status: OK - loader R enregistre et reexecutable (`wald_test` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `wald_test` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -238,11 +238,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`wald_test` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Juhl_2021_WaldTestCommonFactorsSpatialModelSpecification) confirme la structure Williams & Whitten : memes partis suivis sur des elections successives. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par parti, respecter la chronologie (election) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

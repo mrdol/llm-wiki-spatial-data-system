@@ -1,7 +1,7 @@
 ---
 title: paper_groundfish_cpue
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_groundfish_cpue.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Year`, `SST_cvW`, `SST_cvW5`, `SST_cvW4`, `SST_cvW3`, `SST_cvW2`, `SST_cvW1`
 - Candidate X count in local artifact: 7
-- Candidate X typology: continuous
-- Published X variables from paper: SST_cvW1-W5
+- Candidate X typology: unknown, continuous
+- Published X variables from paper: SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Station`, `Area`, `Species`
@@ -49,13 +49,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 |---|---|---|---|---|
 | `CPUE` | `numeric` | continuous | [0.019, 16.445] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `groundfish_cpue`, la ou les reponses `CPUE` viennent du loader papier et/ou des preuves de l article `Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch`. Les covariables X retenues sont `SST_cvW1`, `SST_cvW2`, `SST_cvW3`, `SST_cvW4`, `SST_cvW5` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Station`, `Area`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `groundfish_cpue`, la ou les reponses `CPUE` viennent du loader papier et/ou des preuves de l article `Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch`. Les covariables X retenues sont `SST_cvW1`, `SST_cvW2`, `SST_cvW3`, `SST_cvW4`, `SST_cvW5` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Station`, `Area`, `Species`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Year` | `integer` | count | 0% |
+| `Year` | `integer` | unknown | 0% |
 | `SST_cvW` | `numeric` | rate | 0% |
 | `SST_cvW5` | `numeric` | rate | 0% |
 | `SST_cvW4` | `numeric` | rate | 0% |
@@ -66,8 +66,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 ### Formule - niveau publication
 
 - formula_pub: CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5 [Moyenne de modeles (multimodel averaging, AIC), modeles candidats a differentes fenetres temporelles de coefficient de variation de la temperature de surface de la mer (SST) hivernale]
-- x_terms_pub: SST_cvW1-W5
-- y_term_pub: CPUE
+- x_terms_pub: SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)
+- y_term_pub: CPUE (capture par unite d'effort, standardisee par palangre, especes de poissons de fond d'Alaska)
 - Reference publication: Correia, H.E. (2018), Spatiotemporally explicit model averaging for forecasting of Alaskan groundfish catch, Ecology and Evolution, doi:10.1002/ece3.4488. CSV original (stema_data.csv) telecharge directement depuis Dryad (10.5061/dryad.s23g7bc) -- pas une reconstruction, N=6716 (panel station x annee). Y et X correspondent exactement aux variables decrites dans le papier (CPUE standardisee AFSC, coefficient de variation de la SST hivernale sur grille 0.25 degre, plusieurs fenetres temporelles).
 
 ### Statut regression canonique
@@ -76,17 +76,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5
+- License evidence: DataCite API record for DOI 10.5061/dryad.s23g7bc (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=6716; T declare=23; variable temporelle declaree=Year; repetitions de coordonnees controlees=6643. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: SST_cvW1, SST_cvW2, SST_cvW3, SST_cvW4, SST_cvW5
 - y_term_used: CPUE
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -94,8 +95,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatiotemp
 formula_candidates:
   univariate:
     formula: "CPUE ~ SST_cvW1 + SST_cvW2 + SST_cvW3 + SST_cvW4 + SST_cvW5"
-    response: "CPUE"
-    predictors: ["SST_cvW1-W5"]
+    response: "CPUE (capture par unite d'effort, standardisee par palangre, especes de poissons de fond d'Alaska)"
+    predictors: ["SST_cvW1-W5 (coefficient de variation de la temperature de surface de la mer hivernale, sur grille 0.25 degre, a 5 largeurs de fenetre temporelle differentes)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -133,7 +134,7 @@ formula_candidates:
 - Paper DOI: 10.1002/ece3.4488
 - Dataset DOI: 10.5061/dryad.s23g7bc
 - Source URL: https://doi.org/10.5061/dryad.s23g7bc
-- Year: unknown
+- Year: 2018
 
 ## Bloc 3 - Typologie des modeles
 
@@ -222,7 +223,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.s23g7bc (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`groundfish_cpue` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `groundfish_cpue` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -237,10 +237,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`groundfish_cpue` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

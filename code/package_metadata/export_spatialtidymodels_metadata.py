@@ -1418,6 +1418,36 @@ def parse_dataset_fiche(path: Path, repo_root: Path) -> dict[str, Any]:
     record["candidate_response_typology"] = parse_typology(bullet_value(body, "Candidate Y typology"))
     glm_link = bullet_value(body, "Response link function")
     record["glm_link"] = glm_link if glm_link and glm_link != "pending" else None
+
+    # Champs panel spatial (plan_implementation_panel_spatial_2026-09-09.md,
+    # jalon J5) : absents pour l'immense majorite des fiches (non-panel),
+    # None dans ce cas plutot qu'une chaine vide.
+    def _panel_field(label: str) -> str | None:
+        value = bullet_value(body, label)
+        return value if value and value not in {"pending", "none"} else None
+
+    def _panel_int_field(label: str) -> int | None:
+        value = _panel_field(label)
+        try:
+            return int(value) if value is not None else None
+        except ValueError:
+            return None
+
+    record["data_structure"] = _panel_field("Data structure")
+    record["panel_unit"] = _panel_field("Panel unit")
+    record["panel_time"] = _panel_field("Panel time")
+    record["panel_n_units"] = _panel_int_field("N units")
+    record["panel_n_periods"] = _panel_int_field("N periods")
+    record["panel_balance"] = _panel_field("Panel balance")
+    record["panel_effect"] = _panel_field("Panel effect")
+    record["w_level"] = _panel_field("W level")
+    record["w_time_varying"] = _panel_field("W time varying")
+    record["w_unit_order_source"] = _panel_field("W unit order source")
+    w_file = _panel_field("W file")
+    record["w_file"] = w_file.strip("`") if w_file else None
+    record["prediction_target"] = _panel_field("Prediction target")
+    record["supported_resampling"] = _panel_field("Supported resampling")
+    record["panel_parity_level"] = _panel_field("Niveau de parité atteint")
     record["formula_status"] = _formula_status(body, record.get("formula"), record.get("formula_pub"))
     validation = bullet_value(body, "Recommended validation")
     if validation:

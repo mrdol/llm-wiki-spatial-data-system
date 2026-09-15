@@ -1,7 +1,7 @@
 ---
 title: paper_swiss_rainfall
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_swiss_rainfall.rds
@@ -75,16 +75,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Oblique ge
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: rainfall ~ ogc_000 + ogc_030 + ogc_060 + ogc_090 + ogc_120 + ogc_150
+- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL (>= 2.0)'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: ogc_000, ogc_030, ogc_060, ogc_090, ogc_120, ogc_150
 - y_term_used: rainfall
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -107,7 +108,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.5194/soil-6-269-2020
 - Dataset DOI: none
 - Source URL: https://cran.r-project.org/package=gstat
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -204,7 +205,6 @@ estimator_eligibility:
 - License name: GPL (>= 2.0)
 - License URL: https://cran.r-project.org/package=gstat
 - License open: yes
-- License evidence: CRAN package DB (checked 2026-08-18): License field = 'GPL (>= 2.0)'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`swiss_rainfall` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `swiss_rainfall` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

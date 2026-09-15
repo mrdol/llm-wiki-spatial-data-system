@@ -1,7 +1,7 @@
 ---
 title: paper_medicago
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_medicago.rds
@@ -88,7 +88,6 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
 - y_term_pub: species richness of Medicago on 100 x 100 km grid cells
 - Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
-- Correction (2026-09-08, lecture TEI approfondie) : confirme -- les GLM binomiaux-negatifs du papier sont **univaries** (une seule variable climatique a la fois : "we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable"), et le GWR ne porte que sur un **PC1 agrege** ("environmental energy"), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait `formula_used`. Le papier n'ajuste donc jamais ce modele multivarie precis. formula_status reste `reconstructed_from_data` (additive non testee telle quelle), pas `pub`.
 
 ### Statut regression canonique
 
@@ -96,17 +95,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 - Niveau de preuve: publication
 - Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Correction (2026-09-08, lecture TEI approfondie) : confirme -- les GLM binomiaux-negatifs du papier sont univaries (une seule variable climatique a la fois : "we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable"), et le GWR ne porte que sur un PC1 agrege ("environmental energy"), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait formula_used. Le papier n'ajuste donc jamais ce modele multivarie precis. DECISION UTILISATEUR (2026-09-08) : mis de cote explicitement plutot que resolu -- necessite un pretraitement PCA et une orchestration multi-modeles univaries absents du pipeline actuel ; ne pas promouvoir package_include=yes avant cette extension.
 
 ### Formule - niveau systeme
 
 - formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad
+- License evidence: DataCite API record for DOI 10.5061/dryad.280gb5mrw (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - benchmark_task_note: richesse specifique observee : denombrement, sans transformation continue imposee.
 - Selected Y evidence: richesse specifique observee : denombrement, sans transformation continue imposee.
 - Selected Y typology: count
 - x_terms_used: MAT, MTCQ, PET, WI, Solar_rad
 - y_term_used: richness
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -129,7 +129,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -153,7 +153,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ecog.06085
 - Dataset DOI: 10.5061/dryad.280gb5mrw
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.280gb5mrw
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -180,13 +180,13 @@ benchmark_readiness:
   benchmark_task: "review_count"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension."
-  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension."
+  missing_items: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. richesse specifique observee : denombrement, sans transformation continue imposee."
+  reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. richesse specifique observee : denombrement, sans transformation continue imposee."
 ```
 
 - Decision: manual_review
-- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08) -- voir estimator_eligibility.
-- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GLM univaries, une variable climatique a la fois, puis GWR sur un PC1 agrege 'energie environnementale') necessite une etape de pretraitement PCA absente du pipeline actuel, et un paradigme multi-modeles univaries different de la regression multivariee unique du harnais. En attente d'un futur chantier d'extension (pipeline de pretraitement PCA + orchestration multi-modeles univaries). formula_used (richness ~ 5 variables simultanees) reste documente comme une combinaison additive non testee par les auteurs -- ne pas promouvoir package_include=yes avant cette extension.
+- Manque principal: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. richesse specifique observee : denombrement, sans transformation continue imposee.
+- Raison: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. richesse specifique observee : denombrement, sans transformation continue imposee.
 
 ## Estimator eligibility
 
@@ -226,7 +226,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.280gb5mrw (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`medicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `medicago` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -235,7 +234,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: OK - Statut 'mis de cote' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

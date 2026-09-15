@@ -1,7 +1,7 @@
 ---
 title: paper_influenza_mortality_chicago
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_influenza_mortality_chicago.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Data from: Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918"
-- Observed population: Analyse spatiotemporelle de la mortalitÃ© grippale Ã  Chicago en 1918 avec modÃ¨les Poisson GEE ; facteurs sociodÃ©mographiques (illettrisme, propriÃ©tÃ©, chÃ´mage) ; clustering spatiotemporel ; correspond au pÃ©rimÃ¨tre health / mortality / epidemiology / spatial autocorrelation / urban studies
+- Observed population: Analyse spatiotemporelle de la mortalité grippale à Chicago en 1918 avec modèles Poisson GEE ; facteurs sociodémographiques (illettrisme, propriété, chômage) ; clustering spatiotemporel ; correspond au périmètre health / mortality / epidemiology / spatial autocorrelation / urban studies
 - Geographic context: etendue sf: x [343002.47984075, 366885.347685765], y [555447.603044471, 594646.045600259]
 - Temporal context: 7 distinct periods (variable: week)
 - Source description: Disparities in influenza mortality and transmission related to sociodemographic factors within Chicago in the pandemic of 1918
@@ -32,12 +32,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `counts`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `week`, `pop`, `Gross_acres`, `illit`, `illit.r`, `den.r`, `unemployed.pct`, `ho.pct`, `agecat1`, `agecat2`, `agecat3`, `agecat4`, `agecat5`, `agecat6`, `agecat7`
 - Candidate X count in local artifact: 15
-- Candidate X typology: continuous
+- Candidate X typology: unknown, continuous
 - Published X variables from paper: illit, den.r, unemployed.pct, ho.pct, agecat1, agecat2, agecat3, agecat4, agecat5, agecat6, agecat7
-- Published X count: 0
+- Published X count: 11
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `GISJOIN`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -55,21 +55,21 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `week` | `integer` | count | 0% |
-| `pop` | `integer` | count | 0% |
+| `week` | `integer` | unknown | 0% |
+| `pop` | `integer` | unknown | 0% |
 | `Gross_acres` | `numeric` | continuous | 0% |
-| `illit` | `integer` | count | 0% |
+| `illit` | `integer` | unknown | 0% |
 | `illit.r` | `numeric` | rate | 0% |
 | `den.r` | `numeric` | continuous | 0% |
 | `unemployed.pct` | `numeric` | rate | 0% |
 | `ho.pct` | `numeric` | rate | 0% |
-| `agecat1` | `integer` | count | 0% |
-| `agecat2` | `integer` | count | 0% |
-| `agecat3` | `integer` | count | 0% |
-| `agecat4` | `integer` | count | 0% |
-| `agecat5` | `integer` | count | 0% |
-| `agecat6` | `integer` | count | 0% |
-| `agecat7` | `integer` | count | 0% |
+| `agecat1` | `integer` | unknown | 0% |
+| `agecat2` | `integer` | unknown | 0% |
+| `agecat3` | `integer` | unknown | 0% |
+| `agecat4` | `integer` | unknown | 0% |
+| `agecat5` | `integer` | unknown | 0% |
+| `agecat6` | `integer` | unknown | 0% |
+| `agecat7` | `integer` | unknown | 0% |
 
 ### Formule - niveau publication
 
@@ -84,17 +84,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Disparitie
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: counts ~ illit + den.r + unemployed.pct + ho.pct + agecat1 + agecat2 + agecat3 + agecat4 + agecat5 + agecat6 + agecat7
+- License evidence: DataCite API record for DOI 10.5061/dryad.48nv3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=3472; T declare=7; variable temporelle declaree=week; repetitions de coordonnees controlees=2976. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: illit, den.r, unemployed.pct, ho.pct, agecat1, agecat2, agecat3, agecat4, agecat5, agecat6, agecat7
 - y_term_used: counts
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -117,7 +118,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -141,7 +142,7 @@ formula_candidates:
 - Paper DOI: 10.1073/pnas.1612838113
 - Dataset DOI: 10.5061/dryad.48nv3
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.48nv3
-- Year: unknown
+- Year: 2016 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -195,7 +196,7 @@ estimator_eligibility:
 - k variables: 20
 - T periods: 7
 - Variable temporelle: week
-- N/T profile: N_grand_T_moyen
+- N/T profile: N_moyen_T_moyen
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (3472) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 496 ; panel EQUILIBRE (chaque unite a exactement T=7 observations). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 496 unites spatiales distinctes, pas sur les 3472 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 
 ## Bloc 5 - Resolution et etendue
@@ -215,7 +216,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.48nv3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`influenza_mortality_chicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `influenza_mortality_chicago` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -230,11 +230,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`influenza_mortality_chicago` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI (Grantz2016Disparities.tei.xml) confirme : "We calculated the reproduction number for each census tract in each week of the epidemic" -- panel tract x semaine authentique. La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- grouper la CV par census tract, respecter la chronologie (semaine) si prospectif. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

@@ -1,7 +1,7 @@
 ---
 title: paper_california_wildfire_growth
 type: dataset
-created: 2026-08-17
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_california_wildfire_growth.rds
@@ -9,7 +9,7 @@ sources:
 tags: [dataset, paper-derived, spatial, point]
 ---
 
-Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA" (DOI unknown).
+Dataset spatial converti en sf a partir des donnees brutes du papier "Environmental Influences on Large Daily Wildfire Growth in California" (DOI 10.31979/etd.5znn-tm8p).
 
 ## Description du jeu de donnees
 
@@ -18,10 +18,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Observed population: incendies, Californie 2003-2020, N=23031 jours-incendie
 - Geographic context: Etendue mesuree dans le RDS : x [-124.3596586, -114.2090645], y [32.5458334, 42.0041667]; CRS EPSG:4326.
 - Temporal context: 5388 distinct periods (variable: Date)
-- Source description: [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
+- Source description: Environmental Influences on Large Daily Wildfire Growth in California
 - Description source: paper_dataset_uses.json + lecture directe du papier
 - Description confidence: medium
-- Paper DOI: unknown
+- Paper DOI: 10.31979/etd.5znn-tm8p
 - Dataset DOI: 10.5281/zenodo.7569337
 - Source URL: https://doi.org/10.5281/zenodo.7569337
 - Local raw dir: `data/raw/papers/DatasetFirst_10_5281_zenodo_7569337/`
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `Date`, `Start_DT`, `Int_perim_24`, `Int_perim_48`, `Int_perim_72`, `Int_pixel_24`, `Int_pixel_48`, `Int_pixel_72`, `Final_size_pixels`, `Daily_FRP`, `FRE`, `Final_DT`, `Within_Boundary`, `Agency_Ignition_Lon`, `Agency_Ignition_Lat`, `All_Agency_Sources`, `Agency_Type`, `Agency_Cause`, `Agency_Start_DT`, `Agency_End_DT`, `Agency_Area`, `All_Agency_Names`, `Int_agency_24`, `Int_agency_48`, `Int_agency_72`, `Flag`, `PREC_ACC_NC`, `Q2`, `SMOIS`, `SWDOWN`, `T2`, `U10`, `V10`, `PSFC`, `UST`, `TSLB`, `LFM_Chamise_New`, `LFM_Chamise_Old`, `LFM_Manzanita_New`, `LU_INDEX`, `VAR_SSO`, `IVGTYP`, `ISLTYP`, `VEGFRA`, `LAI`, `HGT`, `VAR`, `PBLH`, `LFMASS`, `WOOD`, `STBLCP`, `FSA`, `SAV`, `WS`, `T2_MAX`, `WS_MAX`, `Q2_MIN`, `NFUEL_CAT`, `GREENFRAC`, `HGT_M`, `LANDUSEF`, `mean_wtd_moisture_1hr`, `mean_wtd_moisture_10hr`, `mean_wtd_moisture_100hr`, `mean_wtd_moisture_1000hr`, `SLP_WRF`, `ASP_WRF`, `ERC`, `BI`, `PET`, `PDSI`, `HAINES_AVG`, `HAINES_MAX`, `X300_HOR_WS_AVG`, `X300_HOR_WS_MAX`, `X300_VERT_WS_AVG`, `X300_VERT_WS_MAX`, `X50_TKE_AVG`, `X50_TKE_MAX`, `ASPECT`, `SLOPE`, `WIND_DIR`, `WS_PAR_SLP`, `mean_RH`, `min_RH`, `max_RH`, `mean_T`, `min_T`, `max_T`
 - Candidate X count in local artifact: 89
-- Candidate X typology: categorical, continuous
-- Published X variables from paper: T2, WS, mean_RH, ERC, BI, PDSI
+- Candidate X typology: categorical, continuous, unknown
+- Published X variables from paper: T2 (temperature a 2m, WRF), WS (vitesse du vent), mean_RH (humidite relative moyenne), ERC (Energy Release Component, indice de secheresse combustible), BI (Burning Index), PDSI (Palmer Drought Severity Index)
 - Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Ignition_lon`, `Ignition_lat`
 - Identifier columns (excluded from X candidates): `Fire_ID`, `Agency_Name`, `Agency_ID`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 |---|---|---|---|---|
 | `Final_size_perimeter` | `numeric` | continuous | [193.9873, 1151523.521] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `california_wildfire_growth`, la ou les reponses `Final_size_perimeter` viennent du loader papier et/ou des preuves de l article `[dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA`. Les covariables X retenues sont `T2`, `WS`, `mean_RH`, `ERC`, `BI`, `PDSI` ; 83 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Ignition_lon`, `Ignition_lat`), identifiants (`Fire_ID`, `Agency_Name`, `Agency_ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `california_wildfire_growth`, la ou les reponses `Final_size_perimeter` viennent du loader papier et/ou des preuves de l article `Environmental Influences on Large Daily Wildfire Growth in California`. Les covariables X retenues sont `T2`, `WS`, `mean_RH`, `ERC`, `BI`, `PDSI` ; 83 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Ignition_lon`, `Ignition_lat`), identifiants (`Fire_ID`, `Agency_Name`, `Agency_ID`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -60,10 +60,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 | `Int_perim_24` | `numeric` | continuous | 15.5% |
 | `Int_perim_48` | `numeric` | continuous | 69.6% |
 | `Int_perim_72` | `numeric` | continuous | 75.9% |
-| `Int_pixel_24` | `integer` | count | 15.5% |
-| `Int_pixel_48` | `integer` | count | 69.6% |
+| `Int_pixel_24` | `integer` | unknown | 15.5% |
+| `Int_pixel_48` | `integer` | unknown | 69.6% |
 | `Int_pixel_72` | `numeric` | continuous | 75.9% |
-| `Final_size_pixels` | `integer` | count | 0% |
+| `Final_size_pixels` | `integer` | unknown | 0% |
 | `Daily_FRP` | `numeric` | continuous | 12.7% |
 | `FRE` | `numeric` | continuous | 12.7% |
 | `Final_DT` | `character` | categorical | 0% |
@@ -122,8 +122,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 | `mean_wtd_moisture_1000hr` | `numeric` | rate | 7.7% |
 | `SLP_WRF` | `numeric` | continuous | 7.5% |
 | `ASP_WRF` | `numeric` | continuous | 7.5% |
-| `ERC` | `integer` | count | 0% |
-| `BI` | `integer` | count | 0% |
+| `ERC` | `integer` | unknown | 0% |
+| `BI` | `integer` | unknown | 0% |
 | `PET` | `numeric` | continuous | 0% |
 | `PDSI` | `numeric` | continuous | 0% |
 | `HAINES_AVG` | `numeric` | continuous | 9.3% |
@@ -148,9 +148,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 ### Formule - niveau publication
 
 - formula_pub: large_growth_binary(>10000 acres/24h) ~ weather_vars + fuel_vars + topographic_vars [modele Random Forest, feature importance -- Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p. 16013 jours-incendie CA 2003-2020. Variables meteo (temperature, vent, humidite, precipitation), combustible (type, charge, disponibilite, humidite), topographie (pente, aspect, elevation, forme) confirmees comme predicteurs testes]
-- x_terms_pub: T2, WS, mean_RH, ERC, BI, PDSI
-- y_term_pub: Final_size_perimeter -- le papier utilise en realite un seuil binaire, non retenu ici
-- Reference publication: Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee.
+- x_terms_pub: T2 (temperature a 2m, WRF), WS (vitesse du vent), mean_RH (humidite relative moyenne), ERC (Energy Release Component, indice de secheresse combustible), BI (Burning Index), PDSI (Palmer Drought Severity Index)
+- y_term_pub: Final_size_perimeter (taille finale du perimetre de l'incendie) -- le papier utilise en realite un seuil binaire (>10000 acres en 24h de croissance journaliere), non retenu ici (formula_used utilise la taille finale continue, une variable reelle disponible mais differente de la reponse binaire exacte du papier)
+- Reference publication: Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee. DOI 10.31979/etd.5znn-tm8p confirme via Crossref (2026-09-14) ; KG mis a jour (paper_doi/paper_title, precedemment non resolus).
 
 ### Statut regression canonique
 
@@ -158,16 +158,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "[dataset-f
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Final_size_perimeter ~ T2 + WS + mean_RH + ERC + BI + PDSI
+- License evidence: DataCite API record for DOI 10.5281/zenodo.7569337 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: T2, WS, mean_RH, ERC, BI, PDSI
 - y_term_used: Final_size_perimeter
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-17). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -185,12 +186,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Final_size_perimeter ~ T2 + WS + mean_RH + ERC + BI + PDSI"
-    response: "Final_size_perimeter -- le papier utilise en realite un seuil binaire, non retenu ici"
-    predictors: ["T2", "WS", "mean_RH", "ERC", "BI", "PDSI"]
+    response: "Final_size_perimeter (taille finale du perimetre de l'incendie) -- le papier utilise en realite un seuil binaire (>10000 acres en 24h de croissance journaliere), non retenu ici (formula_used utilise la taille finale continue, une variable reelle disponible mais differente de la reponse binaire exacte du papier)"
+    predictors: ["T2 (temperature a 2m, WRF)", "WS (vitesse du vent)", "mean_RH (humidite relative moyenne)", "ERC (Energy Release Component, indice de secheresse combustible)", "BI (Burning Index)", "PDSI (Palmer Drought Severity Index)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -210,11 +211,11 @@ formula_candidates:
 - Dataset name: ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
 - Source family: paper-derived
 - Source: papier scientifique (voir Paper DOI)
-- Paper title: [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
-- Paper DOI: unknown
+- Paper title: Environmental Influences on Large Daily Wildfire Growth in California
+- Paper DOI: 10.31979/etd.5znn-tm8p
 - Dataset DOI: 10.5281/zenodo.7569337
 - Source URL: https://doi.org/10.5281/zenodo.7569337
-- Year: unknown
+- Year: 2022
 
 ## Bloc 3 - Typologie des modeles
 
@@ -229,7 +230,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee."
+  source_ref: "Papier identifie via recherche web (session 2026-08-17) : Hanley, H.S. (2022), 'Environmental Influences on Large Daily Wildfire Growth in California', Master's Thesis, San Jose State University, doi:10.31979/etd.5znn-tm8p (these avec DOI officiel, ScholarWorks repository). Le papier ajuste un modele Random Forest sur 16013 jours-incendie (2003-2020) pour predire un SEUIL BINAIRE (croissance >10000 acres en 24h), pas une regression continue -- formula_used utilise la taille finale du perimetre (Final_size_perimeter, variable continue reelle disponible dans ce depot) comme proxy, avec les memes familles de covariables meteo/combustible/topographie confirmees par le resume du papier (temperature, vent, humidite, indices de secheresse ERC/BI/PDSI) -- une reformulation en regression continue documentee, pas la specification binaire exacte du papier. CSV original (Fire_03_20.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=23031 incendies avec coordonnees d'ignition reelles (Californie, 32.5-42.0 lat / -124.4 a -114.2 lon, coherent). Fichier drought_cumu_perc_area.csv (serie temporelle secheresse CA sans coordonnees) present dans le meme depot mais non utilise ici. package_include laisse en manual_review : formule reste une simplification (continue au lieu de binaire) documentee. DOI 10.31979/etd.5znn-tm8p confirme via Crossref (2026-09-14) ; KG mis a jour (paper_doi/paper_title, precedemment non resolus)."
   confidence: medium
 ```
 
@@ -303,7 +304,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5281/zenodo.7569337 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`california_wildfire_growth` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `california_wildfire_growth` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -319,14 +319,10 @@ estimator_eligibility:
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`california_wildfire_growth` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
-
 ## Related Pages
 
 - [[paper_dataset_ingestion_pipeline_2026-08]]
-- Source: [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
+- Source: Environmental Influences on Large Daily Wildfire Growth in California
 
 ## Curation documentée — 2026-09-07
 

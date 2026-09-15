@@ -1,7 +1,7 @@
 ---
 title: paper_metacomnet
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_metacomnet.rds
@@ -32,12 +32,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Number`, `Occurrence`
-- Candidate Y typology: count, binary
+- Candidate Y typology: unknown, binary
 - Candidate X variables in local artifact: `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH`, `LndscpGR`, `DistSand`, `NearestOcc`, `RegionalCommonness`, `FacOccurrence`
 - Candidate X count in local artifact: 17
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
-- Published X count: 0
+- Candidate X typology: continuous, categorical, unknown
+- Published X variables from paper: RegionalCommonness, NearestOcc, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, DCA1, DCA2, DCA3, DCA4, MASL, LndscpGR, LnscpH, DistSand
+- Published X count: 16
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `Site`, `SiteBee`, `SitePlant`, `SitePlantBee`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -50,7 +50,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 | `Number` | `integer` | count | [0, 27] | 0% |
 | `Occurrence` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `metacomnet`, la ou les reponses `Number`, `Occurrence` viennent du loader papier et/ou des preuves de l article `MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions`. Les covariables X retenues sont `DCA1`, `DCA2`, `DCA3`, `DCA4`, `BeeDCA1`, `BeeDCA2`, `BeeDCA3`, `BeeDCA4`, `Solitary`, `PlantFreq`, `MASL`, `LnscpH` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (geometrie sf `geom_point` (POINT)), identifiants (`Site`, `SiteBee`, `SitePlant`, `SitePlantBee`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : not_ready_current_package ; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Les covariables X retenues sont les 16 predicteurs reels documentes par le papier (Table 1-2) : RegionalCommonness, NearestOcc, BeeDCA1-4, Solitary, PlantFreq, DCA1-4, MASL, LndscpGR, LnscpH, DistSand. `FacOccurrence` (17e colonne candidate du .rds) est EXCLUE : verification empirique (2026-09-10) confirme une correspondance bijective parfaite avec la variable reponse `Occurrence` (X0<->0, X1<->1, 9594/9594 lignes) -- c'est la version factorielle de l'autre reponse publiee (Table 2), pas une covariable ; l'inclure aurait constitue une fuite de donnees pour predire `Number`.
 
 #### Detail X
 
@@ -71,23 +71,23 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 | `LndscpGR` | `numeric` | rate | 0% |
 | `DistSand` | `numeric` | continuous | 0% |
 | `NearestOcc` | `numeric` | continuous | 0% |
-| `RegionalCommonness` | `integer` | count | 0% |
+| `RegionalCommonness` | `integer` | unknown | 0% |
 | `FacOccurrence` | `character` | categorical | 0% |
 
 ### Formule - niveau publication
 
-- formula_pub: pending
-- x_terms_pub: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH
-- y_term_pub: Number
-- Reference publication: DataCite dataset DOI 10.5061/dryad.n02v6wwzn; Publication DOI 10.1111/2041-210x.13762
+- formula_pub: Number ~ RegionalCommonness + NearestOcc + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + DCA1 + DCA2 + DCA3 + DCA4 + MASL + LndscpGR + LnscpH + DistSand [Random Forest, ranger]
+- x_terms_pub: RegionalCommonness, NearestOcc, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, DCA1, DCA2, DCA3, DCA4, MASL, LndscpGR, LnscpH, DistSand
+- y_term_pub: Number (nombre d'interactions observees entre une espece d'abeille et une espece de plante sur un site) ; Occurrence (presence/absence de cette meme interaction, {0,1}) est un second Y publie avec la meme importance -- le papier ajuste 3 modeles RF : classification sur Occurrence, regression sur Occurrence, regression sur Number (Table 2, Section 2.2)
+- Reference publication: Sydenham, Venter, Reitan, Rasmussen, Skrindo, Skoog, Hanevik, Hegland, Dupont, Nielsen, Chipperfield & Rusch (2022), 'MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions', Methods in Ecology and Evolution 13(3):500-513, DOI 10.1111/2041-210X.13762 (recu 2 septembre 2021, accepte 12 octobre 2021, publie 2022). Table 1-2 documentent exactement les colonnes presentes dans le depot Dryad (10.5061/dryad.n02v6wwzn) : reponses Number/Occurrence par combinaison abeille x plante x site (N=9594=39x44x16, verifie), predicteurs bee/plant/site. Random Forest (Breiman 2001, package ranger via caret) est explicitement la methode publiee, pour 3 strategies de modelisation (classification Occurrence, regression Occurrence, regression Number).
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d estimation: formule publication confirmee et utilisee (verifiee 2026-09-10)
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule etablie par lecture directe du PDF (2026-09-10, Table 1-2 p.503-504 + Section 2.2 p.504-505) : N=9594 = 39 especes d'abeilles x 44 especes de plantes x 16 sites (correspondance exacte confirmee). 16 predicteurs reels retrouves un a un dans le Table 1/2 (Regional Commonness, Distance to conspecifics, DCA1-4 abeille/plante, sociality Bombus, abondance locale de la plante, elevation, grassland 250m, Shannon landscape 250m, distance aux sols sableux). ERREUR CORRIGEE : `FacOccurrence` (17e colonne candidate) etait inclus a tort dans formula_used comme covariable -- verification empirique sur le .rds (2026-09-10) confirme une correspondance bijective parfaite avec `Occurrence` (FacOccurrence='X0' ssi Occurrence=0, 'X1' ssi Occurrence=1, 9594/9594 lignes, aucun croisement) : c'est la version factorielle de l'AUTRE variable reponse du papier (Table 2 : "Occurrence... transformed into a two-level categorical variable for models using classification trees"), pas une covariable -- fuite de donnees (l'autre reponse servait de predicteur). Retiree de x_terms_pub/formula_used. Occurrence reste une deuxieme cible Y legitime et documentee (non retenue comme formula_used ici, qui cible Number), a traiter si besoin comme un second modele plutot que remplacer Number.
 
 ### Formule - niveau systeme
 
@@ -98,7 +98,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "MetaComNet
 - Selected Y typology: count
 - x_terms_used: DCA1, DCA2, DCA3, DCA4, BeeDCA1, BeeDCA2, BeeDCA3, BeeDCA4, Solitary, PlantFreq, MASL, LnscpH, LndscpGR, DistSand, NearestOcc, RegionalCommonness, FacOccurrence
 - y_term_used: Number
-- Note: formule candidate generee automatiquement (Y ~ toutes les covariables X detectees), PAS une formule publiee ou verifiee dans le papier source - a confirmer par revue manuelle.
+- Note: Sydenham et al. (2022), Table 1-2 : Random Forest regression trees (Breiman 2001, ranger/caret) ; modele jumeau sur Occurrence (presence/absence) via arbres de classification, memes predicteurs. Voir yx_selection_note pour l'exclusion de FacOccurrence (fuite de donnees).
 
 ### Formules candidates
 
@@ -115,24 +115,24 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness"
+    response: "Number (nombre d'interactions observees entre une espece d'abeille et une espece de plante sur un site) ; Occurrence (presence/absence de cette meme interaction, {0,1}) est un second Y publie avec la meme importance -- le papier ajuste 3 modeles RF : classification sur Occurrence, regression sur Occurrence, regression sur Number (Table 2, Section 2.2)"
+    predictors: ["RegionalCommonness", "NearestOcc", "BeeDCA1", "BeeDCA2", "BeeDCA3", "BeeDCA4", "Solitary", "PlantFreq", "DCA1", "DCA2", "DCA3", "DCA4", "MASL", "LndscpGR", "LnscpH", "DistSand"]
     role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["random_forest", "gamboost", "xgboost"]
+    status: "confirmed"
 
   ml_or_selected:
-    formula: "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + ... (5 covariables au total, voir Candidate X variables)"
+    formula: "Number ~ DCA1 + DCA2 + DCA3 + DCA4 + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + MASL + LnscpH + LndscpGR + DistSand + NearestOcc + RegionalCommonness"
     response: "Number"
-    predictors: ["DCA1", "DCA2", "DCA3", "DCA4", "BeeDCA1", "BeeDCA2", "BeeDCA3", "BeeDCA4", "Solitary", "PlantFreq", "MASL", "LnscpH"]
+    predictors: ["DCA1", "DCA2", "DCA3", "DCA4", "BeeDCA1", "BeeDCA2", "BeeDCA3", "BeeDCA4", "Solitary", "PlantFreq", "MASL", "LnscpH", "LndscpGR", "DistSand", "NearestOcc", "RegionalCommonness"]
     role: "ml_candidate_features"
-    source_type: "generated_system_formula"
-    source_ref: "data/raw/papers (loader-derived, no published equation located)"
-    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
-    status: "generated"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["random_forest", "random_forest_xy", "xgboost", "xgboost_xy"]
+    status: "confirmed"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -145,23 +145,23 @@ formula_candidates:
 - Paper DOI: 10.1111/2041-210x.13762
 - Dataset DOI: 10.5061/dryad.n02v6wwzn
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.n02v6wwzn
-- Year: unknown
+- Year: 2022
 
 ## Bloc 3 - Typologie des modeles
 
-- Modele niveau 1 (tache): pending
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
 - Modele niveau 2 (famille): pending
 - Modele niveau 3 (variante): pending
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "pending"
-  equation_family: generated_system_candidate
-  model_family: unknown
-  source_type: generated_system_formula
-  source_ref: "data/raw/papers (loader-derived, no published equation located)"
-  confidence: low
+  existing_model_found: true
+  equation_text: "Number ~ RegionalCommonness + NearestOcc + BeeDCA1 + BeeDCA2 + BeeDCA3 + BeeDCA4 + Solitary + PlantFreq + DCA1 + DCA2 + DCA3 + DCA4 + MASL + LndscpGR + LnscpH + DistSand [Random Forest, ranger]"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Sydenham, Venter, Reitan, Rasmussen, Skrindo, Skoog, Hanevik, Hegland, Dupont, Nielsen, Chipperfield & Rusch (2022), 'MetaComNet: A random forest-based framework for making spatial predictions of plant-pollinator interactions', Methods in Ecology and Evolution 13(3):500-513, DOI 10.1111/2041-210X.13762 (recu 2 septembre 2021, accepte 12 octobre 2021, publie 2022). Table 1-2 documentent exactement les colonnes presentes dans le depot Dryad (10.5061/dryad.n02v6wwzn) : reponses Number/Occurrence par combinaison abeille x plante x site (N=9594=39x44x16, verifie), predicteurs bee/plant/site. Random Forest (Breiman 2001, package ranger via caret) est explicitement la methode publiee, pour 3 strategies de modelisation (classification Occurrence, regression Occurrence, regression Number)."
+  confidence: medium
 ```
 
 ## Benchmark readiness
@@ -172,13 +172,13 @@ benchmark_readiness:
   benchmark_task: "classification_or_count_rf"
   package_include: "no"
   has_local_rds: true
-  missing_items: "route classification/count et specification de reponse adaptee"
-  reason: "Le papier utilise une logique Random Forest sur occurrences/interactions, pas une regression continue standard."
+  missing_items: "formule et 16 covariables reelles desormais etablies (verifie 2026-09-10, Table 1-2 du papier) et la fuite de donnees FacOccurrence corrigee -- reste a verifier concretement que la route classification/count du harnais (ajoutee 2026-09-04) fonctionne de bout en bout sur ce Y=Number (compte, plage [0,27], probablement surdisperse/zero-inflate) et sur Y=Occurrence (second Y publie, non modelise ici)"
+  reason: "Le papier ajuste 3 modeles Random Forest (Breiman 2001) : classification sur Occurrence, regression sur Occurrence, regression sur Number -- desormais documente avec formule/covariables reelles (voir FORMULA_OVERRIDES). Pas encore promu : verification d'execution de bout en bout non faite pour ce jeu specifique."
 ```
 
 - Decision: not_ready_current_package
-- Manque principal: route classification/count et specification de reponse adaptee
-- Raison: Le papier utilise une logique Random Forest sur occurrences/interactions, pas une regression continue standard.
+- Manque principal: formule et 16 covariables reelles desormais etablies (verifie 2026-09-10, Table 1-2 du papier) et la fuite de donnees FacOccurrence corrigee -- reste a verifier concretement que la route classification/count du harnais (ajoutee 2026-09-04) fonctionne de bout en bout sur ce Y=Number (compte, plage [0,27], probablement surdisperse/zero-inflate) et sur Y=Occurrence (second Y publie, non modelise ici)
+- Raison: Le papier ajuste 3 modeles Random Forest (Breiman 2001) : classification sur Occurrence, regression sur Occurrence, regression sur Number -- desormais documente avec formule/covariables reelles (voir FORMULA_OVERRIDES). Pas encore promu : verification d'execution de bout en bout non faite pour ce jeu specifique.
 
 ## Estimator eligibility
 
@@ -186,8 +186,8 @@ benchmark_readiness:
 estimator_eligibility:
   status: "not_ready_current_package"
   eligible_estimators: []
-  conditionally_eligible_estimators: []
-  ineligible_reason: "current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset"
+  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit"]
+  ineligible_reason: "reponse binaire (presence/absence) ; random_forest/gamboost/xgboost/gam_spatial sont des alternatives generiques, sar_probit/sem_probit (ProbitSpatial::ProbitSpatialFit(), ajoute 2026-09-04) sont le moteur spatial dedie -- tous notes conditionnels le temps de verifier au cas par cas qu'une matrice W fiable est constructible sur la geometrie locale (voir Bloc 5 / CRS note) ; ols/sar_lag/sem_error/sdm_mixed/mgwrsar_gwr restent hors de propos (hypothese gaussienne continue)."
   rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
@@ -218,7 +218,7 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.n02v6wwzn (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
+- License evidence: DataCite API record for DOI 10.5061/dryad.n02v6wwzn (checked 2026-09-14): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`metacomnet` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `metacomnet` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -227,7 +227,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: PENDING - formule publication non encore etablie (formule candidate systeme fournie a la place).
+- Formula: OK - Statut 'resolu' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

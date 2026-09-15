@@ -1,7 +1,7 @@
 ---
 title: paper_bumblebee_colony_reproduction
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_bumblebee_colony_reproduction.rds
@@ -32,10 +32,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne`
-- Candidate Y typology: count, continuous
+- Candidate Y typology: unknown, continuous
 - Candidate X variables in local artifact: `Crith_suc`, `Apic_suc`, `Crith_fail`, `Apic_fail`, `Syntretus`, `Crithidia`, `Apicystis`, `Tot_cuck`, `Cu_bin`, `Bin_rep`, `G_thorave`, `G_wmass`, `G_dmass`, `M_thorave`, `M_wmass`, `M_dmass`, `Q_week`, `Q_died`, `Col_death_week`, `Col_status`, `Rep_wk`, `Rep_status`, `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower100`, `Prop_flower250`, `Prop_flower500`, `Prop_flower750`, `Prop_imp500`, `Prop_flower500.1`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X750PC1`, `X750PC2`, `X500PC1`, `X500PC2`, `X250PC1`, `X250PC2`, `X100PC1`, `X100PC2`, `X100PC3`
 - Candidate X count in local artifact: 46
-- Candidate X typology: continuous, categorical
+- Candidate X typology: unknown, categorical, continuous
 - Published X variables from paper: temperature, humidity, precipitation, flower cover, impervious surface, urban cover, open cover, tree cover, agricultural cover, garden cover, road cover, land-use PCA axes
 - Published X count: 12
 - Coordinates (x, y - excluded from X candidates): `longitude`, `latitude`, `Lat`, `Lon`
@@ -49,8 +49,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 |---|---|---|---|---|
 | `Tot_rep` | `integer` | count | [0, 79] | 0% |
 | `Countave` | `numeric` | continuous | [9.5, 140.6667] | 0% |
-| `Tot_male` | `integer` | count | [0, 71] | 0% |
-| `Tot_gyne` | `integer` | count | [0, 19] | 0% |
+| `Tot_male` | `integer` | unknown | [0, 71] | 0% |
+| `Tot_gyne` | `integer` | unknown | [0, 19] | 0% |
 
 > Selection Y/X (paper-loader / curated evidence) : Pour `bumblebee_colony_reproduction`, la ou les reponses `Tot_rep`, `Countave`, `Tot_male`, `Tot_gyne` viennent du loader papier et/ou des preuves de l article `Lower bumblebee colony reproductive success in agricultural compared with urban environments`. Les covariables X retenues sont `Ave_temp`, `Ave_hum`, `Sum_prec`, `Prop_flower500`, `Prop_imp500`, `Prop_urb500`, `Prop_open500`, `Prop_tree500`, `Prop_ag500`, `Prop_gard500`, `Prop_road500`, `X500PC1`, `X500PC2` ; 33 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`, `Lat`, `Lon`), identifiants (`Col`, `Site`, `LU750`, `LU500`, `LU250`, `LU100`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
 
@@ -58,10 +58,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `Crith_suc` | `integer` | count | 10.5% |
-| `Apic_suc` | `integer` | count | 10.5% |
-| `Crith_fail` | `integer` | count | 10.5% |
-| `Apic_fail` | `integer` | count | 10.5% |
+| `Crith_suc` | `integer` | unknown | 10.5% |
+| `Apic_suc` | `integer` | unknown | 10.5% |
+| `Crith_fail` | `integer` | unknown | 10.5% |
+| `Apic_fail` | `integer` | unknown | 10.5% |
 | `Syntretus` | `integer` | binary | 10.5% |
 | `Crithidia` | `integer` | binary | 10.5% |
 | `Apicystis` | `integer` | binary | 10.5% |
@@ -111,7 +111,6 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 - x_terms_pub: temperature, humidity, precipitation, flower cover, impervious surface, urban cover, open cover, tree cover, agricultural cover, garden cover, road cover, land-use PCA axes
 - y_term_pub: colony reproductive output: total males plus gynes produced
 - Reference publication: Samuelson et al. (2018), Proceedings B, DOI 10.1098/rspb.2018.0807: colony-level reproductive success is analysed against local floral resources, land use and weather covariates. The raw ColonyData table contains the response and covariates; Lat/Lon labels are numerically inverted for southern England and are corrected in the loader.
-- Correction (2026-09-08, lecture TEI approfondie) : le papier modelise "Total production of sexuals" par un **hurdle model binomial-negatif zero-altere** (partie binaire presence/absence + partie comptage tronquee a zero), pas un GLM/GLMM simple -- "Total production of sexuals... was analysed using zero-altered negative binomial hurdle models". Le predicteur d'occupation du sol est aussi different : les auteurs regroupent 80 classes d'occupation du sol en 3 clusters categoriels ("city"/"village"/"agricultural" par PCA+Ward), alors que `formula_used` utilise les proportions individuelles (Prop_flower500, Prop_imp500, etc.) et des composantes PC comme predicteurs lineaires simultanes -- combinaison non testee telle quelle dans le papier. formula_status reste `reconstructed_from_data`, pas `pub`.
 
 ### Statut regression canonique
 
@@ -119,16 +118,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lower bumb
 - Niveau de preuve: publication
 - Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Correction (2026-09-08, lecture TEI approfondie) : le papier modelise 'Total production of sexuals' par un hurdle model binomial-negatif zero-altere (partie binaire presence/absence + partie comptage tronquee a zero), pas un GLM/GLMM simple -- "Total production of sexuals... was analysed using zero-altered negative binomial hurdle models". Le predicteur d'occupation du sol est aussi different : les auteurs regroupent 80 classes d'occupation du sol en 3 clusters categoriels ('city'/'village'/'agricultural' par PCA+Ward), alors que formula_used utilise les proportions individuelles (Prop_flower500, Prop_imp500, etc.) et des composantes PC comme predicteurs lineaires simultanes -- combinaison non testee telle quelle dans le papier.
 
 ### Formule - niveau systeme
 
 - formula_used: Tot_rep ~ Ave_temp + Ave_hum + Sum_prec + Prop_flower500 + Prop_imp500 + Prop_urb500 + Prop_open500 + Prop_tree500 + Prop_ag500 + Prop_gard500 + Prop_road500 + X500PC1 + X500PC2
+- License evidence: DataCite API record for DOI 10.5061/dryad.c68cj62 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: Ave_temp, Ave_hum, Sum_prec, Prop_flower500, Prop_imp500, Prop_urb500, Prop_open500, Prop_tree500, Prop_ag500, Prop_gard500, Prop_road500, X500PC1, X500PC2
 - y_term_used: Tot_rep
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -151,7 +151,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -175,7 +175,7 @@ formula_candidates:
 - Paper DOI: 10.1098/rspb.2018.0807
 - Dataset DOI: 10.5061/dryad.c68cj62
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.c68cj62
-- Year: unknown
+- Year: 2018 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -202,13 +202,13 @@ benchmark_readiness:
   benchmark_task: "review_count"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
-  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension."
+  missing_items: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
 - Decision: manual_review
-- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08) -- voir estimator_eligibility.
-- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (hurdle model binomial-negatif zero-altere, predicteur categoriel par clustering PCA+Ward) n'a pas d'equivalent dans le harnais actuel (aucun estimateur hurdle/zero-inflate n'existe dans le registre). N=38 colonies est de toute facon tres petit pour un benchmark spatial fiable. En attente d'un futur chantier d'extension du harnais (nouvel estimateur hurdle/zero-inflated count). formula_used reste documente comme adaptation, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension.
+- Manque principal: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
@@ -248,7 +248,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.c68cj62 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`bumblebee_colony_reproduction` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `bumblebee_colony_reproduction` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -257,7 +256,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: OK - Statut 'mis de cote' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: WARN - variables avec NA > 20%: G_thorave (NA=84.2%), M_thorave (NA=31.6%).

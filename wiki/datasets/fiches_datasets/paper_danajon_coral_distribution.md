@@ -1,7 +1,7 @@
 ---
 title: paper_danajon_coral_distribution
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_danajon_coral_distribution.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The influe
 - Candidate X variables in local artifact: `Geomorphic`, `Location`, `Map`, `reclass`, `area_m2`
 - Candidate X count in local artifact: 5
 - Candidate X typology: categorical, continuous
-- Published X variables from paper: Geomorphic, Location, Map, reclass, area_m2
+- Published X variables from paper: Geomorphic (classe geomorphologique : recif frangeant/pente/lagune), Location (zone ecologique : recif interne/externe, cotier, ile terrestre), Map (source de cartographie : teledetection RS, connaissance ecologique locale LEK, edition manuelle), reclass (indicateur de reclassification manuelle), area_m2 (surface du polygone d'habitat)
 - Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `Hab_Paper`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The influe
 |---|---|---|---|---|
 | `is_coral` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `danajon_coral_distribution`, la ou les reponses `is_coral` viennent du loader papier et/ou des preuves de l article `The influence of multiple stressors on the spatial distribution of corals`. Les covariables X retenues sont `Geomorphic`, `Location`, `Map`, `reclass`, `area_m2`. Les coordonnees (`lon`, `lat`), identifiants (`Hab_Paper`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `danajon_coral_distribution`, la ou les reponses `is_coral` viennent du loader papier et/ou des preuves de l article `The influence of multiple stressors on the spatial distribution of corals`. Les covariables X retenues sont `Geomorphic`, `Location`, `Map`, `reclass`, `area_m2`. Les coordonnees (`lon`, `lat`), identifiants (`Hab_Paper`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -64,8 +64,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The influe
 ### Formule - niveau publication
 
 - formula_pub: P(coral) ~ multiple_stressors (pression de peche, distance au marche, population humaine) + geomorphologie + zone ecologique [le papier etudie l'influence de facteurs de stress multiples (pression de peche, acces au marche, demographie des barangays) sur la distribution spatiale des coraux dans le Danajon Bank, a partir d'une carte d'habitat combinant teledetection et cartographie participative (connaissance ecologique locale)]
-- x_terms_pub: Geomorphic, Location, Map, reclass, area_m2
-- y_term_pub: is_coral
+- x_terms_pub: Geomorphic (classe geomorphologique : recif frangeant/pente/lagune), Location (zone ecologique : recif interne/externe, cotier, ile terrestre), Map (source de cartographie : teledetection RS, connaissance ecologique locale LEK, edition manuelle), reclass (indicateur de reclassification manuelle), area_m2 (surface du polygone d'habitat)
+- y_term_pub: is_coral (indicateur binaire de presence de corail, classe reclassifiee Hab_Paper=='Coral' de la carte d'habitat du papier)
 - Reference publication: Selgrath, Gergel & Vincent (2025), The influence of multiple stressors on the spatial distribution of corals, People and Nature, doi:10.1002/pan3.70208. Le papier utilise une carte d'habitat combinant teledetection et cartographie participative (Selgrath et al. 2016, Ecosphere, doi:10.1002/ecs2.1325, pour la methode de cartographie) pour etudier l'effet de facteurs de stress humains (peche, marche, demographie -- covariables dans les fichiers barangay_* du meme depot) sur la distribution des coraux. formula_used utilise le polygone d'habitat reclassifie (Hab_Paper, variable de classification utilisee dans l'analyse du papier selon le readme du depot) converti en points (centroides de polygones) avec un indicateur binaire de corail, plus les covariables geomorphologiques et de zone ecologique deja presentes dans la meme couche -- une simplification documentee qui n'inclut pas encore les covariables de pression humaine (barangay_demographics, distance_market) du meme depot, non jointes spatialement ici par manque de cle de jointure directe entre polygones d'habitat et barangays. Donnees brutes (habitat_full_area_rs_lek_reclass_20250615_union_with_fa2.shp) telechargees directement depuis Dryad (10.5061/dryad.z34tmpgpt) -- pas une reconstruction, N=29512 polygones d'habitat (apres exclusion des classes Cloud/Deep/DeepWater/No Class), coordonnees reelles (Danajon Bank, Bohol, Philippines).
 
 ### Statut regression canonique
@@ -74,16 +74,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "The influe
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: is_coral ~ Geomorphic + Location + Map + reclass + area_m2
+- License evidence: DataCite API record for DOI 10.5061/dryad.z34tmpgpt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: Geomorphic, Location, Map, reclass, area_m2
 - y_term_used: is_coral
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -101,8 +102,8 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "is_coral ~ Geomorphic + Location + Map + reclass + area_m2"
-    response: "is_coral"
-    predictors: ["Geomorphic", "Location", "Map", "reclass", "area_m2"]
+    response: "is_coral (indicateur binaire de presence de corail, classe reclassifiee Hab_Paper=='Coral' de la carte d'habitat du papier)"
+    predictors: ["Geomorphic (classe geomorphologique : recif frangeant/pente/lagune)", "Location (zone ecologique : recif interne/externe, cotier, ile terrestre)", "Map (source de cartographie : teledetection RS, connaissance ecologique locale LEK, edition manuelle)", "reclass (indicateur de reclassification manuelle)", "area_m2 (surface du polygone d'habitat)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.1002/pan3.70208
 - Dataset DOI: 10.5061/dryad.z34tmpgpt
 - Source URL: https://doi.org/10.5061/dryad.z34tmpgpt
-- Year: unknown
+- Year: 2025
 
 ## Bloc 3 - Typologie des modeles
 
@@ -226,7 +227,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.z34tmpgpt (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`danajon_coral_distribution` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `danajon_coral_distribution` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -241,10 +241,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`danajon_coral_distribution` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

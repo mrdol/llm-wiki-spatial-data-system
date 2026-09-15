@@ -1,7 +1,7 @@
 ---
 title: paper_sugarglider_occupancy
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_sugarglider_occupancy.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 - Candidate X variables in local artifact: `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
-- Published X variables from paper: mat200-mat2000, elev
+- Published X variables from paper: mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m), elev (elevation)
 - Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 |---|---|---|---|---|
 | `n_detections` | `numeric` | count | [0, 4] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `sugarglider_occupancy`, la ou les reponses `n_detections` viennent du loader papier et/ou des preuves de l article `Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests`. Les covariables X retenues sont `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`. Les coordonnees (`lon`, `lat`), identifiants (`site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `sugarglider_occupancy`, la ou les reponses `n_detections` viennent du loader papier et/ou des preuves de l article `Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests`. Les covariables X retenues sont `mat200`, `mat500`, `mat1000`, `mat1500`, `mat2000`, `elev`. Les coordonnees (`lon`, `lat`), identifiants (`site`, `easting`, `northing`, `survey1`, `survey2`, `survey3`, `survey4`, `survey5`, `d1`, `d2`, `d3`, `d4`, `d5`, `temp1`, `temp2`, `temp3`, `temp4`, `temp5`, `wind1`, `wind2`, `wind3`, `wind4`, `wind5`, `moon1`, `moon2`, `moon3`, `moon4`, `moon5`, `owl1`, `owl2`, `owl3`, `owl4`, `owl5`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -65,9 +65,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 ### Formule - niveau publication
 
 - formula_pub: psi(occupancy) ~ mature_forest_extent(200-2000m) + elev ; p(detection) ~ temperature + wind + moonlight + owl_playback [modele d'occupation-detection (site-occupancy model), naive occupancy = 0.79, detectabilite = 0.52 +/- 0.03 sur 5 visites]
-- x_terms_pub: mat200-mat2000, elev
-- y_term_pub: n_detections
-- Reference publication: Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84).
+- x_terms_pub: mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m), elev (elevation)
+- y_term_pub: n_detections (nombre de detections de planeur du sucre sur 5 visites de site, proxy continu/comptage d'occupation)
+- Reference publication: Allen, Webb, Alves, Heinsohn & Stojanovic (2018) (auteurs corriges le 2026-09-14 -- confirmes via Crossref ; 'Cooper' n'est pas un auteur de ce papier, les vrais 3e et 4e auteurs sont Alves et Heinsohn), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84).
 
 ### Statut regression canonique
 
@@ -75,17 +75,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Occupancy 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: n_detections ~ mat200 + mat500 + mat1000 + mat1500 + mat2000 + elev
+- License evidence: DataCite API record for DOI 10.5061/dryad.4xgxd259g (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - benchmark_task_note: n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
 - Selected Y evidence: n_detections denombre les detections; occupation et detectabilite doivent rester distinguees.
 - Selected Y typology: count
 - x_terms_used: mat200, mat500, mat1000, mat1500, mat2000, elev
 - y_term_used: n_detections
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -103,12 +104,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "n_detections ~ mat200 + mat500 + mat1000 + mat1500 + mat2000 + elev"
-    response: "n_detections"
-    predictors: ["mat200-mat2000", "elev"]
+    response: "n_detections (nombre de detections de planeur du sucre sur 5 visites de site, proxy continu/comptage d'occupation)"
+    predictors: ["mat200-mat2000 (etendue de foret mature dans des tampons de 200 a 2000m)", "elev (elevation)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -132,7 +133,7 @@ formula_candidates:
 - Paper DOI: 10.1111/aec.12583
 - Dataset DOI: 10.5061/dryad.4xgxd259g
 - Source URL: https://doi.org/10.5061/dryad.4xgxd259g
-- Year: unknown
+- Year: 2018
 
 ## Bloc 3 - Typologie des modeles
 
@@ -147,7 +148,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Allen, Webb, Cooper, Stojanovic et al. (2018), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
+  source_ref: "Allen, Webb, Alves, Heinsohn & Stojanovic (2018) (auteurs corriges le 2026-09-14 -- confirmes via Crossref ; 'Cooper' n'est pas un auteur de ce papier, les vrais 3e et 4e auteurs sont Alves et Heinsohn), Occupancy patterns of the introduced, predatory sugar glider in Tasmanian forests, Austral Ecology, doi:10.1111/aec.12583. Le papier ajuste un modele d'occupation-detection sur 100 sites du Southern Forest, Tasmanie (naive occupancy=0.79, confirme empiriquement : 79/100 sites avec au moins une detection dans les donnees locales). formula_used utilise le nombre total de detections (n_detections, somme des 5 visites) comme proxy continu de l'occupation, contre les covariables d'habitat reelles du papier (etendue de foret mature a plusieurs echelles de tampon, elevation) ; les covariables de detectabilite (temperature, vent, lune, appel de chouette) restent disponibles dans l'artefact local mais ne sont pas retenues dans formula_used (elles modelisent p, pas psi, dans le cadre occupation-detection original). Donnees brutes (Sugarglider.csv) telechargees directement depuis Dryad (10.5061/dryad.4xgxd259g, depot reutilisant les donnees originales de Stojanovic pour un papier methodologique sur la dependance spatiale) -- pas une reconstruction, N=100 sites, coordonnees reelles (Southern Forest, Tasmanie, converties de UTM zone 55S vers WGS84)."
   confidence: medium
 ```
 
@@ -216,7 +217,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.4xgxd259g (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`sugarglider_occupancy` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `sugarglider_occupancy` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -231,10 +231,6 @@ estimator_eligibility:
 - Missing values: WARN - variables avec NA > 20%: survey5 (NA=76%), d5 (NA=77%), temp5 (NA=76%), wind5 (NA=76%), moon5 (NA=76%), owl5 (NA=76%).
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`sugarglider_occupancy` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (count), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

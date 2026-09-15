@@ -1,7 +1,7 @@
 ---
 title: paper_airbnb_europe_prices
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_airbnb_europe_prices.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `room_type`, `room_shared`, `room_private`, `person_capacity`, `host_is_superhost`, `multi`, `biz`, `cleanliness_rating`, `guest_satisfaction_overall`, `bedrooms`, `dist`, `metro_dist`, `attr_index`, `rest_index`
 - Candidate X count in local artifact: 14
-- Candidate X typology: categorical, continuous
-- Published X variables from paper: room_type, person_capacity, host_is_superhost, multi/biz, cleanliness_rating, guest_satisfaction_overall, bedrooms, dist, metro_dist, attr_index, rest_index
+- Candidate X typology: categorical, continuous, unknown
+- Published X variables from paper: room_private (dummy chambre privee, reference = logement entier), room_shared (dummy chambre partagee), person_capacity, host_is_superhost, multi/biz (professionnalisation de l'hote), cleanliness_rating, guest_satisfaction_overall, bedrooms, dist (distance au centre-ville), metro_dist (distance au metro), attr_index (indice d'attractivite touristique, specification principale -- rest_index teste separement, cf. Note)
 - Published X count: 11
 - Coordinates (x, y - excluded from X candidates): `lng`, `lat`
 - Identifier columns (excluded from X candidates): `city`, `period`, `realSum`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 |---|---|---|---|---|
 | `log_price` | `numeric` | continuous | [3.549, 9.828] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `airbnb_europe_prices`, la ou les reponses `log_price` viennent du loader papier et/ou des preuves de l article `Determinants of Airbnb prices in European cities: A spatial econometrics approach`. Les covariables X retenues sont `room_type`, `person_capacity`, `host_is_superhost`, `multi`, `biz`, `cleanliness_rating`, `guest_satisfaction_overall`, `bedrooms`, `dist`, `metro_dist`, `attr_index`, `rest_index` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lng`, `lat`), identifiants (`city`, `period`, `realSum`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `airbnb_europe_prices`, la ou les reponses `log_price` viennent du loader papier et/ou des preuves de l article `Determinants of Airbnb prices in European cities: A spatial econometrics approach`. Les covariables X retenues sont `room_private`, `room_shared`, `person_capacity`, `host_is_superhost`, `multi`, `biz`, `cleanliness_rating`, `guest_satisfaction_overall`, `bedrooms`, `dist`, `metro_dist`, `attr_index` ; 2 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lng`, `lat`), identifiants (`city`, `period`, `realSum`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -64,7 +64,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 | `biz` | `integer` | binary | 0% |
 | `cleanliness_rating` | `numeric` | continuous | 0% |
 | `guest_satisfaction_overall` | `numeric` | continuous | 0% |
-| `bedrooms` | `integer` | count | 0% |
+| `bedrooms` | `integer` | unknown | 0% |
 | `dist` | `numeric` | continuous | 0% |
 | `metro_dist` | `numeric` | continuous | 0% |
 | `attr_index` | `numeric` | continuous | 0% |
@@ -72,10 +72,10 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 
 ### Formule - niveau publication
 
-- formula_pub: log(price) ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index + W*log(price) [modeles spatiaux (SAR, modele autoregressif spatial ; SEM, modele a erreur spatiale) sur les prix Airbnb log-transformes, matrice de ponderation spatiale W, 10 villes europeennes, weekday/weekend separement]
-- x_terms_pub: room_type, person_capacity, host_is_superhost, multi/biz, cleanliness_rating, guest_satisfaction_overall, bedrooms, dist, metro_dist, attr_index, rest_index
-- y_term_pub: log_price
-- Reference publication: Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat).
+- formula_pub: SDM (spatial Durbin model, WX+WY, modele retenu) : log_price ~ rho*W*log_price + room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + W*X [Gyodi & Nawaro (2021), Eq. 5 p.6 ; 4 modeles estimes -- OLS, SLX (WX), SAR (WY), SDM (WX+WY) -- SDM retenu (meilleure log-vraisemblance dans les 10 villes, AIC le plus bas dans 7/10) ; SAR second meilleur ; aucun modele SEM n'est estime par ce papier (SEM cite uniquement dans la revue de litterature d'autres etudes, jamais ajuste ici) ; rest_index teste separement d'attr_index (colinearite VIF documentee, jamais dans la meme regression) ; W = k plus proches voisins (k=10) standardise par ligne, robustesse testee avec k=5/25/50 et W de distance a 500m/1000m]
+- x_terms_pub: room_private (dummy chambre privee, reference = logement entier), room_shared (dummy chambre partagee), person_capacity, host_is_superhost, multi/biz (professionnalisation de l'hote), cleanliness_rating, guest_satisfaction_overall, bedrooms, dist (distance au centre-ville), metro_dist (distance au metro), attr_index (indice d'attractivite touristique, specification principale -- rest_index teste separement, cf. Note)
+- y_term_pub: log_price (logarithme du prix Airbnb, distribution asymetrique justifiant la transformation log selon le papier)
+- Reference publication: Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management 86:104319, doi:10.1016/j.tourman.2021.104319. CORRECTION (2026-09-10, verification directe PDF+TEI apres signalement utilisateur) : (1) room_type (colonne locale) n'est pas la variable publiee -- Table 1 documente room_private et room_shared comme 2 dummies separes (reference = logement entier), confirme par Fig. 3 (coefficients direct_room_shared/direct_room_private distincts) ; les 2 vraies colonnes existent dans l'artefact local et remplacent room_type. (2) Le papier N'ESTIME PAS de modele SEM : Section 4.1 confirme 4 modeles compares (OLS, SLX/WX, SAR/WY, SDM/WX+WY, Eq. 3-5), SDM retenu ('we will focus on the results of the SDM model', meilleure log-vraisemblance/AIC), SAR second. SEM n'apparait que dans la revue de litterature d'autres etudes (Section 3.2, ex. Halleck Vega & Elhorst 2015), jamais ajuste par ces auteurs. (3) attr_index et rest_index ne sont jamais dans la meme regression : test VIF documente une colinearite entre les 2 indices TripAdvisor, 'the two variables will be tested separately in the analysis' -- attr_index est la specification presentee en premier (Figs. 3-5), rest_index en variante secondaire (fin de section 4.2) ; formula_used retient attr_index. (4) Construction de W documentee par les auteurs (Section 3.2, p.6) : 'we decided to calculate row-standardised W with the 10 closest neighbours' (k=10, standardise par ligne) comme choix principal ; robustesse testee avec k=5/25/50 voisins et W de distance a 500m et 1000m. (5) 'weekday/weekend' n'est PAS une structure panel a 2 periodes du point de vue du papier : Section 3.1 dit explicitement 'The analysis is based on the weekday samples, while the weekend data are used for robustness checks' (Appendix B, Fig. B.1) -- modele principal sur l'echantillon weekday uniquement, weekend = re-estimation independante de robustesse, pas un panel joint. Le fait que les memes annonces apparaissent dans les 2 fichiers (repetitions de coordonnees reelles) reste vrai et justifie toujours un regroupement par annonce en CV, mais ce n'est pas une structure temporelle documentee par le papier lui-meme. Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat).
 
 ### Statut regression canonique
 
@@ -83,17 +83,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Determinan
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
-- formula_used: log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index
+- formula_used: log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index
+- License evidence: DataCite API record for DOI 10.5281/zenodo.4446043 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Recommended validation: N lignes=51707; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=21582. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: room_type, person_capacity, host_is_superhost, multi, biz, cleanliness_rating, guest_satisfaction_overall, bedrooms, dist, metro_dist, attr_index, rest_index
+- x_terms_used: room_private, room_shared, person_capacity, host_is_superhost, multi, biz, cleanliness_rating, guest_satisfaction_overall, bedrooms, dist, metro_dist, attr_index
 - y_term_used: log_price
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -110,23 +111,23 @@ formula_candidates:
     status: "unavailable"
 
   multivariate_constrained:
-    formula: "log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index"
-    response: "log_price"
-    predictors: ["room_type", "person_capacity", "host_is_superhost", "multi/biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "rest_index"]
+    formula: "log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index"
+    response: "log_price (logarithme du prix Airbnb, distribution asymetrique justifiant la transformation log selon le papier)"
+    predictors: ["room_private (dummy chambre privee, reference = logement entier)", "room_shared (dummy chambre partagee)", "person_capacity", "host_is_superhost", "multi/biz (professionnalisation de l'hote)", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist (distance au centre-ville)", "metro_dist (distance au metro)", "attr_index (indice d'attractivite touristique, specification principale -- rest_index teste separement, cf. Note)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
-    formula: "log_price ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index + city + period"
+    formula: "log_price ~ room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + city + period"
     response: "log_price"
-    predictors: ["room_type", "person_capacity", "host_is_superhost", "multi", "biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "rest_index", "city", "period"]
+    predictors: ["room_private", "room_shared", "person_capacity", "host_is_superhost", "multi", "biz", "cleanliness_rating", "guest_satisfaction_overall", "bedrooms", "dist", "metro_dist", "attr_index", "city", "period"]
     role: "ml_candidate_features"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "gam_spatial", "random_forest", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sdm_mixed", "gam_spatial", "random_forest", "gwr"]
     status: "confirmed_continuous_response"
 ```
 
@@ -151,11 +152,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "log(price) ~ room_type + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + rest_index + W*log(price) [modeles spatiaux (SAR, modele autoregressif spatial ; SEM, modele a erreur spatiale) sur les prix Airbnb log-transformes, matrice de ponderation spatiale W, 10 villes europeennes, weekday/weekend separement]"
+  equation_text: "SDM (spatial Durbin model, WX+WY, modele retenu) : log_price ~ rho*W*log_price + room_private + room_shared + person_capacity + host_is_superhost + multi + biz + cleanliness_rating + guest_satisfaction_overall + bedrooms + dist + metro_dist + attr_index + W*X [Gyodi & Nawaro (2021), Eq. 5 p.6 ; 4 modeles estimes -- OLS, SLX (WX), SAR (WY), SDM (WX+WY) -- SDM retenu (meilleure log-vraisemblance dans les 10 villes, AIC le plus bas dans 7/10) ; SAR second meilleur ; aucun modele SEM n'est estime par ce papier (SEM cite uniquement dans la revue de litterature d'autres etudes, jamais ajuste ici) ; rest_index teste separement d'attr_index (colinearite VIF documentee, jamais dans la meme regression) ; W = k plus proches voisins (k=10) standardise par ligne, robustesse testee avec k=5/25/50 et W de distance a 500m/1000m]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management, doi:10.1016/j.tourman.2021.104319. Le papier ajuste des modeles spatiaux (SAR/SEM) sur le logarithme du prix Airbnb pour 10 villes europeennes (Amsterdam, Athenes, Barcelone, Berlin, Budapest, Lisbonne, Londres, Paris, Rome, Vienne), separement weekday/weekend, avec les covariables exactement presentes dans les fichiers deposes (memes noms de colonnes que le jeu de donnees). Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
+  source_ref: "Gyodi & Nawaro (2021), Determinants of Airbnb prices in European cities: A spatial econometrics approach, Tourism Management 86:104319, doi:10.1016/j.tourman.2021.104319. CORRECTION (2026-09-10, verification directe PDF+TEI apres signalement utilisateur) : (1) room_type (colonne locale) n'est pas la variable publiee -- Table 1 documente room_private et room_shared comme 2 dummies separes (reference = logement entier), confirme par Fig. 3 (coefficients direct_room_shared/direct_room_private distincts) ; les 2 vraies colonnes existent dans l'artefact local et remplacent room_type. (2) Le papier N'ESTIME PAS de modele SEM : Section 4.1 confirme 4 modeles compares (OLS, SLX/WX, SAR/WY, SDM/WX+WY, Eq. 3-5), SDM retenu ('we will focus on the results of the SDM model', meilleure log-vraisemblance/AIC), SAR second. SEM n'apparait que dans la revue de litterature d'autres etudes (Section 3.2, ex. Halleck Vega & Elhorst 2015), jamais ajuste par ces auteurs. (3) attr_index et rest_index ne sont jamais dans la meme regression : test VIF documente une colinearite entre les 2 indices TripAdvisor, 'the two variables will be tested separately in the analysis' -- attr_index est la specification presentee en premier (Figs. 3-5), rest_index en variante secondaire (fin de section 4.2) ; formula_used retient attr_index. (4) Construction de W documentee par les auteurs (Section 3.2, p.6) : 'we decided to calculate row-standardised W with the 10 closest neighbours' (k=10, standardise par ligne) comme choix principal ; robustesse testee avec k=5/25/50 voisins et W de distance a 500m et 1000m. (5) 'weekday/weekend' n'est PAS une structure panel a 2 periodes du point de vue du papier : Section 3.1 dit explicitement 'The analysis is based on the weekday samples, while the weekend data are used for robustness checks' (Appendix B, Fig. B.1) -- modele principal sur l'echantillon weekday uniquement, weekend = re-estimation independante de robustesse, pas un panel joint. Le fait que les memes annonces apparaissent dans les 2 fichiers (repetitions de coordonnees reelles) reste vrai et justifie toujours un regroupement par annonce en CV, mais ce n'est pas une structure temporelle documentee par le papier lui-meme. Donnees brutes (20 fichiers ville x periode) telechargees directement depuis Zenodo (10.5281/zenodo.4446043) -- pas une reconstruction, N=51707 annonces, coordonnees reelles (lng/lat)."
   confidence: medium
 ```
 
@@ -179,56 +180,32 @@ benchmark_readiness:
 
 ```yaml
 estimator_eligibility:
-  eligible_estimators:
-    - estimator: sar_lag
-      basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Gyodi & Nawaro (2021), Tourism Management, doi:10.1016/j.tourman.2021.104319 -- le papier ajuste un modele SAR (autoregressif spatial) sur log(price), memes covariables et meme W."
-    - estimator: sem_error
-      basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Meme source -- le papier ajuste aussi un modele SEM (erreur spatiale) sur log(price), en alternative au SAR."
-    - estimator: ols
-      basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Comparateur non-spatial standard, pas le modele publie (qui est spatial)."
-    - estimator: gam_spatial
-      basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative non-lineaire generique, Y continu."
-    - estimator: random_forest
-      basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
-    - estimator: xgboost
-      basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
+  status: "ready"
+  eligible_estimators: []
   conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
+  ineligible_reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel_ou_series
+- Data type: spatial
+- Structure: coupe_transversale
 - N observations: 51707
 - k variables: 22
-- T periods: 2 (corrige 2026-09-07 -- voir note ci-dessous)
-- Variable temporelle: period
+- T periods: 1
+- Variable temporelle: n/a
 - N/T profile: N_grand_T_petit
-- Note T corrigee (session 2026-09-07, verification directe du `.rds`) : le champ `period` (valeurs `weekdays`/`weekends`) existe dans les donnees et est deja liste comme "identifier column" exclu de X, mais n'avait pas ete reporte comme variable temporelle ici (T=1/n/a etait errone). Verification empirique : les coordonnees des annonces se chevauchent fortement entre les deux periodes au sein d'une meme ville (ex. Londres : 3905 coordonnees communes aux fichiers weekdays/weekends sur 4614/5379 lignes) -- confirme que la meme annonce est bien re-observee dans les deux periodes, structure explicitement documentee dans le papier ("weekday/weekend separement", 20 fichiers ville x periode). Grouper par ville x annonce (coordonnee), pas seulement par annonce, pour la CV.
 
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
 - Spatial resolution: point observation
-- Temporal resolution: 2 periodes (weekdays / weekends), par ville (10 villes x 2 = 20 groupes)
+- Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [-9.22634, 23.78602], y [37.953, 52.64141]
-- Time range: non applicable (period est une modalite categorique weekdays/weekends, pas une date calendaire)
+- Time range: not applicable (cross-sectional dataset)
 - CRS analyse recommande: pending - multi-zones (span=33deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -237,7 +214,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5281/zenodo.4446043 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`airbnb_europe_prices` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `airbnb_europe_prices` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -252,10 +228,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`airbnb_europe_prices` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

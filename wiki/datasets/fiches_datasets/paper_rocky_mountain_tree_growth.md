@@ -1,7 +1,7 @@
 ---
 title: paper_rocky_mountain_tree_growth
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_rocky_mountain_tree_growth.rds
@@ -35,7 +35,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate an
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `elevation_m`, `aspect_degrees`, `terrain_slope_pct`, `mean_stem_diameter_cm`, `mean_age_years`, `neighbor_count`, `neighbor_dbh_sum`, `neighbor_distance_mean`
 - Candidate X count in local artifact: 8
-- Candidate X typology: continuous
+- Candidate X typology: continuous, unknown
 - Published X variables from paper: climate, neighbour competition, stem diameter, age, elevation, aspect, slope
 - Published X count: 7
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
@@ -56,11 +56,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate an
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
 | `elevation_m` | `integer` | continuous | 0% |
-| `aspect_degrees` | `integer` | count | 0% |
+| `aspect_degrees` | `integer` | unknown | 0% |
 | `terrain_slope_pct` | `integer` | continuous | 0% |
 | `mean_stem_diameter_cm` | `numeric` | continuous | 0% |
 | `mean_age_years` | `numeric` | continuous | 0% |
-| `neighbor_count` | `integer` | count | 0.5% |
+| `neighbor_count` | `integer` | unknown | 0.5% |
 | `neighbor_dbh_sum` | `numeric` | continuous | 0.5% |
 | `neighbor_distance_mean` | `numeric` | continuous | 0.5% |
 
@@ -77,16 +77,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climate an
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: mean_ring_width_mm ~ elevation_m + aspect_degrees + terrain_slope_pct + mean_stem_diameter_cm + mean_age_years + neighbor_count + neighbor_dbh_sum + neighbor_distance_mean
+- License evidence: DataCite API record for DOI 10.5061/dryad.fv322 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: elevation_m, aspect_degrees, terrain_slope_pct, mean_stem_diameter_cm, mean_age_years, neighbor_count, neighbor_dbh_sum, neighbor_distance_mean
 - y_term_used: mean_ring_width_mm
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -109,7 +110,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -133,7 +134,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2745.12782
 - Dataset DOI: 10.5061/dryad.fv322
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.fv322
-- Year: unknown
+- Year: 2017 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -187,7 +188,7 @@ estimator_eligibility:
 - k variables: 16
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -206,7 +207,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.fv322 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`rocky_mountain_tree_growth` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `rocky_mountain_tree_growth` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

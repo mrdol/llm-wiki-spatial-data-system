@@ -1,7 +1,7 @@
 ---
 title: paper_flapper_skate_presence
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_flapper_skate_presence.rds
@@ -35,9 +35,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 - Candidate Y typology: binary
 - Candidate X variables in local artifact: `haul_dur`, `present`, `current`, `dcoast`, `bath`, `btemp`, `xm`, `ym`, `xkm`, `ykm`, `fishing_hours`, `pp_mean`
 - Candidate X count in local artifact: 12
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: bath, dcoast, current, pp_mean, fishing_hours (btemp retire par les auteurs pour colinearite, voir correction 2026-09-08 ci-dessous)
-- Published X count: 6
+- Candidate X typology: unknown, categorical, continuous
+- Published X variables from paper: bath, dcoast, current, pp_mean, fishing_hours
+- Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `survey`, `ship`, `year`, `quarter`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,17 +49,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 |---|---|---|---|---|
 | `present_01` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `flapper_skate_presence`, la ou les reponses `present_01` viennent du loader papier et/ou des preuves de l article `On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )`. Les covariables X retenues sont `bath`, `dcoast`, `current`, `pp_mean`, `fishing_hours` (btemp retire pour colinearite, voir correction 2026-09-08) ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`survey`, `ship`, `year`, `quarter`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `flapper_skate_presence`, la ou les reponses `present_01` viennent du loader papier et/ou des preuves de l article `On the Brink: Mapping the Last Strongholds of the Critically Endangered Flapper Skate ( Dipturus intermedius )`. Les covariables X retenues sont `bath`, `dcoast`, `current`, `pp_mean`, `fishing_hours` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`lon`, `lat`), identifiants (`survey`, `ship`, `year`, `quarter`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `haul_dur` | `integer` | count | 0% |
+| `haul_dur` | `integer` | unknown | 0% |
 | `present` | `integer` | binary | 0% |
 | `current` | `numeric` | rate | 0% |
 | `dcoast` | `numeric` | continuous | 0% |
-| `bath` | `integer` | count | 0% |
+| `bath` | `integer` | unknown | 0% |
 | `btemp` | `numeric` | continuous | 0% |
 | `xm` | `numeric` | continuous | 0% |
 | `ym` | `numeric` | continuous | 0% |
@@ -73,8 +73,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 - formula_pub: presence_absence ~ depth + distance_to_coast + current + benthic_productivity + fishing_pressure [INLA/SPDE presence-absence model with cloglog link, champ spatial SPDE explicite]
 - x_terms_pub: bath, dcoast, current, pp_mean, fishing_hours
 - y_term_pub: flapper skate presence/absence by survey haul
-- Reference publication: Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. Le papier ajuste un modele INLA/SPDE (champ aleatoire spatial explicite, lien cloglog).
-- Correction (2026-09-08, lecture TEI approfondie, Loca2025OnThe.tei.xml) : `btemp` (bottom temperature) a ete RETIRE par les auteurs de leur modele final pour cause de colinearite ("bottom temperature was dropped from the analysis"). formula_used/x_terms_used/formula_pub corriges pour ne plus inclure `btemp`, qui restait a tort dans la specification executable malgre son exclusion documentee par le papier. La colonne `btemp` reste disponible dans Detail X (candidate non retenue).
+- Reference publication: Loca, Collins, Garbett, McGeady, Thorburn & McGonigle (2025) (auteurs corriges le 2026-09-14 -- verifies via le TEI local Loca2025OnThe.tei.xml et Crossref ; l'attribution anterieure 'Bacheler et al.' etait fausse, aucun auteur de ce nom ne figure sur le papier), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. Le papier ajuste un modele INLA/SPDE (champ aleatoire spatial explicite, lien cloglog). Correction (2026-09-08, lecture TEI approfondie, Loca2025OnThe.tei.xml) : btemp (bottom temperature) a ete RETIRE par les auteurs de leur modele final pour cause de colinearite ("bottom temperature was dropped from the analysis"). formula_used/x_terms_used/formula_pub corriges pour ne plus inclure btemp, qui restait a tort dans la specification executable malgre son exclusion documentee par le papier. La colonne btemp reste disponible dans Detail X (candidate non retenue).
 
 ### Statut regression canonique
 
@@ -82,16 +81,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "On the Bri
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: present_01 ~ bath + dcoast + current + pp_mean + fishing_hours
+- License evidence: DataCite API record for DOI 10.5061/dryad.w0vt4b954 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: bath, dcoast, current, pp_mean, fishing_hours
 - y_term_used: present_01
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -138,7 +138,7 @@ formula_candidates:
 - Paper DOI: 10.1002/ece3.71650
 - Dataset DOI: 10.5061/dryad.w0vt4b954
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.w0vt4b954
-- Year: unknown
+- Year: 2025 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -149,11 +149,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "presence_absence ~ depth + distance_to_coast + current + bottom_temperature + benthic_productivity + fishing_pressure [INLA/SPDE presence-only or presence-absence model with cloglog link]"
+  equation_text: "presence_absence ~ depth + distance_to_coast + current + benthic_productivity + fishing_pressure [INLA/SPDE presence-absence model with cloglog link, champ spatial SPDE explicite]"
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. The paper fits spatial distribution models with INLA/SPDE; formula_used is the executable package classification/SDM benchmark variant using the measured covariates present in the local CSV."
+  source_ref: "Loca, Collins, Garbett, McGeady, Thorburn & McGonigle (2025) (auteurs corriges le 2026-09-14 -- verifies via le TEI local Loca2025OnThe.tei.xml et Crossref ; l'attribution anterieure 'Bacheler et al.' etait fausse, aucun auteur de ce nom ne figure sur le papier), Ecology and Evolution, DOI 10.1002/ece3.71650; Dryad 10.5061/dryad.w0vt4b954. The README and model_script.R provide full_dataset.csv with haul-level flapper skate presence/absence, lon/lat, bathymetry, distance to coast, current, bottom temperature, benthic productivity and fishing pressure. Le papier ajuste un modele INLA/SPDE (champ aleatoire spatial explicite, lien cloglog). Correction (2026-09-08, lecture TEI approfondie, Loca2025OnThe.tei.xml) : btemp (bottom temperature) a ete RETIRE par les auteurs de leur modele final pour cause de colinearite ('bottom temperature was dropped from the analysis'). formula_used/x_terms_used/formula_pub corriges pour ne plus inclure btemp, qui restait a tort dans la specification executable malgre son exclusion documentee par le papier. La colonne btemp reste disponible dans Detail X (candidate non retenue)."
   confidence: medium
 ```
 
@@ -181,11 +181,11 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: sar_probit
       basis: scientific_evidence
-      source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence."
+      source_ref: "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence."
       notes: "SAR probit est l'estimateur du harnais le plus proche du cadre publie (dependance spatiale explicite + reponse binaire) ; l'implementation exacte SPDE/INLA des auteurs n'est pas disponible dans le harnais, ceci est un estimateur analogue, pas une reproduction exacte."
     - estimator: sem_probit
       basis: scientific_evidence
-      source_ref: "Bacheler et al. (2025), Ecology and Evolution, DOI 10.1002/ece3.71650 -- meme justification que sar_probit."
+      source_ref: "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- meme justification que sar_probit."
       notes: "Estimateur analogue au cadre spatial publie, pas une reproduction exacte de SPDE/INLA."
     - estimator: ols
       basis: generated_candidate
@@ -227,7 +227,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.w0vt4b954 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`flapper_skate_presence` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `flapper_skate_presence` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

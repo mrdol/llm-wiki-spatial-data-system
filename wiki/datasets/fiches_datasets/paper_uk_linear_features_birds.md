@@ -1,12 +1,11 @@
 ---
 title: paper_uk_linear_features_birds
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_uk_linear_features_birds.rds
   - DatasetFirst_10_5061_dryad_m5g04
-  - corpus/papers/tei/Sullivan2017National.tei.xml
 tags: [dataset, paper-derived, spatial, point]
 ---
 
@@ -20,8 +19,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A national
 - Geographic context: Etendue mesuree dans le RDS : x [-7.4971858, 1.7271628], y [50.0781545, 60.5883474]; CRS EPSG:4326.
 - Temporal context: none (cross-sectional)
 - Source description: A national‐scale model of linear features improves predictions of farmland biodiversity
-- Description source: paper_dataset_uses.json + lecture directe du papier + TEI confirme (PDF fourni par l'utilisateur, converti via GROBID le 2026-09-08)
-- Description confidence: high (corrige 2026-09-08)
+- Description source: paper_dataset_uses.json + lecture directe du papier
+- Description confidence: low
 - Paper DOI: 10.1111/1365-2664.12912
 - Dataset DOI: 10.5061/dryad.m5g04
 - Source URL: https://doi.org/10.5061/dryad.m5g04
@@ -33,11 +32,11 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A national
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `total_bird_abundance`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `LinearFeaturesLength`, `WoodyLinearFeaturesLength`
 - Candidate X count in local artifact: 2
 - Candidate X typology: continuous
-- Published X variables from paper: LinearFeaturesLength, WoodyLinearFeaturesLength
+- Published X variables from paper: LinearFeaturesLength (longueur totale d'elements lineaires, ex. haies, autour du site), WoodyLinearFeaturesLength (longueur d'elements lineaires ligneux)
 - Published X count: 2
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `SiteID`, `GridSquare1km`, `Survey`, `easting`, `northing`
@@ -62,10 +61,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A national
 ### Formule - niveau publication
 
 - formula_pub: abundance_species_i ~ LinearFeaturesLength + WoodyLinearFeaturesLength + [covariables d'habitat national] [modeles d'abondance par espece (18 especes d'oiseaux, 24 especes de papillons) sur 3723 (BBS) et 1547 (UKBMS) sites de suivi au Royaume-Uni, comparant modeles avec/sans le jeu de donnees national de haies/elements lineaires]
-- x_terms_pub: LinearFeaturesLength, WoodyLinearFeaturesLength
-- y_term_pub: total_bird_abundance
+- x_terms_pub: LinearFeaturesLength (longueur totale d'elements lineaires, ex. haies, autour du site), WoodyLinearFeaturesLength (longueur d'elements lineaires ligneux)
+- y_term_pub: total_bird_abundance (abondance totale d'oiseaux toutes especes BBS confondues, agregation communautaire des comptages individuels par espece publies par le papier)
 - Reference publication: Sullivan et al. (2017), A national-scale model of linear features improves predictions of farmland biodiversity, Journal of Applied Ecology, doi:10.1111/1365-2664.12912. Le papier ajuste des modeles d'abondance par espece (18 oiseaux BBS, 24 papillons UKBMS) avec un jeu de donnees national d'elements lineaires (haies) comme covariable. Le depot Dryad original contenait 2 fichiers -- seul le fichier de covariables (elements lineaires) avait ete recupere lors du harvest initial ; le fichier de donnees d'abondance par espece (Species abundance data from Sullivan et al...) a ete identifie et telecharge separement via l'API Dryad (session 2026-08-16, apres verification qu'il existait bien sur le depot). formula_used agrege l'abondance BBS toutes especes (reponse communautaire) plutot que les 18 modeles par espece du papier. Coordonnees converties depuis les references de grille nationale britannique (British National Grid, ex. 'TQ5114') vers WGS84 via le package rnrfa::osg_parse (conversion deterministe standard, verifiee sur references de test connues). Donnees brutes telechargees directement depuis Dryad (10.5061/dryad.m5g04) -- pas une reconstruction, N=3312 sites (intersection BBS x elements lineaires), Royaume-Uni.
-- Correction/confirmation (2026-09-08, PDF fourni par l'utilisateur, converti en TEI via GROBID) : methode confirmee verbatim -- "We modelled bird and butterfly abundance at each site in each year as a function of environmental variables using generalised linear mixed models with a Poisson error term. We used an observation-level random effect to account for overdispersion... we fitted year as a fixed effect, with site (i.e. BBS or UKBMS transect identity) as a random effect... we used the 50-km British Ordnance Survey grid square containing the BBS or BMS transect as a random effect". Modele exact par espece : log(N_it) = a + b1*X1_i + ... + bn*Xn_i + bt*Year_t + [log(P_iv)] + Observation_it + Site_i + 50kmRegion_j + e (eqn 1, GLMM Poisson, offset de detectabilite pour les oiseaux uniquement). 42 modeles distincts (18 oiseaux + 24 papillons), chacun avec sa propre structure d'effets aleatoires -- confirme le diagnostic deja documente : formula_used (agregat communautaire toutes especes) reste une adaptation de benchmark, pas une reproduction. DECISION UTILISATEUR (2026-09-08) : option (b), mis de cote -- aucun estimateur GLMM Poisson multi-niveaux (effet aleatoire site + region + observation) n'existe dans le harnais actuel. En attente d'un futur chantier d'extension (GLMM/effets aleatoires imbriques).
 
 ### Statut regression canonique
 
@@ -73,16 +71,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A national
 - Niveau de preuve: publication
 - Methode d estimation: formule adaptee/reconstruite -- ne reproduit PAS la structure GLMM/effets aleatoires du papier (voir correction 2026-09-08)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16), confirmee par TEI le 2026-09-08. Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Correction/confirmation (2026-09-08, PDF fourni par l'utilisateur, converti en TEI via GROBID) : methode confirmee verbatim -- "We modelled bird and butterfly abundance at each site in each year as a function of environmental variables using generalised linear mixed models with a Poisson error term... we fitted year as a fixed effect, with site... as a random effect... we used the 50-km British Ordnance Survey grid square... as a random effect". Modele exact par espece : log(N_it) = a + b1*X1_i + ... + bn*Xn_i + bt*Year_t + [log(P_iv)] + Observation_it + Site_i + 50kmRegion_j + e (eqn 1, GLMM Poisson). 42 modeles distincts (18 oiseaux + 24 papillons), chacun avec sa propre structure d'effets aleatoires. DECISION UTILISATEUR (2026-09-08) : mis de cote -- aucun estimateur GLMM Poisson multi-niveaux (effet aleatoire site + region + observation) n'existe dans le harnais actuel.
 
 ### Formule - niveau systeme
 
 - formula_used: total_bird_abundance ~ LinearFeaturesLength + WoodyLinearFeaturesLength
+- License evidence: DataCite API record for DOI 10.5061/dryad.m5g04 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: LinearFeaturesLength, WoodyLinearFeaturesLength
 - y_term_used: total_bird_abundance
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -100,12 +99,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "total_bird_abundance ~ LinearFeaturesLength + WoodyLinearFeaturesLength"
-    response: "total_bird_abundance"
-    predictors: ["LinearFeaturesLength", "WoodyLinearFeaturesLength"]
+    response: "total_bird_abundance (abondance totale d'oiseaux toutes especes BBS confondues, agregation communautaire des comptages individuels par espece publies par le papier)"
+    predictors: ["LinearFeaturesLength (longueur totale d'elements lineaires, ex. haies, autour du site)", "WoodyLinearFeaturesLength (longueur d'elements lineaires ligneux)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -129,7 +128,7 @@ formula_candidates:
 - Paper DOI: 10.1111/1365-2664.12912
 - Dataset DOI: 10.5061/dryad.m5g04
 - Source URL: https://doi.org/10.5061/dryad.m5g04
-- Year: unknown
+- Year: 2017
 
 ## Bloc 3 - Typologie des modeles
 
@@ -156,13 +155,13 @@ benchmark_readiness:
   benchmark_task: "review_count"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. Methode confirmee via TEI (PDF fourni par l'utilisateur) : 42 modeles GLMM Poisson par espece (18 oiseaux + 24 papillons), effets aleatoires imbriques (site, region OS 50km, observation), offset de detectabilite pour les oiseaux. Aucun estimateur GLMM Poisson multi-niveaux n'existe dans le harnais actuel. formula_used (agregat communautaire) reste une adaptation, pas une reproduction. En attente d'un futur chantier d'extension (GLMM/effets aleatoires imbriques)."
-  reason: "DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. Methode confirmee via TEI (PDF fourni par l'utilisateur) : 42 modeles GLMM Poisson par espece (18 oiseaux + 24 papillons), effets aleatoires imbriques (site, region OS 50km, observation), offset de detectabilite pour les oiseaux. Aucun estimateur GLMM Poisson multi-niveaux n'existe dans le harnais actuel. formula_used (agregat communautaire) reste une adaptation, pas une reproduction. En attente d'un futur chantier d'extension (GLMM/effets aleatoires imbriques)."
+  missing_items: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+  reason: "Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
 ```
 
 - Decision: manual_review
-- Manque principal: Mis de cote (option b, decision utilisateur 2026-09-08).
-- Raison: DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. Methode confirmee via TEI (PDF fourni par l'utilisateur) : 42 modeles GLMM Poisson par espece (18 oiseaux + 24 papillons), effets aleatoires imbriques (site, region OS 50km, observation), offset de detectabilite pour les oiseaux. Aucun estimateur GLMM Poisson multi-niveaux n'existe dans le harnais actuel. formula_used (agregat communautaire) reste une adaptation, pas une reproduction. En attente d'un futur chantier d'extension (GLMM/effets aleatoires imbriques).
+- Manque principal: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Raison: Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 ## Estimator eligibility
 
@@ -183,7 +182,7 @@ estimator_eligibility:
 - k variables: 12
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -202,7 +201,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.m5g04 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`uk_linear_features_birds` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `uk_linear_features_birds` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -211,7 +209,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: OK - Statut 'mis de cote' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.

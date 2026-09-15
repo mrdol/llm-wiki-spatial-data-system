@@ -1,7 +1,7 @@
 ---
 title: paper_ethiopia_whitetailed_swallow_sdm
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_ethiopia_whitetailed_swallow_sdm.rds
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 - Candidate X count in local artifact: 5
 - Candidate X typology: continuous
 - Published X variables from paper: max_temp_warmest_month, temp_seasonality, temp_annual_range, precip_wettest_quarter, precip_driest_quarter
-- Published X count: 0
+- Published X count: 5
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 |---|---|---|---|---|
 | `pa` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_whitetailed_swallow_sdm`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species`. Les covariables X retenues sont `max_temp_warmest_month`, `temp_seasonality`, `temp_annual_range`, `precip_wettest_quarter`, `precip_driest_quarter`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ethiopia_whitetailed_swallow_sdm`, la ou les reponses `pa` viennent du loader papier et/ou des preuves de l article `Climatic change and extinction risk of two globally threatened Ethiopian endemic bird species`. Les covariables X retenues sont `max_temp_warmest_month`, `temp_seasonality`, `temp_annual_range`, `precip_wettest_quarter`, `precip_driest_quarter`. Les coordonnees (`lon`, `lat`), identifiants (les identifiants detectes), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -74,16 +74,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Climatic c
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pa ~ max_temp_warmest_month + temp_seasonality + temp_annual_range + precip_wettest_quarter + precip_driest_quarter
+- License evidence: DataCite API record for DOI 10.17863/cam.65907 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: max_temp_warmest_month, temp_seasonality, temp_annual_range, precip_wettest_quarter, precip_driest_quarter
 - y_term_used: pa
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.1371/journal.pone.0249633
 - Dataset DOI: 10.17863/cam.65907
 - Source URL: https://www.repository.cam.ac.uk/handle/1810/319808
-- Year: unknown
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -207,7 +208,7 @@ estimator_eligibility:
 - k variables: 10
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -226,7 +227,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.17863/cam.65907 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`ethiopia_whitetailed_swallow_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `ethiopia_whitetailed_swallow_sdm` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -241,10 +241,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`ethiopia_whitetailed_swallow_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

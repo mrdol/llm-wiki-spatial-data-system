@@ -1,7 +1,7 @@
 ---
 title: paper_marrot_spatial_autocorrelation_fitness
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Candidate X variables in local artifact: `Laying_date`, `Clutch_size`, `Incubation_duration`
 - Candidate X count in local artifact: 3
 - Candidate X typology: continuous
-- Published X variables from paper: Clutch_size, Laying_date, Incubation_duration
+- Published X variables from paper: Clutch_size (taille de ponte), Laying_date (date de ponte), Incubation_duration (duree d'incubation)
 - Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Individuals_ID`, `Nest_boxes_ID`, `Years`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 |---|---|---|---|---|
 | `Number_of_fledglings` | `numeric` | count | [0, 13] | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `marrot_spatial_autocorrelation_fitness`, la ou les reponses `Number_of_fledglings` viennent du loader papier et/ou des preuves de l article `Spatial autocorrelation in fitness affects the estimation of natural selection in the wild`. Les covariables X retenues sont `Clutch_size`, `Laying_date`, `Incubation_duration`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Individuals_ID`, `Nest_boxes_ID`, `Years`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `marrot_spatial_autocorrelation_fitness`, la ou les reponses `Number_of_fledglings` viennent du loader papier et/ou des preuves de l article `Spatial autocorrelation in fitness affects the estimation of natural selection in the wild`. Les covariables X retenues sont `Clutch_size`, `Laying_date`, `Incubation_duration`. Les coordonnees (`Longitude`, `Latitude`), identifiants (`Individuals_ID`, `Nest_boxes_ID`, `Years`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -62,8 +62,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 ### Formule - niveau publication
 
 - formula_pub: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration [GLS/SAR selon la structure d'autocorrelation spatiale testee]
-- x_terms_pub: Clutch_size, Laying_date, Incubation_duration
-- y_term_pub: Number_of_fledglings
+- x_terms_pub: Clutch_size (taille de ponte), Laying_date (date de ponte), Incubation_duration (duree d'incubation)
+- y_term_pub: Number_of_fledglings (nombre de jeunes a l'envol, seule reponse disponible -- pas de variante continue dans le depot)
 - Reference publication: Formule presente dans inst/kg/paper_dataset_uses.json (bib_key DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210) : Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration, estimateurs geoles/SAR-lag/SAR-error/PCNM. Les 3 covariables et la reponse sont presentes telles quelles dans le .rds local (N=229). Aucune variante continue de la reponse n'existe dans le depot -- Number_of_fledglings (compte de jeunes a l'envol) est la seule reponse disponible, promue package_include=yes le 2026-08-15 (decision utilisateur : Y present + formule disponible + rds/fiche prets suffit, pas besoin d'une variante continue quand aucune n'existe).
 
 ### Statut regression canonique
@@ -72,18 +72,19 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial au
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration
+- License evidence: DataCite API record for DOI 10.5061/dryad.pm86c (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=229; T declare=6; variable temporelle declaree=Years; repetitions de coordonnees controlees=89. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - benchmark_task_note: Number_of_fledglings denombre les jeunes a l’envol.
 - Selected Y evidence: Number_of_fledglings denombre les jeunes a l’envol.
 - Selected Y typology: count
 - x_terms_used: Clutch_size, Laying_date, Incubation_duration
 - y_term_used: Number_of_fledglings
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -101,12 +102,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration"
-    response: "Number_of_fledglings"
-    predictors: ["Clutch_size", "Laying_date", "Incubation_duration"]
+    response: "Number_of_fledglings (nombre de jeunes a l'envol, seule reponse disponible -- pas de variante continue dans le depot)"
+    predictors: ["Clutch_size (taille de ponte)", "Laying_date (date de ponte)", "Incubation_duration (duree d'incubation)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.1111/2041-210x.12448
 - Dataset DOI: 10.5061/dryad.pm86c
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.pm86c
-- Year: unknown
+- Year: 2015 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -219,7 +220,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.pm86c (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`marrot_spatial_autocorrelation_fitness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `marrot_spatial_autocorrelation_fitness` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -234,10 +234,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`marrot_spatial_autocorrelation_fitness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (count), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

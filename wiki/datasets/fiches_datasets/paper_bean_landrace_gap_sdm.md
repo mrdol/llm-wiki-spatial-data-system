@@ -1,7 +1,7 @@
 ---
 title: paper_bean_landrace_gap_sdm
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_bean_landrace_gap_sdm.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 
 - Topic: Donnees de paper-derived : paper_bean_landrace_gap_sdm
 - Observation unit: observation spatiale du dataset "A gap analysis modeling framework to prioritize collecting for ex situ conservation of crop landraces"
-- Observed population: ModÃ©lisation de distribution spatiale de variÃ©tÃ©s traditionnelles de haricot commun ; gap analysis avec prÃ©dicteurs environnementaux et socioÃ©conomiques ; domaine agriculture/conservation ex situ ; 35 citations
+- Observed population: Modélisation de distribution spatiale de variétés traditionnelles de haricot commun ; gap analysis avec prédicteurs environnementaux et socioéconomiques ; domaine agriculture/conservation ex situ ; 35 citations
 - Geographic context: etendue sf: x [-117.033, -34.9], y [-38.45, 32.616667]
 - Temporal context: none (cross-sectional)
 - Source description: A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 - Candidate X variables in local artifact: `bio_1`, `bio_2`, `bio_3`, `bio_4`, `bio_5`, `bio_6`, `bio_7`, `bio_8`, `bio_9`, `bio_10`, `bio_11`, `bio_12`, `bio_13`, `bio_14`, `bio_15`, `bio_16`, `bio_17`, `bio_18`, `bio_19`, `srad`, `wspd`, `wvap`, `alt`, `PETa`, `thorn`, `moist`, `conti`, `ember`, `gdd0`, `gdd5`, `t10`, `tminwq`, `tmaxcq`, `PETcq`, `PETdq`, `PETs`, `PETwaq`, `PETweq`, `therm`, `drym`, `urban`, `distgp1`, `popdens`, `rivers`, `irri`, `access`, `aharv`, `prod`, `yield`, `genepool_andean_01`
 - Candidate X count in local artifact: 50
 - Candidate X typology: continuous, categorical
-- Published X variables from paper: WorldClim bioclimatic variables, solar radiation, wind speed, water vapor pressure, altitude, potential evapotranspiration, population density, accessibility, distance to genepool, rivers, irrigation, harvested area, production, yield
+- Published X variables from paper: WorldClim bioclimatic variables (16 candidates, bio_1-19), solar radiation, wind speed, water vapor pressure, altitude, potential evapotranspiration (+ variantes ENVIREM), population density, accessibility (temps de trajet), distance to primary genepool wild relatives, distance to rivers, irrigation fraction, harvested area, production, yield
 - Published X count: 14
 - Coordinates (x, y - excluded from X candidates): `longitude`, `latitude`
 - Identifier columns (excluded from X candidates): `source`, `status`, `genepool`, `ethnic`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 |---|---|---|---|---|
 | `status_H_01` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `bean_landrace_gap_sdm`, la ou les reponses `status_H_01` viennent du loader papier et/ou des preuves de l article `A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces`. Les covariables X retenues sont `bio_1`, `bio_12`, `alt`, `PETa`, `popdens`, `access`, `distgp1`, `rivers`, `irri`, `aharv`, `prod`, `yield` ; 38 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`source`, `status`, `genepool`, `ethnic`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `bean_landrace_gap_sdm`, la ou les reponses `status_H_01` viennent du loader papier et/ou des preuves de l article `A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces`. Les covariables X retenues sont `bio_1`, `bio_12`, `alt`, `PETa`, `popdens`, `access`, `distgp1`, `rivers`, `irri`, `aharv`, `prod`, `yield` ; 38 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`longitude`, `latitude`), identifiants (`source`, `status`, `genepool`, `ethnic`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -108,18 +108,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 
 ### Formule - niveau publication
 
-- formula_pub: landrace occurrence / conservation-gap status ~ climatic + accessibility + agricultural + demographic predictors [MaxEnt gap analysis]
-- x_terms_pub: WorldClim bioclimatic variables, solar radiation, wind speed, water vapor pressure, altitude, potential evapotranspiration, population density, accessibility, distance to genepool, rivers, irrigation, harvested area, production, yield
-- y_term_pub: bean landrace conservation-gap / status class
-- Reference publication: Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula.
+- formula_pub: landrace occurrence ~ 23 predicteurs VIF/PCA-selectionnes (16 climatiques + 7 non-climatiques) [MaxEnt/maxnet, puis score de gap seuillee]
+- x_terms_pub: WorldClim bioclimatic variables (16 candidates, bio_1-19), solar radiation, wind speed, water vapor pressure, altitude, potential evapotranspiration (+ variantes ENVIREM), population density, accessibility (temps de trajet), distance to primary genepool wild relatives, distance to rivers, irrigation fraction, harvested area, production, yield
+- y_term_pub: status_H_01 : indicateur binaire de provenance des occurrences (1 = releve herbier/GBIF hors genebank, 0 = accession de genebank), calcule depuis la colonne brute `status` du Dataset S1 du papier -- PAS une sortie du MaxEnt SDM ni du score de gap (verification directe du fichier source, aucune colonne de ce type n'existe localement)
+- Reference publication: Ramirez-Villegas, Khoury, Achicanoy, Mendez, Diaz, Sosa, Debouck, Kehel & Guarino (2020), A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces, Diversity and Distributions, DOI 10.1111/ddi.13046 (Ramirez-Villegas, Julian est le premier auteur, Khoury, Colin est le 2e). Dryad 10.5061/dryad.866t1g1n0, README.txt local documente les 50 variables candidates (Table S2.1) avec definitions/unites/sources completes. Methode du papier confirmee par lecture directe du TEI (section 2.4.1) : MaxEnt (package R 'maxnet'), presence/pseudo-absence, K=5 cross-validation, variables sub-selectionnees par VIF (<10) + PCA (contribution >=15% au PC1) parmi les 50 candidates -- 23 retenues (16 climatiques + 7 non-climatiques) pour le meilleur modele ('both' config climat+non-climat). CORRECTION 2026-09-14 (verification directe de dataset_s1_revised2.xlsx + TEI section 2.1) : le fichier local est le Dataset S1 du papier, c.a.d. le jeu d'occurrences COMPILE utilise en ENTREE du MaxEnt (21561 lignes, colonnes source/status/genepool + coordonnees + 50 covariables candidates), pas une sortie du gap analysis. La colonne `status` (G=genebank accession, majoritaire ; H=releve herbier/GBIF independant, ~8% des lignes) code la provenance de chaque occurrence -- confirme par le TEI ('Additional occurrences were gathered from GBIF ... to provide independent data from non-genebank sources'). status_H_01 = as.integer(status=="H") est donc une metadonnee de provenance des points d'entree, pas le score de gap ou une sortie MaxEnt. formula_used est une tache de classification binaire construite par le systeme sur cette metadonnee, en reutilisant le pool de covariables environnementales/socioeconomiques documente par le papier -- voir formula_used_divergence_note.
 
 ### Statut regression canonique
 
-- Statut: resolu
-- Niveau de preuve: publication
-- Methode d estimation: formule publication confirmee et utilisee
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d estimation: formule systeme generee (formula_pub confirmee mais non reprise telle quelle -- voir Note ci-dessous)
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: CORRECTION 2026-09-14 (relecture critique externe + verification directe du fichier source) : la version precedente de cette note affirmait a tort que status_H_01 etait 'probablement' un score de gap derive du MaxEnt. Verifie faux par inspection directe de dataset_s1_revised2.xlsx (feuille bean_predicted_bd_americas, 21561 lignes, colonnes source/status/genepool/coordonnees/50 covariables) : aucune colonne de score de gap, de priorite de collecte ou de sortie MaxEnt n'existe dans ce fichier -- seulement 3 colonnes de metadonnees de provenance (source, status, genepool). status_H_01 est calcule par le loader R (`df$status_H_01 <- as.integer(df$status == "H")`) directement depuis la colonne brute `status` du jeu d'occurrences compile (Dataset S1 du papier, section 2.1 du TEI: 'Our full occurrence dataset for P. vulgaris is available in Dataset S1'), qui code si chaque occurrence provient d'une accession de genebank (G, 19831/21561 lignes -- CIAT/Genesys/USDA/WIEWS) ou d'un releve herbier/GBIF independant (H, 1730/21561 lignes -- confirme par le TEI: 'Additional occurrences were gathered from GBIF ... 25,670 observations from herbaria, botanic gardens and other plant repositories, to provide independent data from non-genebank sources'). C'est donc une metadonnee de provenance des points d'occurrence UTILISES EN ENTREE du MaxEnt du papier, pas une sortie de son pipeline de gap analysis (qui produit S_CON/S_ACC/S_ENV, seuilles puis sommes en une carte 0-3, jamais materialisee dans cet artefact local). formula_used est donc une tache de classification binaire entierement construite par le systeme (provenance genebank vs herbier/GBIF, prediction a partir de covariables environnementales/socioeconomiques du meme pool candidat que le papier), et non une approximation du pipeline SDM+gap du papier -- a ne plus presenter comme tel.
 
 ### Formule - niveau systeme
 
@@ -128,7 +128,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "A gap anal
 - Selected Y typology: binary
 - x_terms_used: bio_1, bio_12, alt, PETa, popdens, access, distgp1, rivers, irri, aharv, prod, yield
 - y_term_used: status_H_01
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: 23 des 50 variables candidates documentees (Table S2.1 du depot, README.txt local) ont ete retenues par les auteurs apres filtrage VIF (<10) + PCA (contribution >=15% au premier axe) -- 16 climatiques + 7 non-climatiques d'apres le texte, mais la liste exacte des 23 survivantes n'est disponible que dans le detail de Table S2.1 (non extrait de ce TEI). Les 12 covariables de formula_used (bio_1, bio_12, alt, PETa, popdens, access, distgp1, rivers, irri, aharv, prod, yield) sont un sous-ensemble plausible et documente de ce pool candidat (couvrant climat + non-climat comme le papier le souligne), pas confirme comme etant exactement les 23 survivantes du filtrage VIF/PCA. Point verifie separement : la colonne locale `ethnic` (texte, 75 groupes ethniques nommes, ex. 'Argentinians', 'Quechua') est un champ de provenance categoriel de l'accession, PAS la covariable numerique 'geographic distribution of ethnic groups' (Weidmann et al. 2010) listee en variable #47 du Tableau S2.1 -- meme nom de colonne, source differente ; exclue de X a raison, mais pour cause de non-numerique/haute-cardinalite, pas en tant qu'identifiant.
 
 ### Formules candidates
 
@@ -146,23 +146,23 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "status_H_01 ~ selected climate, accessibility and agricultural predictors"
-    response: "bean landrace conservation-gap / status class"
-    predictors: ["WorldClim bioclimatic variables", "solar radiation", "wind speed", "water vapor pressure", "altitude", "potential evapotranspiration", "population density", "accessibility", "distance to genepool", "rivers", "irrigation", "harvested area", "production", "yield"]
-    role: "paper_main_specification"
-    source_type: "scientific_publication"
+    response: "status_H_01 : indicateur binaire de provenance des occurrences (1 = releve herbier/GBIF hors genebank, 0 = accession de genebank), calcule depuis la colonne brute `status` du Dataset S1 du papier -- PAS une sortie du MaxEnt SDM ni du score de gap (verification directe du fichier source, aucune colonne de ce type n'existe localement)"
+    predictors: ["WorldClim bioclimatic variables (16 candidates, bio_1-19)", "solar radiation", "wind speed", "water vapor pressure", "altitude", "potential evapotranspiration (+ variantes ENVIREM)", "population density", "accessibility (temps de trajet)", "distance to primary genepool wild relatives", "distance to rivers", "irrigation fraction", "harvested area", "production", "yield"]
+    role: "benchmark_simplified_specification"
+    source_type: "derived_from_scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "gamboost", "xgboost"]
-    status: "confirmed"
+    status: "executable_approximation"
 
   ml_or_selected:
     formula: "status_H_01 ~ climate + accessibility + agricultural predictors"
     response: "status_H_01"
     predictors: ["bio_1", "bio_12", "alt", "PETa", "popdens", "access", "distgp1", "rivers", "irri", "aharv", "prod", "yield"]
     role: "ml_candidate_features"
-    source_type: "scientific_publication"
+    source_type: "derived_from_scientific_publication_plus_local_dataset_metadata"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
     estimator_context: ["random_forest", "xgboost", "gamboost"]
-    status: "executable_binary_sdm_variant"
+    status: "executable_provenance_classification_task"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -175,7 +175,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ddi.13046
 - Dataset DOI: 10.5061/dryad.866t1g1n0
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.866t1g1n0
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -186,11 +186,11 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "landrace occurrence / conservation-gap status ~ climatic + accessibility + agricultural + demographic predictors [MaxEnt gap analysis]"
-  equation_family: paper_empirical_or_dataset_specific
-  model_family: spatial_or_paper_specific_regression
+  equation_text: "landrace occurrence ~ 23 predicteurs VIF/PCA-selectionnes (16 climatiques + 7 non-climatiques) [MaxEnt/maxnet, puis score de gap seuillee]"
+  equation_family: sdm_maxent_then_locally_constructed_binary_classification
+  model_family: species_distribution_modeling
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Khoury et al. (2020), Diversity and Distributions, DOI 10.1111/ddi.13046; Dryad 10.5061/dryad.866t1g1n0. The local Excel sheet bean_predicted_bd_americas contains coordinates, status/genepool classes and climate/accessibility/agricultural covariates used for the gap-analysis modelling framework. formula_used is an executable binary SDM/classification benchmark variant; it is not a continuous-regression formula."
+  source_ref: "Ramirez-Villegas, Khoury, Achicanoy, Mendez, Diaz, Sosa, Debouck, Kehel & Guarino (2020), A gap analysis modelling framework to prioritize collecting for ex situ conservation of crop landraces, Diversity and Distributions, DOI 10.1111/ddi.13046 (Ramirez-Villegas, Julian est le premier auteur, Khoury, Colin est le 2e). Dryad 10.5061/dryad.866t1g1n0, README.txt local documente les 50 variables candidates (Table S2.1) avec definitions/unites/sources completes. Methode du papier confirmee par lecture directe du TEI (section 2.4.1) : MaxEnt (package R 'maxnet'), presence/pseudo-absence, K=5 cross-validation, variables sub-selectionnees par VIF (<10) + PCA (contribution >=15% au PC1) parmi les 50 candidates -- 23 retenues (16 climatiques + 7 non-climatiques) pour le meilleur modele ('both' config climat+non-climat). CORRECTION 2026-09-14 (verification directe de dataset_s1_revised2.xlsx + TEI section 2.1) : le fichier local est le Dataset S1 du papier, c.a.d. le jeu d'occurrences COMPILE utilise en ENTREE du MaxEnt (21561 lignes, colonnes source/status/genepool + coordonnees + 50 covariables candidates), pas une sortie du gap analysis. La colonne `status` (G=genebank accession, majoritaire ; H=releve herbier/GBIF independant, ~8% des lignes) code la provenance de chaque occurrence -- confirme par le TEI ('Additional occurrences were gathered from GBIF ... to provide independent data from non-genebank sources'). status_H_01 = as.integer(status=='H') est donc une metadonnee de provenance des points d'entree, pas le score de gap ou une sortie MaxEnt. formula_used est une tache de classification binaire construite par le systeme sur cette metadonnee, en reutilisant le pool de covariables environnementales/socioeconomiques documente par le papier -- voir formula_used_divergence_note."
   confidence: medium
 ```
 
@@ -280,16 +280,12 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
 - Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
-- Formula: OK - formule publication renseignee et formula_used executable.
+- Formula: OK - formula_pub confirmee et verifiee (voir Reference publication) ; formula_used est une approximation generee distincte, explicitement etiquetee comme telle (voir Bloc 1 > Statut regression canonique > Note).
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`bean_landrace_gap_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

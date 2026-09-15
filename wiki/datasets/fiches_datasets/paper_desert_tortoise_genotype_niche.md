@@ -1,7 +1,7 @@
 ---
 title: paper_desert_tortoise_genotype_niche
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_desert_tortoise_genotype_niche.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 
 - Topic: Donnees de paper-derived : paper_desert_tortoise_genotype_niche
 - Observation unit: observation spatiale du dataset "Local ecological niche models, genotype associations and environmental data for desert tortoises."
-- Observed population: ModÃ¨les de niche Ã©cologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du dÃ©sert
+- Observed population: Modèles de niche écologique locale avec multiscale geographically weighted regression (MGWR) pour tortues du désert
 - Geographic context: etendue sf: x [-1814729.18202096, -1462765.51510254], y [1243443.86900469, 1619405.05866755]
 - Temporal context: none (cross-sectional)
 - Source description: Local niche differences predict genotype associations in sister taxa of desert tortoise
@@ -69,7 +69,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 
 - formula_pub: GenAssociation ~ CLIM1 + CLIM3 + LC + PHYS1 + PHYS2 + SOIL2 + SOIL3 + VEG1 + VEG3 [surface de sortie du modele de niche local original, pas une regression brute]
 - x_terms_pub: CLIM1, CLIM3, LC, PHYS1, PHYS2, SOIL2, SOIL3, VEG1, VEG3
-- y_term_pub: association genotype-habitat
+- y_term_pub: association genotype-habitat (surface derivee du modele de niche local)
 - Reference publication: Inman, Fotheringham, Franklin, Esque, Edwards & Nussear (2019), Diversity and Distributions, DOI 10.1111/ddi.12927; le depot Dryad (10.5066/p91v2s8c) ne contient que des rasters .asc deja modelises (co-enregistres, meme grille), pas de points d'echantillon genotype bruts. GenAssociation est une sortie du modele de niche local original, pas une observation empirique -- meme categorie de prudence que beta0_gwr dans ce fichier.
 
 ### Statut regression canonique
@@ -78,14 +78,15 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Local nich
 - Niveau de preuve: publication
 - Methode d estimation: modele/formule publication confirme, non executable avec le .rds actuel
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: pending
+- License evidence: ScienceBase item rights field (checked 2026-08-18 via sciencebase.gov API): dataset-specific notice requires contacting the authors regarding intended use; overrides the generic USGS public-domain default.
 - x_terms_used: pending
 - y_term_used: pending
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -132,7 +133,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ddi.12927
 - Dataset DOI: 10.5066/p91v2s8c
 - Source URL: https://www.sciencebase.gov/catalog/item/5cb0e0e5e4b0c3b0065741e7
-- Year: unknown
+- Year: 2019 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -186,7 +187,7 @@ estimator_eligibility:
 - k variables: 12
 - T periods: 1
 - Variable temporelle: n/a
-- N/T profile: N_grand_T_petit
+- N/T profile: N_moyen_T_petit
 
 ## Bloc 5 - Resolution et etendue
 
@@ -205,7 +206,6 @@ estimator_eligibility:
 - License name: USGS data-use notice (contact authors before use) -- not a standard open license
 - License URL: https://www.sciencebase.gov/catalog/item/5cb0e0e5e4b0c3b0065741e7
 - License open: no
-- License evidence: ScienceBase item rights field (checked 2026-08-18 via sciencebase.gov API): dataset-specific notice requires contacting the authors regarding intended use; overrides the generic USGS public-domain default.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`desert_tortoise_genotype_niche` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `desert_tortoise_genotype_niche` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

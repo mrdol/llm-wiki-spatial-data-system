@@ -1,7 +1,7 @@
 ---
 title: paper_dougfir_sdm
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_dougfir_sdm.rds
@@ -36,7 +36,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 - Candidate X variables in local artifact: `Elev`, `MWMT`, `MCMT`, `PPT_sm`, `MDMP`, `DD5`, `AHM`, `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6`
 - Candidate X count in local artifact: 13
 - Candidate X typology: continuous
-- Published X variables from paper: PC1-PC6
+- Published X variables from paper: PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)
 - Published X count: 1
 - Coordinates (x, y - excluded from X candidates): `Long`, `Lat`
 - Identifier columns (excluded from X candidates): `ID`, `X`, `x`, `y`
@@ -49,7 +49,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 |---|---|---|---|---|
 | `PRES` | `integer` | binary | {0, 1} | 0% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `dougfir_sdm`, la ou les reponses `PRES` viennent du loader papier et/ou des preuves de l article `Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure`. Les covariables X retenues sont `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Long`, `Lat`), identifiants (`ID`, `X`, `x`, `y`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : manual_review; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `dougfir_sdm`, la ou les reponses `PRES` viennent du loader papier et/ou des preuves de l article `Cross‐validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure`. Les covariables X retenues sont `PC1`, `PC2`, `PC3`, `PC4`, `PC5`, `PC6` ; 7 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`Long`, `Lat`), identifiants (`ID`, `X`, `x`, `y`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
@@ -72,9 +72,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 ### Formule - niveau publication
 
 - formula_pub: PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 [modele de distribution d'espece (SDM) : GLM binomial stepwise (lineaire et quadratique) et Random Forest sur les composantes principales climatiques, compares sous differentes strategies de validation croisee (aleatoire, par blocs spatiaux, par blocs environnementaux)]
-- x_terms_pub: PC1-PC6
-- y_term_pub: PRES
-- Reference publication: Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord.
+- x_terms_pub: PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)
+- y_term_pub: PRES (presence/absence du sapin de Douglas, Pseudotsuga menziesii, Amerique du Nord)
+- Reference publication: Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881 (annee de publication confirmee via Crossref le 2026-09-14, volume 40(8):913-929 -- corrige de '2016', qui etait l'annee de depot Dryad extraite du bib_key, non l'annee de publication de l'article). Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord.
 
 ### Statut regression canonique
 
@@ -82,16 +82,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6
+- License evidence: DataCite API record for DOI 10.5061/dryad.737gk (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: binary
 - x_terms_used: PC1, PC2, PC3, PC4, PC5, PC6
 - y_term_used: PRES
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -99,8 +100,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Cross‐va
 formula_candidates:
   univariate:
     formula: "PRES ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6"
-    response: "PRES"
-    predictors: ["PC1-PC6"]
+    response: "PRES (presence/absence du sapin de Douglas, Pseudotsuga menziesii, Amerique du Nord)"
+    predictors: ["PC1-PC6 (composantes principales des variables climatiques MWMT, MCMT, PPT_sm, MDMP, DD5, AHM, Elev)"]
     role: "simple_baseline"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
@@ -138,7 +139,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ecog.02881
 - Dataset DOI: 10.5061/dryad.737gk
 - Source URL: https://doi.org/10.5061/dryad.737gk
-- Year: unknown
+- Year: 2017
 
 ## Bloc 3 - Typologie des modeles
 
@@ -153,7 +154,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881. Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
+  source_ref: "Roberts et al. (2017), Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure, Ecography, doi:10.1111/ecog.02881 (annee de publication confirmee via Crossref le 2026-09-14, volume 40(8):913-929 -- corrige de '2016', qui etait l'annee de depot Dryad extraite du bib_key, non l'annee de publication de l'article). Box 4 de l'article decrit une etude de cas de modelisation de distribution d'espece (Douglas-fir) pour comparer blocage aleatoire, spatial et environnemental en validation croisee. Script fourni (Appendix_6_Box_4_CODE_Environmental_blocking.R) confirme modvars <- paste0('PC',1:6) et lin.modform <- PRES ~ modvars, ajuste par GLM binomial stepwise (lineaire/quadratique) et randomForest. Donnees brutes (Appendix_6_Box_4_DATA_NorthAmerica_DougFir.RData) telechargees directement depuis Dryad (10.5061/dryad.737gk) -- pas une reconstruction, N=53293, PRES binaire (34692 absences / 18601 presences), Lat/Long reels couvrant l'Amerique du Nord."
   confidence: medium
 ```
 
@@ -234,7 +235,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.737gk (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`dougfir_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `dougfir_sdm` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -249,10 +249,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`dougfir_sdm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (binary), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 

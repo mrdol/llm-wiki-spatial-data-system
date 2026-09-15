@@ -1,7 +1,7 @@
 ---
 title: paper_possum_body_size
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_possum_body_size.rds
@@ -15,7 +15,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 
 - Topic: dataset spatial spatio-temporel
 - Observation unit: observation spatiale du dataset "Data from: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial"
-- Observed population: ModÃ¨le SAR (simultaneous autoregressive) pour variation gÃ©ographique de taille corporelle; domaine Ã©cologie/biogÃ©ographie; mÃ©thode SAR explicite; dataset empirique marsupial australien avec coordonnÃ©es et covariables environnementales
+- Observed population: Modèle SAR (simultaneous autoregressive) pour variation géographique de taille corporelle; domaine écologie/biogéographie; méthode SAR explicite; dataset empirique marsupial australien avec coordonnées et covariables environnementales
 - Geographic context: etendue sf: x [114.8, 153.3], y [-43.15, -11.1]
 - Temporal context: 335 distinct periods (variable: Date)
 - Source description: Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - Candidate X count in local artifact: 29
 - Candidate X typology: categorical, continuous
 - Published X variables from paper: SummerMaxTemp, MinSeasP.PET, Island_type
-- Published X count: 0
+- Published X count: 3
 - Coordinates (x, y - excluded from X candidates): `Longitude`, `Latitude`
 - Identifier columns (excluded from X candidates): `Collection`, `Registration_number`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -90,7 +90,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - formula_pub: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type [selected aspatial and spatial SAR model]
 - x_terms_pub: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_pub: CBL
-- Reference publication: Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
+- Reference publication: Correll, Prowse & Prideaux (2015) (authors and DOI corrected 2026-09-14 -- confirmed via Crossref ; the previous attribution 'Isaac et al., DOI 10.1111/ecog.01204' was fabricated, that DOI does not resolve to any real publication), Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial, Ecography 39(1):77-86, DOI 10.1111/ecog.01243. Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect (N=588 specimens, matching this artifact). The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type.
 
 ### Statut regression canonique
 
@@ -98,17 +98,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Lean-seaso
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: CBL ~ SummerMaxTemp + MinSeasP.PET + Island_type
+- License evidence: DataCite API record for DOI 10.5061/dryad.gq264 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=588; T declare=335; variable temporelle declaree=Date; repetitions de coordonnees controlees=265. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: SummerMaxTemp, MinSeasP.PET, Island_type
 - y_term_used: CBL
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -131,7 +132,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -155,7 +156,7 @@ formula_candidates:
 - Paper DOI: 10.1111/ecog.01243
 - Dataset DOI: 10.5061/dryad.gq264
 - Source URL: https://datadryad.org/dataset/doi:10.5061/dryad.gq264
-- Year: unknown
+- Year: 2015
 
 ## Bloc 3 - Typologie des modeles
 
@@ -170,7 +171,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Isaac et al. (2015), Ecography, DOI 10.1111/ecog.01204: Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect. The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
+  source_ref: "Correll, Prowse & Prideaux (2015) (authors and DOI corrected 2026-09-14 -- confirmed via Crossref ; the previous attribution 'Isaac et al., DOI 10.1111/ecog.01204' was fabricated, that DOI does not resolve to any real publication), Lean-season primary productivity and heat dissipation as key drivers of geographic body-size variation in a widespread marsupial, Ecography 39(1):77-86, DOI 10.1111/ecog.01243. Table 2 states that the selected aspatial and spatial SAR model for Trichosurus vulpecula condylobasal length (CBL) is CBL ~ SummerMaxTemp + MinSeasP-PET + island effect (N=588 specimens, matching this artifact). The local .rds uses the matching columns SummerMaxTemp, MinSeasP.PET and Island_type."
   confidence: medium
 ```
 
@@ -209,7 +210,7 @@ estimator_eligibility:
 - k variables: 37
 - T periods: 335
 - Variable temporelle: Date
-- N/T profile: N_grand_T_grand
+- N/T profile: N_moyen_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (588) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 323 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=23). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 323 unites spatiales distinctes, pas sur les 588 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
 - Note T non pertinent (session 2026-09-07, lecture TEI du papier) : le modele publie (SAR, CBL ~ SummerMaxTemp + MinSeasP-PET + Island) n'utilise AUCUNE variable temporelle -- les auteurs moyennent les mesures de CBL par cellule de grille (316 cellules) avant regression pour eliminer la pseudo-replication, et supposent explicitement les parametres environnementaux stationnaires sur toute la periode de collecte (1923-2005 selon le texte, 1891-2005 dans les donnees une fois `Date` correctement parsee). "Structure: panel_ou_series" et "T periods: 335" ci-dessus decrivent donc une dimension temporelle absente du modele scientifique de reference -- a traiter comme un jeu purement spatial/transversal (regrouper la CV par unite spatiale/cellule de grille, pas par Date).
 
@@ -221,7 +222,7 @@ estimator_eligibility:
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - Spatial extent: x [114.8, 153.3], y [-43.15, -11.1]
-- Time range: 1891-07-15 to 2005-03-16 (variable: Date ; corrige 2026-09-07 -- l'ancienne plage "08/08/1892 to 9/12/1909" resultait d'un tri/min-max alphabetique sur la chaine de caracteres JJ/MM/AAAA non parsee, pas d'une plage chronologique reelle ; parsee en Date R, ~112/588 valeurs (19%) ne parsent pas au format %d/%m/%Y et restent NA, coherent avec le taux de NA deja documente pour cette colonne)
+- Time range: 08/08/1892 to 9/12/1909 (variable: Date)
 - CRS analyse recommande: pending - multi-zones (span=38.5deg) -- projection nationale recommandee
 
 ## Bloc 6 - Reproductibilite
@@ -230,7 +231,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.5061/dryad.gq264 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`possum_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `possum_body_size` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -245,11 +245,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`possum_body_size` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-
-## Re-confirmation panel/repeated-coordonnees -- 2026-09-08
-
-Investigation dataset-par-dataset (audit Codex du 2026-09-07) : Lecture TEI montre que le modele publie (SAR, CBL ~ SummerMaxTemp + MinSeasP-PET + Island) n'utilise AUCUNE variable temporelle -- CBL moyenne par cellule de grille (316 cellules) avant regression. Un bug de fiche a aussi ete corrige (Time range errone par tri alphabetique sur la date non parsee, corrige en 1891-2005). La retrogradation `package_include: manual_review` du 2026-09-07 etait donc trop prudente pour cette fiche precise -- jeu purement spatial/transversal -- grouper la CV par cellule de grille, pas par Date. Restauration de `package_include: yes` / `benchmark_status: ready` (etat identique a celui d'avant l'audit), la ligne 'Recommended validation' ajoutee le 2026-09-07 est conservee comme documentation de la strategie de CV a appliquer.
 
 ## Related Pages
 

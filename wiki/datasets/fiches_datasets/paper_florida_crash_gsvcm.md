@@ -1,7 +1,7 @@
 ---
 title: paper_florida_crash_gsvcm
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_florida_crash_gsvcm.rds
@@ -32,12 +32,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `Offcrsh`
-- Candidate Y typology: count
+- Candidate Y typology: unknown
 - Candidate X variables in local artifact: `log.VMT`, `log.Pop`, `Rmale`, `Rold`, `Rhisp`, `Runemploy`
 - Candidate X count in local artifact: 6
 - Candidate X typology: continuous
 - Published X variables from paper: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
-- Published X count: 0
+- Published X count: 6
 - Coordinates (x, y - excluded from X candidates): `Lon`, `Lat`
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -67,7 +67,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - formula_pub: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy [GSVCM negative-binomial application]
 - x_terms_pub: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_pub: Offcrsh
-- Reference publication: Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
+- Reference publication: Kim & Wang (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1080/10618600.2020.1754225 ; l'attribution anterieure 'Wu et al.' etait fausse, aucun auteur de ce nom sur ce papier), Generalized Spatially Varying Coefficient Models, Journal of Computational and Graphical Statistics. Formule confirmee via le script supplementaire des auteurs, Code/main_GSVCM_application.R (archive Taylor & Francis ucgs_a_1754225_sm8959.zip) : y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps().
 
 ### Statut regression canonique
 
@@ -75,16 +75,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Generalize
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: Offcrsh ~ log.VMT + log.Pop + Rmale + Rhisp + Rold + Runemploy
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.12156975 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: count
 - x_terms_used: log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy
 - y_term_used: Offcrsh
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-15). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -107,7 +108,7 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -131,7 +132,7 @@ formula_candidates:
 - Paper DOI: 10.1080/10618600.2020.1754225
 - Dataset DOI: 10.6084/m9.figshare.12156975
 - Source URL: https://tandf.figshare.com/articles/dataset/Generalized_Spatially_Varying_Coefficient_Models/12156975
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -146,7 +147,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Wu et al. (2020), supplementary script Code/main_GSVCM_application.R: y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps()."
+  source_ref: "Kim & Wang (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1080/10618600.2020.1754225 ; l'attribution anterieure 'Wu et al.' etait fausse, aucun auteur de ce nom sur ce papier), Generalized Spatially Varying Coefficient Models, Journal of Computational and Graphical Statistics. Formule confirmee via le script supplementaire des auteurs, Code/main_GSVCM_application.R (archive Taylor & Francis ucgs_a_1754225_sm8959.zip) : y=Offcrsh, S=(Lon,Lat), X=log.VMT, log.Pop, Rmale, Rhisp, Rold, Runemploy; family=nb_bps()."
   confidence: medium
 ```
 
@@ -174,7 +175,7 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: scientific_evidence
-      source_ref: "Wang, Wang & Yu (2020), Journal of Computational and Graphical Statistics, DOI 10.1080/10618600.2020.1754225 -- GSVCM sous famille Poisson/binomiale negative sur donnees de collisions routieres en Floride."
+      source_ref: "Kim & Wang (2020) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Journal of Computational and Graphical Statistics, DOI 10.1080/10618600.2020.1754225 -- GSVCM sous famille Poisson/binomiale negative sur donnees de collisions routieres en Floride."
       notes: "GLM Poisson/NB est le cadre de base du GSVCM publie ; la variante spatialement variable exacte (splines sur triangulation) n'est pas disponible dans le harnais -- route analogue, pas une reproduction exacte."
     - estimator: gam_spatial
       basis: generated_candidate
@@ -216,7 +217,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6084/m9.figshare.12156975 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`florida_crash_gsvcm` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `florida_crash_gsvcm` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

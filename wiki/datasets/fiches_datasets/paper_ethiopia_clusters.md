@@ -1,7 +1,7 @@
 ---
 title: paper_ethiopia_clusters
 type: dataset
-created: 2026-08-15
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_ethiopia_clusters.rds
@@ -37,7 +37,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 - Candidate X count in local artifact: 4
 - Candidate X typology: continuous, categorical
 - Published X variables from paper: radius_km, population, LLR, p_value
-- Published X count: 0
+- Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `lon`, `lat`
 - Identifier columns (excluded from X candidates): `cluster`, `year`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
@@ -79,6 +79,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Spatial tr
 ### Formule - niveau systeme
 
 - formula_used: RR ~ radius_km + population + LLR + p_value
+- License evidence: DataCite API record for DOI 10.6084/m9.figshare.20236415 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: radius_km, population, LLR, p_value
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.1186/s41043-022-00309-7
 - Dataset DOI: 10.6084/m9.figshare.20236415
 - Source URL: https://springernature.figshare.com/articles/dataset/Additional_file_2_of_Spatial_trends_and_projections_of_chronic_malnutrition_among_children_under_5_years_of_age_in_Ethiopia_from_2011_to_2019_a_geographically_weighted_regression_analysis/20236415
-- Year: unknown
+- Year: 2022 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
 
 ## Bloc 3 - Typologie des modeles
 
@@ -204,7 +205,6 @@ estimator_eligibility:
 - License name: Creative Commons Attribution 4.0 International
 - License URL: https://creativecommons.org/licenses/by/4.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6084/m9.figshare.20236415 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`ethiopia_clusters` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `ethiopia_clusters` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)

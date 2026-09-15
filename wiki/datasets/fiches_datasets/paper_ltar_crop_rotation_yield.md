@@ -1,7 +1,7 @@
 ---
 title: paper_ltar_crop_rotation_yield
 type: dataset
-created: 2026-08-16
+created: 2026-09-14
 updated: 2026-09-07
 sources:
   - data/final_datasets/sf/paper_ltar_crop_rotation_yield.rds
@@ -35,8 +35,8 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 - Candidate Y typology: continuous
 - Candidate X variables in local artifact: `year`, `system`, `tillage`, `fertilization`
 - Candidate X count in local artifact: 4
-- Candidate X typology: continuous, categorical
-- Published X variables from paper: system, tillage, fertilization, year
+- Candidate X typology: unknown, categorical
+- Published X variables from paper: system (identifiant de rotation de culture, utilise pour calculer le RCI), tillage (travail du sol : conventionnel/reduit/sans labour), fertilization (regime de fertilisation azotee), year (annee, tendance temporelle)
 - Published X count: 4
 - Coordinates (x, y - excluded from X candidates): `site_lon`, `site_lat`
 - Identifier columns (excluded from X candidates): `X`, `site`, `site_name`, `plot`, `block`
@@ -49,13 +49,13 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 |---|---|---|---|---|
 | `yield_kg_ha` | `numeric` | continuous | [0, 20481.2] | 0.9% |
 
-> Selection Y/X (paper-loader / curated evidence) : Pour `ltar_crop_rotation_yield`, la ou les reponses `yield_kg_ha` viennent du loader papier et/ou des preuves de l article `Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America`. Les covariables X retenues sont `system`, `tillage`, `fertilization`, `year`. Les coordonnees (`site_lon`, `site_lat`), identifiants (`X`, `site`, `site_name`, `plot`, `block`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready_panel_reduction; la promotion package reste conditionnee au bloc benchmark_readiness.
+> Selection Y/X (paper-loader / curated evidence) : Pour `ltar_crop_rotation_yield`, la ou les reponses `yield_kg_ha` viennent du loader papier et/ou des preuves de l article `Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America`. Les covariables X retenues sont `system`, `tillage`, `fertilization`, `year`. Les coordonnees (`site_lon`, `site_lat`), identifiants (`X`, `site`, `site_name`, `plot`, `block`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
 
 #### Detail X
 
 | Variable | Classe R | Role X | NA (%) |
 |---|---|---|---|
-| `year` | `integer` | count | 0% |
+| `year` | `integer` | unknown | 0% |
 | `system` | `character` | categorical | 0% |
 | `tillage` | `character` | categorical | 0% |
 | `fertilization` | `character` | categorical | 0% |
@@ -63,9 +63,9 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 ### Formule - niveau publication
 
 - formula_pub: maize_yield ~ RCI (indice de complexite rotationnelle) x year (effet d'interaction, modele bayesien hierarchique par site) [le papier synthetise 11 experiences de rotation de cultures de long terme en Amerique du Nord (347 site-annees) pour montrer que la diversification des rotations ameliore les rendements de mais, notamment sous conditions stressantes]
-- x_terms_pub: system, tillage, fertilization, year
-- y_term_pub: yield_kg_ha
-- Reference publication: Macchi et al. (2020), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth, doi:10.1016/j.oneear.2020.02.007. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees.
+- x_terms_pub: system (identifiant de rotation de culture, utilise pour calculer le RCI), tillage (travail du sol : conventionnel/reduit/sans labour), fertilization (regime de fertilisation azotee), year (annee, tendance temporelle)
+- y_term_pub: yield_kg_ha (rendement de mais, kg/ha, releve historique par parcelle-annee)
+- Reference publication: Bowles, Mooshammer, Socolar, Calderon, Cavigelli, Culman, Deen, Drury, Garcia y Garcia, Gaudin, Harkcom, Lehman, Osborne, Robertson, Salerno, Schmer, Strock & Grandy (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1016/j.oneear.2020.02.007 ; l'attribution anterieure 'Macchi et al.' etait fausse -- Macchi est l'auteur d'un tout autre papier, chaco_bird_richness, dans ce meme corpus), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees.
 
 ### Statut regression canonique
 
@@ -73,17 +73,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Long-Term 
 - Niveau de preuve: publication
 - Methode d estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formule - niveau systeme
 
 - formula_used: yield_kg_ha ~ system + tillage + fertilization + year
+- License evidence: DataCite API record for DOI 10.6078/d1h409 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Recommended validation: N lignes=11970; T declare=58; variable temporelle declaree=year; repetitions de coordonnees controlees=11959. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Unite : parcelle-annee, 11 sites et 58 annees declarees; grouper par site/parcelle et separer les annees pour une validation prospective.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: system, tillage, fertilization, year
 - y_term_used: yield_kg_ha
-- Note: Formule/reference verifiee par lecture directe du papier source (session du 2026-08-16). Voir 'Reference publication' ci-dessus pour la citation complete et la justification methodologique.
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
 ### Formules candidates
 
@@ -101,12 +102,12 @@ formula_candidates:
 
   multivariate_constrained:
     formula: "yield_kg_ha ~ system + tillage + fertilization + year"
-    response: "yield_kg_ha"
-    predictors: ["system", "tillage", "fertilization", "year"]
+    response: "yield_kg_ha (rendement de mais, kg/ha, releve historique par parcelle-annee)"
+    predictors: ["system (identifiant de rotation de culture, utilise pour calculer le RCI)", "tillage (travail du sol : conventionnel/reduit/sans labour)", "fertilization (regime de fertilisation azotee)", "year (annee, tendance temporelle)"]
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
     status: "confirmed"
 
   ml_or_selected:
@@ -130,7 +131,7 @@ formula_candidates:
 - Paper DOI: 10.1016/j.oneear.2020.02.007
 - Dataset DOI: 10.6078/d1h409
 - Source URL: https://doi.org/10.6078/d1h409
-- Year: unknown
+- Year: 2020
 
 ## Bloc 3 - Typologie des modeles
 
@@ -145,7 +146,7 @@ modeling_evidence:
   equation_family: paper_empirical_or_dataset_specific
   model_family: spatial_or_paper_specific_regression
   source_type: scientific_publication_or_package_documentation
-  source_ref: "Macchi et al. (2020), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth, doi:10.1016/j.oneear.2020.02.007. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees."
+  source_ref: "Bowles, Mooshammer, Socolar, Calderon, Cavigelli, Culman, Deen, Drury, Garcia y Garcia, Gaudin, Harkcom, Lehman, Osborne, Robertson, Salerno, Schmer, Strock & Grandy (2020) (auteurs corriges le 2026-09-14 -- confirmes via Crossref, DOI 10.1016/j.oneear.2020.02.007 ; l'attribution anterieure 'Macchi et al.' etait fausse -- Macchi est l'auteur d'un tout autre papier, chaco_bird_richness, dans ce meme corpus), Long-Term Evidence Shows that Crop-Rotation Diversification Increases Agricultural Resilience to Adverse Growing Conditions in North America, One Earth. Le papier synthetise 11 experiences de rotation de mais de long terme (347 site-annees, 1959-2016) et modelise le rendement en fonction d'un indice de diversite rotationnelle (RCI) et de son interaction avec le temps, dans un cadre bayesien hierarchique par site. formula_used utilise les covariables de conception experimentale directement presentes dans le fichier de donnees (systeme de rotation, travail du sol, fertilisation), une simplification documentee du RCI calcule par le papier a partir du systeme. Coordonnees des 11 sites lues directement dans le Tableau 1 du papier (lat/lon publies, pas une estimation ni un geocodage approximatif) : Akron CO (40.2,-103.1), Brookings SD (44.4,-96.8), Lamberton MN (44.2,-95.3), Mead NE (41.1,-96.5), Woodslee ON (42.2,-82.7), Hoytville OH (41.2,-83.8), Hickory Corners MI (42.4,-85.4), Elora ON (43.6,-80.4), Wooster OH (40.8,-81.9), Rock Springs PA (40.7,-78.0), Beltsville MD (39.0,-76.9). Donnees brutes (ltar.data.csv) telechargees directement depuis Dryad (10.6078/d1h409) via l'API avec token OAuth (la premiere tentative de harvest avait signale a tort 'aucun fichier trouve', corrige en session 2026-08-16) -- pas une reconstruction, N=11970 parcelle-annees."
   confidence: medium
 ```
 
@@ -219,7 +220,6 @@ estimator_eligibility:
 - License name: Creative Commons Zero v1.0 Universal
 - License URL: https://creativecommons.org/publicdomain/zero/1.0/legalcode
 - License open: yes
-- License evidence: DataCite API record for DOI 10.6078/d1h409 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
 - Reproducibility status: OK - loader R enregistre et reexecutable (`ltar_crop_rotation_yield` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
 - Code available: yes (loader `ltar_crop_rotation_yield` dans `code/r_catalog/build_sf_datasets_papers.R`)
 - Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
@@ -234,10 +234,6 @@ estimator_eligibility:
 - Missing values: OK - aucune variable avec NA > 20% detectee.
 - Duplicates: OK - aucun doublon exact retenu pour cette fiche.
 - Reproducibility: OK - loader R enregistre et reexecutable (`ltar_crop_rotation_yield` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
-
-## Note -- promotion en lot (2026-09-09)
-
-Formule, reponse et covariables deja resolues (Y/X/formula_used complets avant cette passe). Seul le bloc 'Estimator eligibility' etait vide -- rempli ici avec les estimateurs generiques adaptes a la typologie Y (continuous), sur decision explicite de l'utilisateur de revoir en lot les fiches 'manual_review' deja completes. Base 'scientific_evidence' reservee aux cas ou le texte de la fiche documente deja une methode precise ; sinon 'benchmark_use'/'generated_candidate' (pas de surinterpretation de la methode publiee).
 
 ## Related Pages
 
