@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.hickory1
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.hickory1.rds
 tags: [dataset, python-package, spatial, point]
@@ -177,7 +177,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-81.8463, -80.9726], y [35.5982, 36.0332] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement

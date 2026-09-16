@@ -2,7 +2,7 @@
 title: R_sfdep_guerry_nb_guerry_nb
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_sfdep_guerry_nb_guerry_nb.rds
 tags: [dataset, r-package, spatial, point]
@@ -172,7 +172,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [143129.7071, 983300.7956], y [1735692.5, 2615767.5] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu

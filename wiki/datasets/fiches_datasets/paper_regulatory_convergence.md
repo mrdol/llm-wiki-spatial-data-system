@@ -2,7 +2,7 @@
 title: paper_regulatory_convergence
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_regulatory_convergence.rds
   - DataCite_2019_RegulatoryConvergenceInThe_10_1093_isq_sqz0
@@ -2459,7 +2459,7 @@ estimator_eligibility:
 
 ## Bloc 5 - Resolution et etendue
 
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - Spatial resolution: point observation
 - Temporal resolution: 18 distinct periods (variable: year)
 - CRS EPSG: 4326

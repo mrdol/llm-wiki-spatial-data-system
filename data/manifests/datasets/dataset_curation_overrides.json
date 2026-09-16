@@ -584,7 +584,8 @@
         "License name": "Creative Commons Attribution 4.0 International",
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5281/zenodo.17104058 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'."
+        "License evidence": "DataCite API record for DOI 10.5281/zenodo.17104058 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "29a40e7e5f83013fcc5b1ff175b242f6e2ecbd124fc888c33f7e4675c32dfd30",
       "evidence": [
@@ -615,7 +616,8 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : RR et MannKendall sont des sorties statistiques; covariables climatiques ajoutées. Géométrie réelle ne transforme pas ces sorties en observations d’incidence. Garder cette version hors benchmark empirique général; rechercher cas/populations municipaux pour une tâche distincte. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : RR et MannKendall sont des sorties statistiques; covariables climatiques ajoutées. Géométrie réelle ne transforme pas ces sorties en observations d’incidence. Garder cette version hors benchmark empirique général; rechercher cas/populations municipaux pour une tâche distincte. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "paper_coral_bathypathes": {
       "bullets": {
@@ -1184,7 +1186,8 @@
         "License name": "Creative Commons Zero v1.0 Universal",
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5061/dryad.4j0zpc8j1 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "License evidence": "DataCite API record for DOI 10.5061/dryad.4j0zpc8j1 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "555f0335e202d54fa7b76ef219c0d641a66ac996209d95dca312f568441d6fde",
       "evidence": [
@@ -1206,7 +1209,8 @@
       "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  - estimator: poisson_regression\n    basis: published_model\n    source_ref: \"Seamon et al. (2023), doi:10.1101/2023.07.21.23292785.\"\n    notes: \"Modele publie, non automatise dans le registre actuel de regressions continues.\"\n  - estimator: geographically_weighted_random_forest\n    package_estimator: spatialml_grf\n    basis: published_model\n    source_ref: \"Seamon et al. (2023), doi:10.1101/2023.07.21.23292785.\"\n    notes: \"Correspondance de famille avec la route Geographic Random Forest de spatialML.\"\n```"
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_crane": {
       "bullets": {
@@ -1700,7 +1704,8 @@
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5281/zenodo.6990803 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32619, WGS 84 / UTM zone 19N)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32619, WGS 84 / UTM zone 19N)",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "62a47c83d334f43ae832385915c71f19c6c0ffcc8fe88e22f68d1c28c54a41d5",
       "evidence": [
@@ -2332,7 +2337,8 @@
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5061/dryad.48nv3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East)",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "4afdd7eabfc511ffe261ee41b3bfcf62524459d164c21a3146c6499825900405",
       "evidence": [
@@ -4202,7 +4208,8 @@
         "License name": "Creative Commons Zero v1.0 Universal",
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5061/dryad.nq8hg19 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "License evidence": "DataCite API record for DOI 10.5061/dryad.nq8hg19 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "fe152c48bda3472ff95e610dfb823ad054ac081aee239661b81da0f5830d379f",
       "evidence": [
@@ -4231,7 +4238,8 @@
       "note": "Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators: []\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"DECISION UTILISATEUR (2026-09-08) : option (b) -- mis de cote explicitement. La methode publiee (GWPath, analyse de chemin geographiquement ponderee reliant conjointement SR et PD) sort du paradigme 'une formule = un modele' du harnais actuel : GWR existe (mgwrsar_gwr) mais pas le cadre de chemin reliant plusieurs reponses. En attente d'un futur chantier d'extension du harnais (cadre GWPath/modeles a equations structurelles spatiales). formula_used (SR ~ AET + Temp) reste documente comme un chemin isole du modele complet, pas une reproduction du papier -- ne pas promouvoir package_include=yes avant cette extension.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_marrot_spatial_autocorrelation_fitness": {
       "bullets": {
@@ -4361,7 +4369,8 @@
         "License name": "Creative Commons Attribution 4.0 International",
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.6084/m9.figshare.21082235 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'."
+        "License evidence": "DataCite API record for DOI 10.6084/m9.figshare.21082235 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "8cc0d61bba813b8bf92f55bb5539369857ee60a7f7c5e09000ba31290c14d48d",
       "evidence": [
@@ -4394,7 +4403,8 @@
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 6359\n- k variables: 12\n- T periods: 22\n- Variable temporelle: Year\n- N/T profile: N_grand_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (6359) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 404 ; panel NON EQUILIBRE (T par unite : min=6, mediane=17, max=22). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 404 unites spatiales distinctes, pas sur les 6359 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_mimulus_sdm": {
       "bullets": {
@@ -4494,7 +4504,8 @@
         "License name": "Creative Commons Zero v1.0 Universal",
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.7910/dvn/adifov (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "License evidence": "DataCite API record for DOI 10.7910/dvn/adifov (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "bd85ae2bdbb9f2551fcea93195de9d0e57fe890dd68b24ae4f5bb1b1a24d2305",
       "evidence": [
@@ -4529,7 +4540,8 @@
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 386\n- k variables: 28\n- T periods: 65\n- Variable temporelle: elecyr\n- N/T profile: N_moyen_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (386) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 22 ; panel NON EQUILIBRE (T par unite : min=9, mediane=17, max=25). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 22 unites spatiales distinctes, pas sur les 386 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_no2_aqs_ma_2016_monitor_covariates": {
       "bullets": {
@@ -4606,7 +4618,8 @@
       "bullets": {
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS)",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "6cf3ed9cb60074eaaa59f4cf4ab5fc2d6d91de9c877765f0dea6fd343f983e10",
       "evidence": [
@@ -4952,7 +4965,8 @@
         "License name": "GNU General Public License v3.0 or later",
         "License URL": "https://www.gnu.org/licenses/gpl-3.0-standalone.html",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5281/zenodo.11222023 (checked 2026-08-18): rightsList = 'GNU General Public License v3.0 or later'."
+        "License evidence": "DataCite API record for DOI 10.5281/zenodo.11222023 (checked 2026-08-18): rightsList = 'GNU General Public License v3.0 or later'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "efbee3ccaa8df90ae4b27401e751ab0def4e05d0de1a95ddd21c8564ec76a406",
       "evidence": [
@@ -4987,7 +5001,8 @@
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  eligible_estimators:\n    - estimator: ols\n      basis: generated_candidate\n      source_ref: \"Proxy partiel du modele publie (GLMM Tweedie a 16 variables, Barbosa et al. 2022) -- seules population/densite (categorie 'Population' du papier) sont disponibles localement.\"\n      notes: \"Approximation tres partielle -- 2 covariables sur 16 du modele reel.\"\n    - estimator: gam_spatial\n      basis: generated_candidate\n      source_ref: \"Meme reserve que ols -- approximation non-lineaire generique.\"\n      notes: \"Idem -- proxy partiel, pas le modele publie.\"\n    - estimator: xgboost\n      basis: benchmark_use\n      source_ref: \"Aucune -- comparateur ML generique, Y continu.\"\n      notes: \"Comparateur ML, pas le modele publie.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"n/a -- estimateurs eligibles comme proxy partiel documente (voir eligible_estimators).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 20604\n- k variables: 34\n- T periods: 68\n- Variable temporelle: data\n- N/T profile: N_grand_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (20604) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 303 ; panel EQUILIBRE (chaque unite a exactement T=68 observations). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 303 unites spatiales distinctes, pas sur les 20604 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_possum_body_size": {
       "bullets": {
@@ -5092,7 +5107,8 @@
         "License name": "Creative Commons Zero v1.0 Universal",
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.7910/dvn/vbnpjs (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "License evidence": "DataCite API record for DOI 10.7910/dvn/vbnpjs (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "13b53a1acd8f4e485a64fd424f16273f98c4116d23d06846bb2287079d4e7516",
       "evidence": [
@@ -5125,7 +5141,8 @@
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators: []\n  conditionally_eligible_estimators:\n    - estimator: sar_lag\n      basis: generated_candidate\n      source_ref: \"Tables A6-A9 du papier (Spatial-GMM/GS2SLS) construisent 5 matrices W (rf07_*/st07_*/sov07_*/net07_*/trade07_*) -- voir Jones & Zeitz - Replication.do, lignes 267-294.\"\n      notes: \"Necessiterait de materialiser les 5 W et un estimateur SARAR (lag+erreur) non supporte nativement par le harnais aujourd'hui. Chantier separe si necessaire ; non bloquant pour paper_regulatory_convergence_2008 qui n'en a pas besoin.\"\n  ineligible_reason: \"Panel complet sans specification unique executable couvrant les 2972 lignes -- voir [[paper_regulatory_convergence_2008]] pour la tache benchmark-ready correspondant a la Table 2 (2008).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 2972\n- k variables: 2279\n- T periods: 18\n- Variable temporelle: year\n- N/T profile: N_moyen_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (2972) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 151 ; panel NON EQUILIBRE (T par unite : min=5, mediane=18, max=218). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 151 unites spatiales distinctes, pas sur les 2972 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_rocha_agricultural_technology_brazil": {
       "bullets": {
@@ -5135,7 +5152,8 @@
         "License name": "Creative Commons Attribution 4.0 International",
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.6084/m9.figshare.11492220 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'."
+        "License evidence": "DataCite API record for DOI 10.6084/m9.figshare.11492220 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "b1b5d6f549f2c4acb4e66b232494c72b425ce6db1e26e78cd1e14aa92f9c5d91",
       "evidence": [
@@ -5155,7 +5173,8 @@
       "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_rocky_mountain_tree_growth": {
       "bullets": {
@@ -5425,7 +5444,8 @@
         "License name": "Creative Commons Attribution 4.0 International",
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5281/zenodo.21300380 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'."
+        "License evidence": "DataCite API record for DOI 10.5281/zenodo.21300380 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "b4fc7b2833469123b3e6d313e94b693dd0ce8addfa9577e289e7e3f80d9eec42",
       "evidence": [
@@ -5448,7 +5468,8 @@
       "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  - estimator: bym2_multivariate\n    basis: published_model\n    source_ref: \"Wu et Banerjee (2025), arXiv:2505.07232.\"\n    notes: \"Modele areolaire bayesien coregionalise publie; aucune route multivariee BYM2 n'est encore automatisee. Des comparateurs univaries continus sont donc proposes selon la typologie du jeu.\"\n```"
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_spruce_bark_beetle": {
       "bullets": {
@@ -5787,7 +5808,8 @@
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
         "Recommended validation": "N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "73192e8592aaff2ae09b08e498caed8d182d6d0cf55f6d45208c597279c17c6c",
       "evidence": [
@@ -5895,7 +5917,8 @@
         "License name": "no defined terms of use -- contact dataset depositor before use",
         "License URL": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/CY7YWE",
         "License open": "no",
-        "License evidence": "Harvard Dataverse API termsOfUse field (checked 2026-08-18): \"This dataset is made available without information on how it can be used. You should communicate with the Contact(s) specified before use.\""
+        "License evidence": "Harvard Dataverse API termsOfUse field (checked 2026-08-18): \"This dataset is made available without information on how it can be used. You should communicate with the Contact(s) specified before use.\"",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "f7ebc62197803bea42308a9e2f4d88867ff3e7f1aabc1b025f1ec87f85ff2a52",
       "evidence": [
@@ -5928,7 +5951,8 @@
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 1428\n- k variables: 31\n- T periods: 306\n- Variable temporelle: ts\n- N/T profile: N_moyen_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (1428) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 23 ; panel NON EQUILIBRE (T par unite : min=17, mediane=58, max=163). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 23 unites spatiales distinctes, pas sur les 1428 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_waste_site": {
       "bullets": {
@@ -5940,7 +5964,8 @@
         "License name": "Creative Commons Zero v1.0 Universal",
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.7910/dvn/828wud (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "License evidence": "DataCite API record for DOI 10.7910/dvn/828wud (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "3ad926550ddc797289d4684bcdff9e8fdf371e89382b99ef10c4059f429ce994",
       "evidence": [
@@ -5971,7 +5996,8 @@
       "note": "La prose/formule precedente ne definit pas une specification executable defendable. Elle est conservee dans dataset_curation_overrides.json.previous_formula_used ; une equation source exacte et ses variables sont a retrouver.\n\nDecision conservatoire : 727 estimations de méta-analyse, 14 positions approximatives; formula_used inclut des champs d’étude et une prose invalide. Maintenir hors benchmark d’observations spatiales; conserver pour une éventuelle méta-régression avec variances et groupes d’étude. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
       "reviewed_sections": {
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 727\n- k variables: 66\n- T periods: 26\n- Variable temporelle: year_publish\n- N/T profile: N_moyen_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (727) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 14 ; panel NON EQUILIBRE (T par unite : min=2, mediane=8.5, max=606). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 14 unites spatiales distinctes, pas sur les 727 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
-      }
+      },
+      "reviewed_date": "2026-09-16"
     },
     "paper_wildebeest_movement_env": {
       "bullets": {
@@ -6106,7 +6132,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.airbnb",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "d0879803dd74c2ea0d0156c2f41a60916b893bae1b95f2ed811278f96208336e",
       "evidence": [
@@ -6127,7 +6154,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "price_pp",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.charleston1": {
       "bullets": {
@@ -6136,7 +6164,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.charleston1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "aa46720aad10659ef4b6930b6260b99f90f1f54e51a0a152c6fc38c303ba6f06",
       "evidence": [
@@ -6157,7 +6186,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.charleston2": {
       "bullets": {
@@ -6166,7 +6196,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.charleston2",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "d5b5f21416755f25d15607c98c364c0b1c569db11486be43a68c79ecdeac98b7",
       "evidence": [
@@ -6187,7 +6218,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "INDEX",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.chicago_commpop": {
       "bullets": {
@@ -6195,7 +6227,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-87.904675150033, -87.535021756305], y [41.6654657, 42.01049825]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.chicago_commpop",
         "Selected Y typology": "count",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "d032c6ea104b2090e8aed52240006f294095250dfbdae2593e5c41ad8f3d90d9",
       "evidence": [
@@ -6216,14 +6249,16 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "POP2010",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.chicago_health": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-87.904675150033, -87.535021756305], y [41.6654657, 42.01049825]; CRS WGS 84.",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "b1b87d149528e57660099e55faa5911082d38c7f124178bbaa75a72aa045fe63",
       "evidence": [
@@ -6243,7 +6278,8 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "BirthRate",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.chile_labor": {
       "bullets": {
@@ -6252,7 +6288,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.chile_labor",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "bb45e8c8b7f11247d607b34c09e018ca512bb681876e069b1b8a780c60ce74f1",
       "evidence": [
@@ -6281,7 +6318,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "lfs2__1982",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.cincinnati": {
       "bullets": {
@@ -6289,7 +6327,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-89.317669574279, -89.317668888429], y [37.796219292264, 37.796219641294]; CRS EPSG:4326.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.cincinnati",
         "Selected Y typology": "count",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "f17f5d9987b6ec4ff68a53aabac5b78c6e5dfa01161d3f3a8c3b68b895ac4b41",
       "evidence": [
@@ -6310,7 +6349,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "BURGLARY",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.guerry": {
       "bullets": {
@@ -6318,7 +6358,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-3.819848391494, 7.535220233799], y [42.624745287549, 50.534222884545]; CRS EPSG:4326.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.guerry",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "13dba6c22cb809d45a2b43740cb9c0d68d6101843611f07a44d7fce6e31b497b",
       "evidence": [
@@ -6347,14 +6388,20 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: published_model\n      source_ref: \"Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Friendly, M. (2007), Statistical Science 22(3), 368-399.\"\n      notes: \"Relation Crm_prs ~ Litercy documentee dans la litterature Guerry (formula_pub) ; regression lineaire simple, aucune estimation spatiale specifique citee dans la fiche a ce jour.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.health": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.758210348822, -67.294865361691], y [24.525964, 48.987003]; CRS WGS 84.",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "e305dc3f7c08364c3f389c5f28dbbb9c46cfd2330133cdaceda8c696c59d0177",
       "evidence": [
@@ -6374,14 +6421,16 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "le_agg_q1",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.health_indicators": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-87.904675150033, -87.535021756305], y [41.6654657, 42.01049825]; CRS WGS 84.",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "492594c70083cf95a25062d39a85055f0183aef04ccb89c1314d5c73ecf21f29",
       "evidence": [
@@ -6401,7 +6450,8 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "Infan_Rate",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.hickory1": {
       "bullets": {
@@ -6410,7 +6460,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.hickory1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "d1cdac97e15a683053965063f7b2cc000f020e0cabfde4ba75cde4eb531e22bc",
       "evidence": [
@@ -6431,7 +6482,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "hh_inc",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.hickory2": {
       "bullets": {
@@ -6439,7 +6491,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-81.979125314773, -80.965111197469], y [35.4772675, 36.0738485]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.hickory2",
         "Selected Y typology": "count",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "e984bb81847d1c1adf2525c7835895325b8414b1eee40d5329210c5dc1da0262",
       "evidence": [
@@ -6460,7 +6513,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "INDEX",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.home_sales": {
       "bullets": {
@@ -6495,7 +6549,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.lansing1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "d34abe48e940946342a2ad8664f5e6704347781b543dbf5e65e1895539fe3e05",
       "evidence": [
@@ -6516,7 +6571,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.lansing2": {
       "bullets": {
@@ -6525,7 +6581,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.lansing2",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "1c0029cb0e5f5d569c8bfa230a9f198edcfaebc7453900fad74b63dba75b1fb9",
       "evidence": [
@@ -6546,7 +6603,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "PCTGRO",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.milwaukee1": {
       "bullets": {
@@ -6555,7 +6613,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.milwaukee1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "59fa4fecc78f5989b710a9366ba44da058b56ed9972fa61ed095eb73f5758648",
       "evidence": [
@@ -6576,7 +6635,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.ncovr_1960": {
       "bullets": {
@@ -6584,7 +6644,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.208955460193, -67.554446611081], y [25.53857425, 48.86431695]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.ncovr_1960",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "4d71aa3db464b925867b28df1efa2374276568ddeaab91bd34dcbccea5c2c4f3",
       "evidence": [
@@ -6613,7 +6674,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590, section 'Data' p.568.\"\n      notes: \"Modele de base homicide_rate ~ covariables structurelles, tel que documente dans le texte cite du papier.\"\n    - estimator: sar_lag\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590.\"\n      notes: \"Titre du papier ('incorporating spatial effects') et objet meme de l'article : modeles de regression spatiale (spatial lag/regime) sur homicide_rate. Verification page-par-page des coefficients non encore faite -- basis restera a affiner si une lecture plus fine devient necessaire.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.ncovr_1970": {
       "bullets": {
@@ -6621,7 +6687,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.208955460193, -67.554446611081], y [25.53857425, 48.86431695]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.ncovr_1970",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "f5160033e9c265b5b1955701b25e356cc3938d9ba97393836d502074b0c1f8f7",
       "evidence": [
@@ -6650,7 +6717,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590, section 'Data' p.568.\"\n      notes: \"Modele de base homicide_rate ~ covariables structurelles, tel que documente dans le texte cite du papier.\"\n    - estimator: sar_lag\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590.\"\n      notes: \"Titre du papier ('incorporating spatial effects') et objet meme de l'article : modeles de regression spatiale (spatial lag/regime) sur homicide_rate. Verification page-par-page des coefficients non encore faite -- basis restera a affiner si une lecture plus fine devient necessaire.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.ncovr_1980": {
       "bullets": {
@@ -6658,7 +6730,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.208955460193, -67.554446611081], y [25.53857425, 48.86431695]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.ncovr_1980",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "dabb62b269d85fb642ef7ac7440665674641c0f94239ddf11d4b24d8facf301b",
       "evidence": [
@@ -6687,7 +6760,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590, section 'Data' p.568.\"\n      notes: \"Modele de base homicide_rate ~ covariables structurelles, tel que documente dans le texte cite du papier.\"\n    - estimator: sar_lag\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590.\"\n      notes: \"Titre du papier ('incorporating spatial effects') et objet meme de l'article : modeles de regression spatiale (spatial lag/regime) sur homicide_rate. Verification page-par-page des coefficients non encore faite -- basis restera a affiner si une lecture plus fine devient necessaire.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.ncovr_1990": {
       "bullets": {
@@ -6695,7 +6773,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.208955460193, -67.554446611081], y [25.53857425, 48.86431695]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.ncovr_1990",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "480fd69ac6c7e067c8e6a705e90ead588f6826b7dc5858b2ac98942f1d37bc10",
       "evidence": [
@@ -6724,7 +6803,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590, section 'Data' p.568.\"\n      notes: \"Modele de base homicide_rate ~ covariables structurelles, tel que documente dans le texte cite du papier.\"\n    - estimator: sar_lag\n      basis: scientific_evidence\n      source_ref: \"Baller, Anselin, Messner, Deane & Hawkins (2001), Criminology 39(3), 561-590.\"\n      notes: \"Titre du papier ('incorporating spatial effects') et objet meme de l'article : modeles de regression spatiale (spatial lag/regime) sur homicide_rate. Verification page-par-page des coefficients non encore faite -- basis restera a affiner si une lecture plus fine devient necessaire.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 2 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.ndvi": {
       "bullets": {
@@ -6733,7 +6817,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.ndvi",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "36fca123f87e7bfbd664f0904331c83e523d103a34b6247e47c98708bd66a986",
       "evidence": [
@@ -6754,7 +6839,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "GREEN",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nepal": {
       "bullets": {
@@ -6762,7 +6848,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [80.285003775611, 87.922035459101], y [26.58304215, 30.0259819]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nepal",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "7c669f91e90c3f502dd506e33586576463a1d52e28f047a959598ef9a799465c",
       "evidence": [
@@ -6784,7 +6871,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "povindex",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc": {
       "bullets": {
@@ -6793,7 +6881,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "2d82e5042a6a35792a8a17b02a9c4ed16c5fea1efd32dfce85be42284b8d910a",
       "evidence": [
@@ -6815,14 +6904,16 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "rent2008",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2002": {
       "bullets": {
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2002.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2002",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "5536fe7eec26b9bcf7f1f0e3322846d5d9118e72b0e3c25361f95faf84987a51",
       "evidence": [
@@ -6850,7 +6941,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2003.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2003",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "50ca86fb1890941aff134279710c932f67ca480ee2e1b88dae516a34134c4324",
       "evidence": [
@@ -6878,7 +6970,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2004.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2004",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "c04933e95d65d1da2b8917a10bd343906bc9fa0ba286cd218bf86eeb42911006",
       "evidence": [
@@ -6906,7 +6999,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2005",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "352d25b7b84d3a1157a1087f8d87a9720de10348ac478c35a26d0b4bfe7d19bb",
       "evidence": [
@@ -6934,7 +7028,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2006.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2006",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "08caf2564ed5bdf28654846a22dd2a07abcf8424bb47c5b3886c8efd8b52a757",
       "evidence": [
@@ -6962,7 +7057,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2007.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2007",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "f74a6999cd66c5d2894ce8c504d2b6076ef6ef5f848fba1ac5dbacff0aa7a166",
       "evidence": [
@@ -6990,7 +7086,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2008.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2008",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "33591388739cbfd89b254dac5c1f40f21766a3728ac4e3627c9606e9054cd27b",
       "evidence": [
@@ -7018,7 +7115,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2009.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2009",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "5fcc4d7e757ed059805180c050a1f7ca22620abd5b22b875b495f836870b14db",
       "evidence": [
@@ -7046,7 +7144,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2010.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2010",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "07fa48eda23411745afc824f8021cb6b21c569dd6bbfe4e19dbc0e21a0ade983",
       "evidence": [
@@ -7074,7 +7173,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2011.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2011",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "8851300a7a36134f987f02734aff58f1a8048405b3c23903cf3eb088197f81cd",
       "evidence": [
@@ -7102,7 +7202,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2012.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2012",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "66b7d6ac71b9cad54148276a489558c4836aea74bf2cdd87b8c73d9b263359fc",
       "evidence": [
@@ -7130,7 +7231,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2013.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2013",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "93f6ca6f3668069c5cb14437f81576a065da14d790df7c832e361b2dad4e74a6",
       "evidence": [
@@ -7158,7 +7260,8 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2014.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2014",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.",
+        "Type de geometrie": "POINT (source native : POLYGON/MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "06b8c49203d865b4bbf5071650ec0e16a4dea1d5c490191c7513ef86a91ed2f1",
       "evidence": [
@@ -7186,7 +7289,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-74.23968843153, -73.705030000136], y [40.507671662552, 40.912682100886]; CRS EPSG:4326.",
         "Selected Y typology": "rate",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "10d59a933014d842240f243890043d3cb1108a9b704304262ef386a925c4cf0f",
       "evidence": [
@@ -7206,7 +7310,8 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "YOUTH_DROP",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_neighborhoods": {
       "bullets": {
@@ -7214,7 +7319,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-74.22952551558, -73.709072862398], y [40.5273163, 40.89985165]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_neighborhoods",
         "Selected Y typology": "rate",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "391eed38b3d1ce745270ebaebd563b17a5bc07bdc397c297c770702e5bd78b0d",
       "evidence": [
@@ -7236,7 +7342,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "UEMPRATE",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.orlando1": {
       "bullets": {
@@ -7245,7 +7352,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.orlando1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "b481dd4a314b693391b82d447c47a3182e3874b7e7ae0abb15474038bcecfa5b",
       "evidence": [
@@ -7266,7 +7374,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.phoenix_acs": {
       "bullets": {
@@ -7275,7 +7384,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.phoenix_acs",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "6c42af7064469116fc38da0c8b70c39a8f94e0b992aa21dc4b4874da8d97e8be",
       "evidence": [
@@ -7296,14 +7406,16 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "inc",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.police": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-91.331431669259, -88.221578668756], y [30.42252065, 34.9319592]; CRS WGS 84.",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "f99172e3a04041dba0f683d42c5d35f2dedf102ab24367a371145aaf56d1020f",
       "evidence": [
@@ -7323,7 +7435,8 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "CRIME",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.sacramento1": {
       "bullets": {
@@ -7332,7 +7445,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.sacramento1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "cb458f861a514c471a0a3b6fcddb2e99f0d900f7094187e185a55e160bac953d",
       "evidence": [
@@ -7353,7 +7467,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.savannah1": {
       "bullets": {
@@ -7362,7 +7477,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.savannah1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "9b929a6f94808e9a680bca3ec6c42d26beacfc841e802525f0e75e8bf1c99c3d",
       "evidence": [
@@ -7383,7 +7499,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.seattle1": {
       "bullets": {
@@ -7392,7 +7509,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.seattle1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "8f586b5a99d20ef73c17c01832b9191ce16e3bfd63a20e4453c7f20f6e205681",
       "evidence": [
@@ -7413,7 +7531,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.sids_1974": {
       "bullets": {
@@ -7421,7 +7540,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-84.05583145903, -75.872814590381], y [34.0965538, 36.47395895]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.sids_1974",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "66cb4a617eeb3fdb787647b5d9405de694fd96c7f443a1e19c6b660e7fdbae87",
       "evidence": [
@@ -7450,7 +7570,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Cressie, N. (1991) Statistics for Spatial Data. Wiley, pp. 386-389.\"\n      notes: \"'Much of the variance of the transformed SIDS rate for 1974-8 can be accounted for by the transformed non-white birth variable' -- relation sids_rate ~ nonwhite_birth_rate explicitement documentee.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.sids_1979": {
       "bullets": {
@@ -7458,7 +7583,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-84.05583145903, -75.872814590381], y [34.0965538, 36.47395895]; CRS WGS 84.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.sids_1979",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "881a63067a0643a3fbd9ddcefeced9526cf920705465a6bbe8dc628eefc6d8ca",
       "evidence": [
@@ -7487,7 +7613,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_package_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Cressie, N. (1991) Statistics for Spatial Data. Wiley, pp. 386-389.\"\n      notes: \"'Much of the variance of the transformed SIDS rate for 1974-8 can be accounted for by the transformed non-white birth variable' -- relation sids_rate ~ nonwhite_birth_rate explicitement documentee.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_geoda.tampa1": {
       "bullets": {
@@ -7496,7 +7627,8 @@
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.tampa1",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "48dc13a3f1e4dfd7dd72bccc2753426dcc9ce746415412dab2aa2177a4bf6f77",
       "evidence": [
@@ -7517,14 +7649,16 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "HH_INC",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.us_sdoh": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.610572536667, -67.014337701544], y [24.549446, 48.987003]; CRS WGS 84.",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "042cf127ed33c589e3b4946eb357f648de0d4ce5618121182c3e2fec4e779c78",
       "evidence": [
@@ -7545,7 +7679,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "SDOH_CL",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_naturalearth.cities": {
       "bullets": {
@@ -7589,7 +7724,8 @@
       "bullets": {
         "Observed population": "167 enregistrements dans l’artefact local Python_geodatasets_spdata.auckland.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [15.9525, 82], y [-2.15, 85.65]; CRS WGS 84.",
-        "Topic": "Donnees de python-package : Python_geodatasets_spdata.auckland"
+        "Topic": "Donnees de python-package : Python_geodatasets_spdata.auckland",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "9765751d51c178814183ebac637a497139e0de4a72052d732b9e0a639f40a4ff",
       "evidence": [
@@ -7608,7 +7744,8 @@
         "ELIGIBILITY_MISSING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_spdata.boston": {
       "bullets": {
@@ -7616,7 +7753,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-71.477517316028, -70.689020600411], y [42.04898645, 42.6363945]; CRS NAD27.",
         "Topic": "Donnees de python-package : Python_geodatasets_spdata.boston",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "2f5b31dd651cfa6cc3be62b660f24acd8686b7f172e23cf9a97f68011a8fe499",
       "evidence": [
@@ -7635,7 +7773,8 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "CMEDV",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_spdata.columbus": {
       "bullets": {
@@ -7646,7 +7785,8 @@
         "x_terms_pub": "HOVAL, INC",
         "y_term_pub": "CRIME",
         "Reference publication": "Anselin (1988), Spatial Econometrics: Methods and Models, chapitre 12, tableau 12.3; preuve conservee dans DATASET_ALIASES, exemple spData/spdep Columbus.",
-        "Formula used evidence": "pub"
+        "Formula used evidence": "pub",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "1e495f1ed0ad5ef7a0cd8ffea8482ae5eb9303b308268ffe19a06f1407915a5e",
       "evidence": [
@@ -7665,13 +7805,15 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "CRIME",
-      "note": "Preuve de l’alias Columbus preservee; permutation de l’ordre INC/HOVAL sans modification de la specification. W original de contiguite conserve.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Preuve de l’alias Columbus preservee; permutation de l’ordre INC/HOVAL sans modification de la specification. W original de contiguite conserve.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_spdata.eire": {
       "bullets": {
         "Observed population": "26 enregistrements dans l’artefact local Python_geodatasets_spdata.eire.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [-101.792318251898, 125.285666916484], y [-70.305, 72.45]; CRS WGS 84.",
-        "Topic": "Donnees de python-package : Python_geodatasets_spdata.eire"
+        "Topic": "Donnees de python-package : Python_geodatasets_spdata.eire",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "7cad5c9ee582a7e478d3257d5b9c01b678f1215510d57aa2846869b39c28151f",
       "evidence": [
@@ -7691,7 +7833,8 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_spdata.nydata": {
       "bullets": {
@@ -7699,7 +7842,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-79.489382167001, -79.489369768719], y [0.0003791993086784, 0.0003908593749902]; CRS EPSG:4326.",
         "Topic": "Donnees de python-package : Python_geodatasets_spdata.nydata",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "ce419b882f391aac0e72f350b5925667479c0327714aa9cfc550228ab8dc0428",
       "evidence": [
@@ -7729,13 +7873,19 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"regression_spatial_validated_generated_formula\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte\"\n  reason: \"Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant. formula_pub egalement documente le 2026-09-08 par correspondance avec le jeu homologue du package R (colonnes identiques verifiees). Bloc estimator_eligibility complete le 2026-09-08 -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.\"\n```\n\n- Decision: ready\n- Manque principal: aucun blocage automatique detecte\n- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant. formula_pub egalement documente le 2026-09-08 par correspondance avec le jeu homologue du package R (colonnes identiques verifiees). Bloc estimator_eligibility complete le 2026-09-08 -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: scientific_evidence\n      source_ref: \"Waller, L. and Gotway, C. (2004) Applied Spatial Statistics for Public Health Data, Ch. 9, Wiley ; coefficients reproduits par Bivand, Pebesma & Gomez-Rubio (2008).\"\n      notes: \"Formule Cases ~ PEXPOSURE+PCTAGE65P+PCTOWNHOME+offset(log(POP8)) avec coefficients exacts rapportes (PEXPOSURE 0.153, PCTOWNHOME -0.359, PCTAGE65P 4.050) -- preuve la plus forte du lot, deux sources convergentes.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_geodatasets_spdata.wheat": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [2.51, 62.75], y [3, 65.7]; CRS WGS 84.",
         "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "2d4f58206af378580b32c4617f8c7115d85bb562f140f055814a54c664404192",
       "evidence": [
@@ -7764,7 +7914,12 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"manual_review\"\n  benchmark_task: \"regression_spatial_validated_generated_formula\"\n  package_include: \"manual_review\"\n  has_local_rds: true\n  missing_items: \"Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.\"\n  reason: \"Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.\"\n```\n\n- Decision: manual_review\n- Manque principal: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.\n- Raison: Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats.",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators: []\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Aucun estimateur de regression documente : identifie via la documentation du package R spData (deja installe dans ce projet, `tools::Rd_db('spData')`) comme le jeu Mercer & Hall (1911) 'The experimental error of field trials', reproduit par Cressie (1993) Statistics for Spatial Data p.455 -- colonnes r/c/lat/lon confirmees identiques (grille reguliere 500 parcelles). C'est un jeu de rendement agricole sur grille, historiquement utilise pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas une regression Y~X avec covariable exogene distincte -- seule une surface de tendance yield~r+c serait defendable, et cette specification n'est documentee nulle part dans la fiche actuelle. Formula_pub reste 'pending' ; ne pas inventer une specification non sourcee. Statut maintenu en manual_review.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "Python_libpysal_Baltimore": {
       "bullets": {
@@ -7809,7 +7964,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-87.846768909437, -87.529876694019], y [41.650923554984, 42.021044246817]; CRS EPSG:4326.",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "7177be5ef86ae00bd4ba5b6ce5dcb5d1418baf54a6877c23dcf14638bb106a85",
       "evidence": [
@@ -7829,14 +7985,16 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "YPLL_rate",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_libpysal_Elections": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-124.21244631009, -67.55026979829], y [24.679742, 48.8769]; CRS WGS 84.",
         "Selected Y typology": "rate",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "a6409cc5ce54bb9221588480cf0fec9c6d94d9c0499fc885397c79424be37736",
       "evidence": [
@@ -7856,7 +8014,8 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "pct_dem_16",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_libpysal_georgia": {
       "bullets": {
@@ -7869,7 +8028,8 @@
         "x_terms_pub": "PctRural, PctEld, PctFB, PctPov",
         "y_term_pub": "PctBach",
         "Reference publication": "GWmodel, documentation primaire gwr.bootstrap, Examples, manuel CRAN p.46 : https://stat.ethz.ch/CRAN/web/packages/GWmodel/GWmodel.pdf (consulte le 2026-09-07).",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "pub",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "802ba7e2b75a119277b70e4f65f59d874dc941e2ee9f674456a28a5de358a961",
       "evidence": [
@@ -7889,13 +8049,15 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "PctBach",
-      "note": "L’exemple primaire de GWmodel est conserve dans formula_pub. La formule actuelle de l’alias remplace PctPov par PctBlack; l’equivalence exacte n’est pas attestee. formula_used est conservee et explicitement classee comme variante systeme, sans attribuer ce choix au papier. Aucune promotion effectuee.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "L’exemple primaire de GWmodel est conserve dans formula_pub. La formule actuelle de l’alias remplace PctPov par PctBlack; l’equivalence exacte n’est pas attestee. formula_used est conservee et explicitement classee comme variante systeme, sans attribuer ce choix au papier. Aucune promotion effectuee.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_libpysal_NYC_Socio-Demographics": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-74.239703047685, -73.705028283977], y [40.50239345, 40.91268425]; CRS WGS 84.",
         "Selected Y typology": "rate",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache."
+        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "bb2026b90b645b970227bd2b325e3553bdc21578494e80585cd7da0f0033365c",
       "evidence": [
@@ -7916,14 +8078,16 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "UNEMP_RATE",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_libpysal_Ohiolung": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [-85.489502209759, -85.489467237427], y [0.000348382813948, 0.0003768388617402]; CRS EPSG:4326.",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "2a304d6c6ff7f03f7cce4b0253924157db075350726e6dc08325154b62e951bb",
       "evidence": [
@@ -7945,7 +8109,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "LM68",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "Python_libpysal_Snow": {
       "bullets": {
@@ -9178,7 +9343,8 @@
         "Topic": "Donnees de r-package : R_sfdep_guerry_nb_guerry_nb",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "35f33454e0275b4a7a7a4176166ae37c727750fc25856b6b664edd61ad83fc7e",
       "evidence": [
@@ -9200,7 +9366,8 @@
         "CRS_UNRESOLVED"
       ],
       "selected_response": "crime_pers",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "R_sp_meuse.grid_ll_meuse.grid_ll": {
       "bullets": {
@@ -9457,7 +9624,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [-80.335018576177, -75.059570042891], y [39.8664036, 42.043644]; CRS EPSG:4326.",
         "Selected Y typology": "count",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "568138b4392a5053d7b6cbb46fbf79fac4ecbe08975f89194fc88fcd664c8e97",
       "evidence": [
@@ -9477,14 +9645,16 @@
         "PUB_ON_PENDING"
       ],
       "selected_response": "cases",
-      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "R_SpatialEpi_scotland_sf_scotland_sf": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [120.700611287043, 450.670074642068], y [559.4105, 1197.2]; CRS +proj=utm.",
         "Selected Y typology": "count",
         "Selected Y evidence": "cases est un nombre de cas avec exposition expected en offset.",
-        "benchmark_task_note": "cases est un nombre de cas avec exposition expected en offset."
+        "benchmark_task_note": "cases est un nombre de cas avec exposition expected en offset.",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "3b0c7dc4e7775d732ff6a055aecfc2972a2d3ea1fb80be731b000179d966b6a5",
       "evidence": [
@@ -9512,7 +9682,12 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"formula_used may contain one published covariate plus an offset when the formula is source-backed and executable; spatial weights can be reconstructed from polygon geometry by the benchmark when an original W is not required by the source.\"\n```\n\n\n",
-      "note": "Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. cases est un nombre de cas avec exposition expected en offset. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. cases est un nombre de cas avec exposition expected en offset.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Decision conservatoire : Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. cases est un nombre de cas avec exposition expected en offset. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. cases est un nombre de cas avec exposition expected en offset.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16",
+      "reviewed_sections": {
+        "Benchmark readiness": "```yaml\nbenchmark_readiness:\n  benchmark_status: \"ready\"\n  benchmark_task: \"count_poisson_offset\"\n  package_include: \"yes\"\n  has_local_rds: true\n  missing_items: \"aucun blocage automatique detecte ; verifier le support de offset() dans le harnais avant benchmark reel\"\n  reason: \"Bloc estimator_eligibility complete le 2026-09-08. Jeu classique de cartographie de maladies (cancer de la levre, 56 comtes ecossais, 1975-1980), reference confirmee via tools::Rd_db('SpatialEpi') et le papier source Clayton & Kaldor (1987) Biometrics 43:671-681 (estimation empirique bayesienne des risques relatifs standardises) -- le package documente lui-meme SMR=cases/expected, confirmant la structure Poisson avec offset log(expected) deja utilisee par formula_used. Routage comptage (GLM/GAM Poisson) ajoute au harnais cette semaine ; le support explicite du terme offset() dans le harnais reste a verifier avant benchmark reel (limite documentee, pas une invention de capacite).\"\n```\n\n- Decision: ready\n- Manque principal: verifier le support de offset() dans le harnais avant benchmark reel\n- Raison: Bloc estimator_eligibility complete le 2026-09-08. Jeu classique de cartographie de maladies (cancer de la levre, 56 comtes ecossais, 1975-1980), reference confirmee via tools::Rd_db('SpatialEpi') et le papier source Clayton & Kaldor (1987) Biometrics 43:671-681 (estimation empirique bayesienne des risques relatifs standardises) -- le package documente lui-meme SMR=cases/expected, confirmant la structure Poisson avec offset log(expected) deja utilisee par formula_used. Routage comptage (GLM/GAM Poisson) ajoute au harnais cette semaine ; le support explicite du terme offset() dans le harnais reste a verifier avant benchmark reel (limite documentee, pas une invention de capacite).",
+        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"manual_review\"\n  eligible_estimators:\n    - estimator: ols\n      basis: generated_candidate\n      source_ref: \"Routage comptage ajoute au harnais cette semaine (glm(family=poisson())) ; offset(log(expected)) deja present dans formula_used.\"\n      notes: \"Structure SMR=cases/expected confirmee par la documentation officielle du package SpatialEpi -- cadre Poisson standard, mais le support technique du terme offset() par le harnais reste a verifier avant tout benchmark reel.\"\n    - estimator: gam_spatial\n      basis: generated_candidate\n      source_ref: \"Routage comptage ajoute au harnais cette semaine (mgcv::gam(family=poisson())).\"\n      notes: \"Meme reserve sur le support de l'offset que ci-dessus.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"Bloc estimator_eligibility complete le 2026-09-08. Jeu classique de cartographie de maladies (cancer de la levre, 56 comtes ecossais, 1975-1980), reference confirmee via tools::Rd_db('SpatialEpi') et le papier source Clayton & Kaldor (1987) Biometrics 43:671-681 (estimation empirique bayesienne des risques relatifs standardises) -- le package documente lui-meme SMR=cases/expected, confirmant la structure Poisson avec offset log(expected) deja utilisee par formula_used. Routage comptage (GLM/GAM Poisson) ajoute au harnais cette semaine ; le support explicite du terme offset() dans le harnais reste a verifier avant benchmark reel (limite documentee, pas une invention de capacite).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
+      }
     },
     "R_spatstat.data_betacells_betacells": {
       "bullets": {
@@ -9967,7 +10142,8 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [14.222210196621, 24.017616645275], y [49.156478424924, 54.792204330942]; CRS EPSG:4326.",
         "Selected Y typology": "rate",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "Formula used evidence": "generated_system_formula"
+        "Formula used evidence": "generated_system_formula",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "source_fiche_sha256": "7761433f902d05e9205c32470666f02bf1ab9e9c2c49371c5ba228110b6cabd0",
       "evidence": [
@@ -9988,7 +10164,8 @@
         "INDIVIDUAL_REVIEW"
       ],
       "selected_response": "I_turnout",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json."
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "reviewed_date": "2026-09-16"
     },
     "R_surveillance_hagelloch_hagelloch": {
       "bullets": {
@@ -10037,7 +10214,8 @@
         "License URL": "https://creativecommons.org/licenses/by-nc/3.0",
         "License open": "no",
         "License evidence": "DataCite API record for DOI 10.17632/fthhmvgm6r.1 (checked 2026-08-18): rightsList = 'Attribution-NonCommercial 3.0 Unported'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)",
+        "Type de geometrie": "POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)"
       },
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"needs_covariate_join\"\n  eligible_estimators: []\n  conditionally_eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  ineligible_reason: \"paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"

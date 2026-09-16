@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.boston
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.boston.rds
 tags: [dataset, python-package, spatial, point]
@@ -169,7 +169,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-71.4775, -70.689], y [42.049, 42.6364] (EPSG:4267)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4267
 - CRS nom: NAD27
 - CRS analyse recommande: 32619 (UTM Zone 19N (EPSG:32619)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement

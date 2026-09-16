@@ -2,7 +2,7 @@
 title: R_SpatialEpi_scotland_sf_scotland_sf
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_SpatialEpi_scotland_sf_scotland_sf.rds
 tags: [dataset, r-package, spatial, point]
@@ -156,7 +156,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [120.7006, 450.6701], y [559.4105, 1197.2] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu

@@ -2,7 +2,7 @@
 title: paper_mammals_sr_pd
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_mammals_sr_pd.rds
   - DataCite_2019_EnvironmentalFactorsExplainThe_10_1111_geb_1299
@@ -211,7 +211,7 @@ estimator_eligibility:
 
 ## Bloc 5 - Resolution et etendue
 
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 4326
