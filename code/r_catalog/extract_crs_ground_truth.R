@@ -86,6 +86,24 @@ inspect_one <- function(path) {
     )
   }
 
+  # Empreinte geographique reelle, independante de la projection de stockage :
+  # une fiche peut legitimement documenter le CRS "affichage" (WGS84) d'un
+  # objet dont la geometrie active est stockee dans une autre projection tout
+  # aussi correcte (ex. UTM locale) -- comparer les bbox WGS84 evite de
+  # confondre ce cas avec un vrai bug de CRS.
+  if (!is.na(active_crs$epsg) || !is.na(active_crs$input)) {
+    bbox_4326 <- tryCatch({
+      g <- sf::st_transform(active_geom, 4326)
+      sf::st_bbox(g)
+    }, error = function(e) NULL)
+    if (!is.null(bbox_4326)) {
+      result$bbox_wgs84 <- list(
+        xmin = unname(bbox_4326[["xmin"]]), ymin = unname(bbox_4326[["ymin"]]),
+        xmax = unname(bbox_4326[["xmax"]]), ymax = unname(bbox_4326[["ymax"]])
+      )
+    }
+  }
+
   if ("geom_origine" %in% names(obj) && !identical(active_col, "geom_origine")) {
     origine <- obj[["geom_origine"]]
     if (inherits(origine, "sfc")) {
@@ -109,9 +127,23 @@ for (i in seq_along(files)) {
   if (i %% 50 == 0) cat(sprintf("  ... %d/%d\n", i, length(files)))
 }
 
-out <- setNames(results, vapply(results, function(r) r$dataset_id, character(1)))
+new_entries <- setNames(results, vapply(results, function(r) r$dataset_id, character(1)))
+
+# --pattern ne doit affiner qu'un sous-ensemble : fusionner avec la verite
+# terrain existante plutot que l'ecraser, sinon un run partiel supprimerait
+# silencieusement les entrees des fichiers non retraites.
+existing <- if (file.exists(OUT_PATH)) {
+  jsonlite::fromJSON(OUT_PATH, simplifyVector = FALSE)
+} else {
+  list()
+}
+merged <- existing
+for (id in names(new_entries)) merged[[id]] <- new_entries[[id]]
+
 dir.create(dirname(OUT_PATH), recursive = TRUE, showWarnings = FALSE)
-jsonlite::write_json(out, OUT_PATH, auto_unbox = TRUE, null = "null", na = "null", pretty = TRUE)
+jsonlite::write_json(merged, OUT_PATH, auto_unbox = TRUE, null = "null", na = "null", pretty = TRUE)
+cat(sprintf("Verite terrain : %d entrees mises a jour, %d entrees totales.\n",
+            length(new_entries), length(merged)))
 
 n_errors <- sum(vapply(results, function(r) !is.null(r$error), logical(1)))
 n_no_crs <- sum(vapply(results, function(r) is.null(r$error) && is.na(r$active_crs_epsg), logical(1)))

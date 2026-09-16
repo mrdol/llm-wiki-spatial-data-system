@@ -22,8 +22,34 @@ Etapes :
 
 Categories de constat (une fiche peut cumuler plusieurs constats) :
   MISMATCH               - la fiche affirme un EPSG different du CRS reel
-                            embarque sur la geometrie active. Le plus grave :
-                            corrompt directement les calculs spatiaux.
+                            embarque ET l'empreinte geographique (bbox
+                            reprojetee en WGS84) ne correspond pas non plus a
+                            celle declaree par la fiche -- donc pas seulement
+                            une etiquette differente, la geographie elle-meme
+                            ne colle pas. Le plus grave : corrompt directement
+                            les calculs spatiaux. Confirme deux fois
+                            (paper_li_energy_price_co2_china.md) qu'une
+                            reprojection accidentelle en cours de pipeline
+                            (ex. vers EPSG:3857) peut se glisser dans le .rds
+                            final -- corrigee en reprojetant le .rds vers son
+                            CRS documente, pas en changeant le texte de la
+                            fiche pour suivre le bug.
+  EPSG_DIFFERS_UNVERIFIED - les numeros EPSG different mais l'empreinte
+                            geographique n'a pas pu etre comparee (bbox de la
+                            fiche non parseable, ou verite terrain sans
+                            bbox_wgs84) -- a verifier manuellement, mais pas
+                            forcement un bug : une fiche documente parfois a
+                            raison le CRS "affichage" (WGS84) d'un objet dont
+                            la geometrie active est stockee dans une autre
+                            projection tout aussi correcte (UTM locale, LAEA
+                            europeenne...). Confirme sur deux fiches
+                            (paper_velado_alonso_wildlife_livestock_diversity.md,
+                            paper_wang_henan_cultivated_land_quality.md) : leur
+                            .rds est correctement stocke dans une projection
+                            locale (EPSG:3035, EPSG:32650) qui, une fois
+                            reprojetee en WGS84, reproduit exactement la bbox
+                            deja documentee -- pas un bug, juste deux
+                            representations valides de la meme geographie.
   CONTRADICTION          - "CRS analyse recommande" affirme que le CRS est
                             inconnu/non geographique alors que CRS EPSG/nom
                             sont deja renseignes juste au-dessus.
@@ -76,6 +102,11 @@ FIDELITY_MARKERS = [
 
 CONTRADICTION_MARKER = "non geographique ou inconnu"
 
+# Tolerance en degres pour comparer une bbox WGS84 declaree dans une fiche a
+# la bbox reelle recalculee depuis le .rds -- large car les fiches arrondissent
+# souvent a 2-4 decimales.
+BBOX_TOLERANCE_DEG = 0.05
+
 
 def field(text: str, label: str) -> str | None:
     m = re.search(r"(?im)^\s*-\s*" + re.escape(label) + r"\s*:\s*(.+?)\s*$", text)
@@ -87,6 +118,37 @@ def extract_epsg_number(value: str | None) -> int | None:
         return None
     m = re.search(r"\b(\d{4,6})\b", value)
     return int(m.group(1)) if m else None
+
+
+def extract_spatial_extent_bbox(text: str) -> tuple[float, float, float, float] | None:
+    """Parse 'Spatial extent: x [xmin, xmax], y [ymin, ymax]' -- returns None if absent/unparseable."""
+    raw = field(text, "Spatial extent")
+    if not raw:
+        return None
+    m = re.search(
+        r"x\s*\[\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\]\s*,\s*y\s*\[\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\]",
+        raw,
+        re.IGNORECASE,
+    )
+    if not m:
+        return None
+    xmin, xmax, ymin, ymax = (float(g) for g in m.groups())
+    return (xmin, ymin, xmax, ymax)
+
+
+def bbox_matches(a: tuple[float, float, float, float], b: dict[str, float] | None, tol: float) -> bool | None:
+    """None when b is unavailable (can't judge); True/False otherwise."""
+    if not b:
+        return None
+    try:
+        return (
+            abs(a[0] - b["xmin"]) <= tol
+            and abs(a[1] - b["ymin"]) <= tol
+            and abs(a[2] - b["xmax"]) <= tol
+            and abs(a[3] - b["ymax"]) <= tol
+        )
+    except (KeyError, TypeError):
+        return None
 
 
 def load_ground_truth() -> dict[str, dict[str, Any]]:
@@ -137,9 +199,25 @@ def check_fiche(path: Path, ground_truth: dict[str, dict[str, Any]]) -> dict[str
 
     fiche_epsg_num = extract_epsg_number(epsg_field)
 
-    # 1. MISMATCH: both sides have a real, comparable EPSG number and they differ.
+    # 1. MISMATCH: raw EPSG numbers differ AND the geographic footprint also
+    #    disagrees. A fiche may legitimately document the WGS84 "display" bbox
+    #    of a .rds whose active geometry is correctly stored in a different,
+    #    equally valid projected CRS (e.g. a local UTM zone) -- comparing bbox
+    #    equivalence (via the ground truth's bbox_wgs84, precomputed in R)
+    #    avoids flagging that as a false bug. Only a real geographic footprint
+    #    disagreement is reported.
     if fiche_epsg_num is not None and real_epsg is not None and fiche_epsg_num != real_epsg:
-        findings.append("MISMATCH")
+        fiche_bbox = extract_spatial_extent_bbox(text)
+        gt_bbox_wgs84 = gt.get("bbox_wgs84")
+        match = bbox_matches(fiche_bbox, gt_bbox_wgs84, BBOX_TOLERANCE_DEG) if fiche_bbox else None
+        if match is False:
+            findings.append("MISMATCH")
+        elif match is None:
+            # Couldn't verify geographically (no parseable fiche bbox, or no
+            # WGS84 bbox in ground truth) -- still worth a human look, but
+            # distinct from a confirmed footprint disagreement.
+            findings.append("EPSG_DIFFERS_UNVERIFIED")
+        detail["epsg_numbers_differ_but_bbox_wgs84"] = "match" if match else ("no_data" if match is None else "differs")
 
     # 2. CONTRADICTION: recommendation falsely claims unknown/non-geographic.
     if reco_field and CONTRADICTION_MARKER in reco_field.lower():
