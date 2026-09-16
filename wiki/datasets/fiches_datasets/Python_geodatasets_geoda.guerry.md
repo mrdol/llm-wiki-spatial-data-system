@@ -33,6 +33,7 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 - Identifier columns (excluded from X candidates): none detected
 - Variables inspected: yes (auto — export_sf_metadata.R)
 - Presence of imputed X: unknown
+- Note complementaire (2026-09-16): `Region` (categorielle, 5 niveaux C/E/N/S/W, 17 obs/niveau, verifie par inspection directe du RDS) est absente de la liste Candidate X ci-dessus car cette liste est limitee aux variables continues par le script d'export ; `Region` est neanmoins un predicteur reel utilise ci-dessous car cite explicitement dans la publication (formula_pub).
 
 #### Detail Y
 
@@ -67,10 +68,10 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ### Formule — niveau publication
 
-- formula_pub: Crm_prs ~ Litercy
-- x_terms_pub: Litercy
-- y_term_pub: Crm_prs
-- Reference publication: Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/.
+- formula_pub: Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth
+- x_terms_pub: Region, Suicids, Litercy, Donatns, Infants, Wealth
+- y_term_pub: Crm_prp
+- Reference publication: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263), page 22, section 3.3 'HE plots for Multivariate Linear Models' -- reduction univariee de l'objet R 'guerry.mod' (lm(cbind(Crime_prop, Crime_pers) ~ Region + Suicides + Literacy + Donations + Infants + Wealth)) ; les coefficients d'une regression cbind() sont identiques a ceux d'un lm() univarie separe par reponse. R2 rapporte pour Crime_prop (= Crm_prp dans ce jeu) : 0.43, superieur au 0.36 de Crime_pers (= Crm_prs). Suicides et Wealth sont les deux predicteurs individuellement significatifs pour la criminalite contre la propriete (Manova(guerry.mod, test='Roy') : p=0.007 et p=0.006 respectivement ; texte p.24 : 'Suicide and wealth are strongly related to crimes against property, but not to crimes against persons').
 
 ### Statut regression canonique
 
@@ -78,28 +79,28 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 - Niveau de preuve: publication
 - Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Note: Formule corrigee le 2026-09-16 -- l'ancienne formula_pub (Crm_prs ~ Litercy) etait une illustration bivariee de la section 3.1 (p.18) du meme papier, non le modele reellement ajuste et evalue par l'auteur. Le modele reellement publie est multi-reponses (cbind(Crime_prop, Crime_pers), p.22) ; Crm_prp est retenu ici comme reponse unique car R2=0.43 (vs 0.36 pour Crm_prs) et ses predicteurs cles (Suicids, Wealth) sont individuellement significatifs dans la publication -- voir Formules candidates > multivariate_constrained pour la specification bivariee complete.
 
 ### Formule — niveau systeme
 
-- formula_used: Crm_prs ~ Litercy
+- formula_used: Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: Litercy
-- y_term_used: Crm_prs
+- x_terms_used: Region, Suicids, Litercy, Donatns, Infants, Wealth
+- y_term_used: Crm_prp
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
-    formula: "Crm_prs ~ Litercy"
-    response: "Crm_prs"
-    predictors: ["Litercy"]
-    role: "simple_baseline"
-    source_type: "scientific_publication_or_package_documentation"
-    source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/."
-    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    formula: "Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth"
+    response: "Crm_prp"
+    predictors: ["Region", "Suicids", "Litercy", "Donatns", "Infants", "Wealth"]
+    role: "paper_main_specification_univariate_reduction"
+    source_type: "scientific_publication"
+    source_ref: "Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263), page 22, section 3.3 'HE plots for Multivariate Linear Models' -- reduction univariee de l'objet R 'guerry.mod' (lm(cbind(Crime_prop, Crime_pers) ~ Region + Suicides + Literacy + Donations + Infants + Wealth)) ; les coefficients d'une regression cbind() sont identiques a ceux d'un lm() univarie separe par reponse. R2 rapporte pour Crime_prop (= Crm_prp dans ce jeu) : 0.43, superieur au 0.36 de Crime_pers (= Crm_prs). Suicides et Wealth sont les deux predicteurs individuellement significatifs pour la criminalite contre la propriete (Manova(guerry.mod, test='Roy') : p=0.007 et p=0.006 respectivement ; texte p.24 : 'Suicide and wealth are strongly related to crimes against property, but not to crimes against persons')."
+    estimator_context: ["linear_regression", "spatial_baseline"]
     status: "confirmed"
 
   multivariate_constrained:
@@ -111,7 +112,7 @@ formula_candidates:
     source_ref: "Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263), page 22, section 3.3 'HE plots for Multivariate Linear Models' -- objet R 'guerry.mod', code source cite verbatim dans l'article. R2 rapporte : 0.43 pour Crime_prop, 0.36 pour Crime_pers (Manova(guerry.mod, test='Roy'))."
     estimator_context: ["multivariate_linear_model", "manova"]
     status: "confirmed"
-    note: "Modele multi-reponses (deux variables Y jointes via cbind) -- ne remplace pas formula_used/formula_pub (schema mono-Y de cette fiche, pipeline de benchmark du package attend une reponse unique) ; documente ici comme specification principale de la publication, distincte de la base univariee retenue pour le benchmark. Ajoute le 2026-09-16 apres lecture complete de la source (le premier passage de curation n'avait trouve que la relation bivariee illustrative de la section 3.1, p.18)."
+    note: "Modele multi-reponses (deux variables Y jointes via cbind) -- le pipeline de benchmark du package attend une reponse unique, donc c'est la reduction univariee sur Crm_prp (voir 'univariate' ci-dessus) qui est retenue comme formula_used/formula_pub depuis le 2026-09-16."
 
   ml_or_selected:
     formula: "pending"
@@ -144,12 +145,12 @@ formula_candidates:
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "Crm_prs ~ Litercy"
+  equation_text: "Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth"
   equation_family: regression
-  model_family: "formule publication confirmee et utilisee"
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/."
-  confidence: medium
+  model_family: "reduction univariee d'un modele multivarie publie (guerry.mod)"
+  source_type: scientific_publication
+  source_ref: "Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263), page 22, section 3.3 'HE plots for Multivariate Linear Models' -- reduction univariee de l'objet R 'guerry.mod' (lm(cbind(Crime_prop, Crime_pers) ~ Region + Suicides + Literacy + Donations + Infants + Wealth)) ; les coefficients d'une regression cbind() sont identiques a ceux d'un lm() univarie separe par reponse. R2 rapporte pour Crime_prop (= Crm_prp dans ce jeu) : 0.43, superieur au 0.36 de Crime_pers (= Crm_prs). Suicides et Wealth sont les deux predicteurs individuellement significatifs pour la criminalite contre la propriete (Manova(guerry.mod, test='Roy') : p=0.007 et p=0.006 respectivement ; texte p.24 : 'Suicide and wealth are strongly related to crimes against property, but not to crimes against persons')."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -207,8 +208,8 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: published_model
-      source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Friendly, M. (2007), Statistical Science 22(3), 368-399."
-      notes: "Relation Crm_prs ~ Litercy documentee dans la litterature Guerry (formula_pub) ; regression lineaire simple, aucune estimation spatiale specifique citee dans la fiche a ce jour."
+      source_ref: "Friendly, M. (2007), Statistical Science 22(3), 368-399, page 22, section 3.3 (guerry.mod)."
+      notes: "Relation Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth documentee dans la litterature Guerry (formula_pub, reduction univariee du modele multi-reponses guerry.mod, R2=0.43 pour cette reponse) ; regression lineaire simple, aucune estimation spatiale specifique citee dans la fiche a ce jour."
   conditionally_eligible_estimators: []
   ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
@@ -236,3 +237,13 @@ Decision conservatoire : Ancienne declaration yes incoherente avec les condition
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-16
+
+Formule corrigee : `formula_used`/`formula_pub` passent de `Crm_prs ~ Litercy` (illustration bivariee superficielle, section 3.1 p.18 de Friendly 2007) a `Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth` (reduction univariee du modele reellement publie et evalue par l'auteur, guerry.mod, section 3.3 p.22, meme source deja citee dans la fiche).
+
+Choix de la reponse : entre les deux reponses du modele multivarie original (Crime_prop/Crm_prp et Crime_pers/Crm_prs), Crm_prp est retenue car mieux expliquee par le modele (R2=0.43 contre 0.36) et parce que ses predicteurs cles (Suicids, Wealth) sont individuellement significatifs dans le test MANOVA de la publication (p=0.007 et p=0.006), contrairement a Crm_prs ou seul Region ressort comme dominant. Le modele multivarie complet (les deux reponses jointes via cbind) reste documente integralement dans `formula_candidates > multivariate_constrained`.
+
+`Region` est une covariable categorielle (5 niveaux, verifie par inspection directe du RDS le 2026-09-16) absente de la liste automatique "Candidate X" (limitee aux variables continues) mais bien presente et complete dans le jeu de donnees local ; elle est utilisee dans formula_pub/formula_used car explicitement citee dans la publication.
+
+Provenance : lecture complete de Friendly (2007), arXiv:0801.4263, pages 18 et 22, le 2026-09-16.
