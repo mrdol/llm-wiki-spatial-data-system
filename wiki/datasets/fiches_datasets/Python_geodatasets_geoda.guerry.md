@@ -103,14 +103,15 @@ formula_candidates:
     status: "confirmed"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "cbind(Crime_prop, Crime_pers) ~ Region + Suicides + Literacy + Donations + Infants + Wealth"
+    response: "Crime_prop, Crime_pers (reponse bivariee)"
+    predictors: ["Region", "Suicides", "Literacy", "Donations", "Infants", "Wealth"]
     role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263), page 22, section 3.3 'HE plots for Multivariate Linear Models' -- objet R 'guerry.mod', code source cite verbatim dans l'article. R2 rapporte : 0.43 pour Crime_prop, 0.36 pour Crime_pers (Manova(guerry.mod, test='Roy'))."
+    estimator_context: ["multivariate_linear_model", "manova"]
+    status: "confirmed"
+    note: "Modele multi-reponses (deux variables Y jointes via cbind) -- ne remplace pas formula_used/formula_pub (schema mono-Y de cette fiche, pipeline de benchmark du package attend une reponse unique) ; documente ici comme specification principale de la publication, distincte de la base univariee retenue pour le benchmark. Ajoute le 2026-09-16 apres lecture complete de la source (le premier passage de curation n'avait trouve que la relation bivariee illustrative de la section 3.1, p.18)."
 
   ml_or_selected:
     formula: "pending"
