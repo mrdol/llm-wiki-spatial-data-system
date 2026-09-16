@@ -157,7 +157,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: USA_Contiguous_Albers_Equal_Area_Conic
-- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.
 
 ## Bloc 6 — Reproductibilite
 
@@ -204,3 +204,5 @@ benchmark_readiness:
 ## Curation documentée — 2026-09-07
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

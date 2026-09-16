@@ -173,7 +173,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 27700
 - CRS nom: OSGB36 / British National Grid
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)
 
 ## Bloc 6 — Reproductibilite
 
@@ -250,3 +250,5 @@ estimator_eligibility:
 ## Curation documentée — 2026-09-07
 
 Verification 2026-09-15 (mode production de secours) : lecture directe du texte integral du papier Lu et al. (2014) disponible dans le corpus (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section 4.2.1 "Global regressions"/"Hedonic variable selection") confirme verbatim l'ordre d'inclusion des variables (FLOORSZ, puis PROF, puis BATH2) deja retenu dans formula_pub -- Niveau de preuve releve de "publication" a "verbatim". Ligne "Note doc" tronquee supprimee. Champ "Correspondance Python/R" corrige (citait a tort une fiche R_GWmodel_LondonBorough_londonborough qui n'existe pas). N observations (316) verifie coherent avec l'objet R reellement charge par data(LondonHP), bien que la documentation du package mentionne 372 -- ecart documente honnetement plutot que silencieusement ignore.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

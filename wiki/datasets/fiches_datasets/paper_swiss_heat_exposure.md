@@ -220,7 +220,7 @@ estimator_eligibility:
 - CRS nom: CH1903+ / LV95 + LN02 height
 - Spatial extent: x [2487218.96459694, 2825377.79974742], y [1076471.47280323, 1294284.26399341]
 - Time range: 2011 to 2022 (variable: year)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. EPSG:2056 (CH1903+ / LV95, confirme via epsg.io -- correspond exactement au nom deja renseigne ci-dessus). (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. EPSG:2056 (CH1903+ / LV95, confirme via epsg.io -- correspond exactement au nom deja renseigne ci-dessus).
 
 ## Bloc 6 - Reproductibilite
 
@@ -255,3 +255,5 @@ Decision conservatoire : deaths est un comptage 0–12, mais typologie continuou
 Typologie de la reponse selectionnee : count. deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

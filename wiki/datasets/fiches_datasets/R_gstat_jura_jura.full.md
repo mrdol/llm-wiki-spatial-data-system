@@ -160,7 +160,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326 (source: documentation du package, .rds sans CRS embarque)
 - CRS nom: WGS 84
-- CRS analyse recommande: reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse.
 
 ## Bloc 6 — Reproductibilite
 
@@ -232,3 +232,7 @@ Formule niveau publication etablie a partir d'une citation directe et verifiee d
 `R_gstat_jura_jura.val.md` (100 pts) est conservee inchangee comme sous-ensemble de validation documente, plutot que supprimee, car elle reste un objet reel et distinct du package (utile pour des scenarios de validation croisee reproduisant Goovaerts 1997) ; un lien croise est ajoute dans `Related Pages` des deux fiches plutot qu'une fusion destructive.
 
 Provenance : lecture directe de `atteia1994.pdf` et `webster1994.pdf` (telecharges par l'utilisateur dans son dossier Downloads local, hors depot) ; inspection R directe des objets `gstat::jura` ; DOIs verifies via l'API Crossref. Regeneration future via `code/r_catalog/generate_fiches.py` (jura.pred reste dans `CONFIRMED_DISCARD`, commentaire explicatif ajoute) — cette fiche a ete redigee manuellement car `jura.full` n'est pas un objet natif du package, seulement une construction documentee.
+
+## Curation documentée — 2026-09-07
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

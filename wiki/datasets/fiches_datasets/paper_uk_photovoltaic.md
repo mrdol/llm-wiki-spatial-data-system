@@ -191,7 +191,7 @@ estimator_eligibility:
 - CRS nom: OSGB36 / British National Grid
 - Spatial extent: x [92015.5184782611, 646668.567307692], y [11094.25, 1151403.25]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)
 
 ## Bloc 6 - Reproductibilite
 
@@ -222,3 +222,5 @@ estimator_eligibility:
 ## Curation documentée — 2026-09-07
 
 Record cree le 2026-09-10 : protege le contenu License/Estimator eligibility/Bloc 4 deja verifie dans le wiki en direct, qui n'avait jamais ete capture dans ce JSON (regeneration Rscript l'aurait silencieusement efface).
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

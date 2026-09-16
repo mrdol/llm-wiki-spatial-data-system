@@ -208,7 +208,7 @@ estimator_eligibility:
 - CRS nom: NAD83 / Illinois East
 - Spatial extent: x [343002.47984075, 366885.347685765], y [555447.603044471, 594646.045600259]
 - Time range: 1 to 7 (variable: week)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East)
 
 ## Bloc 6 - Reproductibilite
 
@@ -243,3 +243,5 @@ Decision conservatoire : N lignes=3472; T declare=7; variable temporelle declare
 Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

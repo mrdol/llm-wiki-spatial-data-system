@@ -270,6 +270,25 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 
 **Model used by Tier 2:** `claude-haiku-4-5-20251001` (configurable via `EVAL_MODEL` env var).
 
+**CRS verification** (checks the CRS *values* are actually correct, not just that a CRS field is present -- Tier 1 only checks presence):
+```bash
+# 1. Rebuild the ground truth from the real .rds files (ignores what fiches claim)
+Rscript code/r_catalog/extract_crs_ground_truth.R
+
+# 2. Compare every fiche's declared CRS against that ground truth
+python tools/verify_fiche_crs.py                        # full corpus report
+python tools/verify_fiche_crs.py --only <Dataset ID>     # one fiche
+python tools/verify_fiche_crs.py --category MISMATCH     # only real CRS bugs
+python tools/verify_fiche_crs.py --json report.json      # full detail dump
+```
+Flags: `MISMATCH` (fiche's EPSG differs from the real embedded CRS -- the serious
+one), `CONTRADICTION` (recommendation text falsely claims the CRS is
+unknown/non-geographic while it is filled in above it), `UNSOURCED_CRS_CLAIM`
+(fiche states a specific EPSG the .rds has no CRS to back up, without a sourcing
+phrase), `GEOM_FIDELITY_MISSING` (source is polygon, fiche shows POINT, no
+fidelity note explaining the conversion). Re-run step 1 whenever `.rds` files
+change; the ground truth file does not auto-refresh.
+
 ---
 
 ## Constraints
@@ -297,6 +316,7 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 - `LLM-wiki-Assessment/eval/tier3_queue.py` — queue manager
 - `wiki/eval_queue.md` — amber fiches pending correction
 - `wiki/metadata/eval_system_documentation.md` — full pipeline documentation
+- `tools/verify_fiche_crs.py` / `code/r_catalog/extract_crs_ground_truth.R` — CRS accuracy verification (fiche claim vs. real embedded CRS), complements `code/r_catalog/audit_sf_crs_time.R` which only fills in *missing* CRS values and never re-checks ones already declared
 - `wiki/metadata/catalog_registry_schema_v3.md` — dataset schema reference
 - `wiki/metadata/quality_pedigree_schema_v1.md` — quality pedigree rules
 

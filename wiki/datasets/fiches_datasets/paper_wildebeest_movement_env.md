@@ -203,7 +203,7 @@ estimator_eligibility:
 - CRS nom: WGS 84 / UTM zone 36S
 - Spatial extent: x [597344.9038, 806708.7004], y [9608835.342, 9869852.944]
 - Time range: 1/1/2014 18:00 to 9/9/2018 7:31 (variable: Date)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32736, WGS 84 / UTM zone 36S) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32736, WGS 84 / UTM zone 36S)
 
 ## Bloc 6 - Reproductibilite
 
@@ -238,3 +238,5 @@ Decision conservatoire : N lignes=94006; T declare=13838; variable temporelle de
 Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

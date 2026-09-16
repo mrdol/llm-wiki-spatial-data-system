@@ -153,7 +153,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84 (Latitude/Longitude fournies en degres-minutes-secondes dans la documentation gstat::wind, a convertir via char2dms())
-- CRS analyse recommande: reprojection recommandee vers un CRS metrique local (ex. Irish Transverse Mercator, EPSG:2157) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour ce reseau de stations en Irlande. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: reprojection recommandee vers un CRS metrique local (ex. Irish Transverse Mercator, EPSG:2157) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour ce reseau de stations en Irlande.
 
 ## Bloc 6 — Reproductibilite
 
@@ -202,3 +202,5 @@ benchmark_readiness:
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
 
 Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : DOI resolu (10.2307/2347679, verifie via Crossref) pour Haslett & Raftery (1989), Applied Statistics 38:1-50. CRS confirme WGS84 (Latitude/Longitude en DMS dans wind.loc, converties via sp::char2dms() dans les exemples officiels du package). formula_pub reste a juste titre not_applicable -- wind.loc est la table de localisation des stations, le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes), absent de ce depot -- decision deja bien fondee, non modifiee.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

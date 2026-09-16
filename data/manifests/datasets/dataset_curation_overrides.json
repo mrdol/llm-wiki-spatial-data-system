@@ -302,7 +302,7 @@
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5061/dryad.38578 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32622, WGS 84 / UTM zone 22N) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32622, WGS 84 / UTM zone 22N)"
       },
       "source_fiche_sha256": "fd06e396e1e408c21ba55be5ce74b1197689097256a739630d6b260decf98f0c",
       "evidence": [
@@ -319,7 +319,7 @@
       },
       "audit_codes": [],
       "selected_response": "AGB_mean",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
       },
@@ -335,7 +335,7 @@
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5061/dryad.3bh66 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28356, GDA94 / MGA zone 56) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28356, GDA94 / MGA zone 56)"
       },
       "source_fiche_sha256": "450840ee9fbeab9d753c42a6c30bd0dd78e8b735dc72d71181588e4b16c762e5",
       "evidence": [
@@ -355,7 +355,7 @@
         "PRIMARY_PAPER_UNAVAILABLE"
       ],
       "selected_response": "dens_015_1",
-      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
       },
@@ -1286,7 +1286,7 @@
         "License URL": "https://www.sciencebase.gov/catalog/item/5cb0e0e5e4b0c3b0065741e7",
         "License open": "no",
         "License evidence": "ScienceBase item rights field (checked 2026-08-18 via sciencebase.gov API): dataset-specific notice requires contacting the authors regarding intended use; overrides the generic USGS public-domain default.",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (Albers_Equal_Area) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (Albers_Equal_Area) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG precis reste a faire."
       },
       "source_fiche_sha256": "4f35ba2b87b13e4752e2aba8b6e595be62d071161792973c65d194dfbb1ebf45",
       "evidence": [
@@ -1311,7 +1311,7 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"not_ready_derived_response\"\n  eligible_estimators: []\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"current package supports continuous spatial regression benchmarks; this fiche is not currently an executable continuous-regression dataset\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Decision conservatoire : retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "paper_dougfir_sdm": {
@@ -1700,7 +1700,7 @@
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5281/zenodo.6990803 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32619, WGS 84 / UTM zone 19N) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32619, WGS 84 / UTM zone 19N)"
       },
       "source_fiche_sha256": "62a47c83d334f43ae832385915c71f19c6c0ffcc8fe88e22f68d1c28c54a41d5",
       "evidence": [
@@ -1719,7 +1719,7 @@
         "STALE_DISCOVERY_TEXT"
       ],
       "selected_response": "LOSS0118_PCT_PYR",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
       },
@@ -2332,7 +2332,7 @@
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5061/dryad.48nv3 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East)"
       },
       "source_fiche_sha256": "4afdd7eabfc511ffe261ee41b3bfcf62524459d164c21a3146c6499825900405",
       "evidence": [
@@ -2361,7 +2361,7 @@
       },
       "hold_estimators": false,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : N lignes=3472; T declare=7; variable temporelle declaree=week; repetitions de coordonnees controlees=2976. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Decision conservatoire : N lignes=3472; T declare=7; variable temporelle declaree=week; repetitions de coordonnees controlees=2976. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 3472\n- k variables: 20\n- T periods: 7\n- Variable temporelle: week\n- N/T profile: N_moyen_T_moyen\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (3472) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 496 ; panel EQUILIBRE (chaque unite a exactement T=7 observations). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 496 unites spatiales distinctes, pas sur les 3472 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
@@ -4606,7 +4606,7 @@
       "bullets": {
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS)"
       },
       "source_fiche_sha256": "6cf3ed9cb60074eaaa59f4cf4ab5fc2d6d91de9c877765f0dea6fd343f983e10",
       "evidence": [
@@ -4623,7 +4623,7 @@
       },
       "audit_codes": [],
       "selected_response": "mean_inc",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
       },
@@ -5595,7 +5595,7 @@
         "License URL": "https://creativecommons.org/licenses/by/4.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5281/zenodo.16923676 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. EPSG:2056 (CH1903+ / LV95, confirme via epsg.io -- correspond exactement au nom deja renseigne ci-dessus). (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. EPSG:2056 (CH1903+ / LV95, confirme via epsg.io -- correspond exactement au nom deja renseigne ci-dessus)."
       },
       "source_fiche_sha256": "90a3a1a2180457a2fd71cc7ba57daaac663a807bad053c3e5452c0b409cdf082",
       "evidence": [
@@ -5626,7 +5626,7 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Decision conservatoire : deaths est un comptage 0–12, mais typologie continuous; panel 2 368 080 lignes, 2 145 communes. Modèle BYM2 simplifié et colonnes deaths_sim/weight présentes. Vérifier deaths versus deaths_sim dans les deux RDS bruts et la notice, exposition population et dépendance temporelle; garder en revue. Ne pas inventer une version continue. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : count. deaths denombre les deces; verifier la provenance distincte de deaths_sim et le panel commune/jour.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  eligible_estimators:\n    - estimator: gam_spatial\n      basis: benchmark_use\n      source_ref: \"mgcv::gam supporte nativement offset() + famille Poisson -- estimateur le plus proche du modele BYM2 publie (non reproduit exactement, pas de terme spatialement variable dans le harnais).\"\n      notes: \"Approximation generique du modele publie (Poisson, offset log(population)), sans les effets spatialement variables BYM2 ni les effets aleatoires temporels (jour-de-l'annee, annee).\"\n    - estimator: xgboost\n      basis: benchmark_use\n      source_ref: \"Aucune -- comparateur ML generique, objectif Poisson possible, offset a gerer manuellement (non natif).\"\n      notes: \"Comparateur ML, pas le modele publie.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"n/a -- estimateurs generiques eligibles (voir eligible_estimators).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 2368080\n- k variables: 30\n- T periods: 12\n- Variable temporelle: year\n- N/T profile: N_grand_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (2368080) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 2145 ; panel EQUILIBRE (chaque unite a exactement T=1104 observations). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 2145 unites spatiales distinctes, pas sur les 2368080 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
@@ -5787,7 +5787,7 @@
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
         "Recommended validation": "N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "73192e8592aaff2ae09b08e498caed8d182d6d0cf55f6d45208c597279c17c6c",
       "evidence": [
@@ -5817,7 +5817,7 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Decision conservatoire : N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  eligible_estimators:\n    - estimator: ols\n      basis: benchmark_use\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"Regression lineaire standard, baseline generique pour reponse continue.\"\n    - estimator: gam_spatial\n      basis: benchmark_use\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"GAM (mgcv), baseline non-lineaire generique pour reponse continue.\"\n    - estimator: random_forest\n      basis: benchmark_use\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"Alternative ML non-parametrique generique, Y continu.\"\n    - estimator: xgboost\n      basis: benchmark_use\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"Alternative ML non-parametrique generique, Y continu.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"n/a -- estimateurs generiques eligibles (voir eligible_estimators).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 183\n- k variables: 41\n- T periods: 70\n- Variable temporelle: BegYear\n- N/T profile: N_moyen_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : verification empirique montre qu'il n'y a AUCUNE repetition de geometrie (N spatial = N observations exactement) malgre la classification 'Structure: panel_ou_series' / 'Data type: spatio-temporel' ci-dessus -- chaque ligne correspond a un lieu unique. Ce n'est donc pas un panel au sens statistique (pas de correlation intra-unite a modeliser), plutot une coupe transversale avec une covariable/dimension temporelle associee a chaque point distinct."
@@ -5984,7 +5984,7 @@
         "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
         "License open": "yes",
         "License evidence": "DataCite API record for DOI 10.5061/dryad.5tb2rbp76 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32736, WGS 84 / UTM zone 36S) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32736, WGS 84 / UTM zone 36S)"
       },
       "source_fiche_sha256": "c3d5057275385c196af681432792ee824caa3363c95290864a8d34be3b580948",
       "evidence": [
@@ -6014,7 +6014,7 @@
       },
       "hold_estimators": true,
       "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : N lignes=94006; T declare=13838; variable temporelle declaree=Date; repetitions de coordonnees controlees=33. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Decision conservatoire : N lignes=94006; T declare=13838; variable temporelle declaree=Date; repetitions de coordonnees controlees=33. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  eligible_estimators:\n    - estimator: ols\n      basis: generated_candidate\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"Approximation continue (Y borne [0,1]) -- le harnais n'a pas d'estimateur de regression beta natif ; a verifier avant usage.\"\n    - estimator: gam_spatial\n      basis: generated_candidate\n      source_ref: \"Revue en lot du 2026-09-09 -- voir Note ci-dessous.\"\n      notes: \"Approximation continue (Y borne [0,1]) -- meme reserve que ols.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"n/a -- estimateurs generiques eligibles (voir eligible_estimators).\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```",
         "Bloc 4 - Typologie des donnees": "- Data type: spatio-temporel\n- Structure: panel_ou_series\n- N observations: 94006\n- k variables: 10\n- T periods: 13838\n- Variable temporelle: Date\n- N/T profile: N_grand_T_grand\n- Note N/T (session 2026-08-17, verification directe du `.rds`) : \"N observations\" (94006) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 93971 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=2). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 93971 unites spatiales distinctes, pas sur les 94006 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance."
@@ -6025,7 +6025,7 @@
       "bullets": {
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers)"
       },
       "source_fiche_sha256": "8cbd641523aa58e5f25d91c340d4b4052b2e22794557175c18a05be657347724",
       "evidence": [
@@ -6042,7 +6042,7 @@
       },
       "audit_codes": [],
       "selected_response": "rdnbr",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "paper_wildfire_greenup_nbr5": {
@@ -6079,7 +6079,7 @@
       "bullets": {
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers)"
       },
       "source_fiche_sha256": "693a35a16f470d1a3e798278cbd4cd75874506e2ebc373b00288443abab7ae1a",
       "evidence": [
@@ -6096,7 +6096,7 @@
       },
       "audit_codes": [],
       "selected_response": "rdnbr",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.airbnb": {
@@ -6822,7 +6822,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2002.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2002",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "5536fe7eec26b9bcf7f1f0e3322846d5d9118e72b0e3c25361f95faf84987a51",
       "evidence": [
@@ -6842,7 +6842,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2003": {
@@ -6850,7 +6850,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2003.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2003",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "50ca86fb1890941aff134279710c932f67ca480ee2e1b88dae516a34134c4324",
       "evidence": [
@@ -6870,7 +6870,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2004": {
@@ -6878,7 +6878,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2004.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2004",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "c04933e95d65d1da2b8917a10bd343906bc9fa0ba286cd218bf86eeb42911006",
       "evidence": [
@@ -6898,7 +6898,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2005": {
@@ -6906,7 +6906,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2005.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2005",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "352d25b7b84d3a1157a1087f8d87a9720de10348ac478c35a26d0b4bfe7d19bb",
       "evidence": [
@@ -6926,7 +6926,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2006": {
@@ -6934,7 +6934,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2006.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2006",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "08caf2564ed5bdf28654846a22dd2a07abcf8424bb47c5b3886c8efd8b52a757",
       "evidence": [
@@ -6954,7 +6954,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2007": {
@@ -6962,7 +6962,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2007.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2007",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "f74a6999cd66c5d2894ce8c504d2b6076ef6ef5f848fba1ac5dbacff0aa7a166",
       "evidence": [
@@ -6982,7 +6982,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2008": {
@@ -6990,7 +6990,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2008.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2008",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "33591388739cbfd89b254dac5c1f40f21766a3728ac4e3627c9606e9054cd27b",
       "evidence": [
@@ -7010,7 +7010,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2009": {
@@ -7018,7 +7018,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2009.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2009",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "5fcc4d7e757ed059805180c050a1f7ca22620abd5b22b875b495f836870b14db",
       "evidence": [
@@ -7038,7 +7038,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2010": {
@@ -7046,7 +7046,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2010.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2010",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "07fa48eda23411745afc824f8021cb6b21c569dd6bbfe4e19dbc0e21a0ade983",
       "evidence": [
@@ -7066,7 +7066,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2011": {
@@ -7074,7 +7074,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2011.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2011",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "8851300a7a36134f987f02734aff58f1a8048405b3c23903cf3eb088197f81cd",
       "evidence": [
@@ -7094,7 +7094,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2012": {
@@ -7102,7 +7102,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2012.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2012",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "66b7d6ac71b9cad54148276a489558c4836aea74bf2cdd87b8c73d9b263359fc",
       "evidence": [
@@ -7122,7 +7122,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2013": {
@@ -7130,7 +7130,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2013.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2013",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "93f6ca6f3668069c5cb14437f81576a065da14d790df7c832e361b2dad4e74a6",
       "evidence": [
@@ -7150,7 +7150,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_earnings_2014": {
@@ -7158,7 +7158,7 @@
         "Observed population": "108487 enregistrements dans l’artefact local Python_geodatasets_geoda.nyc_earnings_2014.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.",
         "Geographic context": "Etendue mesuree dans le RDS : x [1796851.348471047, 1990735.0437511161], y [544218.8336771992, 675975.440276064]; CRS USA_Contiguous_Albers_Equal_Area_Conic.",
         "Topic": "Donnees de python-package : Python_geodatasets_geoda.nyc_earnings_2014",
-        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire."
       },
       "source_fiche_sha256": "06b8c49203d865b4bbf5071650ec0e16a4dea1d5c490191c7513ef86a91ed2f1",
       "evidence": [
@@ -7178,7 +7178,7 @@
         "PUB_ON_PENDING",
         "GENERIC_POPULATION"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "Python_geodatasets_geoda.nyc_education": {
@@ -8836,7 +8836,7 @@
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
         "CRS nom": "WGS 84",
         "Reference publication": "[MANUEL/LIVRE, pas un article] Goovaerts, P. (1997) Geostatistics for Natural Resources Evaluation. Oxford University Press, Applied Geostatistics Series, New York, 483 p., ISBN 978-0-19-511538-3 (verifie via Open Library, https://openlibrary.org/isbn/9780195115383) [Appendix C decrit et fournit le jeu de donnees Jura] ; deux articles analysant le meme jeu de donnees (metaux traces dans les sols du Jura suisse) sont egalement documentes dans gstat::jura : Atteia, O., Dubois, J.-P., Webster, R. (1994), Geostatistical analysis of soil contamination in the Swiss Jura, Environmental Pollution 86:315-327, DOI 10.1016/0269-7491(94)90172-4 ; Webster, R., Atteia, O., Dubois, J.-P. (1994), Coregionalization of trace metals in the soil in the Swiss Jura, European Journal of Soil Science 45:205-218, DOI 10.1111/j.1365-2389.1994.tb00502.x.",
-        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse."
       },
       "source_fiche_sha256": "d9b6392abaae32da2a72e336351b3061874783003f03e9d7fd2758d6f38a4391",
       "evidence": [
@@ -8866,7 +8866,7 @@
         "reason": "Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats."
       },
       "hold_estimators": true,
-      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : CRS confirme WGS84 pour long/lat (documentation gstat::jura, \"Longitude, WGS84 datum\") ; EPSG:4326 deja correctement renseigne, seul le nom manquait. Deux articles reels analysant precisement ce jeu de donnees identifies dans les references officielles gstat::jura (Atteia et al. 1994, DOI 10.1016/0269-7491(94)90172-4 ; Webster et al. 1994, DOI 10.1111/j.1365-2389.1994.tb00502.x) et ajoutes a Reference publication -- texte integral non recupere (pas dans corpus/papers/tei), donc aucune formule exacte extraite ; formula_pub reste honnetement \"pending\" plutot que d'inventer une equation a partir des seuls titres/resumes.\n\nComplement 2026-09-15 (mode production de secours) : lecture directe des PDF complets des deux papiers ci-dessus (telecharges par l'utilisateur) confirme qu'ils analysent le releve ORIGINAL complet (366 sites), pas ce sous-ensemble de validation (100 pts) isolement. La coupure calibration (jura.pred, 259 pts) / validation (jura.val, ce fichier, 100 pts) est une construction posterieure de Goovaerts (1997, Appendix C), a but pedagogique. Une fiche fusionnee [[R_gstat_jura_jura.full]] (359 pts = jura.pred + jura.val, proxy le plus proche du releve complet disponible via gstat) a ete creee en complement ; elle porte desormais formula_pub etabli a partir d'une citation directe de Webster et al. (1994) (resultats ANOVA). Cette fiche `jura.val` est conservee telle quelle (sous-ensemble reel et distinct du package, utile pour des scenarios de validation croisee reproduisant Goovaerts 1997), pas fusionnee destructivement ; formula_pub reste \"pending\" ici car ce sous-ensemble seul n'a pas ete analyse independamment par les papiers sources.",
+      "note": "Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : CRS confirme WGS84 pour long/lat (documentation gstat::jura, \"Longitude, WGS84 datum\") ; EPSG:4326 deja correctement renseigne, seul le nom manquait. Deux articles reels analysant precisement ce jeu de donnees identifies dans les references officielles gstat::jura (Atteia et al. 1994, DOI 10.1016/0269-7491(94)90172-4 ; Webster et al. 1994, DOI 10.1111/j.1365-2389.1994.tb00502.x) et ajoutes a Reference publication -- texte integral non recupere (pas dans corpus/papers/tei), donc aucune formule exacte extraite ; formula_pub reste honnetement \"pending\" plutot que d'inventer une equation a partir des seuls titres/resumes.\n\nComplement 2026-09-15 (mode production de secours) : lecture directe des PDF complets des deux papiers ci-dessus (telecharges par l'utilisateur) confirme qu'ils analysent le releve ORIGINAL complet (366 sites), pas ce sous-ensemble de validation (100 pts) isolement. La coupure calibration (jura.pred, 259 pts) / validation (jura.val, ce fichier, 100 pts) est une construction posterieure de Goovaerts (1997, Appendix C), a but pedagogique. Une fiche fusionnee [[R_gstat_jura_jura.full]] (359 pts = jura.pred + jura.val, proxy le plus proche du releve complet disponible via gstat) a ete creee en complement ; elle porte desormais formula_pub etabli a partir d'une citation directe de Webster et al. (1994) (resultats ANOVA). Cette fiche `jura.val` est conservee telle quelle (sous-ensemble reel et distinct du package, utile pour des scenarios de validation croisee reproduisant Goovaerts 1997), pas fusionnee destructivement ; formula_pub reste \"pending\" ici car ce sous-ensemble seul n'a pas ete analyse independamment par les papiers sources.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_gstat_oxford_oxford": {
@@ -8974,7 +8974,7 @@
         "Publication DOI": "10.2307/2347679",
         "CRS EPSG": "4326",
         "CRS nom": "WGS 84 (Latitude/Longitude fournies en degres-minutes-secondes dans la documentation gstat::wind, a convertir via char2dms())",
-        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. Irish Transverse Mercator, EPSG:2157) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour ce reseau de stations en Irlande. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. Irish Transverse Mercator, EPSG:2157) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour ce reseau de stations en Irlande."
       },
       "source_fiche_sha256": "567b1a7889006c4fccc57adf10da2f34fe3cf78f13328e91638aa1544cc5111e",
       "evidence": [
@@ -8994,7 +8994,7 @@
         "GENERIC_POPULATION",
         "CRS_UNRESOLVED"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : DOI resolu (10.2307/2347679, verifie via Crossref) pour Haslett & Raftery (1989), Applied Statistics 38:1-50. CRS confirme WGS84 (Latitude/Longitude en DMS dans wind.loc, converties via sp::char2dms() dans les exemples officiels du package). formula_pub reste a juste titre not_applicable -- wind.loc est la table de localisation des stations, le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes), absent de ce depot -- decision deja bien fondee, non modifiee.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nVerification 2026-09-15 (mode production de secours, tools::Rd_db(\"gstat\")) : DOI resolu (10.2307/2347679, verifie via Crossref) pour Haslett & Raftery (1989), Applied Statistics 38:1-50. CRS confirme WGS84 (Latitude/Longitude en DMS dans wind.loc, converties via sp::char2dms() dans les exemples officiels du package). formula_pub reste a juste titre not_applicable -- wind.loc est la table de localisation des stations, le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes), absent de ce depot -- decision deja bien fondee, non modifiee.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_GWmodel_DubVoter_Dub.voter": {
@@ -9027,12 +9027,12 @@
       "reviewed_date": "2026-09-16",
       "bullets": {
         "Temporal note": "aucune variable temporelle structurelle detectee ; verification 2026-09-15 (tools::Rd_db(\"GWmodel\")) : la documentation du package mentionne 372 observations, mais l'objet reellement charge par data(LondonHP) et le .rds local n'en comptent que 316 (verifie directement via nrow()) -- N observations reflete l'artefact local reel, pas le chiffre de la documentation.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)"
       },
       "reviewed_sections": {
         "Bloc 1 — Formule et variables": "### Variables (niveau systeme — inspection directe du sf)\n\n- Candidate Y variables: `PURCHASE`\n- Candidate Y typology: continuous\n- Candidate X variables: `FLOORSZ`, `TYPEDETCH`, `TPSEMIDTCH`, `TYPETRRD`, `TYPEBNGLW`, `TYPEFLAT`, `BLDPWW1`, `BLDPOSTW`, `BLD60S`, `BLD70S`, `BLD80S`, `BLD90S`, `BLDINTW`, `BATH2`, `BEDS2`, `GARAGE1`, `CENTHEAT`, `UNEMPLOY`, `PROF`\n- Candidate X typology: continuous, categorical\n- Coordinates (x, y — excluded from X candidates): `X`, `Y`\n- Identifier columns (excluded from X candidates): none detected\n- Variables inspected: yes (auto — export_sf_metadata.R)\n- Presence of imputed X: unknown\n\n#### Detail Y\n\n| Variable | Classe R | Typologie Y | Plage | NA (%) |\n|---|---|---|---|---|\n| `PURCHASE` | `numeric` | continuous | [45000, 567500] | 0% |\n\n> Correction 2026-09-15 (mode production de secours, tools::Rd_db(\"GWmodel\")) : la ligne \"Note doc\" precedente etait tronquee/corrompue (bug d'extraction automatique) et a ete retiree.\n\n> Selection Y/X (claude-sonnet-4-6) : PURCHASE (prix d'achat) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Toutes les autres colonnes sont des attributs hédoniques du logement (surface, type, époque de construction, équipements) ou des indicateurs socio-économiques du voisinage (chômage, proportion de professions libérales), qui constituent des covariables explicatives classiques dans ce type de modèle.\n\n#### Detail X\n\n| Variable | Classe R | Role X | NA (%) |\n|---|---|---|---|\n| `FLOORSZ` | `numeric` | continuous | 0% |\n| `TYPEDETCH` | `integer` | binary | 0% |\n| `TPSEMIDTCH` | `integer` | binary | 0% |\n| `TYPETRRD` | `integer` | binary | 0% |\n| `TYPEBNGLW` | `integer` | binary | 0% |\n| `TYPEFLAT` | `integer` | binary | 0% |\n| `BLDPWW1` | `integer` | binary | 0% |\n| `BLDPOSTW` | `integer` | binary | 0% |\n| `BLD60S` | `integer` | binary | 0% |\n| `BLD70S` | `integer` | binary | 0% |\n| `BLD80S` | `integer` | binary | 0% |\n| `BLD90S` | `integer` | binary | 0% |\n| `BLDINTW` | `integer` | binary | 0% |\n| `BATH2` | `integer` | binary | 0% |\n| `BEDS2` | `integer` | binary | 0% |\n| `GARAGE1` | `integer` | binary | 0% |\n| `CENTHEAT` | `integer` | binary | 0% |\n| `UNEMPLOY` | `numeric` | rate | 0% |\n| `PROF` | `numeric` | rate | 0% |\n\n### Formule — niveau publication\n\n- formula_pub: PURCHASE ~ FLOORSZ + PROF + BATH2\n- x_terms_pub: FLOORSZ, PROF, BATH2\n- y_term_pub: PURCHASE\n- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739\n\n### Statut regression canonique\n\n- Statut: resolu\n- Niveau de preuve: verbatim\n- Methode d'estimation: procedure \"pseudo stepwise\" OLS/GWR decrite en Section 4.2.1 du papier (selection ascendante par AICc)\n- Correspondance Python/R: aucune identifiee\n- Note: Citation verbatim retrouvee dans le texte integral du papier (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section \"Hedonic variable selection\") : \"a model with FLOORSZ as the hedonic variable produces the lowest AICc for the first round of bivariate regressions... for the regressions with two hedonic variables, a model with FLOORSZ and PROF produces the lowest AICc... (i.e. first FLOORSZ, then PROF, then BATH2, etc., which is the order given in the legend).\" Confirme exactement formula_pub. Correction 2026-09-15 : le champ \"Correspondance Python/R\" citait a tort R_GWmodel_LondonBorough_londonborough, qui n'est pas une fiche existante ni une correspondance Python/R (LondonBorough est un fichier de contours administratifs du meme package GWmodel, utilise uniquement pour l'affichage cartographique).\n\n### Formule — niveau systeme\n\n- formula_used: PURCHASE ~ FLOORSZ + PROF + BATH2\n- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n- Selected Y typology: continuous\n- x_terms_used: FLOORSZ, PROF, BATH2\n- y_term_used: PURCHASE\n\n### Formules candidates\n\n```yaml\nformula_candidates:\n  univariate:\n    formula: \"PURCHASE ~ FLOORSZ + PROF + BATH2\"\n    response: \"PURCHASE\"\n    predictors: [\"FLOORSZ, PROF, BATH2\"]\n    role: \"simple_baseline\"\n    source_type: \"scientific_publication_or_package_documentation\"\n    source_ref: \"Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739\"\n    estimator_context: [\"linear_regression\", \"kriging_auxiliary\", \"spatial_baseline\"]\n    status: \"confirmed\"\n\n  multivariate_constrained:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"paper_main_specification\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n\n  ml_or_selected:\n    formula: \"pending\"\n    response: \"pending\"\n    predictors: []\n    role: \"ml_candidate_features\"\n    source_type: \"none_found\"\n    source_ref: \"pending\"\n    estimator_context: []\n    status: \"unavailable\"\n```"
       },
-      "note": "Verification 2026-09-15 (mode production de secours) : lecture directe du texte integral du papier Lu et al. (2014) disponible dans le corpus (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section 4.2.1 \"Global regressions\"/\"Hedonic variable selection\") confirme verbatim l'ordre d'inclusion des variables (FLOORSZ, puis PROF, puis BATH2) deja retenu dans formula_pub -- Niveau de preuve releve de \"publication\" a \"verbatim\". Ligne \"Note doc\" tronquee supprimee. Champ \"Correspondance Python/R\" corrige (citait a tort une fiche R_GWmodel_LondonBorough_londonborough qui n'existe pas). N observations (316) verifie coherent avec l'objet R reellement charge par data(LondonHP), bien que la documentation du package mentionne 372 -- ecart documente honnetement plutot que silencieusement ignore."
+      "note": "Verification 2026-09-15 (mode production de secours) : lecture directe du texte integral du papier Lu et al. (2014) disponible dans le corpus (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section 4.2.1 \"Global regressions\"/\"Hedonic variable selection\") confirme verbatim l'ordre d'inclusion des variables (FLOORSZ, puis PROF, puis BATH2) deja retenu dans formula_pub -- Niveau de preuve releve de \"publication\" a \"verbatim\". Ligne \"Note doc\" tronquee supprimee. Champ \"Correspondance Python/R\" corrige (citait a tort une fiche R_GWmodel_LondonBorough_londonborough qui n'existe pas). N observations (316) verifie coherent avec l'objet R reellement charge par data(LondonHP), bien que la documentation du package mentionne 372 -- ecart documente honnetement plutot que silencieusement ignore.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel)."
     },
     "R_GWmodel_USelect_USelect2004": {
       "reviewed_date": "2026-09-15",
@@ -9148,7 +9148,7 @@
         "Geographic context": "Etendue mesuree dans le RDS : x [873719.58, 892123.25], y [6295180.18, 6300866.67]; CRS EPSG:2154.",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2154, RGF93 v1 / Lambert-93) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2154, RGF93 v1 / Lambert-93)"
       },
       "source_fiche_sha256": "3e826fc41e77bad485deaa7eb7189fe5d403f0ea5ac241773936efc5a78a3bfa",
       "evidence": [
@@ -9168,7 +9168,7 @@
         "GENERIC_POPULATION"
       ],
       "selected_response": "price",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_sfdep_guerry_nb_guerry_nb": {
@@ -9288,7 +9288,7 @@
         "Topic": "Donnees de r-package : R_sp_meuse_meuse",
         "Selected Y typology": "continuous",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28992, Amersfoort / RD New) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28992, Amersfoort / RD New)"
       },
       "source_fiche_sha256": "ac8678b7f61fd43fabfcfc3929f41602521b50871177ce7e9891e1ae3c7df01c",
       "evidence": [
@@ -9308,7 +9308,7 @@
         "CRS_UNRESOLVED"
       ],
       "selected_response": "zinc",
-      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_spacetime_air_DE_NUTS1": {
@@ -9907,7 +9907,7 @@
     "R_spDataLarge_census_de_census_de": {
       "bullets": {
         "Geographic context": "Etendue mesuree dans le RDS : x [4031500, 4671500], y [2689500, 3547500]; CRS non renseigne, repere/unites a documenter.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:3035, ETRS89-extended / LAEA Europe) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:3035, ETRS89-extended / LAEA Europe)"
       },
       "source_fiche_sha256": "4a476a3a1cd6bf4b4e3c3e28458493d6f7801b46f3c3a56eb55699b36a0dbfe7",
       "evidence": [
@@ -9928,7 +9928,7 @@
         "CRS_UNRESOLVED",
         "INDIVIDUAL_REVIEW"
       ],
-      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_spDataLarge_lsl_lsl": {
@@ -9938,7 +9938,7 @@
         "Topic": "Donnees de r-package : R_spDataLarge_lsl_lsl",
         "Selected Y typology": "categorical",
         "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32717, WGS 84 / UTM zone 17S) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32717, WGS 84 / UTM zone 17S)"
       },
       "source_fiche_sha256": "0f4e58d96e0f040c59a72b1d6d5bdbe87bd9e9bd535f87e2a04f0a094143df15",
       "evidence": [
@@ -9959,7 +9959,7 @@
         "CRS_UNRESOLVED"
       ],
       "selected_response": "lslpts",
-      "note": "Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.",
+      "note": "Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_spDataLarge_pol_pres15_pol_pres15": {
@@ -10037,19 +10037,20 @@
         "License URL": "https://creativecommons.org/licenses/by-nc/3.0",
         "License open": "no",
         "License evidence": "DataCite API record for DOI 10.17632/fthhmvgm6r.1 (checked 2026-08-18): rightsList = 'Attribution-NonCommercial 3.0 Unported'.",
-        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)"
       },
       "reviewed_sections": {
         "Estimator eligibility": "```yaml\nestimator_eligibility:\n  status: \"needs_covariate_join\"\n  eligible_estimators: []\n  conditionally_eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  ineligible_reason: \"paper evidence exists, but the local .rds is not yet an executable Y/X benchmark table\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```"
       },
-      "note": "Record cree le 2026-09-10 : protege le contenu License/Estimator eligibility/Bloc 4 deja verifie dans le wiki en direct, qui n'avait jamais ete capture dans ce JSON (regeneration Rscript l'aurait silencieusement efface).",
+      "note": "Record cree le 2026-09-10 : protege le contenu License/Estimator eligibility/Bloc 4 deja verifie dans le wiki en direct, qui n'avait jamais ete capture dans ce JSON (regeneration Rscript l'aurait silencieusement efface).\n\nCorrection 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).",
       "reviewed_date": "2026-09-16"
     },
     "R_gstat_jura_jura.full": {
       "bullets": {
-        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort \"CRS source non geographique ou inconnu\" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)"
+        "CRS analyse recommande": "reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse."
       },
-      "reviewed_date": "2026-09-16"
+      "reviewed_date": "2026-09-16",
+      "note": "Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel)."
     }
   }
 }

@@ -198,7 +198,7 @@ estimator_eligibility:
 - CRS nom: Albers_Equal_Area
 - Spatial extent: x [-1814729.18202096, -1462765.51510254], y [1243443.86900469, 1619405.05866755]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (Albers_Equal_Area) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (Albers_Equal_Area) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG precis reste a faire.
 
 ## Bloc 6 - Reproductibilite
 
@@ -231,3 +231,5 @@ estimator_eligibility:
 Decision conservatoire : retrouver les points d'echantillonnage genotype bruts (non fournis dans le depot Dryad, uniquement des surfaces .asc deja modelisees) Maintenir hors benchmark empirique; conserver la fiche et orienter une reconstruction distincte vers les observations sources. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

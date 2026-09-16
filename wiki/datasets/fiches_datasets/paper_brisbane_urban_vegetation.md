@@ -217,7 +217,7 @@ estimator_eligibility:
 - CRS nom: GDA94 / MGA zone 56
 - Spatial extent: x [474375.5284, 518275.5284], y [6942482, 6982382]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28356, GDA94 / MGA zone 56) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28356, GDA94 / MGA zone 56)
 
 ## Bloc 6 - Reproductibilite
 
@@ -250,3 +250,5 @@ estimator_eligibility:
 Typologie de la reponse selectionnee : rate. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

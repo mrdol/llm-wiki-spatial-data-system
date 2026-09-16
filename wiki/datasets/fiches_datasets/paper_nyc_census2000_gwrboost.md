@@ -236,7 +236,7 @@ estimator_eligibility:
 - CRS nom: NAD83 / New York Long Island (ftUS)
 - Spatial extent: x [917606.095578856, 1065983.98587788], y [124324.53717341, 271806.815124512]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2263, NAD83 / New York Long Island ftUS)
 
 ## Bloc 6 - Reproductibilite
 
@@ -269,3 +269,5 @@ estimator_eligibility:
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).
