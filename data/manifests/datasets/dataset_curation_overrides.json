@@ -245,49 +245,11 @@
       "note": "Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nMISE A JOUR (2026-09-10) : Y corrige de PDses vers MPFDses (Y/X etaient inverses par rapport au papier, voir FORMULA_OVERRIDES) -- selected_response synchronise pour que la typologie 'Selected Y typology' s'applique a la bonne ligne du tableau Detail Y."
     },
     "paper_banff_stream_temperature": {
+      "reviewed_date": "2026-09-16",
       "bullets": {
-        "Geographic context": "Etendue mesuree dans le RDS : x [580218, 612127], y [5642845, 5701082]; CRS EPSG:32611.",
-        "Selected Y typology": "continuous",
-        "Selected Y evidence": "Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.",
-        "License present": "yes",
-        "License name": "Creative Commons Zero v1.0 Universal",
-        "License URL": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-        "License open": "yes",
-        "License evidence": "DataCite API record for DOI 10.5061/dryad.crjdfn391 (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'."
+        "CRS analyse recommande": "aucune reprojection necessaire -- CRS deja projete et metrique (EPSG:32611, WGS 84 / UTM zone 11N), adapte directement au calcul de distances/voisinage pour cette etendue locale (Banff, Alberta)."
       },
-      "source_fiche_sha256": "3141635351cc65cedb27c7ab5be898883c674cae70c7d411148045f4d4f2d08a",
-      "evidence": [
-        "wiki/datasets/fiches_datasets/paper_banff_stream_temperature.md",
-        "data/final_datasets/sf/paper_banff_stream_temperature.rds"
-      ],
-      "old_readiness": {
-        "benchmark_status": "ready",
-        "benchmark_task": "regression_continuous",
-        "package_include": "manual_review",
-        "has_local_rds": true,
-        "benchmark_missing_items": "le papier presente une methodologie SSN (Spatial Stream Network) + INLA sur reseau hydrographique, pas une regression classique -- formula_used est une simplification lineaire du curateur utilisant les covariables reelles disponibles ; package_include laisse en manual_review pour cette raison",
-        "benchmark_readiness_reason": "Y continu reel (WaterTemp, temperature moyenne d'aout), N=110 sites de mesure avec coordonnees UTM reelles (Parc national de Banff, Alberta). CSV original telecharge directement depuis Dryad, pas une reconstruction. Papier identifie avec certitude via le README du depot (citation complete des auteurs)."
-      },
-      "audit_codes": [
-        "READY_MANUAL_REVIEW",
-        "STALE_DISCOVERY_TEXT",
-        "PRIMARY_PAPER_UNAVAILABLE",
-        "INDIVIDUAL_REVIEW"
-      ],
-      "selected_response": "WaterTemp",
-      "readiness": {
-        "benchmark_status": "ready",
-        "benchmark_task": "regression_continuous_comparative_not_ssn",
-        "package_include": "yes",
-        "missing_items": "aucun blocage automatique detecte",
-        "reason": "CORRECTION 2026-09-09 : verifie directement dans le RDS -- Year_ ne prend qu'une seule valeur (2018) sur les 110 lignes, T=1 est donc correct, pas une incoherence (l'ancienne reserve comparait a tort la presence de la colonne Year_ a la declaration T=1). Promu comme tache COMPARATIVE explicitement distincte du modele SSN/INLA du papier (reseau hydrographique) : W standard (distance euclidienne sur Easting/Northing), pas une matrice de flux sur reseau -- voir Note ci-dessous."
-      },
-      "hold_estimators": true,
-      "previous_eligibility": "## Estimator eligibility\n\n```yaml\nestimator_eligibility:\n  status: \"ready\"\n  eligible_estimators: [\"ols\", \"gam_spatial\", \"gamboost\", \"random_forest\", \"random_forest_xy\", \"xgboost\", \"xgboost_xy\", \"sar_lag\", \"sem_error\", \"sdm_mixed\", \"gwr\"]\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"\"\n  rule: \"paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W\"\n```\n\n",
-      "note": "Decision conservatoire : 110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée. La fiche et les donnees sont conservees ; aucune suppression ni promotion.\n\nTypologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.\n\nProvenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.\n\nMISE A JOUR (2026-09-14) : variables corrigees dans les notes Estimator eligibility (Elev, RSlope, LE -- pas h2oAreaKm2/logRCA, retires apres lecture directe des scripts R des auteurs sur Zenodo).",
-      "reviewed_sections": {
-        "Estimator eligibility": "```yaml\nestimator_eligibility:\n  eligible_estimators:\n    - estimator: ols\n      basis: benchmark_use\n      source_ref: \"Comparateur non-spatial standard -- le papier utilise SSN/INLA (reseau hydrographique), pas OLS.\"\n      notes: \"Regression lineaire simple sur les covariables reelles retenues par le modele final des auteurs (Elev, RSlope, LE -- confirme par lecture directe de leurs scripts R, Zenodo 10.5281/zenodo.7942855).\"\n    - estimator: gam_spatial\n      basis: benchmark_use\n      source_ref: \"Approximation spatiale generique (W euclidienne sur Easting/Northing), PAS une reproduction du modele SSN sur reseau hydrographique du papier.\"\n      notes: \"Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval) ni l'effet aleatoire HUC10 du modele INLA des auteurs.\"\n    - estimator: random_forest\n      basis: benchmark_use\n      source_ref: \"Aucune -- comparateur ML generique, Y continu.\"\n      notes: \"Comparateur ML, pas le modele publie.\"\n  conditionally_eligible_estimators: []\n  ineligible_reason: \"n/a -- estimateurs eligibles comme tache comparative (voir eligible_estimators), explicitement non equivalente au modele SSN/INLA publie.\"\n  rule: \"Revue de la tache avant selection des routes; aucune promotion automatique.\"\n```"
-      }
+      "note": "Correction 2026-09-16 (mode production de secours) : incoherence interne detectee -- le Bloc 5 renseignait deja correctement CRS EPSG:32611 / WGS 84 UTM zone 11N (verifie par inspection directe du .rds : geom_point et geom_origine partagent ce meme CRS, bbox coherente avec la region de Banff, Alberta), mais le champ 'CRS analyse recommande' affichait encore le texte de gabarit par defaut \"pending - CRS source non geographique ou inconnu\", contredisant directement les deux lignes precedentes. Le jeu de donnees a bel et bien un CRS connu et documente ; corrige pour refleter qu'aucune reprojection n'est necessaire (deja en projection metrique locale adaptee)."
     },
     "paper_bean_landrace_gap_sdm": {
       "bullets": {

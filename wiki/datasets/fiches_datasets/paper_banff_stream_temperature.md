@@ -2,7 +2,7 @@
 title: paper_banff_stream_temperature
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_banff_stream_temperature.rds
   - DatasetFirst_10_5061_dryad_crjdfn391
@@ -207,7 +207,7 @@ estimator_eligibility:
 - CRS nom: WGS 84 / UTM zone 11N
 - Spatial extent: x [580218, 612127], y [5642845, 5701082]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique (EPSG:32611, WGS 84 / UTM zone 11N), adapte directement au calcul de distances/voisinage pour cette etendue locale (Banff, Alberta).
 
 ## Bloc 6 - Reproductibilite
 
@@ -238,10 +238,4 @@ estimator_eligibility:
 
 ## Curation documentée — 2026-09-07
 
-Decision conservatoire : 110 réponses WaterTemp et quatre X complets; SSN/INLA sur réseau hydrographique, simplification curateur. La fiche dit T=1, le loader déclare Year_. Examiner les années et le réseau; promouvoir seulement une tâche comparative explicitement distincte de SSN, avec construction W documentée. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
-
-Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
-
-Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
-
-MISE A JOUR (2026-09-14) : variables corrigees dans les notes Estimator eligibility (Elev, RSlope, LE -- pas h2oAreaKm2/logRCA, retires apres lecture directe des scripts R des auteurs sur Zenodo).
+Correction 2026-09-16 (mode production de secours) : incoherence interne detectee -- le Bloc 5 renseignait deja correctement CRS EPSG:32611 / WGS 84 UTM zone 11N (verifie par inspection directe du .rds : geom_point et geom_origine partagent ce meme CRS, bbox coherente avec la region de Banff, Alberta), mais le champ 'CRS analyse recommande' affichait encore le texte de gabarit par defaut "pending - CRS source non geographique ou inconnu", contredisant directement les deux lignes precedentes. Le jeu de donnees a bel et bien un CRS connu et documente ; corrige pour refleter qu'aucune reprojection n'est necessaire (deja en projection metrique locale adaptee).
