@@ -17,9 +17,35 @@ from __future__ import annotations
 import json
 import csv
 import re
+import sys
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_DIR = SCRIPT_DIR.parents[1]
+for import_path in (SCRIPT_DIR, REPO_DIR):
+    if str(import_path) not in sys.path:
+        sys.path.insert(0, str(import_path))
+
+try:
+    from tools.kg.section_role import (
+        evidence_types,
+        formula_type,
+        load_rules,
+        score_section,
+        score_table,
+        should_attach_formula,
+    )
+except ModuleNotFoundError:
+    from section_role import (
+        evidence_types,
+        formula_type,
+        load_rules,
+        score_section,
+        score_table,
+        should_attach_formula,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +59,7 @@ SUMMARY_DIR = ROOT / ".kg" / "summaries"
 NODE_PATH = OUT_DIR / "tei_nodes.jsonl"
 EDGE_PATH = OUT_DIR / "tei_edges.jsonl"
 SUMMARY_PATH = SUMMARY_DIR / "tei_parse_summary.md"
+MODEL_EVIDENCE_AUDIT_PATH = ROOT / "data" / "manifests" / "papers" / "model_evidence_audit.csv"
 NS = {"tei": "http://www.tei-c.org/ns/1.0"}
 
 
@@ -579,12 +606,59 @@ def formula_label(formula: ET.Element, index: int) -> str:
     return label or str(index)
 
 
+def add_audit_row(
+    audit_rows: list[dict[str, Any]],
+    *,
+    paper_id: str,
+    paper_title: str,
+    doi: str,
+    tei_path: Path,
+    section_id: str,
+    section_order: int | str,
+    section_title: str,
+    section_score: dict[str, Any],
+    candidate_text: str,
+    audit_reason: str,
+    formula_candidate: str = "",
+    formula_class: str = "",
+    table_caption: str = "",
+    needs_manual_review: str = "yes",
+    reading_rules: dict[str, Any] | None = None,
+) -> None:
+    """Ajoute une ligne d'audit pour verifier les preuves avant promotion KG."""
+    audit_rows.append(
+        {
+            "paper_id": paper_id,
+            "paper_title": paper_title,
+            "doi": doi,
+            "tei_file": str(tei_path.relative_to(ROOT)),
+            "section_id": section_id,
+            "section_order": section_order,
+            "section_title": section_title,
+            "section_role": section_score.get("section_role", ""),
+            "section_roles": ";".join(section_score.get("section_roles") or []),
+            "priority_score": section_score.get("priority_score", 0),
+            "positive_hits": ";".join(section_score.get("positive_hits") or []),
+            "negative_hits": ";".join(section_score.get("negative_hits") or []),
+            "evidence_type": ";".join(evidence_types(candidate_text[:5000], reading_rules)),
+            "formula_type": formula_class,
+            "formula_candidate": formula_candidate[:1200],
+            "table_caption": table_caption[:500],
+            "candidate_text": candidate_text[:1500],
+            "needs_manual_review": needs_manual_review,
+            "audit_reason": audit_reason,
+        }
+    )
+
+
 def parse_one_tei(
     tei_path: Path,
     method_aliases: dict[str, list[str]],
     dataset_aliases: dict[str, list[str]],
     dataset_variables: dict[str, list[str]],
     variable_dataset_index: dict[str, set[str]],
+    reading_rules: dict[str, Any],
+    audit_rows: list[dict[str, Any]],
     nodes: dict[str, dict[str, Any]],
     edges: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
@@ -623,12 +697,13 @@ def parse_one_tei(
         add_edge(edges, pid, "HAS_AUTHOR", aid, extraction_source="grobid_tei")
 
     body_text_parts: list[str] = []
-    section_infos: list[tuple[str, str, str]] = []
+    section_infos: list[tuple[str, str, str, dict[str, Any], int]] = []
     section_count = 0
     for index, div in enumerate(root.findall(".//tei:text/tei:body/tei:div", NS), start=1):
         head = elem_text(div.find("tei:head", NS)) or f"Section {index}"
         paragraphs = find_all_text(div, "tei:p")
         section_text = norm_space(" ".join(paragraphs))
+        section_score = score_section(head, section_text, reading_rules)
         body_text_parts.append(head)
         body_text_parts.append(section_text)
         sid = f"{pid}:section:{index}"
@@ -639,11 +714,95 @@ def parse_one_tei(
             head,
             order=index,
             text_preview=section_text[:800],
+            section_role=section_score["section_role"],
+            section_roles=section_score["section_roles"],
+            priority_score=section_score["priority_score"],
+            directed_reading_hits=section_score["positive_hits"][:12],
+            directed_reading_penalties=section_score["negative_hits"][:12],
             source="grobid_tei",
         )
         add_edge(edges, pid, "HAS_SECTION", sid, extraction_source="grobid_tei", order=index)
-        section_infos.append((sid, head, section_text))
+        if int(section_score.get("priority_score") or 0) >= 25:
+            add_audit_row(
+                audit_rows,
+                paper_id=pid,
+                paper_title=title,
+                doi=doi,
+                tei_path=tei_path,
+                section_id=sid,
+                section_order=index,
+                section_title=head,
+                section_score=section_score,
+                candidate_text=section_text,
+                audit_reason="directed_section_score",
+                reading_rules=reading_rules,
+            )
+
+        # Les tableaux sont souvent la meilleure source pour identifier Y, X,
+        # metriques et variables retenues dans l'application empirique.
+        table_elements = div.findall(".//tei:figure[@type='table']", NS) + div.findall(".//tei:table", NS)
+        for table_index, table in enumerate(table_elements, start=1):
+            caption = elem_text(table.find("tei:head", NS)) or elem_text(table.find("tei:figDesc", NS))
+            table_text = elem_text(table)
+            table_score = score_table(caption, table_text, reading_rules)
+            if int(table_score.get("priority_score") or 0) <= 0:
+                continue
+            audit_score = {
+                "section_role": table_score["table_role"],
+                "section_roles": table_score["table_roles"],
+                "priority_score": table_score["priority_score"],
+                "positive_hits": table_score["positive_hits"],
+                "negative_hits": [],
+            }
+            add_audit_row(
+                audit_rows,
+                paper_id=pid,
+                paper_title=title,
+                doi=doi,
+                tei_path=tei_path,
+                section_id=f"{sid}:table:{table_index}",
+                section_order=f"{index}.{table_index}",
+                section_title=head,
+                section_score=audit_score,
+                candidate_text=table_text,
+                audit_reason="directed_table_score",
+                table_caption=caption,
+                reading_rules=reading_rules,
+            )
+        section_infos.append((sid, head, section_text, section_score, index))
         section_count += 1
+
+    # GROBID rattache parfois les tableaux directement au corps du texte et non
+    # a une section. On les audite donc aussi globalement au niveau du papier.
+    global_tables = root.findall(".//tei:figure[@type='table']", NS) + root.findall(".//tei:table", NS)
+    for table_index, table in enumerate(global_tables, start=1):
+        caption = elem_text(table.find("tei:head", NS)) or elem_text(table.find("tei:figDesc", NS))
+        table_text = elem_text(table)
+        table_score = score_table(caption, table_text, reading_rules)
+        if int(table_score.get("priority_score") or 0) <= 0:
+            continue
+        audit_score = {
+            "section_role": table_score["table_role"],
+            "section_roles": table_score["table_roles"],
+            "priority_score": table_score["priority_score"],
+            "positive_hits": table_score["positive_hits"],
+            "negative_hits": [],
+        }
+        add_audit_row(
+            audit_rows,
+            paper_id=pid,
+            paper_title=title,
+            doi=doi,
+            tei_path=tei_path,
+            section_id=f"{pid}:table:{table_index}",
+            section_order=f"table:{table_index}",
+            section_title="GROBID table",
+            section_score=audit_score,
+            candidate_text=table_text,
+            audit_reason="directed_table_score",
+            table_caption=caption,
+            reading_rules=reading_rules,
+        )
 
     full_text = norm_space(" ".join([title, abstract, *body_text_parts]))
 
@@ -680,8 +839,19 @@ def parse_one_tei(
             add_edge(edges, pid, "USES_PACKAGE", rid, evidence_id=eid, confidence=0.65, extraction_source="dataset_package")
             add_edge(edges, rid, "PROVIDES_DATASET", did, extraction_source="r_dataset_docs")
 
-    for sid, head, section_text in section_infos:
+    for sid, head, section_text, section_score, section_order in section_infos:
         scope = norm_space(f"{head} {section_text}")
+        # La detection par variables est couteuse et bruitee. On la reserve aux
+        # sections empiriques ou aux sections qui mentionnent vraiment un modele.
+        has_explicit_dataset_ref = bool(
+            re.search(r"\b[A-Za-z][A-Za-z0-9_.]*::[A-Za-z][A-Za-z0-9_.]*\b", scope)
+        )
+        if (
+            not has_explicit_dataset_ref
+            and int(section_score.get("priority_score") or 0) < 20
+            and not has_model_marker(scope)
+        ):
+            continue
         dataset_hits = detect_dataset_labels_in_section(
             scope,
             dataset_aliases,
@@ -710,6 +880,27 @@ def parse_one_tei(
             add_edge(edges, eid, "SUPPORTS", did, extraction_source="section_match")
         explicit_labels = [label for label, alias in dataset_hits if alias == "explicit_ref"]
         for label, formula_text in section_formula_candidates(scope, explicit_labels, dataset_variables):
+            ftype = formula_type(section_score, formula_text, reading_rules)
+            attach_formula = should_attach_formula(section_score, formula_text, reading_rules)
+            add_audit_row(
+                audit_rows,
+                paper_id=pid,
+                paper_title=title,
+                doi=doi,
+                tei_path=tei_path,
+                section_id=sid,
+                section_order=section_order,
+                section_title=head,
+                section_score=section_score,
+                candidate_text=scope,
+                audit_reason="formula_candidate_attached" if attach_formula else "formula_candidate_blocked",
+                formula_candidate=formula_text,
+                formula_class=ftype,
+                needs_manual_review="yes",
+                reading_rules=reading_rules,
+            )
+            if not attach_formula:
+                continue
             did = dataset_node_id(label)
             fid = f"formula:tei:{slug(label)}:{slug(formula_text)[:96]}"
             model_family = "binomial" if "binomial" in scope.lower() else ""
@@ -723,6 +914,9 @@ def parse_one_tei(
                 section_id=sid,
                 paper_id=pid,
                 model_family=model_family,
+                formula_type=ftype,
+                section_role=section_score["section_role"],
+                priority_score=section_score["priority_score"],
                 source="tei_section_inference",
             )
             add_edge(edges, pid, "SHOWS_FORMULA", fid, extraction_source="tei_section_inference")
@@ -744,6 +938,30 @@ def parse_one_tei(
         text = elem_text(formula)
         if not text:
             continue
+        raw_score = {
+            "section_role": "raw_formula",
+            "section_roles": ["raw_formula"],
+            "priority_score": 0,
+            "positive_hits": [],
+            "negative_hits": [],
+        }
+        add_audit_row(
+            audit_rows,
+            paper_id=pid,
+            paper_title=title,
+            doi=doi,
+            tei_path=tei_path,
+            section_id=f"{pid}:formula:{index}",
+            section_order=f"formula:{index}",
+            section_title="GROBID raw formula",
+            section_score=raw_score,
+            candidate_text=text,
+            audit_reason="raw_grobid_formula",
+            formula_candidate=text,
+            formula_class=formula_type(raw_score, text, reading_rules),
+            needs_manual_review="yes",
+            reading_rules=reading_rules,
+        )
         fid = f"{pid}:formula:{index}"
         add_node(
             nodes,
@@ -787,6 +1005,36 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
 
+def write_model_evidence_audit(path: Path, rows: list[dict[str, Any]]) -> None:
+    """Ecrit l'audit de lecture dirigee dans un CSV lisible sous Excel."""
+    fields = [
+        "paper_id",
+        "paper_title",
+        "doi",
+        "tei_file",
+        "section_id",
+        "section_order",
+        "section_title",
+        "section_role",
+        "section_roles",
+        "priority_score",
+        "positive_hits",
+        "negative_hits",
+        "evidence_type",
+        "formula_type",
+        "formula_candidate",
+        "table_caption",
+        "candidate_text",
+        "needs_manual_review",
+        "audit_reason",
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=fields, delimiter=";")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def write_summary(rows: list[dict[str, Any]], node_count: int, edge_count: int) -> None:
     """Produit un resume lisible de l'extraction TEI."""
     SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
@@ -814,20 +1062,34 @@ def main() -> None:
     dataset_aliases = load_dataset_aliases()
     dataset_variables = load_dataset_variables()
     variable_dataset_index = build_variable_dataset_index(dataset_variables)
+    reading_rules = load_rules()
+    audit_rows: list[dict[str, Any]] = []
     nodes: dict[str, dict[str, Any]] = {}
     edges: dict[str, dict[str, Any]] = {}
     summaries = [
-        parse_one_tei(path, method_aliases, dataset_aliases, dataset_variables, variable_dataset_index, nodes, edges)
+        parse_one_tei(
+            path,
+            method_aliases,
+            dataset_aliases,
+            dataset_variables,
+            variable_dataset_index,
+            reading_rules,
+            audit_rows,
+            nodes,
+            edges,
+        )
         for path in tei_files
     ]
 
     write_jsonl(NODE_PATH, sorted(nodes.values(), key=lambda row: row["id"]))
     write_jsonl(EDGE_PATH, sorted(edges.values(), key=lambda row: row["id"]))
+    write_model_evidence_audit(MODEL_EVIDENCE_AUDIT_PATH, audit_rows)
     write_summary(summaries, len(nodes), len(edges))
 
     print(f"TEI files found: {len(tei_files)}")
     print(f"nodes={NODE_PATH}")
     print(f"edges={EDGE_PATH}")
+    print(f"audit={MODEL_EVIDENCE_AUDIT_PATH}")
     print(f"summary={SUMMARY_PATH}")
 
 

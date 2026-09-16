@@ -6,7 +6,8 @@
 \usage{
 explain_dataset(
   dataset,
-  evidence = c("all", "scientific_evidence", "benchmark_use"),
+  evidence = c("all", "scientific_evidence", "published_model", "benchmark_use",
+    "generated_candidate"),
   include_installed = FALSE
 )
 }

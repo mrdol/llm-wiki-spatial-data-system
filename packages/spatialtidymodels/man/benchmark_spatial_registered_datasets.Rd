@@ -6,18 +6,27 @@
 \usage{
 benchmark_spatial_registered_datasets(
   datasets,
-  estimators = c("ols", "gam_spatial", "sar_lag", "sem_error", "sdm_mixed"),
+  estimators = NULL,
   data_dir = NULL,
+  formula_role = "default",
   ...
 )
 }
 \arguments{
 \item{datasets}{Registered dataset names.}
 
-\item{estimators}{Estimators to run.}
+\item{estimators}{Estimators to run. With \code{NULL} (the default), uses the
+documented package routes and curated technical comparators for this
+dataset; explicitly supplied names always take precedence.}
 
 \item{data_dir}{Optional repository directory, or directory containing the
 prepared \code{.rds} files.}
+
+\item{formula_role}{Formula role to use when the dataset exposes several
+candidate formulas. Use \code{"default"} or \code{"package_default"} for the
+package benchmark formula, \code{"paper_main_specification"} or
+\code{"multivariate_constrained"} for the main published formula, and
+\code{"ml_or_selected"} for the ML-oriented candidate when available.}
 
 \item{...}{Arguments passed to \code{benchmark_spatial()}, such as
 \code{cv_scheme = "near_prediction"}, \code{tune = TRUE}, or \code{tuning_grids = ...}.}

@@ -183,7 +183,8 @@ test_that("diagnose_spatial compare SAR et OLS sur columbus_crime", {
   diag <- suppressWarnings(diagnose_spatial(fit, data = dat))
 
   expect_true(all(c("sar_lag", "ols_baseline") %in% diag$estimator))
-  expect_true(all(c("rmse", "mae", "aic", "aicc", "logLik", "moran_i", "moran_p_value") %in% names(diag)))
+  expect_true(all(c("rmse", "mae", "aicc", "logLik", "moran_i", "moran_abs", "moran_p_value") %in% names(diag)))
+  expect_false("aic" %in% names(diag))
   expect_true(all(is.finite(diag$rmse)))
   expect_true(all(is.finite(diag$mae)))
   expect_equal(diag$spatial_param[diag$estimator == "sar_lag"], "rho")
@@ -227,7 +228,8 @@ test_that("benchmark_spatial lance plusieurs estimateurs sur columbus_crime", {
 
   expect_s3_class(bench, "spatial_benchmark")
   expect_equal(bench$results$estimator, c("ols", "gam_spatial", "sar_lag"))
-  expect_true(all(c("rmse", "mae", "aic", "aicc", "logLik", "moran_i", "moran_p_value", "fit_error") %in% names(bench$results)))
+  expect_true(all(c("rmse", "mae", "aicc", "logLik", "moran_i", "moran_abs", "moran_p_value", "fit_error") %in% names(bench$results)))
+  expect_false("aic" %in% names(bench$results))
   expect_true(all(is.finite(bench$results$rmse)))
   expect_true(all(is.na(bench$results$fit_error)))
   expect_true(all(c("ols", "gam_spatial", "sar_lag") %in% names(bench$fits)))
@@ -996,7 +998,10 @@ test_that("benchmark_spatial propage les diagnostics du fit final en validation 
 
   expect_equal(bench$results$spatial_param, "rho")
   expect_true(is.finite(bench$results$spatial_value))
-  expect_true(is.finite(bench$results$logLik))
+  # logLik.mboost() is a raw SSE (-risk(mstop)), not a real Gaussian
+  # log-likelihood -- extract_information_criteria() now reports NA for it
+  # on purpose (see test-diagnose-spatial.R), rather than a misleading number.
+  expect_true(is.na(bench$results$logLik))
 })
 
 test_that("plot_near_prediction_fold visualise un rset near-prediction", {

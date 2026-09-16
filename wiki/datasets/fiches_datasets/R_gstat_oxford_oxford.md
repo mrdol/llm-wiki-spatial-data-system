@@ -1,8 +1,8 @@
 ---
 title: R_gstat_oxford_oxford
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_gstat_oxford_oxford.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_gstat_oxford_oxford
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 126 enregistrements dans l’artefact local R_gstat_oxford_oxford.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [100, 600], y [100, 2100]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows. Grid is oriented with long axis North-north-west to South-south-east Origin of grid is South-south-east point, 100m outside grid.
 - Description source: package R `gstat`
@@ -72,7 +72,7 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press.
+- Reference publication: Burrough, P.A. & McDonnell, R.A. (1998). Principles of Geographical Information Systems. Oxford University Press, Oxford. ISBN 978-0-19-823365-7. TYPE: manuel (livre), pas un article -- aucun DOI n'existe pour un ouvrage de ce type. Lien : https://openlibrary.org/isbn/9780198233657 (fiche verifiee : titre, auteurs et annee correspondent exactement).
 
 ### Statut regression canonique
 
@@ -84,9 +84,46 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: categorical
+- x_terms_used: ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2
+- y_term_used: PROFCLASS
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2"
+    response: "PROFCLASS"
+    predictors: ["ELEV", "VAL1", "CHR1", "LIME1", "VAL2", "CHR2", "LIME2"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -96,7 +133,7 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 - Source: package R `gstat` (version 2.1.6)
 - Source URL: https://CRAN.R-project.org/package=gstat
 - Dataset DOI: none
-- Publication DOI: pending
+- Publication DOI: none
 - Year: 2003
 
 ## Bloc 3 — Typologie des modeles
@@ -108,12 +145,12 @@ Data: 126 soil augerings on a 100 x 100m square grid, with 6 columns and 21 rows
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Burrough, P.A., McDonnell, R.A. (1998) Principles of Geographical Information Systems. Oxford University Press."
-  confidence: low
+  equation_text: "PROFCLASS ~ ELEV + VAL1 + CHR1 + LIME1 + VAL2 + CHR2 + LIME2"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,19 +160,19 @@ modeling_evidence:
 - N observations: 126
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [100, 600], y [100, 2100] (CRS unknown)
+- Spatial extent: x [100, 600], y [100, 2100] (grille de terrain locale non projetee, pas de CRS)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: unknown [lookup required]
-- CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS EPSG: not_applicable (grille de terrain locale non projetee)
+- CRS nom: not_applicable (repere local, non georeference)
+- CRS analyse recommande: not_applicable — XCOORD/YCOORD sont une grille de terrain locale non projetee (documentation gstat::oxford : "non-projected field coordinates", origine a 100m au sud-sud-est de la grille), pas des coordonnees geographiques ; aucune reprojection ne peut etre deduite sans georeferencement externe.
 
 ## Bloc 6 — Reproductibilite
 
@@ -146,6 +183,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `gstat`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 
@@ -161,3 +215,13 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `gstat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : categorical. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("gstat")) : documentation confirmee -- leve de sols par P.A. Burrough (1967, Berkshire Downs, Oxfordshire, UK), 126 sondages sur grille 100x100m ; reference = un manuel (Burrough & McDonnell 1998, Oxford University Press), pas un article -- Publication DOI corrige de "pending" a "none" (les manuels n'ont pas de DOI). XCOORD/YCOORD explicitement decrites comme "non-projected field coordinates" dans la doc -- CRS corrige de "unknown [lookup required]" (implique une recherche possible) a "not_applicable" (rien a chercher, ce sont des coordonnees de terrain non georeferencees).
+
+Complement 2026-09-15 : reference explicitement etiquetee comme un manuel (pas un article scientifique), avec lien de reference verifie (Open Library, ISBN 9780198233657 confirme resoudre vers le bon titre/auteurs/annee).

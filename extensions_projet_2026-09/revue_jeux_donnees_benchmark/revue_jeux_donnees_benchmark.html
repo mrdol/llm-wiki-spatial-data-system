@@ -1,0 +1,363 @@
+<title>Papiers fondateurs de benchmark</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --paper:#eef0f1;
+    --surface:#ffffff;
+    --surface-alt:#e3e7ea;
+    --ink:#171b1e;
+    --ink-soft:#4b545c;
+    --ink-faint:#7c868f;
+    --line:#d1d7db;
+    --line-soft:#e1e5e8;
+    --accent:#39678f;
+    --accent-bg:#dde6ee;
+    --standard:#2c7a5e;
+    --standard-bg:#dcece4;
+    --contested:#a4762b;
+    --contested-bg:#f3e9dc;
+    --retired:#a4552b;
+    --retired-bg:#f3e0dc;
+    --shadow: 0 1px 2px rgba(20,24,20,.04), 0 8px 24px -12px rgba(20,24,20,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14171a; --surface:#1b1f22; --surface-alt:#22262a;
+      --ink:#edf0f1; --ink-soft:#a7b0b6; --ink-faint:#747f86;
+      --line:#31373b; --line-soft:#272d30;
+      --accent:#7fb0dd; --accent-bg:#22303e;
+      --standard:#6bc4a1; --standard-bg:#1c2e27;
+      --contested:#e0ac6a; --contested-bg:#332a1c;
+      --retired:#e0966a; --retired-bg:#33261d;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14171a; --surface:#1b1f22; --surface-alt:#22262a;
+    --ink:#edf0f1; --ink-soft:#a7b0b6; --ink-faint:#747f86;
+    --line:#31373b; --line-soft:#272d30;
+    --accent:#7fb0dd; --accent-bg:#22303e;
+    --standard:#6bc4a1; --standard-bg:#1c2e27;
+    --contested:#e0ac6a; --contested-bg:#332a1c;
+    --retired:#e0966a; --retired-bg:#33261d;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{ background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:16px; line-height:1.6; }
+  ::selection{ background:var(--accent-bg); color:var(--ink); }
+  .page{ max-width:960px; margin:0 auto; padding:56px 28px 120px; }
+  h1,h2,h3{ font-family:'Fraunces', Georgia, serif; font-weight:600; text-wrap:balance; color:var(--ink); }
+
+  header.doc-head{ border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:40px; }
+  .eyebrow{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); display:flex; gap:10px; align-items:center; margin-bottom:14px; }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  h1.title{ font-size:clamp(28px,4vw,40px); line-height:1.12; margin:0 0 10px; }
+  .subtitle{ font-size:17px; color:var(--ink-soft); max-width:64ch; margin:0 0 22px; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:10px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint); }
+  .meta-row span{ border:1px solid var(--line); border-radius:20px; padding:4px 12px; }
+
+  nav.toc{ display:flex; flex-wrap:wrap; gap:2px 18px; margin:26px 0 44px; padding:14px 18px; background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
+  nav.toc a{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:6px 0; border-bottom:1px solid transparent; }
+  nav.toc a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+
+  section{ margin:56px 0; }
+  section > .sec-label{ font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:6px; }
+  h2{ font-size:24px; margin:0 0 16px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+  h3{ font-size:17px; margin:24px 0 12px; }
+  p{ margin:0 0 14px; max-width:72ch; color:var(--ink); }
+  p.lede{ color:var(--ink-soft); font-size:16.5px; }
+  a{ color:var(--accent); }
+  ul.plain{ margin:0 0 14px; padding-left:20px; max-width:68ch; }
+  ul.plain li{ margin-bottom:6px; }
+
+  .pill{ display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:.03em; padding:2px 9px; border-radius:20px; margin-right:6px; white-space:nowrap; }
+  .pill.standard{ background:var(--standard-bg); color:var(--standard); }
+  .pill.contested{ background:var(--contested-bg); color:var(--contested); }
+  .pill.retired{ background:var(--retired-bg); color:var(--retired); }
+
+  .entry{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-bottom:14px; box-shadow:var(--shadow); }
+  .entry-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .entry-name{ font-family:'Fraunces', serif; font-weight:600; font-size:18px; }
+  .entry-meta{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-faint); }
+  .entry p{ font-size:14.75px; margin-bottom:8px; }
+  .entry .refs{ font-size:12.5px; color:var(--ink-faint); padding-top:8px; border-top:1px dashed var(--line-soft); }
+
+  .callout{ border-left:3px solid var(--accent); background:var(--accent-bg); border-radius:0 10px 10px 0; padding:16px 20px; margin:18px 0; }
+  .callout .callout-label{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+  .callout p{ margin:0; color:var(--ink); font-size:14.75px; }
+  .callout p + p{ margin-top:8px; }
+
+  .table-wrap{ overflow-x:auto; margin:14px 0 18px; border:1px solid var(--line); border-radius:10px; }
+  table.data{ width:100%; border-collapse:collapse; background:var(--surface); font-size:13.5px; min-width:520px; }
+  table.data th, table.data td{ padding:9px 14px; text-align:left; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  table.data thead th{ background:var(--surface-alt); font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft); white-space:nowrap; }
+  table.data tbody tr:last-child td{ border-bottom:none; }
+  table.data td.num{ font-variant-numeric:tabular-nums; }
+
+  .reco{ display:grid; grid-template-columns:auto 1fr; gap:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--surface); }
+  .reco-row{ display:contents; }
+  .reco-row .term{ padding:16px 18px; font-family:'IBM Plex Mono', monospace; font-size:12px; font-weight:500; color:var(--accent); background:var(--surface-alt); border-bottom:1px solid var(--line); white-space:nowrap; }
+  .reco-row .def{ padding:16px 18px; border-bottom:1px solid var(--line); font-size:14.75px; }
+  .reco-row:last-child .term, .reco-row:last-child .def{ border-bottom:none; }
+
+  #biblio{ counter-reset:bib; }
+  .biblio-group{ margin-bottom:22px; }
+  .biblio-group h3{ color:var(--ink-soft); font-size:14px; font-family:'IBM Plex Mono',monospace; font-weight:500; text-transform:uppercase; letter-spacing:.04em; margin:0 0 8px; }
+  ol.biblio{ list-style:none; margin:0; padding:0; }
+  ol.biblio li{ counter-increment:bib; font-size:14.25px; padding:8px 0 8px 34px; position:relative; border-bottom:1px solid var(--line-soft); max-width:76ch; }
+  ol.biblio li:before{ content: counter(bib); position:absolute; left:0; top:8px; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-faint); }
+  ol.biblio li a{ font-weight:500; }
+  ol.biblio li .note{ display:block; color:var(--ink-soft); font-size:13px; margin-top:2px; }
+
+  footer{ margin-top:64px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-faint); }
+  @media (max-width:600px){ .page{ padding:36px 18px 90px; } nav.toc{ font-size:11px; } }
+</style>
+
+<div class="page">
+
+  <header class="doc-head">
+    <div class="eyebrow"><span class="dot"></span>Revue de littérature — exploratoire, 1ᵉʳ passage</div>
+    <h1 class="title">Qui a proposé les jeux de données qu'on utilise encore pour comparer des méthodes ?</h1>
+    <p class="subtitle">Recensement des papiers qui ont introduit des jeux de données de référence pour le benchmark — en machine learning généraliste, en spatial, en temporel et en économétrie — pour situer notre data paper par rapport à l'existant.</p>
+    <div class="meta-row">
+      <span>machine learning</span><span>spatial</span><span>temporel</span><span>économétrie</span><span>7 septembre 2026</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#cadrage">Cadrage</a>
+    <a href="#ml">Machine learning</a>
+    <a href="#spatial">Spatial</a>
+    <a href="#temporel">Temporel</a>
+    <a href="#economie">Économétrie</a>
+    <a href="#vieillissement">Vieillissement des benchmarks</a>
+    <a href="#kaggle">Et sur Kaggle ?</a>
+    <a href="#positionnement">Notre data paper</a>
+    <a href="#biblio">Bibliographie</a>
+  </nav>
+
+  <section id="cadrage">
+    <div class="sec-label">Objectif</div>
+    <h2>Ce qu'on cherche</h2>
+    <p class="lede">Pas des jeux de données quelconques : des papiers dont l'objet <em>était</em> de proposer ou codifier un jeu (ou une collection de jeux) destiné à comparer des méthodes entre elles — le même geste que notre data paper, mais fait avant nous, ailleurs. But : savoir qui sont les incontournables, comment ils ont présenté leur démarche, et ce que ça implique pour la nôtre.</p>
+    <p>Chaque entrée est marquée <span class="pill standard">toujours standard</span>, <span class="pill contested">contesté</span> ou <span class="pill retired">retiré/remplacé</span> — cet axe s'est révélé plus instructif que prévu (voir <a href="#vieillissement">Vieillissement des benchmarks</a>).</p>
+  </section>
+
+  <section id="ml">
+    <div class="sec-label">Généraliste</div>
+    <h2>Machine learning</h2>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">UCI Machine Learning Repository</div><div class="entry-meta">depuis 1987 <span class="pill standard">toujours standard</span></div></div>
+      <p>Le plus ancien et le plus cité des dépôts de jeux « prêts pour le benchmark ». Pas un article fondateur unique mais une infrastructure qui a essentiellement <em>créé</em> la pratique du benchmark en ML tel qu'on la connaît — chaque nouveau papier de méthode y allait chercher ses données de comparaison. La référence académique la plus citée reste Frank &amp; Asuncion (2010).</p>
+      <div class="refs">voir biblio [1]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">OpenML</div><div class="entry-meta">Vanschoren et al., 2013 <span class="pill standard">toujours standard</span></div></div>
+      <p>Va plus loin que UCI : une plateforme qui organise aussi les <em>résultats</em> d'expériences (pas seulement les données), avec des suites de benchmark versionnées (OpenML100, OpenML-CC18). Plus de 1500 publications s'en réclament depuis 2013 — probablement la référence la plus structurante pour n'importe quel projet qui veut proposer un « benchmark suite » plutôt qu'un jeu isolé, ce qui est exactement notre cas.</p>
+      <div class="refs">voir biblio [2]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">PMLB (Penn Machine Learning Benchmarks)</div><div class="entry-meta">Olson et al. 2017 ; Romano et al. 2020 <span class="pill standard">toujours standard</span></div></div>
+      <p>Une sélection curée (165 jeux à l'origine) plutôt qu'un dépôt ouvert — compilée à partir d'UCI, Kaggle, KEEL et d'autres, avec un format standardisé (une colonne cible unique nommée <code>class</code>). Précédent direct pour notre propre travail de curation/standardisation du format des jeux spatiaux.</p>
+      <div class="refs">voir biblio [3]–[4]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">« Why do tree-based models still outperform deep learning on tabular data? »</div><div class="entry-meta">Grinsztajn, Oyallon &amp; Varoquaux, NeurIPS 2022 <span class="pill standard">toujours standard</span></div></div>
+      <p>Pas un dépôt mais une <em>méthodologie</em> de benchmark : 45 jeux tabulaires choisis avec des critères explicites de « ce qui fait des données tabulaires typiques », protocole de tuning d'hyperparamètres identique pour tous les modèles comparés, mesure en <strong>regret relatif au meilleur estimateur</strong>. C'est cette dernière idée que la synthèse de l'encadrant reprend pour le protocole spatial (voir la revue sur les données semi-synthétiques).</p>
+      <div class="refs">voir biblio [5]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">« Retiring Adult »</div><div class="entry-meta">Ding et al., NeurIPS 2021 <span class="pill contested">critique méthodologique fondatrice</span></div></div>
+      <p>Pas un nouveau benchmark isolé mais un article qui démontre que le dataset « Adult » (UCI, dérivé du recensement 1994, utilisé dans des centaines de papiers sur l'équité algorithmique) a des défauts structurels qui limitent sa validité externe — puis reconstruit une famille de jeux de remplacement directement depuis les sources du recensement américain (package <code>folktables</code>). Précédent méthodologique important : la communauté <em>a déjà accepté</em> qu'un standard vieux de 30 ans se remplace par quelque chose de mieux sourcé, pas juste plus gros.</p>
+      <div class="refs">voir biblio [6]</div>
+    </div>
+  </section>
+
+  <section id="spatial">
+    <div class="sec-label">Zoom</div>
+    <h2>Spatial</h2>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Columbus crime (Anselin, 1988)</div><div class="entry-meta">49 zones, Columbus (Ohio) <span class="pill standard">toujours standard</span></div></div>
+      <p>Le jeu le plus cité de toute l'économétrie spatiale — introduit dans <em>Spatial Econometrics: Methods and Models</em>, popularisé par GeoDa/PySAL, aujourd'hui distribué directement dans le package R <code>spData</code>. C'est littéralement l'un des jeux déjà embarqués dans <code>spatialtidymodels</code>.</p>
+      <div class="refs">voir biblio [7]–[8]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Boston Housing (Harrison &amp; Rubinfeld, 1978)</div><div class="entry-meta">« Hedonic housing prices and the demand for clean air » <span class="pill retired">retiré de scikit-learn en 2022</span></div></div>
+      <p>Le jeu hédonique le plus utilisé en ML pendant des décennies — jusqu'à ce qu'on documente qu'une des variables (« B ») encode une hypothèse raciste explicite des auteurs originaux sur la ségrégation résidentielle. Retiré de scikit-learn depuis la version 1.2, maintenu uniquement à des fins pédagogiques sur l'éthique des données. Cas d'école pour notre projet : un jeu peut devenir la référence du domaine <em>et</em> être structurellement problématique en même temps — d'où l'intérêt de documenter la provenance (notre <code>quality_pedigree</code>) plutôt que de prendre un jeu « parce qu'il est célèbre ».</p>
+      <div class="refs">voir biblio [9]–[10] ; suite directe en <a href="#vieillissement">Vieillissement des benchmarks</a></div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">spData / Applied Spatial Data Analysis with R</div><div class="entry-meta">Bivand, Pebesma &amp; Gómez-Rubio ; package Bivand, Nowosad &amp; Lovelace <span class="pill standard">toujours standard</span></div></div>
+      <p>Pas un article de benchmark à proprement parler mais l'infrastructure de facto : le livre de référence de l'écosystème R spatial, et le package qui distribue encore aujourd'hui la plupart des jeux « classiques » (Columbus, Boston, Georgia…) sous un format standardisé <code>sf</code>/<code>nb</code>/<code>listw</code>. Notre propre <code>spatialtidymodels</code> en hérite directement pour plusieurs jeux.</p>
+      <div class="refs">voir biblio [11]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Ames Housing (De Cock)</div><div class="entry-meta">2011, popularisé par la compétition Kaggle « House Prices » <span class="pill standard">le remplaçant direct de Boston</span></div></div>
+      <p>Créé explicitement <strong>comme alternative moderne à Boston Housing</strong> pour l'enseignement de la régression : 2919 observations, 79 variables explicatives, aucune des dérives éthiques de Boston. Devenu l'une des compétitions Kaggle les plus populaires pour débuter en régression. Le meilleur exemple trouvé d'un jeu qui a réussi la transition « on remplace un classique daté par quelque chose de mieux construit » — exactement la position qu'occupe notre projet vis-à-vis des jeux spatiaux existants.</p>
+      <div class="refs">voir biblio [12]</div>
+    </div>
+  </section>
+
+  <section id="temporel">
+    <div class="sec-label">Zoom</div>
+    <h2>Temporel</h2>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">UCR / UEA Time Series Archives</div><div class="entry-meta">Dau et al. 2019 (UCR) ; Bagnall et al. 2018 (UEA) <span class="pill standard">toujours standard</span></div></div>
+      <p>Le pendant temporel d'UCI : l'archive UCR existe depuis 2002 (16 jeux à l'origine, 128 aujourd'hui) et revendique plus de 1000 papiers l'utilisant. L'archive UEA (2018, 30 jeux) en est l'extension multivariée. Rien d'équivalent en volume/ancienneté côté spatial.</p>
+      <div class="refs">voir biblio [13]–[14]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Monash Time Series Forecasting Archive</div><div class="entry-meta">Godahewa et al., NeurIPS D&amp;B 2021 <span class="pill standard">toujours standard</span></div></div>
+      <p>Plus récent et pensé spécifiquement pour les modèles de prévision « globaux » (entraînés sur plusieurs séries à la fois) — 30 jeux, dont 25 avec séries multiples liées, avec des baselines de référence publiées sur 10 métriques d'erreur pour chaque jeu. Modèle direct pour la façon dont on pourrait publier des baselines de référence avec chaque dataset spatial.</p>
+      <div class="refs">voir biblio [15]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Compétitions M4 / M5 (Makridakis)</div><div class="entry-meta">2018 (M4, 100 000 séries) ; 2020 (M5, ventes Walmart) <span class="pill standard">toujours standard</span></div></div>
+      <p>Le format « compétition » plutôt que « dépôt » : un jeu unique, un protocole d'évaluation figé, un classement public des méthodes. A produit une littérature méthodologique propre (dont une réplication critique sur la représentativité du jeu M5) — utile comme modèle alternatif au format « suite de jeux » si on veut un jour organiser un vrai challenge autour du package.</p>
+      <div class="refs">voir biblio [16]</div>
+    </div>
+  </section>
+
+  <section id="economie">
+    <div class="sec-label">Zoom</div>
+    <h2>Économétrie</h2>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Journal of Applied Econometrics — Data Archive</div><div class="entry-meta">dépôt obligatoire depuis 1994 <span class="pill standard">toujours standard</span></div></div>
+      <p>Pas un jeu mais une <em>politique</em> : dépôt des données obligatoire pour toute publication depuis janvier 1994, section dédiée aux réplications depuis Pesaran (2003). Le journal le plus actif sur la réplication en économie. Beaucoup des jeux « classiques » de l'économétrie appliquée (dont plusieurs déjà dans notre catalogue via <code>wooldridge</code>/<code>spData</code>) proviennent indirectement de cette politique de dépôt.</p>
+      <div class="refs">voir biblio [17]</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head"><div class="entry-name">Package <code>wooldridge</code></div><div class="entry-meta">115 jeux du manuel de Wooldridge, R et Python <span class="pill standard">toujours standard</span></div></div>
+      <p>Pas un benchmark de méthodes ML mais l'équivalent pédagogique en économétrie : chaque jeu documenté avec sa source originale, sa page dans le manuel, et des pistes d'analyse suggérées par l'auteur. Modèle de documentation à comparer avec notre propre format de fiche (métadonnées + provenance).</p>
+      <div class="refs">voir biblio [18]</div>
+    </div>
+  </section>
+
+  <section id="vieillissement">
+    <div class="sec-label">Fil rouge</div>
+    <h2>Un benchmark, ça vieillit — et parfois ça se remplace</h2>
+    <p>Le constat le plus utile de ce premier passage n'est pas dans une entrée isolée mais dans la comparaison de deux paires :</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Jeu d'origine</th><th>Défaut révélé</th><th>Remplaçant</th><th>Issue</th></tr></thead>
+        <tbody>
+          <tr><td>Boston Housing (1978)</td><td>variable encodant une hypothèse raciste des auteurs</td><td>Ames Housing (De Cock, 2011)</td><td>retiré de scikit-learn (2022), remplacé de facto par Ames comme standard pédagogique</td></tr>
+          <tr><td>UCI Adult (1994, recensement)</td><td>défauts de représentativité documentés (Ding et al. 2021)</td><td><code>folktables</code> (Ding et al. 2021)</td><td>famille de jeux reconstruits directement depuis la source du recensement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <div class="callout-label">Ce que ça dit pour notre projet</div>
+      <p>La communauté a un précédent net : un jeu peut être <em>le</em> standard du domaine pendant 30 ans et se faire retirer/remplacer une fois ses défauts documentés — et le remplacement gagnant n'est pas nécessairement plus gros ou plus récent, il est simplement <strong>mieux sourcé et mieux documenté</strong> (provenance claire, construction traçable). C'est exactement l'argument qu'on peut faire valoir pour notre propre catalogue face aux jeux spatiaux « historiques » (Columbus, Boston, Georgia) : la valeur ajoutée n'est pas seulement le nombre de jeux, c'est la traçabilité (<code>quality_pedigree</code>, formule confirmée, licence documentée) qu'aucun de ces classiques n'a au même niveau.</p>
+    </div>
+  </section>
+
+  <section id="kaggle">
+    <div class="sec-label">Vérification demandée</div>
+    <h2>Est-ce que ces jeux sont repris sur Kaggle ?</h2>
+    <p>Oui pour la plupart des jeux généralistes et une partie des jeux spatiaux — mais pas pour les archives plus spécialisées :</p>
+    <ul class="plain">
+      <li><strong>Oui, massivement</strong> : Ames Housing (compétition officielle Kaggle « House Prices », l'une des plus populaires pour débuter), Boston Housing (très présent historiquement en versions dérivées malgré son retrait de scikit-learn), M4 (jeu déposé tel quel sur Kaggle par des tiers).</li>
+      <li><strong>Présence partielle / dérivée</strong> : plusieurs jeux UCI/PMLB apparaissent sous forme de copies ou de compétitions inspirées, sans lien officiel avec le dépôt d'origine.</li>
+      <li><strong>Peu ou pas présent</strong> : UCR/UEA (archives spécialisées, communauté académique plutôt que grand public), Monash Forecasting Archive, OpenML (a son propre écosystème, ne dépend pas de Kaggle pour sa visibilité), spData/Columbus/Georgia (jeux d'enseignement en économétrie spatiale, restent dans l'écosystème R/GeoDa).</li>
+    </ul>
+    <p>Conclusion pratique : la présence sur Kaggle suit surtout l'accessibilité pédagogique (facile à comprendre, régression/classification simple) plutôt que la rigueur scientifique — les jeux spatiaux avec dépendance (W, coordonnées) restent à peu près absents de Kaggle, ce qui est cohérent avec l'idée que notre catalogue vise une audience différente (chercheurs en économétrie spatiale) plutôt qu'un public Kaggle généraliste.</p>
+  </section>
+
+  <section id="positionnement">
+    <div class="sec-label">Application</div>
+    <h2>Ce que ça suggère pour le data paper</h2>
+    <div class="reco">
+      <div class="reco-row">
+        <div class="term">modèle à suivre</div>
+        <div class="def">OpenML (suites versionnées + résultats de référence publiés) et Monash Archive (baselines publiées avec chaque jeu) sont les deux modèles les plus proches de ce qu'on veut faire : pas juste distribuer des données, mais un format standardisé + des résultats de référence pour chaque dataset.</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">argument de légitimité</div>
+        <div class="def">Le duo Boston→Ames / Adult→folktables donne un argument concret et déjà accepté par la communauté : un catalogue mieux documenté peut légitimement remplacer des classiques, sans avoir besoin d'être plus gros — juste plus traçable.</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">angle différenciant</div>
+        <div class="def">Aucun des dépôts généralistes (UCI, PMLB, OpenML) ne gère la dimension spatiale (coordonnées, W, dépendance) ; les dépôts spatiaux existants (spData) sont anciens et non standardisés au niveau métadonnées/provenance. C'est l'angle vide à occuper dans le data paper.</div>
+      </div>
+      <div class="reco-row">
+        <div class="term">à ne pas oublier</div>
+        <div class="def">Documenter la provenance (licence, source, formule confirmée) au niveau où le fait Wooldridge pour l'économétrie — c'est un standard de documentation déjà connu et accepté, pas une exigence exotique qu'on invente.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="limites">
+    <div class="sec-label">Périmètre</div>
+    <h2>Limites de ce premier passage</h2>
+    <p>Recherche web d'une session, pas une lecture exhaustive. Angles pas creusés : la littérature strictement statistique (au sens « stat pure », par opposition à ML/économétrie) sur les jeux canoniques (iris, mtcars, diabetes...) — probablement moins pertinente pour notre positionnement spatial mais à vérifier ; et une revue plus fine des suites de benchmark en vision/NLP (ImageNet, GLUE) pour voir si leur documentation de provenance a des leçons transposables, au-delà de ce qui est déjà couvert ici.</p>
+  </section>
+
+  <section id="biblio">
+    <div class="sec-label">Sources</div>
+    <h2>Bibliographie</h2>
+
+    <div class="biblio-group">
+      <h3>Machine learning généraliste</h3>
+      <ol class="biblio">
+        <li>Frank, A. &amp; Asuncion, A. (2010) — UCI Machine Learning Repository<span class="note">University of California, Irvine — référence académique la plus citée du dépôt (créé en 1987)</span></li>
+        <li><a href="https://arxiv.org/abs/1407.7722" target="_blank" rel="noopener">Vanschoren, J., van Rijn, J.N., Bischl, B. &amp; Torgo, L. (2013) — OpenML: networked science in machine learning</a><span class="note">SIGKDD Explorations, 15(2):49-60</span></li>
+        <li><a href="https://arxiv.org/pdf/1703.00512" target="_blank" rel="noopener">Olson, R.S., La Cava, W., Orzechowski, P., Urbanowicz, R.J. &amp; Moore, J.H. (2017) — PMLB: a large benchmark suite for machine learning evaluation and comparison</a><span class="note">BioData Mining, 10:36</span></li>
+        <li><a href="https://arxiv.org/pdf/2012.00058" target="_blank" rel="noopener">Romano, J.D. et al. (2020) — PMLB v1.0: an open-source dataset collection for benchmarking machine learning methods</a><span class="note">arXiv 2012.00058</span></li>
+        <li><a href="https://arxiv.org/abs/2207.08815" target="_blank" rel="noopener">Grinsztajn, L., Oyallon, E. &amp; Varoquaux, G. (2022) — Why do tree-based models still outperform deep learning on tabular data?</a><span class="note">NeurIPS 2022, Datasets &amp; Benchmarks track</span></li>
+        <li><a href="https://arxiv.org/abs/2108.04884" target="_blank" rel="noopener">Ding, F. et al. (2021) — Retiring Adult: New Datasets for Fair Machine Learning</a><span class="note">NeurIPS 2021 — package <code>folktables</code></span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
+      <h3>Spatial</h3>
+      <ol class="biblio">
+        <li>Anselin, L. (1988) — Spatial Econometrics: Methods and Models<span class="note">Kluwer — introduit le jeu Columbus crime</span></li>
+        <li>Anselin, L. &amp; Rey, S.J. (2014) — Modern Spatial Econometrics in Practice: A Guide to GeoDa, GeoDaSpace and PySAL<span class="note">GeoDa Press</span></li>
+        <li>Harrison, D. &amp; Rubinfeld, D.L. (1978) — Hedonic housing prices and the demand for clean air<span class="note">Journal of Environmental Economics and Management, 5(1):81-102 — dataset Boston Housing</span></li>
+        <li>scikit-learn maintainers (2021-2022) — dépréciation puis retrait de <code>load_boston</code><span class="note">documentation officielle scikit-learn 1.0-1.2, note sur la variable « B »</span></li>
+        <li>Bivand, R.S., Pebesma, E. &amp; Gómez-Rubio, V. (2013) — Applied Spatial Data Analysis with R<span class="note">Springer, Use R! — avec le package <code>spData</code> (Bivand, Nowosad &amp; Lovelace)</span></li>
+        <li>De Cock, D. (2011) — Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project<span class="note">Journal of Statistics Education, 19(3) — popularisé via la compétition Kaggle « House Prices »</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
+      <h3>Temporel</h3>
+      <ol class="biblio">
+        <li>Dau, H.A. et al. (2019) — The UCR Time Series Archive<span class="note">IEEE/CAA Journal of Automatica Sinica, 6(6):1293-1305</span></li>
+        <li><a href="https://arxiv.org/abs/1811.00075" target="_blank" rel="noopener">Bagnall, A. et al. (2018) — The UEA multivariate time series classification archive</a><span class="note">arXiv 1811.00075</span></li>
+        <li><a href="https://arxiv.org/abs/2105.06643" target="_blank" rel="noopener">Godahewa, R., Bergmeir, C., Webb, G.I., Hyndman, R.J. &amp; Montero-Manso, P. (2021) — Monash Time Series Forecasting Archive</a><span class="note">NeurIPS 2021, Datasets &amp; Benchmarks track</span></li>
+        <li>Makridakis, S., Spiliotis, E. &amp; Assimakopoulos, V. (2020) — The M4 Competition: 100,000 time series and 61 forecasting methods<span class="note">International Journal of Forecasting, 36:54-74 — voir aussi la compétition M5 (ventes Walmart, 2020)</span></li>
+      </ol>
+    </div>
+
+    <div class="biblio-group">
+      <h3>Économétrie</h3>
+      <ol class="biblio">
+        <li>Journal of Applied Econometrics — Data Archive<span class="note">politique de dépôt obligatoire depuis janvier 1994 ; section réplications depuis Pesaran (2003)</span></li>
+        <li>Wooldridge, J.M. — Introductory Econometrics: A Modern Approach<span class="note">Cengage — package <code>wooldridge</code> (R/Python), 115 jeux documentés avec source et page du manuel</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    1ᵉʳ passage compilé à partir d'une recherche web le 7 septembre 2026 — à recouper avec une lecture directe des papiers avant citation dans le data paper.
+  </footer>
+
+</div>

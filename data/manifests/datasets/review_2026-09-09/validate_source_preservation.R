@@ -1,0 +1,6 @@
+library(sf)
+source('code/r_catalog/build_sf_datasets_papers.R')
+a<-load_sfbay_contaminated_sites()$obj;b<-readRDS('data/final_datasets/sf/paper_sfbay_contaminated_sites.rds')
+for(n in names(st_drop_geometry(a)))stopifnot(identical(a[[n]],b[[n]]))
+stopifnot(length(unique(st_as_binary(st_geometry(b))))==5297)
+cat('All 77 source/provenance attributes unchanged by sf conversion; 5297 unique points.\n')

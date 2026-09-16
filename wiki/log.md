@@ -1897,3 +1897,218 @@ Key changes:
 Verification:
 - Checked that `CONTEXT.md` no longer contains obvious mojibake markers
   (`Ã`, `â`, `Â`).
+
+## [2026-08-10] datapaper | package-derived benchmark datasets, scope refresh
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Decision and evidence:
+- User selected scope A: package-derived datasets only.
+- Direct inventory found 91 package-derived Bloc 1-6 fiches; 31 `paper_*.md` fiches were excluded from this manuscript.
+- The separate Bloc 2 readiness pipeline and audit are cited in the draft to prevent conflation with package-derived benchmark claims.
+
+Next step:
+- Update the existing draft one manuscript section at a time, with dated source paths for each factual claim.
+## [2026-08-10] datapaper | Bloc 1 data-bank foundation
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Methodological grounding:
+- Read the initial stage proposal, enriched-metadata design, preliminary framing, and detailed INRAE stage plan in `raw/docs_methodology/`.
+- Reframed the manuscript as the first, bounded, package-derived release of a spatial benchmark data bank.
+- Added release-boundary and submission prerequisites without asserting an uncreated archive DOI or completed benchmark results.
+
+Next step:
+- Revise the abstract and Background & Summary against the frozen Bloc 1 release evidence.
+## [2026-08-10] datapaper | Bloc 1 abstract revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Rewrote the abstract around the Bloc 1 release of a curated spatial benchmark data bank.
+- Removed unstable counts of estimator variants and CV schemes from the abstract.
+- Kept the boundary explicit: documentation does not itself promote every entry to a runnable benchmark and no empirical ranking is claimed.
+## [2026-08-10] datapaper | Bloc 1 Background and motivation revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Reframed the background around the reference data-bank objective and coverage-oriented design.
+- Explained the enriched-metadata chain from source description to typology, estimator eligibility, validation, and benchmarking.
+- Kept the Bloc 1 scope bounded and avoided claims of universal benchmark readiness or empirical model performance.
+## [2026-08-10] datapaper | Bloc 1 scope and inclusion criteria
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Replaced the placeholder with an operational, evidence-backed inclusion rule for package-derived `sf` dataset objects.
+- Recorded exclusions for raw documentation, non-inspectable objects, separate source layers, and duplicate artifacts.
+- Clarified that DOI, published formula, and a completed benchmark are documentation fields rather than admission gates.
+## [2026-08-10] datapaper | Blocs 1-2 scope and empirical-validation rationale
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Expanded the manuscript from the package-derived layer to a two-route bank: package objects (Bloc 1) and publication-linked records (Bloc 2).
+- Added explicit separation of the registry, bibliographic candidates, raw downloads, converted artifacts, and the benchmark-ready core.
+- Rewrote the abstract, foundation, background, and scope to explain the complementary roles of theoretical analysis, Monte Carlo simulation, and empirical evaluation.
+- Positioned `spatialtidymodels` as the reproducible execution interface for the explicit benchmark core, not as evidence of readiness or estimator performance.
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## [2026-08-21] maintenance | Las Rosas benchmark task split
+
+Files updated:
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_1999.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_2001.md`
+- `code/r_catalog/prepare_lasrosas_benchmark_tasks.R`
+- package metadata, bundled data preparation and manual benchmark configuration
+
+Decision and evidence:
+- The source object contains 1,738 observations for 1999 and 1,705 for 2001.
+- The 2004 Anselin, Bongiovanni and Lowenberg-DeBoer article analyses the 1999 cross-section after grid aggregation, not the two campaigns pooled as a panel.
+- `lasrosas` now denotes the 1999 bundled task with the published quadratic topographic specification. The full source and the 2001 cross-section remain distinct, with the latter in manual review.
+
+Verification:
+- Derived RDS files were regenerated with 1,738 observations for 1999 and 1,705 for 2001.
+- `load_benchmark_dataset("lasrosas")` loads the bundled 1999 task and its published formula; an OLS holdout completed without failed resamples.
+- The metadata-registry tests passed. The full package suite reached exit code 0 but reports two existing `processx` worker errors caused by Windows pipe permission denial, not by the Las Rosas changes.
+
+## [2026-08-21] maintenance | Eligible estimator metadata normalization
+
+Files updated:
+- `code/package_metadata/export_spatialtidymodels_metadata.py`
+- `code/r_catalog/generate_fiches_papers.R`
+- `packages/spatialtidymodels/R/metadata-registry.R`
+- `packages/spatialtidymodels/R/benchmark-datasets.R`
+- package metadata JSON and registry tests
+
+Changes and verification:
+- Preserved published method names separately from executable package routes.
+- Mapped documented GWR and SAR-error families to `mgwrsar_gwr` and `sem_error` when appropriate.
+- Kept unsupported source methods non-blocking and proposed only compatible continuous-regression comparators from documented Y/X and spatial-support rules.
+- Removed the fixed default estimator list for single-dataset benchmarks; metadata now selects the executable routes unless the caller supplies names.
+- Added fold-safe coordinate derivation from `sf` geometry when a ready fiche omits explicit coordinate columns.
+- Regenerated metadata with no invalid non-empty package route and passed `metadata-registry` tests.
+
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## 2026-09-07 — Corrections des fiches datasets après audit
+
+Corrections appliquées aux générateurs R/Python, à l’export metadata, au routage
+des réponses et aux loaders Las Rosas/ade4. 286 fiches modifiées sur 292 ;
+20 constats critiques corrigés et 2 neutralisés sans prétendre à une résolution
+scientifique. 119 passages yes vers manual_review, 1 yes vers no et 3
+manual_review vers no ; 3 réouvertures no vers manual_review, aucune promotion
+vers yes. État final : 35 yes, 175 manual_review, 82 no.
+
+Vérifications : 292 RDS lisibles et structures sf utilisables, 231 formules
+disponibles valides avec variables présentes, 61 indisponibles, 35 chargements
+package réussis, 6 tests Python et 9 assertions R de routage passants.
+Jointures ade4 testées sur clés permutées/manquantes ; sous-ensembles Las Rosas
+comparés au parent. Curation idempotente, CSV 292 lignes/33 colonnes contrôlé,
+JavaScript du HTML régénéré parseable. Aucun benchmark complet.
+
+KG : red deer relié au dépôt et à l’article vérifiés ; sugar glider distingue
+dataset réutilisé, dataset source et article. Extraction, graphe et index
+régénérés sans nouveau GROBID. Les archives brutes et l’audit initial sont
+conservés. Quinze récupérations sont priorisées sans promotion automatique.
+
+Livrables : [[dataset_fiches_corrections_2026-09-07]],
+data/manifests/datasets/dataset_fiches_corrections_2026-09-07.csv,
+dataset_curation_overrides.json, dataset_fiches_validation_2026-09-07.json et
+dataset_recovery_priorities_2026-09-07.json. Candidats et HTML :
+[[paper_dataset_benchmark_candidates_2026-09-07]].
+
+## 2026-09-08 — Plasmode : cadrage encadrant et pilote exécuté
+
+Programme actif limité au plasmode ; EMCS placebo, GAN et morphing restent
+bibliographiques. Les deux HTML sont actualisés ; la synthèse originale de
+l'encadrant est conservée. Une structure spatiale peut résulter d'information
+omise, d'une forme inadéquate ou du processus d'observation : D9 n'est pas unique.
+
+Page créée : [[protocole_plasmode_spatial_2026-09-08]].
+Sorties dans extensions_projet_2026-09/revue_donnees_semi_synthetiques/ :
+scripts de génération, tests et rapport ; objets de calibration, vérités,
+graines, folds, W, results.rds/results.json, figure PNG et rapport Markdown/HTML.
+
+Exécution : Georgia et Meuse, 7 scénarios, 20 réplications, 3 concurrents et
+une référence privilégiée séparée ; 1120 évaluations / 3360 ajustements de fold,
+0 échec et 0 warning de modèle. Tests de partitions, non-fuite des Y de test,
+covariance du bruit, SNR, masquage, proxy et reproductibilité passants.
+Figure scientifique inspectée. Aucun benchmark complet ni changement
+d'admission ; les résultats sont descriptifs et conditionnels.
+
+Point matériel : la géométrie convertie de Georgia est incohérente ; le pilote
+utilise les longitude/latitude vérifiées contre spgwr::gSRDF et projetées en
+mètres, sans modifier l'artefact. R² du générateur réel hors calibration :
+0.235 Georgia, 0.747 Meuse ; sa fidélité Georgia reste limitée.
+
+KG consulté pour Georgia, Meuse et la confusion spatiale ; aucune nouvelle
+relation de formule publiée n'est créée pour les constructions du pilote.
+Navigation, CONTEXT, glossaire, overview et statut pipeline mis à jour.
+Suites : valider mécanismes/cibles, seconde famille génératrice, folds et
+proxies répétés, calibration/precision, puis intégration package.
+
+## [2026-09-09] bibliographie | Deux revues des extensions
+Trois PDF fournis par l’utilisateur reçus depuis Downloads, contrôlés et classés. Biblio_from_pdf : 20 notices semi-synthétiques et 11 notices benchmark relues ; deux exports .bib dans les dossiers correspondants, PDF originaux conservés. Validation : 31 clés et 24 DOI sans doublon, liens/empreintes PDF et compilation LaTeX/BibTeX réussis. Corrections de DOI et versions documentées dans extensions_projet_2026-09/bilan_recherche_articles_2026-09-09.md. Aucun changement de fiche dataset, de statut d’admission ni ingestion dans le corpus/KG. Pilote en pause.
+
+## [2026-09-09] curation | Fidélité de quatre datasets aux publications
+Fiches SFBay, harbour porpoise, CO2 Chine et NO2 AQS corrigées contre PDF/données/code auteur. SFBay : retrait du dédoublonnage sur FID_DTSC_S=0, 5297 lignes et attributs source restaurés. Marsouin : 722 lignes conservées, 3 GLMM probit du tableau 1 réexécutés (N=654/654/623, AIC conformes). CO2 : neuf X et Y en log, He L., statut ready_in_data_bank ; NO2 : réponse annuelle et matrice dérivée reconnues non conformes à la tâche quotidienne publiée. Deux loaders corrigés, sorties antérieures sauvegardées. Huit tests Python réussis, curation idempotente, zéro contradiction de promotion sur les quatre fiches. Quatre notices du registre synchronisées ; KG régénéré par extraction des preuves modèle, construction et résumés. Revues et preuves : revue_fidelite_quatre_datasets_2026-09-09, revue_panel_spatial_2026-09-09, data/manifests/datasets/review_2026-09-09/. Aucun moteur panel ni ensemble NN/RF/GB/GAM implémenté ; provenance géographique CO2 et matrice quotidienne NO2 restent ouvertes.
+
+
+## 2026-09-09 — Recensement des applications de panel spatial dans les fiches
+
+Criblage des 409 fiches datasets et vérification ciblée des sources : Li–Fang–He confirmé ; diffusion spatiale retardée testée dans Seshat ; faux positifs documentés. Deux applications supplémentaires identifiées dans le corpus sans fiche dataset correspondante (Yun–Gramig, De Siano–Chiariello). Inventaire JSON traçable et revue [[revue_panel_spatial_2026-09-09]] enrichie. Aucun changement de statut dataset par ce recensement.
+
+## 2026-09-09 — Enrichissement externe de la revue panel spatial
+
+Quinze références empiriques proposées ont été contrôlées et ajoutées à [[revue_panel_spatial_2026-09-09]], avec DOI, structure, méthode, intérêt pour la banque et vérifications de données encore nécessaires. Priorités : Yun–Gramig, Baylis–Paulson–Piras, Pu et al., Parent–LeSage, Bouayad-Agha–Védrine, puis Baltagi–Bresson. Les études provinciales chinoises sur le carbone sont conservées comme lot comparatif afin de préserver la diversité méthodologique et thématique. Aucun PDF, dataset, statut de fiche ou composant du harnais n'a été modifié.
+
+## 2026-09-09 — Plan d'implémentation des panels spatiaux
+
+Plan [[plan_implementation_panel_spatial_2026-09-09]] ajouté à partir de l'architecture réelle de `spatialtidymodels` et de la revue des articles. La route commence par un contrat unité–temps–W et les modèles FE/SAR statiques, puis SEM/SAC/SDM et validation temporelle. Les modèles dynamiques, SUR, flux dyadiques et panels non équilibrés sont reportés jusqu'à validation du socle. Aucun code du package n'est modifié par ce plan.
+
+Précision de périmètre : les SAR/SEM existants sont transversaux ; les futurs SAR/SEM de panel formeront un harnais distinct, sans comparaison automatique avec les coupes. Le tableau de bord est reporté. L'entrée du nouveau harnais sera constituée des panels parents conservés dans les fiches, après inventaire de leurs liens `parent_dataset`/`source_dataset_id`, et non de leurs coupes temporelles dérivées.
+
+## 2026-09-14 — Lecture intégrale de la revue des jeux de benchmark
+
+Les onze PDF complémentaires ont été lus intégralement et synthétisés dans `extensions_projet_2026-09/revue_jeux_donnees_benchmark/lecture_integrale_et_comparaison_2026-09-14.md`. Le HTML compare désormais OpenML Suites, PMLB, AMLB, TableShift, TabZilla et TabReD ; traduit Datasheets et FAIR en exigences documentaires ; et confronte CAMELS-US, LamaH-CE et Caravan à la banque. Le positionnement est corrigé : les banques hydrologiques sont déjà fortement documentées ; l'apport visé est la couverture multi-domaines, la provenance jusqu'à la formule et une couche distincte de tâches/runs pour le noyau exécutable. Aucun dataset hydrologique n'a été téléchargé ou admis.
+
+Deuxième intégration : les formulations affirmant un vide général de documentation spatiale ont été retirées du README et du HTML. La contribution est définie comme la combinaison d'une couverture multi-domaines, d'une provenance distincte pour Y/X/géométrie/temps/W, du lien aux formules publiées et de la séparation `Dataset`/`BenchmarkTask`/`BenchmarkSuite`/`BenchmarkRun`. Un texte anglais directement réutilisable dans l'introduction et la discussion est disponible dans `synthese_introduction_discussion_datapaper_2026-09-14.md` et résumé dans le HTML.

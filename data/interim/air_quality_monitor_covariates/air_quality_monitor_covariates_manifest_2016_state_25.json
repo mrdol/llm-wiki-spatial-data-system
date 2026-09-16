@@ -1,0 +1,41 @@
+{
+  "pm25": {
+    "pollutant": "pm25",
+    "year": 2016,
+    "state_code": "25",
+    "n_monitors": 18,
+    "response": "pm25_mean_2016",
+    "response_units": "micrograms_per_cubic_meter",
+    "predictors_current": ["pm25_grid_prediction_2016", "pm25_grid_distance_m", "elevation_m_usgs_epqs", "power_t2m_mean_c", "power_rh2m_mean_pct", "power_ws10m_mean_m_s", "power_prectotcorr_sum_mm", "power_swdwn_mean_mj_m2_day", "nlcd_land_cover_code", "nlcd_developed", "nlcd_forest", "road_density_primary_secondary_1km_m_per_km2", "road_density_primary_secondary_10km_m_per_km2", "longitude", "latitude"],
+    "aqs_zip": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/raw/covariates/airdata/daily_88101_2016.zip",
+    "csv": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/interim/air_quality_monitor_covariates/aqs_pm25_2016_state_25_monitor_covariates.csv",
+    "rds": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/final_datasets/sf/paper_pm25_aqs_state_25_2016_monitor_covariates.rds",
+    "limitation": "Prototype reconstruction: uses EPA AQS monitor observations, USGS elevation, NASA POWER weather/radiation, NLCD point land-cover class, Census TIGER road density, and nearest final prediction grid value. Satellite AOD and CTM covariates are not yet reconstructed."
+  },
+  "no2": {
+    "pollutant": "no2",
+    "year": 2016,
+    "state_code": "25",
+    "n_monitors": 10,
+    "response": "no2_mean_2016",
+    "response_units": "ppb",
+    "predictors_current": ["no2_grid_prediction_2016", "no2_grid_distance_m", "elevation_m_usgs_epqs", "power_t2m_mean_c", "power_rh2m_mean_pct", "power_ws10m_mean_m_s", "power_prectotcorr_sum_mm", "power_swdwn_mean_mj_m2_day", "nlcd_land_cover_code", "nlcd_developed", "nlcd_forest", "road_density_primary_secondary_1km_m_per_km2", "road_density_primary_secondary_10km_m_per_km2", "longitude", "latitude"],
+    "aqs_zip": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/raw/covariates/airdata/daily_42602_2016.zip",
+    "csv": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/interim/air_quality_monitor_covariates/aqs_no2_2016_state_25_monitor_covariates.csv",
+    "rds": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/final_datasets/sf/paper_no2_aqs_state_25_2016_monitor_covariates.rds",
+    "limitation": "Prototype reconstruction: uses EPA AQS monitor observations, USGS elevation, NASA POWER weather/radiation, NLCD point land-cover class, Census TIGER road density, and nearest final prediction grid value. Satellite AOD and CTM covariates are not yet reconstructed."
+  },
+  "o3": {
+    "pollutant": "o3",
+    "year": 2016,
+    "state_code": "25",
+    "n_monitors": 16,
+    "response": "o3_mean_2016",
+    "response_units": "ppb_converted_from_ppm",
+    "predictors_current": ["o3_grid_prediction_2016", "o3_grid_distance_m", "elevation_m_usgs_epqs", "power_t2m_mean_c", "power_rh2m_mean_pct", "power_ws10m_mean_m_s", "power_prectotcorr_sum_mm", "power_swdwn_mean_mj_m2_day", "nlcd_land_cover_code", "nlcd_developed", "nlcd_forest", "road_density_primary_secondary_1km_m_per_km2", "road_density_primary_secondary_10km_m_per_km2", "longitude", "latitude"],
+    "aqs_zip": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/raw/covariates/airdata/daily_44201_2016.zip",
+    "csv": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/interim/air_quality_monitor_covariates/aqs_o3_2016_state_25_monitor_covariates.csv",
+    "rds": "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy/data/final_datasets/sf/paper_o3_aqs_state_25_2016_monitor_covariates.rds",
+    "limitation": "Prototype reconstruction: uses EPA AQS monitor observations, USGS elevation, NASA POWER weather/radiation, NLCD point land-cover class, Census TIGER road density, and nearest final prediction grid value. Satellite AOD and CTM covariates are not yet reconstructed."
+  }
+}

@@ -1,8 +1,8 @@
 ---
 title: R_spaMM_arabidopsis_arabidopsis
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spaMM_arabidopsis_arabidopsis.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 - Topic: socio-demographie territoriale
 - Observation unit: unite de recensement ou unite administrative
 - Observed population: population territoriale documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-13.4811, 77], y [29.2144, 65.25]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: For 948 “accessions” from European Arabidopsis thaliana populations, this data set merges the genotypic information at four single nucleotide polymorphisms (SNP) putatively involved in adaptation to climate (Fournier-Level et al, 2011, Table 1), with 13 climatic variables from Hancock et al. (2011).
 - Description source: package R `spaMM`
@@ -85,8 +85,45 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 ### Formule — niveau systeme
 
 - formula_used: cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: binary
 - x_terms_used: seasonal, Matern(1|LAT+LONG)
 - y_term_used: cbind(pos1046738, 1-pos1046738)
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
+    response: "cbind(pos1046738, 1-pos1046738)"
+    predictors: ["seasonal, Matern(1|LAT", "LONG)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -109,11 +146,11 @@ For 948 “accessions” from European Arabidopsis thaliana populations, this da
 modeling_evidence:
   existing_model_found: true
   equation_text: "cbind(pos1046738, 1-pos1046738) ~ seasonal + Matern(1|LAT+LONG)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Fournier-Level A, Korte A, Cooper MD, Nordborg M, Schmitt J, Wilczek AM (2011) A map of local adaptation in Arabidopsis thaliana. Science 334: 86-89."
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -123,7 +160,7 @@ modeling_evidence:
 - N observations: 948
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -147,6 +184,23 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -161,3 +215,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `spaMM`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : binary. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

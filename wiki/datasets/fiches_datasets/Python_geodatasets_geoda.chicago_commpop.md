@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.chicago_commpop
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.chicago_commpop.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.chicago_commpop
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 77 enregistrements dans l’artefact local Python_geodatasets_geoda.chicago_commpop.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-87.904675150033, -87.535021756305], y [41.6654657, 42.01049825]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 - Description source: package Python `geodatasets`
@@ -71,9 +71,46 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: POP2010 ~ POP2000
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
+- x_terms_used: POP2000
+- y_term_used: POP2010
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "simple_baseline"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "generated"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "POP2010 ~ POP2000"
+    response: "POP2010"
+    predictors: ["POP2000"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -95,12 +132,12 @@ Dataset spatial issu du package Python `geodatasets` (`chicago_commpop`).
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  equation_text: "POP2010 ~ POP2000"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -110,7 +147,7 @@ modeling_evidence:
 - N observations: 77
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -119,7 +156,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-87.9047, -87.535], y [41.6655, 42.0105] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
@@ -133,6 +170,23 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
 
 ## Quality Control
 
@@ -148,3 +202,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

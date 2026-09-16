@@ -1,0 +1,53 @@
+{
+  "_comment": "Liste persistante de decisions manuelles sur des dataset_doi DataCite (revue humaine ou session Claude explicite), dans les deux sens : reject (par defaut si 'action' absent) ou keep force. Contrairement a datacite_verification_report_<mois>.json qui est ecrase a chaque run --force, ce fichier survit d'un harvest a l'autre. verify_datacite_candidates.py exclut ces DOI de l'appel LLM et applique directement l'action enregistree avec son motif, pour eviter qu'une re-evaluation a froid ne contredise une decision deja actee dans un sens ou dans l'autre.",
+  "exclusions": {
+    "10.6084/m9.figshare.28908299": {
+      "action": "reject",
+      "reason": "Spatial au sens imagerie biomedicale (electrodes EEG, modele CAR binaire pour interface cerveau-machine), pas de coordonnees geographiques/CRS possibles, incompatible avec l'architecture sf du projet.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (needs_manual_check initial)"
+    },
+    "10.6084/m9.figshare.7037693": {
+      "action": "reject",
+      "reason": "Spatial au sens imagerie IRM 3D (voxels cerebraux, spatially varying coefficient model), pas de coordonnees geographiques/CRS possibles, incompatible avec l'architecture sf du projet malgre 87 citations.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (needs_manual_check initial)"
+    },
+    "10.6084/m9.figshare.25897766": {
+      "action": "reject",
+      "reason": "Domaine d'application non identifiable dans les metadonnees DataCite (sujets incoherents : Environmental Sciences/Ecology/Cancer/Science Policy), formats=[] (aucun fichier de donnees confirme, code/document uniquement). Reconfirme le 2026-08-15 : aucun changement dans les metadonnees malgre une re-evaluation LLM plus favorable lors d'un run ulterieur -- decision maintenue.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (needs_manual_check initial, reconfirme apres reapparition erronee en keep)"
+    },
+    "10.6084/m9.figshare.30219127": {
+      "action": "reject",
+      "reason": "Matrice de poids spatiaux construite a partir de relations de reseau social (Sina Weibo, comportement de publication), aucune coordonnee geographique reelle. Le terme 'spatial autoregressive' est repris par analogie methodologique, pas par geographie. Reconfirme le 2026-08-15 apres reapparition erronee en keep et ingestion dans le KG (annulee).",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (needs_manual_check initial, reconfirme apres reapparition erronee en keep)"
+    },
+    "10.5066/p9pgal0d": {
+      "action": "keep",
+      "reason": "Verifie manuellement le 2026-08-15 via la hierarchie ScienceBase (item parent 600f341ed34e162231feceb9 -> item enfant 5ea08b8e82cefae35a13fe2b) : fichier reel confirme HU02basins.zip (4MB), shapefile SIG de polygones de bassins versants avec attributs pour 183 stations de jaugeage USGS reelles, methode B-WLS/B-GLS explicite (Veilleux & Wagner 2021, USGS SIR 2021-5015). Downgrade automatique en needs_manual_check lors du run 2026-08-15 etait une simple prudence du LLM (format non confirme dans les metadonnees DataCite), pas un vrai probleme -- confirme keep apres verification manuelle du contenu reel du depot.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (verification manuelle demandee par l'utilisateur avant de figer)"
+    },
+    "10.6084/m9.figshare.29210301": {
+      "action": "reject",
+      "reason": "Verifie manuellement le 2026-08-15 via l'API figshare publique (api.figshare.com/v2/articles/29210301) : les 3 seuls fichiers du depot sont wjsf_a_2513228_sm2453.pdf (4.7MB), wjsf_a_2513228_sm2454.docx et wjsf_a_2513228_sm2455.docx (29KB chacun) -- la nomenclature 'smXXXX' est typique des suppplements d'article Taylor & Francis (tableaux/texte complementaires), pas de fichier de donnees reel (aucun CSV/Excel/shapefile avec les transactions immobilieres et coordonnees de Shenzhen decrites dans l'abstract). Le downgrade automatique en needs_manual_check etait justifie ; une re-evaluation LLM ulterieure l'a remonte a tort en keep sans nouvelle preuve -- decision maintenue en reject apres verification du contenu reel du depot.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (verification manuelle demandee par l'utilisateur, aucune donnee reelle trouvee)"
+    },
+    "10.5061/dryad.0cfxpnw7w": {
+      "action": "keep",
+      "reason": "Verifie manuellement le 2026-08-15 via l'API Dryad publique (datadryad.org/api/v2) : version 258253 confirme 2 fichiers reels -- README.md (6.5KB) et SvBC_2023_RedDeer.7z (1.9MB, donnees). Description DataCite : densite de cerfs rouges (Cervus elaphus) sur 492 sites d'etude dans 28 pays europeens, GAM avec productivite, presence de carnivores (loup/lynx/ours), chasse, usage des terres, statut de protection et climat comme predicteurs (van Beeck Calkoen et al., cite par 10.1111/1365-2664.14526). Y continu reel (densite), covariables reelles documentees, echelle spatiale confirmee (492 sites). Telechargement du contenu bloque par un jeton d'authentification Dryad requis (403 sans lui) -- dataset laisse en pending_manual_download, a recuperer manuellement par l'utilisateur.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (verification manuelle demandee par l'utilisateur avant de figer)"
+    },
+    "10.5061/dryad.r2280gbmc": {
+      "action": "reject",
+      "reason": "Modelisation d'abondance future d'oiseaux (random forest, package R SDMaps) pour evaluer le risque de transmission de pathogenes aux Pays-Bas. Domaine ecologie/epidemiologie aviaire (species distribution modeling), pas de regression spatiale econometrique classique -- exactement le type de candidat que la politique exclude_ecology_sdm du harvest est censee filtrer. Deja evalue et rejete dans un lot precedent (meme DOI) ; reapparu en needs_manual_check sur un run ulterieur sans nouvelle preuve -- decision maintenue en reject.",
+      "excluded_on": "2026-08-15",
+      "excluded_by": "session review 2026-08-15 (deja rejete dans un lot precedent, reconfirme apres reapparition en needs_manual_check)"
+    }
+  }
+}

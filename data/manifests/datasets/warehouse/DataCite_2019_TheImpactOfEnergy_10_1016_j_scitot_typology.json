@@ -1,0 +1,161 @@
+{
+  "dataset_id": "DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot",
+  "package": "warehouse:mendeley:hm29shxmfc",
+  "dataset": "The impact of energy price on CO2 emissions in China - provincial panel 2002-2016",
+  "source_lang": "python",
+  "conversion_method": "name_join:china_provinces(province identifiee par empreinte statistique - voir qc.join_note - puis jointure geometrique standard verifiee 30/30)",
+  "rds_path": "data/final_datasets/sf/DataCite_2019_TheImpactOfEnergy_10_1016_j_scitot.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "id_province",
+        "class": "int64",
+        "typology": "count",
+        "range": "[1, 31]",
+        "n_unique": 30,
+        "pct_na": 0.0
+      },
+      {
+        "name": "id_map",
+        "class": "int64",
+        "typology": "count",
+        "range": "[1, 30]",
+        "n_unique": 30,
+        "pct_na": 0.0
+      },
+      {
+        "name": "region",
+        "class": "int64",
+        "typology": "count",
+        "range": "[1, 3]",
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2002, 2016]",
+        "n_unique": 15,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CO2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1011.3999, 132595.1367]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "POP",
+        "class": "int64",
+        "typology": "count",
+        "range": "[523, 10849]",
+        "n_unique": 438,
+        "pct_na": 0.0
+      },
+      {
+        "name": "URB",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[24.4837, 89.6066]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "EP",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.4154, 3.4107]",
+        "n_unique": 449,
+        "pct_na": 0.0
+      },
+      {
+        "name": "PGDP",
+        "class": "int64",
+        "typology": "count",
+        "range": "[3000, 107960]",
+        "n_unique": 448,
+        "pct_na": 0.0
+      },
+      {
+        "name": "INS",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[13.1213, 53.0361]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "ENS",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[13.7000, 1058.8280]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "RFDI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0683, 14.6467]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "EDU",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2.1870, 11.6435]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TEC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.2093, 26447.8316]",
+        "n_unique": 450,
+        "pct_na": 0.0
+      },
+      {
+        "name": "province_name",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 30,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 30,
+    "T": 15,
+    "T_var": "year",
+    "k": 15,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_petit_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 73.557701,
+      "ymin": 18.159306,
+      "xmax": 134.773926,
+      "ymax": 53.56086
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "AUCUN CODEBOOK PUBLIE : le depot Mendeley (10.17632/hm29shxmfc.1) et le papier source (10.1016/j.scitotenv.2019.135942) ne fournissent pas la correspondance id_province -> nom de province. Identification reconstruite en deux temps (2026-08-09) : (1) empreinte statistique - valeurs POP de l'annee 2010 (recensement chinois) comparees aux chiffres officiels du recensement par province (Wikipedia/NBS), 28/30 provinces identifiees avec un ecart < 3% par rang de population ; (2) les 2 paires ambigues sur la seule population (Guizhou/Shanxi et Henan/Shandong, populations reelles tres proches) tranchees en verifiant que id_province suit exactement l'ordre des codes administratifs officiels chinois GB/T 2260 (verifie via Wikipedia) : North China -> Northeast -> East China -> Central-South -> Southwest -> Northwest, Tibet (position 26) exclu du dataset (30/31 provinces). Les 30 positions de cette sequence officielle coincident exactement avec les 28 correspondances deja etablies par la population, ce qui corrobore la methode et resout les 2 paires restantes. Confiance elevee (deux methodes independantes convergentes + sequence administrative verifiable), mais reste une reconstruction, pas un codebook publie par les auteurs - a signaler explicitement en cas de publication."
+  }
+}

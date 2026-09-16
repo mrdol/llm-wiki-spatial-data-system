@@ -431,6 +431,25 @@ coerce_to_sf <- function(obj, row) {
         if (is.data.frame(cand) && nrow(cand) == nrow(coord_tab)) { main <- cand; break }
       }
       df <- if (!is.null(main)) cbind(coord_tab[, 1:2], main) else coord_tab[, 1:2, drop = FALSE]
+      # Reviewed site-table joins only. Native ade4 documentation explicitly
+      # defines these rows as the same sites as xy; never join a species/trait
+      # table merely because it happens to have the same number of rows.
+      reviewed_tables <- list(doubs = c("env", "fish"), mafragh = c("env", "flo"))
+      tables <- if (identical(norm_space(row$package), "ade4")) reviewed_tables[[norm_space(row$dataset_name)]] else NULL
+      if (length(tables)) {
+        keys <- rownames(coord_tab)
+        if (is.null(keys) || anyDuplicated(keys)) return(fail("cles xy absentes ou dupliquees"))
+        df <- coord_tab[, 1:2, drop = FALSE]
+        for (table_name in tables) {
+          values <- obj[[table_name]]
+          if (!is.data.frame(values) || is.null(rownames(values)) || anyDuplicated(rownames(values)) || !setequal(keys, rownames(values))) {
+            return(fail(paste("jointure de sites non prouvee:", table_name)))
+          }
+          values <- values[match(keys, rownames(values)), , drop = FALSE]
+          names(values) <- paste(table_name, names(values), sep = "__")
+          df <- cbind(df, values)
+        }
+      }
       return(tryCatch(
         sf::st_as_sf(df, coords = c("x", "y"), crs = NA_integer_, remove = FALSE),
         error = function(e) fail("st_as_sf(liste ade4) a echoue")))
@@ -641,8 +660,7 @@ classify_value <- function(y) {
   if (is.numeric(y)) {
     entiers <- all(abs(y - round(y)) < 1e-9)
     if (all(y >= 0 & y <= 1) && !entiers) return(list(type = "proportion", continu = TRUE))
-    if (entiers && length(unique(y)) <= 10) return(list(type = "discret", continu = FALSE))
-    if (entiers) return(list(type = "comptage", continu = FALSE))
+    if (entiers) return(list(type = "inconnu", continu = NA)) # semantic evidence required; integer != count
     return(list(type = "continu", continu = TRUE))
   }
   list(type = "inconnu", continu = NA)

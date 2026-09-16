@@ -1,8 +1,8 @@
 ---
 title: R_SpatialEpi_pennLC_sf_pennLC_sf
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_SpatialEpi_pennLC_sf_pennLC_sf.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-80.335018576177, -75.059570042891], y [39.8664036, 42.043644]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002, stratified on race (white vs non-white), gender and age (Under 40, 40-59, 60-69 and 70+). Additionally, county-specific smoking rates.
 - Description source: package R `SpatialEpi`
@@ -73,9 +73,47 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: cases ~ population + race + gender + age + smoking
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
+- x_terms_used: population + race + gender + age + smoking
+- y_term_used: cases
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "cases ~ population + race + gender + age + smoking"
+    response: "cases"
+    predictors: ["population", "race", "gender", "age", "smoking"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -97,12 +135,12 @@ County-level (n=67) population/case data for lung cancer in Pennsylvania in 2002
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Kim A.Y., Wakefield J., Moise M. (2023) SpatialEpi: Methods and Data for Spatial Epidemiology. R package version 1.2.8. https://github.com/rudeboybert/SpatialEpi"
-  confidence: low
+  equation_text: "cases ~ population + race + gender + age + smoking"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -112,7 +150,7 @@ modeling_evidence:
 - N observations: 1072
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -121,7 +159,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-80.335, -75.0596], y [39.8664, 42.0436] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - CRS analyse recommande: 32618 (UTM Zone 18N (EPSG:32618)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
@@ -135,6 +173,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `SpatialEpi`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
 
 ## Quality Control
 
@@ -150,3 +205,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `SpatialEpi`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

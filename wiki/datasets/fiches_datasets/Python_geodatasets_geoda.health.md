@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.health
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.health.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-124.758210348822, -67.294865361691], y [24.525964, 48.987003]; CRS WGS 84.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`health`).
 - Description source: package Python `geodatasets`
@@ -94,9 +94,47 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon
+- y_term_used: le_agg_q1
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon"
+    response: "le_agg_q1"
+    predictors: ["statemhir", "tractmhir", "cty_pop200", "cz_pop2000", "Diversity", "BlackorA", "AmericanI", "Asianalon"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -118,12 +156,12 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  equation_text: "le_agg_q1 ~ statemhir + tractmhir + cty_pop200 + cz_pop2000 + Diversity + BlackorA + AmericanI + Asianalon"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -133,7 +171,7 @@ modeling_evidence:
 - N observations: 3984
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -142,7 +180,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-124.7582, -67.2949], y [24.526, 48.987] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - CRS analyse recommande: pending — multi-zones (span=57.5deg) -- projection nationale recommandee
@@ -156,6 +194,23 @@ modeling_evidence:
 - Reproducibility status: available via package Python `geodatasets`
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
 
 ## Quality Control
 
@@ -171,3 +226,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

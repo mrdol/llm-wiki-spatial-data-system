@@ -1,8 +1,8 @@
 ---
 title: Python_geodatasets_geoda.guerry
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.guerry.rds
 tags: [dataset, python-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de python-package : Python_geodatasets_geoda.guerry
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 85 enregistrements dans l’artefact local Python_geodatasets_geoda.guerry.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [-3.819848391494, 7.535220233799], y [42.624745287549, 50.534222884545]; CRS EPSG:4326.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`guerry`).
 - Description source: package Python `geodatasets`
@@ -67,24 +67,61 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: Crm_prs ~ Litercy
+- x_terms_pub: Litercy
+- y_term_pub: Crm_prs
+- Reference publication: Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/.
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee et utilisee
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: Crm_prs ~ Litercy
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: Litercy
+- y_term_used: Crm_prs
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "Crm_prs ~ Litercy"
+    response: "Crm_prs"
+    predictors: ["Litercy"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/."
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -105,13 +142,13 @@ Dataset spatial issu du package Python `geodatasets` (`guerry`).
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "null"
-  confidence: low
+  existing_model_found: true
+  equation_text: "Crm_prs ~ Litercy"
+  equation_family: regression
+  model_family: "formule publication confirmee et utilisee"
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/."
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -121,7 +158,7 @@ modeling_evidence:
 - N observations: 85
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -130,7 +167,7 @@ modeling_evidence:
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-3.8198, 7.5352], y [42.6247, 50.5342] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
 - CRS analyse recommande: 32631 (UTM Zone 31N (EPSG:32631)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
@@ -145,11 +182,42 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: python-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator_eligibility complete le 2026-09-08 avec au moins un estimateur documente (voir section Estimator eligibility) -- resout l'incoherence 'estimator_eligibility_block_missing' qui avait motive la retrogradation du 2026-09-07.
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: ols
+      basis: published_model
+      source_ref: "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Friendly, M. (2007), Statistical Science 22(3), 368-399."
+      notes: "Relation Crm_prs ~ Litercy documentee dans la litterature Guerry (formula_pub) ; regression lineaire simple, aucune estimation spatiale specifique citee dans la fiche a ce jour."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: OK - formule publication renseignee.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
@@ -159,3 +227,11 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package Python `geodatasets`
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : Ancienne declaration yes incoherente avec les conditions du registre : estimator_eligibility_block_missing. Conserver la décision actuelle jusqu’au traitement des constats. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

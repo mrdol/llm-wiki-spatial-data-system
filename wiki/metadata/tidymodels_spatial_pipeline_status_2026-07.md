@@ -2,7 +2,7 @@
 title: Etat du pipeline tidymodels spatial - juillet 2026
 type: metadata
 created: 2026-07-03
-updated: 2026-07-20
+updated: 2026-09-08
 sources:
   - code/R/estimators/benchmark_manual_test_2026-07.R
   - code/R/estimators/spatial_tidymodels_api.R
@@ -16,6 +16,41 @@ sources:
 tags: [metadata, tidymodels, spatial, benchmark, r]
 status: spatial-estimators-expansion
 ---
+
+## Extension plasmode autonome — 2026-09-08
+
+Le cadrage actif retient le plasmode exclusivement. Le prototype technique
+`extensions_projet_2026-09/revue_donnees_semi_synthetiques/plasmode_pilot.R`
+est execute sur deux sources et sept scenarios, avec resultats natifs RDS,
+trois bandes spatiales, verite latente enregistree et tests de non-fuite des Y
+de test. Il n'est pas encore une route de spatialtidymodels ni du dashboard.
+Les registres d'admission et les wrappers du package restent inchanges.
+Les resultats sont descriptifs ; aucun verdict de comparaison n'est recalcule
+hors du moteur officiel. Voir [[protocole_plasmode_spatial_2026-09-08]].
+
+## Mise a jour 2026-08-21 - eligibilite dataset-estimateur executable
+
+Les metadonnees distinguent maintenant le nom du modele rapporte par une
+source (`source_estimator`) de la route executable dans le package
+(`package_estimator`). Les correspondances de famille documentees incluent
+notamment `gwr` vers `mgwrsar_gwr` et `sar_error` vers `sem_error`.
+
+Une methode source sans route disponible reste exportee comme
+`not_automated`; elle ne bloque plus le pipeline. Pour une tache de regression
+continue disposant de X et de coordonnees, l'export peut proposer des
+comparateurs compatibles parmi les routes automatiques. Les variantes MGWRSAR
+mixtes ne sont pas proposees automatiquement car leur repartition
+fixe/locale doit rester un choix scientifique explicite.
+
+`benchmark_spatial_dataset(..., estimators = NULL)` utilise desormais les
+routes executables documentees pour le jeu demande. Une liste passee
+explicitement reste prioritaire. Les tests du registre verifient qu'aucune
+`package_estimator` non vide ne sort du registre des estimateurs.
+
+Lorsqu'une fiche declare un artefact `sf` mais ne nomme pas deux colonnes de
+coordonnees, `load_benchmark_dataset()` derive `coord_x` et `coord_y` des
+centroides de la geometrie. Cette derivation est une preparation technique du
+benchmark, non une modification de la formule ou des variables X.
 
 # Etat du pipeline `workflow()` / `tune_grid()` pour estimateurs spatiaux
 
@@ -516,7 +551,7 @@ estimateurs disponibles.
 | `georgia` | 159 | `PctBach` | `PctRural+PctFB+PctBlack+PctEld` | valide, conforme a la fiche wiki |
 | `ewhp` | 519 | `PurPrice` | `BldIntWr+BldPostW+Bld60s+Bld70s+Bld80s+TypDetch+TypSemiD+TypFlat+FlrArea` | valide, formule corrigee le 2026-07-04 (voir plus bas) |
 | `nyc_education` | 2216 | `mean_inc` | `sub18+PER_PRV_SC+YOUTH_DROP+HS_DROP+COL_DEGREE+SCHOOL_CT` | valide, formule corrigee le 2026-07-04 |
-| `lasrosas` | -- | `yield` | `nitro+bv` (formule simplifiee, ecart documente) | integre au registre, relance complete tres lente sur `mgwrsar_mgwr` |
+| `lasrosas` | 1738 | `yield` | `nitro + I(nitro^2) + topo + interactions` | coupe 1999 publiee, formule et structure corrigees le 2026-08-21 |
 
 ### Correction des formules (2026-07-04)
 
@@ -533,11 +568,13 @@ documentes ont ete trouves et corriges :
   jeu de predicteurs different de celui documente. La formule publiee (source :
   arxiv.org/pdf/2212.05814) utilise `mean_inc` comme cible.
 
-Le seul ecart restant (`lasrosas`) est **intentionnel et documente en
-commentaire dans le code** : la formule canonique utilise des noms de
-variables transformees par GeoDa qui n'existent pas dans le `.rds` brut issu
-d'`agridat`. Une formule numerique simplifiee est utilisee a la place pour ce
-premier passage de validation.
+`lasrosas` a ete corrige le 2026-08-21. Le package charge maintenant la coupe
+1999 de 1 738 cellules, qui correspond a l'echantillon de l'article
+d'Anselin, Bongiovanni et Lowenberg-DeBoer (2004), et applique sa formule
+quadratique par zone topographique. La source complete 1999-2001 reste
+conservee hors benchmark et la campagne 2001 est une tache distincte en revue
+manuelle, faute de formule scientifique verifiee et d'identifiant longitudinal
+stable.
 
 ## Preparation des donnees
 
@@ -828,7 +865,7 @@ n'indiquent pas un probleme bloquant.
    recents~~ -- relance le 2026-07-04 avec l'ensemble complet des 7
    estimateurs (`run_manual_test(c("georgia","ewhp","lasrosas","nyc_education"))`),
    premier passage complet de ce dataset dans le pipeline. Tres lent sur
-   `mgwrsar_mgwr` (backfitting `TDS_MGWR()` sur n~3443).
+   `mgwrsar_mgwr` (backfitting `TDS_MGWR()` sur n~1738 dans la coupe 1999).
 2. `nu` (SpBoost) et `k_neighbors` (construction de `W`) restent fixes ;
    seuls `mstop` et `bandwidth`/`kernels` sont tunes dans cette passe.
 3. Pas de vraie recherche `dials` (bornes/echelles de parametres) : les
@@ -979,3 +1016,7 @@ pour etre presentes au superviseur.
 - [[spboost]]
 - [[mgwrsar]]
 - [[mgwr]]
+
+### Revue du 9 septembre 2026 : panel et fidélité aux papiers
+
+`ready_in_data_bank` distingue la conservation d’un panel documenté de son exécution dans le harnais : CO2 Chine reste dans la banque avec package_include=no. SAR/SEM transversaux ne constituent pas des routes de panel ; GLMM probit du marsouin ne constitue pas SAR-probit. RF, XGBoost et GAM spatial sont disponibles séparément ; aucun ensemble natif NN/RF/GB combiné par le GAM du papier NO2 n’a été identifié. Voir [[revue_fidelite_quatre_datasets_2026-09-09]] et [[revue_panel_spatial_2026-09-09]]. Les quatre fiches examinées ne sont pas admises automatiquement ; leurs données restent conservées.

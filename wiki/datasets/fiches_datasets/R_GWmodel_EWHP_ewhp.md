@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_EWHP_ewhp
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-15
 sources:
   - data/final_datasets/sf/R_GWmodel_EWHP_ewhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [224000, 654600], y [47800, 574000]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A house price data set for England and Wales from 2001 with 9 hedonic (explanatory) variables.
 - Description source: package R `GWmodel`
@@ -27,11 +27,11 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 - Candidate Y variables: `PurPrice`
 - Candidate Y typology: continuous
-- Candidate X variables: `BldIntWr`, `BldPostW`, `Bld60s`, `Bld70s`, `Bld80s`, `TypDetch`, `TypFlat`, `FlrArea`
+- Candidate X variables: `BldIntWr`, `BldPostW`, `Bld60s`, `Bld70s`, `Bld80s`, `TypDetch`, `TypSemiD`, `TypFlat`, `FlrArea`
 - Candidate X typology: categorical, continuous
 - Coordinates (x, y — excluded from X candidates): `Easting`, `Northing`, `X`, `Y`
-- Identifier columns (excluded from X candidates): `TypSemiD`
-- Variables inspected: yes (auto — export_sf_metadata.R)
+- Identifier columns (excluded from X candidates): none detected
+- Variables inspected: yes (auto — export_sf_metadata.R ; correction 2026-09-15, verification tools::Rd_db("GWmodel"))
 - Presence of imputed X: unknown
 
 #### Detail Y
@@ -40,10 +40,9 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 |---|---|---|---|---|
 | `PurPrice` | `numeric` | continuous | [8750, 325000] | 0% |
 
+> Correction 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : `TypSemiD` ("1 if the property is semi detached, 0 otherwise") etait a tort classee comme colonne identifiant ; c'est en realite une variable X binaire au meme titre que TypDetch/TypFlat, corrigee ci-dessous. La ligne "Note doc" precedente etait tronquee/corrompue (bug d'extraction automatique) et a ete retiree.
 
-> Note doc : y is detached (i
-
-> Selection Y/X (claude-sonnet-4-6) : PurPrice (purchase price) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Les 8 autres colonnes sont des caractéristiques du logement (période de construction, type de bien, surface habitable) constituant les covariables explicatives classiques d'un modèle hédonique.
+> Selection Y/X (claude-sonnet-4-6) : PurPrice (purchase price) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Les 9 autres colonnes sont des caractéristiques du logement (période de construction, type de bien, surface habitable) constituant les covariables explicatives classiques d'un modèle hédonique.
 
 #### Detail X
 
@@ -55,16 +54,16 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 | `Bld70s` | `integer` | binary | 0% |
 | `Bld80s` | `integer` | binary | 0% |
 | `TypDetch` | `integer` | binary | 0% |
+| `TypSemiD` | `integer` | binary | 0% |
 | `TypFlat` | `integer` | binary | 0% |
 | `FlrArea` | `numeric` | continuous | 0% |
-
 
 ### Formule — niveau publication
 
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley.
+- Reference publication: [MANUEL/LIVRE, pas un article] Fotheringham, A.S., Brunsdon, C. & Charlton, M.E. (2002), Geographically Weighted Regression: The Analysis of Spatially Varying Relationships, Wiley, Chichester, ISBN 978-0-471-49616-8 (verifie via Open Library, https://openlibrary.org/isbn/9780471496168).
 
 ### Statut regression canonique
 
@@ -76,9 +75,46 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea
+- y_term_used: PurPrice
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypSemiD + TypFlat + FlrArea"
+    response: "PurPrice"
+    predictors: ["BldIntWr", "BldPostW", "Bld60s", "Bld70s", "Bld80s", "TypDetch", "TypSemiD", "TypFlat", "FlrArea"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -100,12 +136,12 @@ A house price data set for England and Wales from 2001 with 9 hedonic (explanato
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Fotheringham, A.S., Brunsdon, C., and Charlton, M.E. (2002) Geographically Weighted Regression: The Analysis of Spatially Varying Relationships. Chichester: Wiley."
-  confidence: low
+  equation_text: "PurPrice ~ BldIntWr + BldPostW + Bld60s + Bld70s + Bld80s + TypDetch + TypFlat + FlrArea"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -115,7 +151,7 @@ modeling_evidence:
 - N observations: 519
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -138,6 +174,22 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_validated_generated_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv"
+  reason: "Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte; conserver la trace de validation dans data/manifests/datasets/package_generated_formula_validation_2026-08.csv
+- Raison: Formule generee par le systeme mais validee contre le .rds local: reponse numerique, covariables presentes, model.frame executable et effectif suffisant.
 
 ## Estimator eligibility
 
@@ -163,6 +215,7 @@ estimator_eligibility:
     source_ref: "GWmodel EWHP documentation / project formula."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -177,3 +230,7 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Verification 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : documentation reelle du package EWHP relue integralement. Correction structurelle : `TypSemiD` etait classee a tort comme colonne identifiant (exclue des candidats X) alors que c'est une variable binaire de type de logement ("1 if the property is semi detached, 0 otherwise"), au meme titre que TypDetch/TypFlat deja presentes. Ajoutee aux candidats X, au Detail X, et a formula_used/formula_candidates (9 covariables au lieu de 8). Ligne "Note doc" tronquee (bug d'extraction anterieur, texte coupe a "y is detached (i") supprimee. Reference Fotheringham et al. (2002) etiquetee explicitement comme MANUEL/LIVRE avec lien verifie (Open Library, ISBN 978-0-471-49616-8, titre/auteurs confirmes), conformement a la consigne standing sur les references de type manuel.

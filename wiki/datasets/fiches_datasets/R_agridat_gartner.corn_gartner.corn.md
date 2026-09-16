@@ -1,8 +1,8 @@
 ---
 title: R_agridat_gartner.corn_gartner.corn
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_agridat_gartner.corn_gartner.corn.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ Yield monitor data from a corn field in Minnesota
 - Topic: agriculture / rendement ou experimentation agronomique
 - Observation unit: parcelle, placette experimentale ou observation agricole
 - Observed population: observations agricoles documentees par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [-93.978422, -93.973494], y [43.920994, 43.927265]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: colonnes date/time presentes mais traitees comme attributs transactionnels
 - Source description: Yield monitor data from a corn field in Minnesota
 - Description source: package R `agridat`
@@ -69,9 +69,47 @@ Yield monitor data from a corn field in Minnesota
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: mass ~ dist + elev
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: dist + elev
+- y_term_used: mass
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "mass ~ dist + elev"
+    response: "mass"
+    predictors: ["dist", "elev"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -93,12 +131,12 @@ Yield monitor data from a corn field in Minnesota
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Suman Rakshit, Adrian Baddeley, Katia Stefanova, Karyn Reeves, Kefei Chen, Zhanglong Cao, Fiona Evans, Mark Gibberd (2020). Novel approach to the analysis of spatially-varying treatment effects in on-farm experiments. Field Crops Research, 255, 15 September 2020, 107783. https://doi.org/10.1016/j.fcr.2020.107783"
-  confidence: low
+  equation_text: "mass ~ dist + elev"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -108,7 +146,7 @@ modeling_evidence:
 - N observations: 4949
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_grand_T_1
+- N/T profile: N_grand_T_petit
 - Temporal note: colonnes date/time presentes mais traitees comme attributs transactionnels
 
 ## Bloc 5 — Resolution et etendue
@@ -132,6 +170,23 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -146,3 +201,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `agridat`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

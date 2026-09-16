@@ -1,0 +1,70 @@
+{
+  "dataset_id": "warehouse_ted_can_2015_nuts3",
+  "source_family": "warehouse-derived",
+  "source": "TED V2.2 contract award notices CSV subset",
+  "source_url": "https://data.europa.eu/data/datasets/ted-csv",
+  "geometry_source": "Eurostat GISCO NUTS 2013 level 3 regions",
+  "geometry_url": "https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_10M_2013_4326_LEVL_3.geojson",
+  "raw_archive": "data/raw/warehouse/warehouse_ted_can_2015_nuts3/TED_V2.2_CAN.zip",
+  "final_artifact": "data/final_datasets/sf/warehouse_ted_can_2015_nuts3.rds",
+  "year": 2015,
+  "raw_rows": 542376,
+  "rows_with_nuts3": 244729,
+  "multi_nuts3_rows": 5246,
+  "regions_dropped_formula_na": 1,
+  "n_nuts3_regions": 1043,
+  "formula_status": "system_generated_documented",
+  "formula_used": "log_mean_award_value_eur ~ mean_number_offers + single_bid_share + share_services + share_works + share_eu_funds + share_gpa + share_framework_agreement + share_electronic_auction + share_cpv45_construction + share_cpv71_arch_engineering + share_cpv72_it_services + share_cpv90_environment",
+  "response": "log_mean_award_value_eur",
+  "predictors": ["mean_number_offers", "single_bid_share", "share_services", "share_works", "share_eu_funds", "share_gpa", "share_framework_agreement", "share_electronic_auction", "share_cpv45_construction", "share_cpv71_arch_engineering", "share_cpv72_it_services", "share_cpv90_environment"],
+  "ml_formula": "log_mean_award_value_eur ~ n_award_rows + n_source_rows + mean_number_offers + single_bid_share + mean_number_awards + share_services + share_works + share_supplies + share_eu_funds + share_gpa + share_framework_agreement + share_electronic_auction + share_subcontracted + share_cpv45_construction + share_cpv33_medical + share_cpv71_arch_engineering + share_cpv72_it_services + share_cpv90_environment",
+  "ml_predictors": ["n_award_rows", "n_source_rows", "mean_number_offers", "single_bid_share", "mean_number_awards", "share_services", "share_works", "share_supplies", "share_eu_funds", "share_gpa", "share_framework_agreement", "share_electronic_auction", "share_subcontracted", "share_cpv45_construction", "share_cpv33_medical", "share_cpv71_arch_engineering", "share_cpv72_it_services", "share_cpv90_environment"],
+  "related_literature": [
+    {
+      "citation": "Fazekas and Czibik (2021), Measuring regional quality of government: the public spending quality index based on government contracting data, Regional Studies.",
+      "doi": "10.1080/00343404.2021.1902975",
+      "url": "https://doi.org/10.1080/00343404.2021.1902975",
+      "relevance": "Uses TED contract records over 2006-2015 to build regional NUTS-level public procurement indicators, including competition, transparency, efficiency and corruption-risk dimensions. This is contextual evidence for aggregating TED records by region, not direct evidence for the system formula used here."
+    },
+    {
+      "citation": "Government Transparency Institute (2026), National and regional annual aggregated public procurement data TED 2011-2025.",
+      "doi": {},
+      "url": "https://www.govtransparency.eu/national-and-regional-annual-aggregated-public-procurement-data-TED-2011-2025-version-202606/",
+      "relevance": "Provides annual national and regional procurement indicators from TED, including contract counts, values and competition proxies such as single-bidder shares. This supports the choice of procurement indicators but is not a replication target."
+    },
+    {
+      "citation": "Tatrai, Vorosmarty and Juhasz (2024), Intensifying Competition in Public Procurement, Public Organization Review.",
+      "doi": {},
+      "url": "https://link.springer.com/article/10.1007/s11115-023-00742-0",
+      "relevance": "Uses TED procurement data to study competition and number of bidders. This supports the use of NUMBER_OFFERS and single-bid indicators as meaningful procurement covariates."
+    },
+    {
+      "citation": "Wachs, Fazekas and Kertesz (2021), Corruption risk in contracting markets: a network science perspective, International Journal of Data Science and Analytics.",
+      "doi": {},
+      "url": "https://link.springer.com/article/10.1007/s41060-019-00204-1",
+      "relevance": "Uses TED data and single-bidder information as corruption-risk evidence in contracting markets. This is contextual evidence for competition-related variables."
+    },
+    {
+      "citation": "Herz and Varela-Irimia (2017), Border Effects in European Public Procurement.",
+      "doi": {},
+      "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2883076",
+      "relevance": "Uses TED contracts with NUTS3 geography in a gravity-model setting. This supports the spatial/NUTS3 nature of TED analyses, but the dyadic structure is different from the NUTS3 cross-section created here."
+    }
+  ],
+  "spatial_support": {
+    "type": "NUTS3 polygons",
+    "crs": "WGS 84",
+    "bbox": [
+      -31.2593,
+      27.7349,
+      34.5884,
+      71.1735
+    ]
+  },
+  "benchmark_readiness": {
+    "benchmark_status": "ready_needs_review",
+    "benchmark_task": "continuous_regression",
+    "package_include": "manual_review",
+    "reason": "Cross-sectional NUTS3 2015 aggregation with continuous response and multiple covariates. Not promoted automatically because it is warehouse-derived, uses an obsolete TED CSV subset for reference, and contains a system-generated formula rather than article-level evidence."
+  }
+}
