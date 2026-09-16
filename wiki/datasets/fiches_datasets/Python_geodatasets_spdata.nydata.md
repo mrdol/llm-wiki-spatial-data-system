@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`nydata`).
 - Topic: Donnees de python-package : Python_geodatasets_spdata.nydata
 - Observation unit: observation spatiale de type POINT
 - Observed population: 281 enregistrements dans l’artefact local Python_geodatasets_spdata.nydata.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [-79.489382167001, -79.489369768719], y [0.0003791993086784, 0.0003908593749902]; CRS EPSG:4326.
+- Geographic context: Etendue mesuree dans le RDS : x [-76.72479, -75.34088], y [42.0401, 43.3328]; CRS EPSG:4326. Corrigee le 2026-09-16 : la geometrie active (geom_point) etait corrompue (tous les points quasi confondus pres de x=-79.489, y=0.0004, sans rapport avec la localisation reelle) alors que geom_origine (MULTIPOLYGON) et les colonnes X/Y du data.frame etaient deja correctes -- regeneree depuis geom_origine via sf::st_make_valid()+sf::st_point_on_surface() (code/r_catalog/build_sf_datasets.R::derive_point_geometry(), famille 'polygone'). Verification : les nouvelles coordonnees derivees correspondent exactement (diff max = 0) aux colonnes X/Y deja presentes dans l'artefact, confirmant que seule la colonne de geometrie active etait corrompue.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`nydata`).
 - Description source: package Python `geodatasets`
@@ -156,12 +156,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-79.4894, -79.4894], y [0.0004, 0.0004] (EPSG:4326)
+- Spatial extent: x [-76.7248, -75.3409], y [42.0401, 43.3328] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active corrigee le 2026-09-16 -- voir Description du jeu de donnees > Geographic context -- derivee via `st_point_on_surface()`, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32618 (UTM Zone 18N (EPSG:32618)) — calcul auto depuis centroide bbox corrige du 2026-09-16 (l'ancienne valeur 32617/UTM 17N etait calculee sur le bbox corrompu) -- normalisation WGS84 uniquement
 
 ## Bloc 6 — Reproductibilite
 
@@ -226,3 +226,13 @@ Decision conservatoire : Ancienne declaration yes incoherente avec les condition
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-16
+
+Correction du 2026-09-16 : la geometrie active (`geom_point`) de cet artefact etait corrompue -- les 281 points etaient quasiment tous confondus autour de x=-79.489, y=0.0004 (bbox degenere), alors que `geom_origine` (le MULTIPOLYGON original des tracts de recensement, correct : bbox x[-76.74,-75.24] y[41.998,43.418]) et les colonnes `X`/`Y` du data.frame (deja correctes) n'etaient pas affectes -- seule la colonne sfc active avait ete corrompue/desynchronisee a un moment non identifie apres sa derivation initiale.
+
+Reconstruite depuis `geom_origine` en suivant exactement la methode documentee dans `code/r_catalog/build_sf_datasets.R::derive_point_geometry()` pour la famille "polygone" : `sf::st_make_valid()` puis `sf::st_point_on_surface()`. Verification : les coordonnees nouvellement derivees correspondent EXACTEMENT (ecart maximal = 0) aux colonnes X/Y deja presentes dans l'artefact -- confirme que la reconstruction est fidele et que X/Y n'ont jamais ete corrompues.
+
+Consequence en cascade corrigee : le "CRS analyse recommande" (calcule automatiquement depuis le centroide du bbox) passe de 32617 (UTM Zone 17N, calcule sur le bbox corrompu) a 32618 (UTM Zone 18N, correct pour l'ouest/centre de l'Etat de New York).
+
+Decouverte fortuite lors d'une comparaison avec la fiche soeur `[[R_spData_nydata_nydata]]` (meme jeu de donnees, package R equivalent) : le bbox documente pour cette fiche etait manifestement incoherent avec des coordonnees geographiques plausibles pour l'Etat de New York.
