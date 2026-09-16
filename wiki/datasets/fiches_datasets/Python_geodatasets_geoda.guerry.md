@@ -210,8 +210,16 @@ estimator_eligibility:
       basis: published_model
       source_ref: "Friendly, M. (2007), Statistical Science 22(3), 368-399, page 22, section 3.3 (guerry.mod)."
       notes: "Relation Crm_prp ~ Region + Suicids + Litercy + Donatns + Infants + Wealth documentee dans la litterature Guerry (formula_pub, reduction univariee du modele multi-reponses guerry.mod, R2=0.43 pour cette reponse) ; regression lineaire simple, aucune estimation spatiale specifique citee dans la fiche a ce jour."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche."
+  conditionally_eligible_estimators:
+    - estimator: sar_lag
+      basis: generated_candidate
+      source_ref: "Friendly (2007), p.22, note de bas de page 12 : l'auteur reconnait lui-meme que guerry.mod 'use[s] ordinary least squares methods which ignore the spatial autocorrelation of residuals (Anselin and Bera, 1998)', et cite Whitt, H. P. (2007), 'Modernism, internal colonialism, and the direction of violence: Suicide and crimes against persons in France, 1825-1830', manuscrit NON PUBLIE, comme exemple de traitement par modeles de regression spatiale d'une question voisine (direction crime/suicide) -- pas de guerry.mod lui-meme, et le manuscrit n'est pas accessible pour verifier la specification exacte."
+      notes: "Candidat generique, pas une reproduction d'un resultat publie et verifie : coordonnees ponctuelles (X, Y) et CRS recommande (EPSG:32631) disponibles dans le RDS, mais aucune matrice W precalculee (w_file absent, comme pour la quasi-totalite du corpus) -- necessiterait de construire une matrice de voisinage (k plus proches voisins ou seuil de distance) au moment du benchmark. Le manuscrit de Whitt (2007) etant non publie et non consultable, cette entree documente une piste motivee par le texte de Friendly, non une preuve d'application reussie sur cette formule precise."
+    - estimator: sem_error
+      basis: generated_candidate
+      source_ref: "Meme source que sar_lag ci-dessus (Friendly 2007, p.22, note 12 ; Whitt, H.P. (2007), manuscrit non publie)."
+      notes: "Meme limite que sar_lag : candidat generique motivise par l'aveu de l'auteur (residus spatialement autocorreles non traites par l'OLS publie), pas par une specification SEM publiee et verifiable pour ce jeu. Necessiterait la meme matrice W construite a la volee."
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08 (etait vide/placeholder depuis l'audit du 2026-09-07, incoherence 'estimator_eligibility_block_missing'). 1 estimateur(s) documente(s) sans invention, bases exclusivement sur le texte deja present dans 'Reference publication'/'formula_pub' de cette fiche. Candidats spatiaux ajoutes le 2026-09-16 en conditionally_eligible (pas eligible) car la seule reference disponible pour un traitement spatial (Whitt 2007) est un manuscrit non publie, inaccessible pour verification."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -247,3 +255,7 @@ Choix de la reponse : entre les deux reponses du modele multivarie original (Cri
 `Region` est une covariable categorielle (5 niveaux, verifie par inspection directe du RDS le 2026-09-16) absente de la liste automatique "Candidate X" (limitee aux variables continues) mais bien presente et complete dans le jeu de donnees local ; elle est utilisee dans formula_pub/formula_used car explicitement citee dans la publication.
 
 Provenance : lecture complete de Friendly (2007), arXiv:0801.4263, pages 18 et 22, le 2026-09-16.
+
+Ajout du 2026-09-16 (suite) : deux candidats d'estimateurs spatiaux (`sar_lag`, `sem_error`) ajoutes en `conditionally_eligible_estimators`, motives par la note de bas de page 12 (p.22) de Friendly (2007) ou l'auteur reconnait explicitement que `guerry.mod` ignore l'autocorrelation spatiale des residus et cite Whitt, H. P. (2007), *"Modernism, internal colonialism, and the direction of violence: Suicide and crimes against persons in France, 1825-1830"*, comme exemple de traitement spatial d'une question voisine.
+
+Verification faite avant l'ajout : la reference complete de Whitt (2007) a ete retrouvee dans la bibliographie de Friendly (2007), page 33 -- c'est un **manuscrit non publie** ("Unpublished manuscript"), sans revue, sans DOI, non consultable en ligne. Il ne traite pas non plus `guerry.mod` lui-meme (formule differente, portant sur la direction du crime/suicide). En consequence, ces deux estimateurs restent `conditionally_eligible` (candidats motives par le texte, non des reproductions verifiees) et ne sont pas promus en `eligible_estimators` -- seul `ols` (reduction univariee de guerry.mod, verifiee directement dans le PDF de la publication) reste `basis: published_model`.
