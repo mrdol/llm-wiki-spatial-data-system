@@ -2,7 +2,7 @@
 title: R_gstat_jura_jura.val
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_gstat_jura_jura.val.rds
 tags: [dataset, r-package, spatial, point]
@@ -162,7 +162,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326 (source: documentation du package, .rds sans CRS embarque)
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: reprojection recommandee vers un CRS metrique local (ex. CH1903+/LV95, EPSG:2056) -- coordonnees actuellement en WGS84 geographique (degres), peu adaptees au calcul direct de distances/voisinage pour cette petite region du Jura suisse. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 — Reproductibilite
 

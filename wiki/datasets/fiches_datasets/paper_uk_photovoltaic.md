@@ -2,7 +2,7 @@
 title: paper_uk_photovoltaic
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_uk_photovoltaic.rds
   - DataCite_2015_RegionalDistributionOfPhotovoltaic_10_1016_j_eneco_
@@ -191,7 +191,7 @@ estimator_eligibility:
 - CRS nom: OSGB36 / British National Grid
 - Spatial extent: x [92015.5184782611, 646668.567307692], y [11094.25, 1151403.25]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

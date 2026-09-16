@@ -2,7 +2,7 @@
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
 created: 2026-08-15
-updated: 2026-09-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -173,7 +173,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 27700
 - CRS nom: OSGB36 / British National Grid
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 — Reproductibilite
 

@@ -2,7 +2,7 @@
 title: paper_usgs_flood_skew
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_usgs_flood_skew.rds
   - DataCite_2021_MethodsForEstimatingRegional_10_3133_sir20215
@@ -237,7 +237,7 @@ estimator_eligibility:
 - CRS nom: USA_Contiguous_Albers_Equal_Area_Conic_USGS_version
 - Spatial extent: x [1419075, 1871925], y [1870974.8125, 2537880]
 - Time range: 1829 to 1977 (variable: BegYear)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

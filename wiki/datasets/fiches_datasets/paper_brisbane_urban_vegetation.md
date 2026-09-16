@@ -2,7 +2,7 @@
 title: paper_brisbane_urban_vegetation
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_brisbane_urban_vegetation.rds
   - DatasetFirst_10_5061_dryad_3bh66
@@ -217,7 +217,7 @@ estimator_eligibility:
 - CRS nom: GDA94 / MGA zone 56
 - Spatial extent: x [474375.5284, 518275.5284], y [6942482, 6982382]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28356, GDA94 / MGA zone 56) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

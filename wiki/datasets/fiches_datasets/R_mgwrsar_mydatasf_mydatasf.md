@@ -2,7 +2,7 @@
 title: R_mgwrsar_mydatasf_mydatasf
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_mgwrsar_mydatasf_mydatasf.rds
 tags: [dataset, r-package, spatial, point]
@@ -160,7 +160,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 2154
 - CRS nom: RGF93 v1 / Lambert-93
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:2154, RGF93 v1 / Lambert-93) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 — Reproductibilite
 

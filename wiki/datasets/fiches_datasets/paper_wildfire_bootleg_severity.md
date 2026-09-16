@@ -2,7 +2,7 @@
 title: paper_wildfire_bootleg_severity
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_wildfire_bootleg_severity.rds
   - DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700
@@ -226,7 +226,7 @@ estimator_eligibility:
 - CRS nom: NAD83 / Conus Albers
 - Spatial extent: x [-2051367.72382883, -1994117.72382883], y [2421979.97446648, 2479729.97446648]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

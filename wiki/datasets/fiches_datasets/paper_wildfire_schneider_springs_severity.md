@@ -2,7 +2,7 @@
 title: paper_wildfire_schneider_springs_severity
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_wildfire_schneider_springs_severity.rds
   - DataCite_2024_LearningFromWildfiresA_10_1002_ecs2_700
@@ -225,7 +225,7 @@ estimator_eligibility:
 - CRS nom: NAD83 / Conus Albers
 - Spatial extent: x [-1916920.76579135, -1888170.76579135], y [2888886.48381517, 2918136.48381517]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:5070, NAD83 / Conus Albers) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

@@ -2,7 +2,7 @@
 title: paper_influenza_mortality_chicago
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_influenza_mortality_chicago.rds
   - DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161
@@ -208,7 +208,7 @@ estimator_eligibility:
 - CRS nom: NAD83 / Illinois East
 - Spatial extent: x [343002.47984075, 366885.347685765], y [555447.603044471, 594646.045600259]
 - Time range: 1 to 7 (variable: week)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:26971, NAD83 / Illinois East) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

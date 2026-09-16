@@ -2,7 +2,7 @@
 title: paper_biomass_rainforest
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_biomass_rainforest.rds
   - DataCite_2015_SpatialStructureOfAbove_10_1371_journal_
@@ -198,7 +198,7 @@ estimator_eligibility:
 - CRS nom: WGS 84 / UTM zone 22N
 - Spatial extent: x [144387.6771, 384675.3438], y [270868.7361, 607409.7224]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32622, WGS 84 / UTM zone 22N) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

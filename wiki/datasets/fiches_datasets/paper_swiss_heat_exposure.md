@@ -2,7 +2,7 @@
 title: paper_swiss_heat_exposure
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_swiss_heat_exposure.rds
   - DatasetFirst_10_5281_zenodo_16923676
@@ -220,7 +220,7 @@ estimator_eligibility:
 - CRS nom: CH1903+ / LV95 + LN02 height
 - Spatial extent: x [2487218.96459694, 2825377.79974742], y [1076471.47280323, 1294284.26399341]
 - Time range: 2011 to 2022 (variable: year)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. EPSG:2056 (CH1903+ / LV95, confirme via epsg.io -- correspond exactement au nom deja renseigne ci-dessus). (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

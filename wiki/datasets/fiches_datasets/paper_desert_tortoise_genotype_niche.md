@@ -2,7 +2,7 @@
 title: paper_desert_tortoise_genotype_niche
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_desert_tortoise_genotype_niche.rds
   - DataCite_2019_LocalNicheDifferencesPredict_10_1111_ddi_1292
@@ -198,7 +198,7 @@ estimator_eligibility:
 - CRS nom: Albers_Equal_Area
 - Spatial extent: x [-1814729.18202096, -1462765.51510254], y [1243443.86900469, 1619405.05866755]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (Albers_Equal_Area) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG precis reste a faire. (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

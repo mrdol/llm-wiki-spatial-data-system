@@ -2,7 +2,7 @@
 title: paper_wildebeest_movement_env
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_wildebeest_movement_env.rds
   - DatasetFirst_10_5061_dryad_5tb2rbp76
@@ -203,7 +203,7 @@ estimator_eligibility:
 - CRS nom: WGS 84 / UTM zone 36S
 - Spatial extent: x [597344.9038, 806708.7004], y [9608835.342, 9869852.944]
 - Time range: 1/1/2014 18:00 to 9/9/2018 7:31 (variable: Date)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32736, WGS 84 / UTM zone 36S) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 

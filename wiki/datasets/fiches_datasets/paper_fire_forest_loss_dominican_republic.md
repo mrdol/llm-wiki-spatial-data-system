@@ -2,7 +2,7 @@
 title: paper_fire_forest_loss_dominican_republic
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/paper_fire_forest_loss_dominican_republic.rds
   - DatasetFirst_10_5281_zenodo_6990803
@@ -351,7 +351,7 @@ estimator_eligibility:
 - CRS nom: WGS 84 / UTM zone 19N
 - Spatial extent: x [192985.004486959, 563711.630966066], y [1961492.46035016, 2203449.7237167]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:32619, WGS 84 / UTM zone 19N) (correction 2026-09-16, mode production de secours : le texte precedent affirmait a tort "CRS source non geographique ou inconnu" alors que le CRS est deja connu et renseigne ci-dessus -- incoherence interne du meme type que celle corrigee sur paper_banff_stream_temperature.)
 
 ## Bloc 6 - Reproductibilite
 
