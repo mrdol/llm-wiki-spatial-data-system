@@ -54,22 +54,23 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 
 ### Formule — niveau publication
 
-- formula_pub: pending
-- x_terms_pub: pending
-- y_term_pub: pending
-- Reference publication: pending
+- formula_pub: yield ~ X1 + s(X2)  [E(Y_ij \| X1_ij, X2_ij) = beta0 + beta1*X1_ij + g2(X2_ij)]
+- x_terms_pub: X1 (terme lineaire, =Y_(i-1,j)+Y_(i+1,j)), s(X2) (terme non-parametrique lisse, X2=Y_(i,j-1)+Y_(i,j+1)) -- sommes des voisins nord-sud/est-ouest, derivees des indices de grille r/c, non presentes telles quelles dans le .rds
+- y_term_pub: yield (grain yield de Mercer & Hall -- non distingue du straw yield dans la doc du package)
+- Reference publication: Gao, J., Lu, Z. & Tjostheim, D. (2006), 'Estimation in semiparametric spatial regression', The Annals of Statistics 34(3), 1395-1435, DOI: 10.1214/009053606000000317 (DOI verifie via Crossref ; contenu verifie mot pour mot via le pre-print libre identique, MPRA paper 11991, la version publiee etant payante). Analyse le jeu de rendement de ble Mercer & Hall (1911) : confirme dans le texte -- '500 wheat plots, each 11 ft by 10.82 ft., arranged in a 20x25 rectangle' -- correspondance exacte avec ce jeu (meme structure de grille, memes references croisees Besag 1974/Cressie 1993 deja citees ailleurs dans cette fiche). Modele principal retenu par les auteurs (section 4, eq. 4.3) : regression spatiale autoregressive semi-parametrique partiellement lineaire E(Y_ij | X1_ij, X2_ij) = beta0 + beta1*X1_ij + g2(X2_ij), ou X1_ij = Y_(i-1,j)+Y_(i+1,j) et X2_ij = Y_(i,j-1)+Y_(i,j+1) sont des sommes des rendements des parcelles VOISINES (modele autoregressif sur grille, pas des covariables exogenes) -- doivent etre construites depuis les indices de grille r/c, non presentes telles quelles dans le .rds actuel. Coefficients estimes : beta0=1.311, beta1=0.335 (verifies verbatim : 'resulting in the estimates beta0=1.311, beta1=0.335'), variance residuelle 0.1081. Y_ij designe le grain yield -- Mercer & Hall (1911) ont mesure grain yield ET straw yield ; la correspondance exacte de la colonne `yield` de ce jeu avec le grain yield specifiquement n'est pas confirmee dans la doc du package spData (mais c'est la version standard reutilisee dans toute la litterature citee ici). Modele alternatif plus simple, cite et compare dans le meme papier (Table 1, eq. 4.1) : schema auto-normal de Besag, J. (1974), 'Spatial interaction and the statistical analysis of lattice systems', JRSS B 36(2), 192-225, Tables 8 et 10 p.221 -- entierement lineaire E(Y_ij|voisins) = gamma0 + gamma1*X1_ij + gamma2*X2_ij, gamma1 estime a 0.343 (Table 8) ou 0.350 (Table 10) selon le schema de codage.
 
 ### Statut regression canonique
 
-- Statut: pending
-- Niveau de preuve: n/a
-- Methode d'estimation: n/a
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d'estimation: formule publication confirmee (necessite construction prealable de covariables derivees X1/X2)
 - Correspondance Python/R: aucune identifiee
-- Note: n/a
+- Note: Formule Gao, Lu & Tjostheim (2006) confirmee le 2026-09-16 par lecture integrale du texte (pre-print libre identique a la version publiee payante). Renverse la conclusion du 2026-09-16 plus tot ce jour (voir Curation documentee) qui indiquait a tort qu'aucune regression publiee n'existait -- cette premiere conclusion n'avait pas cherche au-dela de la documentation du package. Modele autoregressif spatial sur grille (les "covariables" sont des sommes de valeurs Y voisines, pas des variables exogenes) avec un terme non-parametrique -- necessite une etape de construction de covariables non encore realisee dans cette fiche, donc formula_used n'est pas encore alignee sur formula_pub.
 
 ### Formule — niveau systeme
 
 - formula_used: yield ~ r + c + lat1
+- Formula used evidence: formula_used reste la formule generee par le systeme (candidate ml_or_selected) ; formula_pub (Gao et al. 2006) necessite la construction prealable des covariables derivees X1/X2 (sommes de voisins nord-sud/est-ouest depuis les indices de grille r/c), non encore realisee -- non promue en formula_used pour eviter d'inventer un pipeline non teste.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: r + c + lat1
@@ -80,24 +81,24 @@ Dataset spatial issu du package Python `geodatasets` (`wheat`).
 ```yaml
 formula_candidates:
   univariate:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "yield ~ X1 + X2  [E(Y_ij|voisins) = gamma0 + gamma1*X1_ij + gamma2*X2_ij]"
+    response: "yield"
+    predictors: ["X1 (=Y_(i-1,j)+Y_(i+1,j))", "X2 (=Y_(i,j-1)+Y_(i,j+1))"]
     role: "simple_baseline"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Besag, J. (1974), 'Spatial interaction and the statistical analysis of lattice systems', JRSS B 36(2), 192-225, Tables 8 et 10, p.221 (schema auto-normal du premier ordre, entierement lineaire) ; reproduit et compare dans Gao, Lu & Tjostheim (2006), Annals of Statistics 34(3), 1395-1435, Table 1, eq.(4.1). Coefficient gamma1 estime : 0.343 (Table 8) ou 0.350 (Table 10) selon le schema de codage utilise par Besag."
+    estimator_context: ["linear_regression", "spatial_autoregression", "car_model"]
+    status: "confirmed"
 
   multivariate_constrained:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "yield ~ X1 + s(X2)  [E(Y_ij|X1,X2) = beta0 + beta1*X1_ij + g2(X2_ij)]"
+    response: "yield"
+    predictors: ["X1 (=Y_(i-1,j)+Y_(i+1,j), terme lineaire)", "X2 (=Y_(i,j-1)+Y_(i,j+1), terme non-parametrique g2)"]
     role: "paper_main_specification"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Gao, J., Lu, Z. & Tjostheim, D. (2006), 'Estimation in semiparametric spatial regression', Annals of Statistics 34(3), 1395-1435, DOI 10.1214/009053606000000317, section 4, eq.(4.3) -- modele semi-parametrique partiellement lineaire retenu par les auteurs comme meilleur ajustement (g2 non-lineaire, point de rupture x=7.8). Coefficients estimes beta0=1.311, beta1=0.335 (verifies verbatim dans le texte integral du pre-print libre MPRA 11991, contenu identique a la version publiee). Variance residuelle 0.1081 (vs 0.1099-0.1100 pour les schemas auto-normaux entierement lineaires de Besag)."
+    estimator_context: ["gam_spatial", "semiparametric_regression", "car_model"]
+    status: "confirmed"
 
   ml_or_selected:
     formula: "yield ~ r + c + lat1"
@@ -129,13 +130,13 @@ formula_candidates:
 
 ```yaml
 modeling_evidence:
-  existing_model_found: false
-  equation_text: "yield ~ r + c + lat1"
-  equation_family: regression_candidate
-  model_family: "regression_candidate"
-  source_type: generated_system_formula
-  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
-  confidence: medium
+  existing_model_found: true
+  equation_text: "E(Y_ij | X1_ij, X2_ij) = beta0 + beta1*X1_ij + g2(X2_ij) [Gao, Lu & Tjostheim 2006, eq. 4.3]"
+  equation_family: regression
+  model_family: "spatial autoregression semi-parametrique partiellement lineaire (modele CAR sur grille)"
+  source_type: scientific_publication
+  source_ref: "Gao, J., Lu, Z. & Tjostheim, D. (2006), Annals of Statistics 34(3), 1395-1435, DOI 10.1214/009053606000000317, section 4, eq.(4.3). Coefficients beta0=1.311, beta1=0.335 verifies verbatim dans le texte integral (pre-print libre MPRA 11991)."
+  confidence: high
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -177,22 +178,30 @@ benchmark_readiness:
   benchmark_task: "regression_spatial_validated_generated_formula"
   package_include: "manual_review"
   has_local_rds: true
-  missing_items: "Constat traite (2026-09-16) : aucune promotion possible, pas une incoherence en attente. Ce jeu (Mercer & Hall 1911, 'The experimental error of field trials', reproduit par Cressie 1993 p.455, verifie via tools::Rd_db('spData')) est une grille reguliere de 500 parcelles historiquement utilisee pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas pour une regression Y~X avec covariables exogenes. Aucune specification de regression publiee n'existe dans la documentation du package ni ailleurs dans cette fiche -- voir Estimator eligibility ci-dessous pour le detail. formula_pub reste honnetement 'pending' (ne pas inventer une specification non sourcee) ; formula_used (yield ~ r + c + lat1) est une formule generee par le systeme, non validee par une publication. Statut maintenu en manual_review : conclusion definitive, pas suspension en attente de traitement."
-  reason: "Constat traite (2026-09-16) : aucune promotion possible, pas une incoherence en attente. Ce jeu (Mercer & Hall 1911, 'The experimental error of field trials', reproduit par Cressie 1993 p.455, verifie via tools::Rd_db('spData')) est une grille reguliere de 500 parcelles historiquement utilisee pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas pour une regression Y~X avec covariables exogenes. Aucune specification de regression publiee n'existe dans la documentation du package ni ailleurs dans cette fiche -- voir Estimator eligibility ci-dessous pour le detail. formula_pub reste honnetement 'pending' (ne pas inventer une specification non sourcee) ; formula_used (yield ~ r + c + lat1) est une formule generee par le systeme, non validee par une publication. Statut maintenu en manual_review : conclusion definitive, pas suspension en attente de traitement."
+  missing_items: "Recherche complementaire du 2026-09-16 (suite a l'echange avec un autre agent IA, verifiee independamment via Crossref + lecture integrale du texte du pre-print libre correspondant a l'article publie) a identifie deux modeles publies pour ce jeu exact (Mercer & Hall 1911) -- Besag (1974) et Gao, Lu & Tjostheim (2006) -- annulant la conclusion precedente du meme jour ('aucune regression publiee'). package_include reste 'manual_review' (pas 'yes') car ces modeles sont des autoregressions spatiales sur grille dont les covariables (X1, X2 = sommes des rendements des parcelles voisines nord-sud/est-ouest) doivent etre construites depuis les indices de grille r/c -- etape de feature engineering non encore realisee. formula_used (yield ~ r + c + lat1) reste la formule generee par le systeme en attendant cette construction. Voir Estimator eligibility et Formules candidates pour le detail complet."
+  reason: "Recherche complementaire du 2026-09-16 (suite a l'echange avec un autre agent IA, verifiee independamment via Crossref + lecture integrale du texte du pre-print libre correspondant a l'article publie) a identifie deux modeles publies pour ce jeu exact (Mercer & Hall 1911) -- Besag (1974) et Gao, Lu & Tjostheim (2006) -- annulant la conclusion precedente du meme jour ('aucune regression publiee'). package_include reste 'manual_review' (pas 'yes') car ces modeles sont des autoregressions spatiales sur grille dont les covariables (X1, X2 = sommes des rendements des parcelles voisines nord-sud/est-ouest) doivent etre construites depuis les indices de grille r/c -- etape de feature engineering non encore realisee. formula_used (yield ~ r + c + lat1) reste la formule generee par le systeme en attendant cette construction. Voir Estimator eligibility et Formules candidates pour le detail complet."
 ```
 
 - Decision: manual_review
-- Manque principal: Constat traite (2026-09-16) : aucune promotion possible, pas une incoherence en attente. Ce jeu (Mercer & Hall 1911, 'The experimental error of field trials', reproduit par Cressie 1993 p.455, verifie via tools::Rd_db('spData')) est une grille reguliere de 500 parcelles historiquement utilisee pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas pour une regression Y~X avec covariables exogenes. Aucune specification de regression publiee n'existe dans la documentation du package ni ailleurs dans cette fiche -- voir Estimator eligibility ci-dessous pour le detail. formula_pub reste honnetement 'pending' (ne pas inventer une specification non sourcee) ; formula_used (yield ~ r + c + lat1) est une formule generee par le systeme, non validee par une publication. Statut maintenu en manual_review : conclusion definitive, pas suspension en attente de traitement.
-- Raison: Constat traite (2026-09-16) : aucune promotion possible, pas une incoherence en attente. Ce jeu (Mercer & Hall 1911, 'The experimental error of field trials', reproduit par Cressie 1993 p.455, verifie via tools::Rd_db('spData')) est une grille reguliere de 500 parcelles historiquement utilisee pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas pour une regression Y~X avec covariables exogenes. Aucune specification de regression publiee n'existe dans la documentation du package ni ailleurs dans cette fiche -- voir Estimator eligibility ci-dessous pour le detail. formula_pub reste honnetement 'pending' (ne pas inventer une specification non sourcee) ; formula_used (yield ~ r + c + lat1) est une formule generee par le systeme, non validee par une publication. Statut maintenu en manual_review : conclusion definitive, pas suspension en attente de traitement.
+- Manque principal: Recherche complementaire du 2026-09-16 (suite a l'echange avec un autre agent IA, verifiee independamment via Crossref + lecture integrale du texte du pre-print libre correspondant a l'article publie) a identifie deux modeles publies pour ce jeu exact (Mercer & Hall 1911) -- Besag (1974) et Gao, Lu & Tjostheim (2006) -- annulant la conclusion precedente du meme jour ('aucune regression publiee'). package_include reste 'manual_review' (pas 'yes') car ces modeles sont des autoregressions spatiales sur grille dont les covariables (X1, X2 = sommes des rendements des parcelles voisines nord-sud/est-ouest) doivent etre construites depuis les indices de grille r/c -- etape de feature engineering non encore realisee. formula_used (yield ~ r + c + lat1) reste la formule generee par le systeme en attendant cette construction. Voir Estimator eligibility et Formules candidates pour le detail complet.
+- Raison: Recherche complementaire du 2026-09-16 (suite a l'echange avec un autre agent IA, verifiee independamment via Crossref + lecture integrale du texte du pre-print libre correspondant a l'article publie) a identifie deux modeles publies pour ce jeu exact (Mercer & Hall 1911) -- Besag (1974) et Gao, Lu & Tjostheim (2006) -- annulant la conclusion precedente du meme jour ('aucune regression publiee'). package_include reste 'manual_review' (pas 'yes') car ces modeles sont des autoregressions spatiales sur grille dont les covariables (X1, X2 = sommes des rendements des parcelles voisines nord-sud/est-ouest) doivent etre construites depuis les indices de grille r/c -- etape de feature engineering non encore realisee. formula_used (yield ~ r + c + lat1) reste la formule generee par le systeme en attendant cette construction. Voir Estimator eligibility et Formules candidates pour le detail complet.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
   status: "manual_review"
-  eligible_estimators: []
+  eligible_estimators:
+    - estimator: ols
+      basis: published_model
+      source_ref: "Besag, J. (1974), JRSS B 36(2), 192-225, Tables 8 et 10, p.221 ; reproduit dans Gao, Lu & Tjostheim (2006), Annals of Statistics 34(3), 1395-1435, Table 1, eq.(4.1)."
+      notes: "Schema auto-normal du premier ordre, entierement lineaire (gamma0+gamma1*X1+gamma2*X2) -- directement ajustable via lm()/glm() UNE FOIS X1 (=Y_(i-1,j)+Y_(i+1,j)) et X2 (=Y_(i,j-1)+Y_(i,j+1)) construits depuis les indices de grille r/c (non presents tels quels dans le .rds actuel)."
+    - estimator: gam_spatial
+      basis: published_model
+      source_ref: "Gao, J., Lu, Z. & Tjostheim, D. (2006), Annals of Statistics 34(3), 1395-1435, DOI 10.1214/009053606000000317, section 4, eq.(4.3)."
+      notes: "Modele partiellement lineaire retenu par les auteurs comme meilleur ajustement (beta0=1.311, beta1=0.335, terme g2 non-parametrique avec point de rupture ~7.8) -- correspond structurellement a mgcv::gam(yield ~ X1 + s(X2)), le moteur reel de gam_spatial. Meme prerequis que ols ci-dessus : X1/X2 doivent etre construits depuis r/c avant utilisation."
   conditionally_eligible_estimators: []
-  ineligible_reason: "Aucun estimateur de regression documente : identifie via la documentation du package R spData (deja installe dans ce projet, `tools::Rd_db('spData')`) comme le jeu Mercer & Hall (1911) 'The experimental error of field trials', reproduit par Cressie (1993) Statistics for Spatial Data p.455 -- colonnes r/c/lat/lon confirmees identiques (grille reguliere 500 parcelles). C'est un jeu de rendement agricole sur grille, historiquement utilise pour l'autocorrelation spatiale des erreurs (essai de fertilite des sols), pas une regression Y~X avec covariable exogene distincte -- seule une surface de tendance yield~r+c serait defendable, et cette specification n'est documentee nulle part dans la fiche actuelle. Formula_pub reste 'pending' ; ne pas inventer une specification non sourcee. Statut maintenu en manual_review."
+  ineligible_reason: "Recherche complementaire du 2026-09-16 a identifie deux modeles publies pour ce jeu exact (Mercer & Hall 1911) -- Besag (1974) et Gao, Lu & Tjostheim (2006), DOI verifie, coefficients confirmes par lecture integrale du texte -- annulant la conclusion precedente du meme jour ('aucune regression publiee'). Statut maintenu en manual_review (pas promu a 'yes') car formula_used ne correspond pas encore a ces modeles : X1/X2 (sommes des rendements voisins) doivent etre construits depuis les indices de grille r/c, etape non encore realisee dans cette fiche."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 
@@ -200,7 +209,7 @@ estimator_eligibility:
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
 - Variables: OK - Y, X, coordonnees et identifiants sont separes.
-- Formula: PENDING - formule publication non encore etablie.
+- Formula: OK - formule publication renseignee (Gao, Lu & Tjostheim 2006 ; Besag 1974) -- necessite construction de covariables derivees X1/X2 avant execution, voir Estimator eligibility.
 - CRS: OK - CRS renseigne dans le Bloc 5 (4326).
 - Geometry: OK - type geometrique controle (POINT).
 - Missing values: OK - aucune variable avec NA > 20% detectee.
@@ -222,3 +231,7 @@ Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources i
 ## Curation documentée — 2026-09-16
 
 Synchronisation du 2026-09-16 : le texte de `benchmark_readiness.reason`/`missing_items` decrivait encore l'etat non resolu du 2026-09-07 ('estimator_eligibility_block_missing, conserver la decision en attendant le traitement des constats'), alors que le bloc `Estimator eligibility` avait deja ete rempli entre-temps avec une conclusion definitive et sourcee (aucun estimateur eligible -- jeu Mercer & Hall 1911 d'autocorrelation spatiale, pas de regression Y~X publiee). Le texte de readiness a ete mis a jour pour refleter cette conclusion deja etablie, au lieu de laisser croire que l'analyse restait a faire. Aucun champ de decision (`benchmark_status`/`package_include`, tous deux `manual_review`) n'a change -- seule la justification textuelle a ete resynchronisee.
+
+Correction du 2026-09-16 (suite) : la conclusion ci-dessus ('aucune specification de regression publiee') est ANNULEE. Recherche complementaire menee suite a un echange avec un autre agent IA (ChatGPT) ayant propose la reference Gao, Lu & Tjostheim (2006) -- verifiee independamment avant toute integration (DOI confirme via Crossref ; contenu verifie mot pour mot via le texte integral du pre-print libre identique, MPRA paper 11991, la version publiee de l'Annals of Statistics etant payante).
+
+Deux modeles publies identifies pour ce jeu exact (Mercer & Hall 1911, meme grille 20x25/500 parcelles) : (1) Besag (1974), schema auto-normal entierement lineaire (Tables 8/10, gamma1=0.343/0.350) ; (2) Gao, Lu & Tjostheim (2006), modele semi-parametrique partiellement lineaire retenu comme meilleur ajustement (eq. 4.3, beta0=1.311, beta1=0.335, coefficients verifies verbatim dans le texte). Les deux sont des autoregressions spatiales sur grille : les "covariables" X1/X2 sont des sommes des rendements des parcelles voisines (nord-sud et est-ouest), pas des variables exogenes -- elles doivent etre construites depuis les indices de grille r/c, etape non encore realisee dans cette fiche. formula_pub/Bloc 3/Estimator eligibility mis a jour en consequence ; formula_used et benchmark_status/package_include restent inchanges (manual_review) en attendant cette construction.
