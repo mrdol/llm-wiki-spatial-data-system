@@ -2,7 +2,7 @@
 title: paper_medicago
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-17
 sources:
   - data/final_datasets/sf/paper_medicago.rds
   - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
@@ -32,16 +32,17 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 ### Variables (niveau systeme - inspection directe du sf)
 
 - Candidate Y variables: `richness`, `annual`, `perennial`
-- Candidate Y typology: continuous
+- Candidate Y typology: count, continuous
 - Candidate X variables in local artifact: `MAT`, `MTCQ`, `PET`, `WI`, `Solar_rad`, `MI`, `MAP`, `PDQ`, `AET`, `WD`, `DRT`, `TSN`, `ART`, `PSN`, `MATR`, `MAPR`, `Ele_range`, `Ele_std`, `LGMmat_ano`, `LGMmap_ano`, `LGMmtcq_ano`, `MHmat_ano`, `MHmap_ano`, `MHmtcq_ano`
 - Candidate X count in local artifact: 24
 - Candidate X typology: continuous
-- Published X variables from paper: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
+- Published X variables from paper: memes 24 variables, groupees par les auteurs en 5 categories (verifie texte integral) : energie environnementale (MAT, MTCQ, PET, WI, Solar_rad), disponibilite en eau (MI, MAP, PDQ, AET, WD), saisonnalite climatique (DRT, TSN, ART, PSN), heterogeneite d'habitat (MATR, MAPR, Ele_range, Ele_std), changement climatique passe (LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano).
 - Published X count: 24
 - Coordinates (x, y - excluded from X candidates): geometrie sf `geom_point` (POINT)
 - Identifier columns (excluded from X candidates): `GRIDCODE`, `Continent`, `Biome`
 - Variables inspected: yes (auto - generate_fiches_papers.R)
 - Presence of imputed X: unknown
+- Note complementaire (2026-09-17) : le README Dryad ('Number of cases/rows: 8299') confirme que le fichier partage par les auteurs eux-memes ne contient QUE 8299 lignes -- pas les 13 360 cellules de grille terrestre mondiale mentionnees dans le papier (ce total inclut les cellules sans Medicago). Les 8297 lignes de cet artefact local (ecart de 2, probablement des lignes filtrees lors de la conversion sf) correspondent donc bien au jeu d'analyse reel des auteurs (cellules ou Medicago est present, richness>=1), pas a un sous-echantillonnage introduit par notre pipeline.
 
 #### Detail Y
 
@@ -84,18 +85,18 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 
 ### Formule - niveau publication
 
-- formula_pub: richness ~ environmental_energy_PC1 [GWR, fixed kernel, AICc bandwidth] ; richness ~ each climatic variable / environmental-category PC1 [negative binomial GLM]
+- formula_pub: richness ~ environmental_energy_PC1 [GWR, kernel fixe, bande passante par AICc] ; richness ~ chaque variable climatique / PC1 de chaque categorie environnementale [GLM binomial-negatif univarie, repete pour le monde entier + 6 continents + 7 biomes] ; annual/perennial ~ environmental_energy [GLM binomial-negatif, comparaison des pentes entre formes de vie]
 - x_terms_pub: MAT, MTCQ, PET, WI, Solar_rad, MI, MAP, PDQ, AET, WD, DRT, TSN, ART, PSN, MATR, MAPR, Ele_range, Ele_std, LGMmat_ano, LGMmap_ano, LGMmtcq_ano, MHmat_ano, MHmap_ano, MHmtcq_ano
-- y_term_pub: species richness of Medicago on 100 x 100 km grid cells
-- Reference publication: Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula.
+- y_term_pub: species richness of Medicago on 100 x 100 km grid cells (et separement, richness des especes annuelles/vivaces)
+- Reference publication: Yang, Y., Bian, Z., Ren, G., Liu, J. & Shrestha, N. (2022), 'Niche conservatism limits the distribution of Medicago in the tropics', Ecography e06085, DOI 10.1111/ecog.06085 (texte integral verifie via corpus/papers/tei/Niche conservatism limits the distribution of Medicago in the tropics.tei.xml, deja disponible localement). Methode confirmee texte exact : "First, we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variables on the geographical patterns in species richness. To assess the consistency in relationships between species richness and climate variables in different regions, we used GLMs for six continents... and the entire world separately... we adopted... 'negative binomial'... Modified t-test was used to eliminate the effects of spatial autocorrelation on the significance tests (Dutilleul et al. 1993)." Puis : "we conducted principal component analysis (PCA) for each of the 5 environmental categories separately, and extracted the first axis to represent each category... we further classified each continent into different biomes" (7 biomes retenus sur 9). Enfin : "we built a geographically weighted regression (GWR) model to explore the global relationships between species richness and environmental energy... estimated using the least square method with fixed kernel. The extent of the kernel was determined using... AICc." Les GLM binomiaux-negatifs et PCA sont faits sous R, le GWR sous ArcGIS 10.6, les tests t modifies sous SAM 4.0. Le papier compare aussi separement les pentes richness-energie entre especes annuelles et vivaces via GLM binomial-negatif ("we compared the slopes of the richness-energy relationship between annual and perennial Medicago species using negative binomial generalized linear model"). AUCUN modele SAR/SEM/regression spatiale autre que GWR n'est utilise.
 
 ### Statut regression canonique
 
 - Statut: mis de cote
 - Niveau de preuve: publication
-- Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08)
+- Methode d estimation: formule adaptee/reconstruite a partir des variables du depot -- ne reproduit PAS la methode exacte du papier (voir correction 2026-09-08, confirmee et enrichie le 2026-09-17)
 - Correspondance Python/R: aucune identifiee
-- Note: Correction (2026-09-08, lecture TEI approfondie) : confirme -- les GLM binomiaux-negatifs du papier sont univaries (une seule variable climatique a la fois : "we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable"), et le GWR ne porte que sur un PC1 agrege ("environmental energy"), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait formula_used. Le papier n'ajuste donc jamais ce modele multivarie precis. DECISION UTILISATEUR (2026-09-08) : mis de cote explicitement plutot que resolu -- necessite un pretraitement PCA et une orchestration multi-modeles univaries absents du pipeline actuel ; ne pas promouvoir package_include=yes avant cette extension.
+- Note: Correction (2026-09-08, lecture TEI approfondie, reconfirmee le 2026-09-17 par relecture complete du texte deja disponible localement) : les GLM binomiaux-negatifs du papier sont univaries (une seule variable climatique a la fois : "we used univariate generalized linear models (GLMs) to evaluate the effects of each climatic variable"), repetes pour le monde entier, 6 continents et 7 biomes separement -- et le GWR ne porte que sur la representation agregee "environmental energy" (PC1 de la categorie energie), jamais sur les 5 variables brutes MAT+MTCQ+PET+WI+Solar_rad simultanement comme le fait formula_used. Le papier n'ajuste donc jamais ce modele multivarie precis. Le README Dryad confirme N=8299 dans le fichier partage par les auteurs, coherent avec les 8297 lignes locales -- pas un sous-echantillonnage de notre pipeline. DECISION UTILISATEUR (2026-09-08, maintenue) : mis de cote explicitement plutot que resolu -- necessite un pretraitement PCA par categorie et une orchestration multi-modeles univaries (monde/continent/biome) absents du pipeline actuel ; ne pas promouvoir package_include=yes avant cette extension.
 
 ### Formule - niveau systeme
 
@@ -129,18 +130,19 @@ formula_candidates:
     role: "paper_main_specification"
     source_type: "scientific_publication"
     source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
-    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
+    estimator_context: ["mgwrsar_gwr"]
     status: "confirmed"
+    note: "Correction 2026-09-17 : estimator_context corrige -- seul mgwrsar_gwr (GWR) est reellement utilise dans le papier, et uniquement sur la representation agregee de l'energie environnementale (PC1), jamais sur les 5 variables energie brutes ensemble comme le fait formula_used/cette formule multivariee. sar_lag/sem_error/sdm_mixed ETAIENT precedemment lites a tort comme si issus du papier -- aucun n'y est utilise ; ce sont des candidats de benchmark PROPOSES PAR NOUS (coordonnees geographiques reelles disponibles), pas une preuve scientifique. Le papier utilise par ailleurs des GLM binomiaux-negatifs univaries (une variable a la fois, repetes monde/continent/biome) et un test t modifie de Dutilleul et al. (1993) pour corriger l'autocorrelation spatiale des tests de significativite -- diagnostic/correction, pas un modele de regression spatiale."
 
   ml_or_selected:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ART + PSN + MATR + MAPR + Ele_range + Ele_std + LGMmat_ano + LGMmap_ano + LGMmtcq_ano + MHmat_ano + MHmap_ano + MHmtcq_ano"
+    response: "richness"
+    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN", "ART", "PSN", "MATR", "MAPR", "Ele_range", "Ele_std", "LGMmat_ano", "LGMmap_ano", "LGMmtcq_ano", "MHmat_ano", "MHmap_ano", "MHmtcq_ano"]
     role: "ml_candidate_features"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "generated_system_formula"
+    source_ref: "Ajoute le 2026-09-17 (nouvelle pratique standard pour les fiches a plus de 10 X : proposer une formule ML/boosting exploitant toutes les covariables disponibles pour selection automatique). Les 24 candidats X sont tous des variables environnementales exogenes (climat, topographie, changement climatique passe) -- aucune fuite de la reponse identifiee (contrairement au cas paper_bumblebee_colony_reproduction), toutes incluses."
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
 ```
 
 ## Bloc 2 - Identification et DOI
@@ -157,19 +159,19 @@ formula_candidates:
 
 ## Bloc 3 - Typologie des modeles
 
-- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
-- Modele niveau 2 (famille): pending
-- Modele niveau 3 (variante): pending
+- Modele niveau 1 (tache): regression de comptage univariee (GLM) + regression spatiale locale univariee (GWR) -- pas un modele multivarie unique
+- Modele niveau 2 (famille): GLM binomial-negatif univarie (une variable climatique/PC1 de categorie a la fois, repete monde/6 continents/7 biomes) ; GWR (kernel fixe, bande passante AICc) sur la representation agregee de l'energie environnementale
+- Modele niveau 3 (variante): comparaison des pentes richness-energie entre especes annuelles et vivaces (meme famille GLM binomial-negatif) ; correction de significativite par test t modifie de Dutilleul et al. (1993) pour l'autocorrelation spatiale
 
 ```yaml
 modeling_evidence:
   existing_model_found: true
-  equation_text: "richness ~ environmental_energy_PC1 [GWR, fixed kernel, AICc bandwidth] ; richness ~ each climatic variable / environmental-category PC1 [negative binomial GLM]"
-  equation_family: paper_empirical_or_dataset_specific
-  model_family: spatial_or_paper_specific_regression
-  source_type: scientific_publication_or_package_documentation
-  source_ref: "Yang, Bian, Ren, Liu & Shrestha (2022), Ecography e06085, Sections Environmental variables and Models/statistical analyses: the paper maps Medicago richness on 100 x 100 km grid cells, evaluates 24 environmental variables with negative-binomial GLMs and category PC1s, then uses GWR to explore the richness-environmental-energy relationship across latitude. formula_used keeps the documented environmental-energy group available in the local .rds (MAT, MTCQ, PET, WI, Solar_rad) as the canonical executable GWR/GLM benchmark formula."
-  confidence: medium
+  equation_text: "richness ~ environmental_energy_PC1 [GWR, fixed kernel, AICc bandwidth] ; richness ~ each climatic variable / environmental-category PC1 [univariate negative binomial GLM, world+6 continents+7 biomes]"
+  equation_family: count_regression_univariate_battery
+  model_family: "univariate NB GLM battery + local GWR (aucun estimateur equivalent dans le harnais actuel pour l'orchestration multi-modeles)"
+  source_type: scientific_publication
+  source_ref: "Yang, Y., Bian, Z., Ren, G., Liu, J. & Shrestha, N. (2022), 'Niche conservatism limits the distribution of Medicago in the tropics', Ecography e06085, DOI 10.1111/ecog.06085 (texte integral verifie via corpus/papers/tei/Niche conservatism limits the distribution of Medicago in the tropics.tei.xml, deja disponible localement). Spatial dependence model in publication: GWR uniquement (energie environnementale, PC1) -- pas de SAR/SEM/SDM. Diagnostic/correction complementaire : test t modifie de Dutilleul et al. (1993) pour corriger l'autocorrelation spatiale des tests de significativite des GLM univaries."
+  confidence: high
 ```
 
 ## Benchmark readiness
