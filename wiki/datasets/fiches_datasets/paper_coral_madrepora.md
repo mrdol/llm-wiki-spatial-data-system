@@ -2,7 +2,7 @@
 title: paper_coral_madrepora
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-17
 sources:
   - data/final_datasets/sf/paper_coral_madrepora.rds
   - DataCite_2022_PredictingTheEffectsOf_10_1111_gcb_1638
@@ -162,17 +162,17 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
+  benchmark_status: "ready"
   benchmark_task: "classification_binary_presence_absence"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats."
-  reason: "Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Promu le 2026-09-17 : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389 -- reponse `pa` (presence/absence, binaire), 14 covariables confirmees identiques au README Dryad (10.5061/dryad.41ns1rnht), random_forest et xgboost documentes comme methode reellement publiee (basis: published_model, voir Estimator eligibility). L'ancien blocage 'current_package_regression_only' etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', deja corrige a la source -- voir Estimator eligibility.ineligible_reason). Toutes les conditions de promotion (reponse defendable, covariables, support spatial, preuve de modele publie, artefact local) sont reunies."
 ```
 
-- Decision: manual_review
-- Manque principal: Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats.
-- Raison: Ancienne declaration yes incoherente avec les conditions du registre : current_package_regression_only. Conserver la décision actuelle jusqu’au traitement des constats.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Promu le 2026-09-17 : Anderson, Stephenson, Behrens & Rowden (2022), Global Change Biology, DOI 10.1111/gcb.16389 -- reponse `pa` (presence/absence, binaire), 14 covariables confirmees identiques au README Dryad (10.5061/dryad.41ns1rnht), random_forest et xgboost documentes comme methode reellement publiee (basis: published_model, voir Estimator eligibility). L'ancien blocage 'current_package_regression_only' etait un bug du script d'export (code/package_metadata/export_spatialtidymodels_metadata.py, verification textuelle codee en dur sur benchmark_task contenant 'classification'/'presence_absence', deja corrige a la source -- voir Estimator eligibility.ineligible_reason). Toutes les conditions de promotion (reponse defendable, covariables, support spatial, preuve de modele publie, artefact local) sont reunies.
 
 ## Estimator eligibility
 
