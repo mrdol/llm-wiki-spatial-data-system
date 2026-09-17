@@ -47,7 +47,7 @@ REGRESSION_EVIDENCE_VALUES = {"verbatim", "code", "article", "analogie", "n/a", 
 REGRESSION_STATUS_VALUES.update({"resolu", "résolu", "generated_system_formula"})
 REGRESSION_EVIDENCE_VALUES.update({"publication", "system_generated"})
 
-EXCLUDED_FILES = {"index.md", "log.md", "overview.md", "glossary.md", "eval_queue.md"}
+EXCLUDED_FILES = {"index.md", "log.md", "overview.md", "glossary.md", "eval_queue.md", "INDEX_PAR_STATUT.md"}
 
 Y_TYPES = {
     "continuous",

@@ -303,7 +303,7 @@ change; the ground truth file does not auto-refresh.
   documented.
 - Do not treat missing `quality_pedigree` as a hard hook blocker for dataset
   fiches. It can remain a recommended enrichment or review-queue item.
-- Never run eval on excluded files: `index.md`, `log.md`, `overview.md`, `glossary.md`, `eval_queue.md`
+- Never run eval on excluded files: `index.md`, `log.md`, `overview.md`, `glossary.md`, `eval_queue.md`, `INDEX_PAR_STATUT.md`
 - If `ANTHROPIC_API_KEY` is missing, warn the user — Tier 2 will use the default score (0.80), which bypasses semantic evaluation
 
 ---
@@ -317,6 +317,7 @@ change; the ground truth file does not auto-refresh.
 - `wiki/eval_queue.md` — amber fiches pending correction
 - `wiki/metadata/eval_system_documentation.md` — full pipeline documentation
 - `tools/verify_fiche_crs.py` / `code/r_catalog/extract_crs_ground_truth.R` — CRS accuracy verification (fiche claim vs. real embedded CRS), complements `code/r_catalog/audit_sf_crs_time.R` which only fills in *missing* CRS values and never re-checks ones already declared
+- `tools/generate_fiches_status_index.py` — regenerates `wiki/datasets/INDEX_PAR_STATUT.md`, a read-only index of every dataset fiche grouped by `package_include` (yes/manual_review/no), read directly from each fiche's `benchmark_readiness` block. Re-run after any batch of status changes; never edit the index by hand.
 - `wiki/metadata/catalog_registry_schema_v3.md` — dataset schema reference
 - `wiki/metadata/quality_pedigree_schema_v1.md` — quality pedigree rules
 
