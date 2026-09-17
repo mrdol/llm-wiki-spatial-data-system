@@ -2,7 +2,7 @@
 title: Python_geodatasets_geoda.health
 type: dataset
 created: 2026-08-15
-updated: 2026-09-16
+updated: 2026-09-17
 sources:
   - data/final_datasets/sf/Python_geodatasets_geoda.health.rds
 tags: [dataset, python-package, spatial, point]
@@ -82,7 +82,7 @@ Dataset spatial issu du package Python `geodatasets` (`health`).
 - formula_pub: pending
 - x_terms_pub: pending
 - y_term_pub: pending
-- Reference publication: pending
+- Reference publication: Source empirique directe (partielle) : Chetty, R., Stepner, M., Abraham, S., Lin, S., Scuderi, B., Turner, N., Bergeron, A. & Cutler, D. (2016), 'The Association Between Income and Life Expectancy in the United States, 2001-2014', JAMA 315(16), 1750-1766, DOI 10.1001/jama.2016.4226 (DOI verifie via Crossref). La structure des colonnes (le_agg_q1..q4 = esperance de vie par quartile de revenu agrege, le_racea_1..7 = variantes ajustees par race) correspond aux tables du Health Inequality Project (Opportunity Insights) associees a cet article. IMPORTANT : ce fichier GeoDa n'est PAS l'objet exact utilise dans les regressions de l'article -- c'est un assemblage geospatial enrichi combinant les tables de longevite de Chetty et al. avec des indicateurs de revenu/diversite raciale provenant d'autres sources (recensement) et une geometrie de comtes. Aucune formule de regression precise de l'article n'a ete confirmee comme directement applicable a cet assemblage -- statut maintenu manual_review, pas de promotion sur la seule base de cette attribution de source partielle.
 
 ### Statut regression canonique
 
@@ -232,3 +232,7 @@ benchmark_readiness:
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-17
+
+Recherche du 2026-09-17 (suite a un echange avec un autre agent IA ayant identifie une piste Chetty). DOI verifie via Crossref. Source empirique directe (partielle) : Chetty, R., Stepner, M., Abraham, S., Lin, S., Scuderi, B., Turner, N., Bergeron, A. & Cutler, D. (2016), 'The Association Between Income and Life Expectancy in the United States, 2001-2014', JAMA 315(16), 1750-1766, DOI 10.1001/jama.2016.4226 (DOI verifie via Crossref). La structure des colonnes (le_agg_q1..q4 = esperance de vie par quartile de revenu agrege, le_racea_1..7 = variantes ajustees par race) correspond aux tables du Health Inequality Project (Opportunity Insights) associees a cet article. IMPORTANT : ce fichier GeoDa n'est PAS l'objet exact utilise dans les regressions de l'article -- c'est un assemblage geospatial enrichi combinant les tables de longevite de Chetty et al. avec des indicateurs de revenu/diversite raciale provenant d'autres sources (recensement) et une geometrie de comtes. Aucune formule de regression precise de l'article n'a ete confirmee comme directement applicable a cet assemblage -- statut maintenu manual_review, pas de promotion sur la seule base de cette attribution de source partielle. Conclusion : source de donnees partiellement identifiee et documentee, mais pas de formule de regression specifique confirmee pour ce fichier assemble -- ne pas promouvoir package_include sur cette seule base.
