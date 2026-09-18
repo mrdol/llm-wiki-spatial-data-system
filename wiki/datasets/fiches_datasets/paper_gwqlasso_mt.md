@@ -205,7 +205,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (municipalite -- meme support que les fiches annuelles associees paper_gwqlasso_mt_*)
 - Temporal resolution: 43 distinct periods (variable: Year)
 - CRS EPSG: 4326
 - CRS nom: WGS 84

@@ -152,7 +152,7 @@ modeling_evidence:
 
 ## Bloc 5 — Resolution et etendue
 
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : comte (county) des Etats-Unis)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-124.209, -67.5544], y [25.5386, 48.8643] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)

@@ -214,7 +214,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : commune, panel commune x jour)
 - Temporal resolution: 12 distinct periods (variable: year)
 - CRS EPSG: unknown
 - CRS nom: CH1903+ / LV95 + LN02 height

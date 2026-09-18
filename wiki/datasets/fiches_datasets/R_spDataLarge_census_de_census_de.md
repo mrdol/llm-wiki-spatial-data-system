@@ -148,7 +148,7 @@ modeling_evidence:
 
 ## Bloc 5 — Resolution et etendue
 
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel incertain : unite de recensement OU unite administrative selon la source, voir Observation unit)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [4031500, 4671500], y [2689500, 3547500] (EPSG:3035, via documentation)
 - Time range: not applicable (cross-sectional dataset)
