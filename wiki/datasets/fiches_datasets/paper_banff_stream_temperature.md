@@ -179,6 +179,10 @@ estimator_eligibility:
       basis: benchmark_use
       source_ref: "Approximation spatiale generique (W euclidienne sur Easting/Northing), PAS une reproduction du modele SSN sur reseau hydrographique du papier."
       notes: "Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval) ni l'effet aleatoire HUC10 du modele INLA des auteurs."
+    - estimator: inla_spde
+      basis: benchmark_use
+      source_ref: "Ajoute le 2026-09-18. Le papier utilise reellement INLA, mais un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303) -- inla_spde_reg() n'implemente ni la barriere ni l'effet aleatoire groupe, seulement un champ SPDE/Matern standard sur l'espace euclidien."
+      notes: "Comparateur spatial generique (meme limite que gam_spatial ci-dessus : W/champ euclidien sur Easting/Northing, pas le reseau hydrographique) -- pas une reproduction du modele INLA barrier+HUC10 des auteurs."
     - estimator: random_forest
       basis: benchmark_use
       source_ref: "Aucune -- comparateur ML generique, Y continu."

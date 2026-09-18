@@ -186,8 +186,8 @@ estimator_eligibility:
       basis: benchmark_use
       source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
       notes: "Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
+  conditionally_eligible_estimators: ["inla_spde"]
+  ineligible_reason: "Ajoute le 2026-09-18 : les auteurs (Crates et al. 2022) ajustent un GLMM INLA avec champ spatial SPDE/Matern et famille Poisson -- le coeur (SPDE + Poisson) correspond a inla_spde_reg(), mais DEUX ecarts empechent une eligibilite pleine : (1) structure panel (T=5, Season) -- inla_spde ajuste un champ spatial unique par execution, pas de repetition temporelle geree, meme limitation que sar_probit/sem_probit sur donnees panel ailleurs dans le corpus (ex. paper_crane) ; (2) le modele publie ajoute des effets aleatoires observateur/region et une interaction mistletoe x saison que le harnais ne modelise pas. Place en conditionally_eligible, pas en eligible_estimators."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

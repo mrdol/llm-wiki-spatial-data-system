@@ -179,6 +179,10 @@ benchmark_readiness:
 estimator_eligibility:
   status: "manual_review"
   eligible_estimators:
+    - estimator: inla_spde
+      basis: published_model
+      source_ref: "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence."
+      notes: "Ajoute le 2026-09-18 : correspond exactement au modele publie -- inla_spde_reg() implemente un champ spatial SPDE/Matern via inlabru::bru(), avec la famille binomiale et un choix de lien logit/cloglog (glm_link='cloglog' reproduit le lien exact des auteurs). Contrairement a sar_probit/sem_probit ci-dessous (analogues, pas des reproductions), c'est la premiere fois que le harnais dispose d'une implementation reellement fidele au cadre SPDE/GMRF publie."
     - estimator: sar_probit
       basis: scientific_evidence
       source_ref: "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence."
@@ -196,7 +200,7 @@ estimator_eligibility:
       source_ref: "response_typologies inclut 'binary' pour random_forest depuis la mise a jour du registre cette semaine."
       notes: "Capacite technique du harnais, comparateur non-spatial."
   conditionally_eligible_estimators: []
-  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite)."
+  ineligible_reason: "Bloc estimator_eligibility complete le 2026-09-08, enrichi le 2026-09-18 (inla_spde ajoute comme reproduction fidele -- voir eligible_estimators). Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite)."
   rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
 ```
 

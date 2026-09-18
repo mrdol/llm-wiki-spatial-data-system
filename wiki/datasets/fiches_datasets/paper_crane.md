@@ -170,8 +170,8 @@ benchmark_readiness:
 estimator_eligibility:
   status: "not_ready_current_package"
   eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit"]
-  ineligible_reason: "reponse binaire ET structure panel spatial : aucune route du package ne gere cette combinaison aujourd'hui (sar_probit/sem_probit sont cross-sectionnels ; le harnais panel -- 70-panel-spatial.R -- ne gere que le Y continu). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel ; sar_probit/sem_probit necessiteraient de traiter chaque periode separement (non implemente) et une matrice W fiable (voir Bloc 5 / CRS note)."
+  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit", "inla_spde"]
+  ineligible_reason: "reponse binaire ET structure panel spatial : aucune route du package ne gere cette combinaison aujourd'hui (sar_probit/sem_probit sont cross-sectionnels ; inla_spde ajoute le 2026-09-18 -- champ SPDE unique par execution, pas de repetition temporelle geree -- ; le harnais panel -- 70-panel-spatial.R -- ne gere que le Y continu). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel ; sar_probit/sem_probit/inla_spde necessiteraient de traiter chaque periode separement (non implemente) et une matrice W ou un maillage fiable (voir Bloc 5 / CRS note). Le papier utilise par ailleurs un modele INLA/SPDE spatio-temporel (champ M(s,t) structure par le temps via 'ti') qu'inla_spde ne reproduit pas meme en pooling."
   rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 
