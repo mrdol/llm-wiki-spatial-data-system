@@ -254,7 +254,8 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
                                         rfgls_param_estimate = FALSE,
                                         mgwrsar_control = list(),
                                         response_typology = "continuous",
-                                        glm_link = NULL) {
+                                        glm_link = NULL,
+                                        inla_time = NULL) {
   # Ajuste un estimateur connu. Les erreurs sont laissees au niveau appelant
   # pour produire une ligne de benchmark explicite plutot qu'un plantage global.
   #
@@ -454,6 +455,54 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
         formula, coords, inla_data
       ) |>
         workflows::fit(data = inla_data)
+    },
+    inla_spde_st = {
+      require_package("workflows", "benchmark INLA SPDE spatio-temporel")
+      require_package("INLA", "benchmark INLA SPDE spatio-temporel")
+      require_package("inlabru", "benchmark INLA SPDE spatio-temporel")
+      if (is.null(inla_time)) {
+        stop("inla_spde_st: aucune colonne temporelle fournie (argument inla_time) -- utiliser 'inla_spde' pour un champ purement spatial.", call. = FALSE)
+      }
+      if (is.null(data[[inla_time]])) {
+        stop(sprintf("inla_spde_st: colonne temporelle '%s' introuvable dans data.", inla_time), call. = FALSE)
+      }
+      inla_family <- switch(response_typology, binary = "binomial", count = "poisson", "gaussian")
+      inla_data <- data
+      if (identical(response_typology, "binary")) {
+        inla_data[[y_name]] <- as.integer(inla_data[[y_name]]) - 1L
+      }
+      # inla_time n'apparait pas dans `formula` (comme les coordonnees) --
+      # sans l'ajouter explicitement ici, hardhat::mold() l'elaguerait avant
+      # que inlaspde_fit_impl() ne la voie (meme raison que add_coords_to_
+      # formula() pour les coordonnees spatiales).
+      make_benchmark_workflow(
+        inla_spde_reg(coords = coords, family = inla_family, link = glm_link, time = inla_time) |>
+          parsnip::set_engine("inlabru"),
+        formula, c(coords, inla_time), inla_data
+      ) |>
+        workflows::fit(data = inla_data)
+    },
+    inla_spde_group = {
+      require_package("INLA", "benchmark INLA SPDE (effets de groupe)")
+      require_package("inlabru", "benchmark INLA SPDE (effets de groupe)")
+      if (length(extract_group_re_terms(formula, data = data)$re_groups) == 0L) {
+        stop("inla_spde_group: aucun terme d'effet aleatoire de groupe '(1 | groupe)' trouve dans la formule -- utiliser 'inla_spde' si aucun effet de groupe n'est modelise.", call. = FALSE)
+      }
+      inla_family <- switch(response_typology, binary = "binomial", count = "poisson", "gaussian")
+      inla_data <- data
+      if (identical(response_typology, "binary")) {
+        inla_data[[y_name]] <- as.integer(inla_data[[y_name]]) - 1L
+      }
+      # Contourne workflows::fit() -- stats::model.frame() (appele en interne
+      # par hardhat::mold()) ne comprend pas la syntaxe `(1 | groupe)`, meme
+      # raison que gam_spatial ci-dessus. Voir predict.inla_spde_group_fit()
+      # (51-parsnip-inlaspde.R) pour comment le reste du harnais reste
+      # generique malgre ce contournement.
+      fit_obj <- inlaspde_fit_impl(
+        formula, inla_data, coords, family = inla_family, link = glm_link
+      )
+      class(fit_obj) <- c("inla_spde_group_fit", class(fit_obj))
+      fit_obj
     },
     spboost = {
       require_package("workflows", "benchmark SpBoost")

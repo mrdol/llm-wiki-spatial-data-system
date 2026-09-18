@@ -702,6 +702,46 @@ ESTIMATOR_REGISTRY.extend(
             ),
             "wiki_key": "inla",
         },
+        {
+            "estimator": "inla_spde_st",
+            "package": "inlabru",
+            "backend": "inlabru::bru (INLA SPDE spatio-temporel)",
+            "requires_coords": True,
+            "requires_W": False,
+            "spatial_args": "coords/family/link/time/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+            "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+            "notes": (
+                "Variante de inla_spde avec un champ spatio-temporel separable espace x AR1 "
+                "(argument time= sur inla_spde_reg() -- group=/control.group=list(model=\"ar1\") "
+                "sur le terme field(), confirme dans args(INLA::f)). Motivee par 3 papiers du "
+                "corpus utilisant reellement INLA avec un champ M(s,t) structure par le temps: "
+                "paper_crane, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal. Une "
+                "periode absente de l'entrainement fait echouer la prediction explicitement "
+                "(pas d'extrapolation temporelle hors du groupe AR1 ajuste)."
+            ),
+            "wiki_key": "inla",
+        },
+        {
+            "estimator": "inla_spde_group",
+            "package": "inlabru",
+            "backend": "inlabru::bru (INLA SPDE + effet(s) aleatoire(s) de groupe)",
+            "requires_coords": True,
+            "requires_W": False,
+            "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+            "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+            "notes": (
+                "Variante de inla_spde qui traduit un terme de formule '(1 | groupe)' (meme "
+                "syntaxe et meme detection que gam_spatial, extract_group_re_terms()) en "
+                "composant iid inlabru groupe(groupe, model=\"iid\"), en plus du champ spatial. "
+                "Motivee par paper_banff_stream_temperature (HUC10) et "
+                "paper_mistletoe_bird_abundance (observateur/region). Contourne "
+                "workflows::fit() -- stats::model.frame() ne comprend pas la syntaxe "
+                "'(1 | groupe)' -- meme raison que gam_spatial ; erreur explicite si la formule "
+                "ne contient aucun terme de groupe, pour ne jamais declarer cette variante "
+                "eligible sans effet de groupe reel."
+            ),
+            "wiki_key": "inla",
+        },
     ]
 )
 
@@ -770,6 +810,16 @@ ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
         "family": "INLA_SPDE", "role": "reference", "reference_estimator": None, "variant_family": None,
         "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
         "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
+    },
+    "inla_spde_st": {
+        "family": "INLA_SPDE", "role": "variant", "reference_estimator": "inla_spde", "variant_family": "space_time",
+        "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
+        "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit time column (inla_time); a period absent from training fails prediction explicitly.",
+    },
+    "inla_spde_group": {
+        "family": "INLA_SPDE", "role": "variant", "reference_estimator": "inla_spde", "variant_family": "group_random_effects",
+        "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
+        "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit '(1 | group)' term in the formula; fails explicitly otherwise.",
     },
 }
 

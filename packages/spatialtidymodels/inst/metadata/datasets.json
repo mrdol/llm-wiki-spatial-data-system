@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-09-18T12:45:28.379789+00:00",
+  "generated_at": "2026-09-18T14:14:17.955509+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -1729,6 +1729,18 @@
           "recommendation_status": "curated_benchmark_route"
         },
         {
+          "estimator": "inla_spde",
+          "basis": "benchmark_use",
+          "source_ref": "Ajoute le 2026-09-18. Le papier utilise reellement INLA, mais un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303) -- inla_spde_reg() n'implemente ni la barriere ni l'effet aleatoire groupe, seulement un champ SPDE/Matern standard sur l'espace euclidien.",
+          "pages": null,
+          "pdf_pages": null,
+          "tables": [],
+          "notes": "Comparateur spatial generique (meme limite que gam_spatial ci-dessus : W/champ euclidien sur Easting/Northing, pas le reseau hydrographique) -- pas une reproduction du modele INLA barrier+HUC10 des auteurs.",
+          "source_estimator": "inla_spde",
+          "package_estimator": "inla_spde",
+          "recommendation_status": "curated_benchmark_route"
+        },
+        {
           "estimator": "random_forest",
           "basis": "benchmark_use",
           "source_ref": "Aucune -- comparateur ML generique, Y continu.",
@@ -1751,6 +1763,7 @@
       "benchmark_estimators": [
         "ols",
         "gam_spatial",
+        "inla_spde",
         "random_forest"
       ],
       "candidate_response_typology": [
@@ -5941,6 +5954,18 @@
           "source_estimator": "sem_probit",
           "package_estimator": "sem_probit",
           "recommendation_status": "curated_benchmark_route"
+        },
+        {
+          "estimator": "inla_spde",
+          "basis": "benchmark_use",
+          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
+          "pages": null,
+          "pdf_pages": null,
+          "tables": [],
+          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
+          "source_estimator": "inla_spde",
+          "package_estimator": "inla_spde",
+          "recommendation_status": "curated_benchmark_route"
         }
       ],
       "eligibility_basis": "benchmark_use",
@@ -5955,7 +5980,8 @@
         "xgboost_xy",
         "gam_spatial",
         "sar_probit",
-        "sem_probit"
+        "sem_probit",
+        "inla_spde"
       ],
       "candidate_response_typology": [
         "binary"
@@ -8152,10 +8178,23 @@
       "benchmark_missing_items": "aucun blocage automatique detecte",
       "benchmark_readiness_reason": "Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite).",
       "eligible_estimators": [
+        "inla_spde",
         "sar_probit",
         "sem_probit"
       ],
       "estimator_evidence": [
+        {
+          "estimator": "inla_spde",
+          "basis": "published_model",
+          "source_ref": "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence.",
+          "pages": null,
+          "pdf_pages": null,
+          "tables": [],
+          "notes": "Ajoute le 2026-09-18 : correspond exactement au modele publie -- inla_spde_reg() implemente un champ spatial SPDE/Matern via inlabru::bru(), avec la famille binomiale et un choix de lien logit/cloglog (glm_link='cloglog' reproduit le lien exact des auteurs). Contrairement a sar_probit/sem_probit ci-dessous (analogues, pas des reproductions), c'est la premiere fois que le harnais dispose d'une implementation reellement fidele au cadre SPDE/GMRF publie.",
+          "source_estimator": "inla_spde",
+          "package_estimator": "inla_spde",
+          "recommendation_status": "documented_package_route"
+        },
         {
           "estimator": "sar_probit",
           "basis": "scientific_evidence",
@@ -8201,18 +8240,19 @@
           "tables": [],
           "notes": "Capacite technique du harnais, comparateur non-spatial.",
           "conditionally_eligible_estimators": "[]",
-          "ineligible_reason": "Bloc estimator_eligibility complete le 2026-09-08. Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog -- dependance spatiale reelle et documentee, cas ideal pour sar_probit/sem_probit. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite).",
+          "ineligible_reason": "Bloc estimator_eligibility complete le 2026-09-08, enrichi le 2026-09-18 (inla_spde ajoute comme reproduction fidele -- voir eligible_estimators). Papier confirme via lecture TEI approfondie (Loca2025OnThe.tei.xml) : modele INLA/SPDE avec champ aleatoire spatial explicite (GMRF), lien cloglog. Correction associee : btemp retire de formula_used/x_terms_used/formula_pub (les auteurs l'ont exclu de leur modele final pour colinearite).",
           "rule": "Revue de la tache avant selection des routes; aucune promotion automatique.",
           "source_estimator": "random_forest",
           "package_estimator": "random_forest",
           "recommendation_status": "curated_benchmark_route"
         }
       ],
-      "eligibility_basis": "scientific_evidence",
+      "eligibility_basis": "published_model",
       "eligibility_source_ref": "Loca et al. (2025) (auteurs corriges le 2026-09-14, voir source_ref FORMULA_OVERRIDES), Ecology and Evolution, DOI 10.1002/ece3.71650 -- modele INLA/SPDE avec champ spatial explicite, lien cloglog, sur reponse binaire presence/absence.",
       "eligibility_notes": "Relations lues depuis chaque fiche Markdown; modele source et route package distingues, et propositions techniques derivees des typologies Y/X et du support spatial.",
       "notes": "",
       "benchmark_estimators": [
+        "inla_spde",
         "sar_probit",
         "sem_probit"
       ],
@@ -36389,8 +36429,8 @@
           "pdf_pages": null,
           "tables": [],
           "notes": "Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip.",
-          "conditionally_eligible_estimators": "[]",
-          "ineligible_reason": "n/a -- estimateurs generiques eligibles (voir eligible_estimators).",
+          "conditionally_eligible_estimators": "[\"inla_spde\"]",
+          "ineligible_reason": "Ajoute le 2026-09-18 : les auteurs (Crates et al. 2022) ajustent un GLMM INLA avec champ spatial SPDE/Matern et famille Poisson -- le coeur (SPDE + Poisson) correspond a inla_spde_reg(), mais DEUX ecarts empechent une eligibilite pleine : (1) structure panel (T=5, Season) -- inla_spde ajuste un champ spatial unique par execution, pas de repetition temporelle geree, meme limitation que sar_probit/sem_probit sur donnees panel ailleurs dans le corpus (ex. paper_crane) ; (2) le modele publie ajoute des effets aleatoires observateur/region et une interaction mistletoe x saison que le harnais ne modelise pas. Place en conditionally_eligible, pas en eligible_estimators.",
           "rule": "Revue de la tache avant selection des routes; aucune promotion automatique.",
           "source_estimator": "xgboost",
           "package_estimator": "xgboost",

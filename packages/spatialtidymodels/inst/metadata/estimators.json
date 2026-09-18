@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-09-18T12:45:28.451564+00:00",
+  "generated_at": "2026-09-18T14:14:18.030816+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -2274,7 +2274,10 @@
         "categorical_encoded"
       ],
       "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
-      "test_datasets": [],
+      "test_datasets": [
+        "paper_banff_stream_temperature",
+        "paper_flapper_skate_presence"
+      ],
       "wiki_key": "inla",
       "wiki_path": "wiki/estimators/inla.md",
       "metadata_status": "wiki_fiche_found",
@@ -2282,6 +2285,72 @@
       "role": "reference",
       "reference_estimator": null,
       "variant_family": null,
+      "dashboard_group": "Bayesian Spatial"
+    },
+    {
+      "estimator": "inla_spde_st",
+      "package": "inlabru",
+      "backend": "inlabru::bru (INLA SPDE spatio-temporel)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/family/link/time/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+      "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+      "notes": "Variante de inla_spde avec un champ spatio-temporel separable espace x AR1 (argument time= sur inla_spde_reg() -- group=/control.group=list(model=\"ar1\") sur le terme field(), confirme dans args(INLA::f)). Motivee par 3 papiers du corpus utilisant reellement INLA avec un champ M(s,t) structure par le temps: paper_crane, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal. Une periode absente de l'entrainement fait echouer la prediction explicitement (pas d'extrapolation temporelle hors du groupe AR1 ajuste).",
+      "status": "automatic",
+      "mode": "regression",
+      "automatic": true,
+      "response_typologies": [
+        "continuous",
+        "binary",
+        "count"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit time column (inla_time); a period absent from training fails prediction explicitly.",
+      "test_datasets": [],
+      "wiki_key": "inla",
+      "wiki_path": "wiki/estimators/inla.md",
+      "metadata_status": "wiki_fiche_found",
+      "family": "INLA_SPDE",
+      "role": "variant",
+      "reference_estimator": "inla_spde",
+      "variant_family": "space_time",
+      "dashboard_group": "Bayesian Spatial"
+    },
+    {
+      "estimator": "inla_spde_group",
+      "package": "inlabru",
+      "backend": "inlabru::bru (INLA SPDE + effet(s) aleatoire(s) de groupe)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+      "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+      "notes": "Variante de inla_spde qui traduit un terme de formule '(1 | groupe)' (meme syntaxe et meme detection que gam_spatial, extract_group_re_terms()) en composant iid inlabru groupe(groupe, model=\"iid\"), en plus du champ spatial. Motivee par paper_banff_stream_temperature (HUC10) et paper_mistletoe_bird_abundance (observateur/region). Contourne workflows::fit() -- stats::model.frame() ne comprend pas la syntaxe '(1 | groupe)' -- meme raison que gam_spatial ; erreur explicite si la formule ne contient aucun terme de groupe, pour ne jamais declarer cette variante eligible sans effet de groupe reel.",
+      "status": "automatic",
+      "mode": "regression",
+      "automatic": true,
+      "response_typologies": [
+        "continuous",
+        "binary",
+        "count"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit '(1 | group)' term in the formula; fails explicitly otherwise.",
+      "test_datasets": [],
+      "wiki_key": "inla",
+      "wiki_path": "wiki/estimators/inla.md",
+      "metadata_status": "wiki_fiche_found",
+      "family": "INLA_SPDE",
+      "role": "variant",
+      "reference_estimator": "inla_spde",
+      "variant_family": "group_random_effects",
       "dashboard_group": "Bayesian Spatial"
     }
   ]

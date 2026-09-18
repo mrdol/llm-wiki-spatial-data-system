@@ -186,7 +186,7 @@ register_inlaspde_reg <- function() {
   parsnip::set_dependency("inla_spde_reg", eng = "inlabru", pkg = "inlabru")
   parsnip::set_dependency("inla_spde_reg", eng = "inlabru", pkg = "INLA")
 
-  for (arg in c("coords", "family", "link", "prior_range", "prior_sigma", "mesh_max_edge", "mesh_cutoff")) {
+  for (arg in c("coords", "family", "link", "prior_range", "prior_sigma", "mesh_max_edge", "mesh_cutoff", "time")) {
     parsnip::set_model_arg(
       model = "inla_spde_reg",
       eng = "inlabru",
