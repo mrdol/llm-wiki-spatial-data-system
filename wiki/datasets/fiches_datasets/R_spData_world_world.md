@@ -164,7 +164,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=288.2deg) -- projection nationale recommandee
+- CRS analyse recommande: pending — etendue continentale/mondiale (span=288.2deg) -- projection nationale non pertinente ; privilegier une projection equal-area continentale ou mondiale (ex: Albers equal-area continental, Behrmann/Mollweide pour une couverture mondiale)
 
 ## Bloc 6 — Reproductibilite
 

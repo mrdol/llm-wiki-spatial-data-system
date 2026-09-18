@@ -247,7 +247,7 @@ estimator_eligibility:
 - CRS nom: WGS 84
 - Spatial extent: x [-110.243807777161, 138.348867052897], y [-28.40852405, 62.2748813]
 - Time range: 1975 to 2019 (variable: year_publish)
-- CRS analyse recommande: pending - multi-zones (span=248.6deg) -- projection nationale recommandee
+- CRS analyse recommande: pending — etendue continentale/mondiale (span=248.6deg) -- projection nationale non pertinente ; privilegier une projection equal-area continentale ou mondiale (ex: Albers equal-area continental, Behrmann/Mollweide pour une couverture mondiale)
 
 ## Bloc 6 - Reproductibilite
 

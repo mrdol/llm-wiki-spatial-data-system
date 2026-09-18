@@ -65,10 +65,25 @@ recommend_crs_analyse <- function(crs_epsg, bbox) {
   lon_c  <- (xmin + xmax) / 2
   lat_c  <- (ymin + ymax) / 2
   x_span <- xmax - xmin
+  # Paliers (2026-09-18) : voir la meme fonction dans generate_fiches_papers.R
+  # pour la justification complete. Un seuil unique traitait un span de 19deg
+  # et de 360deg de la meme facon ("projection nationale recommandee"), ce qui
+  # n'a pas de sens pour un jeu reellement mondial/continental.
+  if (x_span > 90) {
+    return(list(epsg = "pending", label = "pending",
+                note = paste0("etendue continentale/mondiale (span=", round(x_span,1),
+                              "deg) -- projection nationale non pertinente ; privilegier ",
+                              "une projection equal-area continentale ou mondiale (ex: ",
+                              "Albers equal-area continental, Behrmann/Mollweide pour ",
+                              "une couverture mondiale)")))
+  }
   if (x_span > 18) {
     return(list(epsg = "pending", label = "pending",
                 note = paste0("multi-zones (span=", round(x_span,1),
-                              "deg) -- projection nationale recommandee")))
+                              "deg) -- etendue compatible avec un grand pays/une region ; ",
+                              "verifier qu'une projection nationale/regionale existe et ",
+                              "convient a cette zone avant de l'utiliser, sinon envisager ",
+                              "une projection continentale equal-area")))
   }
   zone <- max(1L, min(60L, as.integer(floor((lon_c + 180) / 6) + 1)))
   if (lat_c >= 0) {

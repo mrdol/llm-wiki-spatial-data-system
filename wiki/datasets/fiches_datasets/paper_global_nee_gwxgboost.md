@@ -223,7 +223,7 @@ estimator_eligibility:
 - CRS nom: WGS 84
 - Spatial extent: x [-163.7002, 161.34143], y [-54.9733, 78.92163]
 - Time range: 2000 to 2023 (variable: Year)
-- CRS analyse recommande: pending - multi-zones (span=325deg) -- projection nationale recommandee
+- CRS analyse recommande: pending — etendue continentale/mondiale (span=325deg) -- projection nationale non pertinente ; privilegier une projection equal-area continentale ou mondiale (ex: Albers equal-area continental, Behrmann/Mollweide pour une couverture mondiale)
 
 ## Bloc 6 - Reproductibilite
 

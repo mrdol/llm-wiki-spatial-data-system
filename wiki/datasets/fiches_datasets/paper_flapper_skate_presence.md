@@ -219,7 +219,7 @@ estimator_eligibility:
 - CRS nom: WGS 84
 - Spatial extent: x [-14.908, 10.0467], y [48.21, 61.8933]
 - Time range: not applicable (cross-sectional dataset)
-- CRS analyse recommande: pending - multi-zones (span=25deg) -- projection nationale recommandee
+- CRS analyse recommande: pending — multi-zones (span=25deg) -- etendue compatible avec un grand pays/une region ; verifier qu'une projection nationale/regionale existe et convient a cette zone avant de l'utiliser, sinon envisager une projection continentale equal-area
 
 ## Bloc 6 - Reproductibilite
 
