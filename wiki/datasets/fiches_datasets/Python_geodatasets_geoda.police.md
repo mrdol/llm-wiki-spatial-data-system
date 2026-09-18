@@ -162,7 +162,7 @@ modeling_evidence:
 
 ## Bloc 5 — Resolution et etendue
 
-- Spatial resolution: point observation
+- Spatial resolution: point observation (derive d'un polygone source par reduction geometrique -- st_point_on_surface(), rien n'est perdu -- voir Type de geometrie et geom_origine)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [-91.3314, -88.2216], y [30.4225, 34.932] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
