@@ -294,11 +294,33 @@ test_that("fit_one_benchmark_estimator() routes 'inla_spde_group' end-to-end and
     "inla_spde_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
   )
   expect_true(!is.null(fit))
+  expect_s3_class(fit, "inla_spde_group_fit")
 
   expect_error(
     fit_one_benchmark_estimator("inla_spde_group", y ~ x1, dat, coords = c("x_coord", "y_coord")),
     "aucun terme"
   )
+})
+
+test_that("predict_vector_for_benchmark() bypasses generic predict() dispatch for inla_spde_group_fit", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  # isGeneric("predict") devient TRUE une fois INLA charge (confirme
+  # empiriquement, 2026-09-18) -- le predict() generique standard route alors
+  # vers predict.bru() (sortie brute inlabru), pas vers notre
+  # predict.inla_spde_group_fit(), meme si la methode existe et est trouvee
+  # par getS3method(). predict_vector_for_benchmark() doit donc contourner
+  # le dispatch generique explicitement -- ce test protege ce contournement.
+  dat <- inla_spde_group_test_data(n = 80L)
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
+  )
+  preds <- predict_vector_for_benchmark(fit, dat[1:5, ])
+  expect_true(is.numeric(preds))
+  expect_length(preds, 5L)
+  expect_true(all(is.finite(preds)))
 })
 
 inla_spde_st_test_data <- function(n_per_period = 25L, n_period = 4L, seed = 1L) {

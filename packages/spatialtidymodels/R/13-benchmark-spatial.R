@@ -1838,6 +1838,18 @@ predict_vector_for_benchmark <- function(fit, new_data, response_typology = "con
   # renvoient directement un vecteur numerique. Les objets tidymodels attendent
   # `new_data`, tandis que les objets R classiques attendent souvent `newdata`.
   #
+  # inla_spde_group_fit : appel direct, sans passer par le predict() generique
+  # ci-dessous. Confirme empiriquement (2026-09-18) : un package charge (INLA)
+  # promeut `predict` en generique S4 (isGeneric("predict") devient TRUE),
+  # ce qui fait ignorer predict.inla_spde_group_fit() -- meme si la methode
+  # existe et est trouvee par getS3method() -- au profit du predict.bru()
+  # natif d'inlabru, sans passer par notre formule de prediction/transformation
+  # inverse-lien. Contournement direct, pas de depense a corriger le dispatch
+  # S4/S3 globalement.
+  if (inherits(fit, "inla_spde_group_fit")) {
+    return(inlaspde_pred_impl(fit, new_data))
+  }
+  #
   # response_typology == "binary": un workflow classification n'a pas de
   # .pred par defaut (predict() renvoie .pred_class, un facteur, sans
   # type="prob") -- meme contournement que predict_values_for_diagnostics()

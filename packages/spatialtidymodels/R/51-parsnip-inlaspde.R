@@ -397,6 +397,16 @@ inlaspde_fit_impl <- function(formula, data, coords, family = "gaussian",
 #' @export
 inlaspde_pred_impl <- function(object, new_data) {
   fit_obj <- if (inherits(object, "model_fit")) parsnip::extract_fit_engine(object) else object
+  # Un fit inla_spde_group porte la classe supplementaire "inla_spde_group_fit"
+  # (voir predict.inla_spde_group_fit() plus bas). La retirer avant l'appel a
+  # stats::predict() ci-dessous evite une recursion infinie ET un mauvais
+  # dispatch: `predict` s'est avere promu en generique S4 par un package charge
+  # (INLA, confirme empiriquement -- isGeneric("predict") est TRUE alors que
+  # stats::predict n'est pas cense l'etre), ce qui a fait ignorer nos methodes
+  # S3 informelles lors d'un test direct -- stats::predict() ci-dessous doit
+  # voir un objet de classe "bru" nu pour atteindre le predict.bru() natif.
+  fit_obj_for_predict <- fit_obj
+  class(fit_obj_for_predict) <- setdiff(class(fit_obj_for_predict), "inla_spde_group_fit")
   pred_formula <- attr(fit_obj, "inlaspde_pred_formula")
   new_df <- as.data.frame(new_data)
 
@@ -434,7 +444,7 @@ inlaspde_pred_impl <- function(object, new_data) {
   # coordonnees) -- contrairement a ProbitSpatial, aucune reconstruction
   # manuelle du predicteur lineaire n'est necessaire ici.
   preds <- tryCatch(
-    stats::predict(fit_obj, new_df, formula = pred_formula),
+    stats::predict(fit_obj_for_predict, new_df, formula = pred_formula),
     error = function(e) e
   )
   if (inherits(preds, "error")) {
