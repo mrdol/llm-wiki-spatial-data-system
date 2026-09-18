@@ -2,7 +2,7 @@
 title: Python_geodatasets_spdata.eire
 type: dataset
 created: 2026-08-15
-updated: 2026-09-16
+updated: 2026-09-18
 sources:
   - data/final_datasets/sf/Python_geodatasets_spdata.eire.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 - Topic: Donnees de python-package : Python_geodatasets_spdata.eire
 - Observation unit: observation spatiale de type POINT
 - Observed population: 26 enregistrements dans l’artefact local Python_geodatasets_spdata.eire.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [-101.792318251898, 125.285666916484], y [-70.305, 72.45]; CRS WGS 84.
+- Geographic context: Etendue mesuree dans le RDS : x [-10.113712, -6.265457], y [52.268993, 54.725978]; CRS WGS 84 (corrige le 2026-09-18 -- correspond maintenant a la vraie etendue geographique de l'Irlande, voir Bloc 5 > CRS note).
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `geodatasets` (`eire`).
 - Description source: package Python `geodatasets`
@@ -75,6 +75,7 @@ Dataset spatial issu du package Python `geodatasets` (`eire`).
 ### Formule — niveau systeme
 
 - formula_used: A ~ towns + pale
+- CRS note: Corrige le 2026-09-18 : le point actif (geom_point) etait auparavant derive (st_point_on_surface) sur une geometrie faussement etiquetee WGS84 alors que ses coordonnees sont en realite en UTM zone 30 (ellipsoide Airy, unites km -- confirme via la doc officielle du package, wiki/datasets/r_package_docs/spData/topics/eire.md : 'polygons... in eire.polys.utm (coordinates in km, projection UTM zone 30)'). Le calcul spherique (moteur s2) applique a tort a ces valeurs (ex. y~5885) produisait un point derive incoherent (bbox precedent : x[-101.79,125.29] y[-70.3,72.45], span=227.1deg). CRS_OVERRIDES fixe desormais la vraie definition PROJ4 (+proj=utm +zone=30 +ellps=airy +units=km) avant derivation du point, puis reprojette en 4326. La nouvelle etendue x[-10.11,-6.27] y[52.27,54.73] correspond exactement a l'Irlande reelle.
 - x_terms_used: towns + pale
 - y_term_used: A
 
@@ -155,12 +156,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-101.7923, 125.2857], y [-70.305, 72.45] (EPSG:4326)
+- Spatial extent: x [-10.113712, -6.265457], y [52.268993, 54.725978] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=227.1deg) -- projection nationale recommandee
+- CRS analyse recommande: 32629 (UTM Zone 29N (EPSG:32629)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement (corrige le 2026-09-18, voir CRS note)
 
 ## Bloc 6 — Reproductibilite
 
@@ -207,3 +208,7 @@ benchmark_readiness:
 ## Curation documentée — 2026-09-07
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-18
+
+Correction CRS (2026-09-18) : le point actif (geom_point) de ce jeu etait derive d'une geometrie de polygone faussement etiquetee WGS84 (EPSG:4326), alors que les coordonnees d'origine sont en realite en UTM zone 30 (ellipsoide Airy, unites km). Preuve : (1) la documentation officielle du package (wiki/datasets/r_package_docs/spData/topics/eire.md) precise explicitement 'polygons of the 26 counties are provided as a multipart polylist in eire.polys.utm (coordinates in km, projection UTM zone 30)' ; (2) le GeoJSON source brut telecharge par notre pipeline (data/downloads/software/python_datasets/geojson/geodatasets__spdata_eire.geojson) n'a aucun CRS declare (crs=null) et des coordonnees de polygone (ex. 240.62, 5885.61) a l'echelle exacte de cette definition UTM. Le point derive (st_point_on_surface) etait calcule via le moteur spherique s2 de sf sur ces valeurs interpretees a tort comme des degres, produisant un resultat geometriquement incoherent (bbox precedent x[-101.79,125.29] y[-70.3,72.45], span=227.1deg -- sans rapport avec la vraie Irlande). Correction : CRS_OVERRIDES (code/r_catalog/build_sf_datasets.R) applique maintenant la definition PROJ4 reelle (+proj=utm +zone=30 +ellps=airy +units=km) et la reprojection en 4326 AVANT toute derivation geometrique. Nouvelle etendue verifiee x[-10.11,-6.27] y[52.27,54.73] : correspond exactement a l'etendue reelle de l'Irlande (POWO/geographie generale : environ -10.5 a -6 de longitude, 51.4 a 55.4 de latitude).

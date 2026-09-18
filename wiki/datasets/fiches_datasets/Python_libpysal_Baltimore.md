@@ -2,7 +2,7 @@
 title: Python_libpysal_Baltimore
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-18
 sources:
   - data/final_datasets/sf/Python_libpysal_Baltimore.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 - Topic: Donnees de python-package : Python_libpysal_Baltimore
 - Observation unit: observation spatiale de type POINT
 - Observed population: 211 enregistrements dans l’artefact local Python_libpysal_Baltimore.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [-40, 87.5], y [-41, 34.5]; CRS WGS 84.
+- Geographic context: Etendue mesuree dans le RDS : x [860, 987.5], y [505.5, 581]; CRS non renseigne, repere/unites a documenter (corrige le 2026-09-18 -- l'ancien bbox [-40,87.5]/[-41,34.5] et l'etiquette WGS84 venaient d'une fausse detection de CRS geographique, voir Bloc 5 > CRS note).
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 - Description source: package Python `libpysal`
@@ -80,6 +80,7 @@ Dataset spatial issu du package Python `libpysal` (`Baltimore`).
 ### Formule — niveau systeme
 
 - formula_used: PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
+- CRS note: Corrige le 2026-09-18 : le .rds portait auparavant une etiquette CRS WGS84 (EPSG:4326) fausse, heritee d'un defaut de lecture GeoJSON sans CRS declare ; les coordonnees brutes (x~860-987, y~505-581) sont en realite dans le meme systeme local que R_spData_baltimore_baltimore (bbox identique), documente par CRAN spData::baltimore et GeoDa comme 'X,Y on Maryland grid, projection type unknown' -- aucun EPSG ne peut etre invente. Le pipeline (code/r_catalog/build_sf_datasets.R, CRS_OVERRIDES) efface desormais explicitement cette fausse etiquette (st_set_crs(NA)) au lieu de la laisser filer. Avant correction, le 'CRS analyse recommande' affichait a tort 'multi-zones (span=127.5deg) -- projection nationale recommandee', un artefact du bbox corrompu.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
 - x_terms_used: NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT
@@ -162,12 +163,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-40, 87.5], y [-41, 34.5] (EPSG:4326)
+- Spatial extent: x [860, 987.5], y [505.5, 581] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT
-- CRS EPSG: 4326
-- CRS nom: WGS 84
-- CRS analyse recommande: pending — multi-zones (span=127.5deg) -- projection nationale recommandee
+- CRS EPSG: unknown [lookup required]
+- CRS nom: unknown
+- CRS analyse recommande: pending — CRS source non geographique ou inconnu
 
 ## Bloc 6 — Reproductibilite
 
@@ -234,3 +235,7 @@ Decision conservatoire : Ancienne declaration yes incoherente avec les condition
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-18
+
+Correction CRS (2026-09-18) : le pipeline de construction sf (code/r_catalog/build_sf_datasets.R) etiquetait a tort ce jeu en WGS84 (EPSG:4326) alors que ses coordonnees sont dans un systeme local inconnu ('Maryland grid, projection type unknown' -- CRAN spData::baltimore, doc GeoDa). Confirme par comparaison directe avec le jumeau R_spData_baltimore_baltimore.rds (memes 211 lignes, memes colonnes STATION/PRICE/..., bbox x[860,987.5] y[505.5,581] identique, et CRS correctement NA cote R). Le bbox precedemment affiche dans cette fiche (x[-40,87.5], y[-41,34.5]) provenait de cette fausse etiquette appliquee aux memes coordonnees brutes. Correction : CRS_OVERRIDES efface desormais explicitement l'etiquette (au lieu de ne rien faire), et cette correction s'applique maintenant avant toute derivation geometrique. Aucun EPSG n'est invente : le CRS reste documente comme inconnu, conformement a la source.
