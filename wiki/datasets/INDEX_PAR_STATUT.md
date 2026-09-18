@@ -1,7 +1,7 @@
 ---
 title: Index des fiches datasets par statut
 type: metadata
-updated: 2026-09-17
+updated: 2026-09-18
 tags: [metadata, index, generated]
 ---
 
@@ -9,7 +9,7 @@ tags: [metadata, index, generated]
 
 Total : 381 fiches.
 
-## Validées (`package_include: yes`) — 273 fiches
+## Validées (`package_include: yes`) — 274 fiches
 
 | Fiche | benchmark_status | Raison (tronquée) |
 |---|---|---|
@@ -218,6 +218,7 @@ Total : 381 fiches.
 | [[paper_macropod_body_size]] | `ready` | Y continu reel (CL, longueur condylobasale, standard de taille corporelle), N=856 (M. rufogriseus) avec coordonnees reelles (Australie), cov… |
 | [[paper_maine_baseflow]] | `ready` | CORRIGE le 2026-08-15 : le loader utilisait a tort le shapefile de PREDICTION (42449 troncons NHDPlus, sortie du modele applique a tout l'Et… |
 | [[paper_marrot_spatial_autocorrelation_fitness]] | `ready` | Y/X/formula_used deja resolus ; estimateurs generiques (count) ajoutes en revue de lot du 2026-09-09. |
+| [[paper_medicago]] | `ready` | Mis a jour le 2026-09-18 : formula_used aligne sur le candidat GWR reellement verifie (richness ~ PC1_energy), coherent avec le traitement a… |
 | [[paper_midwest_crop_yield]] | `ready` | Yield continu, jointure comte verifiee a 98.9% (tigris), formula_used = formule exacte du papier (le seul covariable scalaire reel, Area est… |
 | [[paper_mimulus_sdm]] | `ready` | Y/X/formula_used deja resolus ; estimateurs generiques (binary) ajoutes en revue de lot du 2026-09-09. |
 | [[paper_mistletoe_bird_abundance]] | `ready` | Y/X/formula_used deja resolus ; estimateurs generiques (count) ajoutes en revue de lot du 2026-09-09. |
@@ -287,13 +288,12 @@ Total : 381 fiches.
 | [[R_spData_elect80_elect80]] | `ready` | Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator… |
 | [[R_spData_nydata_nydata]] | `ready` | Formule issue d'une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles. Bloc estimator… |
 
-## En revue manuelle (`package_include: manual_review`) — 52 fiches
+## En revue manuelle (`package_include: manual_review`) — 51 fiches
 
 | Fiche | benchmark_status | Raison (tronquée) |
 |---|---|---|
 | [[paper_bumblebee_colony_reproduction]] | `manual_review` | Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a for… |
 | [[paper_mammals_sr_pd]] | `manual_review` | Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a for… |
-| [[paper_medicago]] | `manual_review` | Mis a jour le 2026-09-17 (suite) : la reproduction numerique du GWR (voir Bloc 1/Bloc 3, Curation documentee 2026-09-17) a ete faite mais n'… |
 | [[paper_red_deer_topdown]] | `manual_review` | Source liee via README et metadonnees Dryad verifiees le 2026-09-07; reconcilier les 492 sites decrits avec les 534 lignes du RDS et les exc… |
 | [[paper_regulatory_convergence]] | `manual_review` | Le papier utilise des lags de banques/réseaux/souverains/commerce; les blocs de matrices figurent dans les données, ce ne sont pas des dista… |
 | [[paper_uk_linear_features_birds]] | `manual_review` | Tache count a documenter par reponse et estimateur; aucune selection automatique de familles gaussiennes. Ligne Detail Y correspondant a for… |
