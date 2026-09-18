@@ -2,7 +2,7 @@
 title: INLA
 type: estimator
 created: 2026-04-23
-updated: 2026-09-15
+updated: 2026-09-18
 sources:
   - OpitzINLA.pdf
   - Rue, Martino and Chopin 2009, Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations
@@ -154,7 +154,7 @@ out-of-sample validation when the goal is prediction.
   entry in `inst/metadata/estimators.json`).
 - Validation: posterior criteria do not replace external spatial or space-time validation.
 
-## Statut d'implementation actuel (2026-09-15)
+## Statut d'implementation actuel (2026-09-18)
 
 - **Construit (Phase 1, 2026-09-14)** : champ spatial SPDE (Matérn continu,
   PC-priors via `INLA::inla.spde2.pcmatern()`), réponse gaussienne (continue),
@@ -181,15 +181,60 @@ out-of-sample validation when the goal is prediction.
   convention que `ols`/`gam_spatial` (pas de mode `"classification"` séparé
   comme pour `ProbitSpatial`). Validé de bout en bout sur les vraies fiches
   curées `paper_flapper_skate_presence` et `paper_mistletoe_bird_abundance`.
+- **Construit (Phase 3, 2026-09-18)** : deux variantes, suivant le même
+  patron que `mgwrsar`/`spboost` (un seul modèle `parsnip` enregistré,
+  argument natif qui change le comportement au fit — pas de
+  `set_new_model()` séparé) :
+  - `inla_spde_st` : champ spatio-temporel séparable espace × AR1, via un
+    nouvel argument `time` sur `inla_spde_reg()`/`inlaspde_fit_impl()` —
+    `group=`/`control.group=list(model="ar1")` sur le terme `field()`
+    (arguments confirmés dans `args(INLA::f)` avant d'écrire le code, pas
+    supposés). Motivé par `paper_crane`, `paper_mistletoe_bird_abundance`
+    et `paper_goa_trawl_demersal`, qui utilisent tous les trois un champ
+    M(s,t) structuré par le temps. Une période absente de l'entraînement
+    fait échouer la prédiction explicitement (pas d'extrapolation
+    temporelle). Validé sur données réelles (`paper_crane`, échantillon de
+    400 lignes sur les 12 630 — le fit complet serait lent mais
+    fonctionnellement identique) : le fit confirme un hyperparamètre
+    `GroupRho for field` réellement estimé, pas un pooling silencieux des
+    périodes.
+  - `inla_spde_group` : détection automatique d'un terme `(1 | groupe)`
+    dans la formule (même détection que `gam_spatial`,
+    `extract_group_re_terms()`), traduit en composant iid `inlabru`
+    supplémentaire. Motivé par `paper_banff_stream_temperature` (HUC10) et
+    `paper_mistletoe_bird_abundance` (observateur/région). Contourne
+    `workflows::fit()` — `stats::model.frame()` ne comprend pas la syntaxe
+    `(1 | groupe)`, même raison que `gam_spatial` ; erreur explicite si la
+    formule ne contient aucun terme de groupe. Validé sur données réelles
+    (`paper_banff_stream_temperature`, N=110, 5 niveaux HUC10) : hyperparamètre
+    `Precision for HUC10` réellement estimé. Un niveau de groupe absent de
+    l'entraînement à la prédiction n'est PAS traité comme une erreur —
+    vérifié empiriquement, `predict.bru()` marginalise correctement sur le
+    prior bayésien de l'effet iid.
+  - Bug de fond trouvé et corrigé en chemin (pas spécifique à ces deux
+    variantes, bénéficie à tout appelant futur) : `drop_formula_terms()`/
+    `add_coords_to_formula()` reconstruisaient une formule via
+    `term.labels` → `paste()` → `as.formula()`, ce qui perdait silencieusement
+    les parenthèses protectrices d'un terme `(1 | groupe)` et le corrompait
+    au reparse. Corrigé par un nouveau helper générique
+    `protect_group_re_terms()`.
+  - Bug de dispatch trouvé et corrigé (spécifique à `inla_spde_group`,
+    qui contourne `workflows`) : charger `INLA` promeut `predict` en
+    générique S4 (confirmé empiriquement, `isGeneric("predict")` devient
+    `TRUE`), ce qui fait ignorer notre méthode S3 `predict.inla_spde_group_fit()`
+    au profit de `predict.bru()` natif d'`inlabru` — `predict_vector_for_benchmark()`
+    contourne ce dispatch explicitement plutôt que de le corriger
+    globalement.
 - **Différé** : BYM2/ICAR (aucune matrice d'adjacence précalculée dans le
   corpus de jeux curés — un seul jeu polygone `ready`+`package_include`, sans
   W), le modèle barrière `INLAspacetime` (aucune géométrie non convexe/côte/
   réseau hydrographique stockée), les vraisemblances binomiale négative et
   gamma (aucun routage `response_typology` existant pour ces deux familles —
-  seuls continuous/binary/count existent dans le projet), et le champ
-  spatio-temporel groupé AR1 (`f(field, group=annee, control.group=list(model='ar1'))`
-  — utilisé par `paper_crane` et `paper_goa_trawl_demersal`, candidat crédible
-  pour une Phase 3 mais pas encore construit).
+  seuls continuous/binary/count existent dans le projet). Ces trois éléments
+  restent bloqués par l'absence de données/infrastructure adaptées dans le
+  corpus, pas par un choix de scope arbitraire — voir le plan
+  "Étendre inla_spde : variante spatio-temporelle + effets aléatoires de
+  groupe" pour le détail de cette analyse.
 
 ## Open Questions From Papers
 
