@@ -211,7 +211,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : cellule de grille de 1 ha)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 28356
 - CRS nom: GDA94 / MGA zone 56

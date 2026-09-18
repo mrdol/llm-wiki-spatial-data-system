@@ -197,7 +197,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : incertain : site d'observation ponctuel OU cellule de grille d'occurrence selon la source (voir Observation unit))
 - Temporal resolution: 13838 distinct periods (variable: Date)
 - CRS EPSG: 32736
 - CRS nom: WGS 84 / UTM zone 36S

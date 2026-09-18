@@ -195,7 +195,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : pixel spatial echantillonne depuis une grille de feu de haute severite (taille non precisee))
 - Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 4326
 - CRS nom: WGS 84

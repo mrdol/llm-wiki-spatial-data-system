@@ -219,7 +219,7 @@ estimator_eligibility:
 ## Bloc 5 - Resolution et etendue
 
 - Type de geometrie: POINT
-- Spatial resolution: point observation
+- Spatial resolution: point observation (support reel : pixel spatial d'une grille de 30 m rechantillonnee au sein du perimetre de l'incendie)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - CRS EPSG: 5070
 - CRS nom: NAD83 / Conus Albers
