@@ -2,7 +2,7 @@
 title: paper_medicago
 type: dataset
 created: 2026-09-14
-updated: 2026-09-17
+updated: 2026-09-18
 sources:
   - data/final_datasets/sf/paper_medicago.rds
   - DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060
@@ -106,28 +106,29 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Niche cons
 
 ### Formule — niveau systeme
 
-- formula_used: richness ~ MAT + MTCQ + PET + WI + Solar_rad
+- formula_used: richness ~ PC1_energy
 - License evidence: DataCite API record for DOI 10.5061/dryad.280gb5mrw (checked 2026-08-18): rightsList = 'Creative Commons Zero v1.0 Universal'.
-- benchmark_task_note: richesse specifique observee : denombrement, sans transformation continue imposee.
-- Selected Y evidence: richesse specifique observee : denombrement, sans transformation continue imposee.
+- benchmark_task_note: richesse specifique observee : denombrement, sans transformation continue imposee ; formula_used utilise ici la forme GWR (OLS local, response_typologies=['continuous'] pour mgwrsar_gwr) plutot que la famille count -- voir Estimator eligibility.
+- Formula used evidence: Mis a jour le 2026-09-18 -- formula_used correspond desormais exactement au candidat mgwrsar_gwr verifie et reproduit (voir formula_candidates > multivariate_constrained), au lieu de l'ancienne combinaison lineaire de 5 variables jamais testee par les auteurs (ni dans leur GWR, restreint a PC1_energy seul, ni dans leurs GLM, tous univaries).
 - Selected Y typology: count
-- x_terms_used: MAT, MTCQ, PET, WI, Solar_rad
+- x_terms_used: PC1_energy
 - y_term_used: richness
-- Note: formula_used reste la combinaison lineaire generique historique (avant materialisation des PC1). Le candidat GWR reellement reproduit et fidele au papier est richness ~ PC1_energy -- voir formula_candidates > multivariate_constrained.
+- Note: formula_used correspond maintenant exactement au modele GWR verifie (richness ~ PC1_energy), fidele a la methode reelle des auteurs (une seule covariable pour cette etape spatiale). La batterie complete de GLM univaries (monde/continent/biome, plusieurs variables testees separement) reste documentee dans formula_candidates > univariate a titre d'exemple verifie, sans orchestration automatique dans le harnais.
 
 ### Formules candidates
 
 ```yaml
 formula_candidates:
   univariate:
-    formula: "pending"
-    response: "pending"
-    predictors: []
+    formula: "richness ~ PC1_past_climate"
+    response: "richness"
+    predictors: ["PC1_past_climate"]
     role: "simple_baseline"
-    source_type: "none_found"
-    source_ref: "pending"
-    estimator_context: []
-    status: "unavailable"
+    source_type: "scientific_publication"
+    source_ref: "Yang, Y., Bian, Z., Ren, G., Liu, J. & Shrestha, N. (2022), 'Niche conservatism limits the distribution of Medicago in the tropics', Ecography e06085, DOI 10.1111/ecog.06085 (texte integral verifie via corpus/papers/tei/Niche conservatism limits the distribution of Medicago in the tropics.tei.xml, deja disponible localement). Reproduction reelle le 2026-09-17 : GLM binomial-negatif univarie richness ~ PC1_past_climate (echelle mondiale) donne R2adj=0.292, quasi identique au texte du papier : 'past climate change was the strongest predictor of species richness at the global scale, explaining 29% of the total variance'. PC1_past_climate materialise comme colonne reelle (PCA sur LGMmat_ano/LGMmap_ano/LGMmtcq_ano/MHmat_ano/MHmap_ano/MHmtcq_ano, 41.1% de variance expliquee par le premier axe)."
+    estimator_context: ["ols"]
+    status: "confirmed"
+    note: "Backend ols dispatche vers glm(family=poisson()) pour une reponse typee 'count', pas vers un GLM binomial-negatif -- approximation proche mais non strictement identique a la famille utilisee par les auteurs (negative binomial, choisie pour surdispersion). Coefficient/R2 attendus proches mais pas garantis identiques a la reproduction manuelle (glm.nb) qui a donne R2adj=0.292."
 
   multivariate_constrained:
     formula: "richness ~ PC1_energy [GWR, noyau gaussien fixe, bande passante AICc=83596m]"
@@ -138,15 +139,15 @@ formula_candidates:
     source_ref: "Yang, Y., Bian, Z., Ren, G., Liu, J. & Shrestha, N. (2022), 'Niche conservatism limits the distribution of Medicago in the tropics', Ecography e06085, DOI 10.1111/ecog.06085 (texte integral verifie via corpus/papers/tei/Niche conservatism limits the distribution of Medicago in the tropics.tei.xml, deja disponible localement). Reproduction verifiee le 2026-09-17 : Reproduction reelle effectuee le 2026-09-17 (pas seulement documentee), en deux etapes, suivant exactement la methode du papier :  (1) PCA par categorie (prcomp, centre-reduit) sur les 24 variables locales, groupees exactement comme le papier (5 categories : energie MAT/MTCQ/PET/WI/Solar_rad, eau MI/MAP/PDQ/AET/WD, saisonnalite DRT/TSN/ART/PSN, heterogeneite MATR/MAPR/Ele_range/Ele_std, climat passe LGM*/MH*_ano). PC1 materialise comme colonne reelle dans le .rds pour chaque categorie (PC1_energy 88.8% variance, PC1_water 76.9%, PC1_seasonality 49.4%, PC1_heterogeneity 80.9%, PC1_past_climate 41.1%). GLM binomial-negatif global richness~PC1_categorie : past_climate R2adj=0.292 (papier : 'explaining 29% of the total variance' -- correspondance quasi exacte) ; energy R2adj=0.000 (n.s., p=0.33) -- coherent avec le papier qui explique que l'effet de l'energie s'annule a l'echelle globale car il change de signe entre tropiques et zones temperees (raison meme de l'etape GWR suivante).  (2) GWR (GWmodel::gwr.basic, noyau gaussien fixe, bande passante selectionnee par AICc via GWmodel::bw.gwr) sur richness ~ PC1_energy, coordonnees reprojetees en World Behrmann equal-area (ESRI:54017, meme projection que la grille des auteurs). Bande passante selectionnee : 83 596 m. Coefficient local moyen : -0.462 dans les tropiques (|lat|<23.5), +1.483 en zone temperee (|lat|>35) -- reproduit exactement le pattern qualitatif du papier ('the local coefficient of the regression model changed from higher negative in the tropical latitude to higher positive in the temperate latitude'). Bande passante propre (non comparee a une valeur publiee, le papier ne rapporte pas la valeur numerique exacte de sa bande passante ArcGIS)."
     estimator_context: ["mgwrsar_gwr"]
     status: "confirmed"
-    note: "mgwrsar_gwr est reellement executable maintenant que PC1_energy est une colonne materialisee -- reproduit le pattern de signe rapporte par les auteurs (negatif tropiques, positif tempere). sar_lag/sem_error/sdm_mixed ne sont PAS utilises par le papier ; ce sont des candidats de benchmark proposes par nous si souhaite, pas une preuve scientifique. Le papier utilise par ailleurs des GLM binomiaux-negatifs univaries (monde/continent/biome) et un test t modifie de Dutilleul et al. (1993) pour l'autocorrelation spatiale des tests de significativite."
+    note: "mgwrsar_gwr est reellement executable maintenant que PC1_energy est une colonne materialisee -- reproduit le pattern de signe rapporte par les auteurs (negatif tropiques, positif tempere). sar_lag/sem_error/sdm_mixed ne sont PAS utilises par le papier ; ce sont des candidats de benchmark proposes par nous si souhaite, pas une preuve scientifique. Le papier utilise par ailleurs des GLM binomiaux-negatifs univaries (monde/continent/biome, voir formula_candidates > univariate pour un exemple verifie) et un test t modifie de Dutilleul et al. (1993) pour l'autocorrelation spatiale des tests de significativite."
 
   ml_or_selected:
-    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ART + PSN + MATR + MAPR + Ele_range + Ele_std + LGMmat_ano + LGMmap_ano + LGMmtcq_ano + MHmat_ano + MHmap_ano + MHmtcq_ano"
+    formula: "richness ~ MAT + MTCQ + PET + WI + Solar_rad + MI + MAP + PDQ + AET + WD + DRT + TSN + ART + PSN + MATR + MAPR + Ele_range + Ele_std + LGMmat_ano + LGMmap_ano + LGMmtcq_ano + MHmat_ano + MHmap_ano + MHmtcq_ano + PC1_energy + PC1_water + PC1_seasonality + PC1_heterogeneity + PC1_past_climate"
     response: "richness"
-    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN", "ART", "PSN", "MATR", "MAPR", "Ele_range", "Ele_std", "LGMmat_ano", "LGMmap_ano", "LGMmtcq_ano", "MHmat_ano", "MHmap_ano", "MHmtcq_ano"]
+    predictors: ["MAT", "MTCQ", "PET", "WI", "Solar_rad", "MI", "MAP", "PDQ", "AET", "WD", "DRT", "TSN", "ART", "PSN", "MATR", "MAPR", "Ele_range", "Ele_std", "LGMmat_ano", "LGMmap_ano", "LGMmtcq_ano", "MHmat_ano", "MHmap_ano", "MHmtcq_ano", "PC1_energy", "PC1_water", "PC1_seasonality", "PC1_heterogeneity", "PC1_past_climate"]
     role: "ml_candidate_features"
     source_type: "generated_system_formula"
-    source_ref: "Ajoute le 2026-09-17 (nouvelle pratique standard pour les fiches a plus de 10 X : proposer une formule ML/boosting exploitant toutes les covariables disponibles pour selection automatique). Les 24 candidats X sont tous des variables environnementales exogenes -- aucune fuite de la reponse identifiee, toutes incluses."
+    source_ref: "Ajoute le 2026-09-17, enrichi le 2026-09-18 avec les 5 PC1 de categorie desormais materialisees (en plus des 24 variables brutes). Aucune fuite de la reponse identifiee -- toutes exogenes."
     estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
     status: "generated"
 ```
@@ -184,17 +185,17 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "manual_review"
+  benchmark_status: "ready"
   benchmark_task: "regression_spatial_gwr_reproduced"
-  package_include: "manual_review"
+  package_include: "yes"
   has_local_rds: true
-  missing_items: "Mis a jour le 2026-09-17 (suite) : la reproduction numerique du GWR (voir Bloc 1/Bloc 3, Curation documentee 2026-09-17) a ete faite mais n'avait pas ete propagee ici -- ce texte datait encore de la decision du 2026-09-08, prise avant toute reproduction. mgwrsar_gwr (mgwrsar::MGWRSAR(GWR)) est reellement disponible dans le harnais et directement utilisable maintenant que PC1_energy est une colonne materialisee (richness ~ PC1_energy) -- voir Estimator eligibility. package_include reste 'manual_review' (pas 'yes') car formula_used (la formule utilisee automatiquement pour le benchmark) reste richness ~ 5 variables energie simultanees, une combinaison jamais testee par les auteurs ; et la reproduction complete du papier necessiterait aussi la batterie multi-modeles GLM univaries (monde/continent/biome) que le harnais n'orchestre pas. Mais le candidat GWR seul est desormais documente comme reellement eligible, pas seulement 'mis de cote'."
-  reason: "Mis a jour le 2026-09-17 (suite) : la reproduction numerique du GWR (voir Bloc 1/Bloc 3, Curation documentee 2026-09-17) a ete faite mais n'avait pas ete propagee ici -- ce texte datait encore de la decision du 2026-09-08, prise avant toute reproduction. mgwrsar_gwr (mgwrsar::MGWRSAR(GWR)) est reellement disponible dans le harnais et directement utilisable maintenant que PC1_energy est une colonne materialisee (richness ~ PC1_energy) -- voir Estimator eligibility. package_include reste 'manual_review' (pas 'yes') car formula_used (la formule utilisee automatiquement pour le benchmark) reste richness ~ 5 variables energie simultanees, une combinaison jamais testee par les auteurs ; et la reproduction complete du papier necessiterait aussi la batterie multi-modeles GLM univaries (monde/continent/biome) que le harnais n'orchestre pas. Mais le candidat GWR seul est desormais documente comme reellement eligible, pas seulement 'mis de cote'."
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Mis a jour le 2026-09-18 : formula_used aligne sur le candidat GWR reellement verifie (richness ~ PC1_energy), coherent avec le traitement applique a gartner.corn/wallace.iowaland le 2026-09-17. package_include passe a 'yes' : reponse defendable (richness), covariable materialisee (PC1_energy), support spatial reel, preuve de modele publie et reproduit (mgwrsar_gwr), artefact local complet. Reserve documentee : la reproduction complete du papier (batterie GLM univaries monde/6 continents/7 biomes) necessiterait une orchestration multi-modeles absente du harnais -- non bloquant pour la promotion de ce candidat GWR unique."
 ```
 
-- Decision: manual_review
-- Manque principal: Mis a jour le 2026-09-17 (suite) : la reproduction numerique du GWR (voir Bloc 1/Bloc 3, Curation documentee 2026-09-17) a ete faite mais n'avait pas ete propagee ici -- ce texte datait encore de la decision du 2026-09-08, prise avant toute reproduction. mgwrsar_gwr (mgwrsar::MGWRSAR(GWR)) est reellement disponible dans le harnais et directement utilisable maintenant que PC1_energy est une colonne materialisee (richness ~ PC1_energy) -- voir Estimator eligibility. package_include reste 'manual_review' (pas 'yes') car formula_used (la formule utilisee automatiquement pour le benchmark) reste richness ~ 5 variables energie simultanees, une combinaison jamais testee par les auteurs ; et la reproduction complete du papier necessiterait aussi la batterie multi-modeles GLM univaries (monde/continent/biome) que le harnais n'orchestre pas. Mais le candidat GWR seul est desormais documente comme reellement eligible, pas seulement 'mis de cote'.
-- Raison: Mis a jour le 2026-09-17 (suite) : la reproduction numerique du GWR (voir Bloc 1/Bloc 3, Curation documentee 2026-09-17) a ete faite mais n'avait pas ete propagee ici -- ce texte datait encore de la decision du 2026-09-08, prise avant toute reproduction. mgwrsar_gwr (mgwrsar::MGWRSAR(GWR)) est reellement disponible dans le harnais et directement utilisable maintenant que PC1_energy est une colonne materialisee (richness ~ PC1_energy) -- voir Estimator eligibility. package_include reste 'manual_review' (pas 'yes') car formula_used (la formule utilisee automatiquement pour le benchmark) reste richness ~ 5 variables energie simultanees, une combinaison jamais testee par les auteurs ; et la reproduction complete du papier necessiterait aussi la batterie multi-modeles GLM univaries (monde/continent/biome) que le harnais n'orchestre pas. Mais le candidat GWR seul est desormais documente comme reellement eligible, pas seulement 'mis de cote'.
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Mis a jour le 2026-09-18 : formula_used aligne sur le candidat GWR reellement verifie (richness ~ PC1_energy), coherent avec le traitement applique a gartner.corn/wallace.iowaland le 2026-09-17. package_include passe a 'yes' : reponse defendable (richness), covariable materialisee (PC1_energy), support spatial reel, preuve de modele publie et reproduit (mgwrsar_gwr), artefact local complet. Reserve documentee : la reproduction complete du papier (batterie GLM univaries monde/6 continents/7 biomes) necessiterait une orchestration multi-modeles absente du harnais -- non bloquant pour la promotion de ce candidat GWR unique.
 
 ## Estimator eligibility
 
