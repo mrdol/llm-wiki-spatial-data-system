@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-09-14T09:20:41.616853+00:00",
+  "generated_at": "2026-09-18T12:45:28.451564+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -31,7 +31,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_abnormality_hotspots",
@@ -264,7 +263,9 @@
         "python_geodatasets_spdata_nydata",
         "python_libpysal_baltimore",
         "georgia",
+        "r_agridat_gartner_corn_gartner_corn",
         "lasrosas",
+        "r_agridat_wallace_iowaland_wallace_iowaland",
         "r_gstat_fulmar_fulmar",
         "dub_voter",
         "ewhp",
@@ -273,7 +274,8 @@
         "r_sp_meuse_meuse",
         "r_spatstat_data_clmfires_clmfires",
         "r_spdata_baltimore_baltimore",
-        "r_spdata_elect80_elect80"
+        "r_spdata_elect80_elect80",
+        "r_spdata_nydata_nydata"
       ],
       "wiki_key": "ols",
       "wiki_path": null,
@@ -308,7 +310,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_abnormality_hotspots",
@@ -453,7 +454,6 @@
         "paper_gwqlasso_rs_2014",
         "paper_gwqlasso_rs_2015",
         "paper_gwqlasso_rs_2016",
-        "paper_harbour_porpoise_response",
         "paper_houston_lst_landcover",
         "paper_hummingbird_sdm",
         "paper_hyena_lion_biomass_africa",
@@ -708,7 +708,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_abnormality_hotspots",
@@ -901,7 +900,6 @@
         "paper_korea_hedonic_housing_2018",
         "paper_korea_hedonic_housing_2019",
         "paper_korea_hedonic_housing_pre1989",
-        "paper_leishmaniasis_occurrence",
         "paper_ltar_crop_rotation_yield",
         "paper_macropod_body_size",
         "paper_maine_baseflow",
@@ -1050,7 +1048,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_abnormality_hotspots",
@@ -1242,7 +1239,6 @@
         "paper_korea_hedonic_housing_2018",
         "paper_korea_hedonic_housing_2019",
         "paper_korea_hedonic_housing_pre1989",
-        "paper_leishmaniasis_occurrence",
         "paper_ltar_crop_rotation_yield",
         "paper_macropod_body_size",
         "paper_maine_baseflow",
@@ -1491,7 +1487,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_functional_diversity",
@@ -1535,6 +1530,7 @@
         "paper_wildfire_bootleg_severity",
         "paper_wildfire_greenup_nbr5",
         "paper_wildfire_schneider_springs_severity",
+        "python_geodatasets_geoda_guerry",
         "python_geodatasets_geoda_ncovr_1960",
         "python_geodatasets_geoda_ncovr_1970",
         "python_geodatasets_geoda_ncovr_1980",
@@ -1616,6 +1612,7 @@
         "paper_wildfire_bootleg_severity",
         "paper_wildfire_greenup_nbr5",
         "paper_wildfire_schneider_springs_severity",
+        "python_geodatasets_geoda_guerry",
         "boston_housing",
         "columbus_crime",
         "lasrosas",
@@ -1652,7 +1649,6 @@
       ],
       "compatibility_rule": "Continuous regression only; coordinate-requiring routes additionally need usable spatial support. Mixed MGWRSAR variants require an explicit fixed/local-variable decision.",
       "test_datasets": [
-        "paper_airbnb_europe_prices",
         "paper_alps_floristic_legacy",
         "paper_amazon_tree_dominance",
         "paper_amphibian_malformation_prevalence",
@@ -1771,43 +1767,6 @@
       "reference_estimator": null,
       "variant_family": null,
       "dashboard_group": "Spatial Econometrics"
-    },
-    {
-      "estimator": "inla_spde",
-      "package": "inlabru",
-      "backend": "inlabru::bru (INLA SPDE)",
-      "requires_coords": true,
-      "requires_W": false,
-      "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
-      "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
-      "notes": "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); priors et maillage calcules par defaut depuis la bounding box des coordonnees et l'ecart-type de Y, surchargeables. Famille derivee de response_typology (continuous->gaussian, binary->binomial logit/cloglog via glm_link, count->poisson) -- motive par 3 papiers du corpus utilisant reellement INLA en binomial/poisson (paper_flapper_skate_presence, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal). Toujours mode=regression, y compris pour binary: la prediction retournee est la probabilite continue, meme convention que ols/gam_spatial. Binomiale negative/gamma restent hors perimetre.",
-      "status": "automatic",
-      "mode": "regression",
-      "automatic": true,
-      "response_typologies": [
-        "continuous",
-        "binary",
-        "count"
-      ],
-      "predictor_typologies": [
-        "continuous",
-        "binary",
-        "categorical_encoded"
-      ],
-      "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
-      "test_datasets": [
-        "paper_banff_stream_temperature",
-        "paper_flapper_skate_presence",
-        "paper_mistletoe_bird_abundance"
-      ],
-      "wiki_key": "inla",
-      "wiki_path": "wiki/estimators/inla.md",
-      "metadata_status": "wiki_fiche_found",
-      "family": "INLA_SPDE",
-      "role": "reference",
-      "reference_estimator": null,
-      "variant_family": null,
-      "dashboard_group": "Bayesian Spatial"
     },
     {
       "estimator": "spboost",
@@ -2015,6 +1974,7 @@
         "paper_influenza_mortality_chicago",
         "paper_macropod_body_size",
         "paper_maine_baseflow",
+        "paper_medicago",
         "paper_midwest_crop_yield",
         "paper_network_misspecification_elections",
         "paper_nyc_census2000_gwrboost",
@@ -2041,6 +2001,7 @@
         "paper_wildfire_schneider_springs_severity",
         "boston_housing",
         "georgia",
+        "r_agridat_gartner_corn_gartner_corn",
         "lasrosas",
         "dub_voter",
         "ewhp",
@@ -2289,6 +2250,39 @@
       "reference_estimator": "spmoran_esf",
       "variant_family": "random_effects",
       "dashboard_group": "Spatial Econometrics"
+    },
+    {
+      "estimator": "inla_spde",
+      "package": "inlabru",
+      "backend": "inlabru::bru (INLA SPDE)",
+      "requires_coords": true,
+      "requires_W": false,
+      "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+      "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+      "notes": "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); priors et maillage calcules par defaut depuis la bounding box des coordonnees et l'ecart-type de Y, surchargeables. Famille derivee de response_typology (continuous->gaussian, binary->binomial logit/cloglog via glm_link, count->poisson) -- motive par 3 papiers du corpus utilisant reellement INLA en binomial/poisson (paper_flapper_skate_presence, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal). Toujours mode=regression, y compris pour binary: la prediction retournee est la probabilite continue, meme convention que ols/gam_spatial. Binomiale negative/gamma restent hors perimetre.",
+      "status": "automatic",
+      "mode": "regression",
+      "automatic": true,
+      "response_typologies": [
+        "continuous",
+        "binary",
+        "count"
+      ],
+      "predictor_typologies": [
+        "continuous",
+        "binary",
+        "categorical_encoded"
+      ],
+      "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
+      "test_datasets": [],
+      "wiki_key": "inla",
+      "wiki_path": "wiki/estimators/inla.md",
+      "metadata_status": "wiki_fiche_found",
+      "family": "INLA_SPDE",
+      "role": "reference",
+      "reference_estimator": null,
+      "variant_family": null,
+      "dashboard_group": "Bayesian Spatial"
     }
   ]
 }

@@ -681,6 +681,27 @@ ESTIMATOR_REGISTRY.extend(
             "notes": "Random-effects eigenvector spatial filtering via spmoran::resf().",
             "wiki_key": "spmoran",
         },
+        {
+            "estimator": "inla_spde",
+            "package": "inlabru",
+            "backend": "inlabru::bru (INLA SPDE)",
+            "requires_coords": True,
+            "requires_W": False,
+            "spatial_args": "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+            "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+            "notes": (
+                "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); "
+                "priors et maillage calcules par defaut depuis la bounding box des coordonnees "
+                "et l'ecart-type de Y, surchargeables. Famille derivee de response_typology "
+                "(continuous->gaussian, binary->binomial logit/cloglog via glm_link, "
+                "count->poisson) -- motive par 3 papiers du corpus utilisant reellement INLA en "
+                "binomial/poisson (paper_flapper_skate_presence, paper_mistletoe_bird_abundance, "
+                "paper_goa_trawl_demersal). Toujours mode=regression, y compris pour binary: la "
+                "prediction retournee est la probabilite continue, meme convention que "
+                "ols/gam_spatial. Binomiale negative/gamma restent hors perimetre."
+            ),
+            "wiki_key": "inla",
+        },
     ]
 )
 
@@ -745,6 +766,11 @@ ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
     "MGWRSAR_1_kc_kv": {"family": "mgwrsar_hybrid", "role": "variant", "reference_estimator": "mgwrsar_mgwrsar", "variant_family": "mixed_local_lambda", "dashboard_group": "MGWRSAR"},
     "spmoran_esf": {"family": "ESF", "role": "reference", "reference_estimator": None, "variant_family": None, "dashboard_group": "Spatial Econometrics"},
     "spmoran_resf": {"family": "ESF", "role": "variant", "reference_estimator": "spmoran_esf", "variant_family": "random_effects", "dashboard_group": "Spatial Econometrics"},
+    "inla_spde": {
+        "family": "INLA_SPDE", "role": "reference", "reference_estimator": None, "variant_family": None,
+        "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
+        "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support.",
+    },
 }
 
 _missing_taxonomy = sorted({item["estimator"] for item in ESTIMATOR_REGISTRY} - set(ESTIMATOR_TAXONOMY))
