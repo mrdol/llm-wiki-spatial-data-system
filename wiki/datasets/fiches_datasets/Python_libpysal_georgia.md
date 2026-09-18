@@ -2,7 +2,7 @@
 title: Python_libpysal_georgia
 type: dataset
 created: 2026-08-15
-updated: 2026-09-16
+updated: 2026-09-18
 sources:
   - data/final_datasets/sf/Python_libpysal_georgia.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 - Topic: Donnees de python-package : Python_libpysal_georgia
 - Observation unit: observation spatiale de type POINT
 - Observed population: 159 enregistrements dans l’artefact local Python_libpysal_georgia.rds; unite declaree : administrative or school-related spatial unit. Le nombre de lignes n’est pas le nombre de sites independants.
-- Geographic context: Etendue mesuree dans le RDS : x [-91.489509967779, -91.489470235928], y [0.0002770273345197, 0.000314684180655]; CRS EPSG:4326.
+- Geographic context: Etendue mesuree dans le RDS : x [-85.509991, -81.075133], y [30.714721, 34.889832]; CRS EPSG:4326 (corrige le 2026-09-18 -- correspond maintenant a la vraie etendue geographique de l'Etat de Georgie (USA), voir Bloc 5 > CRS note).
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`georgia`).
 - Description source: package Python `libpysal`
@@ -75,6 +75,7 @@ Dataset spatial issu du package Python `libpysal` (`georgia`).
 ### Formule — niveau systeme
 
 - formula_used: PctBach ~ PctRural + PctEld + PctFB + PctPov
+- CRS note: Corrige le 2026-09-18 : le point actif etait auparavant derive apres application d'un CRS_OVERRIDES obsolete (code/r_catalog/build_sf_datasets.R) qui reinterpretait a tort les coordonnees deja en degres WGS84 du GeoJSON source comme des metres projetes (UTM), puis les reprojetait -- produisant un point degenere pres de l'origine de la projection (x[-91.49,-91.49] y[0.0003,0.0003]). Verification directe du GeoJSON source actuel (data/downloads/software/python_datasets/geojson/) : deja declare CRS84 (= WGS84), coordonnees deja correctes en degres reels. CRS_OVERRIDES ne liste plus ce jeu (l'ancienne entree supposait une source encore en coordonnees projetees, obsolete depuis un re-telechargement du fichier source). Nouvelle etendue verifiee : correspond exactement a l'Etat de Georgie (USA).
 - Formula used evidence: pub
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
@@ -159,12 +160,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-91.4895, -91.4895], y [0.0003, 0.0003] (EPSG:4326)
+- Spatial extent: x [-85.5100, -81.0751], y [30.7147, 34.8898] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32615 (UTM Zone 15N (EPSG:32615)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement (corrige le 2026-09-18, voir CRS note)
 
 ## Bloc 6 — Reproductibilite
 
@@ -239,3 +240,7 @@ L’exemple primaire de GWmodel est conserve dans formula_pub. La formule actuel
 Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 
 Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+## Curation documentée — 2026-09-18
+
+Correction CRS (2026-09-18) : le point actif de ce jeu etait corrompu par un CRS_OVERRIDES obsolete dans code/r_catalog/build_sf_datasets.R, qui assumait (a raison, historiquement) que le GeoJSON source etait en coordonnees projetees et lui appliquait une reinterpretation UTM/State Plane + reprojection. Verification directe (2026-09-18) du GeoJSON source actuellement telecharge par le pipeline (data/downloads/software/python_datasets/geojson/) montre qu'il est desormais deja correctement declare en CRS84 (WGS84) avec de vraies coordonnees en degres -- la source a du etre re-telechargee/normalisee depuis l'ecriture de cette table, sans que la table de correction soit mise a jour en consequence. Appliquer l'ancienne correction a des degres deja corrects les reinterpretait comme des metres, produisant un point degenere (x[-91.49,-91.49] y[0.0003,0.0003]). Retire de CRS_OVERRIDES le 2026-09-18 ; jeu reconstruit sans transformation (deja geographique, aucune correction necessaire). Nouvelle etendue verifiee : correspond exactement a l'Etat de Georgie (USA). Meme classe de bug que celle trouvee et corrigee le meme jour sur Baltimore/eire, mais avec une cause differente (source changee sous le pipeline, pas un CRS jamais documente).

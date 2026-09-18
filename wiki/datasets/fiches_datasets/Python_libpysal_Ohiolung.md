@@ -2,7 +2,7 @@
 title: Python_libpysal_Ohiolung
 type: dataset
 created: 2026-08-15
-updated: 2026-09-17
+updated: 2026-09-18
 sources:
   - data/final_datasets/sf/Python_libpysal_Ohiolung.rds
 tags: [dataset, python-package, spatial, point]
@@ -15,7 +15,7 @@ Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Topic: sante publique / epidemiologie spatiale
 - Observation unit: individu, cas sanitaire ou unite spatiale de sante
 - Observed population: population sanitaire documentee par le package source
-- Geographic context: Etendue mesuree dans le RDS : x [-85.489502209759, -85.489467237427], y [0.000348382813948, 0.0003768388617402]; CRS EPSG:4326.
+- Geographic context: Etendue mesuree dans le RDS : x [-84.644041, -80.740437], y [38.626084, 41.781077]; CRS EPSG:4326 (corrige le 2026-09-18 -- correspond maintenant a la vraie etendue geographique de l'Ohio (USA), voir Bloc 5 > CRS note).
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package Python `libpysal` (`Ohiolung`).
 - Description source: package Python `libpysal`
@@ -174,12 +174,12 @@ modeling_evidence:
 
 - Spatial resolution: point observation
 - Temporal resolution: not applicable (cross-sectional dataset)
-- Spatial extent: x [-85.4895, -85.4895], y [0.0003, 0.0004] (EPSG:4326)
+- Spatial extent: x [-84.6440, -80.7404], y [38.6261, 41.7811] (EPSG:4326)
 - Time range: not applicable (cross-sectional dataset)
 - Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: 4326
 - CRS nom: WGS 84
-- CRS analyse recommande: 32616 (UTM Zone 16N (EPSG:32616)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement
+- CRS analyse recommande: 32617 (UTM Zone 17N (EPSG:32617)) — calcul auto depuis centroide bbox -- normalisation WGS84 uniquement (corrige le 2026-09-18, voir CRS note)
 
 ## Bloc 6 — Reproductibilite
 
@@ -242,3 +242,7 @@ estimator_eligibility:
 ## Curation documentée — 2026-09-17
 
 Recherche du 2026-09-17 (suite a un echange avec un autre agent IA ayant identifie Xia & Carlin 1997/1998). DOI verifie via Crossref, texte integral deja disponible localement et lu en entier. Xia, H. & Carlin, B.P. (1998), 'Spatio-temporal models with errors in covariates: mapping Ohio lung cancer mortality', Statistics in Medicine 17(18), 2025-2043, DOI 10.1002/(SICI)1097-0258(19980930)17:18<2025::AID-SIM865>3.0.CO;2-M (texte integral verifie via corpus/papers/tei/SPATIOTEMPORAL MODELS WITH ERRORS IN COVARIATES_OHIO LUNG CANCER DATA.tei.xml, deja disponible localement). Modele (eq. 1-2) : C*_ijk ~ Poisson(E_ijk * exp(eta_ijk)), eta_ijk = alpha + beta*s_j + gamma*r_k + delta*s_j*r_k + theta*q_i + kappa*u_i + lambda*v_i + phi_i + psi_i, ou s_j=sexe, r_k=race, q_i=proportion de fumeurs actuels (enquete telephonique Ohio BRFSS 1988-1994, PAS dans cet artefact local), u_i=densite de population 1992 (proxy urbain, PAS dans cet artefact), v_i=revenu par habitant 1989 (proxy SES, PAS dans cet artefact), phi_i=effet CAR spatial, psi_i=heterogeneite non structuree. Ajuste par MCMC (Gibbs-Metropolis), pas par une regression fermee. Coefficients publies (95% credible sets) : beta in [-1.14,-0.98], gamma in [0.07,0.28], delta in [-0.37,-0.01]. C*_ijk = deces AGE-AJUSTES (via 11 tranches d'age, Table I) -- cette decomposition par age n'existe PAS dans cet artefact (LM68/LF68 etc. sont deja agreges tous ages confondus). Modele reel, sourced et verifie, mais explicitement mis de cote (pas 'resolu') car il necessite des donnees externes et un estimateur bayesien absents du perimetre actuel du harnais.
+
+## Curation documentée — 2026-09-18
+
+Correction CRS (2026-09-18) : le point actif de ce jeu etait corrompu par un CRS_OVERRIDES obsolete dans code/r_catalog/build_sf_datasets.R, qui assumait (a raison, historiquement) que le GeoJSON source etait en coordonnees projetees et lui appliquait une reinterpretation UTM/State Plane + reprojection. Verification directe (2026-09-18) du GeoJSON source actuellement telecharge par le pipeline (data/downloads/software/python_datasets/geojson/) montre qu'il est desormais deja correctement declare en CRS84 (WGS84) avec de vraies coordonnees en degres -- la source a du etre re-telechargee/normalisee depuis l'ecriture de cette table, sans que la table de correction soit mise a jour en consequence. Appliquer l'ancienne correction a des degres deja corrects les reinterpretait comme des metres, produisant un point degenere (x[-85.49,-85.49] y[0.0003,0.0004]). Retire de CRS_OVERRIDES le 2026-09-18 ; jeu reconstruit sans transformation (deja geographique, aucune correction necessaire). Nouvelle etendue verifiee : correspond exactement a l'Ohio (USA). Meme classe de bug que celle trouvee et corrigee le meme jour sur Baltimore/eire, mais avec une cause differente (source changee sous le pipeline, pas un CRS jamais documente).
