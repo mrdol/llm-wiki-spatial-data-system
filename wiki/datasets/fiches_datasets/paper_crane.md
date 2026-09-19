@@ -152,26 +152,30 @@ modeling_evidence:
 
 ```yaml
 benchmark_readiness:
-  benchmark_status: "not_ready_current_package"
+  benchmark_status: "manual_review"
   benchmark_task: "binary_panel_or_presence_absence"
-  package_include: "no"
+  package_include: "manual_review"
   has_local_rds: true
-  missing_items: "support binaire/panel et schema CV adapte"
-  reason: "Reponse binaire et structure temporelle."
+  missing_items: "aucun estimateur automatique ne compare encore plusieurs routes sur cette tache (une seule route, inla_spde_st, est verifiee) ; les autres candidats a coordonnees restent limites au pooling panel"
+  reason: "inla_spde_st (ajoute et verifie le 2026-09-18) gere nativement la structure panel binaire de ce jeu (champ spatio-temporel AR1 verifie sur donnees reelles) -- promu de 'no'/not_ready a manual_review, la tache de benchmark comparatif multi-estimateurs n'etant pas pour autant entierement resolue."
 ```
 
-- Decision: not_ready_current_package
-- Manque principal: support binaire/panel et schema CV adapte
-- Raison: Reponse binaire et structure temporelle.
+- Decision: manual_review
+- Manque principal: aucun estimateur automatique ne compare encore plusieurs routes sur cette tache (une seule route, inla_spde_st, est verifiee) ; les autres candidats a coordonnees restent limites au pooling panel
+- Raison: inla_spde_st (ajoute et verifie le 2026-09-18) gere nativement la structure panel binaire de ce jeu (champ spatio-temporel AR1 verifie sur donnees reelles) -- promu de 'no'/not_ready a manual_review, la tache de benchmark comparatif multi-estimateurs n'etant pas pour autant entierement resolue.
 
 ## Estimator eligibility
 
 ```yaml
 estimator_eligibility:
-  status: "not_ready_current_package"
-  eligible_estimators: []
-  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit", "inla_spde"]
-  ineligible_reason: "reponse binaire ET structure panel spatial : aucune route du package ne gere cette combinaison aujourd'hui (sar_probit/sem_probit sont cross-sectionnels ; inla_spde ajoute le 2026-09-18 -- champ SPDE unique par execution, pas de repetition temporelle geree -- ; le harnais panel -- 70-panel-spatial.R -- ne gere que le Y continu). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel ; sar_probit/sem_probit/inla_spde necessiteraient de traiter chaque periode separement (non implemente) et une matrice W ou un maillage fiable (voir Bloc 5 / CRS note). Le papier utilise par ailleurs un modele INLA/SPDE spatio-temporel (champ M(s,t) structure par le temps via 'ti') qu'inla_spde ne reproduit pas meme en pooling."
+  status: "manual_review"
+  eligible_estimators:
+    - estimator: inla_spde_st
+      basis: published_model
+      source_ref: "Eq. 1-2 p.165 : modele binomial hierarchique bayesien, champ aleatoire gaussien spatio-temporel M(s,t) approxime par SPDE/INLA, structure par le temps via 'ti' (IID/AR1). inla_spde_st_reg() implemente exactement ce cadre : champ SPDE separable espace x AR1 via l'argument time= (group=/control.group=list(model=\"ar1\") sur le terme field(), confirme dans args(INLA::f))."
+      notes: "Verifie le 2026-09-18 sur les donnees reelles (echantillon de 400 lignes sur 12630 pour la vitesse -- fonctionnellement identique sur l'ensemble complet) : le fit produit un hyperparametre GroupRho for field reellement estime, pas un pooling silencieux des 5 periodes. Premiere route du harnais qui gere nativement la structure panel binaire de cette fiche (sar_probit/sem_probit en restent incapables, voir conditionally_eligible_estimators). N'implemente PAS le second champ G(s) issu d'un processus ponctuel de l'Eq. 4 etendue (variante non modelisee)."
+  conditionally_eligible_estimators: ["random_forest", "random_forest_xy", "gamboost", "xgboost", "xgboost_xy", "gam_spatial", "sar_probit", "sem_probit"]
+  ineligible_reason: "inla_spde_st (voir eligible_estimators) gere maintenant nativement la structure panel binaire de cette fiche. Les autres routes a coordonnees restent limitees : sar_probit/sem_probit sont cross-sectionnels (necessiteraient de traiter chaque periode separement, non implemente, et une matrice W fiable, voir Bloc 5 / CRS note). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel (pooling)."
   rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
 ```
 

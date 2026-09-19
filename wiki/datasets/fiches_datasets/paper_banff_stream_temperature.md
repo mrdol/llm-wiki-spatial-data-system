@@ -179,10 +179,10 @@ estimator_eligibility:
       basis: benchmark_use
       source_ref: "Approximation spatiale generique (W euclidienne sur Easting/Northing), PAS une reproduction du modele SSN sur reseau hydrographique du papier."
       notes: "Tache comparative explicitement distincte de SSN -- ne pretend pas capturer la connectivite du reseau (flux amont/aval) ni l'effet aleatoire HUC10 du modele INLA des auteurs."
-    - estimator: inla_spde
+    - estimator: inla_spde_group
       basis: benchmark_use
-      source_ref: "Ajoute le 2026-09-18. Le papier utilise reellement INLA, mais un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303) -- inla_spde_reg() n'implemente ni la barriere ni l'effet aleatoire groupe, seulement un champ SPDE/Matern standard sur l'espace euclidien."
-      notes: "Comparateur spatial generique (meme limite que gam_spatial ci-dessus : W/champ euclidien sur Easting/Northing, pas le reseau hydrographique) -- pas une reproduction du modele INLA barrier+HUC10 des auteurs."
+      source_ref: "Mis a jour le 2026-09-18. Le papier utilise reellement INLA avec un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303). inla_spde_group_reg() capture desormais l'effet aleatoire iid HUC10 (verifie sur les donnees reelles : hyperparametre Precision for HUC10 estime), mais reste sur un champ SPDE/Matern standard sur l'espace euclidien -- la geometrie barriere/reseau hydrographique n'est pas modelisee."
+      notes: "Comparateur spatial plus proche du cadre publie que gam_spatial (capture l'effet de groupe HUC10 reel des auteurs), mais toujours pas une reproduction exacte : la connectivite du reseau hydrographique (flux amont/aval, geometrie non convexe) reste absente. Verifie end-to-end le 2026-09-18 sur les 110 sites reels."
     - estimator: random_forest
       basis: benchmark_use
       source_ref: "Aucune -- comparateur ML generique, Y continu."
