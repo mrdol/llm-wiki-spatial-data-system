@@ -1,6 +1,6 @@
 {
   "schema_version": "spatialtidymodels_metadata_v1",
-  "generated_at": "2026-09-18T14:14:17.955509+00:00",
+  "generated_at": "2026-09-19T01:47:17.602843+00:00",
   "source": {
     "datasets": "wiki/datasets/fiches_datasets",
     "estimators": "wiki/estimators",
@@ -1729,15 +1729,15 @@
           "recommendation_status": "curated_benchmark_route"
         },
         {
-          "estimator": "inla_spde",
+          "estimator": "inla_spde_group",
           "basis": "benchmark_use",
-          "source_ref": "Ajoute le 2026-09-18. Le papier utilise reellement INLA, mais un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303) -- inla_spde_reg() n'implemente ni la barriere ni l'effet aleatoire groupe, seulement un champ SPDE/Matern standard sur l'espace euclidien.",
+          "source_ref": "Mis a jour le 2026-09-18. Le papier utilise reellement INLA avec un modele barrier (geometrie non convexe du reseau hydrographique) + effet aleatoire iid sur HUC10 (Struthers et al. 2024, INLA_R-Script.R lignes 270-303). inla_spde_group_reg() capture desormais l'effet aleatoire iid HUC10 (verifie sur les donnees reelles : hyperparametre Precision for HUC10 estime), mais reste sur un champ SPDE/Matern standard sur l'espace euclidien -- la geometrie barriere/reseau hydrographique n'est pas modelisee.",
           "pages": null,
           "pdf_pages": null,
           "tables": [],
-          "notes": "Comparateur spatial generique (meme limite que gam_spatial ci-dessus : W/champ euclidien sur Easting/Northing, pas le reseau hydrographique) -- pas une reproduction du modele INLA barrier+HUC10 des auteurs.",
-          "source_estimator": "inla_spde",
-          "package_estimator": "inla_spde",
+          "notes": "Comparateur spatial plus proche du cadre publie que gam_spatial (capture l'effet de groupe HUC10 reel des auteurs), mais toujours pas une reproduction exacte : la connectivite du reseau hydrographique (flux amont/aval, geometrie non convexe) reste absente. Verifie end-to-end le 2026-09-18 sur les 110 sites reels.",
+          "source_estimator": "inla_spde_group",
+          "package_estimator": "inla_spde_group",
           "recommendation_status": "curated_benchmark_route"
         },
         {
@@ -1763,7 +1763,7 @@
       "benchmark_estimators": [
         "ols",
         "gam_spatial",
-        "inla_spde",
+        "inla_spde_group",
         "random_forest"
       ],
       "candidate_response_typology": [
@@ -5848,140 +5848,41 @@
       "n_observations": 12630,
       "t_periods": 5,
       "benchmark_ready": false,
-      "benchmark_status": "not_ready_current_package",
+      "benchmark_status": "manual_review",
       "benchmark_task": "binary_panel_or_presence_absence",
-      "package_include": "no",
+      "package_include": "manual_review",
       "package_promotion_blockers": [
         "package_include_not_yes",
         "benchmark_status_not_ready"
       ],
-      "benchmark_missing_items": "support binaire/panel et schema CV adapte",
-      "benchmark_readiness_reason": "Reponse binaire et structure temporelle.",
-      "eligible_estimators": [],
+      "benchmark_missing_items": "aucun estimateur automatique ne compare encore plusieurs routes sur cette tache (une seule route, inla_spde_st, est verifiee) ; les autres candidats a coordonnees restent limites au pooling panel",
+      "benchmark_readiness_reason": "inla_spde_st (ajoute et verifie le 2026-09-18) gere nativement la structure panel binaire de ce jeu (champ spatio-temporel AR1 verifie sur donnees reelles) -- promu de 'no'/not_ready a manual_review, la tache de benchmark comparatif multi-estimateurs n'etant pas pour autant entierement resolue.",
+      "eligible_estimators": [
+        "inla_spde_st"
+      ],
       "estimator_evidence": [
         {
-          "estimator": "random_forest",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
+          "estimator": "inla_spde_st",
+          "basis": "published_model",
+          "source_ref": "Eq. 1-2 p.165 : modele binomial hierarchique bayesien, champ aleatoire gaussien spatio-temporel M(s,t) approxime par SPDE/INLA, structure par le temps via 'ti' (IID/AR1). inla_spde_st_reg() implemente exactement ce cadre : champ SPDE separable espace x AR1 via l'argument time= (group=/control.group=list(model=\\\"ar1\\\") sur le terme field(), confirme dans args(INLA::f)).",
           "pages": null,
           "pdf_pages": null,
           "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "random_forest",
-          "package_estimator": "random_forest",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "random_forest_xy",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "random_forest_xy",
-          "package_estimator": "random_forest_xy",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "gamboost",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "gamboost",
-          "package_estimator": "gamboost",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "xgboost",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "xgboost",
-          "package_estimator": "xgboost",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "xgboost_xy",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "xgboost_xy",
-          "package_estimator": "xgboost_xy",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "gam_spatial",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "gam_spatial",
-          "package_estimator": "gam_spatial",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "sar_probit",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "sar_probit",
-          "package_estimator": "sar_probit",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "sem_probit",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "sem_probit",
-          "package_estimator": "sem_probit",
-          "recommendation_status": "curated_benchmark_route"
-        },
-        {
-          "estimator": "inla_spde",
-          "basis": "benchmark_use",
-          "source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
-          "pages": null,
-          "pdf_pages": null,
-          "tables": [],
-          "notes": "Conditionally eligible; expanded from compact estimator_eligibility block.",
-          "source_estimator": "inla_spde",
-          "package_estimator": "inla_spde",
-          "recommendation_status": "curated_benchmark_route"
+          "notes": "Verifie le 2026-09-18 sur les donnees reelles (echantillon de 400 lignes sur 12630 pour la vitesse -- fonctionnellement identique sur l'ensemble complet) : le fit produit un hyperparametre GroupRho for field reellement estime, pas un pooling silencieux des 5 periodes. Premiere route du harnais qui gere nativement la structure panel binaire de cette fiche (sar_probit/sem_probit en restent incapables, voir conditionally_eligible_estimators). N'implemente PAS le second champ G(s) issu d'un processus ponctuel de l'Eq. 4 etendue (variante non modelisee).",
+          "conditionally_eligible_estimators": "[\"random_forest\", \"random_forest_xy\", \"gamboost\", \"xgboost\", \"xgboost_xy\", \"gam_spatial\", \"sar_probit\", \"sem_probit\"]",
+          "ineligible_reason": "inla_spde_st (voir eligible_estimators) gere maintenant nativement la structure panel binaire de cette fiche. Les autres routes a coordonnees restent limitees : sar_probit/sem_probit sont cross-sectionnels (necessiteraient de traiter chaque periode separement, non implemente, et une matrice W fiable, voir Bloc 5 / CRS note). random_forest/gamboost/xgboost/gam_spatial restent des alternatives generiques ignorant la structure panel (pooling).",
+          "rule": "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W",
+          "source_estimator": "inla_spde_st",
+          "package_estimator": "inla_spde_st",
+          "recommendation_status": "documented_package_route"
         }
       ],
-      "eligibility_basis": "benchmark_use",
-      "eligibility_source_ref": "Laxton, Rodriguez de Rivera, Soriano-Redondo & Illian (2023) (auteurs corriges le 2026-09-14 -- verifies via le TEI local et Crossref ; l'attribution anterieure 'Laxton, Illian, Bachl & O'Hara' etait fausse, Bachl et O'Hara sont des auteurs d'articles cites en bibliographie de ce papier -- ex. inlabru -- pas des auteurs de ce papier), Methods in Ecology and Evolution 14(1):162-172, DOI 10.1111/2041-210X.13957, Section 2.2 'Single-field models', Eq. (1)-(2) p.165: O_{s,t} ~ Bernoulli(P(s,t)), P(s,t) = logit^-1(beta0 + sum_i alpha_i*x_i(s,t) + M(s,t)), avec les 3 covariables environnementales explicitement nommees ('the density of surrounding urbanised areas ... wetland perimeter-to-area ratio, and wetland extent') correspondant aux colonnes locales Urb_Den_cov/PA_Ratio_cov/Area_cov. 'ti' (variable temporelle presente dans l'artefact local) n'est PAS l'une des 3 covariables x_i du papier : c'est l'indice temporel qui structure le champ aleatoire gaussien spatio-temporel M(s,t) (options IID ou AR1, Section 2.2), pas un terme a effet fixe. formula_used garde 'ti' comme covariable simplifiee (approximation GLM plate, sans champ aleatoire spatio-temporel ni lien logit reproduit par le harnais actuel) -- ce n'est pas la specification publiee, seulement une candidate executable la plus proche. Paper precedemment non lu lors du remplissage de FORMULA_OVERRIDES (formula_pub restait 'pending' malgre un Statut/Reference publication deja renseignes) ; corrige le 2026-09-10 apres lecture directe du texte (Eq. 1-2, p.164-166).",
+      "eligibility_basis": "published_model",
+      "eligibility_source_ref": "Eq. 1-2 p.165 : modele binomial hierarchique bayesien, champ aleatoire gaussien spatio-temporel M(s,t) approxime par SPDE/INLA, structure par le temps via 'ti' (IID/AR1). inla_spde_st_reg() implemente exactement ce cadre : champ SPDE separable espace x AR1 via l'argument time= (group=/control.group=list(model=\\\"ar1\\\") sur le terme field(), confirme dans args(INLA::f)).",
       "eligibility_notes": "Relations lues depuis chaque fiche Markdown; modele source et route package distingues, et propositions techniques derivees des typologies Y/X et du support spatial.",
       "notes": "",
       "benchmark_estimators": [
-        "random_forest",
-        "random_forest_xy",
-        "gamboost",
-        "xgboost",
-        "xgboost_xy",
-        "gam_spatial",
-        "sar_probit",
-        "sem_probit",
-        "inla_spde"
+        "inla_spde_st"
       ],
       "candidate_response_typology": [
         "binary"
@@ -36429,8 +36330,8 @@
           "pdf_pages": null,
           "tables": [],
           "notes": "Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip.",
-          "conditionally_eligible_estimators": "[\"inla_spde\"]",
-          "ineligible_reason": "Ajoute le 2026-09-18 : les auteurs (Crates et al. 2022) ajustent un GLMM INLA avec champ spatial SPDE/Matern et famille Poisson -- le coeur (SPDE + Poisson) correspond a inla_spde_reg(), mais DEUX ecarts empechent une eligibilite pleine : (1) structure panel (T=5, Season) -- inla_spde ajuste un champ spatial unique par execution, pas de repetition temporelle geree, meme limitation que sar_probit/sem_probit sur donnees panel ailleurs dans le corpus (ex. paper_crane) ; (2) le modele publie ajoute des effets aleatoires observateur/region et une interaction mistletoe x saison que le harnais ne modelise pas. Place en conditionally_eligible, pas en eligible_estimators.",
+          "conditionally_eligible_estimators": "[\"inla_spde_st\"]",
+          "ineligible_reason": "Mis a jour le 2026-09-18 : inla_spde_st (champ spatio-temporel espace x AR1, verifie sur les donnees reelles de paper_crane) resout desormais le premier des deux ecarts identifies -- la structure panel (T=5, Season) est geree nativement via son argument time=. Le second ecart reste bloquant pour une eligibilite pleine : le modele publie ajoute des effets aleatoires observateur/region (inla_spde_group) ET une structure temporelle (inla_spde_st) simultanement, or ces deux capacites existent separement dans le harnais mais ne sont pas combinees en une seule route de benchmark. Place en conditionally_eligible, pas en eligible_estimators.",
           "rule": "Revue de la tache avant selection des routes; aucune promotion automatique.",
           "source_estimator": "xgboost",
           "package_estimator": "xgboost",
