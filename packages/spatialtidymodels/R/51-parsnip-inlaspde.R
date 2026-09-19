@@ -299,6 +299,15 @@ inlaspde_fit_impl <- function(formula, data, coords, family = "gaussian",
   # bas en composant(s) iid inlabru.
   group_re <- extract_group_re_terms(model_formula, data = data)
   x_terms <- group_re$fixed_terms
+  # La colonne `time` est reservee a l'index de groupe AR1 du champ
+  # spatio-temporel: elle ne doit jamais etre aussi un predicteur fixe. Par
+  # le chemin workflows, make_benchmark_workflow() l'ajoute a la formule (comme
+  # les coordonnees) pour qu'elle survive a hardhat::mold() -- sans ce retrait
+  # elle devenait une covariable lineaire en plus de l'index de groupe
+  # (verifie sur goa : time_idx=4.95 dans summary.fixed, hyperparametres du
+  # champ differents). Une tendance temporelle lineaire, si voulue, doit
+  # passer par une copie de la colonne sous un autre nom.
+  if (!is.null(time)) x_terms <- setdiff(x_terms, time)
   group_cols <- group_re$re_groups
   for (g in group_cols) {
     if (!is.factor(data[[g]])) data[[g]] <- factor(data[[g]])

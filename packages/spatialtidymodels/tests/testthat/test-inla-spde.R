@@ -383,6 +383,13 @@ test_that("fit_one_benchmark_estimator() routes 'inla_spde_st' end-to-end and re
   )
   expect_true(!is.null(fit))
 
+  # Non-regression (2026-09-19, verifie sur goa) : make_benchmark_workflow()
+  # ajoute la colonne temporelle a la formule pour qu'elle survive a hardhat;
+  # elle ne doit pas devenir une covariable fixe en plus de l'index AR1.
+  eng <- parsnip::extract_fit_engine(fit)
+  expect_false("period" %in% all.vars(attr(eng, "inlaspde_pred_formula")))
+  expect_false("period" %in% rownames(eng$summary.fixed))
+
   expect_error(
     fit_one_benchmark_estimator("inla_spde_st", y ~ x1, dat, coords = c("x_coord", "y_coord")),
     "inla_time"
