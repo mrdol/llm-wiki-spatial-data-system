@@ -65,3 +65,24 @@ Une specification de modele \code{parsnip}.
 Cree une specification \code{parsnip} pour une regression avec un champ spatial
 gaussien de Matern (SPDE, PC-priors), ajustee par \code{inlabru::bru()}.
 }
+\section{Reproductibilite}{
+
+Par defaut la \strong{prediction est deterministe} (1000 echantillons a
+posteriori, graine fixe cote INLA et cote R, sans modifier le generateur
+aleatoire de R de l'appelant) et le fit et la prediction s'executent sous
+\code{num.threads = "1:1"} (option globale d'INLA restauree ensuite), car le
+multi-thread par defaut d'INLA donne des hyperparametres qui varient d'un
+appel a l'autre et divergent parfois. Le \strong{fit reste} toutefois
+legerement variable en mode INLA \code{compact} (defaut) : la seule
+configuration mesuree comme exactement deterministe est
+\code{options(spatialtidymodels.inla_mode = "classic")}, mais elle est beaucoup
+plus lente sur certains modeles (ex. 704 s contre 17 s pour un
+\code{inla_spde_st} binomial) et peut converger ailleurs -- elle n'est donc pas
+activee par defaut. Autres options : \code{spatialtidymodels.inla_reproducible}
+(\code{TRUE} ; \code{FALSE} restaure le comportement natif d'INLA/inlabru),
+\code{spatialtidymodels.inla_pred_samples} (\code{1000L}) et
+\code{spatialtidymodels.inla_pred_seed} (\code{1L}, non nul). La graine fixe rend la
+prediction reproductible, mais l'erreur Monte-Carlo de l'estimation de la
+moyenne a posteriori subsiste (elle diminue avec le nombre d'echantillons).
+}
+

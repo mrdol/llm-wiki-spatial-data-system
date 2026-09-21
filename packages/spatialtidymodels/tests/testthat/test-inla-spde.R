@@ -463,3 +463,113 @@ test_that("spatial_dataset_spec(inla_time=) reaches 'inla_spde_st' through bench
   expect_true(all(is.na(st_rows$fit_error)))
   expect_true(all(is.finite(st_rows$rmse)))
 })
+
+test_that("inla_spde prediction is deterministic whatever the R RNG state, and leaves global state untouched", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+  coords <- c("x_coord", "y_coord")
+
+  mode_before <- INLA::inla.getOption("inla.mode")
+  threads_before <- INLA::inla.getOption("num.threads")
+
+  set.seed(101)
+  fit_a <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_a <- inlaspde_pred_impl(fit_a, test)
+  set.seed(202) # autre etat du generateur de R: ne doit rien changer
+  pred_b <- inlaspde_pred_impl(fit_a, test)
+
+  expect_equal(pred_a, pred_b, tolerance = 1e-8)
+  expect_true(all(is.finite(pred_a)))
+
+  # Les options globales d'INLA sont restaurees apres fit et prediction.
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  # La prediction ne consomme ni ne modifie le generateur de R de l'appelant.
+  set.seed(123)
+  seed_before <- get(".Random.seed", envir = globalenv())
+  inlaspde_pred_impl(fit_a, test)
+  expect_identical(get(".Random.seed", envir = globalenv()), seed_before)
+})
+
+test_that("option spatialtidymodels.inla_mode = 'classic' makes two independent fits identical", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+  coords <- c("x_coord", "y_coord")
+
+  old <- options(spatialtidymodels.inla_mode = "classic")
+  on.exit(options(old), add = TRUE)
+  set.seed(1)
+  fit_a <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_a <- inlaspde_pred_impl(fit_a, test)
+  set.seed(2)
+  fit_b <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_b <- inlaspde_pred_impl(fit_b, test)
+
+  expect_equal(fit_a$mlik[1], fit_b$mlik[1], tolerance = 1e-8)
+  expect_equal(fit_a$summary.hyperpar$mean, fit_b$summary.hyperpar$mean, tolerance = 1e-8)
+  expect_equal(pred_a, pred_b, tolerance = 1e-8)
+})
+
+test_that("with_inla_reproducible_options() sets 1:1 (mode unchanged unless inla_mode is set), restores, and can be switched off", {
+  skip_if_not_installed("INLA")
+
+  mode_before <- INLA::inla.getOption("inla.mode")
+  threads_before <- INLA::inla.getOption("num.threads")
+
+  inside <- with_inla_reproducible_options(list(
+    mode = INLA::inla.getOption("inla.mode"), threads = INLA::inla.getOption("num.threads")
+  ))
+  expect_identical(inside$mode, mode_before) # le mode n'est PAS force par defaut
+  expect_identical(inside$threads, "1:1")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  # Option explicite: mode "classic" applique puis restaure; valeur invalide refusee.
+  old_mode <- options(spatialtidymodels.inla_mode = "classic")
+  in_classic <- with_inla_reproducible_options(INLA::inla.getOption("inla.mode"))
+  expect_identical(in_classic, "classic")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  options(spatialtidymodels.inla_mode = "fast")
+  expect_error(inlaspde_inla_mode(), "compact")
+  options(old_mode)
+
+  # Restauration aussi quand l'expression echoue.
+  expect_error(with_inla_reproducible_options(stop("boom")), "boom")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  old <- options(spatialtidymodels.inla_reproducible = FALSE)
+  on.exit(options(old), add = TRUE)
+  off <- with_inla_reproducible_options(INLA::inla.getOption("inla.mode"))
+  expect_identical(off, mode_before)
+})
+
+test_that("with_local_seed() restores the caller's RNG state, and the seed/samples options are validated", {
+  set.seed(7)
+  before <- get(".Random.seed", envir = globalenv())
+  a <- with_local_seed(11L, stats::runif(3))
+  b <- with_local_seed(11L, stats::runif(3))
+  expect_identical(a, b)
+  expect_identical(get(".Random.seed", envir = globalenv()), before)
+
+  old <- options(spatialtidymodels.inla_pred_seed = 0L)
+  on.exit(options(old), add = TRUE)
+  expect_error(inlaspde_pred_seed(), "non nul")
+  options(spatialtidymodels.inla_pred_seed = 5L, spatialtidymodels.inla_pred_samples = 0L)
+  expect_identical(inlaspde_pred_seed(), 5L)
+  expect_error(inlaspde_pred_samples(), ">= 1")
+  options(spatialtidymodels.inla_pred_samples = NULL, spatialtidymodels.inla_pred_seed = NULL)
+  expect_identical(inlaspde_pred_samples(), 1000L)
+  expect_identical(inlaspde_pred_seed(), 1L)
+})

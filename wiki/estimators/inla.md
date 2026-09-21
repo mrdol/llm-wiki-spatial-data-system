@@ -2,7 +2,7 @@
 title: INLA
 type: estimator
 created: 2026-04-23
-updated: 2026-09-18
+updated: 2026-09-21
 sources:
   - OpitzINLA.pdf
   - Rue, Martino and Chopin 2009, Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations
@@ -246,6 +246,63 @@ out-of-sample validation when the goal is prediction.
   corpus, pas par un choix de scope arbitraire — voir le plan
   "Étendre inla_spde : variante spatio-temporelle + effets aléatoires de
   groupe" pour le détail de cette analyse.
+
+### Reproductibilité des fits et des prédictions (2026-09-21)
+
+**Constat.** Sur `paper_goa_trawl_demersal` (fold spatial 1, 500 sites,
+`inla_spde` gaussien), le même fit donnait des RMSE hors échantillon de 42 à 51
+d'un appel à l'autre. Deux causes distinctes, mesurées séparément :
+
+1. **La prédiction.** `inlabru::predict.bru()` estime la moyenne a posteriori
+   par Monte-Carlo (`n.samples = 100`, `seed = 0` = graine aléatoire d'INLA) :
+   sur un *même* fit, 5 appels donnent un RMSE de 44,5 à 48,9 (écart jusqu'à 15
+   sur un point). La prédiction n'est exactement reproductible que si l'on fixe
+   `set.seed()` côté R **et** `seed` côté INLA ; l'un sans l'autre ne suffit
+   pas (constaté ici ; c'est aussi le sens de l'issue
+   [inlabru #88](https://github.com/inlabru-org/inlabru/issues/88), où
+   l'argument `seed` ne fixe que la graine d'INLA — issue ouverte à la date de
+   consultation).
+2. **Le fit.** Mesures sur le même jeu, 6 à 10 fits par configuration :
+
+   | Configuration INLA | Résultat |
+   |---|---|
+   | `compact` (défaut), `num.threads = 8:1` (défaut) | instable : `mlik` de −2593 à −2627, un fit dégénéré à portée 5,7×10⁷ |
+   | `compact`, `1:1` | stable en général, mais `mlik` varie d'environ 0,7 et ~1 fit sur 10 dégénère (portée 2×10⁴ dans un essai) |
+   | `classic`, `1:1` | 10 fits sur 10 identiques (`mlik` −2593,72, portée 0,954), y compris entre 3 processus R séparés |
+
+   INLA 25.10.19 n'a plus d'argument `inla.seed` : le mode et le nombre de
+   threads sont les seuls leviers sur le fit. Côté praticiens, F. Lindgren
+   indique sur la [liste R-INLA](https://groups.google.com/g/r-inla-discussion-group/c/tmoONcOrnhM)
+   que la graine de R est sans effet sur un `inla()` ordinaire, que les écarts
+   viennent de l'ordre des opérations en parallèle et que `num.threads="1:1"`
+   redonne « normalement » les mêmes valeurs — ce qui n'est pas vérifié en mode
+   `compact` dans nos mesures (le `mlik` y varie encore en `1:1`).
+
+**Le mode `classic` n'est pas un remplacement neutre.** Sur `paper_crane`
+(`inla_spde_st`, binomial, 5 périodes, 1 fit par configuration) : `compact`
+`8:1` 17 s ; `compact` `1:1` 31 s pour la **même** solution (Range 207, Stdev
+1,93, GroupRho 0,42) ; `classic` `1:1` **704 s** et une solution **différente**
+(Stdev 0,075, `mlik` −299 contre −19,9) ; `classic` `8:1` arrêté après 300 s.
+`classic` n'est donc pas activé par défaut.
+
+**Ce qui est implémenté** (`R/51-parsnip-inlaspde.R`) : par défaut, fit et
+prédiction s'exécutent sous `num.threads = "1:1"` (option globale d'INLA
+restaurée ensuite) et la prédiction est déterministe (1000 échantillons, graine
+1, générateur de R de l'appelant préservé ; le temps est quasi constant en
+`n.samples`, ~6 s à 100 et ~7 s à 1000). Options :
+`spatialtidymodels.inla_reproducible` (`FALSE` = comportement natif),
+`spatialtidymodels.inla_mode` (`NULL` ; `"classic"` pour des fits exactement
+déterministes sur les modèles où il est praticable),
+`spatialtidymodels.inla_pred_samples`, `spatialtidymodels.inla_pred_seed`.
+
+**Limites à garder en tête.** Le fit en mode `compact` garde une petite
+variabilité et peut encore dégénérer occasionnellement sur un jeu mal identifié
+(goa) ; la graine fixe rend la prédiction reproductible mais l'erreur
+Monte-Carlo de la moyenne subsiste (RMSE d'un même fit variant d'environ 2
+entre graines à 1000 échantillons). **Les benchmarks INLA produits avant cette
+date** (goa, crane, mistletoe ; réglages par défaut, 100 échantillons)
+portaient ce bruit propre à l'outil et ne permettent pas, à eux seuls, de
+départager `inla_spde` et ses variantes.
 
 ## Open Questions From Papers
 

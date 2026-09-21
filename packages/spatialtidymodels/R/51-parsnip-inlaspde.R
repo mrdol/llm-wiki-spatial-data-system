@@ -54,10 +54,125 @@
 # (la transformation inverse-lien est appliquee dans la formule de prediction
 # elle-meme, ex. `~ plogis(Intercept + x)`, pas recalculee a la main).
 
+# Reproductibilite (2026-09-21). Diagnostic sur paper_goa_trawl_demersal (fold
+# spatial 1, 500 sites) : le meme fit `inla_spde` donnait des RMSE hors
+# echantillon de 42 a 51 d'un appel a l'autre. Deux causes distinctes, mesurees
+# separement (voir wiki/estimators/inla.md) :
+#   1. la PREDICTION : predict.bru() tire n.samples = 100 echantillons a
+#      posteriori avec seed = 0 (graine aleatoire) -- 4 points de RMSE d'ecart
+#      sur un meme fit. Exactement reproductible seulement avec
+#      set.seed(k) COTE R *et* seed = k COTE INLA (issue inlabru #88 : `seed`
+#      ne fixe que la graine d'INLA).
+#   2. le FIT (goa, gaussien) : avec inla.mode = "compact" (defaut) et
+#      num.threads = "8:1" (defaut), les hyperparametres divergent souvent
+#      (portee de 5.7e7 sur un run) ; en "1:1" ils divergent encore ~1 fois
+#      sur 10 et le mlik varie d'environ 0.7 ; en inla.mode = "classic" + "1:1"
+#      : 10 fits sur 10 (et 3 processus R separes) strictement identiques,
+#      aucun degenere. INLA 25.10.19 n'a plus d'argument `inla.seed` : ces
+#      deux options sont le seul levier disponible sur le fit.
+#      MAIS "classic" n'est pas un remplacement neutre : sur paper_crane
+#      (inla_spde_st, binomial, 5 periodes) un fit prend 704 s en classic + "1:1"
+#      contre 17 s par defaut, et n'atteint pas la meme solution (Stdev 0.075
+#      contre 1.93, mlik -299 contre -19.9) ; classic + "8:1" depasse 300 s.
+#      compact + "1:1" donne la meme solution que le defaut (Range 207, Stdev
+#      1.93) pour 31 s (~2x). Le mode n'est donc PAS force par defaut.
+# Par defaut, fit ET prediction s'executent sous num.threads = "1:1" (mode INLA
+# inchange), avec prediction a graine fixe. Options (defauts entre parentheses) :
+#   spatialtidymodels.inla_reproducible (TRUE) : FALSE = comportement natif
+#     d'INLA/inlabru (threads par defaut, predict a 100 echantillons et graine
+#     aleatoire).
+#   spatialtidymodels.inla_mode (NULL) : NULL = mode INLA inchange (compact) ;
+#     "classic" = fits exactement deterministes sur les modeles gaussiens
+#     simples, au prix de temps parfois tres superieurs (voir ci-dessus).
+#   spatialtidymodels.inla_pred_samples (1000L) : echantillons de la prediction
+#     (le temps est quasi constant en n.samples : ~6 s a 100, ~7 s a 1000).
+#   spatialtidymodels.inla_pred_seed (1L) : graine de la prediction, non nulle.
+inlaspde_reproducible <- function() {
+  isTRUE(getOption("spatialtidymodels.inla_reproducible", TRUE))
+}
+
+inlaspde_pred_samples <- function() {
+  n <- suppressWarnings(as.integer(getOption("spatialtidymodels.inla_pred_samples", 1000L)))
+  if (length(n) != 1L || is.na(n) || n < 1L) {
+    stop("option spatialtidymodels.inla_pred_samples: entier >= 1 attendu.", call. = FALSE)
+  }
+  n
+}
+
+inlaspde_pred_seed <- function() {
+  s <- suppressWarnings(as.integer(getOption("spatialtidymodels.inla_pred_seed", 1L)))
+  if (length(s) != 1L || is.na(s) || s == 0L) {
+    stop("option spatialtidymodels.inla_pred_seed: entier non nul attendu (0 = graine aleatoire d'INLA).", call. = FALSE)
+  }
+  s
+}
+
+inlaspde_inla_mode <- function() {
+  m <- getOption("spatialtidymodels.inla_mode", NULL)
+  if (is.null(m)) return(NULL)
+  if (!is.character(m) || length(m) != 1L || !m %in% c("compact", "classic")) {
+    stop("option spatialtidymodels.inla_mode: NULL, \"compact\" ou \"classic\" attendu.", call. = FALSE)
+  }
+  m
+}
+
+# Execute `expr` sous num.threads = "1:1" (et inla.mode si l'option
+# spatialtidymodels.inla_mode est definie), puis restaure les options globales
+# d'INLA (y compris en cas d'erreur). Sans effet si l'option
+# spatialtidymodels.inla_reproducible est FALSE.
+with_inla_reproducible_options <- function(expr) {
+  if (!inlaspde_reproducible()) return(expr)
+  mode <- inlaspde_inla_mode()
+  old <- list(
+    inla.mode = INLA::inla.getOption("inla.mode"),
+    num.threads = INLA::inla.getOption("num.threads")
+  )
+  INLA::inla.setOption(num.threads = "1:1")
+  if (!is.null(mode)) INLA::inla.setOption(inla.mode = mode)
+  on.exit(do.call(INLA::inla.setOption, old), add = TRUE)
+  expr
+}
+
+# Execute `expr` apres set.seed(seed), puis restaure exactement l'etat du
+# generateur de R de l'appelant (ou l'absence de .Random.seed).
+with_local_seed <- function(seed, expr) {
+  env <- globalenv()
+  had_seed <- exists(".Random.seed", envir = env, inherits = FALSE)
+  if (had_seed) old_seed <- get(".Random.seed", envir = env, inherits = FALSE)
+  on.exit({
+    if (had_seed) {
+      assign(".Random.seed", old_seed, envir = env)
+    } else if (exists(".Random.seed", envir = env, inherits = FALSE)) {
+      rm(".Random.seed", envir = env)
+    }
+  }, add = TRUE)
+  set.seed(seed)
+  expr
+}
+
 #' Specification parsnip pour un champ spatial INLA SPDE
 #'
 #' Cree une specification `parsnip` pour une regression avec un champ spatial
 #' gaussien de Matern (SPDE, PC-priors), ajustee par `inlabru::bru()`.
+#'
+#' @section Reproductibilite:
+#' Par defaut la **prediction est deterministe** (1000 echantillons a
+#' posteriori, graine fixe cote INLA et cote R, sans modifier le generateur
+#' aleatoire de R de l'appelant) et le fit et la prediction s'executent sous
+#' `num.threads = "1:1"` (option globale d'INLA restauree ensuite), car le
+#' multi-thread par defaut d'INLA donne des hyperparametres qui varient d'un
+#' appel a l'autre et divergent parfois. Le **fit reste** toutefois
+#' legerement variable en mode INLA `compact` (defaut) : la seule
+#' configuration mesuree comme exactement deterministe est
+#' `options(spatialtidymodels.inla_mode = "classic")`, mais elle est beaucoup
+#' plus lente sur certains modeles (ex. 704 s contre 17 s pour un
+#' `inla_spde_st` binomial) et peut converger ailleurs -- elle n'est donc pas
+#' activee par defaut. Autres options : `spatialtidymodels.inla_reproducible`
+#' (`TRUE` ; `FALSE` restaure le comportement natif d'INLA/inlabru),
+#' `spatialtidymodels.inla_pred_samples` (`1000L`) et
+#' `spatialtidymodels.inla_pred_seed` (`1L`, non nul). La graine fixe rend la
+#' prediction reproductible, mais l'erreur Monte-Carlo de l'estimation de la
+#' moyenne a posteriori subsiste (elle diminue avec le nombre d'echantillons).
 #'
 #' @param mode Mode parsnip. Seul `"regression"` est supporte -- y compris
 #'   pour `family = "binomial"`, ou la prediction retournee est la
@@ -372,7 +487,9 @@ inlaspde_fit_impl <- function(formula, data, coords, family = "gaussian",
   if (!is.null(link) && !identical(link, "logit") && !identical(link, "log")) {
     bru_args$control.family <- list(link = link)
   }
-  fit_obj <- do.call(inlabru::bru, bru_args)
+  # classic + "1:1" (voir "Reproductibilite" en haut de fichier) : seul le fit
+  # est concerne ici, les options globales d'INLA sont restaurees ensuite.
+  fit_obj <- with_inla_reproducible_options(do.call(inlabru::bru, bru_args))
 
   eta_expr <- paste(c("Intercept", x_terms, "field", group_cols), collapse = " + ")
   pred_formula <- stats::as.formula(paste("~", pred_transform(eta_expr)))
@@ -452,8 +569,33 @@ inlaspde_pred_impl <- function(object, new_data) {
   # (le champ spatial est reprojete sur le maillage aux nouvelles
   # coordonnees) -- contrairement a ProbitSpatial, aucune reconstruction
   # manuelle du predicteur lineaire n'est necessaire ici.
+  #
+  # Prediction deterministe (voir "Reproductibilite" en haut de fichier) :
+  # n.samples et `seed` fixes cote INLA ET set.seed() cote R (necessaires
+  # ensemble), sous classic + "1:1" ; l'etat du generateur de R de l'appelant
+  # est restaure. Avec spatialtidymodels.inla_reproducible = FALSE : predict()
+  # natif (100 echantillons, graine aleatoire).
+  run_predict <- function() {
+    if (!inlaspde_reproducible()) {
+      return(stats::predict(fit_obj_for_predict, new_df, formula = pred_formula))
+    }
+    pred_seed <- inlaspde_pred_seed()
+    # inlabru (post.sample.structured) force num.threads = "1:1:1" des que
+    # seed != 0, ce qui fait avertir INLA ("Since 'seed!=0', parallel model is
+    # disabled...") meme sous num.threads = "1:1" : attendu et inoffensif, on
+    # ne filtre que ce message.
+    withCallingHandlers(
+      with_local_seed(pred_seed, stats::predict(
+        fit_obj_for_predict, new_df, formula = pred_formula,
+        n.samples = inlaspde_pred_samples(), seed = pred_seed
+      )),
+      warning = function(w) {
+        if (grepl("Since 'seed!=0'", conditionMessage(w), fixed = TRUE)) invokeRestart("muffleWarning")
+      }
+    )
+  }
   preds <- tryCatch(
-    stats::predict(fit_obj_for_predict, new_df, formula = pred_formula),
+    with_inla_reproducible_options(run_predict()),
     error = function(e) e
   )
   if (inherits(preds, "error")) {
