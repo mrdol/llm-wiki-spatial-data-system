@@ -150,6 +150,25 @@ fit/diagnostics pass or to \code{cv_scheme = "in_sample"}, since those need
 the fitted model object to survive in this process for \code{bench$fits},
 and some backends (e.g. xgboost) do not serialize reliably across a
 process boundary.}
+
+\item{response_typology}{Type of the response: \code{"continuous"} (default),
+\code{"binary"} or \code{"count"}; any other value is an error. It selects the model
+family used by the estimators that support it (e.g. \code{ols}, \code{gam_spatial},
+\code{inla_spde}) and which out-of-sample metrics are reported.}
+
+\item{glm_link}{\code{NULL} (default, the default link of the family implied by
+\code{response_typology}) or an explicit link such as \code{"probit"} or
+\code{"cloglog"}, used by the estimators that fit a generalized linear
+model when \code{response_typology} is \code{"binary"} or \code{"count"}.}
+
+\item{inla_time}{\code{NULL} (default) or the name of the time column of a panel
+dataset (a single string naming a column of \code{data}, otherwise an error).
+It is required only by \code{inla_spde_st}, which fits a separable
+space x AR1 field indexed by that column; without it, only
+\code{inla_spde_st} fails (with an explicit per-fold message) and the other
+estimators of the same call run normally. The column is used as the
+AR1 index, not as a fixed covariate, and every period of a test fold
+must appear in its training fold.}
 }
 \value{
 A \code{spatial_benchmark} object with \code{results}, \code{resample_results}, and

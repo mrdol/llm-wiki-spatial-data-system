@@ -475,6 +475,13 @@ diagnostic_row <- function(object, estimator, data = NULL, formula = NULL,
 #' @param style Style de standardisation `spdep::nb2listw()`.
 #' @param zero_policy Politique `spdep` pour les observations sans voisin.
 #' @param include_baseline Si `TRUE`, ajoute une baseline OLS.
+#' @param response_typology Type de la reponse: `"continuous"` (defaut),
+#'   `"binary"` ou `"count"` (`NULL`/`NA` sont traites comme `"continuous"`).
+#'   `rmse` et `mae` sont toujours calcules; pour `"binary"` s'ajoutent
+#'   `accuracy` (seuil 0,5), `auc` et `deviance`, pour `"count"` la `deviance`
+#'   de Poisson; ces colonnes valent `NA` quand elles ne s'appliquent pas.
+#'   Pour un workflow de classification binaire, la probabilite de la derniere
+#'   colonne de `predict(type = "prob")` est utilisee.
 #'
 #' @return Un data frame de diagnostics.
 #' @export

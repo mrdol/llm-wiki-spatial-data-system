@@ -2464,6 +2464,22 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #'   the fitted model object to survive in this process for `bench$fits`,
 #'   and some backends (e.g. xgboost) do not serialize reliably across a
 #'   process boundary.
+#' @param response_typology Type of the response: `"continuous"` (default),
+#'   `"binary"` or `"count"`; any other value is an error. It selects the model
+#'   family used by the estimators that support it (e.g. `ols`, `gam_spatial`,
+#'   `inla_spde`) and which out-of-sample metrics are reported.
+#' @param glm_link `NULL` (default, the default link of the family implied by
+#'   `response_typology`) or an explicit link such as `"probit"` or
+#'   `"cloglog"`, used by the estimators that fit a generalized linear
+#'   model when `response_typology` is `"binary"` or `"count"`.
+#' @param inla_time `NULL` (default) or the name of the time column of a panel
+#'   dataset (a single string naming a column of `data`, otherwise an error).
+#'   It is required only by `inla_spde_st`, which fits a separable
+#'   space x AR1 field indexed by that column; without it, only
+#'   `inla_spde_st` fails (with an explicit per-fold message) and the other
+#'   estimators of the same call run normally. The column is used as the
+#'   AR1 index, not as a fixed covariate, and every period of a test fold
+#'   must appear in its training fold.
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
 #'   final `fits`.
@@ -2842,6 +2858,15 @@ print.spatial_benchmark <- function(x, ...) {
 #' @param W Optional spatial weights matrix or `listw` object aligned with
 #'   `data`. If omitted, eligible spatial models build a kNN structure from
 #'   `coords`.
+#' @param response_typology `NULL` (treated as `"continuous"`), `"continuous"`,
+#'   `"binary"` or `"count"`. Lets `benchmark_spatial_datasets()` route each
+#'   dataset of a mixed suite correctly. See [benchmark_spatial()].
+#' @param glm_link `NULL` (default link of the family) or an explicit link
+#'   (e.g. `"probit"`) for the estimators that fit a generalized linear model
+#'   when `response_typology` is `"binary"` or `"count"`. See
+#'   [benchmark_spatial()].
+#' @param inla_time `NULL` or the name of the time column of a panel dataset,
+#'   required only by the `inla_spde_st` estimator. See [benchmark_spatial()].
 #'
 #' @return A `spatial_dataset_spec` object.
 #' @export
