@@ -395,3 +395,71 @@ test_that("fit_one_benchmark_estimator() routes 'inla_spde_st' end-to-end and re
     "inla_time"
   )
 })
+
+# Un panel repete les memes coordonnees a chaque periode: le diagnostic de
+# Moran (spdep::knearneigh) le signale a chaque fold. Bruit attendu ici, on ne
+# filtre que ce message pour ne pas masquer d'autres avertissements.
+quiet_identical_points <- function(expr) {
+  withCallingHandlers(expr, warning = function(w) {
+    if (grepl("identical points", conditionMessage(w), fixed = TRUE)) invokeRestart("muffleWarning")
+  })
+}
+
+test_that("benchmark_spatial() threads inla_time to 'inla_spde_st' in the CV folds and the final fit", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  coords <- c("x_coord", "y_coord")
+
+  bench <- quiet_identical_points(benchmark_spatial(
+    y ~ x1, dat, coords,
+    estimators = c("ols", "inla_spde_st"),
+    cv_scheme = "vfold_cv", eval_folds = 3L, inla_time = "period"
+  ))
+  rr <- bench$resample_results
+  st_rows <- rr[rr$estimator == "inla_spde_st", ]
+  expect_equal(nrow(st_rows), 3L)
+  expect_true(all(is.na(st_rows$fit_error)))
+  expect_true(all(is.finite(st_rows$rmse)))
+  # Ajustement final (bench$fits) : le meme inla_time doit y arriver aussi.
+  expect_true("inla_spde_st" %in% names(bench$fits))
+
+  # Sans inla_time, seul inla_spde_st echoue (message explicite), pas ols.
+  bench_no_time <- quiet_identical_points(benchmark_spatial(
+    y ~ x1, dat, coords,
+    estimators = c("ols", "inla_spde_st"),
+    cv_scheme = "vfold_cv", eval_folds = 3L
+  ))
+  rr2 <- bench_no_time$resample_results
+  expect_true(all(is.na(rr2$fit_error[rr2$estimator == "ols"])))
+  expect_true(all(grepl("inla_time", rr2$fit_error[rr2$estimator == "inla_spde_st"])))
+
+  expect_error(
+    benchmark_spatial(y ~ x1, dat, coords, estimators = "ols", inla_time = "pas_une_colonne"),
+    "introuvable"
+  )
+})
+
+test_that("spatial_dataset_spec(inla_time=) reaches 'inla_spde_st' through benchmark_spatial_suite()", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  spec <- spatial_dataset_spec(
+    "panel_synth", dat, y ~ x1, c("x_coord", "y_coord"), inla_time = "period"
+  )
+  expect_equal(spec$inla_time, "period")
+
+  suite <- quiet_identical_points(benchmark_spatial_suite(
+    spec, estimators = c("ols", "inla_spde_st"),
+    cv_schemes = "vfold_cv", eval_folds = 3L
+  ))
+  rr <- suite$resample_results
+  st_rows <- rr[rr$estimator == "inla_spde_st", ]
+  expect_equal(nrow(st_rows), 3L)
+  expect_true(all(is.na(st_rows$fit_error)))
+  expect_true(all(is.finite(st_rows$rmse)))
+})

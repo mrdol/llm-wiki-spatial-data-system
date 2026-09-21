@@ -2002,7 +2002,8 @@ score_benchmark_fold <- function(estimator, fold_id, split, formula, coords, par
       rfgls_nthsize = params$rfgls_nthsize,
       rfgls_cov_model = params$rfgls_cov_model,
       rfgls_param_estimate = params$rfgls_param_estimate,
-      mgwrsar_control = mgwrsar_control
+      mgwrsar_control = mgwrsar_control,
+      inla_time = params$inla_time %||% NULL
     ),
     error = function(e) e
   )
@@ -2317,7 +2318,8 @@ fit_final_benchmark_estimators <- function(estimators, formula, data, coords,
         rfgls_nthsize = params$rfgls_nthsize,
         rfgls_cov_model = params$rfgls_cov_model,
         rfgls_param_estimate = params$rfgls_param_estimate,
-        mgwrsar_control = list()
+        mgwrsar_control = list(),
+        inla_time = params$inla_time %||% NULL
       ),
       error = function(e) e
     )
@@ -2534,9 +2536,22 @@ benchmark_spatial <- function(formula, data, coords,
                               allow_heavy_tuning = FALSE,
                               fold_timeout_sec = NA_real_,
                               response_typology = "continuous",
-                              glm_link = NULL) {
+                              glm_link = NULL,
+                              inla_time = NULL) {
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
+  # inla_time: nom de la colonne temporelle du panel, requise seulement par
+  # 'inla_spde_st' (champ spatio-temporel espace x AR1). Un NULL laisse cet
+  # estimateur echouer proprement fold par fold ("aucune colonne temporelle
+  # fournie") sans bloquer les autres estimateurs du meme appel.
+  if (!is.null(inla_time)) {
+    if (!is.character(inla_time) || length(inla_time) != 1L || is.na(inla_time)) {
+      stop("benchmark_spatial: inla_time doit etre un nom de colonne (chaine de caracteres).", call. = FALSE)
+    }
+    if (!inla_time %in% names(data)) {
+      stop(sprintf("benchmark_spatial: inla_time '%s' introuvable dans data.", inla_time), call. = FALSE)
+    }
+  }
   W <- normalize_spatial_W_for_data(W, data = data, style = style, zero_policy = zero_policy)
   cv_scheme <- match.arg(cv_scheme)
   response_typology <- if (is.null(response_typology) || is.na(response_typology)) "continuous" else response_typology
@@ -2579,7 +2594,8 @@ benchmark_spatial <- function(formula, data, coords,
     rfgls_cov_model = "exponential",
     rfgls_param_estimate = FALSE,
     response_typology = response_typology,
-    glm_link = glm_link
+    glm_link = glm_link,
+    inla_time = inla_time
   )
   tuning <- list()
   if (isTRUE(tune)) {
@@ -2685,7 +2701,8 @@ benchmark_spatial <- function(formula, data, coords,
           rfgls_n_neighbors = params$rfgls_n_neighbors,
           rfgls_nthsize = params$rfgls_nthsize,
           rfgls_cov_model = params$rfgls_cov_model,
-          rfgls_param_estimate = params$rfgls_param_estimate
+          rfgls_param_estimate = params$rfgls_param_estimate,
+          inla_time = params$inla_time %||% NULL
         ),
         error = function(e) e
       )
@@ -2829,7 +2846,8 @@ print.spatial_benchmark <- function(x, ...) {
 #' @return A `spatial_dataset_spec` object.
 #' @export
 spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
-                                 response_typology = NULL, glm_link = NULL) {
+                                 response_typology = NULL, glm_link = NULL,
+                                 inla_time = NULL) {
   # Petit conteneur explicite pour benchmarker plusieurs jeux sans imposer un
   # registre interne rigide au package.
   # response_typology: "continuous" (defaut si absent)/"binary"/"count",
@@ -2837,9 +2855,12 @@ spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
   # meme au sein d'un meme appel (suite mixte continu/binaire/comptage).
   # glm_link: NULL (lien par defaut de la famille) ou un lien explicite (ex.
   # "probit") pour ols/gam_spatial quand response_typology est binary/count.
+  # inla_time: NULL ou nom de la colonne temporelle du panel (requise par
+  # 'inla_spde_st'; les autres estimateurs l'ignorent).
   structure(
     list(name = name, data = data, formula = formula, coords = coords, W = W,
-         response_typology = response_typology, glm_link = glm_link),
+         response_typology = response_typology, glm_link = glm_link,
+         inla_time = inla_time),
     class = "spatial_dataset_spec"
   )
 }
@@ -2900,6 +2921,7 @@ benchmark_spatial_datasets <- function(datasets,
       W = spec$W %||% NULL,
       response_typology = spec$response_typology %||% "continuous",
       glm_link = spec$glm_link %||% NULL,
+      inla_time = spec$inla_time %||% NULL,
       estimators = estimators,
       k_neighbors = k_neighbors,
       style = style,

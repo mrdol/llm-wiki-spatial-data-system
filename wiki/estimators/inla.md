@@ -197,7 +197,18 @@ out-of-sample validation when the goal is prediction.
     400 lignes sur les 12 630 — le fit complet serait lent mais
     fonctionnellement identique) : le fit confirme un hyperparamètre
     `GroupRho for field` réellement estimé, pas un pooling silencieux des
-    périodes.
+    périodes. Dans le harnais de CV (2026-09-21), la colonne temporelle se
+    déclare par jeu : `spatial_dataset_spec(..., inla_time = "<colonne>")`
+    (ou `benchmark_spatial(..., inla_time =)` en direct) ; elle est
+    transmise aux folds et à l'ajustement final. Sans `inla_time`, seul
+    `inla_spde_st` échoue (message explicite, fold par fold), les autres
+    estimateurs du même appel tournent. Les jeux issus du registre
+    (`benchmark_spatial_suite("nom")`) n'ont pas encore de champ « colonne
+    temporelle » dans leurs métadonnées : ils ne peuvent pas lancer
+    `inla_spde_st` sans passer par une `spatial_dataset_spec` explicite.
+    La colonne de temps est retirée des effets fixes : si elle figure aussi
+    dans la formule (ex. `Season` de mistletoe), elle n'y est plus
+    covariable, seulement index AR1.
   - `inla_spde_group` : détection automatique d'un terme `(1 | groupe)`
     dans la formule (même détection que `gam_spatial`,
     `extract_group_re_terms()`), traduit en composant iid `inlabru`
