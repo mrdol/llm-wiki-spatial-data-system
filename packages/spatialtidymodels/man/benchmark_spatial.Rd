@@ -41,7 +41,8 @@ benchmark_spatial(
   allow_heavy_tuning = FALSE,
   fold_timeout_sec = NA_real_,
   response_typology = "continuous",
-  glm_link = NULL
+  glm_link = NULL,
+  inla_time = NULL
 )
 }
 \arguments{

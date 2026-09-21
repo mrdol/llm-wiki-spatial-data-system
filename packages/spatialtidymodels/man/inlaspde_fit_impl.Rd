@@ -13,7 +13,8 @@ inlaspde_fit_impl(
   prior_range = NULL,
   prior_sigma = NULL,
   mesh_max_edge = NULL,
-  mesh_cutoff = NULL
+  mesh_cutoff = NULL,
+  time = NULL
 )
 }
 \description{

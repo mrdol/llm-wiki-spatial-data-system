@@ -474,7 +474,7 @@ spatialreg_pred_impl <- function(object, new_data) {
   }
   preds <- as.numeric(preds)
   if (length(preds) != nrow(test)) {
-    preds <- tail(preds, nrow(test))
+    preds <- utils::tail(preds, nrow(test))
   }
 
   as.numeric(preds)

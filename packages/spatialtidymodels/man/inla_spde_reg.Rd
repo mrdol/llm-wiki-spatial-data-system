@@ -12,7 +12,8 @@ inla_spde_reg(
   prior_range = NULL,
   prior_sigma = NULL,
   mesh_max_edge = NULL,
-  mesh_cutoff = NULL
+  mesh_cutoff = NULL,
+  time = NULL
 )
 }
 \arguments{
@@ -51,6 +52,11 @@ le prior faiblement informatif utilise par Loca et al. 2025, ecart-type
 
 \item{mesh_cutoff}{\code{cutoff} de \code{fmesher::fm_mesh_2d_inla()}. \code{NULL}
 (defaut): calcule depuis la diagonale de la bounding box.}
+
+\item{time}{Nom de colonne (chaine) a utiliser comme index de groupe
+temporel pour un champ spatio-temporel separable espace x AR1 (variante
+\code{inla_spde_st}). \code{NULL} (defaut): champ purement spatial, cross-section,
+comportement inchange. Voir \code{inlaspde_fit_impl()}.}
 }
 \value{
 Une specification de modele \code{parsnip}.

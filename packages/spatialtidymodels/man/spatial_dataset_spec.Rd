@@ -11,7 +11,8 @@ spatial_dataset_spec(
   coords,
   W = NULL,
   response_typology = NULL,
-  glm_link = NULL
+  glm_link = NULL,
+  inla_time = NULL
 )
 }
 \arguments{

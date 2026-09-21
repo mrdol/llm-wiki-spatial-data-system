@@ -7,6 +7,11 @@
 inlaspde_pred_impl(object, new_data)
 }
 \description{
-Fonction interne de prediction du champ SPDE INLA pour parsnip
+Accepte soit un \code{model_fit} parsnip (chemin \code{inla_spde}/\code{inla_spde_st},
+via \code{workflows}), soit l'objet de fit brut lui-meme (chemin
+\code{inla_spde_group}, qui contourne \code{workflows::fit()} -- voir
+\code{predict.inla_spde_group_fit()} ci-dessous et la note dans
+\code{fit_one_benchmark_estimator()} sur l'incompatibilite de \code{(1 | groupe)}
+avec \code{hardhat::mold()}/\code{stats::model.frame()}).
 }
 \keyword{internal}
