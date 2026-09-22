@@ -34,8 +34,26 @@ dashboard_heatmap_color <- function(x) {
   grDevices::rgb(rgb[1], rgb[2], rgb[3], maxColorValue = 255)
 }
 
-dashboard_heatmap_table_html <- function(wide) {
+# Seuil de dispersion inter-graines (dashboard_collapse_to_source()'s
+# `dispersion_pct`, voir R/18) au-dela duquel une cellule est marquee comme
+# instable. Convention de ce projet (comme dashboard_heatmap_lo/hi
+# ci-dessus), pas une constante statistique universelle -- 20% de la valeur
+# mediane separe deja nettement le cas reel qui a motive cet indicateur
+# (goa/inla_spde_st : ~420% sur une graine degeneree) des cas sains observes
+# (ex. banff/inla_spde : ~13%).
+dashboard_dispersion_flag_pct <- 20
+
+dashboard_heatmap_table_html <- function(wide, dispersion = NULL) {
   estimators <- setdiff(names(wide), "dataset")
+  # Un estimateur qui n'a jamais tourne sur AUCUN dataset de la vue filtree
+  # (ex. sar_probit dans une vue Structure=Continu) n'a que des tirets sur
+  # toute sa colonne -- la retirer plutot que d'afficher une colonne morte.
+  # La ligne recapitulative ("... all datasets") est exclue du test : sa
+  # valeur y est deja NA pour toute colonne deja vide, redondant.
+  data_rows <- !grepl("all datasets", wide$dataset, fixed = TRUE)
+  all_na <- vapply(estimators, function(e) all(is.na(wide[[e]][data_rows])), logical(1))
+  estimators <- estimators[!all_na]
+  wide <- wide[, c("dataset", estimators), drop = FALSE]
   is_summary_row <- grepl("all datasets", wide$dataset, fixed = TRUE)
   header <- shiny::tags$tr(
     shiny::tags$th("Dataset"),
@@ -49,7 +67,32 @@ dashboard_heatmap_table_html <- function(wide) {
       lapply(estimators, function(e) {
         val <- wide[[e]][[i]]
         label <- if (is.na(val)) "–" else sprintf("%.2f", val)
-        shiny::tags$td(label, style = sprintf("background-color:%s;text-align:center;", dashboard_heatmap_color(val)))
+        # Instabilite entre graines/taches (voir dashboard_dispersion_flag_pct
+        # ci-dessus) : jamais deduite en silence de `val` (le ratio releve deja
+        # une mediane, robuste par construction) -- seulement quand
+        # `dispersion` la documente explicitement pour cette cellule, pour ne
+        # jamais fabriquer un avertissement sans donnee source.
+        disp <- if (!is.null(dispersion) && wide$dataset[[i]] %in% dispersion$dataset && e %in% names(dispersion)) {
+          dispersion[[e]][dispersion$dataset == wide$dataset[[i]]][[1]]
+        } else {
+          NA_real_
+        }
+        flagged <- is.finite(disp) && disp > dashboard_dispersion_flag_pct
+        cell_style <- sprintf(
+          "background-color:%s;text-align:center;%s",
+          dashboard_heatmap_color(val),
+          if (flagged) "outline:2px dashed #a3312a;outline-offset:-2px;" else ""
+        )
+        shiny::tags$td(
+          label,
+          if (flagged) {
+            shiny::tags$span(
+              " ⚠", style = "color:#a3312a;font-size:0.85em;",
+              title = sprintf("Dispersion inter-graines/taches elevee : %.0f%% de la valeur mediane.", disp)
+            )
+          },
+          style = cell_style
+        )
       })
     )
   })
@@ -108,20 +151,16 @@ mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_cho
       shiny::radioButtons(ns("cv_scheme_filter"), label = NULL, choices = cv_scheme_choices,
                           selected = cv_scheme_choices[[1]], inline = TRUE)
     ),
+    # Structure (tier 1) / Response type (tier 2, cascading) : deux niveaux
+    # imbriques, pas deux filtres independants -- une combinaison sans jeu
+    # (ex. count en coupe transversale, absent du corpus actuel) ne doit pas
+    # rester selectionnable comme si elle etait valide. Response type est un
+    # uiOutput recalcule cote serveur (mod_overview_server) chaque fois que
+    # Structure change, sur le meme principe que le renderUI du filtre
+    # Estimator Families (R/19-dashboard-app.R).
     shiny::tags$div(
       class = "dashboard-filterbar",
-      shiny::selectInput(ns("baseline"), "Baseline", choices = estimator_choices, selected = baseline_default),
-      shiny::selectInput(ns("metric"), "Metric (table)", choices = metric_choices, selected = metric_choices[[1]]),
-      # response_typology/spatio_temporal filter datasets (via
-      # dataset_metadata), not estimators/cv_scheme -- see filtered_results()
-      # below. "All" stays selectable even with a single real choice, so a
-      # homogeneous suite doesn't need special-casing here.
-      shiny::selectInput(
-        ns("response_typology_filter"), "Response type",
-        choices = c("All" = "All", stats::setNames(response_typology_choices, response_typology_choices)),
-        selected = "All"
-      ),
-      shiny::selectInput(
+      shiny::radioButtons(
         ns("spatio_temporal_filter"), "Structure",
         choices = c(
           "All" = "All",
@@ -130,8 +169,11 @@ mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_cho
             ifelse(spatio_temporal_choices == "spatio_temporal", "Spatio-temporal", "Cross-section")
           )
         ),
-        selected = "All"
+        selected = "All", inline = TRUE
       ),
+      shiny::uiOutput(ns("response_typology_control")),
+      shiny::selectInput(ns("baseline"), "Baseline", choices = estimator_choices, selected = baseline_default),
+      shiny::selectInput(ns("metric"), "Metric (table)", choices = metric_choices, selected = metric_choices[[1]]),
       shiny::actionButton(ns("reset_filters"), "Reset filters", class = "btn-outline-secondary")
     ),
     bslib::layout_columns(
@@ -173,13 +215,43 @@ mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_cho
 #' @param selected_group A zero-arg reactive (e.g. `shiny::reactive(...)`)
 #'   returning the currently selected `dashboard_group`, or `"All"` --
 #'   owned by the app-level sidebar (R/19-dashboard-app.R), not this module.
-#' @param dataset_metadata `suite$dataset_metadata` (or `NULL`), used only to
-#'   apply the Response type / Structure filters -- joined against `results`
-#'   by `dataset`. With `NULL`, both filters are no-ops (their UI choices are
-#'   then `character(0)`, so "All" is the only option anyway).
+#' @param dataset_metadata `suite$dataset_metadata` (or `NULL`), used to
+#'   apply the Structure / Response type filters (joined against `results` by
+#'   `dataset`) and to collapse seeds/tasks of the same
+#'   `source_dataset_id` into one row per real dataset (median, see
+#'   [dashboard_collapse_to_source()]) before every KPI/heatmap/plot. With
+#'   `NULL`, the filters are no-ops (their UI choices are then
+#'   `character(0)`, so "All" is the only option) and no collapse happens --
+#'   `results` is assumed to already be one row per dataset.
 #' @noRd
 mod_overview_server <- function(id, results, families, baseline_default, cv_scheme_choices, metric_choices, selected_group, dataset_metadata = NULL) {
   shiny::moduleServer(id, function(input, output, session) {
+    # Response type (tier 2) : choix recalcules a chaque changement de
+    # Structure (tier 1), pour ne jamais proposer une combinaison sans jeu
+    # (ex. Structure=Coupe transversale + Response=Comptage, absent du corpus
+    # actuel) -- meme mecanique que le filtre Estimator Families du sidebar
+    # (R/19-dashboard-app.R), un renderUI plutot qu'un simple updateSelectInput
+    # pour pouvoir aussi faire disparaitre l'entree quand plus aucun choix
+    # reel n'existe.
+    response_typology_scoped_choices <- shiny::reactive({
+      if (is.null(dataset_metadata) || !"response_typology" %in% names(dataset_metadata)) return(character(0))
+      meta <- dataset_metadata
+      st <- input$spatio_temporal_filter %||% "All"
+      if (!identical(st, "All") && "spatio_temporal" %in% names(meta)) {
+        meta <- meta[!is.na(meta$spatio_temporal) & meta$spatio_temporal == identical(st, "spatio_temporal"), , drop = FALSE]
+      }
+      sort(unique(stats::na.omit(meta$response_typology)))
+    })
+    output$response_typology_control <- shiny::renderUI({
+      choices <- response_typology_scoped_choices()
+      current <- input$response_typology_filter
+      selected <- if (!is.null(current) && current %in% c("All", choices)) current else "All"
+      shiny::selectInput(
+        session$ns("response_typology_filter"), "Response type",
+        choices = c("All" = "All", stats::setNames(choices, choices)), selected = selected
+      )
+    })
+
     filtered_results <- shiny::reactive({
       r <- results[results$cv_scheme == input$cv_scheme_filter, , drop = FALSE]
       grp <- selected_group()
@@ -187,17 +259,28 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
         keep_estimators <- c(input$baseline, families$estimator[families$dashboard_group == grp])
         r <- r[r$estimator %in% keep_estimators, , drop = FALSE]
       }
-      if (!is.null(dataset_metadata)) {
-        rt <- input$response_typology_filter %||% "All"
-        if (!identical(rt, "All") && "response_typology" %in% names(dataset_metadata)) {
-          keep_datasets <- dataset_metadata$dataset[!is.na(dataset_metadata$response_typology) & dataset_metadata$response_typology == rt]
-          r <- r[r$dataset %in% keep_datasets, , drop = FALSE]
-        }
+      meta <- dataset_metadata
+      if (!is.null(meta)) {
         st <- input$spatio_temporal_filter %||% "All"
-        if (!identical(st, "All") && "spatio_temporal" %in% names(dataset_metadata)) {
+        if (!identical(st, "All") && "spatio_temporal" %in% names(meta)) {
           want_st <- identical(st, "spatio_temporal")
-          keep_datasets <- dataset_metadata$dataset[!is.na(dataset_metadata$spatio_temporal) & dataset_metadata$spatio_temporal == want_st]
+          keep_datasets <- meta$dataset[!is.na(meta$spatio_temporal) & meta$spatio_temporal == want_st]
           r <- r[r$dataset %in% keep_datasets, , drop = FALSE]
+          meta <- meta[meta$dataset %in% keep_datasets, , drop = FALSE]
+        }
+        rt <- input$response_typology_filter %||% "All"
+        if (!identical(rt, "All") && "response_typology" %in% names(meta)) {
+          keep_datasets <- meta$dataset[!is.na(meta$response_typology) & meta$response_typology == rt]
+          r <- r[r$dataset %in% keep_datasets, , drop = FALSE]
+          meta <- meta[meta$dataset %in% keep_datasets, , drop = FALSE]
+        }
+        # Mediane par source APRES filtrage : une graine/tache n'est jamais un
+        # "dataset" a part sur cette page (voir dashboard_collapse_to_source())
+        # -- seulement si dataset_metadata a de quoi grouper (source_dataset_id
+        # absent -- ex. suite sans graines -- laisse r tel quel, une ligne par
+        # dataset deja).
+        if ("source_dataset_id" %in% names(meta) && nrow(r) > 0L) {
+          r <- dashboard_collapse_to_source(r, dataset_metadata = meta, metric = input$metric %||% "rmse")$results
         }
       }
       r
@@ -299,7 +382,21 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
       if (is.null(wide) || nrow(wide) == 0L) {
         return(shiny::tags$p("Pas assez de donnees pour ce filtre."))
       }
-      dashboard_heatmap_table_html(wide)
+      # dispersion_pct (voir dashboard_collapse_to_source(), R/18) n'existe
+      # que si filtered_results() a reellement collapse des graines/taches --
+      # sinon la colonne est absente et aucune cellule n'est marquee, jamais
+      # une valeur inventee.
+      r <- filtered_results()
+      dispersion <- if ("dispersion_pct" %in% names(r)) {
+        tryCatch({
+          d <- stats::reshape(r[, c("dataset", "estimator", "dispersion_pct")], idvar = "dataset", timevar = "estimator", direction = "wide")
+          names(d) <- sub("^dispersion_pct\\.", "", names(d))
+          d
+        }, error = function(e) NULL)
+      } else {
+        NULL
+      }
+      dashboard_heatmap_table_html(wide, dispersion = dispersion)
     })
 
     output$perf_runtime_plot <- shiny::renderPlot({
@@ -396,7 +493,7 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
       shiny::updateSelectInput(session, "baseline", selected = baseline_default)
       shiny::updateSelectInput(session, "metric", selected = metric_choices[[1]])
       shiny::updateSelectInput(session, "response_typology_filter", selected = "All")
-      shiny::updateSelectInput(session, "spatio_temporal_filter", selected = "All")
+      shiny::updateRadioButtons(session, "spatio_temporal_filter", selected = "All")
     })
 
     invisible(NULL)

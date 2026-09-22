@@ -187,6 +187,144 @@ dashboard_estimator_families <- function(suite) {
   data.frame(estimator = present, family = family, dashboard_group = dashboard_group, stringsAsFactors = FALSE)
 }
 
+#' Collapse per-seed (or per-task) rows into one row per source dataset
+#'
+#' A dataset split into several benchmark rows sharing the same
+#' `source_dataset_id` -- most commonly one seed of a fold-split repeated
+#' several times (see [dashboard_suite_from_seed_runs()], `"<dataset>__s<seed>"`),
+#' but the same shape applies to any other multi-task source (e.g. a country's
+#' data split into yearly files) -- clutters an Overview built for "what
+#' happened, at a glance": every KPI card, the heatmap and the failure table
+#' would otherwise show `N tasks` rows instead of `N sources`, several of them
+#' near-duplicates of each other. This collapses each `(source_dataset_id,
+#' cv_scheme, estimator)` group into one row via `fun` (default `median`,
+#' consistent with every other cross-dataset summary in this file), the same
+#' descriptive statistic [compare_estimator_variant(analysis_unit =
+#' "source")] uses to keep a verdict from being dominated by a source that
+#' happens to have more tasks than the others.
+#'
+#' Never used for the rigorous Comparison-tab statistics (the paired
+#' Wilcoxon test there needs the underlying tasks/seeds as separate cases,
+#' not one pre-averaged number per source -- see
+#' `compare_estimator_variant()`'s own `analysis_unit = "source"` for that
+#' collapse done the statistically correct way, downstream of the per-case
+#' deltas). This is strictly a *display* aggregation for a suite's
+#' `results`/`dataset_metadata`.
+#'
+#' @param suite A `spatial_benchmark_suite` (uses its `dataset_metadata` to
+#'   find `source_dataset_id`), or a results-shaped `data.frame` together
+#'   with an explicit `dataset_metadata`.
+#' @param dataset_metadata Required when `suite` is a plain `data.frame`;
+#'   ignored (the suite's own is used) when `suite` is a
+#'   `spatial_benchmark_suite`. Must have `dataset` and `source_dataset_id`.
+#' @param fun Aggregation function applied to each metric column's finite
+#'   values within a group. Default `stats::median`.
+#' @param metric Column whose task-to-task (seed-to-seed) spread is reported
+#'   in `dispersion_pct` -- see the return value. Default `"rmse"`; pass
+#'   whatever metric is actually being displayed (e.g. the Overview page's
+#'   selected metric) so the dispersion figure matches what the viewer is
+#'   looking at, not a different, silently-substituted one. Ignored (no
+#'   `dispersion_pct` column) if absent from `results` or not numeric.
+#'
+#' @return A `spatial_benchmark_suite`-shaped list (`results`,
+#'   `dataset_metadata`, `datasets`, `estimators`, `cv_schemes`, `failures`)
+#'   with one row per `(source_dataset_id, cv_scheme, estimator)`; `dataset`
+#'   is renamed to the source id. Character diagnostic columns
+#'   (`fit_error`/`moran_error`/`spatial_param`) keep every distinct
+#'   non-`NA` value, `" | "`-joined, same convention as
+#'   [summarize_resample_results()]. `n`/`n_resamples`/`n_failed_resamples`
+#'   are summed (they are counts, not ratios); `inla_attempts_max` takes the
+#'   max. `results$dispersion_pct` is `100 * range(metric) / median(metric)`
+#'   across the collapsed tasks/seeds -- `NA` for a group with only one task
+#'   (nothing to disperse) or a non-finite median. `results$n_tasks_collapsed`
+#'   records how many rows were merged into each output row (`1` when
+#'   nothing was actually collapsed).
+#' @export
+dashboard_collapse_to_source <- function(suite, dataset_metadata = NULL, fun = stats::median, metric = "rmse") {
+  results <- dashboard_results_table(suite)
+  if (inherits(suite, "spatial_benchmark_suite")) dataset_metadata <- suite$dataset_metadata
+  if (is.null(dataset_metadata) || !all(c("dataset", "source_dataset_id") %in% names(dataset_metadata))) {
+    stop(
+      "dashboard_collapse_to_source() a besoin d'un dataset_metadata avec les colonnes dataset/source_dataset_id -- ",
+      "passez un spatial_benchmark_suite, ou fournissez dataset_metadata explicitement.",
+      call. = FALSE
+    )
+  }
+  src <- stats::setNames(dataset_metadata$source_dataset_id, dataset_metadata$dataset)
+  results$.source <- unname(src[results$dataset])
+  if (anyNA(results$.source)) {
+    results$.source[is.na(results$.source)] <- results$dataset[is.na(results$.source)] # ad hoc dataset outside dataset_metadata: its own source
+  }
+
+  group_cols <- intersect(c(".source", "cv_scheme", "estimator"), names(results))
+  numeric_sum_cols <- intersect(c("n", "n_resamples", "n_failed_resamples"), names(results))
+  numeric_max_cols <- intersect("inla_attempts_max", names(results))
+  char_join_cols <- intersect(c("fit_error", "moran_error", "spatial_param"), names(results))
+  handled <- c(group_cols, numeric_sum_cols, numeric_max_cols, char_join_cols)
+  numeric_median_cols <- names(results)[vapply(results, is.numeric, logical(1))]
+  numeric_median_cols <- setdiff(numeric_median_cols, handled)
+
+  pieces <- lapply(split(results, results[group_cols], drop = TRUE), function(g) {
+    out <- as.list(g[1, group_cols, drop = FALSE])
+    for (col in numeric_median_cols) {
+      v <- g[[col]][is.finite(g[[col]])]
+      out[[col]] <- if (length(v)) fun(v) else NA_real_
+    }
+    for (col in numeric_sum_cols) out[[col]] <- sum(g[[col]], na.rm = TRUE)
+    for (col in numeric_max_cols) {
+      v <- g[[col]][is.finite(g[[col]])]
+      out[[col]] <- if (length(v)) max(v) else NA_integer_
+    }
+    for (col in char_join_cols) {
+      v <- unique(stats::na.omit(g[[col]]))
+      out[[col]] <- if (length(v)) paste(v, collapse = " | ") else NA_character_
+    }
+    out$n_tasks_collapsed <- nrow(g)
+    # Dispersion relative entre taches/graines, pour `metric` -- sans ca, une
+    # instabilite comme celle vue sur goa (inla_spde_st degenere sur une
+    # seule graine sur trois) disparaitrait derriere la mediane sans laisser
+    # de trace. Relative (% de la mediane), pas un ecart brut : un ecart de 3
+    # sur un RMSE de 130 (goa) et un ecart de 3 sur un RMSE de 5 (crane) ne
+    # representent pas la meme instabilite.
+    if (metric %in% names(g) && is.numeric(g[[metric]])) {
+      mv <- g[[metric]][is.finite(g[[metric]])]
+      med <- if (length(mv)) stats::median(mv) else NA_real_
+      out$dispersion_pct <- if (length(mv) > 1L && is.finite(med) && med != 0) {
+        100 * diff(range(mv)) / abs(med)
+      } else {
+        NA_real_
+      }
+    }
+    as.data.frame(out, stringsAsFactors = FALSE)
+  })
+  out <- do.call(rbind, pieces)
+  row.names(out) <- NULL
+  out$dataset <- out$.source
+  out$.source <- NULL
+  out <- out[, c("dataset", setdiff(names(out), "dataset")), drop = FALSE]
+
+  meta_cols <- setdiff(names(dataset_metadata), c("dataset", "seed", "source_dataset_id", "benchmark_task_id"))
+  meta_collapsed <- unique(dataset_metadata[, c("source_dataset_id", meta_cols), drop = FALSE])
+  meta_collapsed <- meta_collapsed[!duplicated(meta_collapsed$source_dataset_id), , drop = FALSE]
+  names(meta_collapsed)[names(meta_collapsed) == "source_dataset_id"] <- "dataset"
+  meta_collapsed$source_dataset_id <- meta_collapsed$dataset
+  meta_collapsed$benchmark_task_id <- meta_collapsed$dataset
+  meta_collapsed$n_seeds <- as.integer(table(dataset_metadata$source_dataset_id)[meta_collapsed$dataset])
+  row.names(meta_collapsed) <- NULL
+
+  structure(
+    list(
+      results = out,
+      dataset_metadata = meta_collapsed,
+      datasets = unique(out$dataset),
+      estimators = sort(unique(out$estimator)),
+      cv_schemes = unique(out$cv_scheme),
+      failures = out[!is.na(out$fit_error), , drop = FALSE]
+    ),
+    class = "spatial_benchmark_suite"
+  )
+}
+
 #' Aggregate a metric per estimator across all filtered rows
 #'
 #' Generic building block for a single-metric summary chart (e.g. residual

@@ -544,3 +544,86 @@ test_that("dashboard_spatiotemporal_groups() returns NULL rather than fabricatin
   homogeneous <- data.frame(dataset = paste0("ds_", 1:5), spatio_temporal = FALSE, stringsAsFactors = FALSE)
   expect_null(dashboard_spatiotemporal_groups(homogeneous))
 })
+
+dashboard_collapse_fixture <- function() {
+  results <- rbind(
+    data.frame(dataset = "goa__s11", cv_scheme = "block_spatial", estimator = "ols", rmse = 10, mae = 8,
+              n = 100, n_resamples = 5, n_failed_resamples = 0, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "goa__s22", cv_scheme = "block_spatial", estimator = "ols", rmse = 12, mae = 9,
+              n = 100, n_resamples = 5, n_failed_resamples = 0, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "goa__s33", cv_scheme = "block_spatial", estimator = "ols", rmse = 11, mae = 8.5,
+              n = 100, n_resamples = 5, n_failed_resamples = 1, fit_error = "boom", stringsAsFactors = FALSE),
+    data.frame(dataset = "crane__s11", cv_scheme = "block_spatial", estimator = "ols", rmse = 1, mae = 0.8,
+              n = 50, n_resamples = 5, n_failed_resamples = 0, fit_error = NA_character_, stringsAsFactors = FALSE)
+  )
+  meta <- data.frame(
+    dataset = c("goa__s11", "goa__s22", "goa__s33", "crane__s11"),
+    source_dataset_id = c("goa", "goa", "goa", "crane"),
+    seed = c(11L, 22L, 33L, 11L),
+    response_typology = c("continuous", "continuous", "continuous", "binary"),
+    spatio_temporal = c(TRUE, TRUE, TRUE, TRUE),
+    stringsAsFactors = FALSE
+  )
+  structure(list(results = results, dataset_metadata = meta), class = "spatial_benchmark_suite")
+}
+
+test_that("dashboard_collapse_to_source() collapses seed rows into one median row per source dataset", {
+  suite <- dashboard_collapse_fixture()
+  coll <- dashboard_collapse_to_source(suite)
+
+  expect_s3_class(coll, "spatial_benchmark_suite")
+  expect_equal(nrow(coll$results), 2L) # goa (3 seeds -> 1) + crane (1 seed -> 1)
+  expect_setequal(coll$results$dataset, c("goa", "crane"))
+
+  goa_row <- coll$results[coll$results$dataset == "goa", ]
+  expect_equal(goa_row$rmse, median(c(10, 12, 11))) # 11
+  expect_equal(goa_row$mae, median(c(8, 9, 8.5)))
+  expect_equal(goa_row$n, 300) # sum, not median -- it's a count
+  expect_equal(goa_row$n_resamples, 15)
+  expect_equal(goa_row$n_failed_resamples, 1)
+  expect_match(goa_row$fit_error, "boom")
+  expect_equal(goa_row$n_tasks_collapsed, 3L)
+  expect_equal(goa_row$dispersion_pct, 100 * diff(range(c(10, 12, 11))) / median(c(10, 12, 11)))
+
+  crane_row <- coll$results[coll$results$dataset == "crane", ]
+  expect_equal(crane_row$rmse, 1)
+  expect_true(is.na(crane_row$fit_error))
+  expect_equal(crane_row$n_tasks_collapsed, 1L)
+  expect_true(is.na(crane_row$dispersion_pct)) # a single task has no spread to report
+
+  meta <- coll$dataset_metadata
+  expect_equal(nrow(meta), 2L)
+  expect_equal(meta$n_seeds[meta$dataset == "goa"], 3L)
+  expect_equal(meta$response_typology[meta$dataset == "goa"], "continuous")
+  # No stray duplicated source_dataset_id/benchmark_task_id columns.
+  expect_equal(sum(names(meta) == "source_dataset_id"), 1L)
+})
+
+test_that("dashboard_collapse_to_source()'s dispersion_pct tracks whichever `metric` is passed, not always rmse", {
+  suite <- dashboard_collapse_fixture()
+
+  on_mae <- dashboard_collapse_to_source(suite, metric = "mae")
+  goa_mae <- on_mae$results[on_mae$results$dataset == "goa", ]
+  expect_equal(goa_mae$dispersion_pct, 100 * diff(range(c(8, 9, 8.5))) / median(c(8, 9, 8.5)))
+  expect_false(isTRUE(all.equal(goa_mae$dispersion_pct, 100 * diff(range(c(10, 12, 11))) / median(c(10, 12, 11)))))
+
+  # Metrique absente des resultats : pas de colonne dispersion_pct fabriquee.
+  no_such <- dashboard_collapse_to_source(suite, metric = "does_not_exist")
+  expect_false("dispersion_pct" %in% names(no_such$results))
+})
+
+test_that("dashboard_collapse_to_source() requires dataset_metadata with dataset/source_dataset_id", {
+  results <- data.frame(dataset = "a", cv_scheme = "x", estimator = "ols", rmse = 1, stringsAsFactors = FALSE)
+  expect_error(dashboard_collapse_to_source(results), "source_dataset_id")
+  expect_error(dashboard_collapse_to_source(results, dataset_metadata = data.frame(dataset = "a")), "source_dataset_id")
+})
+
+test_that("dashboard_collapse_to_source() leaves an already one-row-per-dataset suite unchanged in shape", {
+  suite <- dashboard_collapse_fixture()
+  suite$results <- suite$results[suite$results$dataset == "goa__s11", ]
+  suite$dataset_metadata <- suite$dataset_metadata[suite$dataset_metadata$dataset == "goa__s11", ]
+  coll <- dashboard_collapse_to_source(suite)
+  expect_equal(nrow(coll$results), 1L)
+  expect_equal(coll$results$rmse, 10)
+  expect_equal(coll$results$n_tasks_collapsed, 1L)
+})

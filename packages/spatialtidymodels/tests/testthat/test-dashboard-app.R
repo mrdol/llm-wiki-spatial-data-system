@@ -546,3 +546,169 @@ test_that("mod_comparison_server()'s subgroup dimension picker switches between 
     }
   )
 })
+
+seed_meta_test_results <- function() {
+  # goa (spatio-temporel, continu) x 2 graines ; flapper (coupe transversale,
+  # binaire) x 1 -- assez pour exercer le collapse ET la cascade Structure ->
+  # Response type sans confondre les deux dimensions.
+  results <- rbind(
+    data.frame(dataset = "goa__s11", cv_scheme = "block_spatial", estimator = "ols", rmse = 10, mae = 8,
+              accuracy = NA_real_, moran_abs = 0.05, duration_sec = 1, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "goa__s22", cv_scheme = "block_spatial", estimator = "ols", rmse = 14, mae = 9,
+              accuracy = NA_real_, moran_abs = 0.05, duration_sec = 1, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "goa__s11", cv_scheme = "block_spatial", estimator = "inla_spde", rmse = 9, mae = 7,
+              accuracy = NA_real_, moran_abs = 0.04, duration_sec = 5, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "goa__s22", cv_scheme = "block_spatial", estimator = "inla_spde", rmse = 9.4, mae = 7.2,
+              accuracy = NA_real_, moran_abs = 0.04, duration_sec = 5, fit_error = NA_character_, stringsAsFactors = FALSE),
+    data.frame(dataset = "flapper__s11", cv_scheme = "block_spatial", estimator = "ols", rmse = 0.3, mae = 0.25,
+              accuracy = 0.8, moran_abs = 0.02, duration_sec = 1, fit_error = NA_character_, stringsAsFactors = FALSE)
+  )
+  meta <- data.frame(
+    dataset = c("goa__s11", "goa__s22", "flapper__s11"),
+    source_dataset_id = c("goa", "goa", "flapper"),
+    seed = c(11L, 22L, 11L),
+    response_typology = c("continuous", "continuous", "binary"),
+    spatio_temporal = c(TRUE, TRUE, FALSE),
+    stringsAsFactors = FALSE
+  )
+  list(results = results, meta = meta)
+}
+
+test_that("mod_overview_server() collapses seed rows to one median row per dataset via dataset_metadata$source_dataset_id", {
+  skip_if_not_installed("shiny")
+
+  fx <- seed_meta_test_results()
+  families <- data.frame(estimator = c("ols", "inla_spde"), family = c("baseline", "INLA_SPDE"), dashboard_group = c("Baselines", "Bayesian Spatial"), stringsAsFactors = FALSE)
+
+  shiny::testServer(
+    mod_overview_server,
+    args = list(
+      id = "overview_collapse", results = fx$results, families = families,
+      baseline_default = "ols", cv_scheme_choices = "block_spatial",
+      metric_choices = c("rmse", "mae", "moran_abs", "duration_sec"),
+      selected_group = shiny::reactiveVal("All"), dataset_metadata = fx$meta
+    ),
+    {
+      session$setInputs(cv_scheme_filter = "block_spatial", baseline = "ols", metric = "rmse",
+                        response_typology_filter = "All", spatio_temporal_filter = "All")
+      r <- filtered_results()
+      expect_setequal(r$dataset, c("goa", "flapper")) # never goa__s11/goa__s22 on this page
+      goa_ols <- r[r$dataset == "goa" & r$estimator == "ols", ]
+      expect_equal(goa_ols$rmse, median(c(10, 14))) # 12
+    }
+  )
+})
+
+test_that("mod_overview_server()'s Response type choices narrow to what Structure actually contains", {
+  skip_if_not_installed("shiny")
+
+  fx <- seed_meta_test_results()
+  families <- data.frame(estimator = c("ols", "inla_spde"), family = c("baseline", "INLA_SPDE"), dashboard_group = c("Baselines", "Bayesian Spatial"), stringsAsFactors = FALSE)
+
+  shiny::testServer(
+    mod_overview_server,
+    args = list(
+      id = "overview_cascade", results = fx$results, families = families,
+      baseline_default = "ols", cv_scheme_choices = "block_spatial",
+      metric_choices = c("rmse", "mae", "moran_abs", "duration_sec"),
+      selected_group = shiny::reactiveVal("All"), dataset_metadata = fx$meta
+    ),
+    {
+      session$setInputs(cv_scheme_filter = "block_spatial", baseline = "ols", metric = "rmse",
+                        spatio_temporal_filter = "All")
+      expect_setequal(response_typology_scoped_choices(), c("continuous", "binary"))
+
+      session$setInputs(spatio_temporal_filter = "spatio_temporal")
+      expect_setequal(response_typology_scoped_choices(), "continuous") # goa only -- binary (flapper) is cross-section
+
+      session$setInputs(response_typology_filter = "continuous")
+      r <- filtered_results()
+      expect_setequal(r$dataset, "goa")
+    }
+  )
+})
+
+test_that("dashboard_heatmap_table_html() drops an estimator column that is all-NA across the data rows", {
+  wide <- data.frame(
+    dataset = c("a", "b", "Median (all datasets)"),
+    ols = c(1.0, 1.2, 1.1),
+    sar_probit = c(NA_real_, NA_real_, NA_real_), # never ran on either dataset in this filtered view
+    stringsAsFactors = FALSE
+  )
+  html <- as.character(dashboard_heatmap_table_html(wide))
+  expect_match(html, "ols", fixed = TRUE)
+  expect_false(grepl("sar_probit", html, fixed = TRUE))
+})
+
+test_that("dashboard_heatmap_table_html() keeps a column with at least one real value, dashes only where NA", {
+  wide <- data.frame(
+    dataset = c("a", "b", "Median (all datasets)"),
+    ols = c(1.0, 1.2, 1.1),
+    inla_spde = c(0.9, NA_real_, 0.9),
+    stringsAsFactors = FALSE
+  )
+  html <- as.character(dashboard_heatmap_table_html(wide))
+  expect_match(html, "inla_spde", fixed = TRUE)
+})
+
+test_that("dashboard_heatmap_table_html() flags a cell whose dispersion_pct exceeds dashboard_dispersion_flag_pct", {
+  wide <- data.frame(
+    dataset = c("goa", "crane", "Median (all datasets)"),
+    inla_spde_st = c(1.02, 1.00, 1.01),
+    stringsAsFactors = FALSE
+  )
+  dispersion <- data.frame(
+    dataset = c("goa", "crane"),
+    inla_spde_st = c(420, 8.8), # goa: the real degenerate-seed case; crane: stable
+    stringsAsFactors = FALSE
+  )
+  html <- as.character(dashboard_heatmap_table_html(wide, dispersion = dispersion))
+  expect_match(html, "⚠") # the warning glyph appears at least once
+  expect_match(html, "420%")
+
+  # Sans `dispersion`, jamais de marqueur fabrique.
+  html_no_disp <- as.character(dashboard_heatmap_table_html(wide))
+  expect_false(grepl("⚠", html_no_disp, fixed = TRUE))
+})
+
+test_that("dashboard_heatmap_table_html() does not flag a cell below the dispersion threshold", {
+  wide <- data.frame(dataset = "banff", inla_spde = 1.06, stringsAsFactors = FALSE)
+  dispersion <- data.frame(dataset = "banff", inla_spde = 13, stringsAsFactors = FALSE) # below 20%
+  html <- as.character(dashboard_heatmap_table_html(wide, dispersion = dispersion))
+  expect_false(grepl("⚠", html, fixed = TRUE))
+})
+
+test_that("mod_overview_server()'s heatmap carries dispersion_pct through to flag the known goa instability live", {
+  skip_if_not_installed("shiny")
+
+  fx <- seed_meta_test_results()
+  # Ajoute une 3e graine sur goa/inla_spde degeneree, pour reproduire le cas
+  # reel (goa__s33) : mediane saine mais dispersion elevee.
+  fx$results <- rbind(fx$results, data.frame(
+    dataset = "goa__s33", cv_scheme = "block_spatial", estimator = "inla_spde", rmse = 900, mae = 700,
+    accuracy = NA_real_, moran_abs = 0.04, duration_sec = 5, fit_error = NA_character_, stringsAsFactors = FALSE
+  ))
+  fx$meta <- rbind(fx$meta, data.frame(
+    dataset = "goa__s33", source_dataset_id = "goa", seed = 33L,
+    response_typology = "continuous", spatio_temporal = TRUE, stringsAsFactors = FALSE
+  ))
+  families <- data.frame(estimator = c("ols", "inla_spde"), family = c("baseline", "INLA_SPDE"), dashboard_group = c("Baselines", "Bayesian Spatial"), stringsAsFactors = FALSE)
+
+  shiny::testServer(
+    mod_overview_server,
+    args = list(
+      id = "overview_disp", results = fx$results, families = families,
+      baseline_default = "ols", cv_scheme_choices = "block_spatial",
+      metric_choices = c("rmse", "mae", "moran_abs", "duration_sec"),
+      selected_group = shiny::reactiveVal("All"), dataset_metadata = fx$meta
+    ),
+    {
+      session$setInputs(cv_scheme_filter = "block_spatial", baseline = "ols", metric = "rmse",
+                        response_typology_filter = "All", spatio_temporal_filter = "All")
+      r <- filtered_results()
+      goa_row <- r[r$dataset == "goa" & r$estimator == "inla_spde", ]
+      expect_equal(goa_row$rmse, median(c(9, 9.4, 900))) # median stays sane
+      expect_true(goa_row$dispersion_pct > dashboard_dispersion_flag_pct) # but the spread is on record
+    }
+  )
+})
