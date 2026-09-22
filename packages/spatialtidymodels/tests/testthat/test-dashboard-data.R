@@ -499,3 +499,48 @@ test_that("dashboard_failure_summary_by_scheme() keeps failures separate per CV 
 # launch_benchmark_dashboard() and the Overview module's reactive wiring are
 # covered in test-dashboard-app.R, alongside the orchestrator/module split
 # introduced in R/19-dashboard-app.R.
+
+test_that("dashboard_response_typology_groups() groups datasets by response type when at least two types are present", {
+  meta <- data.frame(
+    dataset = c("a", "b", "c", "d"),
+    response_typology = c("continuous", "continuous", "binary", "count"),
+    stringsAsFactors = FALSE
+  )
+  groups <- dashboard_response_typology_groups(meta)
+  expect_false(is.null(groups))
+  expect_setequal(names(groups), c("dataset", "response_typology"))
+  expect_equal(groups$response_typology[groups$dataset == "c"], "binary")
+})
+
+test_that("dashboard_response_typology_groups() returns NULL rather than fabricating a split", {
+  expect_null(dashboard_response_typology_groups(NULL))
+  expect_null(dashboard_response_typology_groups(data.frame(dataset = "a", stringsAsFactors = FALSE)))
+  # Too few datasets with a known response_typology.
+  few <- data.frame(dataset = c("a", "b"), response_typology = c("continuous", "binary"), stringsAsFactors = FALSE)
+  expect_null(dashboard_response_typology_groups(few))
+  # Enough datasets, but only one response type present -- nothing to contrast.
+  homogeneous <- data.frame(dataset = paste0("ds_", 1:5), response_typology = "continuous", stringsAsFactors = FALSE)
+  expect_null(dashboard_response_typology_groups(homogeneous))
+})
+
+test_that("dashboard_spatiotemporal_groups() groups datasets by spatio_temporal and relabels to readable strings", {
+  meta <- data.frame(
+    dataset = c("a", "b", "c", "d"),
+    spatio_temporal = c(TRUE, TRUE, FALSE, FALSE),
+    stringsAsFactors = FALSE
+  )
+  groups <- dashboard_spatiotemporal_groups(meta)
+  expect_false(is.null(groups))
+  expect_setequal(names(groups), c("dataset", "spatio_temporal"))
+  expect_setequal(unique(groups$spatio_temporal), c("spatio_temporal", "cross_section"))
+  expect_equal(groups$spatio_temporal[groups$dataset == "a"], "spatio_temporal")
+  expect_equal(groups$spatio_temporal[groups$dataset == "c"], "cross_section")
+})
+
+test_that("dashboard_spatiotemporal_groups() returns NULL rather than fabricating a split", {
+  expect_null(dashboard_spatiotemporal_groups(NULL))
+  few <- data.frame(dataset = c("a", "b"), spatio_temporal = c(TRUE, FALSE), stringsAsFactors = FALSE)
+  expect_null(dashboard_spatiotemporal_groups(few))
+  homogeneous <- data.frame(dataset = paste0("ds_", 1:5), spatio_temporal = FALSE, stringsAsFactors = FALSE)
+  expect_null(dashboard_spatiotemporal_groups(homogeneous))
+})

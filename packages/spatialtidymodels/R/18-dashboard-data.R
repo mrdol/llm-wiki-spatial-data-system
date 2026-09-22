@@ -514,6 +514,70 @@ dashboard_n_tertile_groups <- function(dataset_metadata, min_datasets = 6L) {
   known[, c("dataset", "n_tertile")]
 }
 
+#' Group datasets by response type for subgroup analysis
+#'
+#' Builds a `groups` data.frame usable directly as
+#' `compare_estimator_variant(groups = ...)`'s subgroup dimension, from
+#' `dataset_metadata$response_typology` (`"continuous"`/`"binary"`/`"count"`
+#' -- see [detect_response_typology_from_spec()],
+#' [dashboard_suite_from_seed_runs()]). Mixing continuous and non-continuous
+#' datasets under one RMSE/win-rate figure is not meaningful (a "win" on a
+#' binary dataset's rmse/mae is on a probability scale, not the same thing as
+#' a continuous dataset's rmse/mae) -- this dimension lets a comparison show
+#' whether an advantage holds within each response type rather than only in
+#' aggregate.
+#'
+#' @param dataset_metadata `suite$dataset_metadata` (or an equivalent
+#'   `data.frame` with `dataset` and `response_typology` columns).
+#' @param min_datasets Minimum number of datasets with a known
+#'   `response_typology` required before grouping is attempted, same
+#'   never-fabricate-a-grouping rule as [dashboard_n_tertile_groups()].
+#'   Default `4`.
+#'
+#' @return A `data.frame(dataset, response_typology)`, or `NULL` when the
+#'   metadata is absent, too small, or has only one response type present
+#'   (nothing to contrast).
+#' @export
+dashboard_response_typology_groups <- function(dataset_metadata, min_datasets = 4L) {
+  if (is.null(dataset_metadata) || !all(c("dataset", "response_typology") %in% names(dataset_metadata))) return(NULL)
+  known <- dataset_metadata[!is.na(dataset_metadata$response_typology), c("dataset", "response_typology"), drop = FALSE]
+  if (nrow(known) < min_datasets || length(unique(known$response_typology)) < 2L) return(NULL)
+  row.names(known) <- NULL
+  known
+}
+
+#' Group datasets by cross-sectional vs. spatio-temporal structure
+#'
+#' Builds a `groups` data.frame usable directly as
+#' `compare_estimator_variant(groups = ...)`'s subgroup dimension, from
+#' `dataset_metadata$spatio_temporal` (`TRUE` for a panel dataset with a time
+#' dimension, e.g. eligible for `inla_spde_st` -- see
+#' [dashboard_suite_from_seed_runs()]). A candidate estimator built for a
+#' space x time field (or, symmetrically, one that ignores time) may behave
+#' very differently on the two kinds of dataset; this dimension surfaces that
+#' split instead of averaging it away.
+#'
+#' @param dataset_metadata `suite$dataset_metadata` (or an equivalent
+#'   `data.frame` with `dataset` and `spatio_temporal` columns).
+#' @param min_datasets Minimum number of datasets with a known
+#'   `spatio_temporal` flag required before grouping is attempted, same
+#'   never-fabricate-a-grouping rule as [dashboard_n_tertile_groups()].
+#'   Default `4`.
+#'
+#' @return A `data.frame(dataset, spatio_temporal)` with `spatio_temporal`
+#'   recoded to `"spatio_temporal"`/`"cross_section"` (readable subgroup
+#'   labels), or `NULL` when the metadata is absent, too small, or has only
+#'   one kind of dataset present (nothing to contrast).
+#' @export
+dashboard_spatiotemporal_groups <- function(dataset_metadata, min_datasets = 4L) {
+  if (is.null(dataset_metadata) || !all(c("dataset", "spatio_temporal") %in% names(dataset_metadata))) return(NULL)
+  known <- dataset_metadata[!is.na(dataset_metadata$spatio_temporal), c("dataset", "spatio_temporal"), drop = FALSE]
+  if (nrow(known) < min_datasets || length(unique(known$spatio_temporal)) < 2L) return(NULL)
+  known$spatio_temporal <- ifelse(known$spatio_temporal, "spatio_temporal", "cross_section")
+  row.names(known) <- NULL
+  known
+}
+
 #' Median relative metric per estimator, computed independently per CV scheme
 #'
 #' Runs [dashboard_relative_metric_by_estimator()] once per CV scheme and

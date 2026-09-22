@@ -463,3 +463,86 @@ test_that("mod_methodology_server() reports N benchmark tasks / N independent so
     }
   )
 })
+
+test_that("mod_overview_server() filters by response_typology/spatio_temporal via dataset_metadata, and no-ops when dataset_metadata is NULL", {
+  skip_if_not_installed("shiny")
+
+  results <- app_test_results() # datasets ds_a, ds_b; estimators ols, sar_lag
+  families <- data.frame(estimator = c("ols", "sar_lag"), family = c("baseline", "SAR"), dashboard_group = c("Baselines", "Spatial Econometrics"), stringsAsFactors = FALSE)
+  meta <- data.frame(
+    dataset = c("ds_a", "ds_b"),
+    response_typology = c("continuous", "binary"),
+    spatio_temporal = c(FALSE, TRUE),
+    stringsAsFactors = FALSE
+  )
+
+  shiny::testServer(
+    mod_overview_server,
+    args = list(
+      id = "overview_rt", results = results, families = families,
+      baseline_default = "ols", cv_scheme_choices = c("near_prediction", "holdout_10pct"),
+      metric_choices = c("rmse", "mae", "moran_abs", "duration_sec"),
+      selected_group = shiny::reactiveVal("All"), dataset_metadata = meta
+    ),
+    {
+      session$setInputs(cv_scheme_filter = "near_prediction", baseline = "ols", metric = "rmse",
+                        response_typology_filter = "All", spatio_temporal_filter = "All")
+      expect_setequal(filtered_results()$dataset, c("ds_a", "ds_b"))
+
+      session$setInputs(response_typology_filter = "binary")
+      expect_setequal(filtered_results()$dataset, "ds_b")
+
+      session$setInputs(response_typology_filter = "All", spatio_temporal_filter = "spatio_temporal")
+      expect_setequal(filtered_results()$dataset, "ds_b")
+
+      session$setInputs(spatio_temporal_filter = "cross_section")
+      expect_setequal(filtered_results()$dataset, "ds_a")
+    }
+  )
+
+  # dataset_metadata = NULL (e.g. a plain results data.frame suite, no
+  # metadata available at all): the two filters exist as inputs but never
+  # subset anything -- same rows as without them.
+  shiny::testServer(
+    mod_overview_server,
+    args = list(
+      id = "overview_no_meta", results = results, families = families,
+      baseline_default = "ols", cv_scheme_choices = c("near_prediction", "holdout_10pct"),
+      metric_choices = c("rmse", "mae", "moran_abs", "duration_sec"),
+      selected_group = shiny::reactiveVal("All"), dataset_metadata = NULL
+    ),
+    {
+      session$setInputs(cv_scheme_filter = "near_prediction", baseline = "ols", metric = "rmse")
+      expect_setequal(filtered_results()$dataset, c("ds_a", "ds_b"))
+    }
+  )
+})
+
+test_that("mod_comparison_server()'s subgroup dimension picker switches between size/response-type/spatio-temporal groupings", {
+  skip_if_not_installed("shiny")
+
+  results <- comparison_test_results()
+  n <- length(unique(results$dataset))
+  meta <- data.frame(
+    dataset = unique(results$dataset),
+    n = round(seq(10, 2000, length.out = n)), # spread of distinct sizes, enough for 3 real tertile breakpoints
+    response_typology = rep(c("continuous", "binary"), length.out = n),
+    spatio_temporal = rep(c(FALSE, TRUE), length.out = n),
+    stringsAsFactors = FALSE
+  )
+
+  shiny::testServer(
+    mod_comparison_server,
+    args = list(id = "cmp_subgroup", results = results, dataset_metadata = meta, taxonomy = NULL),
+    {
+      session$setInputs(reference = "sar_lag", candidate = "spboost_bspa_sar_ml", cv_scheme = "near_prediction", primary_metric = "rmse", subgroup_dim = "response_typology")
+      expect_setequal(cmp()$subgroups$table$group, c("continuous", "binary"))
+
+      session$setInputs(subgroup_dim = "spatio_temporal")
+      expect_setequal(cmp()$subgroups$table$group, c("cross_section", "spatio_temporal"))
+
+      session$setInputs(subgroup_dim = "n_tertile")
+      expect_false(is.null(cmp()$subgroups))
+    }
+  )
+})

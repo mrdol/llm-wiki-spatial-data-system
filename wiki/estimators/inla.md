@@ -304,6 +304,20 @@ date** (goa, crane, mistletoe ; réglages par défaut, 100 échantillons)
 portaient ce bruit propre à l'outil et ne permettent pas, à eux seuls, de
 départager `inla_spde` et ses variantes.
 
+Un ré-benchmark avec ce code (7 jeux × 3 graines de découpage en folds ×
+jusqu'à 10 estimateurs) est disponible dans
+`data/manifests/runs/inla_multiseed_2026-09-22/` (`tools/bench_inla_multiseed.R`,
+0 échec sur les 915 couples estimateur/fold). `dashboard_suite_from_seed_runs()`
+(`R/26-dashboard-seed-bridge.R`) le reconstruit en `spatial_benchmark_suite`
+pour `launch_benchmark_dashboard()` — chaque graine devient un jeu
+`"<jeu>__s<graine>"`, relié par `dataset_metadata$source_dataset_id`. Ce même
+`dataset_metadata` porte deux dimensions exploitables comme sous-groupe dans
+l'onglet Comparaison (`dashboard_response_typology_groups()`,
+`dashboard_spatiotemporal_groups()`) et comme filtre sur la page Overview :
+type de réponse (continu/binaire/comptage) et structure (spatio-temporel —
+`inla_spde_st` eligible — vs coupe transversale). L'analyse chiffrée de ce
+ré-benchmark (tient-il sur les 3 graines ?) reste à faire séparément.
+
 ## Open Questions From Papers
 
 - ~~Which INLA formulation should be the first benchmark route: BYM2, SPDE,

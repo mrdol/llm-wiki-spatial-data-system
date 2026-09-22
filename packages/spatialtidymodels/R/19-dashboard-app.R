@@ -117,6 +117,21 @@ launch_benchmark_dashboard <- function(suite, baseline_estimator = "ols", launch
   families <- dashboard_estimator_families(results)
   dataset_metadata <- if (inherits(suite, "spatial_benchmark_suite")) suite$dataset_metadata else NULL
   taxonomy <- tryCatch(available_benchmark_estimators(include_installed = FALSE), error = function(e) NULL)
+
+  # Response type / spatio-temporal choices for the Overview filters (2026-09
+  # multi-seed INLA bridge, see dashboard_suite_from_seed_runs()): empty when
+  # dataset_metadata lacks the field, so the filter UI just offers "All".
+  response_typology_choices <- if (!is.null(dataset_metadata) && "response_typology" %in% names(dataset_metadata)) {
+    sort(unique(stats::na.omit(dataset_metadata$response_typology)))
+  } else {
+    character(0)
+  }
+  spatio_temporal_choices <- if (!is.null(dataset_metadata) && "spatio_temporal" %in% names(dataset_metadata)) {
+    lvls <- unique(stats::na.omit(dataset_metadata$spatio_temporal))
+    ifelse(sort(lvls), "spatio_temporal", "cross_section")
+  } else {
+    character(0)
+  }
   default_candidate <- setdiff(estimator_choices, baseline_default)
   default_candidate <- if (length(default_candidate)) default_candidate[[1]] else baseline_default
 
@@ -149,7 +164,7 @@ launch_benchmark_dashboard <- function(suite, baseline_estimator = "ols", launch
           class = "dashboard-content",
           shiny::tabsetPanel(
             id = "page_nav", type = "hidden",
-            shiny::tabPanelBody("overview", mod_overview_ui("overview", cv_scheme_choices, estimator_choices, metric_choices, baseline_default)),
+            shiny::tabPanelBody("overview", mod_overview_ui("overview", cv_scheme_choices, estimator_choices, metric_choices, baseline_default, response_typology_choices, spatio_temporal_choices)),
             shiny::tabPanelBody("comparison", mod_comparison_ui("comparison", estimator_choices, cv_scheme_choices, metric_choices, baseline_default, default_candidate)),
             shiny::tabPanelBody("datasets", mod_datasets_ui("datasets")),
             shiny::tabPanelBody("cv", mod_cv_ui("cv")),
@@ -240,7 +255,7 @@ launch_benchmark_dashboard <- function(suite, baseline_estimator = "ols", launch
     mod_overview_server("overview", results = results, families = families,
                         baseline_default = baseline_default,
                         cv_scheme_choices = cv_scheme_choices, metric_choices = metric_choices,
-                        selected_group = selected_group)
+                        selected_group = selected_group, dataset_metadata = dataset_metadata)
     mod_comparison_server("comparison", results = results, dataset_metadata = dataset_metadata, taxonomy = taxonomy)
     mod_datasets_server("datasets", dataset_metadata = dataset_metadata)
     mod_cv_server("cv", results = results, families = families, baseline_default = baseline_default)

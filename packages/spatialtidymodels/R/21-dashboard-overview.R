@@ -86,8 +86,14 @@ dashboard_heatmap_legend_html <- function() {
 #' @param cv_scheme_choices,estimator_choices,metric_choices Static choice
 #'   lists computed once from the suite's results table.
 #' @param baseline_default Estimator preselected as the baseline.
+#' @param response_typology_choices Distinct `response_typology` values
+#'   present in `dataset_metadata` (e.g. `c("continuous","binary","count")`),
+#'   or `character(0)` when unavailable -- the filter then only offers "All".
+#' @param spatio_temporal_choices Distinct spatio-temporal labels present
+#'   (`c("cross_section","spatio_temporal")`), or `character(0)`.
 #' @noRd
-mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_choices, baseline_default) {
+mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_choices, baseline_default,
+                            response_typology_choices = character(0), spatio_temporal_choices = character(0)) {
   ns <- shiny::NS(id)
   shiny::tagList(
     shiny::tags$div(
@@ -106,6 +112,26 @@ mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_cho
       class = "dashboard-filterbar",
       shiny::selectInput(ns("baseline"), "Baseline", choices = estimator_choices, selected = baseline_default),
       shiny::selectInput(ns("metric"), "Metric (table)", choices = metric_choices, selected = metric_choices[[1]]),
+      # response_typology/spatio_temporal filter datasets (via
+      # dataset_metadata), not estimators/cv_scheme -- see filtered_results()
+      # below. "All" stays selectable even with a single real choice, so a
+      # homogeneous suite doesn't need special-casing here.
+      shiny::selectInput(
+        ns("response_typology_filter"), "Response type",
+        choices = c("All" = "All", stats::setNames(response_typology_choices, response_typology_choices)),
+        selected = "All"
+      ),
+      shiny::selectInput(
+        ns("spatio_temporal_filter"), "Structure",
+        choices = c(
+          "All" = "All",
+          stats::setNames(
+            spatio_temporal_choices,
+            ifelse(spatio_temporal_choices == "spatio_temporal", "Spatio-temporal", "Cross-section")
+          )
+        ),
+        selected = "All"
+      ),
       shiny::actionButton(ns("reset_filters"), "Reset filters", class = "btn-outline-secondary")
     ),
     bslib::layout_columns(
@@ -147,8 +173,12 @@ mod_overview_ui <- function(id, cv_scheme_choices, estimator_choices, metric_cho
 #' @param selected_group A zero-arg reactive (e.g. `shiny::reactive(...)`)
 #'   returning the currently selected `dashboard_group`, or `"All"` --
 #'   owned by the app-level sidebar (R/19-dashboard-app.R), not this module.
+#' @param dataset_metadata `suite$dataset_metadata` (or `NULL`), used only to
+#'   apply the Response type / Structure filters -- joined against `results`
+#'   by `dataset`. With `NULL`, both filters are no-ops (their UI choices are
+#'   then `character(0)`, so "All" is the only option anyway).
 #' @noRd
-mod_overview_server <- function(id, results, families, baseline_default, cv_scheme_choices, metric_choices, selected_group) {
+mod_overview_server <- function(id, results, families, baseline_default, cv_scheme_choices, metric_choices, selected_group, dataset_metadata = NULL) {
   shiny::moduleServer(id, function(input, output, session) {
     filtered_results <- shiny::reactive({
       r <- results[results$cv_scheme == input$cv_scheme_filter, , drop = FALSE]
@@ -156,6 +186,19 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
       if (!is.null(grp) && !identical(grp, "All")) {
         keep_estimators <- c(input$baseline, families$estimator[families$dashboard_group == grp])
         r <- r[r$estimator %in% keep_estimators, , drop = FALSE]
+      }
+      if (!is.null(dataset_metadata)) {
+        rt <- input$response_typology_filter %||% "All"
+        if (!identical(rt, "All") && "response_typology" %in% names(dataset_metadata)) {
+          keep_datasets <- dataset_metadata$dataset[!is.na(dataset_metadata$response_typology) & dataset_metadata$response_typology == rt]
+          r <- r[r$dataset %in% keep_datasets, , drop = FALSE]
+        }
+        st <- input$spatio_temporal_filter %||% "All"
+        if (!identical(st, "All") && "spatio_temporal" %in% names(dataset_metadata)) {
+          want_st <- identical(st, "spatio_temporal")
+          keep_datasets <- dataset_metadata$dataset[!is.na(dataset_metadata$spatio_temporal) & dataset_metadata$spatio_temporal == want_st]
+          r <- r[r$dataset %in% keep_datasets, , drop = FALSE]
+        }
       }
       r
     })
@@ -352,6 +395,8 @@ mod_overview_server <- function(id, results, families, baseline_default, cv_sche
       shiny::updateRadioButtons(session, "cv_scheme_filter", selected = cv_scheme_choices[[1]])
       shiny::updateSelectInput(session, "baseline", selected = baseline_default)
       shiny::updateSelectInput(session, "metric", selected = metric_choices[[1]])
+      shiny::updateSelectInput(session, "response_typology_filter", selected = "All")
+      shiny::updateSelectInput(session, "spatio_temporal_filter", selected = "All")
     })
 
     invisible(NULL)

@@ -26,7 +26,16 @@ mod_comparison_ui <- function(id, estimator_choices, cv_scheme_choices, metric_c
       shiny::selectInput(ns("reference"), "Reference estimator", choices = estimator_choices, selected = default_reference),
       shiny::selectInput(ns("candidate"), "Candidate estimator", choices = estimator_choices, selected = default_candidate),
       shiny::radioButtons(ns("cv_scheme"), "CV scheme", choices = cv_scheme_choices, selected = cv_scheme_choices[[1]], inline = TRUE),
-      shiny::selectInput(ns("primary_metric"), "Primary metric", choices = metric_choices, selected = metric_choices[[1]])
+      shiny::selectInput(ns("primary_metric"), "Primary metric", choices = metric_choices, selected = metric_choices[[1]]),
+      shiny::selectInput(
+        ns("subgroup_dim"), "Subgroup dimension",
+        choices = c(
+          "Dataset size" = "n_tertile",
+          "Response type (continuous/binary/count)" = "response_typology",
+          "Spatio-temporal vs cross-section" = "spatio_temporal"
+        ),
+        selected = "n_tertile"
+      )
     ),
     shiny::uiOutput(ns("body"))
   )
@@ -132,11 +141,24 @@ mod_comparison_server <- function(id, results, dataset_metadata, taxonomy) {
       shiny::updateSelectInput(session, "candidate", choices = result$choices, selected = result$selected)
     }, ignoreNULL = TRUE)
 
+    # Subgroup dimension: which per-dataset split to break win/tie/loss and
+    # median delta down by. Each helper returns NULL (never a fabricated
+    # split) when dataset_metadata lacks that field or it doesn't vary --
+    # dashboard_subgroups_ui already renders "Not enough metadata for
+    # subgroup analysis" for a NULL groups, so no extra guard is needed here.
+    subgroup_groups <- shiny::reactive({
+      switch(input$subgroup_dim %||% "n_tertile",
+        response_typology = dashboard_response_typology_groups(dataset_metadata),
+        spatio_temporal = dashboard_spatiotemporal_groups(dataset_metadata),
+        dashboard_n_tertile_groups(dataset_metadata)
+      )
+    })
+
     cmp <- shiny::reactive({
       shiny::req(input$reference, input$candidate, input$cv_scheme, input$primary_metric)
       shiny::validate(shiny::need(!identical(input$reference, input$candidate), "Reference et candidat doivent etre differents."))
 
-      groups <- dashboard_n_tertile_groups(dataset_metadata)
+      groups <- subgroup_groups()
       tryCatch(
         compare_estimator_variant(
           results,
