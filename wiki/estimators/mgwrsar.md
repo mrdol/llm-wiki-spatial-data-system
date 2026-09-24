@@ -336,6 +336,88 @@ Additional project update (2026-07-06):
 - Moran I is used as a diagnostic of spatial autocorrelation, not as an
   automatic rule deciding whether MGWRSAR should be launched.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "mgwrsar_gwr"
+    package: "mgwrsar"
+    backend: "mgwrsar::MGWRSAR(GWR)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/W/bandwidth/kernel"
+    tunable_parameters: "bandwidth"
+    family: "GWR"
+    role: "reference"
+    dashboard_group: "MGWRSAR"
+    notes: "GWR local via mgwrsar_reg(Model='GWR'); benchmark kernel fixed to gauss."
+  - estimator: "mgwrsar_sar"
+    package: "mgwrsar"
+    backend: "mgwrsar::MGWRSAR(SAR)"
+    requires_coords: true
+    requires_W: true
+    spatial_args: "coords/W/bandwidth/kernel"
+    tunable_parameters: ""
+    family: "SAR"
+    role: "variant"
+    reference_estimator: "sar_lag"
+    variant_family: "alternate_backend"
+    dashboard_group: "MGWRSAR"
+    notes: "SAR global via mgwrsar_reg(Model='SAR')."
+  - estimator: "mgwrsar_mgwr"
+    package: "mgwrsar"
+    backend: "mgwrsar::TDS_MGWR"
+    requires_coords: true
+    requires_W: true
+    spatial_args: "coords/W/bandwidth/kernel"
+    tunable_parameters: ""
+    family: "GWR"
+    role: "variant"
+    reference_estimator: "mgwrsar_gwr"
+    variant_family: "multiscale"
+    dashboard_group: "MGWRSAR"
+    notes: "MGWR multiscale via mgwrsar_reg(Model='tds_mgwr')."
+  - estimator: "mgwrsar_mgwrsar"
+    package: "mgwrsar"
+    backend: "mgwrsar::MGWRSAR(MGWRSAR_1_0_kv)"
+    requires_coords: true
+    requires_W: true
+    spatial_args: "coords/W/bandwidth/kernel"
+    tunable_parameters: "bandwidth"
+    family: "mgwrsar_hybrid"
+    role: "reference"
+    dashboard_group: "MGWRSAR"
+    notes: "MGWRSAR autocorrele via mgwrsar_reg(Model='MGWRSAR_1_0_kv'); benchmark kernel fixed to gauss."
+  - estimator: "MGWRSAR_0_kc_kv"
+    package: "mgwrsar"
+    backend: "mgwrsar::MGWRSAR(MGWRSAR_0_kc_kv)"
+    requires_coords: true
+    requires_W: true
+    spatial_args: "coords/W/bandwidth/kernel/fixed_vars"
+    tunable_parameters: "bandwidth, k_neighbors, fixed_vars"
+    family: "mgwrsar_hybrid"
+    role: "variant"
+    reference_estimator: "mgwrsar_mgwrsar"
+    variant_family: "mixed_constant_lambda"
+    dashboard_group: "MGWRSAR"
+    notes: "MGWRSAR mixte: lambda constant, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."
+  - estimator: "MGWRSAR_1_kc_kv"
+    package: "mgwrsar"
+    backend: "mgwrsar::MGWRSAR(MGWRSAR_1_kc_kv)"
+    requires_coords: true
+    requires_W: true
+    spatial_args: "coords/W/bandwidth/kernel/fixed_vars"
+    tunable_parameters: "bandwidth, k_neighbors, fixed_vars"
+    family: "mgwrsar_hybrid"
+    role: "variant"
+    reference_estimator: "mgwrsar_mgwrsar"
+    variant_family: "mixed_local_lambda"
+    dashboard_group: "MGWRSAR"
+    notes: "MGWRSAR mixte: lambda local, coefficients fixes et locaux; W_opt par CV; benchmark kernel fixed to gauss."
+```
+
 ## Related Pages
 
 - [[mgwr]]

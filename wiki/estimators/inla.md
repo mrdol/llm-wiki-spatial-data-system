@@ -339,6 +339,72 @@ ré-benchmark (tient-il sur les 3 graines ?) reste à faire séparément.
   wrapper nettement plus léger que celui de `ProbitSpatial`, qui doit
   reconstruire la prédiction à la main.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "inla_spde"
+    package: "inlabru"
+    backend: "inlabru::bru (INLA SPDE)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff"
+    tunable_parameters: "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff"
+    family: "INLA_SPDE"
+    role: "reference"
+    dashboard_group: "Bayesian Spatial"
+    response_typologies: ["continuous", "binary", "count"]
+    compatibility_rule: "Coordinate-requiring routes additionally need usable spatial support."
+    notes: "Champ spatial de Matern (SPDE, PC-priors) via inla_spde_reg()/inlabru::bru(); priors et maillage calcules par defaut depuis la bounding box des coordonnees et l'ecart-type de Y, surchargeables. Famille derivee de response_typology (continuous->gaussian, binary->binomial logit/cloglog via glm_link, count->poisson) -- motive par 3 papiers du corpus utilisant reellement INLA en binomial/poisson (paper_flapper_skate_presence, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal). Toujours mode=regression, y compris pour binary: la prediction retournee est la probabilite continue, meme convention que ols/gam_spatial. Binomiale negative/gamma restent hors perimetre."
+  - estimator: "inla_spde_st"
+    package: "inlabru"
+    backend: "inlabru::bru (INLA SPDE spatio-temporel)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/family/link/time/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff"
+    tunable_parameters: "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff"
+    family: "INLA_SPDE"
+    role: "variant"
+    reference_estimator: "inla_spde"
+    variant_family: "space_time"
+    dashboard_group: "Bayesian Spatial"
+    response_typologies: ["continuous", "binary", "count"]
+    compatibility_rule: "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit time column (inla_time); a period absent from training fails prediction explicitly."
+    notes: "Variante de inla_spde avec un champ spatio-temporel separable espace x AR1 (argument time= sur inla_spde_reg() -- group=/control.group=list(model=\"ar1\") sur le terme field(), confirme dans args(INLA::f)). Motivee par 3 papiers du corpus utilisant reellement INLA avec un champ M(s,t) structure par le temps: paper_crane, paper_mistletoe_bird_abundance, paper_goa_trawl_demersal. Une periode absente de l'entrainement fait echouer la prediction explicitement (pas d'extrapolation temporelle hors du groupe AR1 ajuste)."
+  - estimator: "inla_spde_group"
+    package: "inlabru"
+    backend: "inlabru::bru (INLA SPDE + effet(s) aleatoire(s) de groupe)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/family/link/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff"
+    tunable_parameters: "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff"
+    family: "INLA_SPDE"
+    role: "variant"
+    reference_estimator: "inla_spde"
+    variant_family: "group_random_effects"
+    dashboard_group: "Bayesian Spatial"
+    response_typologies: ["continuous", "binary", "count"]
+    compatibility_rule: "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit '(1 | group)' term in the formula; fails explicitly otherwise."
+    notes: "Variante de inla_spde qui traduit un terme de formule '(1 | groupe)' (meme syntaxe et meme detection que gam_spatial, extract_group_re_terms()) en composant iid inlabru groupe(groupe, model=\"iid\"), en plus du champ spatial. Motivee par paper_banff_stream_temperature (HUC10) et paper_mistletoe_bird_abundance (observateur/region). Contourne workflows::fit() -- stats::model.frame() ne comprend pas la syntaxe '(1 | groupe)' -- meme raison que gam_spatial ; erreur explicite si la formule ne contient aucun terme de groupe, pour ne jamais declarer cette variante eligible sans effet de groupe reel."
+  - estimator: "inla_spde_st_group"
+    package: "inlabru"
+    backend: "inlabru::bru (INLA SPDE spatio-temporel + effet(s) de groupe)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/family/link/time/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff"
+    tunable_parameters: "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff"
+    family: "INLA_SPDE"
+    role: "variant"
+    reference_estimator: "inla_spde"
+    variant_family: "space_time_group_random_effects"
+    dashboard_group: "Bayesian Spatial"
+    response_typologies: ["continuous", "binary", "count"]
+    compatibility_rule: "Coordinate-requiring routes additionally need usable spatial support. Requires BOTH an explicit time column (inla_time) AND an explicit '(1 | group)' term in the formula; fails explicitly otherwise."
+    notes: "Combine inla_spde_st et inla_spde_group dans une seule route: champ spatio-temporel separable espace x AR1 (argument time=) ET terme(s) de formule '(1 | groupe)' traduits en composant(s) iid, ajustes simultanement. Le moteur (inlaspde_fit_impl()) empilait deja les deux sans condition; seul un nom d'estimateur/garde-fou dedie manquait cote harnais (exige les deux: time= fourni ET un terme de groupe dans la formule, sinon erreur explicite renvoyant vers inla_spde_st ou inla_spde_group). Motivee par paper_mistletoe_bird_abundance, seul jeu du corpus dont le modele publie combine reellement les deux structures (observateur/region x saison)."
+```
+
 ## Related Pages
 
 - [[gam]]

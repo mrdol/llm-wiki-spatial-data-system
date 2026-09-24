@@ -742,6 +742,27 @@ ESTIMATOR_REGISTRY.extend(
             ),
             "wiki_key": "inla",
         },
+        {
+            "estimator": "inla_spde_st_group",
+            "package": "inlabru",
+            "backend": "inlabru::bru (INLA SPDE spatio-temporel + effet(s) de groupe)",
+            "requires_coords": True,
+            "requires_W": False,
+            "spatial_args": "coords/family/link/time/prior_range/prior_sigma/mesh_max_edge/mesh_cutoff",
+            "tunable_parameters": "prior_range, prior_sigma, mesh_max_edge, mesh_cutoff",
+            "notes": (
+                "Combine inla_spde_st et inla_spde_group dans une seule route: champ "
+                "spatio-temporel separable espace x AR1 (argument time=) ET terme(s) de "
+                "formule '(1 | groupe)' traduits en composant(s) iid, ajustes simultanement. "
+                "Le moteur (inlaspde_fit_impl()) empilait deja les deux sans condition; "
+                "seul un nom d'estimateur/garde-fou dedie manquait cote harnais (exige les "
+                "deux: time= fourni ET un terme de groupe dans la formule, sinon erreur "
+                "explicite renvoyant vers inla_spde_st ou inla_spde_group). Motivee par "
+                "paper_mistletoe_bird_abundance, seul jeu du corpus dont le modele publie "
+                "combine reellement les deux structures (observateur/region x saison)."
+            ),
+            "wiki_key": "inla",
+        },
     ]
 )
 
@@ -820,6 +841,11 @@ ESTIMATOR_TAXONOMY: dict[str, dict[str, str | None]] = {
         "family": "INLA_SPDE", "role": "variant", "reference_estimator": "inla_spde", "variant_family": "group_random_effects",
         "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
         "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires an explicit '(1 | group)' term in the formula; fails explicitly otherwise.",
+    },
+    "inla_spde_st_group": {
+        "family": "INLA_SPDE", "role": "variant", "reference_estimator": "inla_spde", "variant_family": "space_time_group_random_effects",
+        "dashboard_group": "Bayesian Spatial", "response_typologies": ["continuous", "binary", "count"],
+        "compatibility_rule": "Coordinate-requiring routes additionally need usable spatial support. Requires BOTH an explicit time column (inla_time) AND an explicit '(1 | group)' term in the formula; fails explicitly otherwise.",
     },
 }
 
@@ -1630,6 +1656,94 @@ def _source_ref(body: str) -> str | None:
     return match.group(1) if match else None
 
 
+def parse_estimator_registry_block(text: str) -> list[dict[str, Any]]:
+    """Parse the machine-readable '## Registry' YAML block a wiki/estimators/
+    fiche may carry (inserted 2026-09-24, see wiki/estimators/inla.md for an
+    example). Not a general YAML parser: values are written with
+    ``json.dumps()`` by the block's writer, so each ``field: value`` line is
+    valid JSON after the colon and ``json.loads()`` reads it back exactly.
+    Avoids adding a PyYAML dependency this script has never needed otherwise.
+    Returns one dict per ``- estimator: ...`` entry, in file order; an
+    absent or malformed block yields an empty list rather than raising, so a
+    fiche without this section (or not yet migrated) is simply not an
+    override source.
+    """
+    section = re.search(r"^## Registry\n.*?```yaml\n(.*?)\n```", text, re.M | re.S)
+    if not section:
+        return []
+    entries: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
+    for line in section.group(1).splitlines():
+        m_entry = re.match(r"^  - estimator: (.+)$", line)
+        if m_entry:
+            if current is not None:
+                entries.append(current)
+            current = {"estimator": json.loads(m_entry.group(1))}
+            continue
+        m_field = re.match(r"^    ([a-zA-Z_]+): (.+)$", line)
+        if m_field and current is not None:
+            field, raw = m_field.groups()
+            try:
+                current[field] = json.loads(raw)
+            except json.JSONDecodeError:
+                continue
+    if current is not None:
+        entries.append(current)
+    return entries
+
+
+REGISTRY_FIELDS = {
+    "package", "backend", "requires_coords", "requires_W",
+    "spatial_args", "tunable_parameters", "notes",
+}
+TAXONOMY_FIELDS = {
+    "family", "role", "reference_estimator", "variant_family",
+    "dashboard_group", "response_typologies", "mode", "compatibility_rule",
+}
+
+
+def apply_estimator_registry_overrides(
+    registry: list[dict[str, Any]],
+    taxonomy: dict[str, dict[str, Any]],
+    wiki_key: str,
+    entries: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, dict[str, Any]]]:
+    """Return copies of ESTIMATOR_REGISTRY/ESTIMATOR_TAXONOMY with `entries`
+    (already parsed from one fiche's '## Registry' block) applied: an
+    estimator name already present is updated in place (the wiki fiche
+    wins over the Python seed value field by field), a new one is appended.
+    A field the wiki block omits keeps its prior value rather than being
+    dropped -- the migration writer skips `None`-valued fields (see
+    tmp_migrate_estimator_registry.py's render_block), so a naive full
+    replacement would silently delete e.g. `reference_estimator: null` /
+    `variant_family: null` from every migrated entry. Never mutates its
+    arguments -- callers that need the merged result across several fiches
+    fold this once per fiche.
+    """
+    registry = list(registry)
+    taxonomy = dict(taxonomy)
+    by_name = {row["estimator"]: i for i, row in enumerate(registry)}
+    for entry in entries:
+        name = entry["estimator"]
+        base_reg = dict(registry[by_name[name]]) if name in by_name else {}
+        base_tax = dict(taxonomy.get(name, {}))
+        reg_row = {**base_reg, "estimator": name, "wiki_key": wiki_key}
+        for field in REGISTRY_FIELDS:
+            if field in entry:
+                reg_row[field] = entry[field]
+        tax_row = dict(base_tax)
+        for field in TAXONOMY_FIELDS:
+            if field in entry:
+                tax_row[field] = entry[field]
+        if name in by_name:
+            registry[by_name[name]] = reg_row
+        else:
+            by_name[name] = len(registry)
+            registry.append(reg_row)
+        taxonomy[name] = tax_row
+    return registry, taxonomy
+
+
 def parse_estimator_fiches(paths: list[Path], repo_root: Path) -> dict[str, dict[str, Any]]:
     # Les fiches estimateurs enrichissent le registre package sans remplacer les
     # noms courts validés côté API.
@@ -1642,6 +1756,7 @@ def parse_estimator_fiches(paths: list[Path], repo_root: Path) -> dict[str, dict
             "title": yaml_title(text, path.stem),
             "wiki_path": str(path.relative_to(repo_root)).replace("\\", "/"),
             "metadata_status": "wiki_fiche_found",
+            "registry_entries": parse_estimator_registry_block(text),
         }
     return out
 
@@ -1649,9 +1764,19 @@ def parse_estimator_fiches(paths: list[Path], repo_root: Path) -> dict[str, dict
 def build_estimators_json(
     estimator_fiches: dict[str, dict[str, Any]],
     dataset_records: list[dict[str, Any]],
+    registry: list[dict[str, Any]] | None = None,
+    taxonomy: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
+    # `registry`/`taxonomy` default to the Python-seeded module globals, but
+    # `export_metadata()` passes in copies already overridden by any
+    # wiki/estimators/*.md '## Registry' block -- a wiki edit then reaches
+    # this JSON without touching this file, closing the gap documented in
+    # session notes 2026-09-24 (available_benchmark_estimators() previously
+    # never reflected a wiki/estimators/ edit).
+    registry = ESTIMATOR_REGISTRY if registry is None else registry
+    taxonomy = ESTIMATOR_TAXONOMY if taxonomy is None else taxonomy
     rows: list[dict[str, Any]] = []
-    for item in ESTIMATOR_REGISTRY:
+    for item in registry:
         row = dict(item)
         wiki_key = row.pop("wiki_key", row["estimator"]).lower()
         wiki = estimator_fiches.get(wiki_key, {})
@@ -1674,7 +1799,7 @@ def build_estimators_json(
                 "metadata_status": wiki.get("metadata_status", "package_registry_only"),
             }
         )
-        row.update(ESTIMATOR_TAXONOMY[row["estimator"]])
+        row.update(taxonomy[row["estimator"]])
         rows.append(row)
     return rows
 
@@ -1700,7 +1825,22 @@ def export_metadata(repo_root: Path) -> tuple[Path, Path]:
         for path in sorted(dataset_dir.glob("*.md"))
     ]
     estimator_fiches = parse_estimator_fiches(sorted(estimator_dir.glob("*.md")), repo_root)
-    estimator_records = build_estimators_json(estimator_fiches, dataset_records)
+    merged_registry, merged_taxonomy = ESTIMATOR_REGISTRY, ESTIMATOR_TAXONOMY
+    for wiki_key, fiche in estimator_fiches.items():
+        entries = fiche.get("registry_entries") or []
+        if entries:
+            merged_registry, merged_taxonomy = apply_estimator_registry_overrides(
+                merged_registry, merged_taxonomy, wiki_key, entries
+            )
+    _missing = sorted({r["estimator"] for r in merged_registry} - set(merged_taxonomy))
+    if _missing:
+        raise RuntimeError(
+            f"After applying wiki/estimators/ overrides, ESTIMATOR_TAXONOMY is still "
+            f"missing entries for: {', '.join(_missing)}."
+        )
+    estimator_records = build_estimators_json(
+        estimator_fiches, dataset_records, registry=merged_registry, taxonomy=merged_taxonomy
+    )
 
     datasets_json = package_metadata_dir / "datasets.json"
     estimators_json = package_metadata_dir / "estimators.json"

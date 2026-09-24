@@ -136,6 +136,28 @@ The manual `tidymodels` benchmark registers two native `parsnip` variants in
 
 Both use `parsnip::rand_forest(mode = "regression")` with engine `ranger`.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "random_forest_xy"
+    package: "ranger"
+    backend: "ranger::ranger"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords_as_covariates"
+    tunable_parameters: ""
+    family: "random_forest"
+    role: "variant"
+    reference_estimator: "random_forest"
+    variant_family: "coordinate_augmented"
+    dashboard_group: "Machine Learning"
+    response_typologies: ["continuous", "binary"]
+    notes: "Baseline random forest native tidymodels sur X et coordonnees brutes."
+```
+
 ## Related Pages
 
 - [[gam]]

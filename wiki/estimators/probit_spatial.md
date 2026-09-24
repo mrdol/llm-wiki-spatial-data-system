@@ -140,6 +140,40 @@ no naive random row-splits when observations are spatially dependent; `W`
 must be reconstructed consistently for each train/test split (`build_knn_W()`
 on train, then combined train+test for out-of-sample prediction).
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "sar_probit"
+    package: "ProbitSpatial"
+    backend: "ProbitSpatial::ProbitSpatialFit(DGP=SAR)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/W/k_neighbors/style/zero_policy"
+    tunable_parameters: "k_neighbors"
+    family: "SAR_probit"
+    role: "reference"
+    dashboard_group: "Spatial Econometrics"
+    response_typologies: ["binary"]
+    mode: "classification"
+    notes: "Probit spatial SAR (Martinetti & Geniaux, 2017) via sar_probit_reg(); reponse binaire uniquement."
+  - estimator: "sem_probit"
+    package: "ProbitSpatial"
+    backend: "ProbitSpatial::ProbitSpatialFit(DGP=SEM)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/W/k_neighbors/style/zero_policy"
+    tunable_parameters: "k_neighbors"
+    family: "SEM_probit"
+    role: "reference"
+    dashboard_group: "Spatial Econometrics"
+    response_typologies: ["binary"]
+    mode: "classification"
+    notes: "Probit spatial SEM (Martinetti & Geniaux, 2017) via sem_probit_reg(); reponse binaire uniquement."
+```
+
 ## Related Pages
 
 - [[mgwrsar]]
