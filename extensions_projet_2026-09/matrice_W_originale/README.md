@@ -27,6 +27,10 @@ Résultat ([`package_embedded_spatial_weights_audit.csv`](package_embedded_spati
 
 Cet audit répond à « est-ce que la W existe quelque part », pas encore à « dans quel cas de la méthodologie ci-dessus tombe chaque dataset » — c'est l'étape suivante.
 
+## Premier cas d'application (2026-09-10)
+
+[`cas_hainan_li_energy_2026-09-10.md`](cas_hainan_li_energy_2026-09-10.md) : reconstruction de W pour `paper_li_energy_price_co2_china` (30 provinces chinoises, panel SAR). Cas non couvert tel quel par la méthodologie ci-dessus : Hainan (île) est isolée dès la construction initiale, pas seulement après sous-échantillonnage -- `W²` ne s'applique pas à un noeud déjà nul à l'origine. Trois traitements comparés aux élasticités publiées par les auteurs (direct/indirect) ; le k plus proche voisin par distance de centroïde (vérifié géométriquement, pas supposé) se rapproche le plus du résultat publié, nettement mieux que l'exclusion pure (qui inverse le signe du résultat) ou qu'une convention de contiguïté non vérifiée.
+
 ## Prochaines étapes
 
 - [ ] Pour chacun des 15 jeux sans W source directe, déterminer si une W a été utilisée dans le papier/la doc d'origine et, si oui, comment elle a été construite (kNN, distance, contiguïté grille, contiguïté complexe) — ça détermine si elle est reconstructible ou non malgré l'absence de l'objet original.

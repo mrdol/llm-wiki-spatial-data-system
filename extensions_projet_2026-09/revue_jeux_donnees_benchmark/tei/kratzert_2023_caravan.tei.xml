@@ -1,0 +1,1448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Caravan -a global community dataset for large-sample hydrology</title>
+				<funder>
+					<orgName type="full">Google Faculty Research Award</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Verbund AG</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Linz Institute of Technology DeepFlood project</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Frederik</forename><surname>Kratzert</surname></persName>
+							<email>kratzert@google.com</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Vienna</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">✉</forename><surname>Grey</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Mountain View</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Nans</forename><surname>Addor</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Fathom, Square Works</orgName>
+								<address>
+									<settlement>Bristol</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="institution" key="instit1">Geography</orgName>
+								<orgName type="institution" key="instit2">University of Exeter</orgName>
+								<address>
+									<settlement>Exeter</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tyler</forename><surname>Erickson</surname></persName>
+							<affiliation key="aff4">
+								<address>
+									<settlement>Google Mountain View</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Martin</forename><surname>Gauch</surname></persName>
+							<affiliation key="aff5">
+								<orgName type="department">Institute for Machine Learning</orgName>
+								<orgName type="institution">Johannes Kepler University</orgName>
+								<address>
+									<settlement>Linz</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Oren</forename><surname>Gilon</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Tel Aviv</settlement>
+									<country key="IL">Israel</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lukas</forename><surname>Gudmundsson</surname></persName>
+							<affiliation key="aff7">
+								<orgName type="institution" key="instit1">Institute for Atmospheric and Climate Science</orgName>
+								<orgName type="institution" key="instit2">ETH Zurich</orgName>
+								<address>
+									<settlement>Zurich</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><surname>Hassidim</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Tel Aviv</settlement>
+									<country key="IL">Israel</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Daniel</forename><surname>Klotz</surname></persName>
+							<affiliation key="aff5">
+								<orgName type="department">Institute for Machine Learning</orgName>
+								<orgName type="institution">Johannes Kepler University</orgName>
+								<address>
+									<settlement>Linz</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Sella</forename><surname>Nevo</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Tel Aviv</settlement>
+									<country key="IL">Israel</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Guy</forename><surname>Shalev</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Tel Aviv</settlement>
+									<country key="IL">Israel</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Yossi</forename><surname>Matias</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution">Google Research</orgName>
+								<address>
+									<settlement>Tel Aviv</settlement>
+									<country key="IL">Israel</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Caravan -a global community dataset for large-sample hydrology</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">D04F24D8B5FE222BB168197A01DF2763</idno>
+					<idno type="DOI">10.1038/s41597-023-01975-w</idno>
+					<note type="submission">Received: 30 May 2022; Accepted: 18 January 2023;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:14+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>High-quality datasets are essential to support hydrological science and modeling. Several CaMELS (Catchment Attributes and Meteorology for Large-sample Studies) datasets exist for specific countries or regions, however these datasets lack standardization, which makes global studies difficult. This paper introduces a dataset called Caravan (a series of CaMELS) that standardizes and aggregates seven existing large-sample hydrology datasets. Caravan includes meteorological forcing data, streamflow data, and static catchment attributes (e.g., geophysical, sociological, climatological) for 6830 catchments. Most importantly, Caravan is both a dataset and open-source software that allows members of the hydrology community to extend the dataset to new locations by extracting forcing data and catchment attributes in the cloud. Our vision is for Caravan to democratize the creation and use of globally-standardized large-sample hydrology datasets. Caravan is a truly global open-source community resource.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>provides river discharge estimates at 10,000+ locations. Both of these collections, however, are not coupled with catchment attributes or meteorological forcing data. Critically, GSIM does not provide daily streamflow data (only indices), and GRDC does not allow for redistribution of raw data, which makes it difficult to standardize with other datasets. Furthermore, although data from 10,000+ stations are available through GRDC, both the quality of the available records and the period of record for individual basins varies significantly <ref type="bibr" target="#b29">30</ref> . On the other hand, HydroATLAS <ref type="bibr" target="#b30">31</ref> provides global catchment attributes, but does not include meteorological or streamflow data. There are also proprietary or non-public hydrological datasets that have been used for hydrological research-for example, datasets used by Beck et al. <ref type="bibr" target="#b31">32,</ref><ref type="bibr" target="#b32">33</ref> , for global model calibration or by Blöschl et al. <ref type="bibr" target="#b33">34</ref> for extrapolating climate change impacts on flooding (less than a third of one percent of the daily time series used in the latter study are publicly available, last access 20th March 2022). There are many reasons why proprietary datasets exist in today's research landscape. These often encompass causes that lie outside the domain of influences of individual research groups. However, from a scientific perspective, proprietary datasets are a roadblock to open, collaborative, reproducible, and extensible research.</p><p>Aside from the fact that no comprehensive, global LSH dataset exists, Addor et al. <ref type="bibr" target="#b16">17</ref> identified four major limitations of many of the existing region-specific datasets: (i) lack of common standards to allow for intercomparison, (ii) lack of metadata and uncertainty estimates to assess data reliability, (iii) lack of information about human interventions, and (iv) limited accessibility. Addor et al. <ref type="bibr" target="#b16">17</ref> also outlined desiderata for standardizing and automating the development of LSH datasets, including (i) basic data requirements, (ii) naming conventions for hydrologically-relevant variables, (iii) publicly available data processing code, (iv) uncertainty estimates, (v) anthropogenic descriptors, and (vi) adhering to FAIR data standards <ref type="bibr" target="#b34">35</ref> . They propose that community, cloud-based infrastructure could help overcome these limitations, by allowing for the use and development of standardized practices and codebases.</p><p>The Caravan dataset presented here is a step toward realizing this vision. The basis for Caravan is a collection of region-specific datasets, which are merged and standardized in a way that is designed with the following characteristics:</p><p>1. Standardized: Data are standardized globally meaning that the same meteorological and landscape variables exist for all catchments, and are derived using the same procedures from the same source datasets. 2. Open: All data are publicly available with an open license. 3. Extensible: All software tools and source datasets used to produce Caravan are open and accessible through a cloud platform (Google Earth Engine) to enable others to extend (i.e., add catchments to) the dataset.</p><p>The third point is especially important. Most streamflow gauges are maintained by local or national organizations, and the data from these gauges are rarely FAIR (Findable, Accessible, Interoperable and Re-usable). Caravan is designed to be extensible, so that anyone can easily derive meteorological forcings and landscape attributes for additional catchments using a standardized procedure. This allows new catchments to be used in the context of this larger dataset (e.g., for training models, assessing relative climate impacts, etc.), and it allows organizations with streamflow data from any number of catchments (from one to thousands) to quickly and easily add their data to the larger public Caravan dataset in a way that is standardized with all other catchment data. Our vision is for Caravan to be the platform for a larger community data resource-we see this as perhaps the most direct path to developing a truly open global hydrological dataset. The current Caravan dataset that we introduce here includes streamflow observations from 6830 basins, spanning most Global Environmental Stratification (GEnS) climate zones <ref type="bibr" target="#b35">36</ref> , with the exception of arctic, extreme cold, and arid zones (Fig. <ref type="figure" target="#fig_0">1</ref>). Caravan includes daily data from almost four decades (1981-2020), including catchments that experienced significant climate trends (Fig. <ref type="figure" target="#fig_1">2</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Basin selection &amp; streamflow data.</head><p>Daily streamflow observations for the 6830 basins currently in Caravan were aggregated from several existing open datasets:</p><p>• 482 basins from CAMELS (US) <ref type="bibr" target="#b26">27</ref> • 150 basins from CAMELS-AUS <ref type="bibr" target="#b18">19</ref> • 376 basins from CAMELS-BR <ref type="bibr" target="#b20">21</ref> • 314 basins from CAMELS-CL (using an updated Version from January 2022) <ref type="bibr" target="#b23">24</ref> • 408 basins from CAMELS-GB <ref type="bibr" target="#b25">26</ref> • 4621 basins from HYSETS <ref type="bibr" target="#b21">22</ref> • 479 basins from LamaH-CE <ref type="bibr" target="#b19">20</ref> These datasets were selected because (i) they include catchment boundaries for each streamflow gauge, and (ii) because their licenses allow redistribution. Furthermore, we currently only include basins equal or larger than 100 km 2 and smaller than 2000 km 2 . Streamflow data is normalized by catchment area to units of mm/day. All data are reported in the local time zone (non-daylight saving time for the entire year) of the gauge station, which is included in metadata.</p><p>Time periods of available streamflow observations varies between basins, however we did not include any streamflow data prior to 1981 because this is the beginning of the ERA5-Land reanalysis, which was used to derive meteorological forcing data. Figure <ref type="figure" target="#fig_2">3</ref> shows density of streamflow records through time (left) and the distribution of lengths of daily streamflow records (right), emphasizing that comparatively long flow time series are available for the Caravan catchments (the median length is 31 years).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Meteorological forcing data.</head><p>Caravan includes meteorological forcing data from ERA5-Land <ref type="bibr" target="#b36">37</ref> . This choice was made for the following reasons:</p><p>• Global coverage and spatial consistency: Although ERA5-Land data products are often lower-accuracy (i.e., more uncertain) than local, high-resolution meteorological data sets, only globally available data sets allow for comparative studies at a global scale.  • Sub-daily (e.g., hourly) resolution: All daily average streamflow observations in the source datasets are reported in the corresponding local time of the gauge station. In contrast, global meteorological data products are usually provided in GMT + 0. To be able to calculate the matching daily average meteorological forcing data for the daily averaged streamflow observation, it is therefore necessary to have sub-daily meteorological data, so that we can shift the meteorological data according to the local time zone of the gauge station, before computing daily aggregates.</p><p>• Availability in the cloud: one of our goals was to do all heavy computing tasks in the cloud (here: Google Earth Engine). ERA5-Land provides hourly data on Google Earth Engine.</p><p>• Permissive license: A core principle of Caravan is to democratize LSH datasets and dataset development.</p><p>ERA5-Land has a permissive license that allows free distribution.</p><p>ERA5-Land meteorological variables used in Caravan are listed in Table <ref type="table">1</ref>-these are typical variables used as forcing data (or boundary conditions) for hydrology and land surface models. We first computed the area-weighted spatial average for each variable in each catchment area from hourly spatial data (~9km spatial resolution) and shifted the hourly time series (natively at GMT + 0) to the local time of each gauge. We then computed different daily statistics for each variable according to the Aggregation column in Table <ref type="table">1</ref>.</p><p>reference model states. In addition to meteorological forcing data, Caravan includes time series of modeled soil moisture and snow states from ERA5-Land (Table <ref type="table" target="#tab_0">2</ref>). These time series are included to provide reference values or benchmark values for studies that analyze or model hydrological states. These time series data were processed in the same way as meteorological forcing data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Catchment attributes.</head><p>Caravan includes two sets of catchment attributes: (i) attributes derived from HydroATLAS <ref type="bibr" target="#b30">31,</ref><ref type="bibr" target="#b37">38</ref> and (ii) climate attributes derived from the daily ERA5-Land time series included in Caravan. The latter are similar to the climate attributes provided in CAMELS-US <ref type="bibr" target="#b27">28</ref> . The reasons for choosing HydroATLAS as the source for the former are similar to the reasons for choosing ERA5-Land for time series data: HydroATLAS has global coverage with a license that allows for redistribution.</p><p>The catchment attributes derived from HydroATLAS use the highest resolution shape file available in that dataset (level 12). The level 12 HydroATLAS polygons are, for the vast majority of basins, smaller than the catchment boundaries for each gauge station provided by the respective CAMELS datasets-i.e., a single polygon representing the drainage area for a specific gauge include multiple HydroATLAS polygons. Therefore, we first computed the spatial join of the HydroATLAS polygons and the catchment boundaries and then derived the catchment attributes as an area-weighted aggregate (see the Aggregation column in Tables <ref type="table">3</ref>, <ref type="table" target="#tab_1">4</ref>). Catchment Feature (ERA5-Land variable name) Aggregation Unit Precipitation (total_precipitation) Daily sum mm/day Potential evaporation (potential_evaporation)i Daily sum mm/day Air temperature (temperature_2m) Daily min/max and mean °C Dew point temperature (dewpoint_temperature_2m) Daily min/max and mean °C Shortwave radiation (surface_net_solar_radiation) Daily min/max and mean Wm -2 Net thermal radiation at the surface (surface_net_thermal_radiation) Daily min/max and mean Wm -2 Surface pressure (surface_pressure) Daily min/max and mean kPa Eastward wind component (u_component_of_wind_10m) Daily min/max and mean ms -1 Northward wind component (v_component_of_wind_10m) Daily min/max and mean ms -1 Table 1. ERA5-Land meteorological variables. Daily aggregates are computed in local time of each basin. i: Be cautious with these values as they include unrealistically high values, see also <ref type="bibr" target="#b19">20</ref> .</p><p>attributes included in Caravan can be loosely grouped into the following categories: hydrology, physiography, climatology, soils &amp; geology, land cover characteristics, and anthropogenic influences. A full list of all catchment attributes derived from HydroATLAS is given in Tables 3-5 contains a list of attributes that were derived from ERA5-Land time series. Lastly, Table <ref type="table">6</ref> lists additional attributes that are also included in Caravan, such as the latitude and longitude coordinates of each gauge station, the station name, the country of the gauge station location and the catchment area.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data processing in the cloud.</head><p>The major computational challenge for developing LSH datasets is processing gridded meteorological and attributes data. To make the development and augmentation of Caravan as democratic as possible (i.e., to make it as easy as possible for anyone to add new watersheds or new data layers to the dataset), all of our data processing scripts use Google Earth Engine via Python APIs. Google Earth Engine <ref type="bibr" target="#b38">39</ref> is a free-to-use cloud service with a large catalogue of geospatial data, including all of the datasets described above.</p><p>The Caravan data processing scripts interact with Earth Engine directly through APIs, so that there is no need for individuals to download data from Earth Engine outside of these scripts. This has two benefits: it is not necessary for users to download and store large amounts of gridded meteorological data, and does not require any specific hardware. Any individual hydrologist, modeler, researcher, or student should be able to process even large numbers of new watersheds with minimal effort or expense. All that is necessary to add a new gauge to the Caravan dataset is a shapefile representing the drainage area of the catchment, plus a timeseries of daily or subdaily streamflow (discharge) values from that gauge in local time. Instructions about how to add new catchments to Caravan are provided in a Readme file in the dataset repository.  Table 3. First set of catchment attributes derived from HydroATLAS that are included in Caravan from the groups Hydrology, Physiography, and Climate. Table 5. Climate attributes derived from ERA5-Land time series.</p><p>The dataset is organized into the following subfolders:</p><p>• The attributes folder contains one subfolder per source dataset, which each contain two csv (comma separated values) files. One file ('attributes_hydroatlas_{source}.csv') contains attributes derived from HydroATLAS and the other file ('attributes_caravan_{source}.csv') contains limate indices derived from ERA5-Land, where {source} indicates the corresponding source data set (e.g. camelsgb for CAMELS-GB, camelscl for CAM-ELS-CL, and so on). The first column in all attributes file is called 'gauge_id' and contains a unique basin identifier of the form '{source}_{id}' , where {source} again is the abbreviation of the corresponding source dataset, and {id} is the basin id as defined in the original source dataset.</p><p>• The shapefiles folder contains one subfolder per source dataset. Each of these subfolders contains a shapefile with the catchment boundaries of each basin within that dataset. These are the shapefiles that were used to derive the catchment attributes and ERA5-Land time series data. Each polygon in a given shapefile has a field 'gauge_id' that contains the unique basin identifier.</p><p>• The timeseries folder contains two subfolders, csv and netcdf, that both share the same structure and contain the same data, once as csv-files and once as netCDF files. Each of these two subfolders contains one subfolder per source dataset. Within these source dataset specific subdirectories, there is one file (either csv or netCDF) per basin, containing all time series data (meteorological forcings, state variables, and streamflow). The netCDF files also contain metadata information, including physical units, timezones, and information on the data sources.</p><p>• The code folder contains all scripts and Jupyter notebooks that were used to derive the data set. These scripts can be used to extend the data set to any new basin in the world. Instructions are included in the README. md file contained in this folder.</p><p>• The licenses folder contains license information of all data included in Caravan and for Caravan itself. General license information are listed in the README.md file in this directory, source dataset specific information are listed in the files located in the source dataset specific subdirectories.</p><p>• The README.md file in the main directory includes a description of the dataset structure, information on the units of time series data, and time zones.</p><p>All time series data except streamflow are aggregated (daily and spatially over basins) from ERA5-Land. ERA5-Land is available directly from <ref type="bibr" target="#b40">41</ref> , however we used the Google Earth Engine repository. HydroATLAS attributes were derived from the HydroATLAS dataset <ref type="bibr" target="#b41">42</ref> . Streamflow time series are collected from the respective region-specific repositories: Australia <ref type="bibr" target="#b42">43</ref> , Brazil <ref type="bibr" target="#b43">44</ref> , Canada <ref type="bibr" target="#b21">22</ref> , Chile <ref type="bibr" target="#b44">45</ref> , Great Britain <ref type="bibr" target="#b45">46</ref> , LamaH-CE (Austrian territory and Danube catchment up to Bratislava) <ref type="bibr" target="#b46">47</ref> , and the United States: <ref type="bibr" target="#b47">48</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>technical Validation aggregating HydroatLaS attributes.</head><p>The majority of catchment attributes are derived from HydroATLAS. The key challenge in extracting data from HydroAtlas is to define which HydroATLAS polygons are within a given gauge's drainage area. The primary complication is that all datasets-i.e., the various CAMELS datasets and HydroATLAS use shapefiles derived from different digital elevation maps (DEM) at different spatial resolution. This means that catchment boundaries from the source datasets do not perfectly align with the polygons in HydroATLAS. An example of this is shown in Fig. <ref type="figure" target="#fig_5">4</ref>. This figure shows the drainage area for a particular gauge, as specified by the shapefile in the CAMELS dataset (first subpanel), the collocated HydroATLAS subbasin polygons (second panel), and the mismatch between the two due to different datasets deriving catchment boundaries from different DEMs (third panel).</p><p>Because of this mismatch along catchment boundaries between different watershed delineations in different datasets, we chose to only include gauges with total drainage areas of at least 100 km 2 . In smaller catchments, this boundary effect can represent a significant fraction of the total area of the catchment-an example of this is illustrated in Fig. <ref type="figure" target="#fig_4">5</ref>. To quantify this area mismatch, we included a static feature called area_fraction_used_for_ aggregation, which is the fraction of the area used for the aggregation and the total catchment area. In Fig. <ref type="figure" target="#fig_5">4c</ref>, this would be the fraction of the green area by the sum of the green and orange areas. The distribution of these values across all basins is shown in Fig. <ref type="figure" target="#fig_6">6</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Validating meteorological time series.</head><p>Like most data about the natural environment, hydrological data is typically associated with significant uncertainty. Quantifying uncertainty is a central part of hydrological research <ref type="bibr" target="#b48">49,</ref><ref type="bibr" target="#b49">50</ref> , and usually involves intensive field campaigns <ref type="bibr" target="#b50">51,</ref><ref type="bibr" target="#b51">52</ref> , statistical comparison between several data products <ref type="bibr" target="#b52">[53]</ref><ref type="bibr" target="#b53">[54]</ref><ref type="bibr" target="#b54">[55]</ref> , or modeling studies <ref type="bibr" target="#b55">56,</ref><ref type="bibr" target="#b56">57</ref> -all of which are outside the scope of the current project. We can, however,</p><p>Attribute Description Unit gauge_lat Latitude coordinate of the gauge -gauge_lon Longitude coordinate of the gauge -gauge_name Station name country Country of the gauge location area Catchment area km 2</p><p>Table 6. Metadata and other attributes.</p><p>statistically verify the processing tools that were used to develop the Caravan data from existing datasets. We did this verification by comparing Caravan-derived meteorological forcings (from ERA5-Land) with forcings from CAMELS-US. CAMELS-US was chosen because it includes three independent meteorological data sources (NLDAS, Maurer, DayMet), which allows us to contextualize the variability between CAMELS-US forcings and Caravan forcings. There will always be some amount of variability between any two meteorological datasets, and having three meteorological data products allows us to contextualize any variability between Caravan features and CAMELS-US features. We calculated the correlation (Pearson r) between each pair of forcing data products (NLDAS, Maurer, DayMet, ERA5-Land) separately in each basin (n = 482) for three meteorological variables: total daily precipitation and daily maximum and minimum temperatures. We then used a set of one-tailed, paired t-tests to test hypotheses that for each of the three meteorological variables, correlations between Caravan and any individual CAMELS-US data product were significantly (α = 0.90) lower than correlations between each pair of CAMELS-US forcing products. Figure <ref type="figure" target="#fig_7">7</ref> shows the results of these tests. Although certain forcings are more highly correlated than others (e.g., DayMet and Maurer are more highly correlated than DayMet and NLDAS), correlations between Caravan and CAMELS-US data products were not consistently lower than correlations between different CAMELS-US data products.  <ref type="figure" target="#fig_5">4b</ref>) from looking at the gauge location, it can be seen that the larger of the two intersections (blue) is in the neighboring HydroATLAS polygon that should not contribute when deriving the catchment attributes. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Usage Notes</head><p>Our vision for Caravan is as the foundation of a dynamically growing community LSH dataset that anyone in the hydrology community can access and augment. Currently, the spatial distribution of basins included in Caravan is limited to a few regions in the world, see Fig. <ref type="figure" target="#fig_0">1</ref>. We hope that some users will be willing (and allowed) to share their data, so that Caravan, over time, will contain discharge data from most parts of the world. In fact, while this manuscript was in review, a community extension was provided, adding 308 basins from Denmark <ref type="bibr" target="#b57">58</ref> . Detailed instructions for adding new catchments to Caravan are provided in the dataset repository, as well as in the code repository. This includes all code necessary to derive meteorological and attributes data on Google Earth Engine for any new basin globally. All computation can be done for free using Google Earth Engine.</p><p>In the introduction, we noted that Addor et al. <ref type="bibr" target="#b16">17</ref> listed six desiderata for LHS datasets. Caravan meets five of those six criteria-the missing desideratum is to have uncertainty estimates on all data components. Assessing uncertainty in hydrological data is difficult without relying on strong assumptions (often, some type of hydrological model), and we expect that future work will apply various methods for quantifying the uncertainty in global rainfall-runoff datasets. Perhaps that a comparison of the attributes and timeseries provided in Carvan, and those from the LSH original datasets, could provide new insights into their uncertainty, and inform the selection of datasets for hydrology.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Top: Global distribution of catchments included in Caravan. Bottom: Distribution of the 6830 Caravan catchments among the Global Environmental Stratification (GEnS) climate zones. The bottom part of the plots shows the fraction of a particular climate zone on the total land mass.</figDesc><graphic coords="3,98.64,46.50,456.00,362.28" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 Number of catchments in Caravan (6830 basins over ~40 years of data) with statistically significant (α = 0.05) trends in three variables: mean temperature, precipitation, and discharge, assessed by an unmodified Mann-Kendall test. All data were averaged monthly before computing statistical trends.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3</head><label>3</label><figDesc>Fig. 3 Density of active Caravan gauge records through time (left) and distribution of water-years worth of data from each of 6830 basins in Caravan (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Feature ( ERA5 -</head><label>ERA5</label><figDesc>Land variable name) Aggregation UnitSnow water equivalent (snow_depth_water_equivalent) Daily min/max and mean mm Soil water volume 0-7 cm (volumetric_soil_water_layer_1) Daily min/max and mean m 3 /m<ref type="bibr" target="#b2">3</ref> Soil water volume 7-28 cm (volumetric_soil_water_layer_2) Daily min/max and mean m 3 /m<ref type="bibr" target="#b2">3</ref> Soil water volume 28-100 cm (volumetric_soil_water_layer_3) Daily min/max and mean m 3 /m<ref type="bibr" target="#b2">3</ref> Soil water volume 100-289 cm (volumetric_soil_water_layer_4) Daily min/max and mean m 3 /m<ref type="bibr" target="#b2">3</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5</head><label>5</label><figDesc>Fig. 5 Example of small basin that was excluded from the dataset. (a) The orange polygon (bold outline) denotes the catchment, the two grey polygons (thin outlines) are the surrounding HydroATLAS polygons, and the white dot denotes the catchment outlet. (b) Shows the two intersecting areas of the HydroATLAS polygons with the catchment area. Both areas are a) smaller the minimum intersection area explained in Fig.4b) from looking at the gauge location, it can be seen that the larger of the two intersections (blue) is in the neighboring HydroATLAS polygon that should not contribute when deriving the catchment attributes.</figDesc><graphic coords="8,155.40,285.94,324.00,184.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Visualization of the process of selecting HydroATLAS polygons for deriving catchment attributes for one randomly selected catchment. (a) The orange polygon (bold outline) is the catchment of interest, as represented by a shapefile from one of the CAMELS datasets. Grey polygons (thin outlines) are HydroATLAS (level 12) polygons of the surrounding area. The white dot denotes the catchment outlet (gauge location) and blue lines denote the river network. (b) Shows all HydroATLAS polygons or subsections of HydroATLAS polygons that intersect with the catchment polygon. Note that due to different underlying digital elevation maps, the boundaries of the polygons do not match perfectly. This leads to small intersection artifacts at catchment boundary. To alleviate this problem we excluded small polygons (smaller than 5km2) when deriving the area weighted catchment attributes from HydroATLAS. c) Shows the excluded (orange) intersecting polygons and the area used for deriving attributes (green).</figDesc><graphic coords="8,98.64,46.50,456.00,97.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 6</head><label>6</label><figDesc>Fig.6Histogram showing the fraction of the catchment area that is considered when aggregating the HydroATLAS attributes across all basins. Considering Fig.4c, this value is computed as the fraction of the green area by the sum of the green and orange area.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 7</head><label>7</label><figDesc>Fig.7Results of one-way, paired t-tests with the null hypothesis (H0) that per-basin correlation coefficients between Caravan meteorological data and any given CAMELS-US meteorological data product (NLDAS, DayMet, Maurer) are not significantly lower than per-basin correlation coefficients between a given pair of CAMELS-US meteorological data products. The null hypothesis for the test in each grid cell compares correlations between Caravan and the CAMELS-US data product on the y-axis vs. correlations between the CAMELS-US data products on the x-and y-axes. Rejecting the null hypothesis indicates that the Caravanrelated correlations are significantly lower than the correlations between the two CAMELS-US products (α = 0.9).</figDesc><graphic coords="9,98.64,284.14,456.00,153.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>ERA5-Land model state variables. Daily aggregates are computed in local time of each basin.</figDesc><table><row><cell>Group</cell><cell>Description (HydroATLAS name)</cell><cell>Aggregation</cell><cell>Unit</cell></row><row><cell></cell><cell>Natural discharge (dis_m3_p[mn, mx,yr])</cell><cell>annual min/max/mean</cell><cell>m 3 s -1</cell></row><row><cell></cell><cell>Land surface runoff (run_mm_syr)</cell><cell>spatial mean of sub-basin runoff</cell><cell>mm</cell></row><row><cell></cell><cell>Inundation extent (inu_pc_s[mn, mx, lt])</cell><cell cols="2">annual min/mean and long-term max %</cell></row><row><cell></cell><cell>Limnicity -percent lake area (lka_pc_sse)</cell><cell>spatial extent</cell><cell>%</cell></row><row><cell>Hydrology</cell><cell>Lake Volume (lkv_mc_usu) Reservoir volume (rev_mc_usu)</cell><cell>at reach pour point at reach pour point</cell><cell>10 6 m 3 10 6 m 3</cell></row><row><cell></cell><cell>Degree of regulation (dor_pc_pva)</cell><cell>index at reach pour point</cell><cell></cell></row><row><cell></cell><cell>River area (ria_ha_ssu)</cell><cell>at reach pour point</cell><cell>hectares</cell></row><row><cell></cell><cell>River volume (ria_tc_ssu)</cell><cell>at reach pour point</cell><cell>10 3 m 3</cell></row><row><cell></cell><cell>Groundwater table depth (gwt_cm_sav)</cell><cell>spatial mean</cell><cell>cm</cell></row><row><cell></cell><cell>Elevation (ele_mt_s[av, mn, mx])</cell><cell>spatial mean/min/max</cell><cell>m above sea level</cell></row><row><cell>Physiography</cell><cell>Terrain slope (slp_dg_sav)</cell><cell>spatial mean</cell><cell>° (x10)</cell></row><row><cell></cell><cell>Stream gradient (sgr_dk_sav)</cell><cell>mean of reach segments</cell><cell>dm/km</cell></row><row><cell></cell><cell>Climate zones from GEnS (clz_cl_smj)</cell><cell>spatial majority</cell><cell>classes (n = 18)</cell></row><row><cell></cell><cell>Climate strata from GeNS (cls_cl_smj)</cell><cell>spatial majority</cell><cell>classes (n = 125)</cell></row><row><cell></cell><cell>Air temperature (tmp_dc_s[01-12, mn, mx, yr])</cell><cell cols="2">monthly mean, annual mean/min/max °C (x10)</cell></row><row><cell></cell><cell>Precipitation (pre_mm_s[01-2, yr])</cell><cell>monthly mean, annual mean</cell><cell>mm</cell></row><row><cell>Climate</cell><cell cols="2">Potential evapotranspiration (pet_mm_s[01-12, yr]) monthly mean, annual mean</cell><cell>mm</cell></row><row><cell></cell><cell>Actual evapotranspiration (aet_mm_s[01-12, yr])</cell><cell>monthly mean, annual mean</cell><cell>mm</cell></row><row><cell></cell><cell>Global aridity index (ari_ix_sav)</cell><cell>spatial mean</cell><cell>index value (x10)</cell></row><row><cell></cell><cell>Climate moisture index (cmi_ix_s[01-12, yr])</cell><cell>monthly mean, annual mean</cell><cell>index value (x10)</cell></row><row><cell></cell><cell>Snow cover extent (snw_pc_s[01-12, mx, yr])</cell><cell>monthly mean, annual max/mean</cell><cell>% cover</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 4 .</head><label>4</label><figDesc>Second set of catchment attributes derived from HydroATLAS that are included in Caravan from the groups Land Cover, Soils &amp; Geology, and Anthropogenic.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Scientific Data | (2023) 10:61 | https://doi.org/10.1038/s41597-023-01975-w</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>acknowledgements</head><p>Frederik Kratzert was partially supported by a <rs type="funder">Google Faculty Research Award</rs> (PI: <rs type="person">Sepp Hochreiter</rs>, <rs type="person">JKU Linz</rs>). <rs type="person">Daniel Klotz</rs> was partially supported by <rs type="funder">Verbund AG</rs>. <rs type="person">Martin Gauch</rs> was supported by the <rs type="funder">Linz Institute of Technology DeepFlood project</rs>. We would like to thank <rs type="person">Shaun Harrigan</rs> and <rs type="person">Ervin Zsoter</rs> at <rs type="institution">ECMWF</rs> for help the ERA5-Land data product. We would also like to thank <rs type="person">Kurt Schwehr</rs> with the Google Earth Engine team for helping facilitate public access to the HydroATLAS dataset. Additionally, we would like to thank <rs type="person">Jon Schwenk</rs>, who reported a problem with how we derived some of the attributes and helped finding a solution. This work is a contribution to the large-sample hydrology working group of the <rs type="institution">Panta Rhei research initiative of the International Association of Hydrological Sciences (IAHS)</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data records</head><p>The current version of the Caravan dataset (6830 watersheds) <ref type="bibr" target="#b39">40</ref> is available at <ref type="url" target="https://doi.org/10.5281/zenodo.7540792">https://doi.org/10.5281/  zenodo.7540792</ref>. A project homepage is available at <ref type="url" target="https://github.com/kratzert/Caravan/">https://github.com/kratzert/Caravan/</ref>, including all code and where news and updates are announced.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code availability</head><p>The code that was used to produce the Caravan dataset is available at <ref type="url" target="https://github.com/kratzert/Caravan/">https://github.com/kratzert/Caravan/</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>The authors declare no competing interests.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>author contributions</head><p>All co-authors (F.K., G.N., N.A., T.E., M.G., O.G., L.G., A.H., D.K., S.N., G.S., Y.M.) were involved in developing the concept for this dataset through extensive discussions about requirements, scope, and current data availability. F.K. wrote most of the data processing code, T.E. wrote parts code for processing data on Earth Engine. G.N. did the trend analysis and comparison between ERA5-Land and CAMELS-US. F.K. created all figures. All co-authors participated in writing the manuscript.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Group Description (HydroATLAS name) Aggregation Unit</head><p>Land Cover</p><p>Land cover classes (glc_cl_smj) spatial majority classes (n = 22) Land cover extent (glc_pc_s[01-22]) spatial mean % cover Potential natural vegetation classes (pnv_cl_smj) spatial majority classes (n = 15) Potential natural vegetation extent (pnv_pc_s[01-15]) spatial mean % cover Wetland classes (wet_cl_smj) spatial majority classes (n = 12) Wetland extent (wet_pc_s[01-09, g1, g2]) spatial mean % cover &amp; grouping Forest cover extent (for_pc_sse) spatial mean % cover Cropland extent (crp_pc_sse) spatial mean % cover Pasture extent (pst_pc_sse) spatial mean % cover Irrigated area extent (equipped) (ire_pc_sse) spatial mean % cover Permafrost extent (prm_pc_sse) spatial mean % cover Protected area extent (pac_pc_sse) spatial mean % cover Terrestrial biomes (tbi_cl_smj) spatial majority classes (n = 14) Terrestrial ecoregions (tec_cl_smj) spatial majority classes (n = 846) Freshwater major habitat types (fmh_cl_smj) spatial majority classes (n = 13) Freshwater ecoregions (fec_cl_smj) spatial majority classes (n = 426) Soils &amp; Geology Clay fraction in soil (cly_pc_sav) spatial mean % Silt fraction in soil (slt_pc_sav) spatial mean % Sand fraction in soil (snd_pc_sav) spatial mean % Organic carbon content in soil (soc_th_sav) spatial mean tonnes/hectare Soil water content (swc_pc_s[01-12, yr]) monthly mean, annual mean % Lithological classes (lit_cl_smj) spatial majority classes (n = 16) Karst area extent (kar_pc_sse) spatial mean % cover Soil erosion (ero_kh_sav) spatial mean kg/hectare/yr Anthropogenic Population count (pop_ct_usu) at reach pour point count (thousands) Population density (ppd_pk_sav) spatial mean people per km 2 Urban extent (urb_pc_sse) spatial mean % cover Nighttime lights (nli_ix_sav) spatial mean index value (x100) Road density (rdd_mk_sav) spatial mean m/km 2 Human footprint (hft_ix_s[93,09]) spatial mean for 1993 &amp; 2009 index value (x100) Gross domestic product (gdp_ud_sav) spatial mean USD ($) Human development index (hdi_ix_sav) spatial mean index value (x1000)</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">The usda-ars experimental watershed network: Evolution, lessons learned, societal benefits, and moving forward</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Goodrich</surname></persName>
+		</author>
+		<idno>WR026473</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<date type="published" when="2019">2019. 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The watershed-ecosystem approach</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Likens</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.13977</idno>
+		<ptr target="https://doi.org/10.1002/hyp.13977" />
+	</analytic>
+	<monogr>
+		<title level="m">Hydrological Processes 35, e13977</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Expanding the scale of aquatic sciences: the role of the national ecological observatory network (neon)</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Goodman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Parker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Edmonds</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">H</forename><surname>Zeglin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Freshwater Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="377" to="385" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Proposal to construct a coordinating matrix for comparative hydrology</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kovács</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrological Sciences Journal</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="435" to="443" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Comparative hydrology: An ecological approach to land and water resources</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Falkenmark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chapman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+			<pubPlace>Unesco</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Large sample basin experiments for hydrological model parameterization: results of the model parameter experiment-MOPEX</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Andreassian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chahinian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schaake</surname></persName>
+		</author>
+		<editor>Andreassian, V., Hall, A., Chahinian, N. &amp; Schaake, J.</editor>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>IAHS Press</publisher>
+			<biblScope unit="volume">307</biblScope>
+			<biblScope unit="page" from="1" to="5" />
+			<pubPlace>Wallingford</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Introduction and synthesis: Why should hydrologists work on a large number of basin data sets</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Twenty-three unsolved problems in hydrology (uph)-a community perspective</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Blöschl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrological sciences journal</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="1141" to="1158" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Large-sample hydrology: a need to balance depth with breadth</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">V</forename><surname>Gupta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="463" to="477" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Streamflow trends in europe: evidence from a dataset of near-natural catchments</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Stahl</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-14-2367-2010</idno>
+		<ptr target="https://doi.org/10.5194/hess-14-2367-2010" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="2367" to="2382" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Anthropogenic climate change detected in european renewable freshwater resources</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Seneviratne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Climate Change</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="813" to="816" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Observed trends in global indicators of mean and extreme streamflow</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Leonard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">X</forename><surname>Do</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Westra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Seneviratne</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2018GL079725</idno>
+		<ptr target="https://doi.org/10.1029/2018GL079725" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophysical Research Letters</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="756" to="766" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Globally observed trends in mean and extreme river flow attributed to climate change</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<idno type="DOI">10.1126/science.aba3996</idno>
+		<ptr target="https://doi.org/10.1126/science.aba3996" />
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">371</biblScope>
+			<biblScope unit="page" from="1159" to="1162" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Towards learning universal, regional, and local hydrological behaviors via machine learning applied to large-sample datasets</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Kratzert</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-23-5089-2019</idno>
+		<ptr target="https://doi.org/10.5194/hess-23-5089-2019" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="5089" to="5110" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Toward improved predictions in ungauged basins: Exploiting the power of machine learning</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Kratzert</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2019WR026065</idno>
+		<ptr target="https://doi.org/10.1029/2019WR026065" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="11344" to="11354" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Grun: an observation-based global gridded runoff dataset from 1902 to 2014</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Ghiggi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Humphrey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Seneviratne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/essd-11-1655-2019</idno>
+		<ptr target="https://doi.org/10.5194/essd-11-1655-2019" />
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1655" to="1674" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">G-run ensemble: A multi-forcing observation-based global runoff reanalysis</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Ghiggi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Humphrey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Seneviratne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2020WR028787</idno>
+		<ptr target="https://doi.org/10.1029/2020WR028787" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note>e2020WR028787</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Large-sample hydrology: recent progress, guidelines for new datasets and grand challenges</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrological Sciences Journal</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="712" to="725" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Large sample basin experiments for hydrological model parameterization: results of the model parameter experiment-MOPEX</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schaake</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Cong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Duan</surname></persName>
+		</author>
+		<editor>Andreassian, V., Hall, A., Chahinian, N. &amp; Schaake, J.</editor>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>IAHS Press</publisher>
+			<biblScope unit="volume">307</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<pubPlace>Wallingford</pubPlace>
+		</imprint>
+	</monogr>
+	<note>The US MOPEX data set</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">CAMELS-AUS: hydrometeorological time series and landscape attributes for 222 catchments in australia</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Fowler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Acharya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Peel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="3847" to="3867" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">LamaH-CE: Large-sample data for hydrology and environmental sciences for central europe</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Klingler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Schulz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Herrnegger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="4529" to="4565" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">CAMELS-BR: hydrometeorological time series and landscape attributes for 897 catchments in brazil</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">B</forename><surname>Chagas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2075" to="2096" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A comprehensive, multisource database for hydrometeorological modeling of 14,425 north american watersheds</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Arsenault</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific Data</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="12" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">CCAM: China catchment attributes and meteorology dataset</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Hao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="5591" to="5616" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">The CAMELS-CL dataset: catchment attributes and meteorology for large sample studies-chile dataset</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Alvarez-Garreton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="5817" to="5846" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Understanding hydrologic variability across europe through catchment classification</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kuentz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Arheimer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hundecha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="2863" to="2879" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">CAMELS-GB: Hydrometeorological time series and landscape attributes for 671 catchments in great britain</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Coxon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2459" to="2483" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Development of a large-sample watershed-scale hydrometeorological data set for the contiguous usa: data set characteristics and assessment of regional variability in hydrologic model performance</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Newman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="209" to="223" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The CAMELS data set: catchment attributes and meteorology for largesample studies</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mizukami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="5293" to="5313" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The global streamflow indices and metadata archive (gsim)-part 1: The production of a daily streamflow archive and metadata</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">X</forename><surname>Do</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Leonard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Westra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="765" to="785" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gudmundsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">X</forename><surname>Do</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Leonard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Westra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The global streamflow indices and metadata archive (GSIM)-part 2: Quality control, time-series indices and homogeneity assessment</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="787" to="804" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Global hydro-environmental sub-basin and river reach characteristics at high spatial resolution</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Linke</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41597-019-0300-6</idno>
+		<ptr target="https://doi.org/10.1038/s41597-019-0300-6" />
+	</analytic>
+	<monogr>
+		<title level="j">Scientific data</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1" to="15" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Global-scale regionalization of hydrologic model parameters</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Beck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="3599" to="3622" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Global fully distributed parameter regionalization based on observed streamflow from 4,229 headwater catchments</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Beck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geophysical Research: Atmospheres</title>
+		<imprint>
+			<biblScope unit="volume">125</biblScope>
+			<biblScope unit="page">31485</biblScope>
+			<date type="published" when="2019">2019. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Changing climate both increases and decreases european river floods</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Blöschl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">573</biblScope>
+			<biblScope unit="page" from="108" to="111" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">The fair guiding principles for scientific data management and stewardship</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Wilkinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific data</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1" to="9" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">A high-resolution bioclimate map of the world: a unifying framework for global biodiversity research and monitoring</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Metzger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecology and Biogeography</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="630" to="638" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Era5-land: A state-of-the-art global reanalysis dataset for land applications</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Muñoz-Sabater</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="4349" to="4383" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">Hydroatlas version 1.0 data download</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lehner</surname></persName>
+		</author>
+		<idno type="DOI">10.6084/m9.figshare.9890531.v1</idno>
+		<ptr target="https://doi.org/10.6084/m9.figshare.9890531.v1" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Google earth engine: Planetary-scale geospatial analysis for everyone</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Gorelick</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.rse.2017.06.031</idno>
+		<ptr target="https://doi.org/10.1016/j.rse.2017.06.031" />
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Caravan -A global community dataset for large-sample hydrology (Version 1.0)</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Kratzert</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/ZENODO.7540792</idno>
+		<ptr target="https://doi.org/10.5281/ZENODO.7540792" />
+	</analytic>
+	<monogr>
+		<title level="j">Zenodo</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">Era5-land hourly data from 1981 to present</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Muñoz Sabater</surname></persName>
+		</author>
+		<idno type="DOI">10.24381/cds.e2161bac</idno>
+		<ptr target="https://doi.org/10.24381/cds.e2161bac" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lehner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Linke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Thieme</surname></persName>
+		</author>
+		<idno type="DOI">10.6084/m9.figshare.9890531.v1</idno>
+		<ptr target="https://doi.org/10.6084/m9.figshare.9890531.v1" />
+		<title level="m">Hydroatlas version 1.0. Figshare</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">CAMELS-AUS v1: Hydrometeorological time series and landscape attributes for 222 catchments in australia</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Fowler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Acharya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Peel</surname></persName>
+		</author>
+		<idno type="DOI">10.1594/PANGAEA.921850</idno>
+		<ptr target="https://doi.org/10.1594/PANGAEA.921850" />
+	</analytic>
+	<monogr>
+		<title level="j">PANGAEA</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">CAMELS-BR: Hydrometeorological time series and landscape attributes for 897 catchments in brazil</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">B P</forename><surname>Chagas</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.3964745</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.3964745" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">The CAMELS-CL dataset: catchment attributes and meteorology for large sample studies -chile dataset</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Alvarez-Garreton</surname></persName>
+		</author>
+		<idno type="DOI">10.1594/PANGAEA.894885</idno>
+		<ptr target="https://doi.org/10.1594/PANGAEA.894885" />
+	</analytic>
+	<monogr>
+		<title level="j">PANGAEA</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Catchment attributes and hydro-meteorological timeseries for 671 catchments across great britain (CAMELS-GB)</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Coxon</surname></persName>
+		</author>
+		<idno type="DOI">10.5285/8344e4f3-d2ea-44f5-8afa-86d2987543a9</idno>
+		<ptr target="https://doi.org/10.5285/" />
+	</analytic>
+	<monogr>
+		<title level="m">NERC Environmental Information Data Centre</title>
+		<imprint>
+			<date type="published" when="2020">8344e4f3-d2ea-44f5-8afa-86d2987543a9. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Large-sample data for hydrology and environmental sciences for central europe</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Klingler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Kratzert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Schulz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Herrnegger</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lamah-Ce</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.5153305</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.5153305" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">A large-sample watershed-scale hydrometeorological dataset for the contiguous usa</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Newman</surname></persName>
+		</author>
+		<idno type="DOI">10.5065/D6MW2F4D</idno>
+		<ptr target="https://doi.org/10.5065/D6MW2F4D" />
+	</analytic>
+	<monogr>
+		<title level="m">UCAR/NCAR -GDEX</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Hydrological data uncertainty and its implications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">K</forename><surname>Westerberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krueger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Water</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">1319</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Facets of uncertainty: epistemic uncertainty, non-stationarity, likelihood, hypothesis testing, and communication</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Beven</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrological Sciences Journal</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="1652" to="1665" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Validation of smap surface soil moisture products with core validation sites</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Colliander</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">191</biblScope>
+			<biblScope unit="page" from="215" to="231" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Uncertainty analysis of the trmm ground-validation radar-rainfall products: Application to the teflun-b field campaign</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Habib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">F</forename><surname>Krajewski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of applied meteorology</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="558" to="572" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Information theoretic evaluation of satellite soil moisture retrievals</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Dirmeyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">D</forename><surname>Peters-Lidard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bindlish</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bolten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">204</biblScope>
+			<biblScope unit="page" from="392" to="400" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Nonparametric triple collocation</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Nearing</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="5516" to="5530" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Characterization of precipitation product errors across the united states using multiplicative triple collocation</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Alemohammad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Mccoll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Konings</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Entekhabi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stoffelen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="3489" to="3503" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Rainfall uncertainty in hydrological modelling: An evaluation of multiplicative error models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Jackson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Woods</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Hydrology</title>
+		<imprint>
+			<biblScope unit="volume">400</biblScope>
+			<biblScope unit="page" from="83" to="94" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Assessing rating-curve uncertainty and its effects on hydraulic model calibration</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Domeneghetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Castellarin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Brath</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrology and Earth System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="1191" to="1202" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title level="m" type="main">Caravan extension Denmark -Danish dataset for large-sample hydrology</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Koch</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.6762361</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.6762361" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">A quantitative hydrological climate classification evaluated with independent streamflow data</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">J M</forename><surname>Knoben</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Freer</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2018WR022913</idno>
+		<ptr target="https://doi.org/10.1029/2018WR022913" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resources Research</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="5088" to="5109" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

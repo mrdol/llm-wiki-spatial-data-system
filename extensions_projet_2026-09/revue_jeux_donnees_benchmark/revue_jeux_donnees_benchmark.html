@@ -134,9 +134,24 @@
     <a href="#economie">Économétrie</a>
     <a href="#vieillissement">Vieillissement des benchmarks</a>
     <a href="#kaggle">Et sur Kaggle ?</a>
+    <a href="#lecture-integrale">11 lectures</a>
+    <a href="#comparaison-suites">Suites</a>
+    <a href="#documentation">Documentation</a>
+    <a href="#hydrologie">Hydrologie</a>
     <a href="#positionnement">Notre data paper</a>
+    <a href="#texte-datapaper">Texte réutilisable</a>
     <a href="#biblio">Bibliographie</a>
   </nav>
+
+
+  <section id="cadrage-20260908">
+    <div class="sec-label">Articulation du projet — 8 septembre</div>
+    <h2>Datapaper réel et extension plasmode</h2>
+    <p>Le datapaper documente les sources, leur harmonisation et les tâches reproductibles. Un dataset catalogué, une tâche admise et une expérience exécutée restent trois objets distincts. Cette revue ne définit pas une nouvelle liste d'admission.</p>
+    <p>Le volet semi-synthétique retient désormais exclusivement le plasmode. Un pilote examine information omise, forme inadéquate et mesure dégradée. Il reste une extension méthodologique ; son intégration et sa place finale dans le manuscrit restent à discuter.</p>
+    <p><a href="../../wiki/analyses/protocole_plasmode_spatial_2026-09-08.md">Protocole</a> · <a href="../revue_donnees_semi_synthetiques/pilot_output_2026-09-08/rapport_pilote.html">Résultats</a></p>
+    <p>La lecture complémentaire invalide l'affirmation selon laquelle les dépôts existants documenteraient mal la dimension spatiale en général. CAMELS-US, LamaH-CE et Caravan offrent des précédents solides pour les supports, les sources par variable, les limites, la topologie, les contrôles physiques et les transformations reproductibles. La contribution du projet doit être formulée par la combinaison qu'il propose, sans revendication d'exclusivité.</p>
+  </section>
 
   <section id="cadrage">
     <div class="sec-label">Objectif</div>
@@ -204,7 +219,7 @@
 
     <div class="entry">
       <div class="entry-head"><div class="entry-name">Ames Housing (De Cock)</div><div class="entry-meta">2011, popularisé par la compétition Kaggle « House Prices » <span class="pill standard">le remplaçant direct de Boston</span></div></div>
-      <p>Créé explicitement <strong>comme alternative moderne à Boston Housing</strong> pour l'enseignement de la régression : 2919 observations, 79 variables explicatives, aucune des dérives éthiques de Boston. Devenu l'une des compétitions Kaggle les plus populaires pour débuter en régression. Le meilleur exemple trouvé d'un jeu qui a réussi la transition « on remplace un classique daté par quelque chose de mieux construit » — exactement la position qu'occupe notre projet vis-à-vis des jeux spatiaux existants.</p>
+      <p>Créé explicitement <strong>comme alternative moderne à Boston Housing</strong> pour l'enseignement de la régression : 2930 observations dans le jeu original de De Cock ; versions dérivées à distinguer, aucune des dérives éthiques de Boston. Devenu l'une des compétitions Kaggle les plus populaires pour débuter en régression. Le meilleur exemple trouvé d'un jeu qui a réussi la transition « on remplace un classique daté par quelque chose de mieux construit » — exactement la position qu'occupe notre projet vis-à-vis des jeux spatiaux existants.</p>
       <div class="refs">voir biblio [12]</div>
     </div>
   </section>
@@ -280,33 +295,100 @@
     <p>Conclusion pratique : la présence sur Kaggle suit surtout l'accessibilité pédagogique (facile à comprendre, régression/classification simple) plutôt que la rigueur scientifique — les jeux spatiaux avec dépendance (W, coordonnées) restent à peu près absents de Kaggle, ce qui est cohérent avec l'idée que notre catalogue vise une audience différente (chercheurs en économétrie spatiale) plutôt qu'un public Kaggle généraliste.</p>
   </section>
 
+  <section id="lecture-integrale">
+    <div class="sec-label">Lecture du 14 septembre 2026</div>
+    <h2>Onze articles complémentaires lus intégralement</h2>
+    <p>La lecture complète conduit à distinguer quatre objets : une collection standardisée de datasets comme PMLB, une suite de tâches versionnée comme OpenML, un harnais d'exécution comme AMLB, et une banque scientifique de domaine comme CAMELS, LamaH-CE ou Caravan. Notre projet est une banque documentée ; il ne devient une suite de benchmark que pour les entrées dont la cible, les splits et la métrique sont figés, et un benchmark exécuté seulement lorsqu'un run est effectivement conservé.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Article</th><th>Apport retenu</th><th>Conséquence</th></tr></thead><tbody>
+      <tr><td>OpenML Suites</td><td>La tâche associe dataset, cible, procédure, splits et métrique.</td><td>Séparer l'identifiant du dataset de celui de la tâche.</td></tr>
+      <tr><td>PMLB v1.0</td><td>Interface uniforme, YAML, JSON Schema et profil automatique.</td><td>Ajouter un noyau de métadonnées machine-validable.</td></tr>
+      <tr><td>AMLB</td><td>Versions, ressources, prédictions, inférence et échecs sont conservés.</td><td>Publier budgets, timeout et règle des runs manquants.</td></tr>
+      <tr><td>TableShift</td><td>Quinze tâches ID/OOD ; aucune méthode robuste ne domine uniformément.</td><td>Déclarer la cible de chaque split spatial ou temporel.</td></tr>
+      <tr><td>Datasheets</td><td>Documentation du cycle de vie, de la motivation à la maintenance.</td><td>Ajouter collecte, exclusions, usages déconseillés et maintenance.</td></tr>
+      <tr><td>TabZilla</td><td>36 tâches difficiles retenues après 19 méthodes sur 176 datasets.</td><td>Ne qualifier la difficulté qu'après un pilote.</td></tr>
+      <tr><td>TabReD</td><td>Huit datasets riches ; le split aléatoire change scores et rangs.</td><td>Préserver les dates et les panels parents.</td></tr>
+      <tr><td>FAIR</td><td>Identifiants, accès, relations, licence et provenance.</td><td>Relier données, articles, transformations, tâches et runs.</td></tr>
+      <tr><td>CAMELS-US</td><td>671 bassins et six familles d'attributs documentées.</td><td>Documenter sources et limites par variable.</td></tr>
+      <tr><td>LamaH-CE</td><td>859 bassins, trois délimitations et topologie hydrographique.</td><td>Documenter supports multiples et relations entre unités.</td></tr>
+      <tr><td>Caravan</td><td>6 830 bassins harmonisés et pipeline extensible.</td><td>Tracer les transformations et versionner les ajouts.</td></tr>
+    </tbody></table></div>
+    <p>La synthèse détaillée est conservée dans <code>lecture_integrale_et_comparaison_2026-09-14.md</code>.</p>
+  </section>
+
+  <section id="comparaison-suites">
+    <div class="sec-label">Analyse comparative</div>
+    <h2>De la collection au benchmark exécuté</h2>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Système</th><th>Objet</th><th>Ce qui est figé</th><th>Leçon</th></tr></thead><tbody>
+      <tr><td>OpenML</td><td>suite de tâches</td><td>cible, splits, métrique, procédure</td><td>une suite est composée de tâches, pas seulement de fichiers</td></tr>
+      <tr><td>PMLB</td><td>collection standardisée</td><td>format et métadonnées</td><td>schéma et interfaces rendent la collection réutilisable</td></tr>
+      <tr><td>AMLB</td><td>harnais</td><td>versions, ressources et exécution</td><td>les échecs ne doivent pas disparaître du classement</td></tr>
+      <tr><td>TableShift</td><td>transfert hors domaine</td><td>domaines train/test</td><td>le split encode une question scientifique</td></tr>
+      <tr><td>TabZilla</td><td>suite de difficulté</td><td>tâches et résultats bruts</td><td>la difficulté dépend des baselines observées</td></tr>
+      <tr><td>TabReD</td><td>benchmark temporel</td><td>chronologie et variables riches</td><td>le split aléatoire peut inverser les conclusions</td></tr>
+    </tbody></table></div>
+    <div class="callout"><div class="callout-label">Structure proposée</div><p>Le projet doit distinguer <code>Dataset</code>, <code>BenchmarkTask</code>, <code>BenchmarkSuite</code> et <code>BenchmarkRun</code>. Le catalogue peut contenir des datasets sans tâche ; seuls les datasets admis avec une tâche exécutable appartiennent au noyau benchmark.</p></div>
+  </section>
+
+  <section id="documentation">
+    <div class="sec-label">Datasheets + FAIR</div>
+    <h2>Exigences documentaires du data paper</h2>
+    <p>Chaque dataset doit disposer d'un identifiant et d'une version, d'une citation, d'une description de l'unité et du support spatial, des étendues géographique et temporelle, des sources et de l'échantillonnage, d'un dictionnaire des variables, des transformations et exclusions, des contrôles de qualité, des limites et incertitudes, de la licence, des usages déconseillés et d'un plan de maintenance.</p>
+    <p>La provenance doit être séparée pour Y, X, coordonnées, géométrie et W. Le brut doit être conservé ou son indisponibilité expliquée. Les métadonnées doivent rester accessibles si les données disparaissent et être exportables sous une forme machine-lisible.</p>
+    <p>Une tâche benchmark ajoute réponse, formule, population d'inférence, objectif de transfert, splits exacts, métriques, baseline, estimateurs éligibles, budget, tuning, règle d'échec et versions logicielles. Le spatial exige aussi CRS, niveau d'agrégation, provenance et ordre de W, unités sans voisin, relations de réseau et lien entre panel parent et coupes.</p>
+  </section>
+
+  <section id="hydrologie">
+    <div class="sec-label">Comparaison de banques spatiales</div>
+    <h2>CAMELS, LamaH-CE et Caravan face à notre banque</h2>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Dimension</th><th>CAMELS-US</th><th>LamaH-CE</th><th>Caravan</th><th>Notre banque</th></tr></thead><tbody>
+      <tr><td>Portée</td><td>671 bassins CONUS</td><td>859 bassins, 9 pays</td><td>6 830 bassins mondiaux</td><td>domaines et supports multiples</td></tr>
+      <tr><td>Temps</td><td>quotidien, 1980–2014</td><td>quotidien/horaire, 1981–2017</td><td>quotidien, 1981–2020</td><td>variable, avec panels et coupes</td></tr>
+      <tr><td>Structure</td><td>bassins et attributs agrégés</td><td>3 délimitations et réseau</td><td>7 banques harmonisées</td><td>points, polygones, grilles, réseaux, panels</td></tr>
+      <tr><td>Qualité</td><td>comparaison de sources</td><td>drapeaux et contrôles physiques</td><td>intersections et forçages contrôlés</td><td>audits et revues de fidélité</td></tr>
+      <tr><td>Benchmark</td><td>pas de tâche universelle</td><td>baseline, pas de split universel</td><td>références, pas de suite universelle</td><td>tâches pour un noyau admis</td></tr>
+    </tbody></table></div>
+    <div class="callout"><div class="callout-label">Positionnement corrigé</div><p>Ces banques hydrologiques sont déjà fortement documentées. Notre contribution défendable est de couvrir plusieurs domaines spatiaux et de relier provenance, formule publiée et artefacts ; puis d'ajouter à un noyau explicite des tâches et une exécution multi-estimateurs reproductible.</p></div>
+  </section>
+
   <section id="positionnement">
     <div class="sec-label">Application</div>
     <h2>Ce que ça suggère pour le data paper</h2>
     <div class="reco">
       <div class="reco-row">
         <div class="term">modèle à suivre</div>
-        <div class="def">OpenML (suites versionnées + résultats de référence publiés) et Monash Archive (baselines publiées avec chaque jeu) sont les deux modèles les plus proches de ce qu'on veut faire : pas juste distribuer des données, mais un format standardisé + des résultats de référence pour chaque dataset.</div>
+        <div class="def">Combiner quatre précédents : le schéma uniforme de PMLB, les tâches et suites versionnées d'OpenML, la traçabilité d'exécution d'AMLB et la documentation scientifique par support et par variable de CAMELS/LamaH/Caravan.</div>
       </div>
       <div class="reco-row">
         <div class="term">argument de légitimité</div>
-        <div class="def">Le duo Boston→Ames / Adult→folktables donne un argument concret et déjà accepté par la communauté : un catalogue mieux documenté peut légitimement remplacer des classiques, sans avoir besoin d'être plus gros — juste plus traçable.</div>
+        <div class="def">Le besoin ne vient pas d'une absence générale de dépôts spatiaux, mais de la dispersion des fonctions : collections tabulaires standardisées d'un côté, banques spatiales de domaine de l'autre, et peu de ponts explicites entre provenance scientifique, formule, W, validation et exécution statistique.</div>
       </div>
       <div class="reco-row">
         <div class="term">angle différenciant</div>
-        <div class="def">Aucun des dépôts généralistes (UCI, PMLB, OpenML) ne gère la dimension spatiale (coordonnées, W, dépendance) ; les dépôts spatiaux existants (spData) sont anciens et non standardisés au niveau métadonnées/provenance. C'est l'angle vide à occuper dans le data paper.</div>
+        <div class="def">La banque couvre plusieurs domaines et supports sous un vocabulaire commun ; distingue la provenance de Y, X, coordonnées, géométrie, temps et W ; relie les formules aux publications ; conserve les relations panel parent–coupes ; et sépare catalogue, tâche admise, suite et run exécuté.</div>
       </div>
       <div class="reco-row">
-        <div class="term">à ne pas oublier</div>
-        <div class="def">Documenter la provenance (licence, source, formule confirmée) au niveau où le fait Wooldridge pour l'économétrie — c'est un standard de documentation déjà connu et accepté, pas une exigence exotique qu'on invente.</div>
+        <div class="term">limite de la revendication</div>
+        <div class="def">Le projet n'est présenté ni comme le premier dépôt spatial, ni comme un remplacement de CAMELS ou Caravan, ni comme une suite entièrement exécutable. Seul le noyau ayant franchi les contrôles d'artefact, de spécification et de qualité constitue le benchmark.</div>
       </div>
     </div>
+  </section>
+
+  <section id="texte-datapaper">
+    <div class="sec-label">Introduction et discussion</div>
+    <h2>Formulation directement réutilisable dans le data paper</h2>
+    <h3>Introduction — positionnement</h3>
+    <p>General-purpose benchmark resources and spatial scientific data banks address complementary parts of reproducible evaluation. PMLB standardizes access and metadata, OpenML represents targets, splits and metrics as reusable tasks, and AMLB records execution constraints and failures. In parallel, CAMELS-US, LamaH-CE and Caravan demonstrate rigorous documentation of spatial supports, variable provenance, processing decisions, uncertainty and network structure. These precedents show that spatial documentation is not absent; rather, its strongest implementations remain concentrated in particular scientific domains and are not generally connected to cross-domain statistical task specifications.</p>
+    <p>We present a provenance-aware, cross-domain spatial data bank that connects these functions. The resource records the analytical roles and lineage of responses, covariates, coordinates, geometries, temporal indices and spatial weights; distinguishes published formulas from curator-defined benchmark specifications; preserves parent panels when cross-sectional derivatives are distributed; and separates documented datasets, admitted tasks, benchmark suites and executed runs. The contribution is the combination of cross-domain coverage, source-to-formula provenance, explicit spatial modeling objects and a controlled bridge to reproducible statistical evaluation.</p>
+    <h3>Discussion — portée et limites</h3>
+    <p>The comparison with established resources bounds the contribution. The bank does not replace domain repositories and does not imply that every catalogued dataset is benchmark-ready. Its role is to make heterogeneous spatial records inspectable through a shared analytical vocabulary and to retain the evidence required to construct defensible tasks. Catalogue size, executable benchmark size and completed-run counts must therefore be reported separately.</p>
+    <p>Spatial and temporal partitions must also be treated as scientific assumptions. Evidence from TableShift and TabReD shows that changing the transfer setting can alter scores and method rankings. Each admitted task must consequently state whether it targets interpolation, spatial extrapolation, temporal forecasting or new units, and retain the corresponding split, metric, spatial weights and software environment. Remaining limitations include uneven source metadata, unavailable published formulas or weight matrices, and the heterogeneity inherent in cross-domain coverage.</p>
+    <p>La version développée, avec transitions et citations auteur–année, est conservée dans <code>synthese_introduction_discussion_datapaper_2026-09-14.md</code>.</p>
   </section>
 
   <section id="limites">
     <div class="sec-label">Périmètre</div>
     <h2>Limites de ce premier passage</h2>
-    <p>Recherche web d'une session, pas une lecture exhaustive. Angles pas creusés : la littérature strictement statistique (au sens « stat pure », par opposition à ML/économétrie) sur les jeux canoniques (iris, mtcars, diabetes...) — probablement moins pertinente pour notre positionnement spatial mais à vérifier ; et une revue plus fine des suites de benchmark en vision/NLP (ImageNet, GLUE) pour voir si leur documentation de provenance a des leçons transposables, au-delà de ce qui est déjà couvert ici.</p>
+    <p>Les onze articles complémentaires ont été lus intégralement, mais cette revue ne vérifie pas l'état actuel des plateformes après leur publication. Aucun dataset hydrologique n'a été téléchargé ni exécuté. Restent hors périmètre la littérature strictement statistique sur les jeux canoniques, les suites vision/NLP et une recherche ciblée sur les benchmarks spatiaux de Kaggle.</p>
   </section>
 
   <section id="biblio">
@@ -354,10 +436,27 @@
         <li>Wooldridge, J.M. — Introductory Econometrics: A Modern Approach<span class="note">Cengage — package <code>wooldridge</code> (R/Python), 115 jeux documentés avec source et page du manuel</span></li>
       </ol>
     </div>
+
+    <div class="biblio-group">
+      <h3>Lectures complémentaires intégrales — 14 septembre 2026</h3>
+      <ol class="biblio">
+        <li>Bischl, B. et al. (2021) — OpenML Benchmarking Suites<span class="note">NeurIPS Datasets and Benchmarks ; tâches, suites et splits reproductibles</span></li>
+        <li><a href="https://doi.org/10.1093/bioinformatics/btab727" target="_blank" rel="noopener">Romano, J.D. et al. (2022) — PMLB v1.0</a><span class="note">Bioinformatics ; collection standardisée, métadonnées et interfaces R/Python</span></li>
+        <li>Gijsbers, P. et al. (2024) — AMLB: an AutoML Benchmark<span class="note">Journal of Machine Learning Research ; ressources, exécution et analyse des échecs</span></li>
+        <li>Gardner, J., Popović, Z. &amp; Schmidt, L. (2023) — Benchmarking Distribution Shift in Tabular Data with TableShift<span class="note">NeurIPS Datasets and Benchmarks ; 15 tâches ID/OOD</span></li>
+        <li><a href="https://doi.org/10.1145/3458723" target="_blank" rel="noopener">Gebru, T. et al. (2021) — Datasheets for Datasets</a><span class="note">Communications of the ACM ; documentation du cycle de vie</span></li>
+        <li>McElfresh, D. et al. (2023) — When Do Neural Nets Outperform Boosted Trees on Tabular Data?<span class="note">NeurIPS Datasets and Benchmarks ; TabZilla</span></li>
+        <li>Rubachev, I. et al. (2025) — TabReD: Analyzing Pitfalls and Filling the Gaps in Tabular Deep Learning Benchmarks<span class="note">ICLR 2025 ; splits temporels et variables riches</span></li>
+        <li><a href="https://doi.org/10.1038/sdata.2016.18" target="_blank" rel="noopener">Wilkinson, M.D. et al. (2016) — The FAIR Guiding Principles</a><span class="note">Scientific Data ; métadonnées exploitables par humains et machines</span></li>
+        <li><a href="https://doi.org/10.5194/hess-21-5293-2017" target="_blank" rel="noopener">Addor, N. et al. (2017) — The CAMELS data set</a><span class="note">671 bassins des États-Unis contigus</span></li>
+        <li><a href="https://doi.org/10.5194/essd-13-4529-2021" target="_blank" rel="noopener">Klingler, C., Schulz, K. &amp; Herrnegger, M. (2021) — LamaH-CE</a><span class="note">859 bassins d'Europe centrale, réseau et séries horaires</span></li>
+        <li><a href="https://doi.org/10.1038/s41597-023-01975-w" target="_blank" rel="noopener">Kratzert, F. et al. (2023) — Caravan</a><span class="note">6 830 bassins harmonisés et infrastructure extensible</span></li>
+      </ol>
+    </div>
   </section>
 
   <footer>
-    1ᵉʳ passage compilé à partir d'une recherche web le 7 septembre 2026 — à recouper avec une lecture directe des papiers avant citation dans le data paper.
+    Premier passage du 7 septembre 2026, enrichi par la lecture intégrale des onze articles complémentaires le 14 septembre 2026.
   </footer>
 
 </div>
