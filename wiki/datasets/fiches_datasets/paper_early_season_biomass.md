@@ -2,7 +2,7 @@
 title: paper_early_season_biomass
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-23
 sources:
   - data/final_datasets/sf/paper_early_season_biomass.rds
   - DataCite_2024_EarlySeasonBiomassAnd_10_1002_ael2_201
@@ -126,6 +126,24 @@ formula_candidates:
     estimator_context: []
     status: "unavailable"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: site_id
+- Panel time: time_key
+- N units: 18
+- N periods: 512
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_early_season_biomass_W.rds`
+- W unit order source: kNN k=8 (defaut du projet, spatial_knn_args()) sur les 18 sites distincts -- voir code/r_catalog/build_early_season_biomass_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-23 : le papier (Huddell et al. 2024, TEI verifie en detail -- section 'Statistical analyses' lue integralement) utilise un GLMM (lme4::glmer) avec intercepts aleatoires imbriques par localisation et par bloc ('random intercepts for each location and for blocks (nested under each location) to address the non-independence of repeated measurements within the same locations and blocks through time') -- aucune matrice de poids spatiale, cette W kNN=8 est une **specification geographique inventee par le projet**. Deux points trouves en verifiant : (1) la colonne `site` (texte libre) est ambigue -- 25 valeurs distinctes pour seulement 18 lieux physiques reels (variantes de libelle du meme lieu selon l'annee/la source, ex. 'AR Fayetteville' vs 'AR Fayetteville, AR') -- `site_id` materialise a partir des coordonnees arrondies (3 decimales) resout ceci ; (2) `plant_date` est frequemment NA et ne suffit pas a distinguer les parcelles simultanees (blocs/plots multiples au meme site la meme annee) -- `time_key` (annee + index de ligne, materialise) remplace `plant_date` comme `Panel time` pour garantir l'unicite (site, periode).
 
 ## Bloc 2 - Identification et DOI
 

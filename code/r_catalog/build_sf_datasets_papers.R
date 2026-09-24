@@ -1464,6 +1464,18 @@ load_midwest_crop_yield <- function() {
   regdat$county_key <- norm_county(regdat$County)
 
   counties_sf <- tigris::counties(state = unname(state_abb), cb = TRUE, year = 2020, class = "sf")
+  # St. Louis, Missouri: an independent city (NAMELSAD="St. Louis city",
+  # LSAD="25") and the surrounding county (NAMELSAD="St. Louis County",
+  # LSAD="06") share the exact same NAME="St. Louis" -- norm_county() alone
+  # collapses both to "STLOUIS", producing a many-to-one merge (each
+  # regdat row for CountyI=493 fanned out into 2 rows, one per geometry,
+  # found via validate_spatial_panel_data() duplicate-key check, session
+  # 2026-09-22). regdat has exactly one row per year for this county (crop
+  # yield data -- the independent city has essentially no agricultural
+  # production, so the intended match is the county, not the city); exclude
+  # LSAD="25" (independent city) county-equivalents before the join so only
+  # true counties remain candidates.
+  counties_sf <- counties_sf[counties_sf$LSAD != "25", ]
   counties_sf$county_key <- norm_county(counties_sf$NAME)
 
   merged <- merge(counties_sf[, c("STUSPS", "county_key", "geometry")], regdat,
@@ -3577,10 +3589,33 @@ load_pollinator_urbanization_meta <- function() {
 # Geometrie : aucun shapefile inclus dans le depot -- jointe par nom de
 # concelho normalise (majuscules, accents retires) a la couche ADM2 publique
 # geoBoundaries (source ouverte CC0, https://www.geoboundaries.org, PRT/ADM2,
-# 311 unites), verifiee empiriquement : 298/308 concelhos apparies (96.8%),
-# les 10 non apparies etant des ambiguites de denomination attendues (deux
-# concelhos nommes "Lagoa" -- Acores/Algarve -- ou "Calheta" -- Madere/
-# Acores -- au Portugal), documentees et exclues plutot qu'approximees.
+# 311 unites).
+#
+# Correction du 2026-09-23 (trouve en testant le harnais panel,
+# validate_spatial_panel_data() refusait 340 couples cle-date dupliques) :
+# la version precedente de ce loader pretendait exclure les concelhos
+# ambigus mais faisait en realite un merge() standard qui les FUSIONNAIT
+# silencieusement (many-to-many), dupliquant chaque ligne DGS sous les deux
+# geometries candidates. 5 cles de geoBoundaries sont concernees, de deux
+# natures differentes (verifie par distance de centroide + intersection
+# geometrique, PAS suppose) :
+#   - CALHETA (centroides a 1166 km, Madere vs Acores/Faial) et LAGOA
+#     (1510 km, Algarve vs Acores/Sao Miguel) sont de VRAIS homonymes
+#     administratifs -- deux communes portugaises distinctes portant le
+#     meme nom (corrobore par le portail officiel Autarquico portugais,
+#     qui liste separement Calheta/Madeira et Calheta de Sao Jorge/Acores,
+#     ainsi que Lagoa/Faro et Lagoa/Sao Miguel). dgs_data_concelhos_new.csv
+#     n'a pas de colonne region/distrito pour desambiguiser par nom seul --
+#     EXCLUES plutot que jointes au hasard, meme convention que le loader
+#     leptospirose voisin pour le meme type d'ambiguite.
+#   - ILHAVO (7 km), MONTIJO (29 km) et OLIVEIRA DE FRADES (13.6 km,
+#     polygones se touchant) sont bien plus proches -- aucune homonymie
+#     municipale officielle identifiee pour ces trois noms (contrairement a
+#     Calheta/Lagoa) ; tres probablement UNE SEULE commune scindee en deux
+#     features dans geoBoundaries (Ilhavo est notoirement traversee par la
+#     lagune de la Ria de Aveiro). Ces trois sont FUSIONNEES par
+#     sf::st_union() (une geometrie par cle) plutot qu'exclues, pour ne pas
+#     perdre 3 communes reelles sans raison.
 load_portugal_covid_municipal <- function() {
   dir <- find_paper_raw_dir("DatasetFirst_10_5281_zenodo_11222023")
   geo_path <- file.path(dir, "extracted", "geoBoundaries-PRT-ADM2.geojson")
@@ -3594,13 +3629,28 @@ load_portugal_covid_municipal <- function() {
   }
   shp$key <- norm_name(shp$shapeName)
 
+  ambiguous_homonym_keys <- c("CALHETA", "LAGOA")
+  split_feature_keys <- c("ILHAVO", "MONTIJO", "OLIVEIRA DE FRADES")
+
+  shp_clean <- shp[!shp$key %in% ambiguous_homonym_keys, ]
+  for (k in split_feature_keys) {
+    idx <- which(shp_clean$key == k)
+    if (length(idx) < 2L) next
+    unioned_geom <- sf::st_union(sf::st_geometry(shp_clean)[idx])
+    keep <- idx[[1]]
+    sf::st_geometry(shp_clean)[keep] <- unioned_geom
+    shp_clean <- shp_clean[-idx[-1], ]
+  }
+  stopifnot(!anyDuplicated(shp_clean$key))
+
   df <- utils::read.csv(file.path(dir, "dgs_data_concelhos_new.csv"),
                         fileEncoding = "UTF-8", stringsAsFactors = FALSE)
   df$key <- norm_name(df$concelho)
   df <- df[!is.na(df$incidencia) & !is.na(df$population) &
              !is.na(df$densidade_populacional), ]
 
-  sf_obj <- merge(shp[, c("key", "shapeName", "geometry")], df, by = "key", all.x = FALSE)
+  sf_obj <- merge(shp_clean[, c("key", "shapeName", "geometry")], df, by = "key", all.x = FALSE)
+  stopifnot(!anyDuplicated(paste(sf_obj$key, sf_obj$data)))
 
   list(
     obj = sf_obj,
@@ -4073,7 +4123,668 @@ load_korea_hedonic_housing_pre1989 <- function() {
   )
 }
 
+# --- 2016 US county election (A01) --------------------------------------
+# Comber & Harris (2018, doi:10.1007/s10109-018-0280-7) analyse 3,108
+# mainland-US county equivalents. The response comes from Tony McGovern's
+# 2016 county results. The five predictors are reconstructed from the exact
+# vintages named in the paper: ACS 2011-2015, PEP July 1 2015, and Census
+# 2010 population density. The paper says that county outlines came from
+# maps 3.1.1, but that database exposes only 3,075 distinct FIPS and omits
+# 33 Virginia independent cities in the election table. The complete 3,108
+# geometries therefore come from the official Census 2015 county layer; the
+# maps mismatch must remain documented in the fiche rather than hidden.
+load_us_county_election_2016 <- function() {
+  dir <- file.path(REPO_ROOT, "data", "raw", "papers",
+                   "A01_US_county_election_results")
+  election_path <- file.path(dir, "2016_US_County_Level_Presidential_Results.csv")
+  acs_zip <- file.path(dir, "ACS_2015_5YR_COUNTY.gdb.zip")
+  pep_path <- file.path(dir, "cc-est2015-alldata.csv")
+
+  election <- utils::read.csv(election_path, stringsAsFactors = FALSE,
+                              check.names = FALSE)
+  election <- election[, nzchar(names(election)), drop = FALSE]
+  election$election_geoid_original <-
+    sprintf("%05d", as.integer(election$combined_fips))
+  election$GEOID <- election$election_geoid_original
+  # Shannon County (46113) was renamed Oglala Lakota County and received
+  # FIPS 46102 in 2015. The election source retains the former code.
+  election$GEOID[election$GEOID == "46113"] <- "46102"
+  election <- election[!election$state_abbr %in% c("AK", "HI"), , drop = FALSE]
+  election$trump_support <- as.integer(election$votes_gop > election$votes_dem)
+
+  zip_norm <- normalizePath(acs_zip, winslash = "/", mustWork = TRUE)
+  gdb <- paste0("/vsizip/", zip_norm, "/ACS_2015_5YR_COUNTY.gdb")
+  counties <- sf::st_read(gdb, layer = "ACS_2015_5YR_COUNTY", quiet = TRUE)
+  education <- sf::st_read(gdb, layer = "X15_EDUCATIONAL_ATTAINMENT",
+                           quiet = TRUE)
+  employment <- sf::st_read(gdb, layer = "X23_EMPLOYMENT_STATUS",
+                            quiet = TRUE)
+
+  education$pct_bachelors_or_higher_2011_2015 <-
+    100 * rowSums(education[paste0("B15003e", 22:25)], na.rm = FALSE) /
+    education$B15003e1
+  employment$pct_civilian_labor_force_2011_2015 <-
+    100 * employment$B23025e3 / employment$B23025e1
+  education$GEOID <- sub("^05000US", "", education$GEOID)
+  employment$GEOID <- sub("^05000US", "", employment$GEOID)
+  education <- education[c("GEOID", "pct_bachelors_or_higher_2011_2015")]
+  employment <- employment[c("GEOID", "pct_civilian_labor_force_2011_2015")]
+
+  pep_all <- utils::read.csv(pep_path, stringsAsFactors = FALSE,
+                             colClasses = c(STATE = "character", COUNTY = "character"))
+  pep <- pep_all[pep_all$YEAR == 8L, , drop = FALSE] # July 1, 2015 estimate
+  pep$GEOID <- paste0(sprintf("%02d", as.integer(pep$STATE)),
+                      sprintf("%03d", as.integer(pep$COUNTY)))
+  pep_total <- pep[pep$AGEGRP == 0L, c("GEOID", "TOT_POP", "WA_MALE", "WA_FEMALE")]
+  pep_total$pct_white_alone_2015 <-
+    100 * (pep_total$WA_MALE + pep_total$WA_FEMALE) / pep_total$TOT_POP
+  age65 <- stats::aggregate(TOT_POP ~ GEOID,
+                            data = pep[pep$AGEGRP %in% 14:18, ], FUN = sum)
+  names(age65)[2] <- "population_age_65_plus_2015"
+  pep_total <- merge(pep_total, age65, by = "GEOID", all.x = TRUE)
+  pep_total$pct_age_65_plus_2015 <-
+    100 * pep_total$population_age_65_plus_2015 / pep_total$TOT_POP
+  pep_total <- pep_total[c("GEOID", "pct_white_alone_2015",
+                           "pct_age_65_plus_2015")]
+
+  # YEAR=1, AGEGRP=0 is the April 1, 2010 Census population in the PEP file.
+  pep2010 <- pep_all[pep_all$YEAR == 1L & pep_all$AGEGRP == 0L,
+                     c("STATE", "COUNTY", "TOT_POP")]
+  pep2010$GEOID <- paste0(sprintf("%02d", as.integer(pep2010$STATE)),
+                          sprintf("%03d", as.integer(pep2010$COUNTY)))
+  names(pep2010)[names(pep2010) == "TOT_POP"] <- "population_2010"
+
+  counties$GEOID <- sprintf("%05d", as.integer(counties$GEOID))
+  counties$land_area_sq_miles <- as.numeric(counties$ALAND) / 2589988.110336
+  counties <- merge(counties, pep2010[c("GEOID", "population_2010")],
+                    by = "GEOID", all.x = TRUE)
+  counties$population_density_2010 <-
+    counties$population_2010 / counties$land_area_sq_miles
+  counties <- merge(counties, employment, by = "GEOID", all.x = TRUE)
+  counties <- merge(counties, education, by = "GEOID", all.x = TRUE)
+  counties <- merge(counties, pep_total, by = "GEOID", all.x = TRUE)
+  out <- merge(counties, election, by = "GEOID", all = FALSE)
+
+  if (nrow(out) != 3108L) {
+    stop("A01 election reconstruction: expected 3108 mainland units, got ",
+         nrow(out), ".", call. = FALSE)
+  }
+  predictors <- c("pct_civilian_labor_force_2011_2015",
+                  "pct_bachelors_or_higher_2011_2015",
+                  "pct_age_65_plus_2015", "population_density_2010",
+                  "pct_white_alone_2015")
+  if (anyNA(out[predictors])) {
+    bad <- out[rowSums(is.na(sf::st_drop_geometry(out[predictors]))) > 0,
+               c("GEOID", "NAME", predictors)]
+    stop("A01 election reconstruction: missing values in paper predictors for ",
+         paste(bad$GEOID, collapse = ", "), ".",
+         call. = FALSE)
+  }
+  # The article linearly rescales every predictor to [0.001, 1]. Preserve
+  # the unscaled Census fields above and expose the exact variable names used
+  # by the authors' public R code for the analysis-ready formula.
+  rescale_0001_1 <- function(x) {
+    0.001 + 0.999 * (x - min(x)) / (max(x) - min(x))
+  }
+  out$Trump <- out$trump_support
+  out$PCemp <- rescale_0001_1(out$pct_civilian_labor_force_2011_2015)
+  out$PCcol <- rescale_0001_1(out$pct_bachelors_or_higher_2011_2015)
+  out$PCo65 <- rescale_0001_1(out$pct_age_65_plus_2015)
+  out$PopD <- rescale_0001_1(out$population_density_2010)
+  out$PCwhi <- rescale_0001_1(out$pct_white_alone_2015)
+
+  list(
+    obj = out,
+    row = list(
+      coordinate_columns = "",
+      identifier_variables = "GEOID,state_abbr,county_name",
+      datetime_columns = "",
+      candidate_y_variables = "Trump"
+    )
+  )
+}
+
+# --- Real-data benchmarks from A02 -------------------------------------
+# Wiedemann, Martin & Westerholt (2023), "Benchmarking regression models
+# under spatial heterogeneity". These CSV files are distributed directly in
+# the official replication repository. The benchmark script uses every
+# non-coordinate, non-response column as a predictor and evaluates OLS, SLX,
+# GWR, RF, RF with coordinates, spatial RF, kriging and SAR in five random
+# folds. A02 itself does not name the CRS. They were checked against the
+# cited upstream sources: plants is explicitly WGS84 longitude/latitude;
+# deforestation retains WGS84 / UTM 18S in its original SpatialPolygonsDataFrame
+# and its CSV x/y are the exact polygon centroids; California coordinates
+# exactly reproduce the EPSG:3310 transform of the source Kaggle lon/lat;
+# Atlantic FIPS coordinates match Census county centroids in EPSG:5070.
+load_a02_benchmark_csv <- function(dataset, response, crs,
+                                   identifiers = "") {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "A02_spatial_rf_python", "data",
+                    paste0(dataset, ".csv"))
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  if (!all(c("x", "y", response) %in% names(df))) {
+    stop("A02 ", dataset, ": colonnes x/y/reponse absentes.", call. = FALSE)
+  }
+  if (anyNA(df)) {
+    stop("A02 ", dataset, ": le CSV de replication contient des NA.",
+         call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = crs,
+                         remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "x,y",
+      identifier_variables = identifiers,
+      datetime_columns = "",
+      candidate_y_variables = response
+    )
+  )
+}
+
+load_a02_atlantic <- function() {
+  load_a02_benchmark_csv("atlantic", "Rate", crs = 5070,
+                         identifiers = "FIPS")
+}
+
+load_a02_california_housing <- function() {
+  load_a02_benchmark_csv("california_housing", "median_house_value",
+                         crs = 3310)
+}
+
+load_a02_deforestation <- function() {
+  load_a02_benchmark_csv("deforestation", "deforestation_quantile",
+                         crs = 32718)
+}
+
+load_a02_plants <- function() {
+  load_a02_benchmark_csv("plants", "richness_species_vascular", crs = 4326)
+}
+
+# --- Precipitation hydrogen isotopes, three daily stages (A05) ----------
+# Que et al. (2020), doi:10.1080/13658816.2020.1720692, Eq. (21):
+# delta-2H ~ daily precipitation + daily mean temperature + elevation.
+# The official Zenodo replication table contains 272 observations at 116
+# sites over three stages (timestamp 24/48/72 h). Preserve the repeated-site
+# spatiotemporal structure instead of splitting it into cross-sections.
+load_a05_precip_isotope <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "MediumPriorityRetry_10_5281_zenodo_3637689",
+                    "extracted", "quexiang-STWR-e29544f", "Data_STWR",
+                    "RealWorldData", "precip_isotope_D3.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  required <- c("Longitude", "Latitude", "Elevation", "ppt", "tmean",
+                "d2h", "timestamp")
+  if (!all(required %in% names(df)) || anyNA(df[required])) {
+    stop("A05 isotope table: schema or complete cases differ from replication data.",
+         call. = FALSE)
+  }
+  if (nrow(df) != 272L || length(unique(df$timestamp)) != 3L) {
+    stop("A05 isotope table: expected 272 rows and three time stages.",
+         call. = FALSE)
+  }
+  df$site_id <- match(interaction(df$Longitude, df$Latitude, drop = TRUE),
+                      unique(interaction(df$Longitude, df$Latitude, drop = TRUE)))
+  sf_obj <- sf::st_as_sf(df, coords = c("Longitude", "Latitude"), crs = 4326,
+                         remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "Longitude,Latitude",
+      identifier_variables = "site_id",
+      datetime_columns = "timestamp",
+      candidate_y_variables = "d2h"
+    )
+  )
+}
+
+# --- Real-data benchmarks distributed with A03 -------------------------
+load_a03_berlin <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "Geniaux2026_TopDownScale_GitHub", "prenzlauer.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  vars <- c("price", "review_scores_rating", "bedrooms", "bathrooms",
+            "beds", "accommodates", "X", "Y")
+  df <- df[stats::complete.cases(df[vars]) & df$price > 0, , drop = FALSE]
+  df$log_price <- log(df$price)
+  sf_obj <- sf::st_as_sf(df, coords = c("X", "Y"), crs = 3857,
+                         remove = FALSE)
+  list(obj = sf_obj, row = list(coordinate_columns = "X,Y",
+    identifier_variables = "", datetime_columns = "",
+    candidate_y_variables = "log_price"))
+}
+
+load_a03_king_house <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "Geniaux2026_TopDownScale_GitHub", "kc_house_data.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  df <- df[df$yr_renovated == 0 & df$waterfront == 0 & df$view < 1, , drop = FALSE]
+  vars <- c("price", "bedrooms", "bathrooms", "sqft_living", "sqft_lot",
+            "floors", "condition", "grade", "yr_built", "lat", "long")
+  df <- df[stats::complete.cases(df[vars]) & df$price > 0 &
+             df$sqft_living > 0 & df$sqft_lot > 0, , drop = FALSE]
+  df$log_price <- log(df$price)
+  df$log_sqft_living <- log(df$sqft_living)
+  df$log_sqft_lot <- log(df$sqft_lot)
+  df$yr_built_centered <- df$yr_built - min(df$yr_built)
+  sf_obj <- sf::st_as_sf(df, coords = c("long", "lat"), crs = 4326,
+                         remove = FALSE)
+  list(obj = sf_obj, row = list(coordinate_columns = "long,lat",
+    identifier_variables = "id,zipcode", datetime_columns = "date",
+    candidate_y_variables = "log_price"))
+}
+
+load_a03_nyc_airbnb <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "Geniaux2026_TopDownScale_GitHub", "AB_NYC_2019.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  used <- c("latitude", "longitude", "room_type", "price", "minimum_nights",
+            "number_of_reviews", "reviews_per_month",
+            "calculated_host_listings_count", "availability_365")
+  df <- df[stats::complete.cases(df[used]), , drop = FALSE]
+  df$log1p_price <- log1p(df$price)
+  df <- df[df$log1p_price > 3 & df$log1p_price < 8, , drop = FALSE]
+  df$room_private <- as.integer(df$room_type == "Private room")
+  df$room_shared <- as.integer(df$room_type == "Shared room")
+  df$room_entire <- as.integer(df$room_type == "Entire home/apt")
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"), crs = 4326,
+                         remove = FALSE)
+  list(obj = sf_obj, row = list(coordinate_columns = "longitude,latitude",
+    identifier_variables = "id,host_id,neighbourhood_group,neighbourhood",
+    datetime_columns = "last_review", candidate_y_variables = "log1p_price"))
+}
+
+load_a03_vaucluse_house <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "Geniaux2026_TopDownScale_GitHub", "my_dataf.Rdata")
+  e <- new.env(parent = emptyenv()); load(path, envir = e)
+  df <- e$my_dataf[e$my_dataf$anneemut <= 2019, , drop = FALSE]
+  df$Q2 <- as.integer(df$moismut %in% 4:6)
+  df$Q3 <- as.integer(df$moismut %in% 7:9)
+  df$Q4 <- as.integer(df$moismut %in% 10:12)
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 2154,
+                         remove = FALSE)
+  list(obj = sf_obj, row = list(coordinate_columns = "x,y",
+    identifier_variables = "", datetime_columns = "datemut,anneemut,moismut",
+    candidate_y_variables = "log_valeur_fonc"))
+}
+
+# --- US precipitation anomalies, April 1948 (S02) ----------------------
+# Furrer, Genton & Nychka (2006), doi:10.1198/106186006X132178, analyse
+# uniquement les stations observees. Le texte annonce 5 909 stations mais la
+# figure finale en annonce 5 906; l'objet officiel spam::USprecip en contient
+# exactement 5 906 avec infill == 1. On conserve raw et anomaly et on ne
+# remplace pas ces observations par les 6 012 valeurs infillees restantes.
+load_s02_us_april_1948_precip <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "S02_US_April_1948_precipitation", "spam", "data",
+                    "USprecip.rda")
+  e <- new.env(parent = emptyenv())
+  load(path, envir = e)
+  df <- as.data.frame(e$USprecip, stringsAsFactors = FALSE)
+  required <- c("lon", "lat", "raw", "anomaly", "infill")
+  if (!all(required %in% names(df)) || nrow(df) != 11918L) {
+    stop("S02 USprecip: schema or 11,918-row source differs from CRAN.",
+         call. = FALSE)
+  }
+  df <- df[df$infill == 1, , drop = FALSE]
+  if (nrow(df) != 5906L || anyNA(df[c("lon", "lat", "raw", "anomaly")])) {
+    stop("S02 USprecip: expected 5,906 observed April 1948 stations.",
+         call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326,
+                         remove = FALSE)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "lon,lat",
+    identifier_variables = "",
+    datetime_columns = "",
+    candidate_y_variables = "anomaly"
+  ))
+}
+
+# --- NYC COVID-19 positive tests by ZCTA (G09) -------------------------
+# Sachdeva et al. (2023), doi:10.1080/13658816.2023.2250838. The official
+# Figshare replication table and notebook define Positive as the Poisson
+# response, Total as its exposure/offset, and the following six standardized
+# predictors. Neither the paper nor the replication notebook declares the
+# source CRS. EPSG:2263 is reconstructed with high confidence from the NYC
+# MODZCTA provenance, the official NYC State Plane metadata, and the observed
+# coordinate extent (US survey feet); retain this distinction in the fiche.
+load_g09_nyc_covid_zcta <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "G09_Poisson_MGWR_NYC", "figshare", "21743021",
+                    "nyc_all_data.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  predictors <- c("perc_black", "heart_perc", "pop_density",
+                  "schools_per_mile", "perc_pub_ast", "perc_hispanic")
+  required <- c("MODZCTA", "Positive", "Total", predictors, "coord_x",
+                "coord_y", "geometry")
+  if (!all(required %in% names(df)) || nrow(df) != 183L ||
+      anyNA(df[required])) {
+    stop("G09 NYC replication table: expected 183 complete ZCTAs.",
+         call. = FALSE)
+  }
+  geom <- sf::st_as_sfc(df$geometry, crs = 2263)
+  df$geometry <- NULL
+  sf_obj <- sf::st_sf(df, geometry = geom)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "coord_x,coord_y",
+    identifier_variables = "MODZCTA",
+    datetime_columns = "",
+    candidate_y_variables = "Positive"
+  ))
+}
+
+# --- Greater Glasgow respiratory hospitalizations, 2010 (N04a) ---------
+# Hausdorff-Gaussian Processes paper (N04), doi:10.1007/s13253-025-00720-7,
+# first application: SMR-adjusted respiratory hospitalization counts for 134
+# Intermediate Zones (IZ) north of the Clyde. TEI confirms the model:
+# Poisson likelihood, log link, intercept, covariate incomedep (percentage
+# income-deprived), offset E_i (expected admissions). Official CRAN
+# CARBayesdata source: respiratorydata.rda (134 rows: IZ/observed/expected/
+# incomedep/SMR) joined to GGHB.IZ.rda (271 polygons, officially declared
+# EPSG:27700, not inferred) by IZ; all 134 respiratory IZ match a GGHB.IZ
+# polygon.
+load_n04_glasgow_respiratory <- function() {
+  tarball <- file.path(REPO_ROOT, "data", "raw", "papers",
+                       "N04_greater_glasgow_respiratory", "cran",
+                       "CARBayesdata_3.0", "CARBayesdata_3.0.tar.gz")
+  extract_dir <- tempfile("carbayesdata_")
+  dir.create(extract_dir)
+  on.exit(unlink(extract_dir, recursive = TRUE, force = TRUE), add = TRUE)
+  utils::untar(tarball, files = c("CARBayesdata/data/respiratorydata.rda",
+                                  "CARBayesdata/data/GGHB.IZ.rda"),
+              exdir = extract_dir)
+  e <- new.env(parent = emptyenv())
+  load(file.path(extract_dir, "CARBayesdata", "data", "respiratorydata.rda"), envir = e)
+  load(file.path(extract_dir, "CARBayesdata", "data", "GGHB.IZ.rda"), envir = e)
+  resp <- e$respiratorydata
+  polys <- e$GGHB.IZ
+  if (nrow(resp) != 134L || nrow(polys) != 271L) {
+    stop("N04 CARBayesdata: expected 134 respiratory rows and 271 IZ polygons.",
+         call. = FALSE)
+  }
+  if (length(intersect(resp$IZ, polys$IZ)) != 134L) {
+    stop("N04 CARBayesdata: expected all 134 respiratory IZ to match GGHB.IZ polygons.",
+         call. = FALSE)
+  }
+  sf_obj <- merge(polys[polys$IZ %in% resp$IZ, ], resp, by = "IZ")
+  if (nrow(sf_obj) != 134L) {
+    stop("N04 CARBayesdata: join produced an unexpected row count.", call. = FALSE)
+  }
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "easting,northing",
+    identifier_variables = "IZ",
+    datetime_columns = "",
+    candidate_y_variables = "observed,SMR"
+  ))
+}
+
+# --- Macoma balthica abundance, Dutch Wadden Sea (N03) -----------------
+# Lee & Haran (2024), doi:10.1007/s13253-024-00619-9, "A class of models for
+# large zero-inflated spatial data". Proposes PICAR-Z, a spatial two-part
+# (hurdle) model with TWO separate latent spatial fields: occurrence O(s)
+# (Bernoulli/logit) and prevalence P(s) (zero-truncated Poisson/log for the
+# count-hurdle variant used in this application), each field reduced via a
+# PICAR (Moran's I + piecewise-linear) basis on a mesh -- not implemented in
+# spatialtidymodels (no two-part/hurdle route, no PICAR basis). TEI Sect 6.1
+# confirms: covariates are median grain size (mgs), silt content (silt) and
+# "altitude" (the paper's name for the CSV's `depth` column -- same
+# quantity, elevation of the tidal flat relative to a reference datum, not a
+# contradiction). N=4026 (3220 fit + 806 held out) matches the deposited
+# samples/datsc.csv exactly -- the "n=4029" figure elsewhere in the TEI is a
+# citation of a DIFFERENT paper (Lyashevska et al. 2016) in the introduction,
+# not this paper's own dataset size (resolves an earlier-flagged apparent
+# discrepancy). Official PICAR_Z_Code GitHub repository (github.com/benee55/
+# PICAR_Z_Code) confirmed: samples/datsc.csv, verified 4026 rows, zero NA.
+# `oost`/`noord` are exactly the standardized (z-scored) duplicates of
+# `x`/`y` (cor=1 both), unused by the authors' own GenerateData.R loader --
+# dropped here as redundant, not independent covariates. CRS is not declared
+# in the paper; `x`/`y` values (115522-260305 / 545432-617087) fit the
+# Dutch RD New / Amersfoort grid (EPSG:28992) extent for the Wadden Sea
+# region with high confidence, but this remains an INFERENCE, not an
+# author-declared CRS (documented as such in the fiche).
+load_n03_macoma_balthica <- function() {
+  zip_path <- file.path(REPO_ROOT, "data", "raw", "papers", "N03_PICAR_Z",
+                        "github_benee55_PICAR_Z_Code", "PICAR_Z_Code-main.zip")
+  extract_dir <- tempfile("picar_z_")
+  dir.create(extract_dir)
+  on.exit(unlink(extract_dir, recursive = TRUE, force = TRUE), add = TRUE)
+  utils::unzip(zip_path, files = "PICAR_Z_Code-main/samples/datsc.csv",
+              exdir = extract_dir)
+  df <- utils::read.csv(
+    file.path(extract_dir, "PICAR_Z_Code-main", "samples", "datsc.csv"),
+    stringsAsFactors = FALSE
+  )
+  required <- c("macoma", "x", "y", "mgs", "silt", "depth", "oost", "noord")
+  if (!all(required %in% names(df)) || nrow(df) != 4026L || anyNA(df[required])) {
+    stop("N03 datsc.csv: expected 4026 complete rows with the documented schema.",
+         call. = FALSE)
+  }
+  df$oost <- NULL
+  df$noord <- NULL
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 28992, remove = FALSE)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "x,y",
+    identifier_variables = "",
+    datetime_columns = "",
+    candidate_y_variables = "macoma"
+  ))
+}
+
+# --- Tsuga canadensis occurrence in Michigan (N06) --------------------
+# The exact 17,743-row object used by the BSPS application is distributed
+# by spNNGP as MI_TSCA. The six climate covariates and binary response match
+# Section 5.1 of the paper. The package documentation calls `long`/`lat`
+# Albers coordinates and prints a PROJ string with metres, but their numeric
+# scale (roughly 4,800-5,300 and 280-800) is incompatible with that unit and
+# that declaration does not transform to Michigan. Preserve the analytical
+# coordinates without assigning a CRS rather than inventing a conversion.
+load_n06_tsuga_mi_tsca <- function() {
+  tarball <- file.path(REPO_ROOT, "data", "raw", "papers",
+                       "N06_Tsuga_MI_TSCA", "cran", "spNNGP_1.0.2",
+                       "spNNGP_1.0.2.tar.gz")
+  member <- "spNNGP/data/MI_TSCA.rda"
+  extract_dir <- tempfile("spnngp_tsca_")
+  dir.create(extract_dir)
+  on.exit(unlink(extract_dir, recursive = TRUE, force = TRUE), add = TRUE)
+  utils::untar(tarball, files = member, exdir = extract_dir)
+  e <- new.env(parent = emptyenv())
+  load(file.path(extract_dir, member), envir = e)
+  df <- as.data.frame(e$MI_TSCA, stringsAsFactors = FALSE)
+  required <- c("TSCA", "MIN", "MAX", "SUP", "WIP", "AET", "DEF",
+                "long", "lat")
+  if (!all(required %in% names(df)) || nrow(df) != 17743L ||
+      anyNA(df[required]) || !all(df$TSCA %in% c(0, 1))) {
+    stop("N06 MI_TSCA: expected 17,743 complete rows and binary TSCA.",
+         call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("long", "lat"),
+                         crs = NA, remove = FALSE)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "long,lat",
+    identifier_variables = "",
+    datetime_columns = "",
+    candidate_y_variables = "TSCA"
+  ))
+}
+
+# --- Colorado annual precipitation, 1981 (S01) -------------------------
+# Paciorek & Schervish (2006), doi:10.1002/env.785, report 217 stations but
+# publish neither their identifiers nor an additional filter. Applying their
+# stated completeness criterion to the historical UCAR object yields 244
+# stations. This loader deliberately labels the result as a reconstruction.
+load_s01_colorado_precip_1981 <- function() {
+  path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                    "S01_Colorado_climatological_stations", "ucar",
+                    "US_monthly_met_historical",
+                    "colorado_precip_1981_reconstruction.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  required <- c("station_id", "longitude", "latitude", "elevation_m",
+                "annual_precip_1981_mm", "log_annual_precip_1981",
+                "observed_months_1981", "sample_status")
+  if (!all(required %in% names(df)) || nrow(df) != 244L ||
+      anyNA(df[required]) || any(df$observed_months_1981 != 12L)) {
+    stop("S01 reconstruction: expected 244 stations complete for 1981.",
+         call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"),
+                         crs = 4326, remove = FALSE)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "longitude,latitude",
+    identifier_variables = "station_id",
+    datetime_columns = "",
+    candidate_y_variables = "log_annual_precip_1981"
+  ))
+}
+
+# --- Winter 2011 PM2.5 and meteorology (G06) ---------------------------
+# Wang et al. (2019), doi:10.1002/env.2485. Public-source reconstruction of
+# equation (16): PM25 ~ PPTN + RH + Tmin + Tmax + WS + TCDC. The source paper
+# does not deposit the final station list or spatial-join code, so this object
+# remains manual-review material rather than an exact author-data replica.
+load_g06_pm25_meteorological <- function() {
+  path <- file.path(REPO_ROOT, "data", "interim", "papers",
+                    "g06_pm25_meteorological_winter_2011.csv")
+  df <- utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  predictors <- c("PPTN", "RH", "Tmin", "Tmax", "WS", "TCDC")
+  required <- c("site_id", "PM25", "n_observed_days", "longitude",
+                "latitude", predictors, "sample_status")
+  if (!all(required %in% names(df)) || nrow(df) != 838L ||
+      anyNA(df[required])) {
+    stop("G06 reconstruction: expected 838 complete CONUS monitoring sites.",
+         call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("longitude", "latitude"),
+                         crs = 4326, remove = FALSE)
+  list(obj = sf_obj, row = list(
+    coordinate_columns = "longitude,latitude",
+    identifier_variables = "site_id",
+    datetime_columns = "",
+    candidate_y_variables = "PM25"
+  ))
+}
+
+# --- ecospat hypothetical species (A01) ---------------------------------
+# Official CRAN source archive, using ecospat 2.1.1 as cited by A01. The
+# article retains mainland-US grid cells, models absence (1) rather than the
+# source occurrence indicator (1), and uses gdd, p, pet, stdp and tmp. Both
+# maps 3.1.1 (cited) and maps 3.4.3 yield 3,247 cells with map.where("usa"),
+# while the article reports 3,259; the unresolved 12-cell discrepancy is kept
+# explicit rather than repaired by an undocumented buffer.
+load_ecospat_testNiche_nat <- function() {
+  tarball <- file.path(REPO_ROOT, "data", "raw", "papers",
+                       "A01_ecospat_testNiche_nat", "ecospat_2.1.1.tar.gz")
+  member <- "ecospat/data/ecospat.testNiche.nat.txt.gz"
+  extract_dir <- tempfile("ecospat_source_")
+  dir.create(extract_dir)
+  on.exit(unlink(extract_dir, recursive = TRUE, force = TRUE), add = TRUE)
+  utils::untar(tarball, files = member, exdir = extract_dir)
+  df <- utils::read.delim(gzfile(file.path(extract_dir, member)), row.names = 1,
+                          check.names = FALSE)
+  if (!requireNamespace("maps", quietly = TRUE)) {
+    stop("Le package 'maps' est requis pour reproduire le masque USA.", call. = FALSE)
+  }
+  inside <- !is.na(maps::map.where("usa", df$x, df$y))
+  df <- df[inside, , drop = FALSE]
+  df$species_absence <- 1L - as.integer(df$species_occ)
+  if (nrow(df) != 3259L) {
+    warning("Masque maps::usa reproductible: ", nrow(df),
+            " cellules; A01 en annonce 3259.", call. = FALSE)
+  }
+  sf_obj <- sf::st_as_sf(df, coords = c("x", "y"), crs = 4326,
+                         remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "x,y",
+      identifier_variables = "",
+      datetime_columns = "",
+      candidate_y_variables = "species_absence"
+    )
+  )
+}
+
+# --- Irish wind (C01) ---------------------------------------------------
+# The official gstat wind.rda contains the daily table and station metadata.
+# Li, Genton & Sherman (2007), followed by C01, use 11 stations (Roslare is
+# absent), remove leap days and start with sqrt(wind speed). They subsequently
+# remove a common seasonal trend and station means; their exact seasonal basis
+# is not specified, so the loader preserves the transformed series and the
+# 1961-1970 training / 1971-1978 test split without inventing residuals.
+load_irish_wind <- function() {
+  source_path <- file.path(REPO_ROOT, "data", "raw", "papers",
+                           "C01_irish_wind_gstat", "wind.rda")
+  e <- new.env(parent = emptyenv())
+  load(source_path, envir = e)
+  wind <- e$wind
+  stations <- e$wind.loc
+  codes <- setdiff(as.character(stations$Code), "ROS")
+  stations <- stations[match(codes, as.character(stations$Code)), , drop = FALSE]
+
+  parse_dms <- function(x) {
+    x <- as.character(x)
+    parts <- regmatches(x, regexec("^([0-9]+)d([0-9]+)?(?:'([0-9.]+))?['\"]?([NSEW])$", x))
+    vapply(parts, function(z) {
+      if (length(z) == 0L) return(NA_real_)
+      deg <- as.numeric(z[2]); min <- ifelse(nzchar(z[3]), as.numeric(z[3]), 0)
+      sec <- ifelse(nzchar(z[4]), as.numeric(z[4]), 0)
+      sign <- ifelse(z[5] %in% c("S", "W"), -1, 1)
+      sign * (deg + min / 60 + sec / 3600)
+    }, numeric(1))
+  }
+  stations$latitude <- parse_dms(stations$Latitude)
+  stations$longitude <- parse_dms(stations$Longitude)
+
+  n_dates <- nrow(wind)
+  long <- data.frame(
+    date = rep(as.Date(sprintf("19%02d-%02d-%02d", wind$year,
+                               wind$month, wind$day)), times = length(codes)),
+    station_code = rep(codes, each = n_dates),
+    wind_speed = unlist(wind[codes], use.names = FALSE),
+    stringsAsFactors = FALSE
+  )
+  long <- long[format(long$date, "%m-%d") != "02-29", , drop = FALSE]
+  long$sqrt_wind_speed <- sqrt(long$wind_speed)
+  long$analysis_period <- ifelse(as.integer(format(long$date, "%Y")) <= 1970L,
+                                 "training_1961_1970", "test_1971_1978")
+  idx <- match(long$station_code, codes)
+  long$station_name <- as.character(stations$Station[idx])
+  long$longitude <- stations$longitude[idx]
+  long$latitude <- stations$latitude[idx]
+  sf_obj <- sf::st_as_sf(long, coords = c("longitude", "latitude"),
+                         crs = 4326, remove = FALSE)
+  list(
+    obj = sf_obj,
+    row = list(
+      coordinate_columns = "longitude,latitude",
+      identifier_variables = "station_code,station_name",
+      datetime_columns = "date",
+      candidate_y_variables = "sqrt_wind_speed"
+    )
+  )
+}
+
 PAPER_DATASET_LOADERS <- list(
+  us_county_election_2016 = load_us_county_election_2016,
+  a02_atlantic = load_a02_atlantic,
+  a02_california_housing = load_a02_california_housing,
+  a02_deforestation = load_a02_deforestation,
+  a02_plants = load_a02_plants,
+  a05_precip_isotope = load_a05_precip_isotope,
+  a03_berlin = load_a03_berlin,
+  a03_king_house = load_a03_king_house,
+  a03_nyc_airbnb = load_a03_nyc_airbnb,
+  a03_vaucluse_house = load_a03_vaucluse_house,
+  s02_us_april_1948_precip = load_s02_us_april_1948_precip,
+  n04_glasgow_respiratory = load_n04_glasgow_respiratory,
+  n03_macoma_balthica = load_n03_macoma_balthica,
+  n06_tsuga_mi_tsca = load_n06_tsuga_mi_tsca,
+  s01_colorado_precip_1981 = load_s01_colorado_precip_1981,
+  g06_pm25_meteorological = load_g06_pm25_meteorological,
+  g09_nyc_covid_zcta = load_g09_nyc_covid_zcta,
+  ecospat_testNiche_nat = load_ecospat_testNiche_nat,
+  irish_wind = load_irish_wind,
   metacomnet = load_metacomnet,
   cluster_detection = load_cluster_detection,
   medicago = load_medicago,

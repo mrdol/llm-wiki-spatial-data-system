@@ -2,7 +2,7 @@
 title: paper_global_nee_gwxgboost
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-23
 sources:
   - data/final_datasets/sf/paper_global_nee_gwxgboost.rds
   - DatasetFirst_10_5281_zenodo_21635729
@@ -131,6 +131,24 @@ formula_candidates:
     estimator_context: ["xgboost_xy", "gwr", "random_forest_xy", "ols"]
     status: "executable_continuous_variant"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: Site.Name
+- Panel time: time_key
+- N units: 387
+- N periods: 1062
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_global_nee_gwxgboost_W.rds`
+- W unit order source: kNN k=8 (defaut du projet, spatial_knn_args()) sur les 387 sites distincts -- voir code/r_catalog/build_global_nee_gwxgboost_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-23 : le Readme.pdf du depot documente un vrai **Geographically Weighted XGBoost/Random Forest** -- 'For each target site, a local training dataset is constructed by identifying the k nearest neighboring sites and assigning Gaussian kernel weights based on inter-site distances', k optimise par site via grid search (pas une valeur fixe). Cette W kNN=8 fixe est une **specification projet informee par la forme de leur ponderation** (kNN + noyau adaptatif), pas une reconstruction de leur k optimal par site (meme situation que paper_stwr_precip_isotope). 387 sites confirmes exactement (correspond aux '387 eddy covariance flux tower sites' de construction du modele cites dans le PDF). Deux corrections trouvees en verifiant : (1) 348 lignes entierement dupliquees (toutes colonnes identiques, artefact de donnees) retirees (109154 -> 108980 lignes) ; (2) `Year` seul n'est pas une cle temporelle valide (donnees a resolution 8 jours, des centaines de doublons par site-annee) -- `time_key` (= Year_DayOfYear, materialise) remplace `Year` comme `Panel time`.
 
 ## Bloc 2 - Identification et DOI
 

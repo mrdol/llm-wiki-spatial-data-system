@@ -2,7 +2,7 @@
 title: paper_portugal_covid_municipal
 type: dataset
 created: 2026-09-14
-updated: 2026-09-16
+updated: 2026-09-22
 sources:
   - data/final_datasets/sf/paper_portugal_covid_municipal.rds
   - DatasetFirst_10_5281_zenodo_11222023
@@ -140,6 +140,26 @@ formula_candidates:
     status: "executable_continuous_variant"
 ```
 
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: key
+- Panel time: data
+- N units: 296
+- N periods: 68
+- Panel balance: balanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_portugal_covid_municipal_W.rds`
+- W unit order source: reconstruction (contiguite reine sur geom_origine, 296 communes -- continent + Acores + Madere, spdep::poly2nb()) ; communes a degre zero patchees par kNN=1 verifie geometriquement (distance de centroide) -- voir code/r_catalog/build_portugal_covid_municipal_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-22 : le papier (Barbosa et al. 2022, Geospatial Health) utilise un GLMM Tweedie a effet aleatoire NUTS-3 (pas de W SAR/SEM) sur N=278 municipalites **continentales uniquement** (Acores/Madere explicitement exclus par les auteurs, donnees indisponibles). Cette W couvre l'artefact local (continent + Acores + Madere), pas le perimetre du papier ; continent/Acores/Madere restent des composantes connexes disjointes (geographiquement reel, pas une lacune). Statut : specification geographique inventee par le projet, non verifiee contre une reference auteur (voir extensions_projet_2026-09/matrice_W_originale/cas_ecologiques_batch1_2026-09-22.md).
+
+**Blocage fonctionnel trouve en testant, corrige le 2026-09-23** (`validate_spatial_panel_data()`) : 5 communes (CALHETA, ILHAVO, LAGOA, MONTIJO, OLIVEIRA DE FRADES) portaient chacune des couples (unite, date) dupliques (340 au total) -- le loader (`load_portugal_covid_municipal()`) pretendait exclure les homonymes municipaux mais les fusionnait en realite silencieusement (many-to-many merge). Diagnostic par distance de centroide + intersection geometrique (pas suppose) : CALHETA (1166 km entre les deux communes) et LAGOA (1510 km) sont de **vrais homonymes administratifs** (Madere/Acores et Algarve/Acores respectivement, corrobore par le portail officiel Autarquico portugais qui les liste separement) -- EXCLUES du jeu, faute de colonne region dans les donnees DGS pour desambiguiser par nom seul (`dicofre` n'aide pas : les deux lignes CALHETA partageaient la meme valeur 3101, la jointure source avait deja fusionne les deux communes). ILHAVO (7 km), MONTIJO (29 km) et OLIVEIRA DE FRADES (13.6 km, polygones se touchant) sont beaucoup plus proches, sans homonymie municipale officielle identifiee -- tres probablement une seule commune scindee en deux features dans geoBoundaries (Ilhavo est traversee par la lagune de la Ria de Aveiro) -- FUSIONNEES par `sf::st_union()` plutot qu'exclues. `validate_spatial_panel_data()` passe desormais proprement (296 unites, 68 periodes, equilibre).
+
 ## Bloc 2 - Identification et DOI
 
 - Dataset ID: `paper_portugal_covid_municipal`
@@ -211,12 +231,12 @@ estimator_eligibility:
 
 - Data type: spatio-temporel
 - Structure: panel_ou_series
-- N observations: 20604
+- N observations: 20128
 - k variables: 34
 - T periods: 68
 - Variable temporelle: data
 - N/T profile: N_grand_T_grand
-- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (20604) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 303 ; panel EQUILIBRE (chaque unite a exactement T=68 observations). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 303 unites spatiales distinctes, pas sur les 20604 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- Note N/T (session 2026-09-23, correction du loader) : "N observations" (20128) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 296 (corrige de 303 -- ce chiffre etait deja faux avant meme la correction du 2026-09-23 ; la vraie valeur pre-correction etait 298, verifiee par inspection directe du `.rds`) ; panel EQUILIBRE (chaque unite a exactement T=68 observations). Le loader (`load_portugal_covid_municipal()`, code/r_catalog/build_sf_datasets_papers.R) pretendait exclure les concelhos homonymes (Calheta, Lagoa) mais les fusionnait en realite silencieusement (many-to-many merge), dupliquant 340 couples (unite, date) -- trouve en testant `validate_spatial_panel_data()`. Corrige : Calheta et Lagoa (vrais homonymes administratifs, Acores/Madere/continent, centroides a 1100-1500 km) EXCLUES faute de colonne region pour desambiguiser ; Ilhavo/Montijo/Oliveira de Frades (memes communes scindees en 2 features geoBoundaries, centroides a 7-29 km, aucune homonymie officielle) FUSIONNEES par `sf::st_union()`. Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 296 unites spatiales distinctes.
 
 ## Bloc 5 - Resolution et etendue
 

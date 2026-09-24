@@ -2,7 +2,7 @@
 title: paper_shark_longline_catch
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-23
 sources:
   - data/final_datasets/sf/paper_shark_longline_catch.rds
   - DatasetFirst_10_25349_d9789w
@@ -125,6 +125,17 @@ formula_candidates:
     estimator_context: ["random_forest", "random_forest_xy", "xgboost", "gam_spatial", "gwr"]
     status: "executable_continuous_variant"
 ```
+
+### Panel spatial - structure et W
+
+Pas de wiring panel direct sur ce jeu **pool** : verifie le 2026-09-23 (`validate_spatial_panel_data()`) que le couple (site_id, year) n'est PAS unique ici -- 4 lignes par (site, annee), une par espece (`species_commonname`). Le papier source (Burns et al. 2024, TEI verifie) entraine d'ailleurs un modele SEPARE par espece, pas un modele pool avec l'espece en covariable -- le wiring panel suit donc cette logique via 4 sous-jeux espece-specifiques plutot qu'ici :
+
+- [[paper_shark_longline_catch_blue_shark]]
+- [[paper_shark_longline_catch_porbeagle_shark]]
+- [[paper_shark_longline_catch_shortfin_mako_shark]]
+- [[paper_shark_longline_catch_sharks_nei]]
+
+Chacun a 300 unites (memes sites que ce jeu parent), 9 periodes, W kNN=8 partagee (`data/final_datasets/weights/paper_shark_longline_catch_W.rds`, construction inchangee). `validate_spatial_panel_data()` passe proprement sur chacun des 4.
 
 ## Bloc 2 - Identification et DOI
 

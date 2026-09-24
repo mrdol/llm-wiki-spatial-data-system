@@ -2,7 +2,7 @@
 title: paper_stwr_precip_isotope
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-22
 sources:
   - data/final_datasets/sf/paper_stwr_precip_isotope.rds
   - MediumPriorityRetry_10_5281_zenodo_3637689
@@ -119,6 +119,24 @@ formula_candidates:
     estimator_context: ["ols", "gwr", "sar_lag", "sem_error", "random_forest"]
     status: "confirmed_continuous_response"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: site_id
+- Panel time: timestamp
+- N units: 116
+- N periods: 3
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_stwr_precip_isotope_W.rds`
+- W unit order source: kNN k=8 (defaut du projet, spatial_knn_args()) sur les 116 sites distincts (coordonnees geographiques) -- voir code/r_catalog/build_stwr_precip_isotope_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-22 : le papier (Que et al. 2020, GMD -- article STWR v1.0 lui-meme) documente une etude de cas empirique **confirmee identique a cet artefact local** (116 sites nord-est des Etats-Unis, 3 j 29-31 oct. 2012, N=272, formule verifiee ligne a ligne dans le TEI). Mais leur ponderation n'est pas une W statique : noyau continu spatio-temporel (Gaussian ou bisquare, non precise pour cette etude de cas) a bande passante **optimisee par validation croisee**, non reconstructible sans reexecuter entierement leur procedure d'optimisation (hors perimetre d'une session). Cette W kNN=8 est une specification projet informee par la forme generale de leur noyau (adaptatif), pas une reconstruction de leur bande passante. La colonne `site_id` (identifiant de site stable, absent de l'artefact d'origine) a ete materialisee le 2026-09-22 a partir des coordonnees arrondies (Longitude/Latitude, 4 decimales) -- 116 valeurs distinctes, verifiees alignees avec l'ordre de la W. Statut : jeu de donnees confirme, W non reconstructible exactement (voir extensions_projet_2026-09/matrice_W_originale/cas_marrot_stwr_2026-09-22.md).
 
 ## Bloc 2 - Identification et DOI
 

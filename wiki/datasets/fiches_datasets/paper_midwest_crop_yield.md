@@ -2,7 +2,7 @@
 title: paper_midwest_crop_yield
 type: dataset
 created: 2026-09-14
-updated: 2026-09-16
+updated: 2026-09-22
 sources:
   - data/final_datasets/sf/paper_midwest_crop_yield.rds
   - DataCite_2022_CropYieldPredictionUsing_10_1080_01621459
@@ -121,6 +121,24 @@ formula_candidates:
     estimator_context: ["random_forest", "xgboost", "gamboost"]
     status: "generated"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: CountyI
+- Panel time: Year
+- N units: 403
+- N periods: 22
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_midwest_crop_yield_W.rds`
+- W unit order source: distances **fournies par les auteurs** (`dist.mat`, supplement JASA `MidwestData.RData`, matrice de distance inter-comtes 403x403 verifiee symetrique/diagonale nulle), k=8 plus proches voisins (defaut du projet, spatial_knn_args()) -- voir code/r_catalog/build_midwest_crop_yield_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-22 : le papier (Park, Li & Li 2022, JASA) n'utilise pas de W SAR/SEM classique (modele bayesien a coefficients spatialement variables sur trajectoires fonctionnelles de temperature), mais fournit sa propre matrice de distance inter-comtes verifiee dans son supplement -- base plus solide qu'une reconstruction geometrique projet, meme si le choix k=8 kNN reste une construction du projet, pas une reproduction de leur noyau bayesien. Deux points trouves en verifiant : (1) la colonne `county_key` (nom de comte seul, ex. "ADAIR") n'est PAS un identifiant unique -- collision Iowa/Missouri -- utiliser `CountyI` ; (2) "Lake County" (Illinois) ressortait isole en contiguite reine (verifie non-artefact via snap=1000m) car ses vrais voisins geographiques sont hors perimetre des 403 comtes de l'etude -- resolu nativement par le kNN sur distance reelle, aucun patch necessaire. Statut : reconstruction plausible, non verifiee contre une reference auteur (voir extensions_projet_2026-09/matrice_W_originale/cas_ecologiques_batch1_2026-09-22.md). **Blocage fonctionnel trouve en testant, corrige le 2026-09-23** (`validate_spatial_panel_data()`) : le comte "MISSOURI ST LOUIS" (CountyI=493) portait 19 couples (unite, annee) dupliques. Diagnostic : le loader (`load_midwest_crop_yield()`) joint par nom de comte normalise (`tigris::counties()`), mais Missouri a une **ville independante** St. Louis (NAME="St. Louis", NAMELSAD="St. Louis city", LSAD="25") distincte du comte St. Louis qui l'entoure (NAMELSAD="St. Louis County", LSAD="06") -- les deux partagent le meme NAME, la normalisation par nom seul les fusionnait. Confirme que ce n'est pas un bug des auteurs : `regdat` n'a qu'une seule ligne par annee pour ce comte. Corrige en excluant `LSAD="25"` (ville independante) avant la jointure -- un jeu de rendement agricole ne concerne de toute facon que le comte (production quasi nulle dans la ville, entierement urbaine). `validate_spatial_panel_data()` passe desormais (403 unites, 22 periodes, desequilibre).
 
 ## Bloc 2 - Identification et DOI
 

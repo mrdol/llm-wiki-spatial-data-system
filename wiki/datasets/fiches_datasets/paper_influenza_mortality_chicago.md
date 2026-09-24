@@ -2,7 +2,7 @@
 title: paper_influenza_mortality_chicago
 type: dataset
 created: 2026-09-14
-updated: 2026-09-16
+updated: 2026-09-22
 sources:
   - data/final_datasets/sf/paper_influenza_mortality_chicago.rds
   - DataCite_2016_DisparitiesInInfluenzaMortality_10_1073_pnas_161
@@ -131,6 +131,24 @@ formula_candidates:
     estimator_context: []
     status: "unavailable"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: GISJOIN
+- Panel time: week
+- N units: 496
+- N periods: 7
+- Panel balance: balanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_influenza_mortality_chicago_W.rds`
+- W unit order source: reconstruction (contiguite reine sur geom_origine, 496 census tracts, spdep::poly2nb(), 1 seule composante connexe, aucun isolat) -- voir code/r_catalog/build_influenza_chicago_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-22 : aucune matrice W geographique n'est documentee par les auteurs (Grantz et al. 2016 -- modele de comptage sans terme spatial explicite ; verifie, aucun script/readme dans data/raw/papers/DataCite_2016_.../ ne mentionne de construction de voisinage). Cette W est une **specification geographique inventee par le projet** (contiguite reine standard), pas une reconstruction de la methode des auteurs -- aucune valeur publiee de type SAR pour en juger la plausibilite. Statut : reconstruction plausible, non verifiee contre une reference auteur ; ne sert pas de base a une promotion package_include tant que ce point n'est pas leve (voir extensions_projet_2026-09/matrice_W_originale/cas_ecologiques_batch1_2026-09-22.md).
 
 ## Bloc 2 - Identification et DOI
 

@@ -2,7 +2,7 @@
 title: paper_fhb_ensembling
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-23
 sources:
   - data/final_datasets/sf/paper_fhb_ensembling.rds
   - DatasetFirst_10_5061_dryad_fn2z34trv
@@ -452,6 +452,26 @@ formula_candidates:
     estimator_context: ["logistic_regression", "random_forest", "gwr", "stacking_ensemble"]
     status: "executable_continuous_variant"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: site_id
+- Panel time: year_id
+- N units: 69
+- N periods: 985
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_fhb_ensembling_W.rds`
+- W unit order source: kNN k=8 (defaut du projet, spatial_knn_args()) sur les 69 sites distincts (state+location, coordonnees geographiques) -- voir code/r_catalog/build_fhb_ensembling_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-23 : le papier ne documente aucun terme spatial (0 occurrence de "spatial autocorrelation"/"random effect" dans le TEI -- un ensemble de regressions logistiques, pas d'econometrie spatiale). Cette W kNN=8 est une **specification geographique inventee par le projet**. La colonne `site_id` (absente de l'artefact d'origine) a ete materialisee via `state`+`location` -- 69 valeurs distinctes.
+
+**Blocage fonctionnel trouve en testant, corrige le 2026-09-23** (`validate_spatial_panel_data()`) : le couple (site, `year` seul) n'etait pas unique -- jusqu'a 101 lignes partagent le meme (site, annee). Diagnostic (lu dans le TEI) : ce ne sont pas des visites repetees mais plusieurs cultivars/niveaux de resistance FHB testes **simultanement** au meme site la meme annee -- le papier traite explicitement `resist`/`type` comme des covariables agronomiques dans un modele pool ("variables for cultivar resistance to FHB... were included as baseline agronomic factors"), pas comme une dimension separee (contrairement a `shark_longline_catch`, ou les auteurs entrainent un modele par espece). `formula_used` (`S ~ resist + wc + corn + type`) incluait deja `resist`/`type` -- aucun changement de formule necessaire. Seule la cle temporelle change : `year_id` (= `year` + `id` de l'essai, materialisee dans le `.rds`, 985 valeurs distinctes = 1 par ligne) remplace `year` seul comme `Panel time`, ce qui rend (site, year_id) unique par construction tout en conservant l'information d'annee dans la valeur. `validate_spatial_panel_data()` passe desormais (69 unites, 985 periodes, desequilibre).
 
 ## Bloc 2 - Identification et DOI
 

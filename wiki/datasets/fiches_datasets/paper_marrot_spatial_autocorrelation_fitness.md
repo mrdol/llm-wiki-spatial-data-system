@@ -2,7 +2,7 @@
 title: paper_marrot_spatial_autocorrelation_fitness
 type: dataset
 created: 2026-09-14
-updated: 2026-09-07
+updated: 2026-09-22
 sources:
   - data/final_datasets/sf/paper_marrot_spatial_autocorrelation_fitness.rds
   - DataCite_2015_SpatialAutocorrelationInFitness_10_1111_2041_210
@@ -120,6 +120,24 @@ formula_candidates:
     estimator_context: ["gls", "sar_lag", "sar_error", "pcnm", "random_forest"]
     status: "executable_continuous_variant"
 ```
+
+### Panel spatial - structure et W
+
+- Data structure: spatial_panel
+- Panel unit: Nest_boxes_ID
+- Panel time: Years
+- N units: 140
+- N periods: 6
+- Panel balance: unbalanced
+- Panel effect: individual
+- W level: unit
+- W time varying: no
+- W file: `data/final_datasets/weights/paper_marrot_spatial_autocorrelation_fitness_W.rds`
+- W unit order source: methode **documentee par les auteurs** (Marrot, Garant & Charmantier 2015, section Methods, citant Borcard, Gillet & Legendre 2011) : seuil de distance = plus petite distance qui maintient toutes les unites connectees (arbre couvrant minimal), reconstruit objectivement sur les 140 nichoirs distincts, t=254.1m -- voir code/r_catalog/build_marrot_panel_W.R
+- Prediction target: fit_only
+- Supported resampling: panel_full_fit
+
+Session du 2026-09-22 : **seul cas de ce lot ou la methode de construction de W est explicitement documentee par les auteurs** (lu dans le TEI du papier, corpus/papers/tei/) -- Cas 1 de la methodologie de reconstruction W (seuil de distance, toujours reconstructible). Reserve : ce seuil est documente pour leur modele PCNM ; leur modele SAR cite "a spatial weight matrix" (Lichstein et al. 2002) sans reconfirmer une construction distincte -- hypothese retenue que le meme seuil sert de base aux deux modeles, non confirmee explicitement pour le cas SAR dans le texte lu. Statut : reconstruction fidele a la regle documentee, non verifiee contre une valeur SAR publiee faute de sortie numerique comparable extraite du texte (voir extensions_projet_2026-09/matrice_W_originale/cas_marrot_stwr_2026-09-22.md).
 
 ## Bloc 2 - Identification et DOI
 

@@ -30,6 +30,13 @@ TODAY <- format(Sys.Date(), "%Y-%m-%d")
 
 # -- Correspondance record_id (loader) -> local_raw_dir (paper_dataset_uses.json) --
 LOADER_TO_DIR <- c(
+  s01_colorado_precip_1981 = "S01_Colorado_climatological_stations",
+  s02_us_april_1948_precip = "S02_US_April_1948_precipitation",
+  n04_glasgow_respiratory = "N04_greater_glasgow_respiratory",
+  n03_macoma_balthica = "N03_PICAR_Z",
+  n06_tsuga_mi_tsca = "N06_Tsuga_MI_TSCA",
+  g06_pm25_meteorological = "G06_PM25_meteorological",
+  g09_nyc_covid_zcta = "G09_Poisson_MGWR_NYC",
   metacomnet             = "DataCite_2021_MetacomnetARandomForest_10_1111_2041_210",
   cluster_detection      = "DataCite_2016_ClusterDetectionOfSpatial_10_1002_sim_7172",
   medicago               = "DataCite_2022_NicheConservatismLimitsThe_10_1111_ecog_060",
@@ -207,6 +214,102 @@ PARENT_DATASET <- (function() {
 # scripts de replication) au cours de cette session. formula_used, quand
 # fourni, remplace la formule "kitchen sink" generee par defaut.
 FORMULA_OVERRIDES <- list(
+  s02_us_april_1948_precip = list(
+    formula_pub = "Z(s) = mu(s) + epsilon(s), with covariance tapering used for kriging/interpolation of the April 1948 precipitation anomaly field",
+    formula_used = "anomaly ~ 1",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "Le papier ne regresse pas anomaly sur raw ou infill. `raw` est la precipitation brute et `infill` un indicateur de provenance des valeurs dans l'objet spam::USprecip; ce ne sont pas des covariables du modele publie. Le modele porte sur le champ spatial de l'anomalie et sa covariance. La formule a intercept seul est uniquement une representation tabulaire minimale et ne reproduit pas le krigeage avec covariance tapering.",
+    y_term_pub = "anomaly (anomalie de precipitation agregee d'avril 1948 aux 5 906 stations observees)",
+    x_terms_pub = character(0),
+    ml_formula = "anomaly ~ 1",
+    ml_response = "anomaly",
+    ml_predictors = character(0),
+    ml_estimator_context = c("covariance_tapering", "kriging"),
+    ml_status = "manual_review_spatial_field_without_classical_covariates",
+    source_ref = "Furrer, Genton & Nychka (2006), Covariance Tapering for Interpolation of Large Spatial Datasets, DOI 10.1198/106186006X132178. Le papier analyse le champ d'anomalies de precipitation d'avril 1948 et compare des calculs de krigeage/covariance; il ne specifie aucune regression Y ~ raw + infill. L'objet officiel spam::USprecip contient 5 906 stations observees (infill=1), chiffre coherent avec la Figure 8, contre 5 909 annoncees dans la prose."
+  ),
+  g09_nyc_covid_zcta = list(
+    formula_pub = "Positive ~ perc_black + heart_perc + pop_density + schools_per_mile + perc_pub_ast + perc_hispanic [Poisson, log link, offset = log(Total)]",
+    formula_used = "Positive ~ perc_black + heart_perc + pop_density + schools_per_mile + perc_pub_ast + perc_hispanic",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "La formule tabulaire conserve exactement les six covariables du notebook final. L'exposition `Total` doit etre fournie comme offset logarithmique au moteur Poisson; elle ne doit pas etre traitee comme une covariable ordinaire.",
+    y_term_pub = "Positive (nombre de tests COVID-19 positifs par ZCTA)",
+    x_terms_pub = c("perc_black", "heart_perc", "pop_density", "schools_per_mile", "perc_pub_ast", "perc_hispanic"),
+    ml_formula = "Positive ~ perc_black + heart_perc + pop_density + schools_per_mile + perc_pub_ast + perc_hispanic",
+    ml_response = "Positive",
+    ml_predictors = c("perc_black", "heart_perc", "pop_density", "schools_per_mile", "perc_pub_ast", "perc_hispanic"),
+    ml_estimator_context = c("multiscale_geographically_weighted_poisson_regression", "poisson_log_offset"),
+    ml_status = "manual_review_offset_required",
+    source_ref = "Sachdeva et al. (2023), On the local modeling of count data: multiscale geographically weighted Poisson regression, DOI 10.1080/13658816.2023.2250838; formule finale verifiee dans le notebook officiel Figshare 10.6084/m9.figshare.21743021.v1."
+  ),
+  n04_glasgow_respiratory = list(
+    formula_pub = "observed ~ incomedep [Poisson, log link, offset = log(expected), spatial effect HGP/DAGAR/BYM]",
+    formula_used = "observed ~ incomedep",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "`expected` est une exposition utilisee comme offset logarithmique, et `name` est un libelle d'unite spatiale; aucun des deux n'est une covariable X. Le harnais courant ne reproduit ni le HGP fonde sur la distance de Hausdorff, ni DAGAR, ni BYM.",
+    y_term_pub = "observed (hospitalisations respiratoires observees)",
+    x_terms_pub = c("incomedep"),
+    ml_formula = "observed ~ incomedep",
+    ml_response = "observed",
+    ml_predictors = c("incomedep"),
+    ml_estimator_context = c("hausdorff_gaussian_process", "dagar", "bym", "poisson_log_offset"),
+    ml_status = "manual_review_offset_and_unimplemented_spatial_effect",
+    source_ref = "Cunha Godoy, Prates & Yan (2026), Statistical Inferences and Predictions for Areal Data and Spatial Data Fusion with Hausdorff-Gaussian Processes, DOI 10.1007/s13253-025-00720-7, equation (3) et application Greater Glasgow."
+  ),
+  n03_macoma_balthica = list(
+    formula_pub = "Occurrence: logit(pi(s)) = X(s) beta_o + W_o(s) + epsilon_o(s); prevalence conditionnelle: log(theta(s)) = X(s) beta_p + W_p(s) + epsilon_p(s), Poisson tronque en zero; X = mgs + silt + depth",
+    formula_used = "macoma ~ mgs + silt + depth",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "`grid` est un identifiant de cellule et non une covariable publiee. La formule executable a une seule reponse est une simplification tabulaire: elle ne reproduit ni la decomposition hurdle occurrence/prevalence, ni les deux champs spatiaux PICAR independants.",
+    y_term_pub = "macoma, decompose en occurrence (macoma > 0) et abondance positive conditionnelle",
+    x_terms_pub = c("mgs", "silt", "depth"),
+    ml_formula = "macoma ~ mgs + silt + depth",
+    ml_response = "macoma",
+    ml_predictors = c("mgs", "silt", "depth"),
+    ml_estimator_context = c("picar_z_hurdle", "zero_truncated_poisson"),
+    ml_status = "manual_review_two_part_model_unimplemented",
+    source_ref = "Lee & Haran (2024), A class of models for large zero-inflated spatial data, DOI 10.1007/s13253-024-00619-9; application Macoma du depot officiel PICAR_Z_Code, samples/datsc.csv."
+  ),
+  n06_tsuga_mi_tsca = list(
+    formula_pub = "TSCA ~ MIN + MAX + SUP + WIP + AET + DEF [Bernoulli/logit; GLM, GAM1, GAM2 and spatial logistic NNGP predictors synthesized by BSPS]",
+    formula_used = "TSCA ~ MIN + MAX + SUP + WIP + AET + DEF",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "La formule tabulaire restitue les six covariables climatiques de l'application. Elle ne reproduit pas a elle seule les fonctions lissees de GAM1/GAM2, le champ spatial NNGP de SPR, ni la synthese BSPS a coefficients spatialement variables. La reponse est binaire et le harnais de regression continue actuel ne doit pas promouvoir automatiquement ce jeu.",
+    y_term_pub = "TSCA (presence/absence de Tsuga canadensis)",
+    x_terms_pub = c("MIN", "MAX", "SUP", "WIP", "AET", "DEF"),
+    ml_formula = "TSCA ~ MIN + MAX + SUP + WIP + AET + DEF",
+    ml_response = "TSCA",
+    ml_predictors = c("MIN", "MAX", "SUP", "WIP", "AET", "DEF"),
+    ml_estimator_context = c("bsps_binary", "glm_binomial", "gam_binomial", "spatial_logistic_nngp"),
+    ml_status = "manual_review_binary_response_and_bsps_unimplemented",
+    source_ref = "Cabel, Sugasawa, Kato, Takanashi & McAlinn (2025), Bayesian Spatial Predictive Synthesis, arXiv:2203.05197v4, Section 5.1. L'application utilise 17 743 peuplements, six covariables climatiques, 2 000 observations de validation repetees sur 20 partitions, et l'objet exact MI_TSCA distribue par spNNGP. La documentation spNNGP declare un Albers Equal Area en metres, mais l'echelle numerique des coordonnees est incompatible avec cette unite et la transformation correspondante ne tombe pas au Michigan; le CRS reste donc volontairement non assigne en attendant une clarification de la source."
+  ),
+  s01_colorado_precip_1981 = list(
+    formula_pub = "Y_i ~ N(f(x_i), eta^2) ; f(.) ~ GP(mu, C(.,.; theta)) [processus gaussien stationnaire ou non stationnaire, covariance de Matern]",
+    formula_used = "log_annual_precip_1981 ~ 1",
+    formula_used_generated_despite_pub = TRUE,
+    formula_used_divergence_note = "Le papier ajuste une surface spatiale gaussienne sans covariable X classique : les coordonnees indexent f(x), elles ne sont pas des predicteurs lineaires. La formule executable a intercept seul ne reproduit donc pas le GP publie et ne doit pas servir a promouvoir ce jeu comme benchmark de regression Y ~ X.",
+    y_term_pub = "log-transformation des precipitations annuelles de 1981",
+    x_terms_pub = character(0),
+    ml_formula = "log_annual_precip_1981 ~ 1",
+    ml_response = "log_annual_precip_1981",
+    ml_predictors = character(0),
+    ml_estimator_context = c("gaussian_process_stationary", "gaussian_process_nonstationary", "kriging"),
+    ml_status = "manual_review_reconstructed_sample",
+    source_ref = "Paciorek & Schervish (2006), Spatial Modelling Using a New Class of Nonstationary Covariance Functions, Environmetrics, DOI 10.1002/env.785. Lecture integrale du TEI : le papier annonce 217 stations sans valeurs mensuelles manquantes en 1981 mais ne donne ni identifiants ni filtre additionnel. La source historique UCAR officielle en livre 244 avec ce critere exact. La fiche conserve donc une reconstruction N=244 explicitement distincte de l'echantillon auteur N=217."
+  ),
+  g06_pm25_meteorological = list(
+    formula_pub = "PM25 ~ PPTN + RH + Tmin + Tmax + WS + TCDC [modele a coefficients spatialement variables BPST, equation (16)]",
+    formula_used = "PM25 ~ PPTN + RH + Tmin + Tmax + WS + TCDC",
+    y_term_pub = "concentration moyenne journaliere de PM2.5 agregee sur l'hiver 2011",
+    x_terms_pub = c("PPTN (precipitations)", "RH (humidite relative)", "Tmin (temperature minimale)", "Tmax (temperature maximale)", "WS (vitesse du vent)", "TCDC (couverture nuageuse totale)"),
+    ml_formula = "PM25 ~ PPTN + RH + Tmin + Tmax + WS + TCDC",
+    ml_response = "PM25",
+    ml_predictors = c("PPTN", "RH", "Tmin", "Tmax", "WS", "TCDC"),
+    ml_estimator_context = c("bpst_svcm", "gwr", "ols", "random_forest", "xgboost", "gam_spatial"),
+    ml_status = "manual_review_public_source_reconstruction",
+    source_ref = "Wang et al. (2019), Estimation and inference in spatially varying coefficient models, Environmetrics, DOI 10.1002/env.2485, equation (16). Reconstruction depuis les sources citees : EPA AQS 2011, grilles Livneh pour PPTN/Tmin/Tmax/WS et NARR pour RH/TCDC. N=838 sites continentaux complets apres agregation DJF ponderee par le nombre de jours. Les auteurs ne deposent ni leur liste finale de stations ni leur code de jointure ; ne pas presenter cette table comme une replique exacte avant validation."
+  ),
   marrot_spatial_autocorrelation_fitness = list(
     formula_pub = "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration [GLS/SAR selon la structure d'autocorrelation spatiale testee]",
     formula_used = "Number_of_fledglings ~ Clutch_size + Laying_date + Incubation_duration",
@@ -3861,7 +3964,13 @@ for (record_id in records_to_generate) {
   # seulement "year" alors que formula_used contenait bien decimalLatitude,
   # une incoherence purement d'affichage, formula_used restant correct).
   formula_x_terms <- extract_formula_terms(formula_used, c(x_vars, y_vars, coord_vars))
-  x_for_yaml <- if (length(formula_x_terms)) formula_x_terms else x_vars
+  # Une curation explicite peut legitimement declarer zero predicteur
+  # (champ spatial/krigeage a intercept seul). Dans ce cas, ne pas retomber
+  # sur toutes les colonnes de l'artefact, dont certaines sont seulement des
+  # valeurs auxiliaires ou des indicateurs de provenance.
+  x_for_yaml <- if (!is.null(ov) && !is.null(ov$ml_predictors)) {
+    ov$ml_predictors
+  } else if (length(formula_x_terms)) formula_x_terms else x_vars
   formula_candidate_formula <- if (!is.null(ov) && !is.null(ov$formula_candidate_formula)) ov$formula_candidate_formula else formula_used
   y_pub_display <- if (!is.null(ov) && !is.null(ov$y_term_pub)) ov$y_term_pub else if (formula_used != "pending" && length(y_vars)) y_vars[1] else "pending"
   # x_terms_pub_count doit compter EXACTEMENT les termes affiches par

@@ -2,7 +2,7 @@
 title: Pipeline d'ingestion des jeux de donnees issus de papiers
 type: metadata
 created: 2026-08-06
-updated: 2026-09-07
+updated: 2026-09-21
 sources: []
 tags: [metadata, pipeline, kg, papers, ingestion]
 ---
@@ -42,6 +42,38 @@ Phase 13ter    - Recherche bibliographique post-hoc + covariables externes legit
 Phase 13quater - Verifier la coherence inter-blocs (deterministe, cross_block_consistency.py)
 Phase 14 - Controler la promotion package et exporter les metadata
 ```
+
+## Voie article-first par corpus ferme
+
+Cette voie s'applique lorsqu'un corpus d'articles et leurs TEI existent deja,
+mais que les depots des donnees empiriques n'ont pas encore ete recenses. Elle
+precede la Phase 4 et ne remplace pas ses controles.
+
+```text
+table de codage + TEI
+  -> une ligne par usage empirique
+  -> deduplication prudente des sources recurrentes
+  -> rapprochement KG, fiches, raw et artefacts finaux
+  -> extraction des seuls indices de depot presents dans les TEI
+  -> verification du lien article-dataset, des fichiers et de la licence
+  -> telechargement par la Phase 4
+```
+
+Commande utilisee pour le corpus de la petite meta-analyse :
+
+```powershell
+python tools/build_article_first_dataset_recovery.py `
+  --coding extensions_projet_2026-09/redaction_datapaper/meta_analyse_codage_66_articles_2026-09-21.tsv `
+  --output extensions_projet_2026-09/redaction_datapaper/inventaire_recuperation_jeux_reels_67_articles.tsv
+```
+
+Le manifeste produit est une file de travail, pas une preuve de disponibilite.
+`source_clues_to_verify` signifie qu'un DOI de donnees, une URL de depot ou un
+enregistrement KG doit encore etre controle avec
+`tools/dataset_manifest_check.py`. `already_in_repo` exige encore de verifier
+que l'artefact local correspond exactement a l'extrait utilise dans l'article.
+Les donnees restreintes ne sont pas contournees et une meme source n'est fusionnee
+entre articles que lorsque son identite est defendable.
 
 ## Voie alternative : dataset-first (partir du dataset, pas du papier)
 
