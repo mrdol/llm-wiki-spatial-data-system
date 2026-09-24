@@ -38,7 +38,8 @@ when \code{response_typology} is \code{"binary"} or \code{"count"}. See
 \code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
 
 \item{inla_time}{\code{NULL} or the name of the time column of a panel dataset,
-required only by the \code{inla_spde_st} estimator. See \code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
+required only by the \code{inla_spde_st}/\code{inla_spde_st_group} estimators. See
+\code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
 }
 \value{
 A \code{spatial_dataset_spec} object.

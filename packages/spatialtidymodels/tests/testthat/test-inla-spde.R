@@ -464,6 +464,90 @@ test_that("spatial_dataset_spec(inla_time=) reaches 'inla_spde_st' through bench
   expect_true(all(is.finite(st_rows$rmse)))
 })
 
+# --- Phase 4 (2026-09-23): variante combinee `inla_spde_st_group` (espace x
+# AR1 ET effet(s) de groupe simultanement). Motivee par
+# paper_mistletoe_bird_abundance, seul jeu du corpus dont le modele publie
+# combine reellement les deux structures. Le moteur (inlaspde_fit_impl())
+# n'a pas change (il empilait deja time/group_re sans condition) -- ces
+# tests protegent le nouveau nom d'estimateur/garde-fou cote harnais.
+
+inla_spde_st_group_test_data <- function(n_per_period = 25L, n_period = 4L, seed = 1L, n_groups = 3L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n_per_period)
+  coords_rep <- coords[rep(seq_len(n_per_period), n_period), ]
+  period <- rep(seq_len(n_period), each = n_per_period)
+  n <- n_per_period * n_period
+  x1 <- stats::rnorm(n)
+  groupe <- factor(sample(seq_len(n_groups), n, replace = TRUE))
+  group_effect <- stats::rnorm(n_groups, sd = 1.5)[as.integer(groupe)]
+  spatial_signal <- sin(coords_rep[, 1] / 2) + cos(coords_rep[, 2] / 2)
+  period_shift <- c(0, 0.5, 0.9, 1.1)[period]
+  y <- 1 + 0.8 * x1 + spatial_signal + period_shift + group_effect + stats::rnorm(n, sd = 0.3)
+  data.frame(
+    y = y, x1 = x1, x_coord = coords_rep[, 1], y_coord = coords_rep[, 2],
+    period = period, groupe = groupe
+  )
+}
+
+test_that("inlaspde_fit_impl() fits time= and (1 | groupe) simultaneously", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_group_test_data()
+  fit_obj <- inlaspde_fit_impl(
+    y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord"), time = "period"
+  )
+  expect_equal(attr(fit_obj, "inlaspde_time_col"), "period")
+  expect_equal(attr(fit_obj, "inlaspde_time_levels"), c("1", "2", "3", "4"))
+  expect_equal(attr(fit_obj, "inlaspde_group_cols"), "groupe")
+  expect_true(is.character(attr(fit_obj, "inlaspde_group_levels")$groupe))
+  # Meme garde que le test inla_spde_st seul: un hyperparametre de
+  # correlation de groupe (Rho) ne peut exister que si le champ AR1 a
+  # reellement ete ajuste, pas juste poole.
+  expect_true(any(grepl("Rho", rownames(fit_obj$summary.hyperpar))))
+
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  seen_row <- dat[dat$period == 2, ][1, ]
+  preds <- inlaspde_pred_impl(model_fit_stub, seen_row)
+  expect_length(preds, 1L)
+  expect_true(is.finite(preds))
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde_st_group' end-to-end and requires both time and a group term", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_group_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_st_group", y ~ x1 + (1 | groupe), dat,
+    coords = c("x_coord", "y_coord"), inla_time = "period"
+  )
+  expect_true(!is.null(fit))
+  expect_s3_class(fit, "inla_spde_group_fit")
+
+  preds <- predict_vector_for_benchmark(fit, dat[dat$period == 1, ][1:5, ])
+  expect_true(is.numeric(preds))
+  expect_length(preds, 5L)
+  expect_true(all(is.finite(preds)))
+
+  # Sans inla_time: erreur explicite, pas un pooling silencieux.
+  expect_error(
+    fit_one_benchmark_estimator(
+      "inla_spde_st_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
+    ),
+    "inla_time"
+  )
+  # Sans terme de groupe dans la formule: erreur explicite aussi.
+  expect_error(
+    fit_one_benchmark_estimator(
+      "inla_spde_st_group", y ~ x1, dat, coords = c("x_coord", "y_coord"), inla_time = "period"
+    ),
+    "aucun terme"
+  )
+})
+
 test_that("inla_spde prediction is deterministic whatever the R RNG state, and leaves global state untouched", {
   skip_if_not_installed("INLA")
   skip_if_not_installed("inlabru")

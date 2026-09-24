@@ -38,6 +38,18 @@
 #     groupe n'est present) pour qu'une fiche ne puisse jamais declarer
 #     cette variante eligible sans effet de groupe reel.
 #
+# Phase 4 (2026-09-23): variante combinee `inla_spde_st_group` (espace x AR1
+#   ET effet(s) de groupe simultanement). AUCUN changement necessaire dans ce
+#   fichier: `inlaspde_fit_impl()` empilait deja `time`/`group_re` sans
+#   condition (le meme comp_formula porte `field(..., group=, control.group=
+#   list(model="ar1"))` quand `time` est fourni ET les composants iid quand
+#   la formule contient `(1 | groupe)`, independamment l'un de l'autre) --
+#   seul le cote harnais (`13-benchmark-spatial.R`) manquait un nom
+#   d'estimateur/garde-fou dedie qui passe les deux arguments a la fois.
+#   Motive par paper_mistletoe_bird_abundance, seul jeu du corpus dont le
+#   modele publie combine reellement une structure spatio-temporelle ET un
+#   effet aleatoire de groupe (observateur/region).
+#
 # BYM2/ICAR (aucune matrice d'adjacence precalculee dans le corpus de jeux
 # cures) et le modele barriere de INLAspacetime (aucune geometrie non convexe/
 # cote/reseau hydrographique dans le corpus) restent hors perimetre -- voir

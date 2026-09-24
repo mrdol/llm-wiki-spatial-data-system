@@ -163,11 +163,11 @@ model when \code{response_typology} is \code{"binary"} or \code{"count"}.}
 
 \item{inla_time}{\code{NULL} (default) or the name of the time column of a panel
 dataset (a single string naming a column of \code{data}, otherwise an error).
-It is required only by \code{inla_spde_st}, which fits a separable
-space x AR1 field indexed by that column; without it, only
-\code{inla_spde_st} fails (with an explicit per-fold message) and the other
-estimators of the same call run normally. The column is used as the
-AR1 index, not as a fixed covariate, and every period of a test fold
+It is required only by \code{inla_spde_st}/\code{inla_spde_st_group}, which fit a
+separable space x AR1 field indexed by that column; without it, only
+those two estimators fail (with an explicit per-fold message) and the
+other estimators of the same call run normally. The column is used as
+the AR1 index, not as a fixed covariate, and every period of a test fold
 must appear in its training fold.}
 }
 \value{

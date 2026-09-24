@@ -504,6 +504,37 @@ fit_one_benchmark_estimator <- function(estimator, formula, data, coords,
       class(fit_obj) <- c("inla_spde_group_fit", class(fit_obj))
       fit_obj
     },
+    inla_spde_st_group = {
+      require_package("INLA", "benchmark INLA SPDE spatio-temporel + effets de groupe")
+      require_package("inlabru", "benchmark INLA SPDE spatio-temporel + effets de groupe")
+      if (is.null(inla_time)) {
+        stop("inla_spde_st_group: aucune colonne temporelle fournie (argument inla_time) -- utiliser 'inla_spde_group' pour un effet de groupe sans structure temporelle.", call. = FALSE)
+      }
+      if (is.null(data[[inla_time]])) {
+        stop(sprintf("inla_spde_st_group: colonne temporelle '%s' introuvable dans data.", inla_time), call. = FALSE)
+      }
+      if (length(extract_group_re_terms(formula, data = data)$re_groups) == 0L) {
+        stop("inla_spde_st_group: aucun terme d'effet aleatoire de groupe '(1 | groupe)' trouve dans la formule -- utiliser 'inla_spde_st' si aucun effet de groupe n'est modelise.", call. = FALSE)
+      }
+      inla_family <- switch(response_typology, binary = "binomial", count = "poisson", "gaussian")
+      inla_data <- data
+      if (identical(response_typology, "binary")) {
+        inla_data[[y_name]] <- as.integer(inla_data[[y_name]]) - 1L
+      }
+      # Combine les deux contournements ci-dessus: inlaspde_fit_impl() accepte
+      # deja `time` ET un terme `(1 | groupe)` simultanement (le comp_formula
+      # empile field(..., group=, control.group=list(model="ar1")) et le(s)
+      # composant(s) iid sans condition, voir 51-parsnip-inlaspde.R) -- rien a
+      # changer cote moteur. Cote harnais, on contourne workflows::fit() pour
+      # la meme raison que inla_spde_group (la formule contient '(1 | groupe)',
+      # que stats::model.frame()/hardhat::mold() ne comprend pas), et on passe
+      # `time = inla_time` directement, comme inla_spde_st.
+      fit_obj <- inlaspde_fit_impl(
+        formula, inla_data, coords, family = inla_family, link = glm_link, time = inla_time
+      )
+      class(fit_obj) <- c("inla_spde_group_fit", class(fit_obj))
+      fit_obj
+    },
     spboost = {
       require_package("workflows", "benchmark SpBoost")
       make_benchmark_workflow(
@@ -2474,11 +2505,11 @@ validate_heavy_tuning_request <- function(estimators, data, tune, allow_heavy_tu
 #'   model when `response_typology` is `"binary"` or `"count"`.
 #' @param inla_time `NULL` (default) or the name of the time column of a panel
 #'   dataset (a single string naming a column of `data`, otherwise an error).
-#'   It is required only by `inla_spde_st`, which fits a separable
-#'   space x AR1 field indexed by that column; without it, only
-#'   `inla_spde_st` fails (with an explicit per-fold message) and the other
-#'   estimators of the same call run normally. The column is used as the
-#'   AR1 index, not as a fixed covariate, and every period of a test fold
+#'   It is required only by `inla_spde_st`/`inla_spde_st_group`, which fit a
+#'   separable space x AR1 field indexed by that column; without it, only
+#'   those two estimators fail (with an explicit per-fold message) and the
+#'   other estimators of the same call run normally. The column is used as
+#'   the AR1 index, not as a fixed covariate, and every period of a test fold
 #'   must appear in its training fold.
 #'
 #' @return A `spatial_benchmark` object with `results`, `resample_results`, and
@@ -2557,9 +2588,10 @@ benchmark_spatial <- function(formula, data, coords,
   data <- as.data.frame(data)
   coords <- check_spatial_coords(coords, data = data)
   # inla_time: nom de la colonne temporelle du panel, requise seulement par
-  # 'inla_spde_st' (champ spatio-temporel espace x AR1). Un NULL laisse cet
-  # estimateur echouer proprement fold par fold ("aucune colonne temporelle
-  # fournie") sans bloquer les autres estimateurs du meme appel.
+  # 'inla_spde_st'/'inla_spde_st_group' (champ spatio-temporel espace x AR1).
+  # Un NULL laisse ces estimateurs echouer proprement fold par fold ("aucune
+  # colonne temporelle fournie") sans bloquer les autres estimateurs du meme
+  # appel.
   if (!is.null(inla_time)) {
     if (!is.character(inla_time) || length(inla_time) != 1L || is.na(inla_time)) {
       stop("benchmark_spatial: inla_time doit etre un nom de colonne (chaine de caracteres).", call. = FALSE)
@@ -2866,7 +2898,8 @@ print.spatial_benchmark <- function(x, ...) {
 #'   when `response_typology` is `"binary"` or `"count"`. See
 #'   [benchmark_spatial()].
 #' @param inla_time `NULL` or the name of the time column of a panel dataset,
-#'   required only by the `inla_spde_st` estimator. See [benchmark_spatial()].
+#'   required only by the `inla_spde_st`/`inla_spde_st_group` estimators. See
+#'   [benchmark_spatial()].
 #'
 #' @return A `spatial_dataset_spec` object.
 #' @export
@@ -2881,7 +2914,7 @@ spatial_dataset_spec <- function(name, data, formula, coords, W = NULL,
   # glm_link: NULL (lien par defaut de la famille) ou un lien explicite (ex.
   # "probit") pour ols/gam_spatial quand response_typology est binary/count.
   # inla_time: NULL ou nom de la colonne temporelle du panel (requise par
-  # 'inla_spde_st'; les autres estimateurs l'ignorent).
+  # 'inla_spde_st'/'inla_spde_st_group'; les autres estimateurs l'ignorent).
   structure(
     list(name = name, data = data, formula = formula, coords = coords, W = W,
          response_typology = response_typology, glm_link = glm_link,
