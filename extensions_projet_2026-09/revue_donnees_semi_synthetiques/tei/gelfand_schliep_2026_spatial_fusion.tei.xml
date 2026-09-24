@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Model-Based Spatial Data Fusion</title>
+				<funder ref="#_bASuyhA">
+					<orgName type="full">US Office of Naval Research</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2025-08-27">August 27, 2025</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Alan</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Duke University</orgName>
+								<address>
+									<settlement>Durham</settlement>
+									<region>North Carolina</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Erin</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+							<email>emschliep@ncsu.edu</email>
+							<affiliation key="aff1">
+								<orgName type="institution">North Carolina State University</orgName>
+								<address>
+									<settlement>Raleigh</settlement>
+									<region>North Carolina</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Model-Based Spatial Data Fusion</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2025-08-27">August 27, 2025</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">B761E8F7A047E2DF859D39CCBA478F62</idno>
+					<idno type="DOI">10.1146/annurev-statistics-042424-</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:09+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>block average</term>
+					<term>calibration</term>
+					<term>hierarchical model</term>
+					<term>latent process</term>
+					<term>point-level process</term>
+					<term>stochastic regressor</term>
+					<term>thinning</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>With increased data collection, the need to fuse data sources has emerged as an important and rapidly growing research activity in the statistical community. In considering spatial and spatio-temporal datasets to examine complex environmental and ecological processes of interest, we often have multiple sources that are jointly informative about features of interest of the processes. Model-based data fusion aims to leverage information from these sources to improve inference and prediction. In the spatial statistics setting, these data could be geostatistical; areal; or point patterns with varying spatial resolutions, supports, and domains. Given two or more sources, we explore stochastic modeling to implement a suitable fusion with full inference and uncertainty quantification. We illustrate these ideas using three environmental and ecological examples: precipitation, marine mammal abundance, and joint species distributions.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>The fusion of data sources has emerged as an important and rapidly growing research activity in the statistical community. In particular, with increased collection of spatial (and spatio-temporal) datasets, we often find multiple datasets that are jointly informative about features of a process of interest. Intuitively, by jointly modeling these sources, we anticipate that we can learn at least as much about these features as we can from any individual source. Just as with a single dataset, it is critical to specify appropriate models when incorporating multiple datasets in order to obtain useful inference and prediction. This article reviews the range of potential spatial data sources available and proposes suitable generative stochastic modeling to implement the fusion.</p><p>The literature on data fusion has grown immensely over the past two decades under different names, such as data assimilation (e.g., <ref type="bibr" target="#b27">Royle et al. 1999)</ref>, data aggregation (e.g., <ref type="bibr" target="#b3">Cai et al. 2019)</ref>, data melding (e.g., <ref type="bibr" target="#b25">Poole &amp; Raftery 2000)</ref>, and data integration (e.g., <ref type="bibr" target="#b38">Ziegler &amp; Dittrich 2007)</ref>. We focus exclusively on statistical data fusion approaches. Data fusion is not merely intended to increase sample size by combining directly comparable datasets, nor is it an effort to implement so-called meta-analysis <ref type="bibr" target="#b3">(Borenstein et al. 2021)</ref>. Rather, it aims to leverage information from data collected under different sampling regimes.</p><p>One version of spatial data fusion is spatial regression, which employs one data source to explain the other. This approach falls within the well-established area of spatial misalignment, where, for example, one predictor variable is observed at the point level, a second predictor variable is observed over areal units, and the response variable is observed on a different set of areal units.</p><p>A classic example arises in studying environmental justice, where we seek to assess whether one population is more or less adversely affected by an environmental contaminant than is a second population <ref type="bibr">(Banerjee et al. 2015, chapter 7)</ref>. Here, the two spatial regressors are (a) exposure levels to the environmental contaminant observed at monitoring stations (point level) and (b) atrisk population groups through census data available at census tract scale. The response variable is count data of adverse health outcomes observed at the scale of postal or ZIP codes. The modeling objective for this classical fusion becomes inferring about a spatial data layer at a different spatial resolution than that at which it was originally collected. That is, the desired inference is about the distribution of a variable at a new level of spatial aggregation (the so-called modifiable areal unit problem, or MAUP) <ref type="bibr" target="#b35">(Wong 2009)</ref>. For data modeled at the point level through a spatial geostatistical process, block averaging to different spatial scales is also possible-the so-called change of support problem <ref type="bibr" target="#b12">(Gelfand et al. 2001)</ref>. This type of data fusion is not the focus of the review presented here.</p><p>Our interest is in model-based approaches for data fusion of spatial response data where both sources pertain to a common response. Specifically, our interest is in modeling approaches that could have produced (i.e., generated) the data that were observed. We develop a multilevel/hierarchical modeling approach that enables full inference with regard to both estimation and prediction, with implicit incorporation of uncertainty. The key in this modeling approach is the introduction of a suitable latent stochastic process that links the sources of spatial response data.</p><p>Not all statistical data fusion work employs the hierarchical modeling approach we favor. Perhaps the broadest treatment is presented by <ref type="bibr">Kedem et al. (2017, and references therein)</ref>. They propose the use of density ratio models where various distributions are regressed on a common or baseline reference distribution with the goal of estimating the reference distribution from the entire combined data. A survey of machine learning for data fusion is given by <ref type="bibr" target="#b21">Meng et al. (2020)</ref>. An early spatial paper by <ref type="bibr" target="#b13">Gotway &amp; Young (2002)</ref> focused on informal fusion with areal units. <ref type="bibr" target="#b23">Nguyen et al. (2012)</ref> consider spatial data fusion in the context of remote sensing using a variation of fixed rank kriging. <ref type="bibr" target="#b22">Moraga et al. (2017)</ref> supply a Bayesian fusion in the geostatistical setting using the Downloaded from <ref type="url" target="www.annualreviews.org">www.annualreviews.org</ref>. Guest (guest) IP: 147.100.11.183 On: Wed, 09 Sept 2026 09:43:11 integrated nested Laplace approximation approach for model fitting. Most recently, <ref type="bibr" target="#b36">Zhong et al. (2025)</ref> extend this work to incorporate adjustment for preferential sampling.</p><p>Data fusion is often challenging because of major issues that arise due to the sources being of different data types, resolutions, and support, or residing over differing domains. For example, the sources can be any combination of geostatistical data that are explicitly point-referenced, areal data collected as averages or proportions for areal units, or point patterns of occurrences. In addition, the data layers are commonly misaligned in space and time. The misalignment can be even more demanding when there is no common spatial or temporal region for the data, e.g., they are geographically disparate or collected at different days, weeks, or years.</p><p>A very rich area for spatial data analyses is environmental and ecological processes, and thus, they are the focus of our fusion examples. In atmospheric and climate science, much of this work is driven by the expansion of data assimilation with computer model output <ref type="bibr" target="#b25">(Poole &amp; Raftery 2000</ref><ref type="bibr" target="#b2">, Berrocal 2019)</ref>. Atmospheric and physical models are built on global or regional scales, and each model produces a scenario for climate (not weather) over some common time window. The aggregation fuses these scenarios to obtain a version of an average scenario, and the variability in these scenarios provides a measure of uncertainty.</p><p>A subtlety arises when the response of primary interest is specified through a geostatistical model, where one source of data comes from monitoring stations. Combining these data with the computer model output, data fusion can be done through upscaling, employing stochastic integration <ref type="bibr" target="#b8">(Fuentes &amp; Raftery 2005)</ref>. Alternatively, if fusion is implemented through downscaling <ref type="bibr" target="#b2">(Berrocal et al. 2010)</ref>, the geostatistical model is viewed as the response model and the areal data are the predictor variable or stochastic regressor. Other well-discussed fusions in the literature include data sources of temperature or environmental contaminant exposure, e.g., particulate matter or ozone (O 3 ). These fusions often combine data from computer models, monitoring station networks, and satellite retrievals.</p><p>In ecological settings, researchers often seek to fuse data sources on species distribution and species abundance (see, e.g., <ref type="bibr">Banerjee et al. 2015, chapter 15)</ref>. Designed data collection is increasingly being complemented by programs of citizen science or museum data obtained through nonsystematic data collection (see <ref type="bibr">Gelfand &amp; Shirota 2019, and references therein)</ref>. In the context of plants, observation data might be at the point or areal level and could be either presence/absence data or presence-only data. When fusing presence/absence data with presence-only data, inference aims at estimating the spatial surface of the probability of presence of a species at any location in the study region. This probability surface is associated with the presence/absence data. The presenceonly data is viewed as a point pattern, and we argue that its intensity should be employed as a stochastic regressor. For learning about animal movement for terrestrial species, we might envision fusing well-established distance sampling data collection <ref type="bibr" target="#b3">(Buckland et al. 2007</ref>) with occupancy data or camera trap data. For marine mammals, data fusion might consist of distance sampling data collected by ship or by air, acoustic monitoring data, and opportunistic sighting data. Each source is informative about species distribution and abundance <ref type="bibr" target="#b30">(Schliep et al. 2024)</ref>.</p><p>The overarching goal in each of these analyses is to combine multiple data sources to enhance our knowledge about a common spatial or spatio-temporal process. The anticipated benefit of the model-based fusion is improved spatial inference including prediction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">TYPES OF FUSIONS</head><p>Our general review of the spatial fusion framework envisions the response process of interest as operating at the point level. This enables the conceptual spatial data to be viewed as a set of point locations and marks. Such data can be modeled jointly as <ref type="bibr">[points]</ref>[marks|points], where points are in a spatial region D and marks are in a space Y. Under this framework, the process can be specified for the points themselves (e.g., a spatial point process); the marks themselves, which ignores any randomness in the points; or jointly as points and marks. We do not consider this last setting, but rather imagine responses as either geostatistical, ignoring potential randomness in the locations, or as a point pattern, ignoring any associated marks. That is, we do not discuss fusion with data sources viewed as marked point patterns; we are unaware of any such work in the literature.</p><p>This leads to four types of spatial data observations:</p><p>1. a spatial point pattern, S = (s 1 , . . . , s n ); 2. a collection of disjoint areal regions, {B 1 , . . . , B k }, with a count of the number of points observed in each, {N(B 1 ), . . . , N(B k )}, or, for a set of points {u 1 , . . . , u k } ∈ D, a count associated with each of the points, {N(u 1 ), . . . , N(u k )}; 3. a geostatistical dataset with observations at a set of point-referenced locations, {Y(s 1 ), . . . , Y(s n )}; and 4. a set of areal data observations, {Y(B 1 ), . . . , Y(B k )}, where the areal regions are typically disjoint.</p><p>For the first two types, there is no response at the points. For the second two types, the locations are fixed.</p><p>The areal data we consider arise as block averages where the spatial domain is assumed to be continuous and, thus, a geostatistical process is appropriate. However, some areal data need not be imagined at the point level. For example, if Y(B) is the percentage of a particular demographic group in region B, there is no associated percentage at a point. For a fusion of this type of data, one might envision two observation data sources {Y 1 (A 1 ), . . . , Y 1 (A n )} and {Y 2 (B 1 ), . . . , Y 2 (B m )}. Here, the partitions could be the same or one could be contained within the other (nested). Alternatively, they could be misaligned over the region (nonnested). Such fusion is an analogue to the MAUP above, where the inference goal is interpolation to an unobserved Y(B) for a new areal region B. Areal interpolation along with formal modeling can be employed using, for example, a Poisson regression for counts or a beta regression for proportions. The regression assumes covariates associated with the observations that are shared by each of the sources.</p><p>With point-referenced data, conceptually, an observation can arise at any location in the study domain-i.e., a point can arise or a mark can be observed at any location in D. For data collected at areal scales, an average or proportion can be viewed as a block average over geostatistical data collected at points. Abundance data at an areal scale can be viewed as counting or aggregating point-level occurrences. When available, we view point-level modeling (the highest spatial resolution) as the most desirable and informative way to learn about the response process of interest. As such, a point-level stochastic process over D provides the bridge that links the two sources.</p><p>We provide modeling details for the case of two data sources; extension to more follows naturally, although it is more computationally demanding. Each source can be any one of the four foregoing types, resulting in 16 different data pairs. To simplify our discussion, we split the scenarios into three groups-two geostatistical (mark) sources, two point pattern sources, and a geostatistical source with a point pattern source.</p><p>We present these fusions in three subsequent sections. Section 3 focuses on the fusion of two mark processes, assuming that the point locations or areal sets are fixed. This scenario provides the most familiar/common version of spatial data fusion, where a common latent spatial process is assumed to link the sources. Section 4 presumes no marks and focuses solely on sources arising from point patterns. Various point pattern data fusion approaches can be envisioned. We focus on fusions arising from spatially varying thinning of a latent unobserved point pattern with an associated intensity. Section 5 addresses joint specification for the fusion of a mark and point data source.</p><p>Downloaded from <ref type="url" target="www.annualreviews.org">www.annualreviews.org</ref>. Guest (guest) IP: 147.100.11.183 On: Wed, 09 Sept 2026 09:43:11</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">DATA FUSION FOR TWO GEOSTATISTICAL SOURCES</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Overview</head><p>We begin with a fusion when the process of interest is a latent geostatistical process. That is, we are tasked with linking each observed response data source to a true latent process, Z(s) for s ∈ D, which is assumed to be driving the observations. We imagine three different scenarios for the response data. Let Y(s i ) and Y(u j ) denote point-referenced observations with s i , u j ∈ D. Similarly, let Y(A i ) and Y(B j ) denote areal region observations arising as an average over blocks A i and B j with A i , B j ⊂ D. Then, the three scenarios are</p><formula xml:id="formula_0">1. Y 1 = (Y 1 (s 1 ), . . . , Y 1 (s n )), Y 2 = (Y 2 (u 1 ), . . . , Y 2 (u m )), 2. Y 1 = (Y 1 (s 1 ), . . . , Y 1 (s n )), Y 2 = (Y 2 (A 1 ), . . . , Y 2 (A m )), and 3. Y 1 = (Y 1 (A 1 ), . . . , Y 1 (A n )), Y 2 = (Y 2 (B 1 ), . . . , Y 2 (B m )).</formula><p>The literature on measurement error or errors in variables (see, e.g., <ref type="bibr" target="#b9">Fuller 1987</ref><ref type="bibr" target="#b4">, Carroll et al. 2006)</ref> provides the motivation for the fusion and calibration modeling presented here. Neither data source is expected to provide the true response; each is observed with error. We assume that both sources link to Z(s) through measurement error models, where one may require calibration. A measurement error model assumes that the observations vary around the true values with essentially known measurement error variance. A calibration model may include spatially varying coefficients to provide a flexible relationship between the observations and the true values. In practice, it is not possible to identify the fusion when both sources need to be calibrated. Thus, we assume one source has measurement error relative to the truth while the other incorporates calibration relative to the truth.</p><p>Without loss in generality, for two point-referenced data sources, under scenario a, we assume that Y 1 follows a measurement error model and Y 2 requires calibration. For scenario b, where one data source is point-referenced and the second is areal, it is customary for the former to have the measurement error model, with the latter needing calibration. Scenario c, with two areal block average data sources, becomes an interpolation problem. Customarily, this fusion can use the spatial change of support framework (see, e.g., <ref type="bibr" target="#b33">Wikle &amp; Berliner 2005)</ref> as opposed to being viewed at the point level. For instance, as above, the response for a given block might be the percentage of a particular racial or ethnic group therein, which would not arise from a point-level process.</p><p>Stochastic spatial or spatio-temporal data fusion modeling adopting a measurement error approach has been employed extensively for environmental and ecological data. Following scenario a, <ref type="bibr" target="#b29">Schliep et al. (2020)</ref> develop a multivariate hierarchical model that fuses lake nutrient data collected at point locations using different reporting methods. For marine mammal tracking, <ref type="bibr" target="#b18">Liu et al. (2016)</ref> propose a data fusion of three sources of spatial tracking data. <ref type="bibr" target="#b28">Rundel et al. (2015)</ref> combine two point-level data sources from different monitoring networks for air quality data with a source of areal data from computer models. <ref type="bibr" target="#b19">Liu et al. (2011) and</ref><ref type="bibr">Fuentes &amp;</ref><ref type="bibr" target="#b8">Raftery (2005)</ref> offer additional examples of scenario b, which fuse monitoring station data and computer model output for air quality measures. These methods are extended to spatio-temporal fusions by <ref type="bibr" target="#b37">Zidek et al. (2012)</ref> and <ref type="bibr" target="#b20">McMillan et al. (2010)</ref>, while <ref type="bibr" target="#b32">Villejo et al. (2023)</ref> introduce an integrated nested Laplace algorithm approach using stochastic partial differential equations for the spatio-temporal data fusion. Following scenario c, <ref type="bibr" target="#b27">Royle et al. (1999)</ref> and <ref type="bibr" target="#b33">Wikle &amp; Berliner (2005)</ref> assume a common latent spatial process for wind data observed at different areal resolutions. Here, the latent process of interest is not a geostatistical process but rather an areal process with yet another spatial resolution. Within a spatio-temporal hierarchical Bayesian model, <ref type="bibr" target="#b34">Wikle et al. (2001)</ref> include physics-informed modeling with application to wind speed and direction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Fusion Modeling Using Stochastic Integration</head><p>The fusion of point-referenced with areal data, scenario b, is the most common, where each is assumed to be varying around the true surface. <ref type="bibr" target="#b8">Fuentes &amp; Raftery (2005)</ref> apply this modeling structure in the environmental exposure setting, where they conceptualize a true exposure surface Z(s). The true average exposure value in grid cell A differs from the true value at any particular location s. Analogous to the change of support problem, where information is combined across different spatial scales <ref type="bibr" target="#b33">(Wikle &amp; Berliner 2005)</ref>, the point level Z(s) is converted to a grid level Z(A) through the stochastic integral, Z(A) = |A| -1 Þ A Z(s) ds, where |A| denotes the area of grid cell A and Z(A) is the block average.</p><p>To formalize this, let Y 1 (s) denote the observed value at monitoring station location s. The measurement error model assumption is</p><formula xml:id="formula_1">Y 1 (s) = Z(s) + ϵ 1 (s), 1.</formula><p>where ϵ 1 (s) ∼ N(0, σ 2 1 ) denotes the measurement error at location s. The second data source in this fusion setting is areal. Such data are typically assumed to be biased and thus in need of calibration. Let a(s) denote the additive bias and b(s) denote the multiplicative bias. We specify a spatially varying coefficient model for the observed value for grid cell A as</p><formula xml:id="formula_2">Y 2 (A) = ∫ A (a(s) + b(s)Z(s)) ds + ϵ 2 (A).</formula><p>2.</p><p>Due to the customary dependence between intercept and slope, a(s) and b(s) should be modeled as a bivariate Gaussian process <ref type="bibr">(Banerjee et al. 2015, chapter 9)</ref>. The error term, ϵ 2 (A), is assumed to be a white noise process for A, given by N(0, σ 2 2 ). With areal units of differing sizes, the variance could be modified to σ 2 2 |A|. The true process is assumed to be</p><formula xml:id="formula_3">Z(s) = µ(s) + ω(s),</formula><p>3.</p><p>where µ(s) provides the spatial mean surface, which is typically characterized by a set of covariates (e.g., elevation). The error term, ω(s), is assumed to be a zero-mean spatial Gaussian process with a specified covariance function. Inserting Equation 3 into Equation 1, we obtain the familiar geostatistical model, for which one proposed interpretation for ϵ 1 (s) is as measurement error <ref type="bibr" target="#b1">(Banerjee et al. 2015</ref>, section 6.1). This fusion strategy becomes potentially computationally challenging when there are many point-referenced locations. More problematic (and more common) is when there are a very large number of areal unit observations, which entails an enormous amount of stochastic integration. Extension from spatial to spatio-temporal modeling, with a dynamic implementation over many time periods, becomes even more demanding. <ref type="bibr" target="#b33">Wikle &amp; Berliner (2005)</ref> present an example of data fusion under scenario c, based on two areal sources of daily wind data, the first being satellite data and the second being computer model output data supplied by a weather center. The satellite data are at an irregular 0.5°resolution, while the computer model output is on a 2.5°lattice. The goal of their fusion is to predict a windstream surface at 1.0°resolution. Their data structure implies three scales: subgrid with 0.5°resolution, supergrid with 2.5°resolution, and prediction grid with 1.0°resolution. They use block averaging on each scale, with the aforementioned measurement error, for inference on the prediction grid from the observed blocks on the super-and subgrids. The model introduces a latent Gaussian process, Z(s), for the block averaging, with local scaling factors to move from one grid to another.</p><p>With temporal wind data, <ref type="bibr" target="#b34">Wikle et al. (2001)</ref> implement a space-time data fusion. Here, they introduce temporal dependence by using dynamic coefficients in the process model in order to avoid computation of stochastic integrals.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">A Useful Simulation</head><p>In the measurement error fusion setting, it is challenging to demonstrate the benefit of calibration and fusion with real data. Specifically, in the context of more than one source of information on the true value of a variable, neither source provides true values. Each source has measurement error, and, in the absence of external validation data, the true value of the variable is unobserved. Ignoring measurement error may lead to an inaccurate assessment of precision (i.e., bias in point estimation) and accuracy (i.e., uncertainty in interval estimation). To show the improvement in inference from incorporating measurement error into a model specification in the form of calibration and fusion, we present a simple simulation example following scenario a, where the truth is known.</p><p>We generated 100 points inside the unit square as realizations from Z(s). We captured spatial dependence using a Gaussian process with mean µ = 4, exponential covariance function with variance τ 2 = 4, and decay parameter ϕ = 3/0.5, so the spatial range is 0.5. Then, we sampled 80 of the 100 locations at random and randomly assigned half of them to source 1 and the other half to source 2. For source 1, the data for which we assume a measurement error model, we obtain responses Y 1 (s) = Z(s) + ϵ 1 (s), where the ϵ 1 (s) are independent and identically distributed (i.i.d.) N(0, σ 2 1 = 4). For source 2, the data requiring calibration, we obtain responses Y 2 (s) = a + bZ(s) + ϵ 2 (s), where the ϵ 2 (s) are i.i.d. N(0, σ 2 2 = 1) and a = b = 2. The remaining 20 locations are viewed as out of sample for both sources and are employed for validation, with their values of Z(s) predicted using kriging. We compare models using root mean square error, mean absolute error, and the continuous rank probability score.</p><p>Model 1 is fitted using just the source 1 data in a standard spatial linear regression model, Y 1 (s) = µ + ω(s) + ϵ 1 (s), where ω(s) is a mean-zero spatial Gaussian process (with known decay parameter) and ϵ 1 (s) is pure error. This model has three parameters, (µ, τ 2 , σ 2 1 ). Model 2 is fitted using both source 1 and 2 data, and it specifies Y 1 (s) and Y 2 (s) as above. It has six parameters, (µ, τ 2 , σ 2 1 , a, b, σ 2 2 ). Under each model, we obtain posterior predictive distributions for the 20 holdout validation set locations. Table <ref type="table">1</ref> summarizes model performance across 100 replicate simulations using the predictive performance criteria. In this simple illustration, model 2 improves model 1 by roughly 15% to 20% based on all three metrics, demonstrating the benefits of the fusion in terms of predictive performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">Hurricane Helene Storm Totals</head><p>Hurricane Helene devastated parts of western North Carolina between September 24 and 27, 2024. To illustrate its significance, we obtained precipitation data from monitoring stations and satellites to perform the data fusion. We denote as source 1 the North Carolina Environment and Climate Observing Network (ECONet), which comprises 45 research-grade weather stations for North Carolina, stretching from Mount Mitchell to Bald Head Island and the Outer Banks (<ref type="url" target="https://econet.climate.ncsu.edu/">https://econet.climate.ncsu.edu/</ref>). The ECONet sites obtain measurements of climate variables, including precipitation amounts, every minute. These precipitation values were</p><p>Table 1 Performance criteria (RMSE, MAE, and CRPS) for the two models summarized by their average across 100 simulations RMSE MAE CRPS Model 1 (source 1 only) 1.72 1.40 1.02 Model 2 (data fusion) 1.45 1.17 0.85 34°N 35°N 36°N 34°N 35°N 36°N 34°N 35°N 36°N 0.05 0.25 1.00 Storm precipitation total (inches) 5.00 25.00 84°W 82°W 80°W 78°W 76°W 84°W 82°W 80°W 78°W 76°W summed across the four days to create measures of storm totals. Source 2 is the Integrated Multi-satellite Retrievals for Global Precipitation Measurements (IMERG), which produces surface precipitation rates at 0.1°resolution every 30 minutes (<ref type="url" target="https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDE_07/summary">https://disc.gsfc.nasa.gov/datasets/  GPM_3IMERGDE_07/summary</ref>), converted to daily mean precipitation rates <ref type="bibr" target="#b15">(Huffman et al. 2024)</ref>. We obtained these satellite data for the same four days for all 1,254 pixels spanning North Carolina and converted them into estimated storm totals. The data from both sources are shown in Figure <ref type="figure">1a</ref>,<ref type="figure">c</ref>. Observed storm totals from ECONet are as high as 24.9 inches in western North Carolina, whereas the IMERG data are much smoother, with a maximum of 13.5 inches.</p><p>Following the data structure outlined in scenario 2 above, let Y 1 = (Y 1 (s 1 ), . . . , Y 1 (s 45 )) denote the observed storm totals from ECONet and let Y 2 = (Y 2 (A 1 ), . . . , Y 2 (A 1254 )) denote the block average storm totals for each pixel obtained from IMERG. We model source 1 data using a measurement error model,</p><formula xml:id="formula_4">Y 1 (s i ) = Z(s i ) + ϵ 1 (s i ),</formula><p>where Z(s i ) denotes the true storm total at location s i , and ϵ 1 (s i ) is independent measurement error assumed to be normally distributed with variance σ 2 1 = 0.02 2 . Next, we model</p><formula xml:id="formula_5">Y 2 (A j ) = α 0 + α 1 Z(A j ) + ϵ 2 (A j ),</formula><p>where α 0 and α 1 are calibration parameters, Z(A j ) = |A j | -1 ∫ A j Z(s)ds with |A j | denoting the area of A j , and ϵ 2 (A j ) is independent random error assumed to be normally distributed with unknown variance σ 2 2 . Lastly, we model the true storm totals as Z(s i ) = x ′ (s i )β + ω(s i ), where x(s i ) consists of an intercept term along with elevation, latitude, and longitude for site s i , and ω(s i ) denotes a spatial Gaussian process with exponential covariance function.</p><p>The models were fitted separately to each data source as well as the two sources under the fusion model. Spatial predictions of storm totals across North Carolina are shown in Figure <ref type="figure">1b</ref>,<ref type="figure">d</ref>,<ref type="figure">e</ref>. Given the relatively few observations from source 1, predictions are less reliable in regions where there are large gaps in spatial coverage. However, with small measurement error for these data, the storm total estimates are close to the observed values for locations near monitoring locations. Given the complete spatial coverage of the source 2 data from the IMERG satellites, the spatial predictions appear to be a smoothed version of the data. The benefit of the data fusion is that the predicted storm total values are close to the observed values for locations near monitoring sites, while leveraging the spatial coverage of the satellite data between the sites. This can be seen by the improved resolution of the predicted storm total map from the fusion in Figure <ref type="figure">1e</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">DATA FUSION FOR TWO POINT PATTERNS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Overview</head><p>With two point pattern data sources, we must consider how each is observed in order to develop an appropriate fusion. Suppose each source provides a realization of a point pattern over the study region of interest and that the focus of the modeling is to learn about the nature of the intensity that is driving each realization. Evidently, such a fusion would be sensible only if the two point patterns share a common model structure for the intensity. An example might be the locations of a tree species observed over the same region at two different times. The shared model of the intensity might be a nonhomogeneous Poisson process (NHPP) or log Gaussian Cox process (LGCP); the values of the spatial covariates might differ over time (e.g., temperature, soil moisture). The hierarchical modeling is straightforward, with a product form for the two point pattern likelihoods at the data stage. Details on model fitting are provided by, e.g., <ref type="bibr" target="#b1">Banerjee et al. (2015)</ref> and <ref type="bibr" target="#b10">Gelfand &amp; Schliep (2018)</ref>. This setting is analogous to the case of increasing sample size through the fusion.</p><p>A more challenging fusion for two point patterns arises if we assume that each is a partial realization of a single true point pattern. The realizations are partial in the sense that, due to sampling effort or imperfect detection, only a portion of the latent true point pattern, S, over D, was observed by each source. We seek to model the true intensity, λ(s), which is assumed to have generated S. In the most direct case, what we observe are S 1 = {s 1 , . . . , s n } and S 2 = {u 1 , . . . , u m }, each a thinned version of S, each with its own thinning mechanism. The observed point patterns are conditionally independent given λ(s). <ref type="bibr" target="#b10">Gelfand &amp; Schliep (2018)</ref> provide a detailed discussion regarding point pattern thinning as well as sampling under this setting. The primary objective is to learn about the shared true intensity, λ(s), from both sources and to obtain inference regarding the spatial variation of the true point pattern S.</p><p>Extending this data fusion, keep S 1 as above but assume S 2 = {N (B 1 ), . . . , N (B m )}, where N(B k ) is the number of points in set B k , B k ⊂ D, and the sets are disjoint but their union need not partition D. Another variant would replace the sets B k with point locations. For example, we could observe a count of the number of individuals detected from a monitoring location, u k , yielding data {N(u 1 ), . . . , N(u m )}. The true point pattern is still assumed to be a point process realization over the region, but the latent observations have been thinned by a suitable detection probability. As a result, a latent observation could be missed or assigned to one or more monitoring locations. Both data sources can be point patterns or gathered into counts for sets (or points), with differing collections of disjoint subsets (points) of D. The foundation of the modeling framework remains the same, with a shared λ(s) assumed to drive both sources.</p><p>For the direct case of two thinned point patterns, interest is in λ(s) and S, which are present over D. We assume that the data arise from thinning mechanisms p 1 (s) and p 2 (s) applied independently to S. Under this assumption, the likelihood for the observation model arises as a product form of the two thinned point process likelihoods.</p><p>The process model specification also employs both detection mechanisms, but now applied to the common intensity, λ(s), rather than to the latent point pattern S. This intensity function is degraded in order to capture spatial variation in, e.g., sampling effort, location availability, and detection (or misclassification) between the sources and within each source across space. The model for λ(s) can be specified as an NHPP or, more generally, an LGCP <ref type="bibr" target="#b16">(Illian et al. 2008)</ref>. The resulting intensities in the process model for each data source become p 1 (s)λ(s) and p 2 (s)λ(s). For an illustration of this version of degradation, readers are directed to, e.g., <ref type="bibr" target="#b5">Chakraborty et al. (2011)</ref>. As an alternative sampling perspective, the thinned observations for each source could also be sampled using the degraded intensity for that source with a gridding of the operating intensity, and a version of simulation using the method of <ref type="bibr">Lewis &amp; Shedler (1979)</ref>.</p><p>We consider the case where one or both sources observe counts resulting from aggregation of points. Then, for an aggregated source, we assume the data arise from Poisson distributions such that N(B k ) ∼ Poisson(λ(B k )), where λ(B k ) = ∫ B k p(s)λ(s)ds. The fact that the sets are disjoint and conditionally independent enables the likelihood to be computed as a product of Poisson densities/probabilities. This aggregation of points to counts requires computation of stochastic integrals over each B k .</p><p>In principle, we can remove the disjointedness requirement by modeling latent counts associated with a disjoint partitioning of the union of all of the B 1 , . . . , B k . Then, in Markov chain Monte Carlo model fitting, customary Gibbs looping would alternate between updating the model parameters given the latent counts and then updating the counts given the parameters. We are unaware of an application in the literature of this version.</p><p>Lastly, for any of the settings above, if p 1 (s) or p 2 (s) has unknown parameters, identifiability of these parameters along with those of λ(s) becomes a concern, and prior information on them is required in order to identify the proper scaling of the true intensity. Alternatively, prior information on the expected total number of points in the point pattern can be used to identify the parameters of the thinning mechanisms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">The Benefit of the Fusion</head><p>The fusion is expected to benefit inference for both λ(s) and S. Suppose for spatial domain D we have two point processes, S 1 and S 2 , which are realizations from an NHPP (or LGCP) with intensities p 1 λ(s) and p 2 λ(s). That is, the thinning mechanism is assumed constant yet unique for each source. Suppose we are interested in estimating the true abundance, λ(D), which is E(N (D)), associated with a realization S from an NHPP (or LGCP) with intensity λ(s) over D. Let N 1 (D) be the number of points in S 1 ∩ D and N 2 (D) be the number of points in S 2 ∩ D. Then, N 1 (D)/p 1 and N 2 (D)/p 2 are both unbiased estimators of λ(D). However, if p 1 &lt; p 2 , the variance of the latter is smaller than the variance of the former; intuitively, the less we thin, the better we can estimate λ(D). In the fusion setting, the joint thinning probability is 1 -(1p 1 )(1p 2 ) &gt; max(p 1 , p 2 ), implying we expect to better estimate E(N (D)) and better predict S under the fusion. This argument naturally extends to spatially varying functions p 1 (s) and p 2 (s). Suppose we partition D into arbitrarily fine disjoint sets such that the thinning mechanism is constant within the set. Then, letting B k denote one such set, for s ‫ࢠ‬ B k , p 1 (s) = p 1 (B k ) and p 2 (s) = p 2 (B k ), where p 1 (B k ) &lt; p 2 (B k ) for all k sets. We can consider the two unbiased estimates for λ(D), namely ∑ k N 1 (B k )/p 1 (B k ) and ∑ k N 2 (B k )/p 2 (B k ), where N 1 (B k ) and N 2 (B k ) denote the random numbers of points from S 1 and S 2 in the set B k . Since N 1 (B k ) and N 1 (B k ′ ) as well as N 2 (B k ) and N 2 (B k ′ ) are independent for k ̸ = k ′ ,</p><formula xml:id="formula_6">Var ( ∑ k N 1 (B k )/p 1 (B k ) ) = ∑ k λ(B k )/p 1 (B k ) &gt; ∑ k λ(B k )/p 2 (B k ) = Var ( ∑ k N 2 (B k )/p 2 (B k ) ) .</formula><p>Thus, given that each data source is a thinned realization of S, we can better estimate λ(D) using the data fusion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">North Atlantic Right Whales in Cape Cod Bay, Massachusetts</head><p>Cape Cod Bay, Massachusetts, provides an important habitat for the endangered North Atlantic right whale (NARW), and multiple data collection strategies are employed to observe these animals. One strategy (source 1) results in aerial observations, where transects are flown and the spatial locations of NARWs seen by scientists on the plane are recorded. A second strategy (source 2) relies on fixed monitoring stations located within the region at which cameras provide video recordings to identify the locations of NARWs (source 2). For a fixed period of time, we obtain observations of NARWs from both sources, which are plotted in Figure <ref type="figure" target="#fig_1">2a</ref>. Sources 1 and 2 observed 79 and 51 NARWs, respectively, with 23 NARWs observed by both.</p><p>The thinning mechanisms of these two data sources are very different. The first follows traditional distance sampling from aerial surveys, which decays as a function of distance in the direction perpendicular to the flight path. The video recordings have 360°viewing angles and a detection function that decays with distance from the camera. The corresponding thinning mechanisms are shown spatially in Figure <ref type="figure" target="#fig_1">2b</ref>,<ref type="figure">c</ref>.</p><p>Estimates of the intensity surface, λ(s), from model fitting using each of the sources separately, as well as from the fusion of the two data sources, are shown in Figure <ref type="figure" target="#fig_1">2d-f</ref>. Each of the models captures some of the same features, e.g., lower intensity in the west and northwest and pockets of higher intensity along the east and southeast. The fusion model results in a much more refined surface with both higher and lower values, whereas both single source models are much smoother. Estimates of abundance, computed as λ(D) = ∫ D λ(s)ds, were obtained for each of the models. Posterior mean (standard deviation) estimates for source 1, source 2, and the data fusion are 198.3 (29.8), 209.2 (41.0), and 188.0 (23.3). The fusion model provides a slightly smaller estimate of abundance and a substantial reduction in uncertainty. Combining this with the results from Figure <ref type="figure" target="#fig_1">2d-f</ref> indicates that the fusion model suggests more pockets of higher density of NARWs compared with the single source models, which suggest that NARWs are more evenly dispersed across Cape Cod Bay.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">GEOSTATISTICAL AND POINT PATTERN DATA FUSION</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Overview</head><p>Lastly, we turn to the fusion of geostatistical data with point pattern data. Inference pertaining to the distribution of plant species is the motivating example. The fusion of presence/absence data and presence-only data is used for inference on the species' distribution. The primary objective is to learn about the probability of presence at the point level, and thus to estimate a probability</p><p>41.8°N 70.7°W 70.4°W 70.3°W 70.1°W 41.9°N 42.0°N 42.1°N 41.8°N 41.9°N 42.0°N 42.1°N Observed point patterns 70.7°W 70.4°W 70.3°W 70.1°W Aerial a b c d e f 70.7°W 70.4°W 70.3°W 70.1°W Monitoring stations 70.7°W 70.4°W 70.3°W 70.1°W Data fusion 70.7°W 70.4°W 70.3°W 70.1°W Monitoring stations 70.7°W 70.4°W 70.3°W 70.1°W Aerial Source 1 Cape Cod Source 2 0 0.2 0.4 0.6 0.8 1.0 0.01 0.05 0.25 1.00 5.00 p(s) λ(s) surface over the domain. The ideas presented here are drawn from <ref type="bibr" target="#b11">Gelfand &amp; Shirota (2019)</ref>. Consistent with a geostatistical and point pattern fusion, we conceptualize presence/absence at the point level. Since the presence/absence data provide only a binary response for a given species, in what follows, we do not consider marks associated with the point pattern.</p><p>Appropriate modeling of presence/absence data requires particular care with respect to how the data were collected and what they represent. For example, presence/absence data could arise by visiting a geocoded location and recording whether or not the species was seen. In this way, we can formalize a "probability of presence" surface, which provides the presence/absence probability for the species at each location in the region, driven by environmental features at the location. If we add to this surface a conceptual Bernoulli trial at every location, we obtain a realization of a presence/absence surface for the species-a binary map with a 1 or 0 at each point in the region <ref type="bibr" target="#b6">(De Oliveira et al. 1997)</ref>. This surface is only partially observed through the data collection. However, at any location in the region, the true realization takes on the value of 1 if the species is present and 0 otherwise. Altogether, the point-level process specification is accepted as conceptual. In practice, we cannot observe presence/absence at a unitless location. Once we specify coordinates for a location, it becomes an areal unit according to the number of digits supplied with the location. Focusing on a species of plant (to avoid movement issues), our inference interest is in the probability of presence surface over a fixed region at a fixed time.</p><p>Presence/absence could indicate whether the species was observed within an areal unit, where presence is declared if the species is found anywhere in the unit. Presence/absence modeling with areal units does not permit modeling of a probability of presence surface. If the surface is specified to be 1 for some areal units and 0 for others, then the realization of the surface will be dependent upon the selection of the units, their size, their shape, and their orientation. This definition also ignores abundance; presence of one individual within a unit is equivalent to that of ten. Presumably, both size and abundance should affect the probability of presence for the unit. Areal unit-level presence/absence data are quite common where the data are observed over grid cells, plots, or quadrats. Depending upon the size of the region relative to that of the areal units, the unit may be considered as a point in the region.</p><p>If we scale a realization of a presence/absence surface as a binary map to an areal unit, then it makes sense to think about the average of the realization, i.e., the proportion of 1s, over that unit. The observed proportion is interpreted as the empirical probability of finding the species present at a randomly selected location within the unit. Over the entire region, this can be interpreted as the empirical prevalence of the species. Similarly, with a modeled probability of presence surface, if we scale this surface over the unit, we can obtain an average probability over the unit that conveys the modeled probability of finding a presence at a randomly selected location within the unit.</p><p>Turning to the presence-only data, we need to consider what additional information they provide to learn about this probability of presence surface. The set of presences of a species over a region may be viewed as a spatial point pattern. That is, there exists a random, finite number of individuals randomly located in the region. From the point pattern perspective, an intensity would typically be specified as the generator of the presence-only point pattern realization. Intensity surfaces can be normalized to density surfaces to reflect the relative chance of observing a species at a given location compared with other locations in the region. This density integrates to one over the region. It has no relation to the probability of presence surface, which provides a presence probability at each point in the region.</p><p>Let us be more explicit regarding an observed presence and the associated implications. If we model presence/absence at the point level, then Y(s) = 1 is a Bernoulli trial at location s. The block average, Since presence-only data sample the point pattern [although likely not fully but, rather, up to sampling effort over the region <ref type="bibr" target="#b5">(Chakraborty et al. 2011</ref><ref type="bibr" target="#b26">, Renner et al. 2015)</ref>], the point pattern data are compatible with this definition of presence/absence. However, this probability of a presence in A is only defined with regard to the size of A and will vary with A, a concern raised by <ref type="bibr" target="#b14">Hastie &amp; Fithian (2013)</ref>. The definition of probability of presence as "one or more" observations of the species in A yields local distortion to any such surface; N(A) = 1 or N(A) = 11 are treated the same with regard to probability of presence in A. As a result, it is unclear how to specify a meaningful probability of presence surface. Even if the size of A is ignored and a regular grid of cells over D is considered, P(Y(A) = 1) is not equivalent to E(Y(A)) above.</p><formula xml:id="formula_7">Y(A), is defined as |A| -1 Þ A 1(Y(s) = 1</formula><p>The two foregoing definitions associated with the probability of presence in A are incompatible, and the fundamental difference between them has often been unaddressed in the literature (see, e.g., <ref type="bibr" target="#b24">Pacifici et al. 2017)</ref>. The conceptualization for the first choice is that at each sampled location, presence or absence of a species is observed; we are not sampling a point pattern. We model a surface over a domain, D, which captures the probability of presence at every location in this domain. The conceptualization for the second is that the domain is censused completely for all locations of the point pattern. Then, a model for the intensity provides the probability of presence in A by integrating over A.</p><p>These two data sources are inherently different in terms of how they inform us about species presence. Below, we provide a model-based spatial fusion that remedies the incompatibility issues for presence/absence and presence-only data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.1.">Modeling presence/absence data.</head><p>Given the set of visited points, modeling the presence/absence data at the point scale assumes Y(s) ∼ Bernoulli(p(s)), where p(s) is the probability that the species occurs at site s. The probability of presence can then be linked to a set of environmental variables, x(s), through a logit or probit, i.e., log</p><formula xml:id="formula_8">( p(s) 1-p(s) )</formula><p>or -1 (p(s)) = x ′ (s)β, where (•) is the cumulative distribution function of the standard normal distribution. This is a spatial regression model because the regressors are spatially referenced.</p><p>We bring in spatial dependence between points using a Gaussian process, creating a geostatistical model. We would model Y(s) given p(s) and augment the explanation of the regression for p(s) through the form</p><formula xml:id="formula_9">-1 (p(s)) = x ′ (s)β + ω(s).</formula><p>4.</p><p>Here, ω(s) is the spatial random effect associated with point s, arising as a realization of a Gaussian process. With binary response, this model is a spatial generalized linear model <ref type="bibr" target="#b7">(Diggle et al. 1998</ref><ref type="bibr" target="#b7">, Diggle 2013)</ref>. The model has two levels: The first, data level specification, is a Bernoulli trial, and the second, process level, presents the probability of presence surface. Assuming data of the form (Y(s i ), x(s i )) for sites i = 1, . . . , n, following a hierarchical (multilevel) regression model with a probit link, P(Y (s) = 1) ≡ p(s) = (x ′ (s)β + ω(s)). That is, P(Y(s) = 1) = P(Z(s) &gt; 0), where Z(s) = x ′ (s)β + ω(s) + ϵ(s), a geostatistical model <ref type="bibr" target="#b0">(Albert &amp; Chib 1993)</ref>. Here, ϵ(s) ∼ N(0, 1) is pure error induced through the probit model. Under this model, the Y(s) are drawn as conditionally independent Bernoulli trials given p(s), and the associated Z(s) are conditionally independent normal random variables. As a result, even if the probability of presence surface p(s) is smooth, realizations of the presence/absence surface are everywhere discontinuous.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.2.">Modeling presence-only data.</head><p>There has been increased growth in the analysis of presence-only data, noting that this type of data is not inferior to presence/absence data. In principle, presence-only data offer a complete census, while presence/absence data, which are confined to a specified set of sampling sites, contain less information. In practice, however, a complete census of individuals is rarely achieved due to limitations associated with sampling effort. The observed point pattern is thought to be a thinned, or partially observed, realization of the true point pattern.</p><p>A formal point pattern modeling approach can be applied to the presence-only data, where the intensity function is defined in terms of environmental covariates and spatial structure included through spatial random effects. The true intensity function can be degraded according to the sampling effort (thinning) mechanism to explain the observed point pattern. An illustrative model to this effect is presented by <ref type="bibr" target="#b5">Chakraborty et al. (2011)</ref>. Let λ(u) denote the intensity surface and assume that the modeling follows a LGCP such that logλ(u) = w ′ (u)α + η(u), 5.</p><p>with w(u) denoting possible covariates and η(u) a zero-mean Gaussian process to capture residual spatial association in the λ(u) surface. The degradation of the process due to sampling effort, E(u), can be defined such that E(u)λ(u) becomes the degraded operating intensity for the presence-only data. A binary specification could be used, setting E(u) = 1 for the portion of the region that was surveyed and 0 elsewhere, though alternative sampling effort mechanisms can be imagined.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">The Fusion Modeling</head><p>The data fusion considered here differs from that in Section 3 since we do not have two sources informing us about a common response. Rather, we have two different data types informing us about the distribution of a species. The extra information available for fusion from the presenceonly data is the set of observed presence-only locations, S. The locations in S do not relate directly to the probability of presence surface, p(s), since they are presence-only. As such, we model them as a point process with intensity λ(u) and introduce this intensity as a stochastic regressor in the presence-only model. Conceptually, we assume that S = {u 1 , . . . , u m } informs us about the probability of presence surface through its intensity surface, since λ(u) will be elevated near locations u ∈ S. Thus, if λ(u) is an LGCP model with Gaussian process η(u), we expect η(u) to be elevated at locations in S. If η(s) is inserted as a regressor into a presence/absence model, we expect the probability of presence to increase at s near u ∈ S. Specifically, in the model for p(s), we add δη(s) to the mean of Z(s). For δ &gt; 0, the probability of presence will increase near locations u ∈ S, which should improve inference regarding the p(s) surface.</p><p>We employ a (generalized) geostatistical model for Y and a LGCP model for S. Explicitly, P(Y(s) = 1) = P(Z(s) &gt; 0), where Z(s) is a latent Gaussian process following the probit model specification for presence/absence. We consider two models for the fusion, following Equation 4: 1. Z(s) = x ′ (s)β + δη(s) + ϵ(s) and 2. Z(s) = x ′ (s)β + δη(s) + ω(s) + ϵ(s).</p><p>Model 1 adds a covariate to an NHPP model. Model 2 adds a covariate to the LGCP model. The added spatial process, ω(s), in model 2 can capture any remaining spatial variation in the probability of presence surface not accounted for by the covariates and the shared spatial process, η(s), as in customary geostatistical modeling. In practice, the flexibility enabled by this additional spatial random effect could impact inference with respect to identifying a significant linear effect, δ. In the example below, model 2 is preferred, but both models found very significant δ &gt; 0 effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.">Invasive Plants in New England</head><p>We illustrate this data fusion using data from New England on invasive plant species <ref type="bibr" target="#b11">(Gelfand &amp; Shirota 2019)</ref>. The spatial domain consists of a subregion of six New England states (Connecticut, Rhode Island, Massachusetts, Vermont, New Hampshire, and Maine). The presence/absence dataset comes from the Invasive Plant Atlas of New England (IPANE), a citizen science organization, whose data are collected by volunteers using rigorous sampling protocols. There are 4,238 unique sampling sites across the subregion. Each provides a location (latitude, longitude) and the presence or absence of each focal species. Three of these focal species are considered here [see <ref type="bibr" target="#b11">Gelfand &amp; Shirota (2019)</ref> for a more extensive analysis].</p><p>The presence-only dataset comes for the Global Biodiversity Information Facility (GBIF), which is a data aggregator for biological collections worldwide. Given the nature of presence-only data, the number of observations will vary from species to species.</p><p>Table <ref type="table" target="#tab_0">2</ref> summarizes the species and sample sizes for each dataset. The IPANE data are shown in Figure <ref type="figure">3a</ref>, where the distribution of presence and absence points for each species across the study region is depicted. Figure <ref type="figure">3b</ref> shows the presence-only data from GBIF data, depicted as a spatial point pattern for each species.</p><p>With binary response, to demonstrate improved prediction for the fusion, Gelfand &amp; Shirota (2019) consider misclassification error using the Tjur R 2 coefficient of determination <ref type="bibr" target="#b31">(Tjur 2009)</ref>, which prefers a model with high probability of presence when presence is observed and low probability of presence when absence is observed. For species j, this quantity is given by T R j = πj (1)π j (0), where πj (1) and πj (0) are the average probability of presence for species j Downloaded from <ref type="url" target="www.annualreviews.org">www.annualreviews.org</ref>. Guest (guest) IP: 147.100.11.183 On: Wed, 09 Sept 2026 09:43:11 p(s) Glossy buckthorn 41°N 42°N 43°N 44°N 45°N 46°N 74°W 72°W 70°W 68°W 0 0.2 0.4 0.6 0.8 Figure 4 New England invasive plant species: estimate of the probability of presence surface for glossy buckthorn. across the sites with observed presence and observed absence, respectively. Larger values of TR j indicate better discrimination. Gelfand &amp; Shirota (2019) adopt the sampling effort surface E(s) for each grid cell so that E(s) = 1 for all cells where at least one presence-only point is observed, and T(s) = 0 otherwise.</p><p>Given that δ is expected to be positive, a uniform prior distribution on [0,100] is adopted. The results of their analysis found δ to be significantly larger than zero for each species, indicating a clear benefit of the presence-only data in learning about the presence/absence surface. For each species, model 2 was found to outperform model 1 in terms of TR j . Figure <ref type="figure">4</ref> shows the probability of presence surface associated with model 2 for glossy buckthorn, which tends to be higher along the Atlantic coast, particularly in and around the state of Massachusetts.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">CONCLUSION</head><p>With the rapidly increasing extent of data collection, we anticipate that data fusion will play an increasingly important role in the future of statistical data analysis. This will be similarly important for the analysis of spatial and spatio-temporal data. While we have only scratched the surface with regard to the range of fusion problems that will arise, we hope the model-based fusions presented in this article offer foundational ideas in this evolution.</p><p>There remain many spatial data fusion settings that could benefit from a stochastic modeling framework. For example, each of the fusion scenarios above could be extended to spatio-temporal data requiring temporal dynamics. For discrete time, the data would be in the form of a time series of spatial data. In continuous time, the data would be random spatial locations with random event times. Extending the geostatistical data fusion for multivariate data would also require novel modeling. Such multivariate fusion could be used in the context of joint species distribution modeling, where the data consist of a vector of species abundance at a given site. A further extension looks to fuse marked point patterns where each source consists of data points arising at random locations, each with a random mark. An example might be the diameter at breast height for a point pattern of tree locations. This extension requires joint modeling of the points and the marks.</p><p>Finally, stochastic modeling for spatial data fusion has specific computational needs. Given the intricacies of complex spatial data, model fitting and prediction require unique computer code and algorithms. No software packages are currently amenable to this type of modeling. The models presented here were fitted using customized Markov chain Monte Carlo algorithms. Moving forward, these computational demands will continue to present challenges to model fitting, particularly with very large and high-dimensional datasets. Drawing on the substantial evolution of computationally efficient algorithms over the past two decades will be required to address these challenges in the fusion setting.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>Figure 1 Observed Hurricane Helene rainfall data are shown from two sources: (a) source 1, ECONet data depicted at 45 monitoring stations and (c) source 2, IMERG satellite data depicted at 0.1°× 0.1°resolution across North Carolina. Estimates of storm totals across the state are shown from models using (b) source 1 only, (d) source 2 only, and (e) the fusion of both. Abbreviations: ECONet, Environment and Climate Observing Network; IMERG, Integrated Multi-satellite Retrievals for Global Precipitation Measurements.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2</head><label>2</label><figDesc>Figure 2 Example on North Atlantic right whales. (a) Observed point patterns S 1 and S 2 , noting that some individuals were observed by both sources. (b) Thinning mechanism p 1 (s) for source 1. (c) Thinning mechanism p 2 (s) for source 2. (d-f ) Estimates of the intensity surface, λ(s), from models fitted using each of the sources separately (d,e), as well as the fusion of the two data sources ( f ).</figDesc><graphic coords="12,41.86,179.80,133.20,101.28" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>)ds, with |A| denoting the area of A. This is interpreted as the proportion of the Y(s) in A that equal 1; it itself is not a Bernoulli trial, and P(Y(A) = 1) = 0. We can calculate E(Y(A)) = |A| -1 Þ A p(s)ds, with p(s) the probability of presence at s (see below). That is, E(Y(A)) becomes the average probability of presence over A or the probability that the species is present at a randomly selected location in A. Now, consider the locations of all individuals in a study region as a random point pattern, S = {u 1 , . . . , u m }. Then, N(A) is the number of individuals in set A, and P(N(A) ≥ 1) is the probability of presence in A. Here, assuming an NHPP or, more generally, an LGCP with intensity λ(u), N(A) ∼ Pois(λ(A)), where λ(A) = Þ A λ(u)du. Taking the areal unit definition of a presence in A, we have P(Y (A) = 1) = P(N (A) ≥ 1) = 1e -λ(A) .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 Figure 4</head><label>34</label><figDesc>Figure 3 Distribution of selected New England invasive plant species. (a) Invasive Plant Atlas of New England (IPANE) distribution of presence (blue) and absence (green) points for each species. (b) Global Biodiversity Information Facility (GBIF) data distribution of presence-only points (red) for each species.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 New England invasive plant species and sample sizes</head><label>2</label><figDesc>: GBIF, Global Biodiversity Information Facility; IPANE, Invasive Plant Atlas of New England.</figDesc><table><row><cell>IPANE</cell><cell>GBIF</cell></row></table><note><p>Abbreviations</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>www.annualreviews.org • Spatial Data Fusion</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Gelfand • Schliep</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_2"><p>Abbreviations: CRPS, continuous rank probability score; MAE, mean absolute error; RMSE, root mean square error.www.annualreviews.org • Spatial Data Fusion</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGEMENTS</head><p>This work was supported in part by funding from the <rs type="funder">US Office of Naval Research</rs> Award <rs type="grantNumber">N000141712817</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_bASuyhA">
+					<idno type="grant-number">N000141712817</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DISCLOSURE STATEMENT</head><p>The authors are not aware of any affiliations, memberships, funding, or financial holdings that might be perceived as affecting the objectivity of this review.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of binary and polychotomous response data</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Albert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Chib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">422</biblScope>
+			<biblScope unit="page" from="669" to="679" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<title level="m">Hierarchical Modeling and Analysis for Spatial Data</title>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>nd ed</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A spatio-temporal downscaler for output from numerical models</title>
+		<author>
+			<persName><forename type="first">Vj ; Ae</forename><surname>Berrocal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Hoeting</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Francis</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">J</forename><surname>Berrocal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Holland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Handbook of Environmental and Ecological Statistics</title>
+		<imprint>
+			<date type="published" when="2010">2019. 2010</date>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="176" to="197" />
+		</imprint>
+	</monogr>
+	<note>Data assimilation</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<author>
+			<persName><forename type="first">M</forename><surname>Borenstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">V</forename><surname>Hedges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Higgins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Rothstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">John</forename><surname>Wiley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sons</forename><surname>Buckland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Burnham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L ;</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gallina</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nyström</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Seceleanu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Data aggregation processes: a survey, a taxonomy, and design guidelines</title>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2007">2021. 2007. 2019</date>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="1397" to="1429" />
+		</imprint>
+	</monogr>
+	<note>Advanced Distance Sampling Introduction to Meta-Analysis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Crainiceanu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+		<title level="m">Measurement Error in Nonlinear Models: A Modern Perspective</title>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Point pattern modelling for degraded presence-only data over large regions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chakraborty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Latimer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Silander</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. C</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="757" to="776" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Bayesian prediction of transformed Gaussian random fields</title>
+		<author>
+			<persName><forename type="first">De</forename><surname>Oliveira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Kedem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Short</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="issue">440</biblScope>
+			<biblScope unit="page" from="1422" to="1433" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Statistical Analysis of Spatial and Spatio-Temporal Point Patterns</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hall/Crc</forename><surname>Chapman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. C</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">2013. 1998</date>
+		</imprint>
+	</monogr>
+	<note>Model-based geostatistics (with discussion)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Model evaluation and spatial interpolation by Bayesian combination of observations with outputs from numerical models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="36" to="45" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Fuller</surname></persName>
+		</author>
+		<idno>IP: 147.100.11.183 On: Wed, 09 Sept 2026 09</idno>
+		<title level="m">Measurement Error Models. John Wiley &amp; Sons Downloaded from www.annualreviews.org. Guest (guest)</title>
+		<imprint>
+			<date type="published" when="1987">1987</date>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">11</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Bayesian inference and computing for spatial point patterns</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NSF-CBMS Regional Conference Series in Probability and Statistics</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">10</biblScope>
+		</imprint>
+		<respStmt>
+			<orgName>Institute of Mathematical Statistics and the American Statistical Association</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Preferential sampling for presence/absence data and for fusion of presence/absence data with presence-only data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Shirota</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol. Monogr</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">1372</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">On the change of support problem for spatio-temporal data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="45" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Combining incompatible spatial data</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Young</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">458</biblScope>
+			<biblScope unit="page" from="632" to="648" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Inference from presence-only data; the ongoing controversy</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fithian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="864" to="867" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">GPM IMERG early precipitation L3 1 day 0.1 degree x 0.1 degree v07</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Huffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Stocker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bolvin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Nelkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Savtchenko. Goddard Earth Sciences Data and Information Services Center (GES DISC)</title>
+		<imprint>
+			<date type="published" when="2024-02-14">2024. Feb. 14, 2025</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Illian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Penttinen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Stoyan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Stoyan</surname></persName>
+		</author>
+		<title level="m">Statistical Analysis and Modelling of Spatial Point Patterns</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Simulation of a nonhomogeneous Poisson process by thinning</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Kedem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">De</forename><surname>Oliveira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Sverchkov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Statistical Data Fusion</title>
+		<imprint>
+			<publisher>World Scientific Lewis P, Shedler G</publisher>
+			<date type="published" when="1979">2017. 1979</date>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="403" to="413" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Bayesian data fusion approaches to predicting spatial tracks: application to marine mammals</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Trites</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">C</forename><surname>Battaile</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Appl. Stat</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1517" to="1546" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">An empirical assessment of Bayesian melding for mapping ozone pollution</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="340" to="353" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Combining numerical model output and particulate data using Bayesian space-time modeling</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">J</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Holland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Morara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Feng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="48" to="65" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A survey on machine learning for data fusion</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Meng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Jing</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Pedrycz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Inform. Fusion</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="115" to="129" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A geostatistical model for combined analysis of point-level and area-level data using INLA and SPDE</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Moraga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Cramb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Mengersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pagano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Stat</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="27" to="41" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatial statistical data fusion for remote sensing applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Braverman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">499</biblScope>
+			<biblScope unit="page" from="1004" to="1018" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Integrating multiple data sources in species distribution modeling: a framework for data fusion</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pacifici</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Gardner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Stauffer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="840" to="850" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Inference for deterministic simulation models: the Bayesian melding approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Poole</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">452</biblScope>
+			<biblScope unit="page" from="1244" to="1255" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Point process models for presence-only analysis</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">W</forename><surname>Renner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Baddeley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fithian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol. Evol</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="366" to="379" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A hierarchical spatial model for constructing wind fields from scatterometer data in the Labrador Sea</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Royle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Berliner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R ; C</forename><surname>Milliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Gatsonis</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><surname>West</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kass</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Case Studies in Bayesian Statistics: Volume IV</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="page" from="367" to="382" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A data fusion approach for spatial analysis of speciated PM2.5 across time</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Rundel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Holland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="515" to="525" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Data fusion model for speciated nitrogen to identify environmental drivers and improve estimation of nitrogen in lakes</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rojas-Salazar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">R</forename><surname>Lottig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">H</forename><surname>Stanley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Appl. Stat</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1651" to="1675" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Assessing marine mammal abundance: a novel data fusion</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Mayo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Mckenna</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Appl. Stat</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="3071" to="3090" />
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Coefficients of determination in logistic regression models-a new proposal: the coefficient of discrimination</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Tjur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="366" to="372" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Data fusion in a two-stage spatio-temporal model using the INLA-SPDE approach</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Villejo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Illian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Swallow</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Stat</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page">100744</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Combining information across spatial scales</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="80" to="91" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal hierarchical Bayesian modeling: tropical ocean surface winds</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Milliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">454</biblScope>
+			<biblScope unit="page" from="382" to="397" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The modifiable areal unit problem (MAUP)</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The SAGE Handbook of Spatial Analysis</title>
+		<meeting><address><addrLine>Fotheringham, PA Rogerson. SAGE</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Spatial data fusion adjusting for preferential sampling using integrated nested Laplace approximation and stochastic partial differential equation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Zhong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ribeiro</forename><surname>Amaral</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">V</forename><surname>Moraga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">188</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="140" to="157" />
+			<date type="published" when="2025">2025</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Combining data and simulated data for space-time fields: application to ozone</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Ecol. Stat</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="37" to="56" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Data integration-problems, approaches, and perspectives</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ziegler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Dittrich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conceptual Modelling in Information Systems Engineering</title>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Krogstie</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Opdahl</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Brinkkemper</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

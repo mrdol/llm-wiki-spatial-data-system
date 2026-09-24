@@ -424,7 +424,7 @@
 <div class="page">
 
   <header class="doc-head">
-    <div class="eyebrow"><span class="dot"></span>Revue de littérature<span class="tag-updated">mise à jour 2026-09-07</span></div>
+    <div class="eyebrow"><span class="dot"></span>Revue de littérature<span class="tag-updated">mise à jour 2026-09-15</span></div>
     <h1 class="title">Simulation semi-synthétique : ancrer les designs Monte&nbsp;Carlo sur des données réelles</h1>
     <p class="subtitle">Cartographie des familles de méthodes qui construisent un DGP à partir d'un vrai (Y,X) — pour nourrir le mode « Monte Carlo » envisagé pour la v2 du dashboard spatialtidymodels et servir de perspective au data paper. Recoupée le 7 septembre avec la synthèse de l'encadrant et le papier <span class="pill new">SpaCE</span> (ICLR 2024).</p>
     <div class="meta-row">
@@ -433,7 +433,13 @@
   </header>
 
   <nav class="toc">
-    <a href="#cadrage">Cadrage</a>
+    <a href="#decision-20260908">Décision du 8 sept.</a>
+    <a href="#mise-a-jour-20260914">Résultats consolidés</a>
+    <a href="#resultats-s2">Scénario S2</a>
+    <a href="#resultats-s1">Scénario S1</a>
+    <a href="#resultats-s3">Scénario S3</a>
+    <a href="#resultats-s4">Scénario S4</a>
+    <a href="#cadrage">Cadrage historique</a>
     <a href="#vocabulaire">Vocabulaire</a>
     <a href="#corrections">Lecture complète</a>
     <a href="#taxonomie">Taxonomie</a>
@@ -444,6 +450,198 @@
     <a href="#limites">Limites &amp; suite</a>
     <a href="#biblio">Bibliographie</a>
   </nav>
+
+
+  <section id="decision-20260908">
+    <div class="sec-label">Décision du 8 septembre — programme actif</div>
+    <h2>Plasmode exclusivement ; origine des motifs spatiaux à distinguer</h2>
+    <p>Après le retour de l'encadrant, seule la famille C, <strong>le plasmode</strong>, est retenue pour le développement immédiat. L'EMCS placebo, le GAN et le morphing restent des références bibliographiques hors du programme actif. La cartographie historique ci-dessous est conservée ; ses anciennes pistes ne sont pas des engagements d'implémentation.</p>
+    <p>Une structure de Y ou des résidus peut venir des covariables, d'une forme fonctionnelle insuffisante ou de la construction des observations, sans propagation entre réponses voisines. D9 n'est donc pas le seul cas possible. Une interaction omise est accessible à une méthode flexible si ses deux variables lui sont fournies.</p>
+    <p><strong>Pilote exécuté :</strong> Georgia et Meuse ; fonction polynomiale ajustée sur des sites de calibration réels ; sept scénarios (référence, variable omise, courbure, interaction, mesure dégradée, contrôle SEM et contrôle hétéroscédastique). Vingt réplications, moyenne latente connue, trois bandes géographiques de validation, référence privilégiée séparée. Les données sources et admissions au package sont conservées.</p>
+    <p><a href="../../wiki/analyses/protocole_plasmode_spatial_2026-09-08.md">Protocole et limites</a> · <a href="pilot_output_2026-09-08/rapport_pilote.html">Résultats du pilote</a> · <a href="plasmode_pilot.R">Script R</a></p>
+    <p>La grille D0–D9 reste un cadre à étendre : le pilote initial ne couvre pas SVC, SAR ni g(s). Depuis ce pilote, des expériences séparées sur l'agrégation (S2), les supports recouvrants (S1), une covariable interpolée (S3) et des champs spatiaux calibrés (S4) ont été développées dans cette revue. S3 et S4 restent limités scientifiquement ; S4 couvre maintenant une tâche conditionnelle par pli, mais pas encore des observations conditionnantes bruitées ni la variation de <code>lambda</code>. Ces expériences ne sont pas des moteurs intégrés au package. Le programme ne revendique pas de nouveauté bibliographique démontrée.</p>
+  </section>
+
+  <section id="mise-a-jour-20260914">
+    <div class="sec-label">Mise à jour du 14 septembre — littérature et pilote</div>
+    <h2>Ce que les nouvelles lectures changent pour le plasmode spatial</h2>
+    <p class="lede">Neuf articles complémentaires ont été intégrés à l'analyse : Curth et al. sur la dépendance des classements au générateur ; Morris et al. et White et al. sur ADEMP, l'erreur Monte Carlo et les contrôles ; Paciorek sur les échelles spatiales ; Roberts et al. sur la validation structurée ; Sauer et al. sur le choix des données réelles ; Gelfand–Schliep sur la fusion ; Gotway–Young sur le changement de support ; Tiedeman–Green sur les erreurs d'observation corrélées. Les trois derniers obligent à ajouter un bloc « processus d'observation » à côté de f(X), g(s) et u.</p>
+
+    <h3>Trois mécanismes qui imitent une dépendance spatiale</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Mécanisme</th><th>Construction</th><th>Conséquence</th><th>Diagnostic requis</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Supports recouvrants</strong></td><td>Y<sub>obs</sub> = H Y* ; des lignes de H partagent des unités fines.</td><td>Avec des erreurs latentes indépendantes, Cov(Y<sub>obs</sub>|X,H) = σ²HH′ comporte déjà des termes hors diagonale.</td><td>Conserver H, quantifier les recouvrements et empêcher le partage d'unités fines entre train et test.</td></tr>
+          <tr><td><strong>Agrégation non linéaire</strong></td><td>La moyenne de f(X) est remplacée par f de la moyenne de X.</td><td>Les moments internes aux zones disparaissent ; par exemple moyenne(X²) = moyenne(X)² + variance(X).</td><td>Comparer la vérité agrégée à la reconstruction par moyennes et cartographier l'écart.</td></tr>
+          <tr><td><strong>Covariable interpolée</strong></td><td>Une surface prédite remplace une covariable observée ponctuellement.</td><td>Lissage, erreur partagée entre sites et atténuation possible des effets ; une surface unique masque l'incertitude d'interpolation.</td><td>Conserver les points sources et propager plusieurs simulations conditionnelles de la covariable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Gelfand et Schliep relient plusieurs sources de réponse à un processus spatial latent commun par des modèles hiérarchiques de mesure et de calibration. Ils soulignent qu'on ne peut pas calibrer librement les deux sources sans perdre l'identifiabilité. Gotway et Young montrent que le support doit entrer explicitement dans le modèle et que transformation et agrégation ne commutent généralement pas. Tiedeman et Green montrent que des observations dérivées de mesures communes ont des erreurs corrélées : ignorer leur matrice complète peut sous-estimer ou surestimer l'incertitude, selon l'interaction entre corrélations et sensibilités.</p>
+
+    <h3>Ce que montre réellement le pilote Georgia/Meuse</h3>
+    <ul class="plain">
+      <li><strong>Sensibilité au générateur :</strong> sur 40 réplications, le contraste NMSE « forêt − polynôme » change de signe entre vérité forêt et vérité polynomiale. Le changement entre générateurs vaut −0,383 sur Georgia et −0,176 sur Meuse. Le classement dépend donc de la famille utilisée pour apprendre f.</li>
+      <li><strong>Fidélité hors calibration :</strong> le R² sur Y réel tenu à l'écart vaut 0,235/0,373 pour Georgia et 0,747/0,805 pour Meuse, respectivement pour les générateurs polynôme/forêt. Le générateur qui produit une vérité contrôlée n'est pas nécessairement une bonne approximation du mécanisme réel, surtout sur Georgia.</li>
+      <li><strong>Recouvrement simulé :</strong> le lissage des erreurs fait passer le Moran moyen d'environ −0,009/−0,010 à 0,385 sur les deux sources lorsque α = 0,5, sans propagation de Y entre voisins. Il crée aussi 143 paires train–test partageant une source fine sur Georgia et 82 sur Meuse.</li>
+      <li><strong>Agrégation non linéaire :</strong> l'écart dû aux moments internes a un NMSE de 0,743 sur Georgia et 0,055 sur Meuse, avec un Moran de 0,092 et 0,288. Le mécanisme existe sur les deux supports mais son intensité n'est pas transportable telle quelle.</li>
+    </ul>
+    <div class="callout insight">
+      <div class="callout-label">Interprétation</div>
+      <p>Le pilote établit la faisabilité et fournit des contrôles positifs. Il ne démontre ni la convergence Monte Carlo, ni la représentativité de Georgia et Meuse, ni la supériorité d'un estimateur. Il montre surtout pourquoi le générateur, le support et l'opérateur d'observation doivent être des facteurs expérimentaux documentés.</p>
+    </div>
+
+    <h3>Lectures approfondies</h3>
+    <p><strong>RealCause</strong> a maintenant été parcouru intégralement. Il rééchantillonne W, apprend P(T|W) et P(Y|T,W), choisit les modèles par vraisemblance de validation et tests à deux échantillons, puis fait varier recouvrement, hétérogénéité et échelle de l'effet. Les auteurs reconnaissent que la puissance des tests diminue en grande dimension : une p-valeur supérieure à 0,05 ne prouve donc pas l'indiscernabilité. Leur résultat sur la sélection par performance prédictive est surtout favorable au réglage à l'intérieur d'une classe de modèles ; la sélection entre classes reste dépendante du dataset.</p>
+    <p><strong>LeSage et Pace</strong> ajoutent une exigence pour les scénarios SAR : varier W, la dépendance spatiale de X, le SNR et le niveau de dépendance, puis évaluer les effets directs et indirects et leur dispersion, pas seulement β et ρ. Le PDF publié, fourni manuellement, est maintenant conservé avec son TEI dans la revue.</p>
+    <p>Le détail des couvertures, les équations de travail et le complément sur la simulation conditionnelle figurent dans <a href="lecture_approfondie_et_geostatistique_2026-09-14.md">la note de lecture du 14 septembre</a>.</p>
+  </section>
+
+  <section id="resultats-s2">
+    <div class="sec-label">Exécution du 14 septembre — changement de support</div>
+    <h2>S2 : agréger une relation non linéaire</h2>
+    <p class="lede">Le contrôle algébrique initial a été remplacé par un scénario spatial exécutable. Les unités fines de Georgia et Meuse sont réparties en cellules géographiques par bissection récursive de l'emprise. Trois granularités sont comparées, chaque zone reste entière dans un seul pli, et les méthodes sont évaluées contre la vraie moyenne zonale <strong>A&nbsp;m(X)</strong>.</p>
+
+    <div class="formula">
+      μ<sub>zone</sub> = A m(X),&nbsp;&nbsp; μ<sub>naïve</sub> = m(A X),&nbsp;&nbsp; δ<sub>support</sub> = A m(X) − m(A X)
+      <span class="cap">La réponse fournie aux estimateurs est A(m(X)+u), avec une innovation gaussienne iid au niveau fin et un SNR attendu de 3. La covariance zonale des innovations, σ²AA′, est analysée séparément de l'erreur de moyenne.</span>
+    </div>
+
+    <h3>Plan et contrôles</h3>
+    <ul class="plain">
+      <li><strong>Plan :</strong> deux datasets, deux générateurs — polynôme et forêt —, trois granularités, cinq estimateurs et 40 répétitions, soit <strong>2&nbsp;400 évaluations appariées</strong>.</li>
+      <li><strong>Exécution :</strong> zéro échec et zéro avertissement de modèle.</li>
+      <li><strong>Partition :</strong> couverture complète, groupes disjoints, lignes de A sommant à 1 et aucune zone partagée entre plis.</li>
+      <li><strong>Contrôle positif :</strong> pour le générateur quadratique, les variances et covariances internes reconstruisent exactement l'écart, avec une erreur maximale comprise entre 1,38×10<sup>−15</sup> et 7,11×10<sup>−15</sup>.</li>
+      <li><strong>Fuite :</strong> remplacer les réponses du pli de test par une valeur artificielle ne change aucune prédiction.</li>
+    </ul>
+
+    <h3>Erreur mécanistique A m(X) − m(A X)</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Dataset</th><th>Générateur</th><th>Taille cible</th><th>Zones</th><th>NMSE de l'écart</th><th>Moran</th></tr></thead>
+        <tbody>
+          <tr><td>Georgia</td><td>Polynôme</td><td>2</td><td>53</td><td>0,089</td><td>−0,114</td></tr>
+          <tr><td>Georgia</td><td>Polynôme</td><td>4</td><td>26</td><td>0,356</td><td>−0,032</td></tr>
+          <tr><td>Georgia</td><td>Polynôme</td><td>8</td><td>24</td><td>0,415</td><td>−0,055</td></tr>
+          <tr><td>Georgia</td><td>Forêt</td><td>2</td><td>53</td><td>0,294</td><td>−0,109</td></tr>
+          <tr><td>Georgia</td><td>Forêt</td><td>4</td><td>26</td><td>0,664</td><td>−0,134</td></tr>
+          <tr><td>Georgia</td><td>Forêt</td><td>8</td><td>24</td><td>0,865</td><td>−0,222</td></tr>
+          <tr><td>Meuse</td><td>Polynôme</td><td>2</td><td>51</td><td>0,0035</td><td>0,256</td></tr>
+          <tr><td>Meuse</td><td>Polynôme</td><td>4</td><td>26</td><td>0,0135</td><td>0,007</td></tr>
+          <tr><td>Meuse</td><td>Polynôme</td><td>8</td><td>24</td><td>0,0133</td><td>−0,014</td></tr>
+          <tr><td>Meuse</td><td>Forêt</td><td>2</td><td>51</td><td>0,0559</td><td>0,000</td></tr>
+          <tr><td>Meuse</td><td>Forêt</td><td>4</td><td>26</td><td>0,132</td><td>0,197</td></tr>
+          <tr><td>Meuse</td><td>Forêt</td><td>8</td><td>24</td><td>0,136</td><td>0,138</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-label">Résultat principal</div>
+      <p>L'erreur de support devient importante quand la relation est fortement non linéaire : pour Georgia avec la vérité forêt, sa NMSE passe de 0,294 à 0,865 avec l'agrégation. Elle reste bien plus faible pour le polynôme de Meuse. Son Moran varie aussi en signe et en amplitude : une erreur de support ne possède donc pas une signature spatiale universelle.</p>
+    </div>
+    <p>La forêt obtient la plus faible NMSE prédictive moyenne dans dix configurations sur douze. Ce constat reste conditionnel aux deux sources, aux générateurs figés, aux partitions et aux réglages du pilote ; il ne constitue pas un classement général. Pour Meuse, la cible est la <strong>moyenne zonale de log(zinc)</strong>, et non le logarithme d'une concentration moyenne.</p>
+    <p><a href="resultats_s2_aggregation_2026-09-14.md">Interprétation complète</a> · <a href="scenario_s2_aggregation.R">Script</a> · <a href="test_scenario_s2_aggregation.R">Tests</a> · <a href="scenario_s2_output_2026-09-14/results.json">Résultats JSON</a></p>
+  </section>
+
+  <section id="resultats-s1">
+    <div class="sec-label">Exécution du 14 septembre — processus d'observation</div>
+    <h2>S1 : supports géographiques recouvrants</h2>
+    <p class="lede">S1 montre comment une dépendance entre observations peut être créée par le support de mesure lui-même. Les innovations restent indépendantes au niveau fin, mais plusieurs observations utilisent certaines des mêmes unités sources. La covariance observée est alors connue exactement.</p>
+
+    <div class="formula">
+      Y<sub>obs</sub> = H(m(X)+u),&nbsp;&nbsp; E(Y<sub>obs</sub>|X,H)=Hm(X),&nbsp;&nbsp; Cov(Y<sub>obs</sub>|X,H)=σ²HH′
+      <span class="cap">Chaque ligne de H combine l'unité centrale et zéro, deux ou quatre voisines. Les poids sont uniformes ou décroissent exponentiellement avec la distance.</span>
+    </div>
+
+    <h3>Validation indépendante des supports</h3>
+    <ul class="plain">
+      <li><strong>Plan :</strong> Georgia et Meuse, deux générateurs, cinq définitions de support, cinq estimateurs et 40 répétitions, soit <strong>4&nbsp;000 évaluations</strong>.</li>
+      <li><strong>Exécution :</strong> zéro échec et zéro avertissement de modèle.</li>
+      <li><strong>Opérateur :</strong> poids non négatifs, lignes de H sommant à 1 et contrôle H=I retrouvant exactement la moyenne fine.</li>
+      <li><strong>Covariance :</strong> les simulations Monte Carlo convergent vers σ²HH′.</li>
+      <li><strong>Séparation :</strong> H est construit par régions géographiques ; aucune unité fine ne contribue à la fois à une observation d'apprentissage et à une observation de test.</li>
+      <li><strong>Tampon :</strong> la distance est évaluée entre toutes les unités fines contributrices, et non entre les seuls centroïdes des supports.</li>
+    </ul>
+
+    <h3>Recouvrement obtenu et coût du tampon</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Dataset</th><th>Support</th><th>Paires recouvrantes dans une région</th><th>Sources partagées train–test</th><th>Observations d'apprentissage exclues en moyenne</th></tr></thead>
+        <tbody>
+          <tr><td>Georgia</td><td>H=I</td><td>0 %</td><td>0</td><td>3,33</td></tr>
+          <tr><td>Georgia</td><td>2 voisines</td><td>14,12 %</td><td>0</td><td>8,00</td></tr>
+          <tr><td>Georgia</td><td>4 voisines</td><td>29,07 %</td><td>0</td><td>10,67</td></tr>
+          <tr><td>Meuse</td><td>H=I</td><td>0 %</td><td>0</td><td>0,67</td></tr>
+          <tr><td>Meuse</td><td>2 voisines</td><td>13,13 %</td><td>0</td><td>1,67</td></tr>
+          <tr><td>Meuse</td><td>4 voisines</td><td>28,88 %</td><td>0</td><td>3,33</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-label">Résultat principal</div>
+      <p>Sur Georgia, les supports recouvrants augmentent fortement le risque de prédiction : sous vérité polynomiale, la meilleure NMSE passe de 0,057 avec H=I à environ 0,36–0,40 ; sous vérité forêt, elle passe de 0,127 à environ 0,25–0,29. Sur Meuse, l'effet est plus faible : les meilleures NMSE restent proches de 0,10–0,13. L'intensité du recouvrement ne suffit donc pas à prédire son impact ; la géométrie, le générateur et les covariables interviennent aussi.</p>
+    </div>
+
+    <p>La forêt obtient la plus faible NMSE dans la plupart des configurations recouvrantes, tandis que le modèle linéaire arrive en tête pour Meuse sous vérité polynomiale. Ces résultats restent propres au pilote. Les supports sont des voisinages ponctuels construits, pas des polygones administratifs ni des empreintes instrumentales observées. Le lot ne comporte pas encore de bruit de mesure ajouté après H et ne calibre pas les datasets sur une covariance cible commune.</p>
+    <p><a href="resultats_s1_supports_recouvrants_2026-09-14.md">Interprétation complète</a> · <a href="scenario_s1_overlapping_supports.R">Script</a> · <a href="test_scenario_s1_overlapping_supports.R">Tests</a> · <a href="scenario_s1_output_2026-09-14/results.json">Résultats JSON</a></p>
+  </section>
+
+  <section id="resultats-s3">
+    <div class="sec-label">Exécution du 15 septembre — covariable reconstruite</div>
+    <h2>S3 : que se passe-t-il quand une covariable doit être interpolée ?</h2>
+    <p class="lede">Le pilote retire artificiellement une partie des valeurs d'une covariable qui est complète dans les données sources, puis la reconstruit à partir d'un réseau partiel. La valeur originale sert de vérité de contrôle. Il compare la prédiction au sein d'un domaine où des sites de mesure sont disponibles et le transfert vers une région test sans aucune mesure de cette covariable.</p>
+    <p>Sur Georgia, <code>PctEld</code> est une proportion <strong>par comté</strong> représentée par son centroïde : elle n'est pas une mesure de station. Sur Meuse, <code>elev</code> est une altitude mesurée en un point. Ces deux supports d'observation différents empêchent de lire leurs chiffres comme ceux d'un même réseau empirique. Les réseaux du pilote sont construits par sélection maximin ; ils ne reproduisent pas un réseau de mesure publié.</p>
+    <h3>Résultat vérifié sur plusieurs réseaux</h3>
+    <p>Les deux lots de risque comportent chacun 40 répétitions par configuration, soit 3&nbsp;200 évaluations pour le réglage central et 12&nbsp;800 pour les densités et bruits alternatifs, sans échec d'ajustement. Vingt autres choix de réseau ont été examinés pour vérifier que le résultat sur la reconstruction de la covariable ne dépend pas d'un seul départ de l'algorithme.</p>
+    <div class="table-wrap"><table class="data">
+      <thead><tr><th>Source</th><th>Erreur de reconstruction de la covariable avec réseau connu</th><th>Erreur en transfert sans mesure dans la région test</th></tr></thead>
+      <tbody><tr><td>Georgia</td><td>0,768</td><td>1,172</td></tr><tr><td>Meuse</td><td>0,771</td><td>1,419</td></tr></tbody>
+    </table></div>
+    <p>Ces valeurs sont les RMSE moyennes de la covariable, sur 20 réseaux construits à 40&nbsp;% de sites, avec mesures exactes et krigeage. Une erreur plus grande en transfert est attendue : aucune mesure de la région test n'entre dans l'interpolation. Le contrôle informatique vérifie aussi qu'y modifier les valeurs originales de la covariable ne change pas les prédictions.</p>
+    <p>Quand le réseau est connu, augmenter sa densité de 20 à 70&nbsp;% réduit nettement l'erreur de reconstruction de la covariable ; cela n'améliore pas nécessairement le transfert vers une région sans mesure. Dans 38 des 40 contextes moyens comparés, le risque prédictif est plus élevé en transfert ; deux font exception. L'effet d'un bruit de mesure ajouté ne garde pas le même signe partout. Le krigeage ne bat pas systématiquement l'interpolation par distances inverses.</p>
+    <div class="callout insight"><div class="callout-label">Limite d'interprétation</div><p>Les simulations conditionnelles font varier <em>seulement</em> la covariable reconstruite. Les taux de recouvrement de leurs intervalles ne sont donc pas des couvertures prédictives complètes : ils excluent notamment l'incertitude de la réponse et des paramètres. Le diagnostic des estimateurs ordinaires doit encore être répété sur plusieurs réseaux et réponses. Deux sources, des réseaux construits et une portée de variogramme fixée ne permettent aucune conclusion générale sur les méthodes.</p></div>
+    <p><a href="resultats_s3_pilote_2026-09-15.md">Résultats et limites détaillés</a> · <a href="scenario_s3_interpolated_covariate.R">Script du scénario</a> · <a href="scenario_s3_network_noise_2026-09-15/factor_contrasts.csv">Contrastes appariés</a> · <a href="scenario_s3_network_repeat_2026-09-15/summary.csv">Répétition des réseaux</a></p>
+  </section>
+
+  <section id="resultats-s4">
+    <div class="sec-label">Exécution du 15 septembre — champs spatiaux calibrés</div>
+    <h2>S4 : varier la force et la portée d'un champ spatial</h2>
+    <p class="lede">S4 revient à la question centrale du plasmode : partir de sites et covariables réels, d'abord Georgia et Meuse puis Banff, et imposer une structure spatiale connue. Les lots distinguent une tendance <code>g(s)</code>, incluse dans la vraie moyenne à prédire, et une innovation spatiale <code>u(s)</code>, exclue de cette moyenne. À réglage égal, les deux variantes fournissent la même réponse simulée aux méthodes : leur différence est la <strong>vérité évaluée</strong>, et non une signature observable différente.</p>
+    <p>La tâche conditionnelle prédictive est maintenant définie pour chacun des trois plis : les valeurs du champ spatial latent sont imposées sur un sous-ensemble construit des sites d'apprentissage, après tampon, et aucun site de la bande test ne sert au conditionnement. Les valeurs imposées restent fixes entre répétitions pour un même réglage ; les réalisations du champ changent. Le résultat conserve aussi l'erreur des sites test selon leur distance au site conditionnant le plus proche. Ce découpage proche/éloigné est descriptif, car les covariables et les bandes changent avec la distance. Il ne représente pas encore des observations conditionnantes bruitées.</p>
+    <p>Le champ gaussien possède une covariance exponentielle. Sa portée cible représente 10 ou 30&nbsp;% du diamètre métrique du domaine ; sa part de variance spatiale vaut 0,1 ou 0,2, avec un contrôle nul. Le SNR ratio signal/bruit est fixé à 3 sur les trois sources. La pépite est calculée à partir de ces autres cibles : elle n'est pas un facteur libre de ce premier plan. Un tampon métrique écarte les sites d'apprentissage trop proches de chaque bande test.</p>
+    <h3>Contrôles et lot non conditionnel</h3>
+    <p>Les champs ont été contrôlés avec 3&nbsp;000 tirages par réglage : variance, variogramme et covariance complète satisfont les précisions Monte Carlo fixées. Le lot non conditionnel a exécuté <strong>8&nbsp;000 évaluations</strong> sur 40 répétitions par configuration, sans échec ni avertissement ; ses 400 contrastes utilisent des tirages appariés et rapportent leur MCSE dans un RDS.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Comparaison du risque NMSE</th><th>Contextes où le premier terme est plus risqué</th><th>Écarts positifs supérieurs à 2 MCSE</th></tr></thead><tbody>
+      <tr><td>Champ spatial − contrôle nul</td><td>147 / 160</td><td>121 / 160</td></tr>
+      <tr><td>Portée 30&nbsp;% − portée 10&nbsp;%</td><td>80 / 80</td><td>56 / 80</td></tr>
+      <tr><td>Part spatiale 0,2 − 0,1</td><td>75 / 80</td><td>66 / 80</td></tr>
+      <tr><td>GAM spatial − GAM sur covariables</td><td>40 / 40</td><td>39 / 40</td></tr>
+    </tbody></table></div>
+    <p>Ces signes décrivent <strong>ce pilote</strong>. Le GAM spatial est déjà moins bon au contrôle sans champ ; il faut donc examiner son lissage fixé et le transfert entre bandes avant d'attribuer l'écart au champ simulé. La comparaison forêt–polynôme change de signe avec le générateur qui définit la vérité. Pour <code>g(s)</code>, ajouter le champ modifie aussi la cible et sa variance : le contraste avec le contrôle nul ne mesure pas seulement l'effet d'une covariance spatiale accrue. « 2 MCSE » est un repère de précision, sans correction des nombreuses comparaisons.</p>
+    <h3>Lot conditionnel par pli</h3>
+    <p>Le lot conditionnel a également exécuté <strong>8&nbsp;000 évaluations</strong>, sans échec ni avertissement, et 400 contrastes appariés de 40 répétitions. Ses 120 contrôles de sites montrent que les 13 valeurs imposées par pli sont toutes dans l'apprentissage après tampon et honorées exactement. Les réponses <code>g</code>/<code>u</code> restent identiques à réglage égal ; le contrôle sans champ reproduit exactement le lot non conditionnel. Les valeurs imposées sont des réalisations <strong>synthétiques du champ latent</strong> et ne sont pas données directement aux estimateurs.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Comparaison conditionnelle du risque NMSE</th><th>Premier terme plus risqué</th><th>Écarts positifs &gt; 2 MCSE</th><th>Exceptions négatives &lt; −2 MCSE</th></tr></thead><tbody>
+      <tr><td>Champ spatial − contrôle nul</td><td>145 / 160</td><td>126 / 160</td><td>5 / 160</td></tr>
+      <tr><td>Portée 30&nbsp;% − portée 10&nbsp;%</td><td>53 / 80</td><td>44 / 80</td><td>7 / 80</td></tr>
+      <tr><td>Part spatiale 0,2 − 0,1</td><td>77 / 80</td><td>69 / 80</td><td>0 / 80</td></tr>
+      <tr><td>GAM spatial − GAM sur covariables</td><td>39 / 40</td><td>39 / 40</td><td>0 / 40</td></tr>
+    </tbody></table></div>
+    <p>La portée longue n'est donc plus défavorable dans tous les réglages : 27 comparaisons sur 80 ont le signe opposé, dont sept dépassent 2 MCSE en valeur absolue. Le diagnostic par distance montre aussi des signes opposés selon la source : les sites test éloignés ont un risque plus élevé dans 10/100 contextes moyens Georgia et 77/100 Meuse. Cette opposition existe déjà sans champ (0/20 et 16/20). Elle ne peut pas être attribuée au seul conditionnement. Les MCSE sont calculées pour les <strong>valeurs imposées fixes</strong> et le repère 2 MCSE ne corrige pas les nombreuses comparaisons ; d'autres réseaux, valeurs et sources restent nécessaires.</p>
+    <h3>Essai sur une troisième source : Banff</h3>
+    <p>La banque contient <a href="../../wiki/datasets/fiches_datasets/paper_banff_stream_temperature.md">110 sites de température des cours d'eau à Banff</a>, avec <code>WaterTemp</code> et les trois covariables finales des auteurs : élévation, pente du tronçon et effet lac. Les coordonnées d'origine sont UTM en mètres ; les trois plis utilisent 74 sites d'évaluation et un tampon d'environ 1,5&nbsp;km. <code>LE</code> est binaire et entre donc comme effet linéaire dans les deux GAM. Les générateurs polynôme et forêt, ajustés sur 36 sites réels, ont des R² hors calibration de <strong>0,16 et 0,25</strong> : la fidélité à la température observée est limitée. Les deux lots Banff ont exécuté <strong>4&nbsp;000 évaluations chacun</strong>, sans échec ni avertissement ; leurs contrôles sans champ sont identiques.</p>
+    <div class="table-wrap"><table class="data"><thead><tr><th>Portée 30&nbsp;% − portée 10&nbsp;%</th><th>Sans conditionnement</th><th>Avec conditionnement</th></tr></thead><tbody>
+      <tr><td>Georgia + Meuse : risque accru</td><td>80 / 80</td><td>53 / 80</td></tr>
+      <tr><td>Banff : risque accru</td><td><strong>34 / 40</strong></td><td><strong>27 / 40</strong></td></tr>
+      <tr><td>Banff, tendance <code>g(s)</code> seulement : risque accru</td><td>14 / 20</td><td>8 / 20</td></tr>
+    </tbody></table></div>
+    <p>Sur Banff, les 20 contrastes d'innovation sans conditionnement sont tous positifs, contre 19/20 avec conditionnement. Pour la tendance conditionnelle, six écarts de portée ont le signe opposé et dépassent deux MCSE. Les neuf sites conditionnants de chaque pli sont hors de la bande test et leurs valeurs synthétiques sont honorées exactement. Le diagnostic proche/éloigné donne plus de risque loin des sites dans 65/100 contextes Banff, déjà 12/20 au contrôle sans champ : il n'isole pas l'effet du conditionnement. Les <a href="../../corpus/papers/tei/Struthers2024BanffStreamTemperature.tei.xml">auteurs</a> modélisent la connectivité et le sens d'écoulement du réseau ; notre covariance et nos distances sont <strong>euclidiennes</strong>. L'essai vérifie la portabilité technique du plasmode sur un autre domaine, sans reproduire leur SSN ou leur modèle INLA.</p>
+    <div class="callout insight"><div class="callout-label">Ce qui reste ouvert</div><p>Les lots portent sur trois sources seulement, leurs sites et générateurs appris, ainsi que cinq méthodes aux réglages fixes. Georgia est représentée par des centroïdes de comtés ; Banff utilise des distances droites qui ne représentent pas le réseau fluvial. Les observations conditionnantes bruitées, plusieurs réseaux et valeurs imposées, davantage de sources, les diagnostics Moran à plusieurs voisinages, ainsi que SAR/SVC et la variation de <code>lambda</code> dans la grille D0–D9 restent à traiter. Aucun moteur S4 n'est intégré au package.</p></div>
+    <p><a href="resultats_s4_faisabilite_2026-09-15.md">Résultats et limites détaillés</a> · <a href="audit_tei_s4_2026-09-15.md">Relecture des articles TEI</a> · <a href="scenario_s4_40_2026-09-15/results.rds">RDS Georgia/Meuse non conditionnel</a> · <a href="scenario_s4_40_conditional_2026-09-15/results.rds">RDS Georgia/Meuse conditionnel</a> · <a href="scenario_s4_banff_40_2026-09-15/results.rds">RDS Banff des deux modes</a></p>
+  </section>
 
   <section id="cadrage">
     <div class="sec-label">Pourquoi cette revue</div>
@@ -702,7 +900,7 @@
           </tbody>
         </table>
       </div>
-      <p>Point important signalé : D2/D3 et D8 sont partiellement confondus (β(s)·x ressemble à une interaction lisse x×s) — le benchmark doit le dire explicitement, sous peine de conclure « X bat Y » sur un DGP où X est la vérité par construction. D9 est le seul DGP aspatial qui produit l'<em>apparence</em> d'un processus spatial ; il teste la robustesse des interprétations plutôt qu'une méthode spatiale en tant que telle.</p>
+      <p>Point important signalé : D2/D3 et D8 sont partiellement confondus (β(s)·x ressemble à une interaction lisse x×s) — le benchmark doit le dire explicitement, sous peine de conclure « X bat Y » sur un DGP où X est la vérité par construction. D9 est un exemple de motif spatial laissé par une information omise ; il n'est pas unique. D0/D1 peuvent déjà produire une réponse structurée via X, et une forme inadéquate ou un processus d'observation peut structurer les résidus. Le motif ne prouve pas une propagation entre réponses voisines.</p>
       <p><strong>Trois facteurs de calibration transversaux</strong>, pour rendre les DGP comparables entre familles (les paramètres natifs ρ, λ, bandwidth, portée Matérn ne le sont pas) : le <strong>SNR</strong> (var(m)/var(ε)), la <strong>part spatiale</strong> (var(composante spatiale)/var(f(X))), et la <strong>portée spatiale</strong> (fraction du diamètre du domaine, ou Moran's I à W fixée). Les paramètres natifs sont ensuite calibrés numériquement pour atteindre ces cibles et enregistrés comme sorties — sans ça, une différence « SAR vs SVC » peut n'être qu'une différence d'amplitude du signal spatial.</p>
       <p>Enfin, un cadre de <strong>regret</strong> distingue la perte d'un estimateur sur son « terrain naturel » H(e) (la famille et la région de paramètres où il est correctement spécifié) de sa perte sous DGP tiré au hasard — l'écart entre les deux mesure la fragilité à la mauvaise spécification (à la Grinsztajn et al. 2022).</p>
     </div>
@@ -724,48 +922,23 @@
   </section>
 
   <section id="recommandation">
-    <div class="sec-label">Application</div>
-    <h2>Ce que ça suggère pour le mode Monte&nbsp;Carlo du package</h2>
+    <div class="sec-label">Application — cadrage du 8 septembre</div>
+    <h2>Programme plasmode retenu</h2>
     <div class="reco">
-      <div class="reco-row">
-        <div class="term">socle (v2)</div>
-        <div class="def">Un mode « EMCS / plasmode » : garder X, s et W réels d'un dataset du catalogue, estimer F̂ avec un des estimateurs déjà en place (ols / gam_spatial / random_forest) comme DGP de référence, puis dériver plusieurs DGP en activant/désactivant les blocs de la forme canonique de l'encadrant (D0–D9 : linéaire, non-linéaire, SVC, SAR, SEM, tendance, variable omise…). Directement actionnable — la grille D0–D9 remplace avantageusement notre F1/F2/F3 plus vague du premier passage.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">calibration</div>
-        <div class="def">Reparamétrer chaque DGP par SNR, part spatiale et portée spatiale plutôt que par ses paramètres natifs (ρ, λ, bandwidth) — sans quoi une comparaison SAR vs SVC ne mesure qu'une différence d'amplitude de signal, pas une vraie différence de mécanisme.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">résidus</div>
-        <div class="def">Commencer par le bootstrap empirique (famille B) ou une calibration GMRF façon SpaCE (réaliste, pas de discriminateur, déjà implémentée et validée par une équipe publiée) plutôt qu'un GAN — coût d'implémentation nettement plus faible.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">extension</div>
-        <div class="def">Si le bootstrap/GMRF se révèle insuffisant, tester <code>engression</code>, <code>drf</code> ou Forest-Flow (packages R, pas de discriminateur, moins instables qu'un GAN à nos tailles de jeux) avant d'envisager un vrai GAN.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">validation</div>
-        <div class="def">Classifier two-sample test ou pMSE sur (X,Y) réel vs (X,Y*) simulé, complété par Moran's I et variogramme réel vs simulé côté spatial ; au minimum, comparer les histogrammes/densités empiriques de Y réel vs Y simulé et vérifier la plage de valeurs (le contrôle le plus simple utilisé par Schreck et al., avant tout test formel).</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">N et m ne sont pas arbitraires</div>
-        <div class="def">Le nombre de réplications N et la taille de rééchantillonnage m sont trop souvent choisis ad hoc dans la littérature (N=500 ou 1000, m fixé sans justification). Schreck et al. recommandent de vérifier la convergence des mesures de performance en fonction de N (dans leur exemple, stabilisation vers N≈300) et d'utiliser l'algorithme de Bickel &amp; Sakov pour choisir m plutôt qu'une valeur arbitraire — directement transposable au futur mode Monte&nbsp;Carlo du dashboard.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">piste originale</div>
-        <div class="def">Le morphing (famille E) entre deux datasets réels déjà curés dans le catalogue reste quasiment gratuit à implémenter et personne ne l'a fait en spatial à notre connaissance.</div>
-      </div>
-      <div class="reco-row">
-        <div class="term">garde-fou, chiffré</div>
-        <div class="def">Sur données réelles (NSW), Advani et al. montrent que les deux designs EMCS choisissent le meilleur estimateur <strong>moins souvent qu'un tirage au hasard</strong> sur le critère du biais absolu, et jamais mieux qu'un simple bootstrap sur le MSE. Le mode Monte&nbsp;Carlo du package devra donc toujours être présenté comme un test relatif entre estimateurs sur un DGP donné — jamais comme une preuve qu'un estimateur est objectivement le meilleur en général. Reporter aussi le regret « maison » (H(e)) séparément du regret sous DGP aléatoire, comme le propose la synthèse.</div>
-      </div>
+<div class="reco-row"><div class="term">cadre retenu</div><div class="def">Plasmode exclusivement : ajuster une fonction au réel, la figer comme vérité de simulation, puis documenter chaque désactivation de terme ou modification du bruit. EMCS placebo hors périmètre.</div></div>
+<div class="reco-row"><div class="term">pilote réalisé</div><div class="def">Deux sources, sept scénarios P0–P6, trois concurrents et une référence privilégiée séparée. La base polynomiale et le W k=4 sont des choix du pilote, pas des formules publiées ni des matrices originales.</div></div>
+<div class="reco-row"><div class="term">validation</div><div class="def">Comparaison à la moyenne latente connue ; prédictions hors échantillon par bandes ; innovations, résidus et composantes omises contrôlés séparément. Aucun motif de Moran ne prouve à lui seul une propagation.</div></div>
+<div class="reco-row"><div class="term">difficulté</div><div class="def">SNR attendu de 3. Part du signal omis et composantes spatiales mesurées ; la calibration commune complète de D0–D9 reste à réaliser.</div></div>
+<div class="reco-row"><div class="term">précision</div><div class="def">Vingt réplications pour la faisabilité, erreur standard Monte Carlo conditionnelle. Ni convergence démontrée ni sélection définitive du meilleur estimateur.</div></div>
+<div class="reco-row"><div class="term">extensions</div><div class="def">S1 (supports recouvrants), S2 (agrégation non linéaire), S3 (covariable interpolée) et les lots non conditionnel et conditionnel par pli de S4 (champs spatiaux calibrés) sont exécutés et documentés dans cette revue. S4 a été étendu de Georgia/Meuse à Banff ; l'incertitude complète de S3, des observations conditionnantes bruitées et davantage de sources restent à traiter. Aucun de ces scénarios n'est encore un moteur du package.</div></div>
+<div class="reco-row"><div class="term">livrables</div><div class="def"><a href="../../wiki/analyses/protocole_plasmode_spatial_2026-09-08.md">Protocole</a>, <a href="pilot_output_2026-09-08/rapport_pilote.html">rapport et figures</a>, scripts et résultats natifs RDS.</div></div>
     </div>
   </section>
 
   <section id="limites">
     <div class="sec-label">Périmètre</div>
     <h2>Limites de cette revue et prochaines étapes</h2>
-    <p>Le premier passage (4 sept.) était une recherche web exploratoire ; la lecture intégrale de 5 papiers phares le 7 sept. (voir <a href="#corrections">Lecture complète</a>) a corrigé une confusion réelle entre EMCS et plasmode, pas juste confirmé le premier passage — signe qu'une lecture complète reste nécessaire avant toute citation dans le data paper, y compris pour les sources encore non lues ci-dessous (Dorie et al. 2019, Hill 2011, Schreck et al. dans son intégralité au-delà de ce qui est résumé ici, la section 3 complète de la synthèse de l'encadrant). Toujours en attente : mail à « Flash » pour suggestions complémentaires ; recherche ciblée sur la géostatistique pure (krigeage + simulation conditionnelle), qui pourrait recouper la famille D côté spatial et n'a pas été creusée ; lecture du papier RealCause (Neal et al. 2020) au-delà de son résumé.</p>
+    <p>La revue repose sur les lectures de RealCause, Gelfand–Schliep, Gotway–Young, Tiedeman–Green et LeSage–Pace, ainsi que sur les articles complémentaires. S1–S3 sont des expériences pilotes sur Georgia et Meuse ; S4 a aussi été exécuté sur Banff. Elles illustrent des mécanismes de moyenne, d'innovation et d'observation, mais ne constituent pas une validation générale des estimateurs. Les résultats <a href="#resultats-s3">S3</a> et <a href="#resultats-s4">S4</a> sont présentés dans leurs sections respectives avec leurs limites. S3 ne mesure pas encore l'incertitude prédictive complète ; S4 couvre une tâche conditionnelle par pli avec des valeurs de champ exactes et synthétiques, mais pas des observations conditionnantes bruitées. La calibration complète de D0–D9, la représentativité de trois sources et les conclusions destinées au data paper restent ouvertes. Dorie et al. 2019 et Hill 2011 restent à auditer avant toute affirmation détaillée les concernant.</p>
   </section>
 
   <section id="biblio">
@@ -853,6 +1026,9 @@
       <h3>Spatial (Monte Carlo &amp; benchmark spatial)</h3>
       <ol class="biblio">
         <li><a href="https://link.springer.com/article/10.1007/s00181-017-1330-6" target="_blank" rel="noopener">LeSage, J.P. &amp; Pace, R.K. (2018) — Spatial econometric Monte Carlo studies: raising the bar</a><span class="note">Empirical Economics, 55(1), 17-34</span></li>
+        <li><a href="https://doi.org/10.1016/j.rse.2021.112381" target="_blank" rel="noopener">Zakeri, F. &amp; Mariethoz, G. (2021) — A review of geostatistical simulation models applied to satellite remote sensing</a><span class="note">Taxonomie deux-points/multipoints et validation des réalisations conditionnelles par distributions, variogrammes, texture et contraintes aux données.</span></li>
+        <li><a href="https://doi.org/10.1007/s11004-021-09926-0" target="_blank" rel="noopener">Gómez-Hernández, J.J. &amp; Srivastava, R.M. (2021) — One Step at a Time: The Origins of Sequential Simulation and Beyond</a><span class="note">Revue historique et méthodologique de la simulation séquentielle conditionnelle.</span></li>
+        <li><a href="https://doi.org/10.1191/1471082X02ST035OA" target="_blank" rel="noopener">Cressie, N. &amp; Pavlicová, M. (2002) — Calibrated spatial moving average simulations</a><span class="note">Simulation rapide de champs calibrés sur des familles usuelles de covariance spatiale.</span></li>
         <li><a href="https://journals.sagepub.com/doi/abs/10.1177/0049124119882467" target="_blank" rel="noopener">Rüttenauer, T. (2022) — Spatial Regression Models: A Systematic Comparison of Different Model Specifications Using Monte Carlo Experiments</a><span class="note">Sociological Methods &amp; Research</span></li>
         <li>LeSage, J.P. &amp; Pace, R.K. (2009) — Introduction to Spatial Econometrics<span class="note">CRC Press — référence pour les impacts directs/indirects, cité par la synthèse de l'encadrant</span></li>
         <li>Tec, M., Trisovic, A., Audirac, M., Woodward, S., Khoshnevis, N. &amp; Dominici, F. (2024) — SpaCE: The Spatial Confounding Environment<span class="note">ICLR 2024 — voir section Convergence ci-dessus</span></li>
@@ -878,7 +1054,7 @@
   </section>
 
   <footer>
-    1ᵉʳ passage compilé le 4 septembre 2026 (recherche web). Recoupé le 7 septembre 2026 avec la synthèse de l'encadrant et le papier SpaCE (ICLR 2024), puis corrigé le même jour après lecture intégrale de 5 papiers phares (Huber/Lechner/Wunsch 2013, Schreck et al. 2024, Advani/Kitagawa/Słoczyński 2019, Knaus/Lechner/Strittmatter 2018, Neal et al. 2020) — voir la section « Lecture complète » pour ce que ça a corrigé.
+    1ᵉʳ passage compilé le 4 septembre 2026. Recoupé le 7 septembre avec SpaCE et la synthèse de l'encadrant. Mis à jour le 14 septembre après intégration des lectures complémentaires et exécution du scénario S2 sur 2&nbsp;400 évaluations.
   </footer>
 
 </div>

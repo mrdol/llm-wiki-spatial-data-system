@@ -1,0 +1,1868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Using simulation studies to evaluate statistical methods</title>
+				<funder ref="#_SFDkb8F #_YAVK852">
+					<orgName type="full">unknown</orgName>
+				</funder>
+				<funder ref="#_cPVpqr2 #_X3YeX4Z #_EbSUYNN #_hcCFfvS">
+					<orgName type="full">Medical Research Council</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Tim</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+							<email>tim.morris@ucl.ac.uk</email>
+							<idno type="ORCID">0000-0001-5850-3610</idno>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">London Hub for Trials Methodology Research</orgName>
+								<orgName type="institution" key="instit2">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ian</forename><forename type="middle">R</forename><surname>White</surname></persName>
+							<idno type="ORCID">0000-0002-6718-7661</idno>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">London Hub for Trials Methodology Research</orgName>
+								<orgName type="institution" key="instit2">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Michael</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+							<idno type="ORCID">0000-0001-8378-8259</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Health Sciences</orgName>
+								<orgName type="laboratory">Biostatistics Research Group</orgName>
+								<orgName type="institution">University of Leicester</orgName>
+								<address>
+									<settlement>Leicester</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">High Holborn</orgName>
+								<address>
+									<postCode>WC1V 6LJ</postCode>
+									<settlement>London</settlement>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Using simulation studies to evaluate statistical methods</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C81630D035D58245148093B6A383371E</idno>
+					<idno type="DOI">10.1002/sim.8086</idno>
+					<note type="submission">Received: 29 November 2017 Revised: 23 August 2018 Accepted: 2 November 2018</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:09+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>graphics for simulation</term>
+					<term>Monte Carlo</term>
+					<term>simulation design</term>
+					<term>simulation reporting</term>
+					<term>simulation studies</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation studies are computer experiments that involve creating data by pseudo-random sampling. A key strength of simulation studies is the ability to understand the behavior of statistical methods because some "truth" (usually some parameter/s of interest) is known from the process of generating the data. This allows us to consider properties of methods, such as bias. While widely used, simulation studies are often poorly designed, analyzed, and reported. This tutorial outlines the rationale for using simulation studies and offers guidance for design, execution, analysis, reporting, and presentation. In particular, this tutorial provides a structured approach for planning and reporting simulation studies, which involves defining aims, data-generating mechanisms, estimands, methods, and performance measures ("ADEMP"); coherent terminology for simulation studies; guidance on coding simulation studies; a critical discussion of key performance measures and their estimation; guidance on structuring tabular and graphical presentation of results; and new graphical presentations.</p><p>With a view to describing recent practice, we review 100 articles taken from Volume 34 of Statistics in Medicine, which included at least one simulation study and identify areas for improvement.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>Simulation studies are computer experiments that involve creating data by pseudo-random sampling from known probability distributions. They are an invaluable tool for statistical research, particularly for the evaluation of new methods and for the comparison of alternative methods. Simulation studies are much used in the pages of Statistics in Medicine, but our experience is that some statisticians lack the necessary understanding to execute a simulation study with confidence, while others are overconfident and so fail to think carefully about design and report results poorly. Proper understanding of simulation studies would enable the former to both run and critically appraise published simulation studies themselves and the latter to conduct simulation studies with greater care and report with transparency. Simulation studies are empirical experiments, and statisticians should therefore use knowledge of experimental design and analysis in running them. As we shall see, inadequacies with design, analysis, and reporting lead to uncritical use and interpretation of simulation studies. In this context, better understanding of the rationale, design, execution, analysis, and reporting of simulation studies is necessary to improve understanding and interpretation of the findings.</p><p>Simulation studies are used to obtain empirical results about the performance of statistical methods in certain scenarios, as opposed to more general analytic (algebraic) results, which may cover many scenarios. It is not always possible, or may be difficult, to obtain analytic results. Simulation studies come into their own when methods make wrong assumptions or data are messy because they can assess the resilience of methods in such situations. This is not always possible with analytic results, where results may apply only when data arise from a specific model.</p><p>"Monte Carlo simulation" means statistical techniques that use pseudo-random sampling, and has many uses that are not simulation studies. For example, it is required to implement multiple imputation and Markov Chain Monte Carlo methods. The remainder of this paper does not consider these uses, unless the properties of some such method are being evaluated by a simulation study.</p><p>There are many ways to use simulation studies in medical statistics. Some examples are:</p><p>• To check algebra (and code), or to provide reassurance that no large error has been made, where a new statistical method has been derived mathematically.</p><p>• To assess the relevance of large-sample theory approximations (eg, considering the sampling distribution of an estimator) in finite samples.</p><p>• For the absolute evaluation of a new or existing statistical method. Often a new method is checked using simulation to ensure it works in the scenarios for which it was designed.</p><p>• For comparative evaluation of two or more statistical methods.</p><p>• For calculation of sample size or power when designing a study under certain assumptions. <ref type="bibr" target="#b0">1</ref> This article is focused primarily on using simulation studies for the evaluation of methods. Simulation studies for this purpose are typically motivated by frequentist theory and used to evaluate the frequentist properties of methods, even if the methods are Bayesian. <ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3</ref> It seems that as a profession we fail to follow good practice regarding design, analysis, presentation and reporting in our simulation studies, as lamented previously by Hoaglin and Andrews, <ref type="bibr" target="#b3">4</ref> Hauck and Anderson, <ref type="bibr" target="#b4">5</ref> Ripley, <ref type="bibr" target="#b5">6</ref> Burton et al, <ref type="bibr" target="#b6">7</ref> and Koehler et al. <ref type="bibr" target="#b7">8</ref> For example, few reports of simulation studies acknowledge that Monte Carlo procedures will give different results when based on a different set of random numbers and hence are subject to uncertainty, yet failing to report measures of uncertainty would be unacceptable in medical research.</p><p>There exist some wonderful books on simulation methods in general <ref type="bibr" target="#b5">6,</ref><ref type="bibr" target="#b8">9,</ref><ref type="bibr" target="#b9">10</ref> and several excellent articles encouraging rigor in specific aspects of simulation studies, <ref type="bibr" target="#b0">1,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b10">[11]</ref><ref type="bibr" target="#b11">[12]</ref><ref type="bibr" target="#b12">[13]</ref><ref type="bibr" target="#b13">[14]</ref><ref type="bibr" target="#b14">[15]</ref><ref type="bibr" target="#b15">[16]</ref> but until now, no unified practical guidance on simulation studies. This tutorial provides such guidance. More specifically, we: introduce a structured approach for planning and reporting simulation studies; provide coherent terminology for simulation studies; offer guidance on coding simulation studies; critically discuss key performance measures and their estimation; make suggestions for structuring tabular and graphical presentation of results; and introduce several new graphical presentations. This guidance should enable practitioners to execute a simulation study for the first time and contains much for more experience practitioners. For reference, the main steps involved, key decisions and recommendations are summarised in Table <ref type="table">1</ref>.</p><p>The structure of this tutorial is as follows. We describe a review of a sample of the simulation studies reported in Statistics in Medicine Volume 34 (Section 2). In Section 3, we outline a systematic approach to planning simulation studies, using the new "ADEMP" structure (which we define there). Section 4 gives guidance on computational considerations for coding simulation studies. In Section 5, we discuss the purposes of various performance measures and their estimation, stressing the importance of estimating and reporting the Monte Carlo standard error (SE) as a measure of uncertainty due to using a finite number of simulation repetitions. Section 6 outlines how to report simulation studies, again using the ADEMP structure, and offers guidance on tabular and graphical presentation of results. Section 7 works through a simple simulation to illustrate in practice the approaches that we are advocating. Section 8 offers some concluding remarks, with a short Section 8.1 that considers some future directions. Examples are drawn from the review and from the authors' areas of interest (which relate mainly to modeling survival data, missing data, meta-analysis, and randomised trial design).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLE 1</head><p>Key steps and decisions in the planning, coding, analysis and reporting of simulation studies Section PLANNING 3 Aims 3.1 • Identify specific aims of simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data-generating mechanisms 3.2</head><p>• In relation to the aims, decide whether to use resampling or simulation from some parametric model.</p><p>• For simulation from a parametric model, decide how simple or complex the model should be and whether it should be based on real data.</p><p>• Determine what factors to vary and the levels of factors to use.</p><p>• Decide whether factors should be varied fully factorially, partly factorially or one-at-a-time.</p><p>Estimand/target of analysis 3.3</p><p>• Define estimands and/or other targets of the simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods 3.4</head><p>• Identify methods to be evaluated and consider whether they are appropriate for estimand/target identified.</p><p>For method comparison studies, make a careful review of the literature to ensure inclusion of relevant methods.</p><p>Performance measures 3.5, 5.2 • List all performance measures to be estimated, justifying their relevance to estimands or other targets.</p><p>• For less-used performance measures, give explicit formulae for the avoidance of ambiguity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.2</head><p>• Choose a value of n sim that achieves acceptable Monte Carlo SE for key performance measures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.2, 5.3 CODING AND EXECUTION 4</head><p>• Separate scripts used to analyze simulated datasets from scripts to analyze estimates datasets.</p><p>• Start small and build up code, including plenty of checks.</p><p>• Set the random number seed once per simulation repetition.</p><p>• Store the random number states at the start of each repetition.</p><p>• If running chunks of the simulation in parallel, use separate streams of random numbers. <ref type="bibr" target="#b16">17</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ANALYSIS 5</head><p>• Conduct exploratory analysis of results, particularly graphical exploration.</p><p>• Compute estimates of performance and Monte Carlo SEs for these estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">REPORTING 6</head><p>• Describe simulation study using ADEMP structure with sufficient rationale for choices.</p><p>• Structure graphical and tabular presentations to place performance of competing methods side-by-side.</p><p>• Include Monte Carlo SE as an estimate of simulation uncertainty.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.2</head><p>• Publish code to execute the simulation study including user-written routines. 8</p><p>We restricted attention to research articles, excluding tutorials in biostatistics, commentaries, book reviews, corrections, letters to the editor and authors' responses. In the volume, there were a total of 264 research articles of which 199 (75%) included at least one simulation study.</p><p>In planning the review, we needed to select a sample size. Most of the questions of interest involved binary answers. For such questions, to estimate proportions with maximum standard error of 0.05 (occurring when the proportion is 0.5), we randomly selected 100 articles that involved a simulation study, before randomly assigning articles to a reviewer. TPM reviewed 35 simulation studies, IRW reviewed 34 and MJC reviewed 31. In case the reviewer was an author or coauthor of the article, the simulation study was swapped with another reviewer. TPM also reviewed five of the simulation studies allocated to each of the other reviewers to check agreement on key information (results on agreement are given in the Appendix and Figure <ref type="figure" target="#fig_2">A1</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">PLANNING SIMULATION STUDIES USING ADEMP</head><p>For clarity about the concepts that will follow, we introduce some notation in Table <ref type="table">2</ref>. Note that 𝜃 is used to represent a connceptual estimand and its true value.</p><p>TABLE 2 Description of notation 𝜃 An estimand (conceptually); also true value of the estimand n obs Sample size of a simulated dataset n sim Number of repetitions used; the simulation sample size i = 1, … , n sim Indexes the repetitions of the simulation θ the estimator of 𝜃 θi the estimate of 𝜃 from the ith repetition θ the mean of θi across repetitions Var( θ) the true variance of θ, which can be estimated with large n sim Var( θi ) an estimate of Var( θ) from the ith repetition 𝛼 the nominal significance level p i the p-value returned by the ith repetition</p><p>In the following sections, we outline the ADEMP structured approach to planning simulation studies. This acronym comes from: Aims, Data-generating mechanisms, Methods, Estimands, Performance measures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Aims</head><p>In considering the aims of a simulation study, it is instructive to first consider desirable properties of an estimator θ from a frequentist perspective.</p><p>1. θ should be consistent: as n → ∞, θ → 𝜃. It is also desirable that θ be unbiased for 𝜃 in finite samples: E( θ) = 𝜃 (though arguably less important since unbiasedness is not an invariant property). Some estimators may be consistent but exhibit small-sample bias (logistic regression for example). 2. The sample estimate Var( θ) should be a consistent estimate of the sampling variance of θ (see, for example, the work of Kenward and Roger. <ref type="bibr" target="#b17">18</ref> ) 3. Confidence intervals should have the property that at least 100(1 -𝛼)% of intervals contain 𝜃 (see Section 5.2). 4. It is desirable that Var (𝜃) be as small as possible: that θ be an efficient estimator of 𝜃.</p><p>There are other properties we might desire, but these tend to involve combinations of the above. For example, short average confidence interval length may be desirable; this relates to (4) and its validity depends on (1), (2), and (3). Mean squared error is a combination of (1) and (4). Further, properties may be traded off; small bias may be accepted if there is a substantial reduction in Var (𝜃).</p><p>The aims of a simulation study will typically be set out in relation to the above properties, depending on what specifically we wish to learn. A simulation study might primarily investigate: large-or small-sample bias (eg, see the work of White <ref type="bibr" target="#b18">19</ref> ); precision, particularly relative to other available methods (eg, see the work of White 20 ); Variance estimation (eg, see the work of Hughes et al <ref type="bibr" target="#b20">21</ref> ); or robustness to misspecification (eg, see the work of Morris et al <ref type="bibr" target="#b21">22</ref> ).</p><p>There is a distinction between simulation studies that offer a proof-of-concept, ie, showing that a method is viable (or fallible) in some settings, and those that aim to stretch or break methods, ie, identifying settings where the method may fail. Both are useful and important in statistical research. For example, one may be faced with two competing methods of analysis, both of which are equally easy to implement. Even if the choice is unlikely to materially affect the results, it may be useful to have unrealistically extreme data-generating mechanisms to understand when and how each method fails. <ref type="bibr" target="#b21">22</ref> Alternatively, it may be of interest to compare methods where some or all methods have been shown to work in principle but the methods under scrutiny were designed to address slightly different problems. They may be put head-to-head in realistic scenarios. This could be to investigate properties when one method is correct -How badly do others fail? -or when all are incorrect in some way -Which is most robust? No method will be perfect, and it is useful to understand how methods are likely to perform in the sort of scenarios that might be expected in practice. However, such an approach poses tough questions in terms of generating data: Does the data-generating mechanism favor certain methods over others? How can this be checked and justified? One common justification is by reference to motivating data. However, in the absence of a broad spectrum of such motivating data, there is a risk of failing to convince readers that a method is fit for general use.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Data-generating mechanisms</head><p>We use the term "data-generating mechanism" to denote how random numbers are used to generate a dataset. This is in preference to "data-generating model," which implies parametric models and so is a specific class of data-generating mechanism. It is not the purpose of this article to explain how specific types of data should be generated. See Ripley <ref type="bibr" target="#b5">6</ref> or Morgan <ref type="bibr" target="#b8">9</ref> for methods to simulate data from specific distributions. In planning a simulation study, it is usual to spend more time deciding on data-generating mechanisms than any other element of ADEMP. There are many subtleties and potential pitfalls, some of which we will mention below.</p><p>Data may be generated by producing parametric draws from a known model (once or many times), or by repeated resampling with replacement from a specific dataset (where the true data-generating model is unknown). For resampling studies, the true data-generating mechanism is unknown and resamples are used to study the sampling distribution. While parametric simulation can explore many different data-generating mechanisms (which may be completely unrealistic), resampling typically explores only one mechanism (which will be relevant for at least the study at hand).</p><p>The choice of data-generating mechanism(s) will depend on the aims. As noted above, we might investigate a method under a simple data-generating mechanism, a realistic mechanism, or a completely unrealistic mechanism designed to stretch a method to breaking point.</p><p>Simulation studies provide us with empirical results for specific scenarios. For this reason, simulation studies will often involve more than one data-generating mechanism to ensure coverage of different scenarios. For example, it is very common to vary the sample size of simulated datasets because performance often varies over n obs (see Section 5.2).</p><p>Much can be controlled in a simulation study and statistical principles for designing experiments therefore can and should be called on. In particular, there is often more than one factor that will vary across specific data-generating mechanisms. Factors that are frequently varied are sample size (several values) and true parameter values (for example, setting one or more parameters to be zero or nonzero). Varying these factorially is likely to be more informative than one-by-one away from a "base-case" data-generating mechanism, as doing so permits the exploration of interactions between factors. There are however practical implications that might make this infeasible. The first regards presentation of results (covered in Section 6) and the second computational time. If the issue is simply around presentation, it may be preferable to define a "base case" but perform a factorial simulation study anyway, and if results are consistent with no interaction, presentation can vary factors away from the base case one-by-one.</p><p>If the main issue with executing a fully factorial design is computational time, it may be necessary for the simulation study to follow a nonfactorial structure. Three approaches are noted below.</p><p>A first pragmatic check may be to consider interactions only where main effects exist. If performance seems acceptable and does not vary according to factor A, it would seem unlikely to have chosen a data-generating mechanism that happened to exhibit this property when performance would have been poor for other choices of data-generating mechanism.</p><p>A more careful approach could be taken based on making and checking predictions beyond the data-generating mechanisms initially used; an idea similar to external validation. Suppose we have two factors, A and B, where A ∈ {1, … , 8} and B ∈ {1, … , 5} in the data-generating mechanism. The base-case is A = 1, B = 1. If the nonfactorial portion of the design varies A from 1 to 8 holding B = 1, and varies B from 1 to 5 holding A = 1, this portion of the simulation study could be used to predict performance when A = 8, B = 5. Predictions may be purely qualitative ("bias increases as A increases and as B increases, so when we increase both together, we would expect even larger bias"), or quantitative (based on the marginal effects after fitting a model to existing results, thereby producing explicit predictions at unexplored values of A and B). The simulation study can then be re-run for that single data-generating mechanism, say A = 8, B = 5 and predictions compared with the empirical results (with a responsibility to expore further when predictions are poor or incorrect).</p><p>Finally, a more satisfactory solution is of course to use a fractional factorial design for the data-generating mechanisms. <ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b22">23</ref> We now issue some specific pitfalls to help readers in choosing data-generating mechanisms (specifically acknowledging Stephen Senn's input). 1. Resampling with replacement from a dataset but failing to appreciate that results are relevant to an infinite population with the exact characteristics of that dataset. For example, if a trial had a nonsignificant result, the treatment effect is nonzero in the implicit population. <ref type="bibr" target="#b23">24</ref> 2. Missing the distinction between the logical flow of Bayesian and frequentist simulation. Repeated simulation with a single parameter value is explicitly frequentist. The fact that θ is on average equal to 𝜃 does not imply that 𝜃 is on average equal to θ. 3. Failing to distinguish between what the simulator can know and what the estimator can know. <ref type="bibr" target="#b24">25</ref> 4. Employing tricks in data-generation without appreciating that the resulting data are not what was desired. As an example, suppose one wishes to simulate bivariate data with a desired R 2 , say 0.3. For any given repetition, the observed R 2 will not equal 0.3, but this could be fixed by scaling the residuals. This would produce unintended side effects for other statistics.</p><p>In our review, 97 simulation studies used some form of parametric model to generate data while three used resampling methods. Of the 97 that simulated from a parametric model, 27 based parameter values on data, one based parameter values partly on data, and the remaining 69 on no data. Of these 97, 91 (94%) provided the parameters used. The most careful example <ref type="bibr" target="#b25">26</ref> explored analysis of meta-analysis data and drew the design factors from empirical data on 14,886 performed meta-analyses from 1,991 Cochrane Reviews. The total number of data-generating mechanisms per simulation study ranged from 1 to 4.2 × 10 10 ; Figure <ref type="figure" target="#fig_4">A2</ref> (in the Appendix) summarises aspects of the data-generating mechanisms. Where more than one factor was varied, fully factorial designs were the most frequent, while some used partially factorial designs. None used any of the alternative approaches we have described.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Estimands and other targets</head><p>The majority of simulation studies evaluate or compare methods for estimating one or more population quantities, which we term estimands and denote by 𝜃. An estimand is usually a parameter of the data generating model, but is occasionally some other quantity. For example, when fitting regression models with parameter 𝛃 = (𝛽 0 … 𝛽 c ), the estimand may be a specific 𝛽, a measure of prognostic ability, the fitted outcome mean, or something else. In order to choose a relevant estimand, it is important to understand the aims of analysis in practice.</p><p>The choice of estimand is sometimes a simple matter of stating a parameter of interest. At other times, it is more subtle. For example, a logistic regression model unadjusted for covariates implies a marginal estimand; a model adjusted for covariates implied a conditional estimand with a different true value (this example is expanded on in Section 3.4).</p><p>Not all simulation studies evaluate or compare methods that concern an estimand. Other simulation studies evaluate methods for testing a null hypothesis, for selecting a model, or for prediction. We refer to these as targets of the simulation study. The same statistical method could be evaluated against multiple targets. For example, the best method to select a regression model to estimate the coefficient of an exposure (targeting an estimand) may differ from the best model for prediction of outcomes (targeting prediction). Where a simulation study evaluates methods for design, rather than analysis, of a biomedical study, the design is the target.</p><p>Table <ref type="table" target="#tab_0">3</ref> summarises different possible targets of a simulation study and suggests some performance measures (described more fully in Section 3.5) that may be relevant for each target, with examples taken from Volume 34.</p><p>In our review, 64 simulation studies targeted an estimand, 21 targeted a null hypothesis, eight targeted a selected model, three targeted predictive performance, and four had some other target. Of the 64 targeting an estimand, 51 stated what the estimand was (either in the description of the simulation study or elsewhere in the article). A figure detailing the number of estimands in simulation studies that targeted an estimand is given in the Appendix, Figure <ref type="figure" target="#fig_5">A3</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Methods</head><p>The term "method" is generic. Most often it refers to a model for analysis, but might refer to a design or some procedure (such as a decision rule). For example, Kahan <ref type="bibr" target="#b30">31</ref> and Campbell and Dean <ref type="bibr" target="#b31">32</ref> evaluated procedures that involved choosing an analysis based on the result of a preliminary test in the same data.</p><p>In some simulation studies, there will be only one method with no comparators. In this case, selecting the method to be evaluated is very simple. When we aim to compare several methods in order to identify the best, it is important to include serious contenders. There are two issues.</p><p>First, it is necessary to have knowledge of previous work in the area to understand which methods are and are not serious contenders. Some methods may be legitimately excluded if they have already been shown to be flawed, and it may be unnecessary to include such methods if the only consequences are repetition of previous research and bloating mechanisms in terms of number of significant test results (described as "gain") and frequency of achieving the (near) optimal design. <ref type="bibr" target="#b29">30</ref> of results. An exception might be if a flawed method is used frequently in practice (for example, last observation carried forward with incomplete longitudinal data, or the "3 + 3" design for dose-escalation). Second, code. New methods are sometimes published but not implemented in any software (for example, Robins and Wang <ref type="bibr" target="#b32">33</ref> and Reiter <ref type="bibr" target="#b33">34</ref> ), implemented poorly, or implemented in unfamiliar software. For methods that have not been implemented, it is hard to argue that they should be included in simulation studies. Although R and Stata appear to dominate for user-written methods, it is not uncommon to see methods implemented in other packages. See Section 4.3 for a discussion of the situation where the methods under consideration are not all implemented in one same package. Note that one important role of simulation is to verify that code is correct.</p><p>Methods may also be excluded if they do not target the specified estimand/s. Understanding whether methods target an estimand or not can be subtle. Returning to the example of randomised trial with a binary outcome, one might compare two logistic regression analyses, one unadjusted and one adjusted for a covariate, where the estimand is the log odds ratio for randomised group. In a simulation study, one would be likely to find that the two methods give different mean estimates, and it would be tempting to conclude that at least one of the methods is biased. However, the two methods target different estimands, that is, the true unadjusted and adjusted log odds ratios differ. <ref type="bibr" target="#b34">35</ref> One way to tackle the problem of different estimands is to ensure that both methods estimate the same estimand: in the example of the randomised trial using logistic regression, this would involve postprocessing the adjusted regression results to estimate the adjusted marginal odds ratio, which is the same estimand as the unadjusted analysis. <ref type="bibr" target="#b35">36</ref> This of course implies that the adjustment vs non adjustment is the method comparison we are interested in (it may not be), and that the conditional estimand is simply a nuisance part of standard adjustment. An alternative (but coarser) way to tackle the problem is to target the null hypothesis, if the two methods test the same null. In the logistic regression example described above, because the setting is a randomised trial, the null hypothesis that the odds ratio equals 1 is the same whether the odds ratio is conditional or marginal.</p><p>The number of methods evaluated in our review of Volume 34 ranged from 1 to 33 (see Figure <ref type="figure" target="#fig_5">A3</ref>). Nonconvergence and other related issues such as perfect prediction ("separation") <ref type="bibr" target="#b36">37</ref> can blight some simulation studies. In such situations, there is a conceptual issue with defining a method. A "pure" method evaluation would simply assess performance of a model when it converges. However, in practice, an analyst whose model fails to converge would not give up but explore other models until one converges. Thus, evaluation of such a procedure may be of interest in simulation studies. Crowther et al evaluated such a procedure <ref type="bibr" target="#b37">38</ref> : if a model failed to converge, they applied a model with more quadrature points. We will commment further on this issue in Section 5.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5">Performance measures</head><p>The term "performance measure" describes a numerical quantity used to assess the performance of a method. The equivalent term "operating characteristic" is sometimes used, particularly in the context of study designs (see, for example, the work of Royston et al <ref type="bibr" target="#b38">39</ref> ). Statistical methods for estimation may output for example an estimate θi , an estimate of variance Var( θ) i (or standard error ŜE( θ) i ), degrees of freedom, confidence intervals, test statistics, and more (such as an estimate of prognostic performance). The performance measures required in a simulation study depend on the aims and what the study targets (see Section 3.3). When the target is an estimand, the most obvious performance measure to consider is bias: the amount by which θ exceeds 𝜃 on average (this can be positive or negative). Precision and coverage of (1 -𝛼) confidence intervals will also be of interest. Meanwhile, if the target is a null hypothesis, power and type I error rates will be of primary interest. A simulation study targeting an estimand may of course also assess power and type I error.</p><p>The performance measures seen in our review are summarised in Table <ref type="table" target="#tab_1">4</ref>. The denominator changes according across performance measures because some are not applicable for some simulation studies. Further, sometimes simulation studies had secondary targets. For example, nine simulation studies primarily targeted a null hypothesis but secondarily targeted an estimand and could have assessed bias, and one of these did so. For eight articles, some performance measures were unclear. In some, a performance measure was given a name that its formula demonstrated to be misleading (an example is the term "mean error," which is bias, when the formula is for mean absolute error), emphasizing the importance of clear terminology in simulation studies.</p><p>Description and estimation of common performance measures of interest are given in Section 5. An important point to appreciate in design and analysis is that simulation studies are empirical experiments, meaning performance measures are themselves estimated, and estimates of performance are thus subject to error. This fundamental feature of simulation studies does not seem to be widely appreciated, as previously noted. <ref type="bibr" target="#b5">6</ref> The implications are two-fold. First, we should present estimates of uncertainty (quantified as the Monte Carlo standard error; see Section 5.2). Second, we need to consider the number of repetitions n sim and how this can be chosen (see Section 5.2).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">COMPUTATIONAL AND PROGRAMMING ISSUES IN SIMULATION STUDIES</head><p>In this section, we discuss consideration when coding a simulation study. It is useful to understand what sort of data are involved. There may be up to four classes of dataset, listed and described in Table <ref type="table">5</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Random numbers: setting seeds and storing states</head><p>All statistical packages capable of Monte Carlo simulation use a pseudo-random-number generator. Each random number is a deterministic function of the current "state" of the random-number generator. After a random number is produced, TABLE <ref type="table">5</ref> The different datasets that may be involved in a simulation study</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dataset Description and Notes</head><p>Simulated A dataset of size n obs produced with some element of random-number generation, to which one or more methods are applied to produce some quantity relating to the target of the study, such as an estimate of 𝜃. Estimates a Dataset containing n sim summaries of information from repetitions (eg, θ, ŜE( θ), indication of hypothesis rejection) for each combination of data-generating mechanism, method, and target (eg, each estimand). States Dataset of containing n sim + 1 random-number-generator states: the start state for each simulated dataset and the final state (see Section 4.1). Performance measures Dataset containing estimated performance and Monte Carlo standard errors for each data-generating mechanism, method and target.</p><p>a or corresponding summaries for nonestimand targets the state changes, ready to produce the next random number. Because the function is deterministic, the state can be set. Typically, the state is set using a "seed." Seeds do not necessarily map 1:1 to states and provide doors onto the path of possible states. After enough random-number draws (a very large number in software using modern pseudo-random-number generators), the state will eventually repeat: the path is circular.</p><p>The "pseudo" element to random-number generators is sometimes characterised as negative. This is perhaps an artefact of the fact that some early algorithms provided very poor imitations of random numbers. However, modern-era algorithms such as the Mersenne Twister do not suffer from these problems and can, for simulation purposes, be regarded as truly random when used correctly. The toss of a coin or roll of a die may be regarded as equally deterministic, albeit the result of a complex set of unknown factors that act in an uncontrollable fashion. These are not denigrated with the term "pseudo-random": in statistical teaching, they are often given as the ultimate example of randomness. However, many stage magicians can control the flip of a coin! If a computer pseudo-random number generator is sufficiently unpredictable and passes the various tests for randomness, it is churlish to regard the "pseudo" aspect as a weakness.</p><p>There are several positive implications of using a deterministic and reproducible process for generating random numbers. First, if the number of repetitions is regarded as insufficient, the simulation study can continue from its end state. Second and more importantly, if a certain repetition results in some failure such as nonconvergence, the starting state for that repetition can be noted and the repetition re-run under that state, enabling better understanding of when the method does not work so that issues leading to nonconvergence can be tackled. Finally, the whole simulation study can be independently run by other researchers, giving the potential for exact (rather than approximate) reproduction of results and the scope for additional methods to be included.</p><p>Our practical advice for utilizing the deterministic nature of random-number generators is simple but strong: (1) set the seed at the beginning, once and only once; (2) store the state of the random-number generator often (ideally once at the beginning of each repetition and once following repetition i = n sim ). This is important; the following chunk of pseudocode demonstrates the concept:</p><formula xml:id="formula_0">SET</formula><p>RandomSeed to # FOR Repetition 1 to n_sim by 1 STORE Repetition and RandomNumberState in StatesData[Repetition] GENERATE simulated dataset ... END FOR STORE n_sim+1 and RandomNumberState in StatesData[n_sim+1]</p><p>The reason for this advice is to avoid unintended dependence between simulated datasets. We will illustrate our caution: one undesirable method of knowing the states for n sim repetitions is to set an initial seed and generate a single vector of length n sim by recording the starting state, generating a single random number, recording the new state, and so on. For the simulation itself, the seed for the ith repetition is then set to the ith element. To clarify the problem, let n obs = n sim = 4 and let the first simulation step be generation of vector x from a Uniform(0,1) distribution. The first repetition simulates x 1 (which changes the random number state four times) and proceeds. The second repetition then simulates x 2 , which is made up of observations 2 to 4 from repetition i = 1 and just one new value. Run in Stata 15 (see supplementary material, ie, file "corrstates.do"), the resulting draws of x for the four repetitions are: Note that elements with the same shading contain the same values across rows. The fourth element of x 1 is the first element of x 4 and appears in all repetitions. Only when i &gt; n obs is the draw of x actually independent of the first repetition. Such dependency in simulated data can compromise both performance estimates and Monte Carlo SEs and must be avoided.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1">"Stream" random numbers</head><p>It is common for parts of simulation studies -fractions of all the repetitions, for example -to be run in parallel on different cores of high-performance computers (which this article will not mention further). If the advice to set the seed once only is followed, the implication for parallelisation is that, while runs for different data-generating mechanisms may be parallelised, it is inadvisable to parallelise repetitions within a specific data-generating mechanism. Suppose we wish to parallelise two sets of n sim ∕2 repetitions. Any simulation study will use random numbers (in order) from a section of the circle. Here, each set of repetitions is represented by a clockwise arrow, and uses 80 • of the total 360 • of random numbers available in the full circle (a caricature for illustrative purposes; in practice, a much smaller fraction would be used). The seed dictates the position on the circle at which an arrow begins (and thus ends). The random numbers used up by the first n sim ∕2 repetitions are represented by the red arrow and for the second n sim by the blue arrow. The left circle depicts two chunks run in parallel with two different, arbitrarily-chosen starting seeds. By chance, they may overlap as seen. This would be a cause for concern. The right circle uses separate streams of random numbers. This breaks the circle into quadrants, and setting the same value of a seed within a stream means that the separate chunks will start at the equivalent point on the quadrants and here there is no chance that one stream will enter another. In the absence of streams, repetitions should not be parallelised for the same data-generating mechanism.</p><p>In Stata (version 15 or newer), the stream is set with . set rngstream # prior to setting the seed. In SAS, it is achieved within a data step with . call stream(#); In R, this can be achieved with the rstream package. Regardless of the package, the same seed must be used within different values of #.</p><p>When a simulation study uses multiple data-generating mechanisms, these may be run in parallel. Because performance is typically estimated separately for different data-generating mechanisms, using the same seeds is less of a problem (and may in fact be advantageous, as described in Section 5.4).</p><p>Many programs execute methods involving some stochastic element. Examples include multiple imputation, the bootstrap, the g-computation formula, multistate models, and Bayesian methods that use Markov Chain Monte Carlo. Commands to implement these methods involve some random-number generation. It is important to check that such programs do not manipulate the seed. Some packages do have a default seed if not input by the user. If they do set the seed internally, many of the n sim results will be highly correlated, if not identical, and results should not then be trusted. Checking for such behavior is worthwhile. One simple technique is to display the current state of the random-number generator, twice issue the command, and display the state after each run. If the first and second states are the same, then the program probably does not use random numbers. If the first and second states differ but the second and third do not, the seed is being reset by the program.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Start small and build up code</head><p>As with any coding task it is all-too-easy to obtain misleading results in a simulation study through very minor coding errors; see, for example, the comments section of Bartlett, <ref type="bibr" target="#b39">40</ref> where fixing an error in a single line of code completely changed the results. A function may be sloppily written as a-b*c such that it is unclear if(a-b)*c or a-(b*c)was intended; a machine will interpret this code but will not discern the intention.</p><p>Errors are often detected when results are unexpected: for example, when bias appears much greater than theory suggests. One design implication is that methods with known properties should be included where possible as a check that these properties are exhibited. One straightforward and intuitive approach for minimizing errors is to start small and specific for one repetition, then build and generalise, including plenty of built-in checks.</p><p>In a simulation study with n sim &gt; 1 and several simulated variables, a good starting point is to generate one simulated dataset with large n obs . If variables are being generated separately then the code for each should be added one by one and the generated data explored to ( <ref type="formula" target="#formula_2">1</ref>) check that the code behaves as expected and (2) ensure the data have the desired characteristics. For example, Stata's rnormal(m,s)function simulates normal variates with meanmand standard deviations. The usual notation for a normal distribution uses a mean and variance. We have seen this syntax trip up several good programmers. By checking the standard deviation of a variable simulated by rnormal()in a single large simulated dataset, it should be obvious if it does not behave in the expected fashion. The simulation file should be built to include different data-generating mechanisms, methods, or estimands, again checking that behavior is as expected. Using the above example again, if the basic data-generating mechanism used N(𝜇, 1), the issue with specifying standard deviations vs variances would not be detected, but it would for data-generating mechanisms with 𝜎 2 ≠ 1. When satisfied with the large dataset being generated, we apply each method.</p><p>Once satisfied that one large run is behaving sensibly, it is worth setting the required n obs for the simulation study and exploring the simulated datasets produced under a handful of different seeds. When satisfied that the program still behaves sensibly, it may be worth running a few (say tens of) repetitions. If, for example, convergence problems are anticipated, or bias is expected to be 0, this can be checked informally without the full set of simulations.</p><p>After thoroughly checking through and generalizing code, the full set of n sim repetitions may be run. However, recall the precaution in Section 4.1 to store the states of the random-number generator and the reasons. If failure occurs in repetition 4120 of 5000, we will want to understand why. In this case, a record of the 4120th start state means we can reproduce the problematic dataset quickly.</p><p>While the ability to reproduce specific errors is useful, it is also practically helpful to be able to continue even when an error occurs. For this purpose, we direct readers to the capture command in Stata and the try command in R. The failed analysis must be recorded as a missing value in the Estimates dataset, together with reasons if possible.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Using different software packages for different methods</head><p>It is frequently the case that competing methods are implemented in different software packages, and it would be more burdensome to try and code them all in one package than to implement them in different packages. There are two possible solutions. The first is to simulate data separately in the different packages and then use the methods on those data. The second is to simulate data in one package and export simulated data so that different methods are based on the same simulated datasets.</p><p>Both approaches are valid in principle, but we advocate the latter. First, if data are generated independently for different methods, there will be different (random) Monte Carlo error affecting each repetition. By using the same simulated data for both comparisons, this Monte Carlo error will affect methods' performance in the same way because methods are matched on the same generated data. Second, it is cumbersome to do a job twice, and because different software packages have different quirks, it will not be easy to ensure data really are being generated identically. Third, it is important to understand that our aim is to compare methods, and while the software implementation may be important to evaluate, the way the software package simulates data is not of interest: using a method in practice would involve a software implementation, but not simulating data using that package. Whatever data an analyst was faced with would be the same regardless of the software being used.</p><p>Sixty-two simulation studies in our review mentioned software. Table <ref type="table">A1</ref> (in the Appendix) describes the specific statistical software mentioned. Seven simulation studies mentioned using more than one statistical package.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">ANALYSIS OF ESTIMATES DATA</head><p>This section describes estimation for various performance measures along with Monte Carlo SEs. We advocate two preliminaries: checking for missing estimates and plots of the estimates data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Checking the estimates data and preliminaries</head><p>The number of missing values, eg, of θi and ŜE( θi ) (for example due to nonconvergence), is the first performance measure to assess. The data produced under repetitions for which missing values were returned should be explored to understand how a method failed (see Section 4) and, ideally, the code made more robust to reduce the frequency of failures.</p><p>Missing values in the estimates dataset pose a missing data problem regarding the analysis of other performance measures. It seems implausible that values would be missing completely at random 41 ; estimates will usually be missing due to nonconvergence so will likely depend on some characteristic/s of a given simulated dataset. When the "method" being evaluated involves an analyst's procedure (as described in Section 3.4), for example, the model changes if the first-choice model does not converge, this can reduce or remove missing values from the estimates data (though it changes the nature of the method being evaluated; see Section 3.4).</p><p>If more than two methods are evaluated, and one always returns an estimate θi , then missing values for another method may be related to the returned values for the first method. In the presence of a nontrivial proportion of missing estimates data, analysis of further performance measures should be tentative, particularly when comparing methods with different numbers of θi missing. "Nontrivial" means any proportion that could meaningfully alter estimated performance. If we are interested in detecting tiny biases, even 1% may be nontrivial.</p><p>Before undertaking a formal analysis of the estimates dataset, it is sensible to undertake some exploratory analysis. Plots are often helpful here. For example, Kahan <ref type="bibr" target="#b30">31</ref> assessed the performance of a two-stage procedure for the analysis of factorial trials. The procedure was unbiased (both conditionally and unconditionally), yet a histogram of θi exhibited a bimodal distribution with modes equally spaced at either side of 𝜃, with almost no values of θi close to 𝜃. This may cause concern and would have been missed had the analysis proceeded straight to the estimation of performance.</p><p>For simulation studies targeting an estimand, the following plots are often informative:</p><p>1. A univariate plot of the distribution of θi and ŜE( θi ) for each data-generating mechanism, estimand and method, to inspect the distribution and, in particular, to look for outliers. 2. A bivariate plot of ŜE( θi ) vs θi for each data-generating mechanism, estimand and method, with the aim of identifying bivariate outliers. 3. Bivariate plots of θi (and possibly ŜE( θi )) for one method vs another for each data-generating mechanism and estimand. The purpose here is to look for correlations between methods and any systematic differences. Where more than two methods are compared, a graph of every method vs every other or vs the comparator can be useful. 4. Limits-of-agreement for θi (and possibly ŜE( θi )) compared with a reference method. That is, a plot of the difference vs the mean of each method compared with a comparator. 5. A plot of confidence intervals fractionally ranked by |z i |, where z i = ( θi -𝜃)∕ModSE i (as in Figure <ref type="figure" target="#fig_7">5</ref>). This is called a zip plot and is a means of understanding any issues with coverage. These plots will be demonstrated and interpreted in the worked example (Section 7).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Estimation of performance and monte carlo standard errors for some common performance measures</head><p>This section outlines some common performance measures, properties they are designed to assess, how they are estimated and how Monte Carlo standard errors are computed. We suppress the "hat" notation for performance measures, but emphasise that these are estimates. For interpretation of results, performance measures should usually be considered jointly (one could prefer a method with zero variance by conveniently ignoring bias). </p><formula xml:id="formula_1">1 n sim n sim ∑ i=1 θi -𝜃 √ √ √ √ 1 n sim (n sim -1) n sim ∑ i=1 ( θi -θ) 2 EmpSE √ Var( θ) √ √ √ √ 1 n sim -1 n sim ∑ i=1 ( θi -θ) 2 ÊmpSE √ 2(n sim -1)</formula><p>Relative % increase in precision (B vs A) a 100</p><formula xml:id="formula_2">( Var( θA ) Var( θB ) -<label>1</label></formula><formula xml:id="formula_3">) 100 ( ( ÊmpSE A ÊmpSE B ) 2 -<label>1</label></formula><formula xml:id="formula_4">) 200 ( ÊmpSE A ÊmpSE B ) 2 √ 1-Corr( θA , θB ) 2 n sim -1 MSE E[( θ -𝜃) 2 ] 1 n sim n sim ∑ i=1 ( θi -𝜃) 2 √ √ √ √ √ √ n sim ∑ i=1 [ ( θi -𝜃) 2 -MSE ] 2 n sim (n sim -1) Average ModSE a √ E[ Var( θ)] √ √ √ √ 1 n sim n sim ∑ i=1 Var( θi ) √ Var[ Var( θ)] 4n sim × ModSE 2 b</formula><p>Relative % error in ModSE a 100  </p><formula xml:id="formula_5">( ModSE EmpSE -1 ) 100 ( ModSE ÊmpSE -<label>1</label></formula><formula xml:id="formula_6">) 100 ( ModSE ÊmpSE ) √ Var[ Var( θ)] 4n sim × ModSE 4 + 1 2(n-1) b Coverage Pr( θlow ≤ 𝜃 ≤ θupp ) 1 n sim n sim ∑ i=1 1( θlow,i ≤ 𝜃 ≤ θupp,i ) √ Ĉover.×(1-Ĉover.) n sim Bias-eliminated coverage Pr( θlow ≤ θ ≤ θupp ) 1 n sim n sim ∑ i=1 1( θlow,i ≤ θ ≤ θupp,i ) √ B-E Cover.×(1-B-E Cover.) n sim Rejection % (power or type I error) Pr(p i ≤ 𝛼) 1 n sim n sim ∑ i=1 1(p i ≤ 𝛼) √ Power×(1-Power)</formula><formula xml:id="formula_7">Var[ Var( θ)] = 1 n sim -1 ∑ n sim i=1 { Var( θi ) -1 n sim ∑ n sim 𝑗=1 Var( θ𝑗 )} 2 .</formula><p>Monte Carlo standard errors quantify simulation uncertainty: they provide an estimate of the SE of (estimated) performance due to using finite n sim . The Monte Carlo SE targets the sampling distribution of repeatedly running the same simulation study (with n sim repetitions) under different random-number seeds.</p><p>In our review of simulation studies in Statistics in Medicine Volume 34, 93 did not mention Monte Carlo SEs for estimated performance. The formulas for computing Monte Carlo SEs given in Table <ref type="table" target="#tab_2">6</ref> with description and comments in the text. For empirical SE, relative % increase in precision, and relative error, the Monte Carlo SE formulas assume normally distributed θ; for non-normal θ, robust SEs exist; see White and Carlin. <ref type="bibr" target="#b41">42</ref> Bias is frequently of central interest, and quantifies whether a method targets 𝜃 on average. Frequentist theory holds unbiasedness to be a key property.</p><p>The mean of θi , θ, is often reported instead. This is estimated in the same way but without subtracting the constant 𝜃, and so has the same Monte Carlo SE. It is sometimes preferable to report the relative bias, rather than absolute. If different values of 𝜃 are used for different data-generating mechanisms then relative bias permits a more straightforward comparison across values. However, relative bias can be used only for |𝜃| &gt; 0. The absence of bias is one property of an estimator; while it is often of central interest, we may sometimes accept small biases because of other good properties.</p><p>The empirical SE is a measure of the precision or efficiency of the estimator of 𝜃. It depends only on θi and does not require knowledge of 𝜃. The empirical SE estimates the long-run standard deviation of θi over the n sim repetitions. Several other designations are in common use; in our review, the terms used included "empirical standard deviation," "Monte Carlo standard deviation," "observed SE," and "sampling SE."</p><p>The empirical standard error can be hard to interpret for a single method (unless compared to a lower bound), and the relative precision is often of interest when comparing methods.</p><p>Note that, if either method is biased, relative precision should be interpreted with caution because an estimator that is biased towards the null can have small empirical SE as a result of the bias: θi ∕2 has smaller empirical SE than θi .</p><p>A related measure, which also takes the true value of 𝜃 into account, is the mean squared error (MSE). The MSE is the sum of the squared bias and variance of θ. This appears a natural way to integrate both measures into one summary performance measure (low variance is penalised for bias), but we caution that, for method comparisons, the relative influence of bias and of variance on the MSE tends to vary with n obs (except when all methods are unbiased), making generalisation of results difficult. This issue is illustrated in the first three panels of Figure <ref type="figure" target="#fig_2">1</ref>, which depict the bias, empirical standard error and root MSE (favored here because it is on the same scale as Empirical SE) for three hypothetical methods. Method A is unbiased but imprecise (and so root MSE is simply the empirical SE); method B is biased, with bias constant over n obs , but more precise (as is often the case with biased methods, see, for example, White and Royston 43 ); and method C, which is biased in a different way (bias ∝ √ 1∕n obs ) and with precision the same as method B. For n obs &lt; 60, root MSE is lower for method B than A, but for n obs &gt; 60, root MSE is lower for method A. The lesson is that comparisons of (root) MSE are more sensitive to choice of n obs than comparisons of bias or empirical SE alone. MSE is nonetheless an important performance measure, particularly when the aims of a method relate to prediction rather than estimation, but the implication is that, when MSE is a performance measure, data-generating mechanisms should include a range of values of n obs .</p><p>We term the root-mean of the squared model Coverage of confidence intervals is a key property for the long-run frequentist behavior of an estimator. It is defined as the probability that a confidence interval contains 𝜃.</p><p>Note that Neyman's original description of confidence intervals defined the property of randomisation validity as exactly 100(1 -𝛼)% of intervals containing 𝜃. <ref type="bibr" target="#b43">[44]</ref><ref type="bibr" target="#b44">[45]</ref><ref type="bibr" target="#b45">[46]</ref> Confidence validity is the property that the true percentage is at least 100(1 -𝛼). This latter definition is less well known than the former, with the result that overcoverage and undercoverage are sometimes regarded as similarly bad. <ref type="bibr" target="#b46">47</ref> Of course, randomisation validity would usually be preferred over confidence validity because it implies shorter intervals, but this is not always the case. There are examples of procedures that return both shorter intervals and higher coverage. <ref type="bibr" target="#b44">45,</ref><ref type="bibr" target="#b45">46</ref> Undercoverage is to be expected if, for example, (i) Bias ≠ 0, (ii) ModSE &lt; EmpSE, (iii) the distribution of θ is not normal and intervals have been constructed assuming normality, or (iv) Var( θi ) is too variable. Over-coverage tends to occur as a result of ModSE 2 &gt; EmpSE 2 . This may occur either in the absence or presence of issues (i) and (iii).</p><p>Undercoverage due to bias will tend to deteriorate as n obs increases (unless bias reduces at or faster than a rate of √ 1∕n obs ). Intuitively, as n obs increases, confidence intervals zero-in on the wrong value. The situation is illustrated in the fourth panel of Figure <ref type="figure" target="#fig_2">1</ref> (with some loss of generality). Coverage was calculated for normal-based confidence intervals with correct interval width such that bias is the only source of under-coverage. Method B, for which bias is independent of n obs , has deteriorating coverage as n obs increases. Method C, for which bias ∝ √ 1∕n obs , has constant undercoverage. As for MSE, bias dominates as n obs increases. The implication is that, if coverage is being assessed in the presence of bias, the data-generating mechanisms should include a range of values of n obs .</p><p>As noted previously, there are two sources of poor coverage: bias leads to undercoverage, while incorrect interval width (for example, because average ModSE ≠ EmpSE) may produce undercoverage or overcoverage. We propose a decomposition of poor coverage with a new performance measure: "bias-eliminated coverage." By studying confidence interval coverage for θ rather than for 𝜃, the bias of a method is eliminated from the calculation of coverage. We emphasise that bias-eliminated coverage should not be regarded as a performance measure in its own right. It is to be used for understanding how coverage performance is influenced by bias vs width of confidence intervals. It is obvious that, for the methods in Figure <ref type="figure" target="#fig_2">1</ref>, bias-eliminated coverage will be equal for all methods.</p><p>TABLE 7 Coverage conditional on size of ModSE Approach n sim Analyzed Coverage (Monte Carlo SE) All observations 30,000 95.0%(0.1%) Conditional: ModSE in highest third 10,000 98.0%(0.1%) Conditional: ModSE in middle third 10,000 95.5% (0.2%) Conditional: ModSE in lowest third 10,000 91.5% (0.3%)</p><p>Rejection rates -power and type I error -are often of principal interest in simulation studies that target a null hypothesis, and power is of particular interest when competing designs are being compared by simulation. Assume we have p-values p i in the estimates data and are considering nominal significance level 𝛼. The p-values may be derived from a</p><formula xml:id="formula_8">Wald statistic θi ŜE( θi )</formula><p>or output directly, for example by a likelihood-ratio test. An appropriate test would reject a proportion 𝛼 of the n sim repetitions when the null is true and as often as possible when it is false. The obvious warning is that if the test does not control type I error at level 𝛼, power should be interpreted with caution.</p><p>It is sometimes (not always) of interest to estimate conditional performance. This is particularly true for simulation studies that aim to evaluate alternative study designs, for example, where design decisions are made based on the early data. Two simulation studies in our review sample explored two-stage procedures in randomised trials, where the estimand is selected after the first stage: the estimand was the treatment effect in a selected subpopulation <ref type="bibr" target="#b47">48</ref> or the effect of a selected treatment. <ref type="bibr" target="#b48">49</ref> In both cases, estimators were designed to be conditionally unbiased. Kimani et al reported bias conditional on each possible selection of estimand, <ref type="bibr" target="#b47">48</ref> while Carreras et al considered the bias averaged across estimands. <ref type="bibr" target="#b48">49</ref> The former method is stricter and arguably more appropriate since, having selected an estimand, the observer is not interested in the other case. <ref type="bibr" target="#b49">50</ref> Now, consider the following form of conditional performance: n obs = 30 observations are simulated from y ∼ N(𝜇, 𝜎 2 ), with 𝜇 = 0, 𝜎 2 = 1. For each repetition, 95% confidence intervals for 𝜇 are constructed using the t-distribution. The process is repeated n sim = 30,000 times, and we study the coverage, (1) for all repetitions and (2) according to tertiles of the model SE. The results, given in Table <ref type="table">7</ref>, show that coverage is below 95% for the lowest third of standard errors, above 95% for the highest third, and slightly above for the middle third. Poor conditional performance in this sense should not cause concern. Further, it is unhelpful for an analyst faced with a dataset: one would not in practice know in which tertile of possible model SEs a particular model SE lies.</p><p>Estimating performance conditional on true (rather than sample-estimated) parameters that vary across data-generating mechanisms is where methods should be expected to provide good performance, and we do not recommend averaging over these, as is done informally in Gutman and Rubin. <ref type="bibr" target="#b50">51</ref> We have described the most commonly reported and generally applicable performance measures, particularly when a simulation study targets an estimand. There are others that are sometimes used (such as the proportion of times the correct dose is selected by dose-finding designs) and others that we have not yet thought of.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Sample size for simulation studies</head><p>In choosing n sim , the central issue is Monte Carlo error: key performance measures need to be estimated to an acceptable degree of precision.</p><p>The values of n sim reported in our review are shown in Figure <ref type="figure" target="#fig_4">A2</ref>, panel (D). Four simulation studies did not report n sim . Common sample sizes are n sim = 500 and n sim = 1000, as previously reported by Burton et al. <ref type="bibr" target="#b6">7</ref> Of the 87 studies reporting n sim , four provided any justification of the choice. These were:</p><p>• "To evaluate the asymptotic biases" <ref type="bibr" target="#b51">52</ref> • "errors can be reduced by the large number of simulation replicates" <ref type="bibr" target="#b52">53</ref> • "number was determined mainly to keep computing time within a reasonable limit. A reviewer pointed out that, as an additional justification, by using 10,000 meta-analyses the standard error of an estimated percentage (eg, for the empirical coverage) is guaranteed to be smaller than 0.5." 26 • Most positively, Marozzi gave an explicit derivation of Monte Carlo SE. <ref type="bibr" target="#b53">54</ref> Clearly, this is a suboptimal state of affairs. For some more concrete justifications, see the worked illustrative example in Section 7 by Keogh and Morris <ref type="bibr" target="#b54">55</ref> or Morris et al. <ref type="bibr" target="#b55">56</ref> There exist situations where only one repetition is necessary, particularly when investigating large-sample bias. <ref type="bibr" target="#b18">19</ref> Here, the aim was to demonstrate large-sample bias of an estimator and the single estimate of θ was many model standard errors from its true value.</p><p>Where the key performance measure is coverage, n sim can be defined as follows. The Monte Carlo SE of coverage is given in Section 5.2.</p><p>Plugging in the expected coverage (for example 95%) and rearranging, we get</p><formula xml:id="formula_9">n sim = E(Coverage) × (1 -E(Coverage)) (Monte Carlo SE req ) 2<label>(1)</label></formula><p>with a similar expression if n sim is to be determined based on power. For example, if the SE required for a coverage of 95% is 0.5%, n sim = 95 × 5 0.5 2 = 1900 repetitions.</p><p>Coverage is estimated from n sim binary summaries of the repetitions, so the worst-case SE occurs when coverage is 50%. In this scenario, to keep the required Monte Carlo SE below 0.5%, (1) says that n sim = 10,000 repetitions will achieve this Monte Carlo SE. A convenient feature of simulation studies is that the Monte Carlo SE can be assessed and n sim increased much more cheaply than with other empirical studies. The cost is computational time. To continue, rather than start again, it is important to have a record the end state of the random-number generator (which can be used as the seed if further repetitions are added) or to use a different stream.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Remarks on analysis</head><p>We have emphasised repeatedly that simulation studies are empirical experiments. In many biomedical experiments, "controls" are used as a benchmark and the estimated effects of other conditions are estimated as a contrast vs control. However, simulation studies often benefit from having a known "truth," meaning that the contrast vs a control is not often of interest (hence the term "comparator" in Section 3.4). That is, bias need not be estimated as the difference between θ -𝜃 for method A and θ for the control; rather the bias for a method stands alone, being computed against 𝜃, the comparator of interest. There are benchmarks for other performance measures as well, such as coverage (the nominal %) and precision (the Cramér-Rao lower bound <ref type="bibr" target="#b56">57,</ref><ref type="bibr" target="#b57">58</ref> ).</p><p>In some cases, the true value of 𝜃 is unknown: it may not appear in the data-generating mechanism. If performance measures involving 𝜃 are not of interest, this poses no problem. Otherwise, one solution is to estimate 𝜃 by simulation. Williamson et al simulated data from a logistic model, but 𝜃 was not the conditional odds ratio used to generate data; 𝜃 was the marginal odds ratio, risk ratio and risk difference. <ref type="bibr" target="#b58">59</ref> They thus estimated 𝜃 for each of these estimands from a large simulated dataset.</p><p>In our review of Volume 34, of 74 studies that included some 𝜃, nine estimated it, 57 used a known 𝜃 and 8 were unclear. Estimating 𝜃 is in our view a sensible and pragmatic approach. However, such an approach must simulate a dataset so large that it is fair to assume that the variance of "𝜃" is negligible, particularly compared to that of θ, and ensure that the states of the random-number generators used in the simulation study do not overlap with the states used for the purpose of estimating 𝜃. In practice, the way to do this is either to use a separate stream for the random numbers, or to run the 𝜃-estimation simulation immediately before the main run.</p><p>The estimation of performance measures in Section 5.2 is described for estimating performance once per data-generating-mechanism. This is most suited to simulation studies with few data-generating mechanisms, but many simulation studies are considerably more complex. In such cases, it is natural to fit a model (termed "meta-model" by Skrondal <ref type="bibr" target="#b22">23</ref> ) for performance in terms of the data-generating mechanisms.</p><p>An advantage of modeling performance across data-generating mechanisms is that we are able to match repetitions. This reduces the Monte Carlo SE for the comparison of methods. For example, suppose that we have two data-generating mechanisms with 𝜃 equal to 1 and 2. We could use the same starting seed so that results are correlated within i.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">REPORTING 6.1 The "methods" section</head><p>The rationale for the ordering of elements in ADEMP is that this is usually the appropriate order to report them in a methods section. If the simulation study has been planned and written out before it is executed, the methods section is largely written. This is a particularly helpful ordering for other researchers who might wish to replicate the study. Details should be included to allow reproduction as far as possible, such as the value of n sim and how this was decided on, dependence among simulated datasets. Another important element to report is a justification of the chosen targets for particular applied contexts.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Presentation of results</head><p>Some simulation studies can be very small, for example, exploring one or two performance measures under a single data-generating mechanism. These can be reported in text (as in He et al <ref type="bibr" target="#b59">60</ref> ). In other cases, there are enough results that it becomes necessary to report them in tabular or graphical form. For any tabulation or plot of results, there are four potential dimensions: data generating mechanisms, methods, estimands, and performance measures. This section provides some considerations for presenting these results.</p><p>In tabular displays, it is common to divide rows according to data-generating mechanisms and methods as columns (as in Chen et al <ref type="bibr" target="#b60">61</ref> ), though if there are more methods than data-generating mechanisms it is better to swap these (as in Hsu et al <ref type="bibr" target="#b61">62</ref> ). Performance measures and estimands may vary across columns or across rows depending on what makes the table easier to digest (see, for example, Alonso et al <ref type="bibr" target="#b62">63</ref> ).</p><p>There are two key considerations in the design of tables. The first is how to place the important comparisons side-by-side. The most important comparisons will typically be of methods, so bias (for example) for different methods should be arranged in adjacent rows or columns.</p><p>The second consideration regards presentation of Monte Carlo SEs, and this tends to confound the first. By presenting them next to performance results, for example in parentheses, the table becomes cluttered and hard to digest, obscuring interesting comparisons. For this reason, some authors will report the maximum Monte Carle SE in the caption of tables. <ref type="bibr" target="#b42">43,</ref><ref type="bibr" target="#b63">64</ref> Results should not be presented to a greater accuracy than is justified by the Monte Carlo SE (eg, 3dp for coverage). In our review of Volume 34, seven articles presented Monte Carlo SEs for estimated performance: three in the text, two in a table, one in a graph, and one in a float caption.</p><p>The primary advantage of graphical displays of performance is that it is easier to quickly spot patterns, particularly over dimensions that are not compared side-by-side. A second advantage is that it becomes possible to present raw data estimates (for example the θi ) as well as performance results summarizing them (see, for example, figure <ref type="figure" target="#fig_5">3</ref> of Lambert et al <ref type="bibr" target="#b64">65</ref> ). In our experience, these plots are popular and intuitive ways to summarise the θi and model SEs. Another example of a plot of estimates data is a histogram given in Kahan <ref type="bibr" target="#b30">31</ref> (this was particularly important as Bias ≃ 0, but almost no θi was close to 𝜃). Even if plots of estimates are not planned to be included in publications, we urge their use in exploration of simulation results.</p><p>The main disadvantage of graphical displays of results is that plots can be less space-efficient than tables, it is not possible to read the exact numbers, and separate plots will frequently be required for different performance measures.</p><p>Compared with tables, it is easier for plots of performance results to accommodate display of Monte Carlo SEs directly, and this should be done, for example as 95% confidence intervals. The considerations about design of plots to facilitate the most relevant comparisons apply as with tables. Methods often have names that are hard to arrange side by side in a legible manner; it is usually preferable to arrange methods in horizontal rows and performance measures across columns.</p><p>As noted previously, full factorial designs can pose problems for presentation of results. One option for presentation is to present data assuming no interaction unless one is obviously present. An alternative approach taken by Rücker and Schwarzer is to present all results of a full factorial simulation study with 4 × 4 × 4 × 4 × 3 = 768 data-generating mechanisms, and comparison of six methods. <ref type="bibr" target="#b65">66</ref> Their proposal is a "nested-loop plot," which loops through nested factors -usually data-generating mechanisms -for an estimand, and plots results for different methods on top of each other. <ref type="bibr" target="#b65">66</ref> This is a useful graphic but will not suit all designs (and makes depiction of Monte Carlo SE difficult).</p><p>There is no one correct way to present results, but we encourage careful thought to facilitate readability and clarity, considering the comparisons that need to be made by readers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">WORKED ILLUSTRATIVE EXAMPLE</head><p>To make clear the ideas described in this article and demonstrate how they may be put into practice, we conduct one example simulation study. We hope that the aims and methods are simple enough to be understood by all readers. Further, the files required to run the simulation in Stata are available at <ref type="url" target="https://github.com/tpmorris/simtutorial">https://github.com/tpmorris/simtutorial</ref> (with the addition of code for other software planned).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">Design of example</head><p>The example is a comparison of three different methods for estimating the hazard ratio in a randomised trial with a survival outcome.</p><p>Consider the proportional hazards model, where we have the hazard rate (event rate at time t conditional on survival until at least time t) for the ith patient</p><formula xml:id="formula_10">h i (t) = h 0 (t) exp(X i 𝜃), (<label>2</label></formula><formula xml:id="formula_11">)</formula><p>with h 0 (t) the baseline hazard function, X i a binary treatment indicator variable coded 0 for control and 1 for the research arm, and 𝜃 the log hazard ratio for the effect of treatment. There are various ways to estimate this hazard ratio, with common approaches being the Cox model and standard parametric survival models, such as the exponential and Weibull. The parametric approaches make assumptions about the form of the baseline hazard function h 0 (t) whereas the Cox model makes no such assumption. We now describe a simulation study to evaluate the three methods in this simple setting. Aims: To evaluate the impacts (1) of misspecifying the baseline hazard function on the estimate of the treatment effect 𝜃; (2) of fitting too complex a model when an exponential is sufficient; and (3) of avoiding the issue by using a semiparametric model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data-generating mechanisms:</head><p>We consider two data-generating mechanisms. For both, data are simulated on n obs = 500 patients, representing a possible phase III trial with survival outcome. Let X i ∈ (0, 1) be an indicator denoting assignment to treatment, where assignment is generated using X i ∼ Bern(0.5) -simple randomisation with an equal allocation ratio. We simulate survival times from the model in Equation 2, assuming that 𝜃 = -0.5, corresponding to a hazard ratio of 0.607 (3dp). We let h 0 (t) = 𝜆𝛾t 𝛾 -1 . The two data-generating mechanisms differ only in the values of 𝛾:</p><p>1. 𝜆 = 0.1, 𝛾 = 1 ← both an exponential and a Weibull model 2. 𝜆 = 0.1, 𝛾 = 1.5 ← a Weibull but not an exponential model.</p><p>A plot of the hazard rate h i (t) for the two data-generating mechanisms is given in Figure <ref type="figure" target="#fig_4">2</ref>. Data are simulated using Stata 15 using the 64-bit Mersenne twister for random number generation. The input seed is "72789."</p><p>Estimands: Our estimand 𝜃 is the log-hazard ratio for X = 1 vs X = 0, which would represent a treatment effect in a randomised trial. Methods: Each simulated dataset is analyzed in three ways, using the following:</p><p>1</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>. An exponential proportional-hazards model; 2. A Weibull proportional-hazards model; 3. A Cox proportional-hazards model.</head><p>Note that the exponential model is correctly specified for the first data-generating mechanism but misspecified for the second; the Weibull model is correctly specified for both mechanisms; and the Cox model does not make any assumption about the baseline hazard so is not misspecified for either mechanism.</p><p>Performance measures: We will assess convergence, bias, coverage, empirical, and model-based standard errors for θ. Bias is our key performance measure of interest, and we will assume that SD( θ) ≤ 0.2, meaning that Var( θ) ≤ 0.04. (A conservative estimate based on an initial small simulation run.) We decide that we require Monte Carlo SE of bias to be lower than 0.005. Given that Monte Carlo SE(Bias) =</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>√</head><p>Var( θ)∕n sim , this implies that we need 1600 repetitions. If coverage of all methods is 95%, the implication of using n sim = 1600 is Monte Carlo SE(Coverage) = √ 95 × 5 1600 = 0.54.</p><p>With 50% coverage, the Monte Carlo SE is maximised at 1.25. We consider this satisfactory and so proceed with n sim = 1600 (to be revised if, for example, SD( θ) &gt; 0.2).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Exploration and visualisation of results</head><p>The first result to note is that there were no missing θi or ŜE( θi ), and "separation" was not an issue. We first explore the raw results. Figure <ref type="figure" target="#fig_5">3</ref> plots the estimates θi and ŜE( θ) i for the two data-generating mechanisms and three methods, with means displayed as yellow pipes. The left panels plot θi . It is clear that, when 𝛾 = 1, the mean and variance of θi is very similar for the three methods. The mean is close to the true value of 𝜃 = -0.5 for all methods. When in truth 𝛾 = 1.5, the empirical SE is slightly higher for all methods (because there are fewer events among the 500 observations under this data-generating mechanism). The exponential proportional-hazards model is now misspecified and we observe a shift of the mean of θi towards the null, indicating some bias. The right panels of Figure <ref type="figure" target="#fig_5">3</ref> plot the estimated standard errors ŜE( θ) i . These are smaller for the upper panel (𝛾 = 1) than the lower panel (𝛾 = 1.5), but there is little to choose between the methods.   We next compare these estimates by plotting θi for each method vs every other method, and the same for ŜE( θ) i . The data pairs come from the same repetition (ie, they are estimated in the same simulated dataset) and are compared to the line of equality. This is done in Figure <ref type="figure" target="#fig_6">4A</ref>, for the second data-generating mechanism only (𝛾 = 1.5), of interest because the exponential model is misspecified. We can see that the estimates of both θi and ŜE( θi ) are highly correlated across all methods. The upper triangle of plots in Figure <ref type="figure" target="#fig_6">4</ref> shows that, while θi is almost identical for the Weibull and Cox models, it tends to be systematically closer to 0 for the exponential model. The estimates of ŜE( θi ) show that again, the estimates are extremely similar for the Weibull and Cox models, and are very slightly larger for the exponential model. Figure <ref type="figure" target="#fig_6">4(B)</ref> gives the corresponding plots of the difference vs mean (Weibull is the comparator method here as it is correctly specified).</p><p>Figure <ref type="figure" target="#fig_7">5</ref> is a new visualisation, the "zip plot," which helps to understand coverage by viewing the confidence intervals directly (implemented in Stata; for implementations in R and SAS, see the works of Gasparini and White <ref type="bibr" target="#b66">67</ref> and Wicklin, 68</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>FIGURE 6</head><p>Lollipop plot of performance for measures of interest (Monte Carlo 95% confidence intervals in parentheses). Concerning features need not be highlighted since they are readily visible. See, also, Table <ref type="table">8</ref> respectively). For each data-generating mechanism and method, the confidence intervals are fractional-centile-ranked according to |z i |, where z i = ( θi -𝜃)∕ModSE. This ranking is used for the vertical axis and is plotted against the intervals themselves. Intervals which cover 𝜃 are colored blue (bottom); those which do not cover are colored purple (top). When a method has 95% coverage, the color of the intervals switches at 95 on the vertical axis. The yellow horizontal lines are Monte Carlo 95% confidence intervals for per cent coverage. (As a general comment, note that the interesting area in many zip plots will be near to the top and so it will often be more informative to "zoom in" on the action, as suggested by Wicklin. <ref type="bibr" target="#b67">68</ref> )</p><p>In Figure <ref type="figure" target="#fig_7">5</ref>, the upper panel again displays the results when 𝛾 = 1 and the lower panel when 𝛾 = 1.5. Despite coverage being approximately 95% as advertised, there are more intervals to the right of 𝜃 = -0.5 than to the left, particularly for those that do not cover 𝜃. This indicates that the model SEs must overestimate the empirical SE, because coverage is adequate despite bias. A zip plot helps to make such a feature clear.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.3">Analysis of example</head><p>The previous section demonstrated some exploratory analyses that may be of value. Next, we estimate performance for the measures of interest and present them in a table for which (we hope) the ADEMP structure is clear: different performance measures are stacked vertically; for each performance measure, the results for the two data-generating mechanisms each occupy one row; results for different methods are arranged across three columns (with Monte Carlo SEs in parentheses at a smaller point size than the estimate); there is only one estimand.</p><p>Also given in Figure <ref type="figure">6</ref> is an alternative graphical presentation of estimated performance called a lollipop plot. The ADEMP structure is slightly different to the table but again clear: different performance measures are stacked vertically; for each performance measure, the results for the three methods now occupy one row each; results for different methods are arranged across the two columns. Monte Carlo 95% confidence intervals are now represented via parentheses (a visual cue due to the usual presentation of intervals as two numbers within parentheses).</p><p>The results confirm more formally some of the features we saw in our exploration of the estimates data. The interesting features concern the exponential model when 𝛾 = 1.5 since the Weibull and Cox models behave well in all cases. We see that the exponential model suffers some bias towards the null, which is approximately 10% of the true value. This is nonnegligible. Next, we see that coverage is still over the nominal 95%, which is surprising in the presence of bias. The empirical SE is the same for all models when 𝛾 = 1 and lowest for the exponential model when 𝛾 = 1.5, while the Weibull and Cox models are very similar; recall however that in the presence of different biases, the empirical SE is not comparable across methods. For relative precision (vs the Weibull model) a very similar pattern is seen as for empirical SE. The model SE is the same for all methods and data-generating mechanisms. This explains why the exponential model has acceptable coverage when 𝛾 = 1.5: the bias is cancelled out by the fact that the model SE is overestimated. This is confirmed by the relative error in Model SE.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLE 8</head><p>Estimates of performance for measures of interest (Monte Carlo SEs in parentheses).</p><p>Concerning results are highlighted in bold. See, also, Figure <ref type="figure">6</ref> Performance Data-generating Method Measure Mechanism Exponential Weibull Cox Bias 𝛾 = 1 -0.003 (0.005) -0.003 (0.005) -0.002 (0.005) 𝛾 = 1.5 0.049 (0.003) 0.005 (0.004) 0.006 (0.004) Coverage 𝛾 = 1 95.4% (0.5) 95.4% (0.5) 95.4% (0.5) 𝛾 = 1.5 96.0% (0.5) 95.6% (0.5) 95.8% (0.5) Bias-eliminated 𝛾 = 1 95.6% (0.5) 95.3% (0.5) 95.4% (0.5) coverage 𝛾 = 1.5 97.2% (0.4) 95.7% (0.5) 96.1% (0.5) Empirical SE 𝛾 = 1 0.209 (0.004) 0.209 (0.004) 0.209 (0.004) 𝛾 = 1.5 0.138 (0.002) 0.152 (0.003) 0.151 (0.003) Relative precision 𝛾 = 1 0.2% (0.1) 0 (-) 0.3% (0.1) gain vs Weibull 𝛾 = 1.5 20.5% (0.4) 0 (-) 0.6% (0.2) Model SE 𝛾 = 1 0.208 (&lt;0.001) 0.208 (&lt;0.001) 0.208 (&lt;0.001) 𝛾 = 1.5 0.154 (&lt;0.001) 0.154 (&lt;0.001) 0.154 (&lt;0.001) Relative error in 𝛾 = 1 -0.7% (1.8) -0.7% (1.8) -0.5% (1.8) Model SE 𝛾 = 1.5 11.5% (2.0) 1.7% (1.8) 2.1% (1.8)</p><p>Looking at Table <ref type="table">8</ref>, the Monte Carlo SEs of performance estimates are all acceptable and so we would be happy to draw conclusions about the methods based on the 1600 repetitions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.4">Conclusions of example</head><p>When an exponential model is misspecified, the hazard ratio can be biased but, probably, not by much. Further research is needed.</p><p>More seriously, note that the data-generating mechanisms we used do not cover any real breadth of scenarios. For example, we might have explored varying n obs , 𝜆, and 𝜃 over a range of values to explore when issues are present.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">CONCLUDING REMARKS</head><p>Simulation studies are an invaluable tool for research into statistical methods, evidenced by the large proportion of Volume 34 of Statistics in Medicine articles whose conclusions relied in part on simulation studies. Because methods promoted may be used in medical research (or many other scientific areas), transparent reporting of the design and execution of simulation studies is critical.</p><p>While simulation studies are widely used, they tend to be poorly reported by those who publish their results. There are many areas to be improved in the reporting of simulation studies. Our view is that the two main shortcomings are (i) lack of clarity over the design, which ADEMP aims to deal with, and (ii) failure to report estimates of Monte Carlo uncertainty.</p><p>We have described and advocate a structured approach to the planning of simulation studies that involves identifying aims, data-generating mechanisms, methods, estimands and performance measures. All of these and the rationale for decisions should be included in reporting. For an excellent example of a clearly described design, see Austin and Stuart. <ref type="bibr" target="#b68">69</ref> Reports of simulation studies are now beginning to explicitly use the ADEMP structure; see Thompson et al, <ref type="bibr" target="#b69">70</ref> Sayers et al, <ref type="bibr" target="#b70">71</ref> Morris et al, <ref type="bibr" target="#b55">56</ref> Keogh and Morris, <ref type="bibr" target="#b54">55</ref> and Pham et al. <ref type="bibr" target="#b71">72</ref> We have given formulas for computing the Monte Carlo standard error for the most common performance measures, and made some suggestions about reporting. Note that the Stata package simsum <ref type="bibr" target="#b11">12</ref> and R package rsimsum 67 automate this process for commonly used performance measures. See Boos and Osborne for more general assessment of Monte Carlo SEs for complex performance measures. <ref type="bibr" target="#b72">73</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.1">Future directions</head><p>Three areas that we regard as of increasing future importance are simulation protocols, release of code, and consortia of authors. We discuss these as a step towards resolving occurrences of simulation studies with contradictory results.</p><p>A charitable view of such contradictory results, which we tend to hold, is that methods are developed by researchers who concerned with handling the specific problems they have seen in practice. Given such a background, they are running the relevant simulation studies (that may not be relevant to others). A less charitable possibility might be selective reporting of only the most favorable (or unfavorable) configurations of data-generating mechanisms, running the simulations many times under different seeds and selecting the most favorable, <ref type="bibr" target="#b2">3</ref> and more (left to the reader's imagination).</p><p>A starting point to addressing this issue is to write detailed simulation protocols before writing code. This would ideally protect against authors choosing to report favorable results and force one to be clear about "ADEMP" in advance. Of course, the weak point is that simulation studies do not to need approval before "data collection," so protocols could be written after-the-fact and this cannot be clear even with published protocols. The counterargument is that protocols must justify the rationale for choices: as well as describing what is planned, there is a burden to explain why.</p><p>Due to the prejudices introduced by experiences of data, it is constructive for authors who have produced contradictory simulation results to work together on "late-phase" simulation studies (using an analogy from clinical trials in drug development). This allows robust discussion of the design and exploration of disparities among previous work. One exemplar of such an approach is in methods for handling incomplete data where the analysis has a multilevel structure. Three groups of researchers had developed methods and worked together on understanding how the methods differ and on simulation studies to evaluate their performance, resulting in the paper by Audigier et al. <ref type="bibr" target="#b73">74</ref> This approach is in our view more satisfactory than a group of researchers executing a large, late-phase simulation study without the input of authors of previous work, though this strategy is sometimes adopted. <ref type="bibr" target="#b74">75</ref> Boulestix, Wilson and Hapfelmeier raise an important consideration <ref type="bibr" target="#b75">76</ref> for benchmarking studies that is also relevant to late-phase simulation studies: it is easy to assume that the performance of methods is due entirely to the methods themselves, but this ignores the fact that the implementation of a method involves the knowledge and skill of the individuals involved. A poor implementation may make a superior method appear weak. This suggests again that including consortia of authors, as in Audigier et al, is advisable.</p><p>No simulation study is definitive and new methods or refinements of methods are inevitable. For researchers wishing to replicate or extend the results of earlier simulation studies, the design of earlier work must have been written out fully and unambiguously. This can be a difficult task and, to ensure this, authors should release simulation code publicly (a policy that is now encouraged by some journals, notably Biometrical Journal, and required by others). The happy corollary is that code may be checked more thoroughly by its authors if it is subject to external scrutiny. There is generally no excuse for withholding code. One caveat is for resampling studies, where permissions to release the original data may be lacking (note that code for running the simulation can still be made available even if it cannot be run on the same data).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.2">Final remark</head><p>Simulation studies are a powerful tool. However, it is important to be aware that, because a simulation study took hard work and thought, we are liable to believe it tells us more than it truly does. To quote Patrick Royston, "Simulation studies reveal points of light on a landscape, but can not illuminate the entire landscape." We can hope and plan to illuminate important points and build up a picture of the landscape, particularly where terrain may be particularly rocky or particularly fertile.</p><p>We hope that the guidance in this tutorial will improve researchers' understanding, planning, execution, and future reporting of simulation studies. (A) (B) FIGURE A3 Results of Statistics in Medicine Volume 34 review for estimands (A) and methods (B) evaluated</p><p>TABLE A1 Software mentioned in simulation reports, review of Statistics in Medicine Volume 34. Note that there are more than 100 entries as some articles reported more than one package Software Freq. None mentioned 38 C 1 JAGS 1 MATLAB 1 R 4 1 SAS 17 SaTScan 1 Stata 4 StatXact 1 WinBUGS 3</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>SEs are approximate for Relative % increase in precision, Average ModSE, and Relative % error in ModSE.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>b</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>FIGURE 1</head><label>1</label><figDesc>FIGURE 1The impacts of bias and empirical SE on root MSE and coverage of nominal 95% confidence intervals, compared for three methods: Method A is unbiased but imprecise; Method B is biased (independent of n obs ) and more precise; Method C is biased (with bias ∝ √ 1∕n obs ) and the same precision as method B. The comparison of root MSE and coverage depends on the choice of n obs ; the constant bias of method B dominates its increasingly poor MSE and coverage as n obs increases [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>SEs the "average model SE." The aim of the model SE is that E(ModSE 2 ) = EmpSE 2 . The model SE explicitly targets the empirical SE. If it systematically misses, this represents a bias in the estimation of model SE. The relative error in average model SE is then an informative performance measure (some prefer the ratio of average model SE to empirical SE).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>FIGURE 2</head><label>2</label><figDesc>FIGURE 2 Visualisation of the true hazard rate over follow-up time in the two data-generating mechanisms. Black (flat) lines are for the first data-generating mechanism, where 𝛾 = 1; Red curves are for the second, where 𝛾 = 1.5 [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>FIGURE 3</head><label>3</label><figDesc>FIGURE 3 Plot of the 1600 θi (left panels) and ŜE( θ) i (right panels) by data-generating mechanisms, for the three analysis methods. The vertical axis is repetition number, to provide some separation between points. The yellow pipes are sample means [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc><graphic coords="19,159.73,495.35,316.84,180.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>FIGURE 4</head><label>4</label><figDesc>FIGURE 4 Comparison of estimates for methods when 𝛾 = 1.5, where each point represents one repetition. A, Upper triangle displays θi ; lower triangle displays ŜE( θi ); B, Plot of difference vs mean for θi and ŜE( θi ), with Weibull as the comparator</figDesc><graphic coords="20,58.66,75.86,487.84,221.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>FIGURE 5 "</head><label>5</label><figDesc>FIGURE 5 "Zip plot" of the 1600 confidence intervals for each data-generating mechanism and analysis method. The vertical axis is the fractional centile of |z| with z = ( θi -𝜃)∕ModSE associated with the confidence interval [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc><graphic coords="20,171.07,392.69,288.04,250.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>FIGURE A2 FIGURE A3</head><label>A2A3</label><figDesc>FIGURE A2 Results of Statistics in MedicineVolume 34 review for data-generating mechanisms. Values are both frequency and %</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>TABLE 3</head><label>3</label><figDesc>Possible targets of a simulation study and relevant performance measures</figDesc><table><row><cell cols="2">Statistical Task Target</cell><cell>Examples of Performance</cell><cell>Example</cell></row><row><cell></cell><cell></cell><cell>Measures</cell><cell></cell></row><row><cell>Analysis</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Estimation</cell><cell>Estimand</cell><cell>Bias, empirical SE,</cell><cell>Kuss compares a number of existing</cell></row><row><cell></cell><cell></cell><cell>mean-squared error, coverage</cell><cell>methods in terms of bias, power, and coverage. 26</cell></row><row><cell>Testing</cell><cell cols="2">Null hypothesis Type I error rate, power</cell><cell>Chaurasia and Harel compare new methods</cell></row><row><cell></cell><cell></cell><cell></cell><cell>inn terms of type I and II error rates. 27</cell></row><row><cell cols="2">Model selection Model</cell><cell>Correct model rate, sensitivity</cell><cell>Wu et al compare four new methods in terms</cell></row><row><cell></cell><cell></cell><cell cols="2">or specificity for covariate selection of "true positive" and "false positive" rates of covariate</cell></row><row><cell></cell><cell></cell><cell></cell><cell>selection 28</cell></row><row><cell>Prediction</cell><cell>Prediction/s</cell><cell>Measures of predictive accuracy,</cell><cell>Ferrante compares four methods in terms of mean</cell></row><row><cell></cell><cell></cell><cell>calibration, discrimination</cell><cell>absolute prediction error, etc. 29</cell></row><row><cell>Design</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Design a study</cell><cell cols="2">Selected design Sample size, expected sample</cell><cell>Zhang compares designs across multiple data-generating</cell></row><row><cell></cell><cell></cell><cell>size, power/precision</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>TABLE 4</head><label>4</label><figDesc>Performance measures evaluated in review of Volume 34 (frequency (and %))</figDesc><table><row><cell></cell><cell>Overall</cell><cell cols="2">By Primary Target</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">Null Hyp-Selected</cell><cell>Predictive</cell><cell></cell></row><row><cell>Performance</cell><cell>Estimand</cell><cell>othesis</cell><cell>Model</cell><cell>Performance</cell><cell>Other</cell></row><row><cell>Measure</cell><cell>(n = 64)</cell><cell>(n = 21)</cell><cell>(n = 8)</cell><cell>(n = 3)</cell><cell>(n = 4)</cell></row><row><cell>Convergence</cell><cell>12/85 (14%) 10/61 (16%)</cell><cell>1/15 (7%)</cell><cell>1/6 (17%)</cell><cell>0/2</cell><cell>0/1</cell></row><row><cell>Bias</cell><cell>63/80 (79%) 59/64 (92%)</cell><cell>1/9 (11%)</cell><cell>0/2</cell><cell>2/3</cell><cell>1/2</cell></row><row><cell>Empirical SE</cell><cell>31/78 (40%) 31/62 (50%)</cell><cell>0/9</cell><cell>0/2</cell><cell>0/3</cell><cell>0/2</cell></row><row><cell cols="2">Mean squared error 26/78 (33%) 22/62 (35%)</cell><cell>2/9 (22%)</cell><cell>0/2</cell><cell>1/3</cell><cell>1/2</cell></row><row><cell>Model SE</cell><cell>22/77 (29%) 21/62 (34%)</cell><cell>1/9 (11%)</cell><cell>0/2</cell><cell>0/3</cell><cell>0/1</cell></row><row><cell>Type I error</cell><cell cols="2">31/95 (33%) 8/62 (13%) 18/21 (86%)</cell><cell>4/6</cell><cell>0/3</cell><cell>1/3</cell></row><row><cell>Power</cell><cell cols="2">28/95 (29%) 8/63 (13%) 14/20 (17%)</cell><cell>4/6</cell><cell>0/3</cell><cell>2/3</cell></row><row><cell>Coverage</cell><cell>42/79 (53%) 39/63 (62%)</cell><cell>1/9 (11%)</cell><cell>0/2</cell><cell>1/3</cell><cell>1/2</cell></row><row><cell>Conf. int. length</cell><cell>11/80 (14%) 9/63 (14%)</cell><cell>0/10</cell><cell>0/2</cell><cell>1/3</cell><cell>1/2</cell></row></table><note><p>Note: Denominator changes across performance measures because not all are applicable in all simulation studies.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>TABLE 6</head><label>6</label><figDesc>Performance measures: definitions, estimates and Monte Carlo standard errors</figDesc><table><row><cell>Performance</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Measure</cell><cell>Definition</cell><cell>Estimate</cell><cell>Monte Carlo SE of Estimate</cell></row><row><cell>Bias</cell><cell>E[ θ] -𝜃</cell><cell></cell><cell></cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGEMENTS</head><p><rs type="person">Tim Morris</rs> and <rs type="person">Ian White</rs> are supported by the <rs type="funder">Medical Research Council</rs> (grant numbers <rs type="grantNumber">MC_UU_12023/21</rs> and <rs type="grantNumber">MC_UU_12023/29</rs>). <rs type="person">Michael Crowther</rs> is partly supported by a <rs type="grantName">Medical Research Council New Investigator Research Grant</rs> (grant number <rs type="grantNumber">MR/P015433/1</rs>).</p><p>For thought-provoking discussions and input to this work, we thank <rs type="person">Alessandro Gasparini</rs>, <rs type="person">Tra Pham</rs>, <rs type="person">Brennan Kahan</rs>, <rs type="person">Ruth Keogh</rs>, <rs type="person">Clémence Leyrat</rs>, <rs type="person">Kristian Brock</rs>, <rs type="person">Christian Hennig</rs> and <rs type="person">Patrick Royston</rs>. We also thank the many participants who have attended our courses and whose questions and feedback provided the motivation for this article.</p><p>The initial manuscript and revised version of this article were released as pre-prints, and we are grateful to the people who contributed reviews and comments on these. In particular, those who made important substantive comments: <rs type="person">Maarten van Smeden</rs>, <rs type="person">Rolf Groenwold</rs>, <rs type="person">Bas Penning-de Vries</rs>, <rs type="person">Kim Luijken</rs>, <rs type="person">Martina McMenamin</rs>, <rs type="person">Paula Dhiman</rs>, <rs type="person">Leane McCabe</rs>, <rs type="person">Alessandro Gasparini</rs>, <rs type="person">Stephen Senn</rs>, <rs type="person">Adrian Sayers</rs>, <rs type="person">Richard Torkar</rs>, <rs type="person">David Mannheim</rs>, <rs type="person">Daniel Oberski</rs>, <rs type="person">Teague Henry</rs>, and <rs type="person">Rick Wicklin</rs>.</p></div>
+			</div>
+			<div type="funding">
+<div><p><rs type="funder">Medical Research Council</rs>, Grant/Award Number: <rs type="grantNumber">MC_UU_12023/21</rs>, <rs type="grantNumber">MC_UU_12023/29</rs>, and <rs type="grantNumber">MR/P015433/1</rs></p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_cPVpqr2">
+					<idno type="grant-number">MC_UU_12023/21</idno>
+				</org>
+				<org type="funding" xml:id="_X3YeX4Z">
+					<idno type="grant-number">MC_UU_12023/29</idno>
+					<orgName type="grant-name">Medical Research Council New Investigator Research Grant</orgName>
+				</org>
+				<org type="funding" xml:id="_SFDkb8F">
+					<idno type="grant-number">MR/P015433/1</idno>
+				</org>
+				<org type="funding" xml:id="_EbSUYNN">
+					<idno type="grant-number">MC_UU_12023/21</idno>
+				</org>
+				<org type="funding" xml:id="_hcCFfvS">
+					<idno type="grant-number">MC_UU_12023/29</idno>
+				</org>
+				<org type="funding" xml:id="_YAVK852">
+					<idno type="grant-number">MR/P015433/1</idno>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONFLICTS OF INTEREST</head><p>All authors declare that they developed and regularly deliver a short course on simulation studies, from which this work grew and from which they have benefited financially.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPORTING INFORMATION</head><p>Additional supporting information may be found online in the Supporting Information section at the end of the <ref type="url" target="https://doi.org/10.1002/sim.8086">article</ref>.</p><p>How to cite this article: Morris TP, White IR, Crowther MJ. Using simulation studies to evaluate statistical methods. Statistics in Medicine. 2019;1-29. <ref type="url" target="https://doi.org/10.1002/sim.8086">https://doi.org/10.1002/sim.8086</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>APPENDIX REVIEW: FURTHER INFORMATION</head><p>Agreement between TPM and each of the other authors was measured on 14 key variables for the review (IRW and MJC did not review any of the same articles). The variable-by-variable results are given in Figure <ref type="figure">A1</ref>. Note that, for some variables, there were two possible choices (eg, "Results given in a figure Y/N"), while for others, there were many (eg, "Number of repetitions n sim "). Overall, TPM agreed with the other reviewers in 132 of 140 answers (94%). IRW and TPM agreed on 65 of 70 answers (93%); MJC and TPM agreed on 67 or 70 answers (96%).</p><p>Figure <ref type="figure">A2</ref> gives summary information about how data were generated. Panel (A) shows that there was great variation in the total number of data-generating mechanisms, with the majority of simulation studies using under 20, and the largest number being ∼ 41 billion. Panel (B) shows that simulation studies tended to vary few factors (with one exception). For the simulation studies varying more than one factor, the most common way to do this was in a fully factorial manner (panel (C)). However, some studies varied the factors one-at-a-time and others mixed the two together. Unfortunately, not all simulation studies noted the number of repetitions (panel (D)). The most common choices of n sim were in descending order: 1000, 500, and 10,000.</p><p>Figure <ref type="figure">A3</ref> a shows the number of estimands evaluated by the simulation studies included in the review. In general, there were a few, with a single estimand the most common. Figure <ref type="figure">A3 panel (B</ref>) gives the number of methods evaluated by the simulation studies included in the review (right panel). The majority evaluated few methods (with four as the most common number). This suggests that simulation studies provide a proof-of-concept, or that the methods are designed for new problems for which there are few alternatives available.</p><p>Table <ref type="table">A1</ref> lists the software packages mentioned and the number of mentions in simulation studies included in the review. This was based on a lenient judgement: for example, many articles mentioned a software package in which a method was implemented but did not mention what software was used to run the simulation study. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>FIGURE A1 Reviewer agreement on key variables for Statistics in Medicine</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><figDesc>Volume 34 review. Frequency of agreement of TPM with IRW (marker W) and MJC (marker C). For the same frequency, C is nudged left and W right to avoid visual clash [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Power by simulation</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Feiveson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata J</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="107" to="124" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Bayesianly justifiable and relevant frequency calculations for the applies statistician</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1151" to="1172" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Idle thoughts of a &apos;well-calibrated&apos; Bayesian in clinical drug development</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Grieve</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pharm Stat</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="96" to="108" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">The reporting of computation-based results in statistics</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Hoaglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">F</forename><surname>Andrews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am Stat</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="122" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A survey regarding the reporting of simulation studies</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">W</forename><surname>Hauck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am Stat</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="214" to="216" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Stochastic Simulation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Ripley</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1987">1987</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The design of simulation studies in medical statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Burton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Altman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Royston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Holder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">24</biblScope>
+			<biblScope unit="page" from="4279" to="4292" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On the assessment of Monte Carlo error in simulation-based statistical analyses</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Koehler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sjpa</forename><surname>Haneuse</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am Stat</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="155" to="162" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Elements of Simulation</title>
+		<author>
+			<persName><forename type="first">Bjt</forename><surname>Morgan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Monte Carlo Simulation for the Pharmaceutical Industry: Concepts, Algorithms, and Case Studies</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Chang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Is a small Monte Carlo analysis a good analysis?</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Díaz-Emparanza</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Pap</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="567" to="577" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">simsum: analyses of simulation studies including Monte Carlo error</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata J</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="369" to="385" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Importance of protocols for simulation studies in clinical drug development</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">K</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marshall</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methods Med Res</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="613" to="622" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Simulating biologically plausible complex survival data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">23</biblScope>
+			<biblScope unit="page" from="4118" to="4134" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Simulation in drug development: good practices</title>
+		<author>
+			<persName><forename type="first">Nhg</forename><surname>Holford</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Ko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Draft Publication of the Center for Drug Development Science (CDDS)</title>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Proposed best practice for projects that involve modelling and simulation</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>O'kelly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Anisimov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hamilton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pharm Stat</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="107" to="113" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Efficient jump ahead for F2-linear random number generators</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Haramoto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Matsumoto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nishimura</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Panneton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L'</forename><surname>Ecuyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">INFORMS J Comput</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="385" to="390" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Small sample inference for fixed effects from restricted maximum likelihood</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Kenward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Roger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="983" to="997" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Letter to the editor: survival analysis of randomized clinical trials adjusted for patients who switch treatments by</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Law</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Kaldor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">22</biblScope>
+			<biblScope unit="page" from="2619" to="2620" />
+			<date type="published" when="1996">1996. 1997</date>
+		</imprint>
+	</monogr>
+	<note>Statist Med.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Adjusting for partially missing baseline measurements in randomized trials</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Thompson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="993" to="1007" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Comparison of imputation variance estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jac</forename><surname>Sterne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Tilling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methods Med Res</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="2541" to="2557" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Tuning multiple imputation by predictive mean matching and local residual draws</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Royston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">75</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Design and analysis of Monte Carlo experiments: attacking the conventional wisdom</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Skrondal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Multivar Behav Res</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="137" to="167" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Smaller clinical trials for dec,on making; using p-values could be costly</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Graves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Barnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Burn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cook</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<publisher>F1000Research</publisher>
+			<biblScope unit="page">7</biblScope>
+			<pubPlace>London, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Methods for assessing difference between groups in change when initial measurement is subject to intra-individual variation</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Senn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">E</forename><surname>Chambless</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Roeback</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">21</biblScope>
+			<biblScope unit="page" from="2280" to="2285" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Statistical methods for meta-analyses including information from studies without any events-add nothing to nothing and succeed nevertheless</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Kuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1097" to="1116" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Partial F-tests with multiply imputed data in the linear regression framework via coefficient of determination</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chaurasia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Harel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="432" to="443" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A penalized robust semiparametric approach for gene-environment interactions</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Cui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">30</biblScope>
+			<biblScope unit="page" from="4016" to="4030" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Bayesian calibration for forensic age estimation</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ferrante</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Skrami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Gesuita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Cameriere</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1779" to="1790" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Optimizing the order of hypotheses in serial testing of multiple endpoints in clinical trials</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">F</forename><surname>Troendle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1467" to="1482" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Bias in randomised factorial trials</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">C</forename><surname>Kahan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">26</biblScope>
+			<biblScope unit="page" from="4540" to="4549" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The consequences of proportional hazards based model selection</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">B</forename><surname>Dean</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1042" to="1056" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Inference for imputation estimators</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Robins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="113" to="124" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Multiple imputation when records used for imputation are not used or disseminated for analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Reiter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="933" to="946" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Should we adjust for covariates in nonlinear regression analyses of randomized trials?</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">W</forename><surname>Hauck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Marcus</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Control Clin Trials</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="249" to="256" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Estimating a marginal causal odds ratio subject to confounding</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Commun Stat Theory Method</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="309" to="321" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">No rationale for 1 variable per 10 events criterion for binary logistic regression analysis</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Smeden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jah</forename><surname>De Groot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kgm</forename><surname>Moons</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Multilevel mixed effects parametric survival models using adaptive Gauss-Hermite quadrature with application to recurrent events and individual participant data meta-analysis</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Look</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Riley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">22</biblScope>
+			<biblScope unit="page" from="3844" to="3858" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Designs for clinical trials with time-to-event outcomes based on stopping guidelines for lack of benefit</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Royston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fms</forename><surname>Barthel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mkb</forename><surname>Parmar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Choodari-Oskooei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Isham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trials</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">81</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Combining bootstrapping with multiple imputation</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Bartlett</surname></persName>
+		</author>
+		<ptr target="http://thestatsgeek.com/2016/03/12/combining-bootstrapping-with-multiple-imputation/" />
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Inference and missing data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="581" to="592" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Bias and efficiency of multiple imputation compared with complete-case analysis for missing covariate values</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">28</biblScope>
+			<biblScope unit="page" from="2920" to="2931" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Imputing missing covariate values for the Cox model</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Royston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">15</biblScope>
+			<biblScope unit="page" from="1982" to="1998" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">On the two different aspects of the representative method: the method of stratified sampling and the method of purposive selection</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Neyman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="558" to="625" />
+			<date type="published" when="1934">1934</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Multiple-imputation inferences with uncongenial sources of input</title>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">L</forename><surname>Meng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="538" to="558" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Multiple imputation after 18+ years</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">434</biblScope>
+			<biblScope unit="page" from="473" to="489" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Rank minimization with a two-step analysis should not replace randomization in clinical trials</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Clin Epidemiol</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="810" to="811" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Estimation after subpopulation selection in adaptive seamless trials</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Kimani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Todd</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Stallard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="2581" to="2601" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Adaptive seamless designs with interim treatment selection: a case study in oncology</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Carreras</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Gutjahr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Brannath</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1317" to="1333" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<monogr>
+		<title level="m" type="main">Computer Age Statistical Inference</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>Cambridge, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Robust estimation of causal effects of binary treatments in unconfounded studies with dichotomous outcomes</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Gutman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rubin</forename><surname>Db</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1795" to="1814" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">A principal stratification approach for evaluating natural direct and indirect effects in the presence of treatment-induced intermediate confounding</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Taguri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chiba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="131" to="144" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Small sample performance of bias-corrected sandwich estimators for cluster-randomized trials with binary outcomes</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Redden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="281" to="296" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Multivariate multidistance tests for high-dimensional low sample size case-control studies</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Marozzi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1511" to="1526" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Multiple imputation in Cox regression when there are time-varying effects of covariates</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Keogh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">25</biblScope>
+			<biblScope unit="page" from="3661" to="3678" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Meta-analysis of Gaussian individual patient data: two stage or not two stage?</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Fisher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Kenward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Carpenter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1419" to="1438" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<monogr>
+		<title level="m" type="main">Mathematical Methods of Statistics</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Cramér</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1946">1946</date>
+			<publisher>Princeton University Press</publisher>
+			<pubPlace>Princeton, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Information and accuracy attainable in the estimation of statistical parameters</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Rao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bull Calcutta Math Soc</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1945">1945</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Variance reduction in randomised trials by inverse probability weighting using the propensity score</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Williamson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Forbes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="721" to="737" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">A model for time to fracture with a shock stream superimposed on progressive degradation: the study of osteoporotic fractures</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Whitmore</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">Y</forename><surname>Loo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hochberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mlt</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="652" to="663" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">An alternative pseudolikelihood method for multivariate random-effects meta-analysis</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Riley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="361" to="380" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Analysis of accelerated failure time data with dependent censoring using auxiliary variables via nonparametric multiple imputation</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jmg</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page" from="2768" to="2780" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">A new modeling approach for quantifying expert opinion in the drug discovery process</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Alonso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Milanzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Molenberghs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Buyck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bijnens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1590" to="1604" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Multiple imputation of missing covariates with non-linear effects and interactions: an evaluation of statistical methods</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Seaman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Bartlett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">46</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Comparison of different approaches to estimating age standardized net survival</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">W</forename><surname>Dickman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Rutherford</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">64</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Presenting simulation results in a nested loop plot</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Rücker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schwarzer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">129</biblScope>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<monogr>
+		<title level="m" type="main">rsimsum: analysis of simulation studies including Monte Carlo error</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gasparini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>R package version 0.3.1</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<monogr>
+		<title level="m" type="main">A zipper plot for visualizing coverage probability in simulation studies</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wicklin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<publisher>SAS Institute Inc</publisher>
+			<pubPlace>Cary, NC</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Optimal full matching for survival outcomes: a method that merits more widespread use</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Austin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Stuart</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">30</biblScope>
+			<biblScope unit="page" from="3949" to="3967" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Bias and inference from misspecified mixed-effect models in stepped wedge trial analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Fielding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Davey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Aiken</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Hargreaves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hayes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">23</biblScope>
+			<biblScope unit="page" from="3670" to="3682" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Determining the sample size required to establish whether a medical device is non-inferior to an external benchmark</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sayers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Judge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Whitehouse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Blom</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMJ Open</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page">15397</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Population-calibrated multiple imputation for a binary/categorical covariate in categorical regression models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Pham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Carpenter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Petersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Med</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Assessing variability of complex descriptive statistics in Monte Carlo studies using resampling methods</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">D</forename><surname>Boos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Osborne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int Stat Rev</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="228" to="238" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Multiple imputation for multilevel data with continuous and binary variables</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Audigier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jolani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="160" to="183" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Comparative performance of heterogeneity variance estimators in meta-analysis: a review of simulation studies</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Langan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jpt</forename><surname>Higgins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Simmonds</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Res Synth Methods</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="181" to="198" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Towards evidence-based computational statistics: lessons from clinical research on the role and design of real-data benchmark studies</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Hapfelmeier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Med Res Methodol</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
