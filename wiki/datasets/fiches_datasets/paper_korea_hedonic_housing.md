@@ -89,7 +89,7 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 - formula_pub: Condominium_price ~ Size + Floor + Subway_distance + Population_density + Green_space_distance + ... [Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 -- article 'data descriptor' officiel de ce meme jeu de donnees (26 variables en 4 categories : housing properties, local demographics, local amenities, seasonal controls). Etude d'application liee trouvee : Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900, confirmant 'network distance to nearest subway station' comme la variable la plus importante pour expliquer le prix, avec les caracteristiques du logement]
 - x_terms_pub: Area (Size, surface, m2), Floor (etage), Subway.distance (Network distance to nearest subway station -- variable confirmee comme la plus importante par l'etude d'application liee), Population.density (densite de population locale), Green.space.distance (distance a un espace vert)
 - y_term_pub: Housing.price (prix du logement -- Condominium price, KRW)
-- Reference publication: CONFIRMED (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : le papier 'data descriptor' officiel de ce jeu de donnees a ete retrouve -- Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 (texte consulte via PMC, article en libre acces). Structure officielle confirmee : 26 variables en 4 categories (housing properties : size/floor/parking/annee construction ; demographie locale : population/densite/education/age ; amenites locales : distance metro/bus/espaces verts/CBD ; controles saisonniers). Une etude d'application du meme jeu de donnees a egalement ete identifiee -- Ahn et al., 'Economic impact of being close to subway networks', doi:10.1016/j.retrec.2020.100900 -- confirmant explicitement que la distance au metro et les caracteristiques du logement sont les determinants les plus importants du prix. formula_used (deja proposee par le curateur avant cette recherche) s'avere BIEN ALIGNEE avec la structure officiellement documentee (Area/Floor/Subway.distance/Population.density/Green.space.distance correspondent directement aux 4 categories du data descriptor, Subway.distance confirmee comme variable cle) -- aucune correction necessaire, seule la reference bibliographique est ajoutee. 4 fichiers xlsx (Busan.xlsx, Daegu.xlsx, Daejeon.xlsx, Gwangju.xlsx) telecharges directement depuis Zenodo (DOI 10.5281/zenodo.14715630, tres probablement une extension/mise a jour du dataset original de Song et al. par les memes auteurs ou un groupe associe) -- pas une reconstruction, N=178719 transactions immobilieres (Busan 53458, Daegu 56606, Daejeon 24350, Gwangju 44305). Coordonnees reelles (Longitude/Latitude) verifiees coherentes par ville, pas d'inversion. package_include laisse en manual_review : formule alignee avec la documentation officielle du dataset, mais pas verifiee terme-a-terme contre une regression publiee precise (le data descriptor ne publie pas lui-meme d'equation de regression, seulement la structure des variables).
+- Reference publication: CONFIRME et ETENDU (session 2026-08-16 puis 2026-09-23) : le papier 'data descriptor' officiel de ce jeu de donnees a ete retrouve -- Song, Ahn, An & Jang (2021), 'Hedonic dataset of the metropolitan housing market -- Cases in South Korea', Data in Brief, doi:10.1016/j.dib.2021.106877 (texte consulte via PMC, article en libre acces). Structure officielle confirmee : 26 variables en 4 categories (housing properties, demographie locale, amenites locales, controles saisonniers). Etude d'application du meme jeu identifiee et LUE INTEGRALEMENT le 2026-09-23 (PDF complet fourni par l'utilisateur -- aucun TEI n'existe pour ce papier, cherche par DOI et par titre dans 452 TEI + 422 PDF bruts, aucune correspondance) : Ahn, Jang & Song (2020), 'Economic impacts of being close to subway networks: A case study of Korean metropolitan areas', Research in Transportation Economics 83:100900, doi:10.1016/j.retrec.2020.100900. Ce papier publie une VRAIE TABLE DE COEFFICIENTS (Table 3, 4 villes, colonnes OLS et lag spatial) -- formula_used ETENDU le 2026-09-23 (16 variables au lieu de 5) pour s'en rapprocher terme-a-terme : Area, Floor, Households, Parking.space, Heating, Subway.network.distance (corrige -- l'ancienne version utilisait Subway.distance, tres correlee mais differente ; Ahn et al. precisent explicitement utiliser la distance RESEAU dans leurs resultats publies), Bus.stops, CBD, Top.school, Green.space.distance, Waterfront.distance, Population.density, Higher.degree.ratio, Spring/Fall/Winter -- verifie une par une dans le .rds local (0% NA, pas de colinearite degeneree, Subway.distance vs Subway.network.distance correles a r=1 mais non identiques, ratio moyen 1.385 -- coherent avec un facteur de circuite reseau/vol d'oiseau plausible). SEULE RESERVE RESIDUELLE : 'construction year' (variable de proprietes du logement chez Ahn et al.) est absente de l'artefact local -- la colonne 'Year' disponible est l'ANNEE DE TRANSACTION (sert de dimension temporelle du panel, role different), pas l'annee de construction. formula_used reste donc une approximation tres proche mais pas exacte du modele publie. Le bloc yaml 'Formules candidates' (multivariate_constrained) n'a pas ete resynchronise avec cette extension (limitation technique du mecanisme de correction, contenu dans un bloc de code) -- a mettre a jour lors d'une prochaine regeneration complete de la fiche. package_include reste 'yes' (voir benchmark_readiness) : cette extension renforce la fidelite au modele publie, elle ne la degrade pas.
 
 ### Statut regression canonique
 
@@ -101,12 +101,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 
 ### Formule - niveau systeme
 
-- formula_used: Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance
+- formula_used: Housing.price ~ Area + Floor + Households + Parking.space + Heating + Subway.network.distance + Bus.stops + CBD + Top.school + Green.space.distance + Waterfront.distance + Population.density + Higher.degree.ratio + Spring + Fall + Winter
 - License evidence: DataCite API record for DOI 10.5281/zenodo.14715630 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Recommended validation: N lignes=178719; T declare=46; variable temporelle declaree=Year; repetitions de coordonnees controlees=173324. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: Area, Floor, Subway.distance, Population.density, Green.space.distance
+- x_terms_used: Area, Floor, Households, Parking.space, Heating, Subway.network.distance, Bus.stops, CBD, Top.school, Green.space.distance, Waterfront.distance, Population.density, Higher.degree.ratio, Spring, Fall, Winter
 - y_term_used: Housing.price
 - Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
@@ -197,23 +197,23 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Song, Ahn, An & Jang (2021), Data in Brief, doi:10.1016/j.dib.2021.106877 -- article data-descriptor officiel documentant Area/Floor/Subway.distance/Population.density/Green.space.distance comme les variables hedoniques publiees pour ce jeu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Song, Ahn, An & Jang (2021), Data in Brief, doi:10.1016/j.dib.2021.106877 -- article data-descriptor officiel documentant Area/Floor/Subway.distance/Population.density/Green.space.distance comme les variables hedoniques publiees pour ce jeu.'
     - estimator: gam_spatial
       basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Meme source -- variante non-lineaire (GAM) des memes covariables publiees."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Meme source -- variante non-lineaire (GAM) des memes covariables publiees.'
     - estimator: random_forest
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML generique pour comparaison, Y continu.'
     - estimator: xgboost
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML generique pour comparaison, Y continu.'
+  conditionally_eligible_estimators: ['sar_lag']
+  ineligible_reason: 'Mis a jour le 2026-09-23 apres lecture INTEGRALE (PDF complet, pas seulement resume/TEI -- aucun TEI n existe pour ce papier, DOI/titre cherches en vain dans les 452 TEI et 422 PDF bruts du corpus) de Ahn, Jang & Song (2020), Research in Transportation Economics, doi:10.1016/j.retrec.2020.100900. Ce papier utilise EXPLICITEMENT un modele a lag spatial (eq. 2-3 du papier) en plus du modele hedonique OLS, avec une matrice de poids totalement specifiee : W_ij = 1/d_ij si d_ij < D (0 sinon), d_ij = distance euclidienne entre logements (longitude/latitude), forme row-standardisee -- un seuil de distance (Cas 1 de la methodologie de reconstruction W, README extensions_projet_2026-09/matrice_W_originale/). sar_lag place en conditionally_eligible (pas eligible_estimators) pour deux raisons : (1) la valeur numerique du seuil D n est donnee nulle part dans le texte integral (forme reconstructible, calibration non publiee) ; (2) l artefact local (4 fichiers xlsx Zenodo, N=178719, tres probablement une extension 2017+ du jeu original) a des effectifs differents par ville de ceux d Ahn et al. (Busan/Daegu/Daejeon/Gwangju n=62780/32672/21211/26024, donnees 2015) -- reconstruire leur W serait fidele a LEUR methode, pas une reproduction de LEURS resultats sur CES donnees. Fiche complete (equation, citation, mise en garde) : voir [[paper_korea_hedonic_housing]] > Bloc 1.'
+  rule: 'Revue de la tache avant selection des routes; aucune promotion automatique.'
 ```
 
 ## Bloc 4 - Typologie des donnees

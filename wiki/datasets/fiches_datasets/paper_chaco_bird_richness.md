@@ -192,31 +192,31 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Regression (famille Poisson) generique pour reponse de comptage."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Regression (famille Poisson) generique pour reponse de comptage.'
     - estimator: gam_spatial
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "GAM (famille Poisson), baseline generique pour reponse de comptage."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'GAM (famille Poisson), baseline generique pour reponse de comptage.'
     - estimator: xgboost
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML generique (objectif Poisson), Y comptage. random_forest exclu -- pas de mode Poisson natif dans ranger/parsnip.'
   conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+  ineligible_reason: 'n/a -- estimateurs generiques eligibles (voir eligible_estimators). Mis a jour le 2026-09-23 : jeu reclasse coupe_transversale (voir Bloc 4), aucun changement d eligibilite requis (les 3 routes generiques restent valides en coupe transversale).'
+  rule: 'Revue de la tache avant selection des routes; aucune promotion automatique.'
 ```
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel_ou_series
+- Data type: spatial (coupe transversale, substitution espace-pour-temps)
+- Structure: coupe_transversale
 - N observations: 234
 - k variables: 31
 - T periods: 6
 - Variable temporelle: year
-- N/T profile: N_moyen_T_moyen
-- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (234) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 222 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=2). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 222 unites spatiales distinctes, pas sur les 234 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- N/T profile: N_moyen (reclasse -- voir note)
+- Note structure (session 2026-09-23, TEI verifie, reclasse de panel_ou_series) : le papier (Trade-offs between biodiversity and agriculture are moving targets in dynamic landscapes) traite explicitement les 234 sites comme une substitution espace-pour-temps -- les paysages avec differentes parts de vegetation naturelle restante sont interpretes comme des etapes temporelles le long d'une trajectoire de deforestation -- pas un suivi repete de sites fixes. Sites separes d'au moins 0.5 km, echantillonnes 2009-2013. Aucune mention de panel / repeated measure / random effect temporel dans le TEI (0 occurrence). Coherent avec N spatial reel = 222 sur 234 lignes, T median=1/max=2 (verifie session 2026-08-17) : la quasi-totalite des sites n'a ete visitee qu'une fois. Ancienne note N/T (panel) retiree -- ce jeu est une coupe transversale le long d'un gradient de deforestation, pas un panel spatio-temporel.
 
 ## Bloc 5 - Resolution et etendue
 

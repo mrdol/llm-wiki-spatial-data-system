@@ -176,23 +176,23 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Regression lineaire standard, baseline generique pour reponse continue.'
     - estimator: gam_spatial
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'GAM (mgcv), baseline non-lineaire generique pour reponse continue.'
     - estimator: random_forest
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML non-parametrique generique, Y continu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML non-parametrique generique, Y continu.'
     - estimator: xgboost
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML non-parametrique generique, Y continu."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML non-parametrique generique, Y continu.'
+  conditionally_eligible_estimators: ['inla_spde_st']
+  ineligible_reason: 'Mis a jour le 2026-09-23 (TEI verifie) : le papier ajuste un modele bayesien hierarchique spatio-temporel (package spTimer, Bakar and Sahu) dont la matrice de correlation spatiale est derivee d une fonction de correlation de Matern (meme famille que le champ SPDE d inla_spde) -- correspond a inla_spde_st, pas a une regression generique. Place en conditionally_eligible : ce jeu EST un panel bien equilibre (73 unites, T=92 chacune -- voir Bloc 4), un bon candidat aussi pour panel_fe/panel_sar_fe (W kNN a construire), mais inla_spde_st reste la route la plus fidele a la methode Matern/GP des auteurs.'
+  rule: 'Revue de la tache avant selection des routes; aucune promotion automatique.'
 ```
 
 ## Bloc 4 - Typologie des donnees

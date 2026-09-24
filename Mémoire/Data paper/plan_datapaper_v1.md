@@ -1,5 +1,7 @@
 # Plan détaillé — Data paper (format *Scientific Data*, Data Descriptor)
 
+> **Document historique — remplacé le 16 septembre 2026.** Ce plan repose sur des inventaires anciens et sur un périmètre incluant trop fortement le benchmark du package. Le plan courant est `extensions_projet_2026-09/redaction_datapaper/PLAN_DATAPAPER_V2_2026-09-16.md`.
+
 **Statut :** proposition soumise à validation, 18 août 2026.
 **Base de travail :** brief de rédaction existant `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md` (356 lignes, structure en 15 sections, non conforme au gabarit *Scientific Data*), à remapper sur le gabarit de la revue et à actualiser (ses chiffres datent du 4 août : 91 fiches, 7 datasets embarqués).
 

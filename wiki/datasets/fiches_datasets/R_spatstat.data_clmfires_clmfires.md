@@ -2,7 +2,7 @@
 title: R_spatstat.data_clmfires_clmfires
 type: dataset
 created: 2026-08-15
-updated: 2026-09-07
+updated: 2026-09-23
 sources:
   - data/final_datasets/sf/R_spatstat.data_clmfires_clmfires.rds
 tags: [dataset, r-package, spatial, point]
@@ -157,7 +157,8 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: pending -- CRS source non geographique ou inconnu
+- CRS note (session 2026-09-23, relecture complete de la doc du package spatstat.data, section 'Remark' -- pas lue jusque-la lors du premier passage) : 'The precision with which the coordinates of the locations of the fires changed between 2003 and 2004. From 1998 to 2003 many of the locations were recorded as the centroid of the corresponding district unit; the rest were recorded as exact UTM coordinates of the centroids of the fires. In 2004 the system changed and the exact UTM coordinates ... were used for all fires.' Confirme donc l'usage de coordonnees UTM (au moins a partir de 2004, partiellement avant), mais **zone UTM et datum ne sont documentes nulle part** dans la doc du package ni ailleurs dans le materiel local -- seule provenance declaree : 'Professor Jorge Mateu'. Castilla-La Mancha est entierement en zone UTM 30N, ce qui rendrait EPSG:25830 (ETRS89) ou EPSG:23030 (ED50) plausibles par deduction geographique seule -- mais conformement a la convention du projet (jamais assigner un CRS par inference, voir paper_crane), **aucun EPSG n'est attribue** tant que le datum n'est pas confirme par une source explicite. CRS reste : indetermine ; projection : UTM (zone/datum non documentes) ; unite des coordonnees de l'objet ppp : kilometres.
 
 ## Bloc 6 — Reproductibilite
 

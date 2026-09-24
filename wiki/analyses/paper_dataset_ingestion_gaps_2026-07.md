@@ -2,7 +2,7 @@
 title: Papiers du corpus avec datasets spatiaux non encore ingérés
 type: metadata
 created: 2026-07-27
-updated: 2026-09-14
+updated: 2026-09-15
 sources: [inst/kg/paper_dataset_uses.json]
 tags: [metadata, kg, papers, datasets, ingestion, gaps]
 ---
@@ -721,6 +721,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Enhancing performance of multi-temporal tropical river landform classification through downscaling approaches | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.6084/m9.figshare.21571608; Publication DOI 10.1080/01431161.2022.2139164 | Classification de formes fluviales par télédétection ; downscaling spatial (ATPRK = area to point regression kriging) ; domaine géomorphologie/télédétection. |
 
+## Environmental Influences on Large Daily Wildfire Growth in California
+
+- DOI papier : `10.31979/etd.5znn-tm8p`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_7`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.7569337; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / publication liee resolue via Crossref le 2026-09-14 : Hanley, H.S. (2022), Master's Thesis, San Jose State University, DOI 10.31979/etd.5znn-tm8p (identifiee par recherche web le 2026-08-17, confirmee via Crossref le 2026-09-14). |
+
 ## Environmental factors explain the spatial mismatches between species richness and phylogenetic diversity of terrestrial mammals
 
 - DOI papier : `10.1111/geb.12999`
@@ -1010,6 +1019,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Increased population size of fish in a lowland river following restoration of structural habitat | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.7344f3r; Publication DOI 10.1002/eap.1882; Repo relation: primary_article | 1 fichier(s) au format donnee reelle detecte(s) / fichiers deja presents localement: 1 |
 
+## Inferring spatially varying animal movement characteristics using a hierarchical continuous-time velocity model
+
+- DOI papier : `10.1111/ele.14117`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_5t`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.5tb2rbp76; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / publication liee resolue via Crossref le 2026-09-14 : Paun, Husmeier, Hopcraft, Masolele & Torney (2022), Ecology Letters, DOI 10.1111/ele.14117 (identifiee et texte integral lu le 2026-08-16, confirmee via Crossref le 2026-09-14). |
+
 ## Influence of different data cleaning solutions of point-occurrence records on downstream macroecological diversity models
 
 - DOI papier : `10.22541/au.163420130.04455423/v1`
@@ -1055,6 +1073,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Lagged effects of herbivory impact host-choice but not nymphal survivorship in an ant-protected treehopper | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.3j9kd51kw; Publication DOI 10.1002/ecs2.4067; Repo relation: primary_article | 2 fichier(s) au format donnee reelle detecte(s) / fichiers deja presents localement: 3 |
+
+## Landscape structure influences urban vegetation vertical structure
+
+- DOI papier : `10.1111/1365-2664.12741`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_3b`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Data from: Landscape structure influences urban vegetation vertical structure | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.3bh66; no linked publication in repo metadata; Repo relation: isCitedBy | 2 fichier(s) au format donnee reelle detecte(s) / publication liee resolue via Crossref le 2026-09-14 : Mitchell, Wu, Johansen, Maron, McAlpine & Rhodes (2016), Journal of Applied Ecology 53(5):1477-1488, confirmee aussi par lecture directe du script R des auteurs present dans le meme depot Dryad (Mitchell_etal_2016_1ha_analysis_20160624.R). |
 
 ## Large-scale recovery of an endangered amphibian despite ongoing exposure to multiple stressors
 
@@ -1190,7 +1217,7 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5066/p9pgal0d; Publication DOI 10.3133/sir20215015 | Decision manuelle persistante (voir data/manifests/papers/datacite_manual_exclusions.json). |
+| Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania | `candidate_dataset_download_pending` |  | None | None | DataCite dataset DOI 10.5066/p9pgal0d; Publication DOI 10.3133/sir20215015 | Decision manuelle persistante (voir data/manifests/papers/datacite_manual_exclusions.json). / local_raw_dir ajoute le 2026-09-14 (absent malgre paper_doi/paper_title deja corrects) -- ce champ manquant empechait le Bloc 2 de la fiche de retrouver paper_doi/paper_title/annee via le KG, affichant 'unknown' malgre des donnees deja resolues dans cet enregistrement. |
 
 ## Mistletoes could moderate drought impacts on birds, but are themselves susceptible to drought-induced dieback
 
@@ -1245,6 +1272,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: Modelling the dispersal of the two main hosts of the raccoon rabies variant in heterogeneous environments with landscape genetics | `blocked_landscape_genetics_dyadic` |  | None | None | DataCite dataset DOI 10.5061/dryad.jr66k; Publication DOI 10.1111/eva.12161 | Génétique du paysage pour modéliser la dispersion de ratons laveurs et mouffettes (hôtes de la rage) ; Multiple Regression on Distance Matrices (MRDM) avec distance génétique vs géographique et variables paysagères ; 49 citations |
+
+## Modelling the spatially varying nonlinear effects of heat exposure
+
+- DOI papier : `10.1093/jrsssa/qnaf208`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Modelling the Spatially Varying Non-Linear Effects of Heat Exposure | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.16923676; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / publication liee resolue via Crossref le 2026-09-14 : Chen, Blangiardo, Gascoigne & Konstantinoudis (2025), Journal of the Royal Statistical Society Series A, DOI 10.1093/jrsssa/qnaf208 (identifiee par recherche web le 2026-08-17, confirmee via Crossref le 2026-09-14). |
 
 ## Model‐based inference for estimating shifts in species distribution, area occupied and centre of gravity
 
@@ -1656,6 +1692,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from: Soybean yield is positively linked to organic matter, but planting date remains more influential | `raw_data_downloaded` |  | None | None | DataCite dataset DOI 10.5061/dryad.34tmpg4v8; Publication DOI 10.1002/saj2.20779 | Rendement de soja lie a la matiere organique du sol, regression lineaire simple et multiple, 457 champs dans 4 etats americains (rapport de verification DataCite, idx 28, needs_manual_check promu en keep). |
 
+## Spatial Confounding in Multivariate Areal Data Analysis
+
+- DOI papier : `10.48550/arXiv.2505.07232`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_2`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Compiled Data for "Spatial Confounding in Multivariate Areal Data Analysis" | `converted_to_sf` |  | 2984 | 6 | Dataset-first verified candidate 10.5281/zenodo.21300380; no linked publication in repo metadata | 3 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader spatial_confounding_diabetes dans code/r_catalog/build_sf_datasets_papers.R), aucune publication resolue (candidat dataset-first) -- formule proposee par le curateur (autorisation utilisateur explicite) reliant la prevalence du diabete a des determinants de sante publique documentes individuellement dans RDA_data_variables.csv. RDA_data.csv (2984 comtes) joint par FIPS au shapefile Census cb_2017_us_county_500k, N=2984/2984 (couverture complete). / publication liee resolue et confirmee a 100% (session 2026-08-16, 15/15 predicteurs correspondants) : Wu, K.L. & Banerjee, S. (2025), arXiv:2505.07232, DOI 10.48550/arXiv.2505.07232 -- KG mis a jour le 2026-09-14. |
+
 ## Spatial Modeling of Sociodemographic Risk for COVID-19 Mortality
 
 - DOI papier : `10.1101/2023.07.21.23292785`
@@ -1682,6 +1727,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: Spatial autocorrelation in fitness affects the estimation of natural selection in the wild | `converted_to_sf` |  | 229 | None | DataCite dataset DOI 10.5061/dryad.pm86c; Publication DOI 10.1111/2041-210x.12448 | DataCite/OpenAlex title, abstract metadata or subjects matched strict spatial regression heuristics |
+
+## Spatial correlates of COVID-19 first wave across continental Portugal
+
+- DOI papier : `10.4081/gh.2022.1073`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| dgs | `converted_to_sf` |  | 20604 | 2 | Dataset-first verified candidate 10.5281/zenodo.11222023; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader portugal_covid_municipal), aucune publication resolue (donnees officielles DGS) -- formule proposee par le curateur. Geometrie jointe a geoBoundaries PRT/ADM2 (CC0), 298/308 concelhos apparies (96.8%), N=20604 observations. / publication liee resolue via Crossref le 2026-09-14 : Barbosa, Silva, Capinha, Garcia & Rocha (2022), Geospatial Health 17(s1):1073, DOI 10.4081/gh.2022.1073 (texte integral deja lu et cite dans le FORMULA_OVERRIDES de la fiche). |
 
 ## Spatial distribution and determinants of HIV high burden in the Southern African sub-region
 
@@ -1837,6 +1891,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Data from:Spatio-temporal networks: reachability, centrality and robustness | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.3p27r; Publication DOI 10.1098/rsos.160196; Repo relation: isCitedBy | 3 fichier(s) au format donnee reelle detecte(s) |
 
+## Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach
+
+- DOI papier : `10.1080/09581596.2025.2578588`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| Supplementary materials - Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach | `converted_to_sf` |  | 931 | 3 | Dataset-first verified candidate 10.5281/zenodo.17104058; no linked publication in repo metadata | listing ambigu (formats non reconnus) - verification manuelle recommandee / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader colombia_leptospirosis_risk). RR et Mann-Kendall sont des sorties reelles du modele BYM des auteurs (feuilles 5 et 8), jointes par municipalite. Geometrie jointe a geoBoundaries COL/ADM2 (source DANE), 65 noms ambigus (homonymes inter-departementaux) exclus, N=931 municipalites univoques. / publication liee resolue via Crossref le 2026-09-14 : Cortes-Ramirez, Wilches-Vega, Parvez, Galvis-Serrano, Parada-Jurado & Gutierrez (2025), Critical Public Health, DOI 10.1080/09581596.2025.2578588 (identifiee par recherche web le 2026-08-16, confirmee via Crossref le 2026-09-14). |
+
 ## Spatiotemporal species distribution models of colony census and at-sea survey data for Fratercula cirrhata (Tufted Puffin) and F. corniculata (Horned Puffin) reveal long-term declines in Kodiak, Alaska
 
 - DOI papier : `10.1093/ornithapp/duag053`
@@ -1858,11 +1921,11 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 ## Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners
 
 - DOI papier : `10.1139/cjfas-2023-0136`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_cr`
+- BibTeX key : `Struthers2024BanffStreamTemperature`
 
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
-| Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.crjdfn391; no linked publication in repo metadata | 4 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / CORRECTION (2026-09-14) : paper_title/paper_doi resolus (Crossref, DOI 10.1139/cjfas-2023-0136, publie 2024-04-01, Canadian Journal of Fisheries and Aquatic Sciences 81:417-432). Modele final identifie par lecture directe des scripts R des auteurs (Zenodo 10.5281/zenodo.7942855, SSN_R-Script.R ligne 263 et INLA_R-Script.R lignes 270-303) : WaterTemp ~ Elev + RSlope + LE (effet aleatoire HUC10 en plus pour INLA) -- ni logRCA ni h2oAreaKm2 (testes en exploration mais pas retenus dans le modele final). |
+| Data from: Statistical stream temperature modelling with SSN and INLA: an introduction for conservation practitioners | `paper_pdf_tei_available_formula_verified_2026-09-14` |  | None | None | Dataset-first verified candidate 10.5061/dryad.crjdfn391; no linked publication in repo metadata | 4 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / CORRECTION (2026-09-14) : paper_title/paper_doi resolus (Crossref, DOI 10.1139/cjfas-2023-0136, publie 2024-04-01, Canadian Journal of Fisheries and Aquatic Sciences 81:417-432). Modele final identifie par lecture directe des scripts R des auteurs (Zenodo 10.5281/zenodo.7942855, SSN_R-Script.R ligne 263 et INLA_R-Script.R lignes 270-303) : WaterTemp ~ Elev + RSlope + LE (effet aleatoire HUC10 en plus pour INLA) -- ni logRCA ni h2oAreaKm2 (testes en exploration mais pas retenus dans le modele final). / MISE A JOUR (2026-09-14) : PDF obtenu par l'utilisateur et traite via GROBID -- TEI local desormais disponible pour verification/complement de la lecture des scripts R des auteurs. |
 
 ## Structure identification and variable selection in geographically weighted regression models
 
@@ -1971,6 +2034,15 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: The effects of spatial scale and isoscape on consumer isotopic niche width | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.8cq43; Publication DOI 10.1111/1365-2435.13026; Repo relation: primary_article | 3 fichier(s) au format donnee reelle detecte(s) / fichiers deja presents localement: 5 |
+
+## The effects of urbanization on pollinators and pollination: A meta-analysis
+
+- DOI papier : `10.1111/ele.14277`
+- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_dv`
+
+| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
+|---|---|---|---:|---:|---|---|
+| The effects of urbanisation on pollinators and pollination: A meta-analysis | `converted_to_sf` |  | 228 | 3 | Dataset-first verified candidate 10.5061/dryad.dv41ns23r; no linked publication in repo metadata | 17 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader pollinator_urbanization_meta), aucune publication resolue -- formule proposee par le curateur (ponderation meta-analytique standard). Appendix_S1.1 telecharge directement depuis Dryad, N=228 tailles d'effet avec coordonnees reelles. / publication liee resolue via Crossref le 2026-09-14 : Liang, He, Theodorou & Yang (2023), Ecology Letters 26:1629-1642, DOI 10.1111/ele.14277 (identifiee par recherche web le 2026-08-16, confirmee via Crossref le 2026-09-14). |
 
 ## The impact of energy price on CO2 emissions in China: A spatial econometric analysis
 
@@ -2238,15 +2310,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | CLDF dataset derived from Lee and Hasegawa's "Bayesian phylogenetic analysis supports an agricultural origin of Japonic languages" from 2011 | `rejected_after_manual_screening` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.13254646; no linked publication in repo metadata | Rejete (triage lot mediums, session 2026-08-16, agent d'investigation parallele) : Jeu de donnees phylogenetique linguistique CLDF (langues japoniques) -- non spatial-ecologique. |
 
-## [dataset-first, publication non resolue] Compiled Data for "Spatial Confounding in Multivariate Areal Data Analysis"
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_2`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Compiled Data for "Spatial Confounding in Multivariate Areal Data Analysis" | `converted_to_sf` |  | 2984 | 6 | Dataset-first verified candidate 10.5281/zenodo.21300380; no linked publication in repo metadata | 3 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader spatial_confounding_diabetes dans code/r_catalog/build_sf_datasets_papers.R), aucune publication resolue (candidat dataset-first) -- formule proposee par le curateur (autorisation utilisateur explicite) reliant la prevalence du diabete a des determinants de sante publique documentes individuellement dans RDA_data_variables.csv. RDA_data.csv (2984 comtes) joint par FIPS au shapefile Census cb_2017_us_county_500k, N=2984/2984 (couverture complete). |
-
 ## [dataset-first, publication non resolue] Data Archival for Economic Cost Modeling of Chinook Habitat Restoration in the Stillaguamish River Basin
 
 - DOI papier : `non renseigné`
@@ -2282,15 +2345,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data for paper StarVZ: Performance Analysis of Task-Based Parallel Applications | `rejected_after_manual_screening` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.4072092; no linked publication in repo metadata | Rejete (triage lot mediums, session 2026-08-16, agent d'investigation parallele) : Donnees de performance StarVZ pour applications HPC paralleles par taches -- genie logiciel, non spatial. |
-
-## [dataset-first, publication non resolue] Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_5t`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Data for: Inferring spatially-varying animal movement characteristics using a hierarchical continuous-time velocity model | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.5tb2rbp76; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) |
 
 ## [dataset-first, publication non resolue] Data for: The photosynthetic response of spectral chlorophyll fluorescence differs across species and light environments in a boreal forest ecosystem
 
@@ -2408,15 +2462,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Data from: High-yielding corn response to applied phosphorus, potassium, and sulfur in Nebraska | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.p30c6; no linked publication in repo metadata; Repo relation: isCitedBy | listing ambigu (formats non reconnus) - verification manuelle recommandee / publication liee non resolue via OpenAlex: 10.2134/agronj2008.0103x |
-
-## [dataset-first, publication non resolue] Data from: Landscape structure influences urban vegetation vertical structure
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_3b`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Data from: Landscape structure influences urban vegetation vertical structure | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5061/dryad.3bh66; no linked publication in repo metadata; Repo relation: isCitedBy | 2 fichier(s) au format donnee reelle detecte(s) / publication liee non resolue via OpenAlex: 10.1111/1365-2664.12741 |
 
 ## [dataset-first, publication non resolue] Data from: Leaching losses of dissolved organic carbon and nitrogen from agricultural soils in the upper US Midwest
 
@@ -2661,15 +2706,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | ELITE land surface temperature: seamless 1km LST over China (2010) | `download_corrupt_redownload_required` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.21130627; no linked publication in repo metadata | 1 fichier(s) au format donnee reelle detecte(s) / fichiers deja presents localement: 1 / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / content audit 2026-09-04: Local 2010.zip is not readable as ZIP/TAR and does not start with a standard ZIP signature; redownload is required. |
 
-## [dataset-first, publication non resolue] ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_7`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| ENVIRONMENTAL INFLUENCES ON LARGE DAILY WILDFIRE GROWTH IN CALIFORNIA | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.7569337; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) |
-
 ## [dataset-first, publication non resolue] Ecological niche models for American black bear, Rafinesque's big-eared bat, and timber rattlesnake
 
 - DOI papier : `non renseigné`
@@ -2858,15 +2894,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Local explanation SHAP approach applied to MIROC5,RCP8.5-forced multi-model ensemble study of GrIS future sea-level contributions | `rejected_no_novel_data` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.7157302; no linked publication in repo metadata | Rejete (triage lot mediums, session 2026-08-16, agent d'investigation parallele) : Sorties SHAP (Shapley_yXXXX.RData) d'un modele d'ensemble global unique (GrIS) -- pas de grille/coordonnees, scripts R isoles. |
-
-## [dataset-first, publication non resolue] Modelling the Spatially Varying Non-Linear Effects of Heat Exposure
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Modelling the Spatially Varying Non-Linear Effects of Heat Exposure | `raw_data_downloaded_pending_loader` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.16923676; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) |
 
 ## [dataset-first, publication non resolue] Moss growth, development, morphology, and physiology dataset and code
 
@@ -3129,15 +3156,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 |---|---|---|---:|---:|---|---|
 | Supplementary material and archived generation outputs for "LithoGPT: Baseline Floors, Depth Conditioning, and Coherence at Range in Autoregressive Well-Log Generation" | `rejected_after_manual_screening` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.21953249; no linked publication in repo metadata | Rejete (triage lot mediums, session 2026-08-16, agent d'investigation parallele) : LithoGPT, generation autoregressive de diagraphies de puits -- exemple explicite de rejet. |
 
-## [dataset-first, publication non resolue] Supplementary materials - Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| Supplementary materials - Spatiotemporal analysis of leptospirosis in Colombia from 2007 to 2021. An environmental health metrics approach | `converted_to_sf` |  | 931 | 3 | Dataset-first verified candidate 10.5281/zenodo.17104058; no linked publication in repo metadata | listing ambigu (formats non reconnus) - verification manuelle recommandee / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader colombia_leptospirosis_risk). RR et Mann-Kendall sont des sorties reelles du modele BYM des auteurs (feuilles 5 et 8), jointes par municipalite. Geometrie jointe a geoBoundaries COL/ADM2 (source DANE), 65 noms ambigus (homonymes inter-departementaux) exclus, N=931 municipalites univoques. |
-
 ## [dataset-first, publication non resolue] Systematic assessment of burst impurity in confocal-based single-molecule fluorescence detection using Brownian motion simulations - photon timetag simulation files
 
 - DOI papier : `non renseigné`
@@ -3155,15 +3173,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | The contributions of individual traits to survival among terrestrial juvenile pond-breeding salamanders | `rejected_after_manual_screening` |  | None | None | Dataset-first verified candidate 10.5061/dryad.qfttdz0gx; no linked publication in repo metadata; Repo relation: primary_article | Rejete (triage lot mediums, session 2026-08-16) : Verification directe des 5 CSV du depot (Location_KnownAlive, Metamorph_2017_Release_Data, Phys_Surv_Change_Size, Released_Rounds3-5_RSAWL_MINVCO2_2017, WVP_RSAWL_2017-2018_Survival, abiotic) : aucune colonne de coordonnees geographiques reelles -- 'block'/'pen' sont des identifiants de mesocosme/enclos experimental (etude en pen semi-naturel), pas des localisations spatiales. L'agent d'investigation initial avait mal interprete ces colonnes comme des coordonnees X,Y. |
-
-## [dataset-first, publication non resolue] The effects of urbanisation on pollinators and pollination: A meta-analysis
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5061_dryad_dv`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| The effects of urbanisation on pollinators and pollination: A meta-analysis | `converted_to_sf` |  | 228 | 3 | Dataset-first verified candidate 10.5061/dryad.dv41ns23r; no linked publication in repo metadata | 17 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader pollinator_urbanization_meta), aucune publication resolue -- formule proposee par le curateur (ponderation meta-analytique standard). Appendix_S1.1 telecharge directement depuis Dryad, N=228 tailles d'effet avec coordonnees reelles. |
 
 ## [dataset-first, publication non resolue] The global fish and invertebrate abundance value of mangroves dataset
 
@@ -3209,15 +3218,6 @@ Elle ne reprend pas les simples cooccurrences TEI non validées.
 | Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
 |---|---|---|---:|---:|---|---|
 | Ura and Thangatha River Flow and Nyambene Watershed Tree Cover Change Data | `rejected_no_novel_data` |  | None | None | Dataset-first verified candidate 10.5281/zenodo.14672901; no linked publication in repo metadata | Rejete (triage lot mediums, session 2026-08-16, agent d'investigation parallele) : CSV limite a Year/Time/Month/WaterLevel/Discharge pour une seule station de jaugeage (URA) -- serie temporelle mono-site, aucune coordonnee, aucune colonne de couverture arboree malgre le titre. |
-
-## [dataset-first, publication non resolue] dgs
-
-- DOI papier : `non renseigné`
-- BibTeX key : `JournalFirst_nd_DatasetFirstPublicationNon_10_5281_zenodo_1`
-
-| Dataset | Statut | Thème | n | Covariables | Source | Pourquoi il reste à faire |
-|---|---|---|---:|---:|---|---|
-| dgs | `converted_to_sf` |  | 20604 | 2 | Dataset-first verified candidate 10.5281/zenodo.11222023; no linked publication in repo metadata | 2 fichier(s) au format donnee reelle detecte(s) / aucune publication liee dans les metadonnees du depot (relatedWorks/related_identifiers vide) / Fiche construite session 2026-08-16 (loader portugal_covid_municipal), aucune publication resolue (donnees officielles DGS) -- formule proposee par le curateur. Geometrie jointe a geoBoundaries PRT/ADM2 (CC0), 298/308 concelhos apparies (96.8%), N=20604 observations. |
 
 ## [dataset-first, publication non resolue] gp-gam-optimisation-dataset: Example input and output data for Gaussian Process and GAM workflow (H₂SO₄, January 2017)
 

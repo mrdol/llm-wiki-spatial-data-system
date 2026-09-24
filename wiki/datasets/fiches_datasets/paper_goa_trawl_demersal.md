@@ -175,23 +175,23 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Regression lineaire standard, baseline generique pour reponse continue.'
     - estimator: gam_spatial
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'GAM (mgcv), baseline non-lineaire generique pour reponse continue.'
     - estimator: random_forest
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML non-parametrique generique, Y continu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML non-parametrique generique, Y continu.'
     - estimator: xgboost
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML non-parametrique generique, Y continu."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML non-parametrique generique, Y continu.'
+  conditionally_eligible_estimators: ['inla_spde_st']
+  ineligible_reason: 'Mis a jour le 2026-09-23 (TEI verifie) : le papier ajuste un champ aleatoire spatio-temporel AR(1) explicite -- e_it(s) suit MVNormal[rho*e_i,t-1(s), U_i(s)], type VAST/sdmTMB -- ce qui correspond a inla_spde_st (SPDE + groupe AR1), pas a une simple regression generique. Place en conditionally_eligible (pas eligible_estimators) car ce jeu N EST PAS un panel classique a unites fixes repetees : le plan d echantillonnage est un tirage aleatoire stratifie par strate/annee (chaque trait de chalut est quasi unique, N spatial reel=9212 sur 9213 lignes, T median=1 par site -- voir Bloc 4), donc panel_fe/panel_sar_fe (qui exigent des unites repetees) ne s appliquent pas non plus. inla_spde_st modelise la dependance spatio-temporelle via un champ continu sur grille, pas via des unites fixes -- c est la route la plus fidele a la methode des auteurs.'
+  rule: 'Revue de la tache avant selection des routes; aucune promotion automatique.'
 ```
 
 ## Bloc 4 - Typologie des donnees
@@ -204,6 +204,7 @@ estimator_eligibility:
 - Variable temporelle: Year
 - N/T profile: N_grand_T_grand
 - Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (9213) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 9212 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=2). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 9212 unites spatiales distinctes, pas sur les 9213 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- Note structure (session 2026-09-23, TEI verifie) : ce N/T (T median=1 par site) ressemble a une coupe transversale deguisee, mais ne l'est pas au sens de la methode des auteurs -- le plan d'echantillonnage AFSC (1984-2015) est un tirage aleatoire stratifie (chaque trait de chalut a des coordonnees quasi uniques, pas des stations fixes revisitees), et les auteurs ajustent un champ aleatoire spatio-temporel AR(1) explicite sur ce dessin (voir Estimator eligibility > inla_spde_st). Ne pas reclasser en coupe_transversale : la dependance temporelle est reelle et modelisee par les auteurs, juste pas via des unites panel fixes repetees. panel_fe/panel_sar_fe (harnais panel, wiring 2026-09-22/23) ne conviennent pas non plus pour la meme raison -- ils exigent des unites repetees.
 
 ## Bloc 5 - Resolution et etendue
 

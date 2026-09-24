@@ -199,14 +199,14 @@ estimator_eligibility:
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel_ou_series
+- Data type: spatial (coupe transversale, occurrences poolees)
+- Structure: coupe_transversale
 - N observations: 7762
 - k variables: 10
 - T periods: 52
 - Variable temporelle: YEAR
-- N/T profile: N_grand_T_grand
-- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (7762) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 2771 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=31). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 2771 unites spatiales distinctes, pas sur les 7762 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- N/T profile: N_grand (reclasse -- voir note)
+- Note structure (session 2026-09-23, TEI verifie, reclasse de panel_ou_series) : le papier (Pigott et al. 2014, eLife) construit une carte de risque statique par boosted regression trees (BRT) a partir d'occurrences poolees sur 1960-2012 (52 ans, recherche bibliographique PubMed/Web of Knowledge) -- definies comme un ou plusieurs signalements de leishmaniose dans une annee calendaire donnee, colliges de sources variees. Aucun traitement temporel dans la methode (pas de serie, pas d'effet annee, pas de modele spatio-temporel) : chaque occurrence est un point d'evidence independant pour la carte de risque globale. Coherent avec N spatial reel = 2771 sur 7762 lignes, T median=1 (verifie session 2026-08-17) : la grande majorite des sites n'a ete rapportee qu'une fois. Ancienne note N/T (panel) retiree -- ce jeu est une coupe transversale d'occurrences poolees, pas un panel spatio-temporel.
 
 ## Bloc 5 - Resolution et etendue
 

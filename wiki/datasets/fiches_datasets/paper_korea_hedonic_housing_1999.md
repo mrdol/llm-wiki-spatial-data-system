@@ -100,12 +100,12 @@ Dataset spatial converti en sf a partir des donnees brutes du papier "Hedonic da
 
 ### Formule - niveau systeme
 
-- formula_used: Housing.price ~ Area + Floor + Subway.distance + Population.density + Green.space.distance
+- formula_used: Housing.price ~ Area + Floor + Households + Parking.space + Heating + Subway.network.distance + Bus.stops + CBD + Top.school + Green.space.distance + Waterfront.distance + Population.density + Higher.degree.ratio + Spring + Fall + Winter
 - License evidence: DataCite API record for DOI 10.5281/zenodo.14715630 (checked 2026-08-18): rightsList = 'Creative Commons Attribution 4.0 International'.
 - Recommended validation: N lignes=5572; T declare=1; variable temporelle declaree=n/a; repetitions de coordonnees controlees=5469. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. Les coupes annuelles sont des transactions de logements : un millesime unique ne rend pas les transactions au meme emplacement independantes; definir une cle immeuble/site, conserver le lien au parent.
 - Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
 - Selected Y typology: continuous
-- x_terms_used: Area, Floor, Subway.distance, Population.density, Green.space.distance
+- x_terms_used: Area, Floor, Households, Parking.space, Heating, Subway.network.distance, Bus.stops, CBD, Top.school, Green.space.distance, Waterfront.distance, Population.density, Higher.degree.ratio, Spring, Fall, Winter
 - y_term_used: Housing.price
 - Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
 
@@ -197,23 +197,23 @@ estimator_eligibility:
   eligible_estimators:
     - estimator: ols
       basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Song, Ahn, An & Jang (2021), Data in Brief, doi:10.1016/j.dib.2021.106877 -- article data-descriptor officiel documentant Area/Floor/Subway.distance/Population.density/Green.space.distance comme les variables hedoniques publiees pour ce jeu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Song, Ahn, An & Jang (2021), Data in Brief, doi:10.1016/j.dib.2021.106877 -- article data-descriptor officiel documentant Area/Floor/Subway.distance/Population.density/Green.space.distance comme les variables hedoniques publiees pour ce jeu.'
     - estimator: gam_spatial
       basis: scientific_evidence
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Meme source -- variante non-lineaire (GAM) des memes covariables publiees."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Meme source -- variante non-lineaire (GAM) des memes covariables publiees.'
     - estimator: random_forest
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML generique pour comparaison, Y continu.'
     - estimator: xgboost
       basis: benchmark_use
-      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
-      notes: "Alternative ML generique pour comparaison, Y continu."
-  conditionally_eligible_estimators: []
-  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
-  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+      source_ref: 'Revue en lot du 2026-09-09 -- voir Note ci-dessous.'
+      notes: 'Alternative ML generique pour comparaison, Y continu.'
+  conditionally_eligible_estimators: ['sar_lag']
+  ineligible_reason: 'Mis a jour le 2026-09-23 apres lecture INTEGRALE (PDF complet, pas seulement resume/TEI -- aucun TEI n existe pour ce papier, DOI/titre cherches en vain dans les 452 TEI et 422 PDF bruts du corpus) de Ahn, Jang & Song (2020), Research in Transportation Economics, doi:10.1016/j.retrec.2020.100900. Ce papier utilise EXPLICITEMENT un modele a lag spatial (eq. 2-3 du papier) en plus du modele hedonique OLS, avec une matrice de poids totalement specifiee : W_ij = 1/d_ij si d_ij < D (0 sinon), d_ij = distance euclidienne entre logements (longitude/latitude), forme row-standardisee -- un seuil de distance (Cas 1 de la methodologie de reconstruction W, README extensions_projet_2026-09/matrice_W_originale/). sar_lag place en conditionally_eligible (pas eligible_estimators) pour deux raisons : (1) la valeur numerique du seuil D n est donnee nulle part dans le texte integral (forme reconstructible, calibration non publiee) ; (2) l artefact local (4 fichiers xlsx Zenodo, N=178719, tres probablement une extension 2017+ du jeu original) a des effectifs differents par ville de ceux d Ahn et al. (Busan/Daegu/Daejeon/Gwangju n=62780/32672/21211/26024, donnees 2015) -- reconstruire leur W serait fidele a LEUR methode, pas une reproduction de LEURS resultats sur CES donnees. Fiche complete (equation, citation, mise en garde) : voir [[paper_korea_hedonic_housing]] > Bloc 1.'
+  rule: 'Revue de la tache avant selection des routes; aucune promotion automatique.'
 ```
 
 ## Bloc 4 - Typologie des donnees

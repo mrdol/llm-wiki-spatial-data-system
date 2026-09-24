@@ -24,6 +24,7 @@ Utilisation:
 from __future__ import annotations
 
 import argparse
+import csv
 import re
 import sys
 from pathlib import Path
@@ -118,8 +119,33 @@ def process_pdf(pdf_path: Path, base_url: str, timeout: int, force: bool) -> str
     return "written"
 
 
-def select_pdfs(from_bib: bool, pdf_name: str | None) -> list[Path]:
+def manifest_pdf_files(manifest_path: str) -> list[Path]:
+    """Retourne les PDF locaux cites dans la colonne ``path`` d'un TSV."""
+    path = Path(manifest_path)
+    if not path.is_absolute():
+        path = ROOT / path
+    if not path.exists():
+        raise FileNotFoundError(path)
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle, delimiter="\t"))
+    pdfs: list[Path] = []
+    for row in rows:
+        value = (row.get("path") or "").strip()
+        if not value:
+            continue
+        pdf = Path(value)
+        if not pdf.is_absolute():
+            pdf = ROOT / pdf
+        if not pdf.exists():
+            raise FileNotFoundError(f"PDF listed in manifest not found: {pdf}")
+        pdfs.append(pdf.resolve())
+    return list(dict.fromkeys(pdfs))
+
+
+def select_pdfs(from_bib: bool, pdf_name: str | None, manifest_path: str | None) -> list[Path]:
     """Choisit les PDF a traiter selon le mode demande."""
+    if manifest_path:
+        return manifest_pdf_files(manifest_path)
     if pdf_name:
         candidates = [Path(pdf_name)]
         candidates.extend(directory / pdf_name for directory in RAW_PDF_DIRS)
@@ -141,6 +167,10 @@ def main() -> int:
     parser.add_argument(
         "--pdf",
         help="traiter un seul PDF par nom de fichier ou chemin",
+    )
+    parser.add_argument(
+        "--manifest",
+        help="traiter les PDF cites dans la colonne path d'un manifeste TSV",
     )
     parser.add_argument(
         "--force",
@@ -179,11 +209,11 @@ def main() -> int:
     args = parser.parse_args()
 
     TEI_DIR.mkdir(parents=True, exist_ok=True)
-    pdfs = select_pdfs(args.from_bib, args.pdf)
+    pdfs = select_pdfs(args.from_bib, args.pdf, args.manifest)
     if args.limit and args.limit > 0:
         pdfs = pdfs[: args.limit]
 
-    mode = "references.bib" if args.from_bib else "raw_pdf"
+    mode = "manifest" if args.manifest else ("references.bib" if args.from_bib else "raw_pdf")
     print(f"GROBID input mode: {mode}")
     print(f"GROBID input dir: {RAW_PDF_DIR}")
     print(f"GROBID output dir: {TEI_DIR}")

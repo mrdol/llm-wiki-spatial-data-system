@@ -243,14 +243,14 @@ estimator_eligibility:
 
 ## Bloc 4 - Typologie des donnees
 
-- Data type: spatio-temporel
-- Structure: panel_ou_series
+- Data type: spatial (coupe transversale, interpolation geostatistique)
+- Structure: coupe_transversale
 - N observations: 42612
 - k variables: 61
 - T periods: 13
 - Variable temporelle: MEASYEAR
-- N/T profile: N_grand_T_grand
-- Note N/T (session 2026-08-17, verification directe du `.rds`) : "N observations" (42612) est le nombre total de lignes du panel, pas le nombre d'unites spatiales distinctes. N spatial reel (geometries distinctes) = 42609 ; panel NON EQUILIBRE (T par unite : min=1, mediane=1, max=2). Pour tout estimateur spatial explicite (SAR/GWR/BYM/CAR) necessitant une matrice de voisinage W, construire W sur les 42609 unites spatiales distinctes, pas sur les 42612 lignes du panel -- sinon des coordonnees dupliquees degenerent le calcul de voisinage/distance.
+- N/T profile: N_grand (reclasse -- voir note)
+- Note structure (session 2026-09-23, TEI verifie en detail, reclasse de panel_ou_series) : le papier (Shen et al. 2024) construit deux modeles hybrides d'interpolation geostatistique statique -- boosted regression tree residual ordinary kriging (BRTOK) et LASSO residual ordinary kriging (LASOK) -- sur les placettes FIA (Forest Inventory and Analysis) de l'est des Etats-Unis. Recherche explicite dans le texte integral : **0 occurrence** de 'year'/'temporal'/'MEASYEAR'/'repeat[ed]' dans un contexte de modelisation -- la seule mention de 'repeated' concerne la repetition de la validation croisee a 10 plis, pas une repetition temporelle des mesures. MEASYEAR (annee de mesure FIA) n'est utilisee nulle part comme variable ou effet du modele : le kriging ordinaire est une methode d'interpolation spatiale statique par construction (semi-variogramme sur une seule surface), sans dimension temporelle. Coherent avec N spatial reel = 42609 sur 42612 lignes, T median=1 (verifie session 2026-08-17). Les auteurs traitent donc explicitement ce jeu comme une coupe transversale -- pas juste une inference statistique du projet a partir du N/T. La methode kriging (BRTOK/LASOK, semi-variogramme documente) reste une piste interessante pour une future route geostatistique cross-sectionnelle, distincte du chantier panel_fe/panel_sar_fe.
 
 ## Bloc 5 - Resolution et etendue
 
