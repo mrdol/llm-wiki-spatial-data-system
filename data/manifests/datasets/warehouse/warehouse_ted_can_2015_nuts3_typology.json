@@ -1,0 +1,41 @@
+{
+  "dataset_id": "warehouse_ted_can_2015_nuts3",
+  "package": "warehouse:ted",
+  "dataset": "TED_CAN_2015_NUTS3",
+  "source_lang": "R",
+  "conversion_method": "ted_csv_2015_nuts3_aggregation",
+  "rds_path": "data/final_datasets/sf/warehouse_ted_can_2015_nuts3.rds",
+  "bloc1": {
+    "candidate_y_variables": ["log_mean_award_value_eur", "log_total_award_value_eur"],
+    "candidate_x_variables": ["mean_number_offers", "single_bid_share", "share_services", "share_works", "share_eu_funds", "share_gpa", "share_framework_agreement", "share_electronic_auction", "share_cpv45_construction", "share_cpv71_arch_engineering", "share_cpv72_it_services", "share_cpv90_environment"],
+    "ml_candidate_x_variables": ["n_award_rows", "n_source_rows", "mean_number_offers", "single_bid_share", "mean_number_awards", "share_services", "share_works", "share_supplies", "share_eu_funds", "share_gpa", "share_framework_agreement", "share_electronic_auction", "share_subcontracted", "share_cpv45_construction", "share_cpv33_medical", "share_cpv71_arch_engineering", "share_cpv72_it_services", "share_cpv90_environment"],
+    "formula_used": "log_mean_award_value_eur ~ mean_number_offers + single_bid_share + share_services + share_works + share_eu_funds + share_gpa + share_framework_agreement + share_electronic_auction + share_cpv45_construction + share_cpv71_arch_engineering + share_cpv72_it_services + share_cpv90_environment",
+    "ml_formula": "log_mean_award_value_eur ~ n_award_rows + n_source_rows + mean_number_offers + single_bid_share + mean_number_awards + share_services + share_works + share_supplies + share_eu_funds + share_gpa + share_framework_agreement + share_electronic_auction + share_subcontracted + share_cpv45_construction + share_cpv33_medical + share_cpv71_arch_engineering + share_cpv72_it_services + share_cpv90_environment",
+    "formula_status": "system_generated_documented"
+  },
+  "bloc4": {
+    "N": 1043,
+    "T": 1,
+    "T_var": "year",
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_grand_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "MULTIPOLYGON",
+    "crs_epsg": 4326,
+    "bbox": [
+      -31.2593,
+      27.7349,
+      34.5884,
+      71.1735
+    ]
+  },
+  "qc": {
+    "raw_rows_without_usable_nuts3": 297647,
+    "multi_nuts3_rows_equal_weighted": 5246,
+    "regions_dropped_formula_na": 1,
+    "geometry_missing": false,
+    "formula_from_publication": false
+  }
+}

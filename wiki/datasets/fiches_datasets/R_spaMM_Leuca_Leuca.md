@@ -1,8 +1,8 @@
 ---
 title: R_spaMM_Leuca_Leuca
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-07
 sources:
   - data/final_datasets/sf/R_spaMM_Leuca_Leuca.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_spaMM_Leuca_Leuca
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 156 enregistrements dans l’artefact local R_spaMM_Leuca_Leuca.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [0.5, 68], y [0.5, 102]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific spatial random effects. Leucadrendron rubrum is a dioecious shrub from South Africa. Various phenotypes were recorded on individuals from a small patch of habitat.
 - Description source: package R `spaMM`
@@ -75,8 +75,45 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 ### Formule — niveau systeme
 
 - formula_used: fec_div ~ sex + Matern(1|x+y %in% sex)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: sex, Matern(1|x+y %in% sex)
 - y_term_used: fec_div
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "fec_div ~ sex + Matern(1|x+y %in% sex)"
+    response: "fec_div"
+    predictors: ["sex, Matern(1|x", "y %in% sex)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -99,11 +136,11 @@ A data set from Tonnabel et al. (2021) to be fitted by models with sex-specific 
 modeling_evidence:
   existing_model_found: true
   equation_text: "fec_div ~ sex + Matern(1|x+y %in% sex)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Tonnabel J., Klein E.K., Ronce O., Oddou-Muratorio S., Rousset F., Olivieri I., Courtiol A. and Mignot A. (2021) Sex-specific spatial variation in fitness in the highly dimorphic Leucadendron rubrum. Molecular Ecology, 30: 1721-1735."
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -113,7 +150,7 @@ modeling_evidence:
 - N observations: 156
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -137,6 +174,23 @@ modeling_evidence:
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
 
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "not_ready_non_continuous_response"
+  benchmark_task: "not_current_regression_benchmark"
+  package_include: "no"
+  has_local_rds: true
+  missing_items: "route classification/binomiale/survie ou transformation continue explicite requise"
+  reason: "La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel."
+```
+
+- Decision: not_ready_non_continuous_response
+- Manque principal: route classification/binomiale/survie ou transformation continue explicite requise
+- Raison: La variable reponse ou la formule n est pas une regression continue scalaire compatible avec le benchmark actuel.
+
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -151,3 +205,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `spaMM`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

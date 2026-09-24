@@ -21,12 +21,28 @@ build_estimator_formula <- function(y, x) {
   stats::as.formula(paste(y, "~", paste(x, collapse = " + ")))
 }
 
+protect_group_re_terms <- function(term_labels) {
+  # `stats::terms()` strips the outer parentheses from a `(1 | groupe)`
+  # term.label, returning the bare string "1 | groupe" as one atomic term
+  # (confirmed empirically -- it does NOT split it into "1" and "groupe").
+  # Rebuilding a formula from term.labels via paste()+as.formula() (as
+  # drop_formula_terms()/add_coords_to_formula() both do) then reparses that
+  # bare "1 | groupe" as a TOP-LEVEL stratification operator instead of an
+  # atomic additive term, corrupting the formula (e.g. "x1 + 1 | groupe"
+  # parses as "(x1 + 1) | groupe", not "x1 + (1 | groupe)"). Re-wrapping such
+  # terms in parentheses before rebuilding preserves the original grouping.
+  is_re <- grepl(group_random_intercept_pattern(), term_labels)
+  term_labels[is_re] <- paste0("(", term_labels[is_re], ")")
+  term_labels
+}
+
 drop_formula_terms <- function(formula, terms_to_drop, data = NULL) {
   # Retire certains termes d'une formule. Utilise surtout pour enlever
   # coord_x/coord_y avant l'appel au backend, car les coordonnees servent a la
   # structure spatiale mais ne doivent pas etre traitees comme covariables X.
   response <- deparse(formula[[2]])
   terms_to_keep <- setdiff(attr(stats::terms(formula, data = data), "term.labels"), terms_to_drop)
+  terms_to_keep <- protect_group_re_terms(terms_to_keep)
   rhs <- if (length(terms_to_keep) == 0) "1" else paste(terms_to_keep, collapse = " + ")
   stats::as.formula(paste(response, "~", rhs), env = environment(formula))
 }

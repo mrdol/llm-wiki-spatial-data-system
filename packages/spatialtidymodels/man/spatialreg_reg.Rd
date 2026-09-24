@@ -11,7 +11,8 @@ spatialreg_reg(
   model_type = NULL,
   k_neighbors = NULL,
   style = "W",
-  zero_policy = TRUE
+  zero_policy = TRUE,
+  pred_type = NULL
 )
 }
 \arguments{
@@ -28,6 +29,11 @@ spatialreg_reg(
 \item{style}{Style de standardisation \code{spdep::nb2listw()}.}
 
 \item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
+
+\item{pred_type}{Type de predicteur hors echantillon pour SAR/SEM (ignore
+pour SDM, qui garde sa forme reduite maison). \code{"TS"} (defaut) ou \code{"KP2"}
+(correction BLUP de Kelejian & Prucha, 2007) -- voir les notes dans
+\code{spatialreg_pred_impl()} avant d'activer \code{"KP2"} sur un grand jeu.}
 }
 \value{
 Une specification de modele \code{parsnip}.

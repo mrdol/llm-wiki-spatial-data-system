@@ -1,0 +1,2314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">The CAMELS data set: catchment attributes and meteorology for large-sample studies</title>
+				<funder>
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">US Army Corps of Engineers Climate Preparedness and Resilience programs</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-10-20">20 October 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Nans</forename><surname>Addor</surname></persName>
+							<email>n.addor@uea.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Research Applications Laboratory</orgName>
+								<orgName type="institution">National Center for Atmospheric Research</orgName>
+								<address>
+									<settlement>Boulder</settlement>
+									<region>CO</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">School of Environmental Sciences</orgName>
+								<orgName type="laboratory">Climatic Research Unit</orgName>
+								<orgName type="institution">University of East Anglia</orgName>
+								<address>
+									<settlement>Norwich</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Andrew</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Research Applications Laboratory</orgName>
+								<orgName type="institution">National Center for Atmospheric Research</orgName>
+								<address>
+									<settlement>Boulder</settlement>
+									<region>CO</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Naoki</forename><surname>Mizukami</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Research Applications Laboratory</orgName>
+								<orgName type="institution">National Center for Atmospheric Research</orgName>
+								<address>
+									<settlement>Boulder</settlement>
+									<region>CO</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Martyn</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Research Applications Laboratory</orgName>
+								<orgName type="institution">National Center for Atmospheric Research</orgName>
+								<address>
+									<settlement>Boulder</settlement>
+									<region>CO</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">The CAMELS data set: catchment attributes and meteorology for large-sample studies</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-10-20">20 October 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">B094083420772B718CEBCC3710C49ED7</idno>
+					<note type="submission">Received: 22 March 2017 -Discussion started: 30 March 2017 Revised: 4 September 2017 -Accepted: 8 September 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:13+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We present a new data set of attributes for 671 catchments in the contiguous United States (CONUS) minimally impacted by human activities. This complements the daily time series of meteorological forcing and streamflow provided by Newman et al. (2015b). To produce this extension, we synthesized diverse and complementary data sets to describe six main classes of attributes at the catchment scale: topography, climate, streamflow, land cover, soil, and geology. The spatial variations among basins over the CONUS are discussed and compared using a series of maps. The large number of catchments, combined with the diversity of the attributes we extracted, makes this new data set well suited for large-sample studies and comparative hydrology. In comparison to the similar Model Parameter Estimation Experiment (MOPEX) data set, this data set relies on more recent data, it covers a wider range of attributes, and its catchments are more evenly distributed across the CONUS. This study also involves assessments of the limitations of the source data sets used to compute catchment attributes, as well as detailed descriptions of how the attributes were computed.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Catchment attributes are descriptors of the landscape. Their interplay shapes catchment behavior by influencing how catchments store and transfer water. To synthesize the multifaceted composition of catchments, catchment attributes necessarily cover a wide range of features, such as the catchment climate, hydrology, land cover, soil, geology, topography, and river network. Over the last decades, catchment attributes have been developed in a variety of ways and are the building blocks of countless hydrological studies.</p><p>A fruitful research direction is to explore interrelationships among catchment attributes. Key examples include how the interaction of climate and topography influences vegetation productivity <ref type="bibr" target="#b62">(Voepel et al., 2011)</ref>, how aridity affects the angle of stream intersections, thereby constraining the shape of the river network <ref type="bibr" target="#b53">(Seybold et al., 2017)</ref>, or the extent to which land cover influences annual streamflow <ref type="bibr" target="#b43">(Oudin et al., 2008)</ref> or evapotranspiration <ref type="bibr" target="#b70">(Zhang et al., 2001)</ref>. Catchment attributes are also a standard way to characterize catchment (dis)similarities and are consistently employed to develop catchment classifications (e.g., <ref type="bibr" target="#b35">McDonnell and Woods, 2004;</ref><ref type="bibr" target="#b63">Wagener et al., 2007;</ref><ref type="bibr" target="#b50">Sawicz et al., 2011;</ref><ref type="bibr" target="#b5">Berghuijs et al., 2014)</ref>. Furthermore, there have been considerable efforts to use catchment attributes to reflect the structure of the landscape in models. One approach is to infer hydrological model parameter values from catchment attributes <ref type="bibr" target="#b0">(Abdulla and Lettenmaier, 1997;</ref><ref type="bibr" target="#b52">Seibert, 1999;</ref><ref type="bibr" target="#b30">Hundecha et al., 2008;</ref><ref type="bibr" target="#b49">Samaniego et al., 2010;</ref><ref type="bibr" target="#b29">Hrachowitz et al., 2013)</ref> with the parallel objectives of accounting for landscape characteristics in an explicit way (not only implicitly by calibration), and of implementing hydrological models in ungauged basins. Another approach is to base not only parameter values but also the choice of model structure on catchment attributes <ref type="bibr" target="#b12">(Clark et al., 2011;</ref><ref type="bibr" target="#b37">McMillan et al., 2011;</ref><ref type="bibr" target="#b20">Fenicia et al., 2014)</ref>. Both approaches provide guidance on how to deal with geophysical characteristics that vary dramatically within the model domain, for instance, in the context of continental-scale modeling.</p><p>Although catchment attributes are routinely used when working with a handful of catchments, there is a growing recognition that a large sample of catchments can provide insights that cannot be gained from a small sample <ref type="bibr" target="#b23">(Gupta et al., 2014)</ref>. Large-sample data sets enable us to concentrate on catchment similarities and on the formulation of conclusions that are valid for a large number of (gauged and ungauged) catchments. Individual catchments can then be considered to be part of a continuum of catchment attributes, which vary in space along several gradients (such as aridity or soil depth). Working with a large number of catchments enables us to study changes along different gradients and to better disentangle the effects of catchment attributes on catchment behavior. This is particularly useful for comparative hydrology, i.e., to identify how similarities and differences between locations influence ecohydrological processes <ref type="bibr" target="#b19">(Falkenmark and Chapman, 1989;</ref><ref type="bibr" target="#b58">Troch et al., 2009;</ref><ref type="bibr" target="#b56">Thompson et al., 2011;</ref><ref type="bibr" target="#b25">Harman and Troch, 2014)</ref>. Further, large-sample hydrology opens new opportunities for data analysis and, for instance, makes it possible to explore interrelationships between catchment attributes on the basis of their spatial patterns, as exemplified later in this study using map comparisons.</p><p>Several data sets of catchment attributes for large-sample hydrology now exist (see the review by <ref type="bibr" target="#b23">Gupta et al., 2014)</ref>. The large-sample data set introduced in this paper is an extension of the <ref type="bibr">Newman et al. (2015b)</ref> data set, referred to as N15 hereafter. N15 covers 671 catchment in the contiguous USA (CONUS), for which it provides daily meteorological forcing from three data sets, Daymet <ref type="bibr" target="#b57">(Thornton et al., 2012)</ref>, Maurer <ref type="bibr" target="#b34">(Maurer et al., 2002)</ref>, and NLDAS <ref type="bibr" target="#b68">(Xia et al., 2012)</ref>, as well as daily streamflow measurements from the United States Geological Survey (USGS). All those catchments have 20 years of continuous discharge records from 1990 to 2009 and are minimally impacted by human activities (see Sect. 2.1 in <ref type="bibr">Newman et al., 2015b)</ref>. Here, we cover the same catchments and provide additional quantitative estimates of a wide range of catchment attributes. We named this extended N15 data set the CAMELS data set, which stands for Catchment Attributes and MEteorology for Large-sample Studies.</p><p>Section 2 explains the motivations to extend the N15 data set. Sections 3-8 present six classes of basin characteristics: topographic characteristics, climate indices, hydrological signatures, and land cover, soil, and geology characteristics, respectively. These six sections are organized using the following structure. We first provide some research background on this class of basin characteristics, introduce the attributes we selected, and explain the reasons behind their se-lection. Since these attributes are well established, we briefly introduce them in the main text and provide further details in tables, which contain units and abbreviations for the attributes, as well as references to the equations and data sets used for their computation. We follow by discussing the spatial variations of these attributes across the CONUS and by assessing their main limitations of the source data sets. Section 9 compares the CAMELS data set to the Model Parameter Estimation Experiment data set (MOPEX; <ref type="bibr" target="#b17">Duan et al., 2006;</ref><ref type="bibr" target="#b51">Schaake et al., 2006)</ref>, another large sample of catchments for the CONUS. Section 10 discusses the online availability of the CAMELS data set and possible future extensions. Conclusions are presented in Sect. 11.</p><p>2 Motivations to extend the <ref type="bibr">Newman et al. (2015b)</ref> data set</p><p>In creating the CAMELS data set, we seek to achieve the following objectives:</p><p>1. In order to make a wide range of geophysical data sets available and comparable at the catchment scale, we compiled complementary catchment attributes from diverse data sources and synthesized them into a single coherent data set. These attributes have been available separately for some time, but comprehensive multivariate catchment-scale assessments have so far been difficult, because disparate data sets have different spatial configurations, are stored in different archives, and use different data formats. By creating catchment-scale estimates of these attributes, we simplify the assessment of their interrelationships.</p><p>2. To summarize meteorological forcing and discharge daily time series, we derived climate indices and hydrological signatures using the daily time series from N15. We selected climate indices and hydrological signatures that reduce the dimensionality of the hydroclimatic data sets, while preserving most of their information content. In other words, daily time series are rich in information, but summarizing this information makes catchment comparison easier.</p><p>3. For the characterization of catchment land cover, soil, and geology, we leveraged data sets not used in N15 in order to describe the land cover, soil, and geology of each catchment. The attributes we extracted are commonly used to explore catchment behavior and to support parameter estimation for hydrological and land surface models. A goal is to better assess how well those data sets capture the landscape features that matter for the storage and transfer of water across the landscape.</p><p>4. To define limitations in catchment attributes, our intention is not only to provide quantitative estimates of diverse catchment characteristics but also to explore and discuss limitations of those estimates. Catchment attributes are uncertain for different reasons, so we provide metadata of different kinds (e.g., the difference in basin area estimated using different data sources, or the fraction of soil poorly characterized). Our aims are (i) to contribute to raise awareness of uncertainties in geophysical attributes, which are frequently considered in a purely deterministic way, and (ii) to facilitate catchment selection based on the reliability of their attributes.</p><p>5. In order to ensure spatial consistency across the domain, we reduce the risk of generating artificial regional variations by using only data sets that cover the entire CONUS and not different data sets for different parts of the domain.</p><p>For most variables and catchments, the spatial resolution of the source data set (e.g., the remote-sensed land cover characteristics) is smaller than the catchments, making upscaling necessary. By default, the upscaling was done using the arithmetic mean, except where indicated otherwise.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Location and topography</head><p>Location information and topographic indices were extracted for each catchment by N15 (Table <ref type="table" target="#tab_0">1</ref>). We display these attributes on maps to introduce the main topographic features of the CONUS. Elevation obviously exerts a key control on catchment behavior (Fig. <ref type="figure" target="#fig_0">1a</ref>), as it strongly influences a wide range of catchment attributes that we present in this paper, such as soil depth, land cover, the fraction of the precipitation falling as snow, or streamflow seasonality. Figure <ref type="figure" target="#fig_0">1b</ref> illustrates that the eastern half of the CONUS is, with the exception of the Appalachian Mountains, much flatter than its western counterpart. Figure <ref type="figure" target="#fig_0">1c</ref> shows the spatial distribution of catchment size and highlights that there are some large catchments: five catchments have an area greater than 10 000 km 2 , and four of those are located in the Great Plains. Since we compute the catchment average of every attribute presented in this paper, it is important to keep mind that those catchment averages become less meaningful as the catchment area increases. In the context of hydrological modeling, the larger the catchment, the greater the need to account for spatial heterogeneity using some kind of spatially distributed representation.</p><p>As explained earlier, our aim is to reveal weaknesses in catchment characteristics and to discuss the impacts of such weaknesses for hydrological modeling. One way to do so is to compare different estimates of the same quantity, for instance, catchment area. Two methods were used to determine the contours of each catchment: geospatial fabric <ref type="bibr" target="#b60">(Viger, 2014;</ref><ref type="bibr" target="#b61">Viger and Bock, 2014)</ref> and GAGES II <ref type="bibr" target="#b18">(Falcone, 2011)</ref>. The polygons from geospatial fabric were instrumental to produce the N15 data set, since they were used to clip the gridded forcing data sets and the digital elevation model (from which elevation bands were derived), and importantly, they were used to estimate the area of each catchment, which enabled the conversion of discharge at the catchment outlet to average runoff depth over the catchment. It is hence essential to determine if the area computed from the geospatial fabric polygon is reliable. We compared it to the area computed using the GAGES II data set and computed the absolute relative error between the two estimates. In eight catchments, the error is greater than 100 % (red dots in Fig. <ref type="figure" target="#fig_0">1d</ref>), and in 62 catchments, the relative error is greater than 10 % (red and orange dots). Several of these catchments are located in the Great Basin and in California where the geospatial fabric had difficulty identifying watershed boundaries. Additionally, the geospatial fabric was not designed to exactly replicate basin area above gauging locations, but rather its development focused on continental-scale hydrologic modeling; thus, some basin area discrepancies are inherent in the development of the geospatial fabric. We recommend not using catchments with large error discrepancies with GAGES-II, as they are most likely erroneous in the geospatial fabric (e.g., <ref type="bibr" target="#b8">Bock et al., 2016)</ref>. Note that, in general, catchment delineation is more challenging in flat areas, but here errors in flat areas are relatively well contained, except in Florida.</p><p>4 Climatic indices</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Data and methods</head><p>Climatic indices were derived using the N15 meteorological forcing data. N15 includes forcing from three data sets (NL-DAS, Maurer, and Daymet), but for the computation of the indices only Daymet data were used. All the climate indices and hydrological signatures (Sect. 5) were computed for the period 1 <ref type="bibr">October 1989</ref><ref type="bibr">to 30 September 2009</ref><ref type="bibr">(hydrological years 1990</ref><ref type="bibr">to 2009)</ref>. The choice of this period was based on the proportion of missing daily discharge measurements (the forcing time series were all extracted from gridded data sets and are all complete). We consider this period to be long enough to derive climatological indices (in particular when rare events are characterized) and short enough to be little impacted by the lack of daily discharge measurements at the beginning and end of the period covered in N15 (1980-2014; see Fig. <ref type="figure" target="#fig_1">2</ref>).</p><p>There is a wide range of climatic indices in the literature. We selected indices with the goal to synthesize this myriad of possibilities and to provide direct support to the study of hydrological processes (Table <ref type="table" target="#tab_1">2</ref>). These indices characterize dry periods, high precipitation events, and the baseline over two timescales: the daily timescale (e.g., frequency of high precipitation events) and the seasonal timescale (e.g., the proportion of precipitation falling as snow).  At the seasonal timescale, we computed three indices: aridity, the fraction of the precipitation falling as snow, and the seasonality and timing of precipitation. These three indices were previously used for the classification of 321 catchments across the CONUS and were shown to provide relevant insights into the relationship between catchment behavior and their physiographic characteristics <ref type="bibr" target="#b5">(Berghuijs et al., 2014</ref>; note that we use slightly different formulations of these indices; see Table <ref type="table" target="#tab_1">2</ref>). Aridity is defined as the ratio of mean annual potential evapotranspiration over the mean annual precipitation. The occurrence of snow was estimated for daily time steps using a temperature threshold of 0 • C. The seasonality and timing of precipitation are combined into a single metric, which relies on sine curves representing the annual cycle of precipitation and temperature. Note that sine curves do not necessarily provide a good fit to the annual precipitation cycle, for instance, in areas experiencing a strong annual cycle and multiple consecutive months with low precipitation, such as California (see <ref type="bibr" target="#b6">Berghuijs and Woods, 2015</ref> for a solution to this issue), yet they enable a first-order characterization of the dominant climatological features of diverse locations, which is useful for studies such as this one. These three seasonal indices provide a good overview of the mean and seasonal climatic conditions but do not explicitly consider dry periods and intense precipitation events, which occur at different timescales and are key drivers of droughts and floods. To fill this gap, we considered the frequency of dry days and high precipitation events, as well as the mean duration of these events, and determined the season during which most of the high precipitation events 1985 1990 1995 2000 2005 2010 550 600 650 Center year of the time period Number of basins with less than 1 % (crosses) or 5 % (circles) of missing streamflow measurements 100 % of the basins 95 % 90 % 99 % 80 % 10 years 20 years 30 years 34 years Period length For the period 1990-2009, less than 1 % of the basins lack more than 1 % of daily streamflow measurements and dry days occur. This provides some insights into the precipitation regime (convective or stratiform) and phase (liquid or snow).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Spatial variability in climatic indices</head><p>The annual precipitation cycle is strongest over the Pacific coast (maximum in winter), over the northern Great Plains, and Florida (maximum in summer) and weakest along the Atlantic coast (Fig. <ref type="figure" target="#fig_2">3a</ref>). The fraction of precipitation falling as snow is highest over the Rocky, Cascade, and Sierra Nevada mountain ranges, followed by the Northeast and the Great Lakes regions (Fig. <ref type="figure" target="#fig_2">3b</ref>). Aridity is the highest over the Southwest, High Plains, and Great Plains, when in contrast, the Northwest, Northeast, and the Appalachians are the most humid regions (Fig. <ref type="figure" target="#fig_2">3c</ref>). High precipitation events occur most frequently in winter along the Pacific coast (Fig. <ref type="figure" target="#fig_2">3f</ref>) and are relatively long lasting (Fig. <ref type="figure" target="#fig_2">3e</ref>), which reflects their large (synoptic)-scale nature. In contrast, summertime convective systems (e.g., mesoscale systems) over the High Plains, Great Plains, and the upper and middle Mississippi Valley generate the most frequent high precipitation events. In the band stretching from Louisiana to Georgia, high pre- cipitation events are most frequent in winter, as the result of the intense extratropical cyclone activity. The frequency of dry days (Fig. <ref type="figure" target="#fig_2">3g</ref>) is closely related to aridity (Fig. <ref type="figure" target="#fig_2">3c</ref>). Catchments located in the region stretching from California to Texas typically experience the longest periods of successive dry days, while those in the Northeast are at the other end of the spectrum (Fig. <ref type="figure" target="#fig_2">3h</ref>). Dry days are particularly frequent in summer west of the Rocky Mountains, in winter in the Great Plains and Mississippi Valley, and in autumn in the Atlantic coast states (Fig. <ref type="figure" target="#fig_2">3i</ref>).</p><p>5 Hydrological signatures</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Data and methods</head><p>Hydrological signatures were chosen using a similar rationale as for climate indices: we aimed to capture the hydrological baseline, as well as low-flow and high-flow events. All signatures were computed using daily discharge time series retrieved by N15 from the USGS for the period 1 October 1989 to 30 September 2009 (Fig. <ref type="figure" target="#fig_1">2</ref>).</p><p>We selected signatures from the set that <ref type="bibr" target="#b50">Sawicz et al. (2011)</ref> used to explore the similarity between 280 catchments in the eastern US and classify them (Table <ref type="table" target="#tab_2">3</ref>). The runoff ratio indicates how much of the long-term precipitation leaves the catchment as streamflow, thereby reflecting losses to evapotranspiration and groundwater. We use the slope of the flow duration curve to characterize streamflow variability: steeper flow duration curves define greater variability over the year. The slope is computed between the log-transformed 33rd and 66th streamflow percentiles. In intermittent streams, the frequency of days with no flow can be greater than 33 %, so that Q33 = 0 mm day -1 . Since the logarithm cannot be extracted, the slope of the flow duration curve is undefined. The contribution of baseflow to the total discharge is estimated by the baseflow index computed by hydrograph separation using a digital filter implemented by <ref type="bibr" target="#b31">Ladson et al. (2013)</ref>. It has to be recognized that the technique used for the separation influences the estimated baseflow index (see <ref type="bibr" target="#b2">Beck et al., 2013 and</ref><ref type="bibr" target="#b31">Ladson et al., 2013</ref> for recent examples), yet hydrograph separation can provide valuable insights into catchment behavior (e.g., <ref type="bibr">Harman et al., 2011)</ref>, and the baseflow index has proven to be a useful variable to compare and classify large samples of catchments (e.g., <ref type="bibr" target="#b50">Sawicz et al., 2011;</ref><ref type="bibr" target="#b3">Beck et al., 2016)</ref>. Further, catchment response to a change in precipitation, which is particulary relevant in the context of climate change (e.g., <ref type="bibr" target="#b59">Vano et al., 2015)</ref>, was evaluated by computing the elasticity between annual precipitation and discharge. Finally, we characterized discharge seasonality using the half-flow date. This indicator is frequently used to quantify the impacts of climate change on the hydrology of snow-dominated catchments (e.g., <ref type="bibr" target="#b15">Court, 1962;</ref><ref type="bibr" target="#b55">Stewart et al., 2005;</ref><ref type="bibr" target="#b1">Addor et al., 2014)</ref>. The half-flow dates have been shown to occur earlier, as temperature increases can force both an earlier onset of snowmelt and a higher proportion of precipitation falling as rain.</p><p>Since the hydrological signatures introduced so far do not explicitly consider low-and high-flow events, we defined high-and low-flow days using thresholds based on the median and mean daily flow, respectively <ref type="bibr" target="#b13">(Clausen and Biggs, 2000;</ref><ref type="bibr" target="#b42">Olden and Poff, 2003;</ref><ref type="bibr" target="#b65">Westerberg and McMillan, 2015)</ref>. We computed the average duration and average frequency of high-and low-flow events. We also extracted 5th and 95th percentiles (Q5 and Q95, respectively) from the flow duration curve to characterize those events.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Spatial variability in hydrological signatures</head><p>The mean daily discharge and runoff ratio are strongly correlated (Fig. <ref type="figure" target="#fig_3">4a</ref> and <ref type="figure">b</ref>) and present clear similarities to catchment aridity (Fig. <ref type="figure" target="#fig_2">3c</ref>). In the Great Plains, where the evaporative demands exceed available precipitation (aridity &gt; 1), more than 80 % of the precipitation is evaporated (runoff ratio &lt; 0.2) and the mean annual discharge is often as low as 0.3 mm day -1 . In contrast, in the Pacific Northwest, precipitation is often twice as high as PET (aridity &lt; 0.5). Both the runoff ratio and the mean annual discharge are higher in the Pacific Northwest than in the Northeast, as can be expected from the seasonality of precipitation, which peaks in winter in the Pacific Northwest (Fig. <ref type="figure" target="#fig_2">3a</ref>). Most of the discharge flows during the first half of the year in the Pacific Northwest (Fig. <ref type="figure" target="#fig_3">4c</ref>). Streamflow is in contrast delayed by snow accumulation in the Rocky Mountains; it is also late in the Midwest (in part because of the seasonality of the precipitation, which peaks in summer), and in contrast early in the band stretching from eastern Texas to South Carolina (which is consistent again with the seasonality of precipitation). Similarities exists between the patterns of the slope flow of the duration curve and the baseflow index (Fig. <ref type="figure" target="#fig_3">4d</ref> and <ref type="figure">e</ref>), with lower baseflow index and higher slopes both indicating flashy catchments, a clear example being the area stretching from east Kansas to Kentucky. Finally, at the annual scale, the discharge of more arid catchments tends to react more strongly to annual precipitation anomalies (Fig. <ref type="figure" target="#fig_3">4f</ref>; see also <ref type="bibr" target="#b26">Harman et al., 2011)</ref>.</p><p>The frequency of low-and high-flow events is correlated (Fig. <ref type="figure" target="#fig_3">4g</ref> and <ref type="figure">j</ref>) and, by definition, both frequencies are low in catchments with a low slope of the flow duration curve (Fig. <ref type="figure" target="#fig_3">4d</ref>). High flows are least frequent and the most short lived in the Pacific Northwest and in the Appalachian Mountains, and when they occur, their absolute discharge is higher than in other regions (Fig. <ref type="figure" target="#fig_3">4i</ref>). Q5 is more than 10 times higher in the Pacific Northwest and in the Appalachian Mountains than in the most arid catchments, which reflects the capacity of these humid catchments to sustain baseflow.</p><p>Note that even though spatial patterns emerge from the maps in Fig. <ref type="figure" target="#fig_3">4</ref>, they tend to be less smooth than those of climate indices shown in Fig. <ref type="figure" target="#fig_2">3</ref>. In other words, there can be some strong variations over short distances, for instance, in the slope of the duration curve or in signatures related to extreme (high and low) streamflow conditions. Plausible explanations are that (i) hydrological signatures are the end result of the interactions between several non-linear processes (as opposed to the smaller number of processes controlling, for instance, the fraction of precipitation falling as snow), and (ii) hydrological signatures are sensitive to uncertainties in discharge measurements <ref type="bibr" target="#b66">(Westerberg et al., 2016)</ref>, which we suspect to contribute to sudden variations over short distances in the maps of particularly sensitive signatures, such as the slope of duration curve or signatures related to extreme streamflow conditions.</p><p>6 Land cover characteristics 6.1 Data and methods</p><p>We considered two key indicators of vegetation density: the leaf area index (LAI) and the green vegetation fraction (GVF), which approximates the vertical and horizontal density of vegetation, respectively. We used the 1 km land cover products derived from the Moderate Resolution Imaging Spectroradiometer (MODIS) data to estimate their climatological monthly values over 2002-2014. LAI is defined as the one-sided green leaf area per unit ground area in broadleaf canopies and as half the total needle surface area per unit ground area in coniferous canopies. We extracted the maximum monthly LAI, which can be used to constrain the maximum evaporative capacity and vegetation interception capacity in models. Seasonal variations in LAI are principally related to trees growing and shedding their leaves. To quantify these variations, we computed the difference between the maximum and minimum monthly LAI. In absolute terms, these variations are highest in areas of deciduous broadleaf forest. The GVF can be used in models to estimate the proportion of each grid cell covered by vegetation (1 minus the GVF gives the fraction of the grid cell from which evaporation occurs directly from the soil). Variations in the GVF are particularly high for croplands as a result of the growing and harvesting of the crops. Like for the LAI, we extracted the maximum monthly value of the GVF and the difference between the maximum and minimum monthly values. Additionally, we included the land cover class based on the International Geosphere-Biosphere Programme (IGBP) classification <ref type="bibr" target="#b4">(Belward, 1996)</ref> derived from MODIS data. For each catchment, we defined the dominant land cover class as the most frequent class based on all the grid points fully or partially contained in the basin (each grid cell was weighted based on how much of it was contained within the basin boundaries). The fraction of the catchment covered by the dominant class is an indicator of the representativeness of the dominant class for the whole catchment.</p><p>Finally, based on the IGBP land cover class of each grid point, we approximated the root-depth distribution based on <ref type="bibr" target="#b69">Zeng (2001)</ref>. The distribution is estimated using a twoparameter equation, the value of these parameters being dependent on the IGBP land cover. The root fraction decreases exponentially with soil depth: the depth of the soil layer encompassing the top 50 % of the root system is typically between 0.12 and 0.26 m depending on the land cover, and for the top 99 % of the root system, this depth is typically between 1.4 and 2.4 m and is often named "rooting depth".</p><p>We computed the root-depth distribution for each grid point based on its land cover. We then extracted the values associated with the following percentiles: 10, 25, 50, 75, and 99 %. For each percentile, the catchment average was estimated using the arithmetic mean. Table <ref type="table" target="#tab_3">4</ref> provides the complete list of land cover attributes that we considered.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Spatial variability in land cover characteristics</head><p>The maximum LAI and GVF are highly correlated (Fig. <ref type="figure" target="#fig_4">5a</ref> and <ref type="figure">d</ref>; see also the mean value for each land cover class in Fig. <ref type="figure" target="#fig_4">5j</ref>), which reflects that short vegetation tends to be sparse and forests of taller trees tend to be dense, but could also indicate that the MODIS data used to compute these two fields do not enable us to fully differentiate between vertical and horizontal vegetation density. These two fields are similar to that of the fraction of forest (Fig. <ref type="figure" target="#fig_4">5c</ref>, positive correlation) and aridity (Fig. <ref type="figure" target="#fig_4">5c</ref>, negative correlation), with arid catchments typically associated with a lower LAI and lower GVF. Note that because the catchments selected are minimally impacted by human activities, none of them are classified as predominantly urban (Fig. <ref type="figure" target="#fig_4">5f</ref>). The amplitude of the seasonal variations of LAI is strongly linked to the LAI maximum (Fig. <ref type="figure" target="#fig_4">5a</ref> and <ref type="figure">b</ref>). Overall, catchments dominated by land cover classes with a high LAI (e.g., deciduous broadleaf forest or mixed forest; Fig. <ref type="figure" target="#fig_4">5j</ref>) tend to experience a significant increase and drop of LAI, a clear exception to this rule being evergreen broadleaf forests (Fig. <ref type="figure" target="#fig_4">5j</ref>). The seasonal variations of GVF are particularly high for croplands, which is expected and reflects the growing-harvesting cycle. However, note that there are also important seasonal changes in the catchment dominated by the deciduous broadleaf forests (Fig. <ref type="figure" target="#fig_4">5j</ref>), although the horizontal tree density does not change significantly. Again, this suggests that the MODIS data do not enable to fully differentiate between vertical and horizontal vegetation. Users might hence decide to consider LAI only to summarize seasonal land cover variations.</p><p>To explore spatial variations in rooting depth, we used aridity and depth to bedrock (introduced in Sect. 7.1). Figure <ref type="figure" target="#fig_4">5k</ref> shows that in water-limited catchments (aridity &gt; 1) the rooting depth increases with aridity, which can be interpreted as a sign that trees increase their root-zone storage capacity to compensate for the overall lack of water. In more humid catchments (aridity &lt; 1), shallow soils seem to constrain the vertical development of roots of tall trees like evergreen needleleaf forest and deciduous broadleaf forest, and in contrast, mixed forest and evergreen broadleaf forest can develop deeper roots. These hypotheses illustrate how the CAMELS data set enables the joint exploration of diverse attributes for a large number of catchments.</p><p>7 Soil characteristics 7.1 Data and methods</p><p>The soil characteristics we derived are principally based on the State Soil Geographic Database (STATSGO) data set post-processed by <ref type="bibr" target="#b38">Miller and White (1998)</ref>. <ref type="bibr" target="#b38">Miller and White (1998)</ref> discretized the top 2.5 m of soil into 11 lay- ers, whose thickness increases with depth (from 5 cm for the two top layers to 50 cm for the three deepest ones). For each layer, they relied on the original STATSGO data to determine the dominant soil texture class. They considered a total of 16 classes: the 12 standard United States Department of Agriculture (USDA) soil texture classes plus 4 additional non-soil classes characterized as organic material, water, bedrock, and other. We estimated the saturated hydraulic conductivity and porosity (saturated volumetric water content) of each layer using the multiple regressions relying on sand and clay fraction originally proposed by <ref type="bibr" target="#b14">Cosby et al. (1984)</ref> and now commonly used for land surface modeling (e.g., <ref type="bibr" target="#b32">Lawrence and Slater, 2008)</ref>. For organic material, we used default values for the saturated hydraulic conductivity and porosity based on <ref type="bibr" target="#b32">Lawrence and Slater (2008)</ref>. Then, for each STATSGO polygon, we computed the average of each soil characteristic (see list in Table <ref type="table" target="#tab_4">5</ref>) over the top 1.5 m of soil using the following weighted mean:</p><formula xml:id="formula_0">X p = i=9 i=1 X i T i /S depth ,</formula><p>where X p designates the mean value of the variable X over the 1.5 m of soil (nine top layers; see first and second points below), X i is its value over layer i, T i is the thickness of layer i, and S depth is the cumulative depth of the layers. Then, for each catchment, we computed the weighted mean of the soil characteristics of the STATSGO polygons within the catchment, the weight being the fraction of the catchment covered by each polygon. For hydraulic conductivity, the harmonic mean was used instead of the arithmetic mean for the aver-aging along each soil column and across the catchment (see <ref type="bibr" target="#b49">Samaniego et al., 2010</ref> for a discussion on upscaling operators).</p><p>Before we start interpreting the results of the aggregation of STATSGO data to the catchment scale, we consider it important to discuss some key limitations of STATSGO. Those limitations were already underscored by <ref type="bibr" target="#b38">Miller and White (1998)</ref> and also affect more recent soil data sets. It is our impression that although they reduce our ability to correctly reflect soil properties in hydrological models, they are commonly overlooked. <ref type="bibr" target="#b38">Miller and White (1998)</ref> note that "[. . . ] only about 2.5 % of the components have layers extending below 203 cm (80 in). Accordingly, the bottom two standard layers contain meaningful data only for a minority of the map units". In other words, although the STATSGO data set is often perceived as describing the top 2.5 m of soil, over the majority of the CONUS only the top 1.5 m are covered, and data from the bottom 1 m in those areas are potentially misleading.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Limited depth</head><p>Low information content in the deepest layers They warn the reader that "for approximately half the components, the minimum and maximum depth to bedrock [. . . ] both have the value 152 cm (60 in); in the great majority of these cases, this indicates that this was the maximum depth to which soil was normally examined and bedrock was not actually encountered". This means that when the two last layers (1.5 to 2.5 m deep) are marked as bedrock, in about half of the cases, the bedrock has not actually been reached, which leads to an underestimation of the soil depth. Given these limitations, we decided to restrict our attention to the top 1.5 m of soil (i.e., to the top nine layers).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Only fine fraction characterized</head><p>The STATSGO sand, clay, and silt fraction are only for the portion of soil that is finer than 2 mm. That is, STATSGO data should certainly not be considered to be representative of the whole soil column, but it is also important to keep in mind that they does not either completely characterize its top part, since only the soil fraction finer than 2 mm is considered.</p><p>Lack of representativeness of the dominant soil texture class <ref type="bibr" target="#b38">Miller and White (1998)</ref> stress that STATSGO "units may be quite internally heterogeneous, with as much as 50 % of the map unit having soil properties that differ significantly from the map unit description".</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scale inadequacy</head><p>Although soil hydraulic properties can be measured in a lab, it is still unclear how to meaningfully upscale them to the catchment scale (these quantities can be characterized as incommensurate; <ref type="bibr" target="#b7">Beven, 2012)</ref>.</p><p>In a general sense, soil data sets only characterize the top soil layers, even when the soil can be much deeper (first and second points raised above). In fact, the soil depth of a catchment indicated as 1.5 m in STATSGO can be an order of magnitude greater. Uncertainties in soil depth are critical for hydrological modeling, in particular because they hamper the determination of the root-zone storage capacity <ref type="bibr" target="#b9">(Boer-Euser et al., 2016)</ref>. To explore those uncertainties, we included a recently released soil data set <ref type="bibr">(Pelletier et al., 2016, referred to as P16 in continuation)</ref>, from which we extracted the thickness of the permeable layers above bedrock, i.e., the depth to bedrock. The principal advantage of this data set is that it covers the top 50 m of soil. It comes on a global 30 arcsec (∼ 1 km) grid. We estimated the catchment average by computing the mean from all the grid points falling within each catchment. However, it does not provide information on soil texture classes, so it cannot be used to estimate variables like the saturated hydraulic conductivity or the porosity. Another key difference is that P16 leveraged geomorphological principles to obtain more precise estimates than what would be obtained by interpolating soil pit observations. We do not explicitly deal with the third and fifth points in this study but expect them to cause lower-than-expected performance when hydrological modeling relies on STATSGO or similar data sets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Spatial variability in soil characteristics</head><p>Once aggregated to the catchment scale, STATSGO data reveal the following features. Catchments with a sand fraction greater than 50 % are predominantly located along the Gulf Coast and the Atlantic coast, and in the Great Lakes region (Fig. <ref type="figure" target="#fig_5">6a</ref>). This leads to a relatively low porosity fraction and high saturated hydraulic conductivity (Fig. <ref type="figure" target="#fig_5">6d</ref> and <ref type="figure">e</ref>). Conversely, catchments with a silt fraction greater than 50 % are mostly located in a band stretching from Kansas to New York (Fig. <ref type="figure" target="#fig_5">6b</ref>). Catchments in this band also tend to feature a comparatively large clay fraction (Fig. <ref type="figure" target="#fig_5">6c</ref>). This implies a higherthan-average porosity fraction (Fig. <ref type="figure" target="#fig_5">6d</ref>). Although variables like porosity and saturated hydraulic conductivity are commonly relied upon for parameter estimation, we note that their value in terms of process understanding at the catchment scale should not be overestimated, given the limitations outlined in Sect. 7.1.</p><p>As for soil depth, STATSGO and P16 both indicate that the soil is shallower in the Appalachian Mountains than along the Gulf and Atlantic coasts. There are, however, disagreements in the Rocky Mountains (e.g., in Colorado) and in the Pacific Northwest: STATSGO indicates a soil depth equal to or greater than 1.5 m when the depth to bedrock according to P16 is smaller than 1 m. The lack of quantitative agreement between the two data sets appears clearly in Fig. <ref type="figure" target="#fig_5">6i</ref>. The lefthand part of the figure (orange background) includes all the catchments in which there can potentially be an agreement between STATSGO and P16, since the estimated depth to bedrock is equal to or smaller than 1.5 m. There is, however, considerable scatter around the 1 : 1 orange curve, which illustrates the uncertainty in estimates of the soil depth, which directly impact estimates of maximum water content of soils (Fig. <ref type="figure" target="#fig_5">6f</ref>). This issue is even clearer when the right-hand side of Fig. <ref type="figure" target="#fig_5">6i</ref> is considered. In about half of the catchments (47 %), the depth to bedrock is greater than 1.5 m, so it cannot be covered by STATSGO. For 24 % of the catchments, the depth to bedrock estimated using P16 is greater than 15 m, i.e., 10 times the depth covered by STATSGO. This underscores the inability of data sets like STATSGO to provide a realistic characterization of soils in areas of high sedimentary deposition.</p><p>Finally, we considered three metrics that can be considered as metadata. The fraction of the catchment characterized as "water" is relevant because it indicates the presence of lakes (Fig. <ref type="figure" target="#fig_5">6j</ref>). The "organic" fraction, which importantly impacts soil hydraulic properties, is negligible, but is non-negligible in many catchments in Florida and in the Great Lakes region (Fig. <ref type="figure" target="#fig_5">6k</ref>). The fraction of soil marked as "other" (for which no soil characteristics are available and which is ig-nored from the computation of all soil attributes) is significant in many catchments (Fig. <ref type="figure" target="#fig_5">6l</ref>). How detrimental that is will depend on the application. One way to assess this effect when using soil characteristics to explain the performance of hydrological models would be to test whether a clearer relationship is obtained by progressively excluding catchments with the highest fraction of soil marked as "other".</p><p>8 Geological characteristics</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.1">Data and methods</head><p>We used two complementary global sets to characterize the geology of each catchment. The first data set is the Global Lithological Map (GLiM) by <ref type="bibr" target="#b27">Hartmann and Moosdorf (2012)</ref>. GLiM synthesizes lithological data from 92 regional maps spread across the globe. The spatial resolution is remarkable, as GLiM relies on ∼ 1.2 million polygons to discretize the Earth's surface. Three levels of details are available. In this study, we focus on the first level, while the two other levels provide further details that could be processed at a later stage. The first level differentiates between 16 lithological classes (see the list of classes in the legend of Fig. <ref type="figure" target="#fig_6">7</ref>). We determined the contribution of each lithological class to the area of each catchment, and recorded the first and second most frequent classes within the catchment, as well as the fraction of the catchment they cover. The class "carbonate sedimentary rocks" is particularly relevant from a hydrological perspective (it designates areas likely to host karst systems); we hence also recorded the fraction of each catchment associated with this class. Finally, note that although a 0.5 • gridded version of GLiM is available, we used the more detailed polygon-based version for this study.</p><p>The second data set we used to characterize catchment geology is the GLobal HYdrogeology MaPS (GLHYMPS) of the subsurface permeability and porosity by <ref type="bibr" target="#b22">Gleeson et al. (2014)</ref>. GLHYMPS is based on GLiM spatial polygons, so its level of spatial detail is equally high. <ref type="bibr" target="#b22">Gleeson et al. (2014)</ref> principally relied on GLiM lithologic classes to derive quantitative estimates of two key characteristics of the geologic units below soil horizons: porosity and permeability (i.e., the ease of fluid flow through porous rocks and soils). For CAMELS, we produced catchment averages of these two variables, the contribution of each spatial polygon being weighted by the fraction of catchment it covers. The arithmetic mean was used for porosity, but for permeability, we followed <ref type="bibr" target="#b21">Gleeson et al. (2011)</ref> and used the geometric mean instead. The geological attributes are summarized in Table <ref type="table" target="#tab_5">6</ref>.</p><p>A clear advantage of these high-resolution global lithological maps is that they can be used to extract catchment-scale attributes for diverse parts of the globe. Yet, data quality is spatially variable, and caveats of the GLiM and GLHYMPS (outlined in the Sect. 3 of <ref type="bibr" target="#b22">Gleeson et al., 2014)</ref> should be kept in mind. In particular, there are unrealistic spatial discontinuities coinciding with jurisdictional boundaries in GLiM maps, which by construction also affect GLHYMPS maps (for instance, in the region of North and South Dakota).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.2">Spatial variability in geological characteristics</head><p>The four most frequent dominant geological classes in CAMELS catchments are siliciclastic sedimentary rocks (34 % of the catchments), unconsolidated sediments (19 %), metamorphic rocks (16 %), and carbonate sedimentary rocks (12 %). Unconsolidated sediments dominate in catchments along the Gulf Coast and along the southern to middle Atlantic coast (Fig. <ref type="figure" target="#fig_6">7a</ref>). In those catchments, both the subsurface porosity (Fig. <ref type="figure" target="#fig_6">7f</ref>) and permeability (Fig. <ref type="figure" target="#fig_6">7g</ref>) are high. The Pacific coast and the region north of the Appalachian Mountains features catchments rich in siliciclastic sedimentary rocks, leading to a comparatively low subsurface permeability. To the south of the Appalachian Mountains, metamorphic rocks are dominant, resulting in a particularly low subsurface porosity. Finally, the catchments with the highest proportion of carbonate sedimentary rocks are principally located in central-western Texas, in the region stretching from Lake Michigan to and including Missouri (Fig. <ref type="figure" target="#fig_6">7a</ref> and <ref type="figure">e</ref>) and to some extent in the Appalachian Mountains (Fig. <ref type="figure" target="#fig_6">7b</ref>). In addition to these three main regions, there are also isolated catchments with a high proportion of carbonate rocks, for instance, in Florida, Nevada, and Vermont. The subsurface permeability of those catchments is high. Overall, in 18 % of the CAMELS catchments, there is only one GLiM lithological type (Fig. <ref type="figure" target="#fig_6">7c</ref>), while in 11 % of the catchments, the dominant geological class accounts for less than 50 % of the catchment area (Fig. <ref type="figure" target="#fig_6">7d</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="9">Comparison with the MOPEX data set</head><p>The CAMELS data set is similar to the data set produced for MOPEX <ref type="bibr" target="#b17">(Duan et al., 2006;</ref><ref type="bibr" target="#b51">Schaake et al., 2006)</ref> in that it provides hydroclimatic time series and geophysical attributes for a large number of basins in the CONUS. MOPEX data have been used in a large number of studies, including two catchment similarity studies mentioned earlier <ref type="bibr" target="#b50">(Sawicz et al., 2011;</ref><ref type="bibr" target="#b5">Berghuijs et al., 2014)</ref>. For CAMELS, we use different criteria for catchment selection than those used for MOPEX, which leads to a relatively small overlap between the two data sets (they have 52 catchments in common; see Fig. <ref type="figure">8</ref>). The main differences between MOPEX and CAMELS are summarized in Table <ref type="table">7</ref>.</p><p>Both MOPEX and CAMELS require long observation time series and exclude catchments subject to human influence, but they use different approaches to characterize these aspects. For MOPEX, the stations that are part of the hydroclimatic data network (HCDN; <ref type="bibr" target="#b54">Slack and Landwehr, 1992)</ref> together with those selected by <ref type="bibr" target="#b64">Wallis et al. (1991)</ref> were con-  <ref type="bibr" target="#b33">Lins, 2012)</ref>: some catchments were excluded (e.g., because they no longer met the minimal disturbance criteria defined in the original HCDN report) and other catchments were added (e.g., because their streamflow records, which were considered too short when the original HCDN report was published, became long enough).</p><p>For a catchment to be part of the MOPEX data set, an essential criterion was that its number of rain gauges had to be higher than a threshold based on the catchment area. This led to the exclusion of 77 % of the potential MOPEX basins, resulting in only 438 basins considered to have a dense enough network of gauges. Although we do recognize the importance of reliable precipitation data for hydrological modeling, we did not exclude catchments based on their rain gage density. We argue that uncertainties in precipitation estimates (and in forcing in general) can now be assessed using independent data sets (e.g., <ref type="bibr">Newman et al., 2015a</ref>; see also Sect. 10 of this paper). We also consider that uncertainties in observed time series (in particular in discharge records; see <ref type="bibr" target="#b16">Coxon et al., 2015;</ref><ref type="bibr" target="#b36">McMillan and Westerberg, 2015)</ref> and uncertainties in catchment attributes (e.g., soil depth; see discussion in Sect. 7) can also lead to biased conclusions on hydrological processes and hence should also be considered in the catchment selection processes. Yet the influence of these sources of uncertainties on research results will depend on the catchments and variables of interest, so we leave it to the users to define their own criteria.</p><p>Overall, the data used for CAMELS are more recent than those used for MOPEX. The period covered by hydrometeorological time series <ref type="bibr">is 1948</ref><ref type="bibr" target="#b42">is -2003</ref><ref type="bibr">is for MOPEX and 1980</ref><ref type="bibr">is -2015</ref> for CAMELS, so given the fast rate of human development and the impacts caused by climate change, CAMELS provides a more current picture of hydrological processes in the United States. Further, CAMELS leverages new data sets, which were not available when the MOPEX data were released, for instance, to characterize soils <ref type="bibr" target="#b44">(Pelletier et al., 2016)</ref> and geology: GLiM <ref type="bibr" target="#b27">(Hartmann and Moosdorf, 2012)</ref> and <ref type="bibr">GLHYMPS (Glesson and et al., 2014)</ref>. Importantly, data used for CAMELS are not only more recent but also tend to be better documented. A clear example is that CAMELS meteorological time series come from three widely used gridded data sets (Daymet, Maurer, and NLDAS), while for MOPEX, station measurements were aggregated to provide catchmentscale estimates <ref type="bibr" target="#b51">(Schaake et al., 2006)</ref>.</p><p>Finally, we present a more detailed and transparent description of the origins and limitations of the data sets used to derive catchment attributes. A substantial part of this paper is dedicated to the discussion of the limitations of the source data sets, and we use competing approaches to estimate the same quantity, thereby revealing uncertainties in those attributes. This is motivated by the belief that identifying weaknesses in catchment attributes helps us to anticipate how they might bias conclusions of hydrological studies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="10">Online availability and possible future extensions</head><p>In summary, the CAMELS data set is the combination of two data sets, which are available for download separately:</p><p>1. the hydrometeorological time series introduced in N15 <ref type="bibr" target="#b39">(Newman et al., 2014</ref>; <ref type="url" target="https://doi.org/10.5065/D6MW2F4D">https://doi.org/10.5065/D6MW2F4D</ref>) and 2. the catchment attributes introduced in this paper <ref type="bibr" target="#b1">(Addor et al., 2017</ref>; <ref type="url" target="https://doi.org/10.5065/D6G73C3Q">https://doi.org/10.5065/D6G73C3Q</ref>).</p><p>Our intention with this paper is provide quantitative estimates of key geophysical attributes that shape catchment behavior. We see the data set in its current state as a starting point and anticipate that it will keep evolving and become more exhaustive. In particular, our next priority is to compute and make available network characteristics and descriptors of catchment geometry, such as drainage density and stream order statistics, which are important for the understanding and simulation of hydrological processes <ref type="bibr" target="#b47">(Rodríguez-Iturbe and Valdés, 1979;</ref><ref type="bibr" target="#b24">Gupta et al., 1980;</ref><ref type="bibr" target="#b46">Rinaldo et al., 1991)</ref>.</p><p>One of our goals is to enable users to assess the reliability of the attributes and to select catchments and interpret results accordingly, and more work is necessary for a complete We introduced a new set of attributes for 671 catchments in the contiguous USA. These attributes, together with the hydrometeorological time series provided by <ref type="bibr">Newman et al. (2015b)</ref> for the same catchments, constitute the CAMELS data set. The wide range of geophysical characteristics covered by these basins opens new opportunities to quantitatively explore how the interplay between topography, climate, land cover, soil, and geology shapes hydrological behavior. This enables us to test hypotheses and formulate conclusions valid in diverse conditions and not limited to a few specific locations.</p><p>We produced a series of maps depicting catchment attributes over the contiguous USA. We used these maps to examine regional variations of a wide range of attributes and to illustrate the relationships between them. From a practical perspective, our synthesis of several data sources into a single data set at the catchment scale greatly simplifies the comparative study of catchment characteristics and the exploration of their influence on hydrological processes.</p><p>An essential feature of this work is that it involves a critical assessment of the limitations of the data and methods used to derive catchment attributes, and a discussion of their consequences for process understanding and hydrological modeling. We highlight, in particular, uncertainties in soil attributes. By reviewing the assumptions made during the production and processing of the STATSGO data set, we aim to provide the context necessary to adequately manipulate and interpret these attributes. Other data sets also provide characteristics for a large number of catchments but usually deliver them without explicitly acknowledging their uncertainties.</p><p>The version of CAMELS introduced in this paper is a starting point. We plan to expand this data set by adding new catchment attributes and refining our characterization of the uncertainties in catchment attributes, forcing, and streamflow measurements. Furthermore, we designed the tables of this paper so that they fully describe the methods and data used to compute each attribute, in an effort to make our work transparent and reproducible.</p><p>To conclude, we envision that the CAMELS data set will enable progress on a wide range of hydrological challenges related to catchment similarity, model parameter estimation based on geophysical characteristics, model benchmarking, regional variations of model performance, and to the information content of geophysical data sets.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. (a-d) Maps of topographic characteristics over the CONUS. The histograms indicate the number of catchments (out of 671) in each bin. (e) Map of the regions referred to in this study (source: NOAA National Centers for Environmental Information; https://www.ncdc. noaa.gov/temp-and-precip/drought/nadm/geography).</figDesc><graphic coords="4,49.32,66.33,496.09,232.97" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Availability of streamflow measurements for periods of different lengths (colors) centered on different years (x axis). The symbols (crosses and circles) indicate the number of catchments with at most 1 or 5 % of daily streamflow measurements missing, respectively. The shape of the curves indicates that the proportion of missing data decreases from 1980 to 1990, stays low, and then increases after 2010. Note that years are hydrological years (starting on 1 October).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Maps of climatic indices over the CONUS. The histograms and bar plots indicate the number of catchments (out of 671) in each bin or category.</figDesc><graphic coords="6,49.32,66.33,496.07,346.07" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Maps of hydrological signatures over the CONUS. The histograms indicate the number of catchments (out of 671) in each bin.</figDesc><graphic coords="9,49.32,66.33,496.07,468.23" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. (a-i) Maps of vegetation characteristics over the CONUS. The histograms indicate the number of catchments (out of 671) in each bin. (j) Comparison of the LAI and GVF (maximum and difference between maximum and minimum) based on the dominant land cover class. (k) Comparison of the mean aridity, mean total rooting depth, and mean depth to bedrock for each land cover class; the colored dots all have the same size.</figDesc><graphic coords="10,49.32,66.33,496.07,478.42" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure6. Panels (a-h) and (j-l) show maps of soil characteristics over the CONUS. The histograms indicate the number of catchments (out of 671) in each bin. (i) Comparison of the estimates of the soil depth to bedrock from STATSGO and depth to bedrock from P16. The orange area includes all the catchments for which there can be an agreement between the two data sets (i.e., estimates from both data sets are smaller than or equal to 1.5 m). The orange curve is a 1 : 1 curve (note the logarithmic scale on the x axis).</figDesc><graphic coords="13,49.32,66.33,496.07,465.83" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Maps of geological characteristics over the CONUS. The histograms indicate the number of catchments (out of 671) in each bin.</figDesc><graphic coords="14,49.32,66.33,496.09,341.66" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><graphic coords="17,70.58,66.33,453.56,123.61" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Name, location, and topographic characteristics.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell>Unit</cell><cell>Data source</cell><cell>References</cell></row><row><cell>gauge_id</cell><cell>catchment identifier (eight-digit USGS</cell><cell>-</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell></cell><cell>hydrologic unit code)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>huc_02</cell><cell cols="2">region (two-digit USGS hydrologic unit code) -</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell>gauge_name</cell><cell>gauge name, followed by the state</cell><cell>-</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell>gauge_lat</cell><cell>gauge latitude</cell><cell>• N</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell>gauge_lon</cell><cell>gauge longitude</cell><cell>• E</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell>elev_mean</cell><cell>catchment mean elevation</cell><cell cols="2">m above sea level N15 -USGS data</cell><cell></cell></row><row><cell>slope_mean</cell><cell>catchment mean slope</cell><cell>m km -1</cell><cell>N15 -USGS data</cell><cell></cell></row><row><cell>area_gages2</cell><cell>catchment area (GAGESII estimate)</cell><cell>km 2</cell><cell>N15 -USGS data</cell><cell>Falcone (2011)</cell></row><row><cell cols="2">area_geospa_fabric catchment area (geospatial fabric estimate)</cell><cell>km 2</cell><cell cols="2">N15 -geospatial fabric Viger (2014);</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Viger and Bock (2014)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Climatic indices.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell>Unit</cell><cell>Data source</cell><cell>References</cell></row><row><cell>p_mean</cell><cell>mean daily precipitation</cell><cell>mm day -1</cell><cell>N15 -Daymet  *</cell><cell></cell></row><row><cell>pet_mean</cell><cell>mean daily PET, estimated by N15 us-</cell><cell>mm day -1</cell><cell>N15 -Daymet  *</cell><cell></cell></row><row><cell></cell><cell>ing Priestley-Taylor formulation calibrated for</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>each catchment</cell><cell></cell><cell></cell><cell></cell></row><row><cell>aridity</cell><cell>aridity (PET / P , ratio of mean PET, estimated</cell><cell>-</cell><cell>N15 -Daymet  *</cell><cell></cell></row><row><cell></cell><cell>by N15 using Priestley-Taylor formulation cal-</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>ibrated for each catchment, to mean precipita-</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>tion)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>p_seasonality</cell><cell>seasonality and timing of precipitation (esti-mated using sine curves to represent the an-nual temperature and precipitation cycles; pos-itive (negative) values indicate that precipita-tion peaks in summer (winter); values close to 0 indicate uniform precipitation throughout the year)</cell><cell cols="2">-N15 -Daymet  -N15 -Daymet  *</cell><cell></cell></row><row><cell>high_prec_freq</cell><cell>frequency of high precipitation days (≥ 5 times</cell><cell>days yr -1</cell><cell>N15 -Daymet  *</cell><cell></cell></row><row><cell></cell><cell>mean daily precipitation)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>high_prec_dur</cell><cell>average duration of high precipitation events</cell><cell>days</cell><cell>N15 -Daymet</cell><cell></cell></row><row><cell></cell><cell>(number of consecutive days ≥ 5 times mean</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>daily precipitation)</cell><cell></cell><cell></cell><cell></cell></row></table><note><p>* Eq. (14) in Woods et al. (2009) frac_snow fraction of precipitation falling as snow (i.e., on days colder than 0 • C) * high_prec_timing season during which most high precipitation days (≥ 5 times mean daily precipitation) occur season N15 -Daymet * low_prec_freq frequency of dry days (&lt; 1 mm day -1 ) days yr -1 N15 -Daymet * low_prec_dur average duration of dry periods (number of consecutive days &lt; 1 mm day -1 ) days N15 -Daymet * low_prec_timing season during which most dry days (&lt; 1 mm day -1 ) occur season N15 -Daymet * * Computed over the period 1 October 1989 to 30 September 2009.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Hydrological signatures.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell>Unit</cell><cell>Data source</cell><cell>References</cell></row><row><cell>q_mean</cell><cell>mean daily discharge</cell><cell>mm day -1</cell><cell>N15 -USGS data  *</cell><cell></cell></row><row><cell>runoff_ratio</cell><cell>runoff ratio (ratio of mean daily discharge to mean daily</cell><cell>-</cell><cell>N15 -USGS data  *</cell><cell>Eq. (2) in Sawicz et al. (2011)</cell></row><row><cell></cell><cell>precipitation)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>stream_elas</cell><cell>streamflow precipitation elasticity (sensitivity of</cell><cell>-</cell><cell>N15 -USGS data  *</cell><cell>Eq. (7) in Sankarasubramanian</cell></row><row><cell></cell><cell>streamflow to changes in precipitation at the annual</cell><cell></cell><cell></cell><cell>et al. (2001), the last element</cell></row><row><cell></cell><cell>timescale, using the mean daily discharge as reference)</cell><cell></cell><cell></cell><cell>being P /Q not Q/P</cell></row><row><cell>slope_fdc</cell><cell>slope of the flow duration curve (between the log-</cell><cell></cell><cell>N15 -USGS data  *</cell><cell>Eq. (3) in Sawicz et al. (2011)</cell></row><row><cell></cell><cell>transformed 33rd and 66th streamflow percentiles)</cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">baseflow_index baseflow index (ratio of mean daily baseflow to mean</cell><cell>-</cell><cell>N15 -USGS data  *</cell><cell>Ladson et al. (2013)</cell></row><row><cell></cell><cell>daily discharge, hydrograph separation performed using</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>the Ladson et al., 2013 digital filter)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>hfd_mean</cell><cell>mean half-flow date (date on which the cumulative dis-</cell><cell cols="2">day of year N15 -USGS data  *</cell><cell>Court (1962)</cell></row><row><cell></cell><cell>charge since 1 October reaches half of the annual dis-</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>charge)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Q5</cell><cell>5 % flow quantile (low flow)</cell><cell>mm day -1</cell><cell>N15 -USGS data  *</cell><cell></cell></row><row><cell>Q95</cell><cell>95 % flow quantile (high flow)</cell><cell>mm day -1</cell><cell>N15 -USGS data  *</cell><cell></cell></row><row><cell>high_q_freq</cell><cell>frequency of high-flow days (&gt; 9 times the median daily</cell><cell>days yr -1</cell><cell>N15 -USGS data  *</cell><cell>Clausen and Biggs (2000); Ta-</cell></row><row><cell></cell><cell>flow)</cell><cell></cell><cell></cell><cell>ble 2 in Westerberg and McMil-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>lan (2015)</cell></row><row><cell>high_q_dur</cell><cell>average duration of high-flow events (number of con-</cell><cell>days</cell><cell>N15 -USGS data  *</cell><cell>Clausen and Biggs (2000); Ta-</cell></row><row><cell></cell><cell>secutive days &gt; 9 times the median daily flow)</cell><cell></cell><cell></cell><cell>ble 2 in Westerberg and McMil-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>lan (2015)</cell></row><row><cell>low_q_freq</cell><cell>frequency of low-flow days (&lt; 0.2 times the mean daily</cell><cell>days yr -1</cell><cell>N15 -USGS data  *</cell><cell>Olden and Poff (2003); Ta-</cell></row><row><cell></cell><cell>flow)</cell><cell></cell><cell></cell><cell>ble 2 in Westerberg and McMil-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>lan (2015)</cell></row><row><cell>low_q_dur</cell><cell>average duration of low-flow events (number of consec-</cell><cell>days</cell><cell>N15 -USGS data  *</cell><cell>Olden and Poff (2003); Ta-</cell></row><row><cell></cell><cell>utive days &lt; 0.2 times the mean daily flow)</cell><cell></cell><cell></cell><cell>ble 2 in Westerberg and McMil-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>lan (2015)</cell></row><row><cell>zero_q_freq</cell><cell>frequency of days with Q = 0</cell><cell>%</cell><cell>N15 -USGS data  *</cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>* Computer over the period 1 October 1989 to 30 September 2009.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Land cover characteristics.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell cols="2">Unit Data source</cell><cell>References</cell></row><row><cell>forest_frac</cell><cell>forest fraction</cell><cell>-</cell><cell>N15 -USGS</cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell>data</cell><cell></cell></row><row><cell>lai_max</cell><cell>maximum monthly mean of the leaf area index (based</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>on 12 monthly means)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>lai_diff</cell><cell>difference between the maximum and minimum</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>monthly mean of the leaf area index (based on 12</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>monthly means)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>gvf_max</cell><cell>maximum monthly mean of the green vegetation frac-</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>tion (based on 12 monthly means)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>gvf_diff</cell><cell>difference between the maximum and minimum</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>monthly mean of the green vegetation fraction (based</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>on 12 monthly means)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>dom_land_cover</cell><cell>dominant land cover (Noah-modified 20-category</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>IGBP-MODIS land cover)</cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">dom_land_cover_frac fraction of the catchment area associated with the dom-</cell><cell>-</cell><cell>MODIS  *</cell><cell></cell></row><row><cell></cell><cell>inant land cover</cell><cell></cell><cell></cell><cell></cell></row><row><cell>root_depth_XX</cell><cell>root depth (percentiles XX = 50 and 99 % extracted</cell><cell>m</cell><cell>MODIS  *</cell><cell>Eq. (2) and Table 2 in</cell></row><row><cell></cell><cell>from a root depth distribution based on IGBP land</cell><cell></cell><cell></cell><cell>Zeng (2001)</cell></row><row><cell></cell><cell>cover)</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>* Period from 2002 to 2014.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>Soil characteristics.</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell>Unit</cell><cell>Data source</cell><cell>References</cell></row><row><cell>soil_depth_pelletier</cell><cell>depth to bedrock (maximum 50 m)</cell><cell>m</cell><cell>Pelletier et al. (2016)</cell><cell></cell></row><row><cell>soil_depth_statsgo</cell><cell>soil depth (maximum 1.5 m; layers marked as water and</cell><cell>m</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>bedrock were excluded)</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell>soil_porosity</cell><cell>volumetric porosity (saturated volumetric water content</cell><cell>-</cell><cell>Miller and White (1998)</cell><cell>Table 4 in Cosby et</cell></row><row><cell></cell><cell>estimated using a multiple linear regression based on</cell><cell></cell><cell>-STATSGO  *</cell><cell>al. (1984);</cell></row><row><cell></cell><cell>sand and clay fraction for the layers marked as USDA</cell><cell></cell><cell></cell><cell>Lawrence and</cell></row><row><cell></cell><cell>soil texture class and a default value (0.9) for layers</cell><cell></cell><cell></cell><cell>Slater (2008)</cell></row><row><cell></cell><cell>marked as organic material; layers marked as water,</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>bedrock, and "other" were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>soil_conductivity</cell><cell>saturated hydraulic conductivity (estimated using a mul-</cell><cell>cm h -1</cell><cell>Miller and White (1998)</cell><cell>Table 4 in Cosby et</cell></row><row><cell></cell><cell>tiple linear regression based on sand and clay fraction</cell><cell></cell><cell>-STATSGO  *</cell><cell>al. (1984);</cell></row><row><cell></cell><cell>for the layers marked as USDA soil texture class and a</cell><cell></cell><cell></cell><cell>Lawrence and</cell></row><row><cell></cell><cell>default value (36 cm h -1 ) for layers marked as organic</cell><cell></cell><cell></cell><cell>Slater (2008)</cell></row><row><cell></cell><cell>material; layers marked as water, bedrock, and "other"</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>max_water_content</cell><cell>maximum water content (combination of porosity and</cell><cell>m</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>soil_depth_statsgo; layers marked as water, bedrock,</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell></cell><cell>and "other" were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>sand_frac</cell><cell>sand fraction (of the soil material smaller than 2 mm;</cell><cell>%</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>layers marked as organic material, water, bedrock, and</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell></cell><cell>"other" were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>silt_frac</cell><cell>silt fraction (of the soil material smaller than 2 mm;</cell><cell>%</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>layers marked as organic material, water, bedrock, and</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell></cell><cell>"other" were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>clay_frac</cell><cell>clay fraction (of the soil material smaller than 2 mm;</cell><cell>%</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>layers marked as organic material, water, bedrock, and</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell></cell><cell>"other" were excluded)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>water_frac</cell><cell>fraction of the top 1.5 m marked as water (class 14)</cell><cell>%</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell>organic_frac</cell><cell>fraction of soil_depth_statsgo marked as organic mate-</cell><cell>%</cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>rial (class 13)</cell><cell></cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell>other_frac</cell><cell>fraction of soil_depth_statsgo marked as "other"</cell><cell></cell><cell>Miller and White (1998)</cell><cell></cell></row><row><cell></cell><cell>(class 16)</cell><cell>%</cell><cell>-STATSGO  *</cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>* Only covers the top 1.5 m.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 .</head><label>6</label><figDesc>Geological characteristics</figDesc><table><row><cell>Attribute</cell><cell>Description</cell><cell>Unit</cell><cell>Data</cell><cell>References</cell></row><row><cell></cell><cell></cell><cell></cell><cell>source</cell><cell></cell></row><row><cell>geol_class_1st</cell><cell>most common geologic class in the catchment</cell><cell>-</cell><cell>GLiM</cell><cell>Hartmann and Moosdorf (2012)</cell></row><row><cell cols="2">geol_class_1st_frac fraction of the catchment area associated with its most</cell><cell>-</cell><cell>GLiM</cell><cell>Hartmann and Moosdorf (2012)</cell></row><row><cell></cell><cell>common geologic class</cell><cell></cell><cell></cell><cell></cell></row><row><cell>geol_class_2nd</cell><cell>second most common geologic class in the catchment</cell><cell>-</cell><cell>GLiM</cell><cell>Hartmann and Moosdorf (2012)</cell></row><row><cell cols="2">geol_class_2nd_frac fraction of the catchment area associated with its second</cell><cell>-</cell><cell>GLiM</cell><cell>Hartmann and Moosdorf (2012)</cell></row><row><cell></cell><cell>most common geologic class</cell><cell></cell><cell></cell><cell></cell></row><row><cell>carb_rocks_frac</cell><cell>fraction of the catchment area characterized as "carbon-</cell><cell>-</cell><cell>GLiM</cell><cell>Hartmann and Moosdorf (2012)</cell></row><row><cell></cell><cell>ate sedimentary rocks"</cell><cell></cell><cell></cell><cell></cell></row><row><cell>geol_porosity</cell><cell>subsurface porosity</cell><cell>-</cell><cell cols="2">GLHYMPS Gleeson et al. (2014)</cell></row><row><cell>geol_permeability</cell><cell>subsurface permeability (log10)</cell><cell>m 2</cell><cell cols="2">GLHYMPS Gleeson et al. (2014)</cell></row><row><cell cols="2">sidered to select potential basins. For CAMELS, an updated</cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">version of the HCDN classification was used (HCDN-2009;</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Hydrol. Earth Syst. Sci., 21, 5293-5313, 2017 www.hydrol-earth-syst-sci.net/21/5293/2017/</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>www.hydrol-earth-syst-sci.net/21/5293/2017/ Hydrol. Earth Syst. Sci., 21, 5293-5313, 2017</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements. The <rs type="institution">National Center for Atmospheric Research (NCAR)</rs> is sponsored by the <rs type="funder">National Science Foundation</rs>. This study was supported by the <rs type="funder">US Army Corps of Engineers Climate Preparedness and Resilience programs</rs>. We thank <rs type="person">Mike Barlage</rs> for his advice on land cover characteristics and <rs type="person">Gemma Coxon</rs> and the two anonymous reviewers for their comments on the manuscript. Data processing and visualization were performed with R (R Core Team, 2017). Most colors were chosen using ColorBrewer 2.0 <ref type="bibr" target="#b10">(Brewer, 2017)</ref>. To conclude, let us highlight that hydrology is all about the storage and transfer of water across the landscape, and so are CAMELS.</p></div>
+			</div>
+			<listOrg type="funding">
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hydrometeorological time series provided by New- <ref type="formula">man et al. (2015b</ref><ref type="url" target="https://doi.org/10.5065/D6MW2F4D">https://doi.org/10.5065/D6MW2F4D</ref>) together with the catchment attributes <ref type="url" target="https://doi.org/10.5065/D6MW2F4D">introduced in this paper</ref> (<ref type="url" target="https://doi.org/10.5065/D6G73C3Q">https://doi.org/10.5065/D6G73C3Q</ref>) constitute the freely available CAMELS <ref type="url" target="https://doi.org/10.5065/D6G73C3Q">data set, which stands</ref> for Catchment Attributes and MEteorology for Large-sample Studies.</p></div>
+			</div>
+
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Data availability. The hydrometeorological time series (<ref type="url" target="https://doi.org/10.5065/D6MW2F4D">https://doi.org/10.5065/D6MW2F4D</ref>) from N15 and the catchment <ref type="url" target="https://doi.org/10.5065/D6MW2F4D">attributes introduced</ref> in this paper (<ref type="url" target="https://doi.org/10.5065/D6G73C3Q">https://doi.org/10.5065/D6G73C3Q</ref>) are freely available online.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Competing interests. The authors declare that they have no conflict of interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Gridded data from Daymet <ref type="bibr" target="#b57">(Thornton et al., 2012)</ref>, Maurer <ref type="bibr" target="#b34">(Maurer et al., 2002)</ref>, and NL-DAS <ref type="bibr" target="#b68">(Xia et al., 2012)</ref> Streamflow data USGS streamflow measurements Soil data STATSGO <ref type="bibr" target="#b38">(Miller and White, 1998)</ref> STATSGO <ref type="bibr" target="#b38">(Miller and White, 1998)</ref> and Pelletier et al. (2016) Vegetation data North America Land Data Assimilation (NL-DAS) MODIS imagery Geology data Not available GLiM (Hartmann and Moosdorf, 2012) and GLHYMPS (Glesson and et al., 2014) Reference papers Duan et al. (2006) and Schaake et al. (2006) Newman et al. (2015b) and this paper uncertainty assessment. Methods and data sets are, however, already available to quantitatively characterize uncertainties in following attributes:</p><p>Atmospheric forcing The N15 data set provides forcing from three data sets (Daymet, NLDAS, and Maurer) but in this study, we only use Daymet. Using the two other data sets might lead to some differences in climate indices, particularly when it comes to heavy precipitation events and/or to catchments with a sparse observation network. Another option to characterize the uncertainty in the forcing is to use the ensemble of gridded forcing produced by <ref type="bibr">Newman et al. (2015a)</ref>.</p><p>Discharge measurements Some hydrological signatures are more sensitive than others to uncertainties in discharge measurements <ref type="bibr" target="#b65">(Westerberg and McMillan, 2015)</ref>. Methods to characterize those uncertainties and explore their propagation into hydrological signatures in a large sample of catchments exist <ref type="bibr" target="#b16">(Coxon et al., 2015)</ref> but require detailed information on the rating curves used for discharge estimation, which were not readily available for this study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Soils</head><p>The STATSGO data set is subject to several critical limitations, many of them being overcome by the recently released POLARIS data set <ref type="bibr" target="#b11">(Chaney et al., 2016)</ref> and SoilGrids <ref type="bibr" target="#b28">(Hengl et al., 2017)</ref>. A key advantage of these two data sets is that they describe soil attributes at high resolution, using machine learning algorithms to estimate uncertainty.</p><p>Edited by: Fuqiang Tian Reviewed by: two anonymous referees</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 .</head><label>8</label><figDesc>A comparison of the spatial distribution of the catchments from (a) the MOPEX data set and (b) the CAMELS data set.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7 .</head><label>7</label><figDesc>Main differences and similarities between MOPEX and CAMELS.</figDesc><table><row><cell>Number of catchments common to MOPEX</cell><cell>52</cell><cell></cell></row><row><cell>and CAMELS</cell><cell></cell><cell></cell></row><row><cell>Period covered by the hydrometeorological</cell><cell>1948-2003</cell><cell>1980-2015</cell></row><row><cell>time series</cell><cell></cell><cell></cell></row><row><cell>Minimal anthropogenic influence and long</cell><cell>Wallis et al. (1991) and the hydroclimatic data</cell><cell>Updated version of the HCDN (HCDN-2009;</cell></row><row><cell>streamflow records assessed by the following:</cell><cell>network (HCDN; Slack and Landwehr, 1992)</cell><cell>Lins, 2012)</cell></row><row><cell>Rain gauge density used as catchment selection</cell><cell>Yes</cell><cell>No</cell></row><row><cell>criterion</cell><cell></cell><cell></cell></row><row><cell>Meteorological data</cell><cell>Point observations from National Climate Data</cell><cell></cell></row><row><cell></cell><cell>Center daily Cooperative Observer Network</cell><cell></cell></row><row><cell></cell><cell>(COOP) and SNOTEL stations. Long-term pre-</cell><cell></cell></row><row><cell></cell><cell>cipitation averages computed using 1961-1990</cell><cell></cell></row><row><cell></cell><cell>PRISM data</cell><cell></cell></row></table><note><p>MOPEX CAMELS</p><p>Number of catchments and spatial distribution 438 catchments, principally from the eastern half of the CONUS and with an underrepresentation of the Rocky Mountains 671 catchments, with a relatively even distribution over the CONUS</p></note></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Development of regional parameter estimation equations for a macroscale hydrologic model</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>Abdulla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0022-1694</idno>
+		<ptr target="https://doi.org/10.1016/S0022-1694" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrol</title>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="issue">96</biblScope>
+			<biblScope unit="page" from="3262" to="3263" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Robust changes and sources of uncertainty in the projected hydrological regimes of Swiss catchments</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Rössler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Köplin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Weingartner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seibert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Addor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mizukami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0022-1694(96)03262-3</idno>
+		<ptr target="https://doi.org/10.5065/D6G73C3Q" />
+	</analytic>
+	<monogr>
+		<title level="m">Catchment attributes for large-sample studies</title>
+		<imprint>
+			<date type="published" when="2014">2014. 2017</date>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="7541" to="7562" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Global patterns in base flow index and recession based on streamflow observations from 3394 catchments</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">I J M</forename><surname>Van Dijk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Miralles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A M</forename><surname>De Jeu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Bruijnzeel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Mcvicar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schellekens</surname></persName>
+		</author>
+		<idno type="DOI">10.5065/D6G73C3Q</idno>
+		<ptr target="https://doi.org/10.1002/2013WR013918" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="7843" to="7863" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Global-scale regionalization of hydrologic model parameters</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">I J M</forename><surname>Van Dijk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Roo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Miralles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Mcvicar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schellekens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Bruijnzeel</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2013WR013918</idno>
+		<ptr target="https://doi.org/10.1002/2015WR018247" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="3599" to="3622" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">The IGBP-DIS global 1 km land cover data set &quot;DISCover&quot; -Proposal and implementation plans</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Belward</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2015WR018247</idno>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<pubPlace>Stockholm</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Report of the Land Cover Working Group of the IGBP-DIS. IGBP-DIS Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Patterns of similarity of seasonal water balances: A window into streamflow variability over a range of time scales</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Berghuijs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H G</forename><surname>Savenije</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2014WR015692</idno>
+		<ptr target="https://doi.org/10.1002/2014WR015692" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="5638" to="5661" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A simple framework to quantitatively describe monthly precipitation and temperature climatology</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Berghuijs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2014WR015692</idno>
+		<ptr target="https://doi.org/10.1002/joc.4544" />
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Climatol</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="3161" to="3174" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Rainfall-Runoff Modelling: The Primer, 2nd Edn</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Beven</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/joc.4544</idno>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Wiley-Blackwell</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Parameter regionalization of a monthly water balance model for the conterminous United States</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Bock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">E</forename><surname>Hay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Mccabe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Markstrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Atkinson</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-20-2861-2016</idno>
+		<ptr target="https://doi.org/10.5194/hess-20-2861-2016" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="2861" to="2876" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Influence of soil and climate on root zone storage capacity</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Boer-Euser</surname></persName>
+		</author>
+		<author>
+			<persName><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hrachowitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Winsemius</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H G</forename><surname>Savenije</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-20-2861-2016</idno>
+		<ptr target="https://doi.org/10.1002/2015WR018115" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="2009" to="2024" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Brewer</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2015WR018115</idno>
+		<ptr target="http://colorbrewer2.org/" />
+		<imprint>
+			<date type="published" when="2017-10-05">5 October 2017</date>
+			<publisher>ColorBrewer</publisher>
+		</imprint>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">POLARIS: A 30-meter probabilistic soil series map of the contiguous United States</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">W</forename><surname>Chaney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Mcbratney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Hempel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">W</forename><surname>Nauman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Brungard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">P</forename><surname>Odgers</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.geoderma.2016.03.025</idno>
+		<ptr target="https://doi.org/10.1016/j.geoderma.2016.03.025" />
+	</analytic>
+	<monogr>
+		<title level="j">Geoderma</title>
+		<imprint>
+			<biblScope unit="volume">274</biblScope>
+			<biblScope unit="page" from="54" to="67" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Hydrological field data from a modeller&apos;s perspective: Part 2: Process-based evaluation of model hypotheses</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B G</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.geoderma.2016.03.025</idno>
+		<ptr target="https://doi.org/10.1002/hyp.7902" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Process</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="523" to="543" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Flow variables for ecological studies in temperate streams: Groupings based on covariance</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Clausen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J F</forename><surname>Biggs</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0022-1694(00)00306-1</idno>
+		<ptr target="https://doi.org/10.1016/S0022-1694(00)00306-1" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrol</title>
+		<imprint>
+			<biblScope unit="volume">237</biblScope>
+			<biblScope unit="page" from="184" to="197" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A Statistical Exploration of the Relationships of Soil Moisture Characteristics to the Physical Properties of Soils</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Cosby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Hornberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Clapp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Ginn</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/WR020i006p00682</idno>
+		<ptr target="https://doi.org/10.1029/WR020i006p00682" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="682" to="690" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Measures of streamflow timing</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Court</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/JZ067i011p04335</idno>
+		<ptr target="https://doi.org/10.1029/JZ067i011p04335" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Geophys. Res</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="page" from="4335" to="4339" />
+			<date type="published" when="1962">1962</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A novel framework for discharge uncertainty quantification applied to 500 UK gauging stations</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Coxon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Freer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">K</forename><surname>Westerberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Woods</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Smith</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/JZ067i011p04335</idno>
+		<ptr target="https://doi.org/10.1002/2014WR016259" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="5531" to="5546" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Model Parameter Estimation Experiment (MOPEX): An overview of science strategy and major results from the second and third workshops</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Duan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schaake</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Andréassian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Franks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Goteti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">V</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">M</forename><surname>Gusev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Habets</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hogue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Leavesley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">N</forename><surname>Nasonova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Noilhan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Oudin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sorooshian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Wood</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jhydrol.2005.07.031</idno>
+		<ptr target="https://doi.org/10.1016/j.jhydrol.2005.07.031" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrol</title>
+		<imprint>
+			<biblScope unit="volume">320</biblScope>
+			<biblScope unit="page" from="3" to="17" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">GAGES-II: Geospatial Attributes of Gages for Evaluating Streamflow, Digital spatial data set</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Falcone</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jhydrol.2005.07.031</idno>
+		<ptr target="http://water.usgs.gov/GIS/metadata/usgswrd/XML/gagesII_Sept2011.xml" />
+		<imprint>
+			<date type="published" when="2011-10-10">2011. 10 October 2013. 2011</date>
+		</imprint>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Comparative hydrology An ecological approach to land and water resources Unesco</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Falkenmark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chapman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+			<publisher>UNESCO</publisher>
+			<pubPlace>Paris</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Catchment properties, function, and conceptual model representation: is there a correspondence?</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Fenicia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H G</forename><surname>Savenije</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schoups</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pfister</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Freer</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.9726</idno>
+		<ptr target="https://doi.org/10.1002/hyp.9726" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Process</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="2451" to="2467" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Map-ping permeability over the surface of the Earth</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gleeson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Moosdorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hartmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Dürr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Manning</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">P H</forename><surname>Van Beek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Jellinek</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010GL045565</idno>
+		<ptr target="https://doi.org/10.1029/2010GL045565" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophys. Res. Lett</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="1" to="6" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A glimpse beneath earth&apos;s surface: GLobal HYdrogeology MaPS (GLHYMPS) of permeability and porosity</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gleeson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Moosdorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hartmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">P H</forename><surname>Van Beek</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010GL045565</idno>
+		<ptr target="https://doi.org/10.1002/2014GL059856" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophys. Res. Lett</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="3891" to="3898" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Large-sample hydrology: a need to balance depth with breadth</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">V</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Perrin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Blöschl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Montanari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Andréassian</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2014GL059856</idno>
+		<ptr target="https://doi.org/10.5194/hess-18-463-2014" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="463" to="477" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A representation of an instantaneous unit hydrograph from geomorphology</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">K</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Waymire</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-18-463-2014</idno>
+		<ptr target="https://doi.org/10.1029/WR016i005p00855" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="855" to="862" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">What makes Darwinian hydrology &quot;Darwinian&quot;? Asking a different kind of question about landscapes</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Harman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/WR016i005p00855</idno>
+		<ptr target="https://doi.org/10.5194/hess-18-417-2014" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="417" to="433" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Functional model of water balance variability at the catchment scale: 2. Elasticity of fast and slow runoff components to precipitation change in the continental United States</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Harman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-18-417-2014</idno>
+		<ptr target="https://doi.org/10.1029/2010WR009656" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="1" to="12" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The new global lithological map database GLiM: A representation of rock properties at the Earth surface</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hartmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Moosdorf</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010WR009656</idno>
+		<ptr target="https://doi.org/10.1029/2012GC004370" />
+	</analytic>
+	<monogr>
+		<title level="j">Geochem. Geophy. Geosy</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="1" to="37" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hengl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mendes De Jesus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">B M</forename><surname>Heuvelink</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Gonzalez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kilibarda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Blagotí</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shangguan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bauer-Marschallinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Guevara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Vargas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Macmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">H</forename><surname>Batjes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G B</forename><surname>Leenaars</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ribeiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mantel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Kempen</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2012GC004370</idno>
+		<ptr target="https://doi.org/10.1371/journal.pone.0169748" />
+	</analytic>
+	<monogr>
+		<title level="m">SoilGrids250m: Global Gridded Soil Information Based on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page">169748</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hrachowitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H G</forename><surname>Savenije</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Blöschl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Mcdonnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Pomeroy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Arheimer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Blume</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Ehret</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Fenicia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Freer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelfan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">V</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Hut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Montanari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Pande</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tetzlaff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Uhlenbrook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Winsemius</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Zehe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cudennec</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pone.0169748</idno>
+		<ptr target="https://doi.org/10.1080/02626667.2013.803183" />
+	</analytic>
+	<monogr>
+		<title level="m">A decade of Predictions in Ungauged Basins (PUB) -a review</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="1198" to="1255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Regional estimation of parameters of a rainfall-runoff model at ungauged watersheds using the &quot;spatial&quot; structures of the parameters within a canonical physiographic-climatic space</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hundecha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">B M J</forename><surname>Ouarda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bárdossy</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2006WR005439</idno>
+		<ptr target="https://doi.org/10.1029/2006WR005439" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A standard approach to baseflow separation using the Lyne and Hollick filter</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ladson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Nathan</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2006WR005439</idno>
+		<ptr target="https://doi.org/10.7158/W12-028.2013.17.1" />
+	</analytic>
+	<monogr>
+		<title level="j">Aust. J. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="25" to="34" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Incorporating organic soil into a global climate model</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lawrence</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Slater</surname></persName>
+		</author>
+		<idno type="DOI">10.7158/W12-028.2013.17.1</idno>
+		<ptr target="https://doi.org/10.1007/s00382-007-0278-1" />
+	</analytic>
+	<monogr>
+		<title level="j">Clim. Dynam</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="145" to="160" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">USGS Hydro-Climatic Data Network</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">F</forename><surname>Lins</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00382-007-0278-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Fact Sheet</title>
+		<imprint>
+			<biblScope unit="volume">3047</biblScope>
+			<date type="published" when="2009">2009. 2012. 2012</date>
+			<pubPlace>RestonVA, USA</pubPlace>
+		</imprint>
+	</monogr>
+	<note>HCDN-2009</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A Long-Term Hydrologically Based Dataset of Land Surface Fluxes and States for the Conterminous United States</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">P</forename><surname>Maurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nijssen</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/JCLI-D-12-00508.1</idno>
+		<ptr target="https://doi.org/10.1175/JCLI-D-12-00508.1" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Climate</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="9384" to="9392" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">On the need for catchment classification</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Mcdonnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/JCLI-D-12-00508.1</idno>
+		<ptr target="https://doi.org/10.1016/j.jhydrol.2004.09.003" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrol</title>
+		<imprint>
+			<biblScope unit="volume">299</biblScope>
+			<biblScope unit="page" from="2" to="3" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Rating curve estimation under epistemic uncertainty</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">K</forename><surname>Westerberg</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jhydrol.2004.09.003</idno>
+		<ptr target="https://doi.org/10.1002/hyp.10419" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Process</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="1873" to="1882" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Hydrological field data from a modeller&apos;s perspective: Part 1. Diagnostic tests for model structure</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">B</forename><surname>Bowden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Duncan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.10419</idno>
+		<ptr target="https://doi.org/10.1002/hyp.7841" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Process</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="511" to="522" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">A Conterminous United States Multilayer Soil Characteristics Dataset for Regional Climate and Hydrology Modeling</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>White</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.7841</idno>
+		<ptr target="https://doi.org/10.1175/1087-3562" />
+	</analytic>
+	<monogr>
+		<title level="j">Earth Interact</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="1998">1998. 1998</date>
+		</imprint>
+	</monogr>
+	<note>002&lt;0001:ACUSMS&gt;2.3.CO;2</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">A large-sample watershed-scale hydrometeorological dataset for the contiguous USA</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Viger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Blodgett</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/1087-3562(1998)002&lt;0001:ACUSMS&gt;2.3.CO;2</idno>
+		<ptr target="https://doi.org/10.5065/D6MW2F4D" />
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<pubPlace>Boulder, CO, UCAR/NCAR</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Gridded Ensemble Precipitation and Temperature Estimates for the Contiguous United States</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Craig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nijssen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Gutmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mizukami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Brekke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Arnold</surname></persName>
+		</author>
+		<idno type="DOI">10.5065/D6MW2F4D</idno>
+		<ptr target="https://doi.org/10.1175/JHM-D-15-0026.1" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrometeorol</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="2481" to="2500" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Development of a large-sample watershed-scale hydrometeorological data set for the contiguous USA: data set characteristics and assessment of regional variability in hydrologic model performance</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">E</forename><surname>Hay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Viger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Blodgett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Brekke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Arnold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hopson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Duan</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/JHM-D-15-0026.1</idno>
+		<ptr target="https://doi.org/10.5194/hess-19-209-2015" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="209" to="223" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Redundancy and the choice of hydrologic indices for characterizing streamflow regimes</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Olden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">L</forename><surname>Poff</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-19-209-2015</idno>
+		<ptr target="https://doi.org/10.1002/rra.700" />
+	</analytic>
+	<monogr>
+		<title level="j">River Res. Appl</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="101" to="121" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Has land cover a significant impact on mean annual streamflow? An international assessment using 1508 catchments</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Oudin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Andréassian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lerat</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Michel</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/rra.700</idno>
+		<ptr target="https://doi.org/10.1016/j.jhydrol.2008.05.021" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrol</title>
+		<imprint>
+			<biblScope unit="volume">357</biblScope>
+			<biblScope unit="page" from="303" to="316" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">A gridded global data set of soil, intact regolith, and sedimentary deposit thicknesses for regional and global land surface modeling</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Pelletier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Patrick</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Broxton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hazenberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zeng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G.-Y</forename><surname>Niu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Brunke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gochis</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jhydrol.2008.05.021</idno>
+		<ptr target="https://doi.org/10.1002/2015MS000526" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Adv. Model. Earth Syst</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="41" to="65" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<author>
+			<persName><forename type="first">Team</forename><surname>Core</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2015MS000526</idno>
+		<ptr target="http://www.r-project.org/" />
+		<title level="m">R: A Language and Environment for Statistical Computing</title>
+		<imprint>
+			<date type="published" when="2017-08">August 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Geomorphological dispersion</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Rinaldo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Marani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rigon</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/90WR02501</idno>
+		<ptr target="https://doi.org/10.1029/90WR02501" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="513" to="525" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Geomorphologic Structure of Hydrologic Response</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Rodríguez-Iturbe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Valdés</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/90WR02501</idno>
+		<ptr target="https://doi.org/10.1029/WR015i006p01409" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="1409" to="1420" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Climate elasticity of streamflow in the United States</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sankarasubramanian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Vogel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">F</forename><surname>Limbrunner</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2000WR900330</idno>
+		<ptr target="https://doi.org/10.1029/2000WR900330" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="1771" to="1781" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Multiscale parameter regionalization of a grid-based hydrologic model at the mesoscale</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Samaniego</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Attinger</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2008WR007327</idno>
+		<ptr target="https://doi.org/10.1029/2008WR007327" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">5523</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Catchment classification: empirical analysis of hydrologic similarity based on catchment function in the eastern USA</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Sawicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Carrillo</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2008WR007327</idno>
+		<ptr target="https://doi.org/10.5194/hess-15-2895-2011" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="2895" to="2911" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schaake</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Z</forename><surname>Cong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">Y</forename><surname>Duan</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-15-2895-2011</idno>
+	</analytic>
+	<monogr>
+		<title level="m">The US MOPEX data set</title>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="volume">307</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Regionalisation of parameters for a conceptual rainfall-runoff model</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seibert</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0168-1923(99)00105-7</idno>
+		<ptr target="https://doi.org/10.1016/S0168-1923(99)00105-7" />
+	</analytic>
+	<monogr>
+		<title level="j">Agr. Forest Meteorol</title>
+		<imprint>
+			<biblScope unit="page" from="279" to="293" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Climate&apos;s watermark in the geometry of stream networks</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seybold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">H</forename><surname>Rothman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Kirchner</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0168-1923(99)00105-7</idno>
+		<ptr target="https://doi.org/10.1002/2016GL072089" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophys. Res. Lett</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="2272" to="2280" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Hydro-Climatic Data Network (HCDN): A US Geological Survey streamflow data set for the United States for the study of climate variations, 1874-1988</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Slack</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Landwehr</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2016GL072089</idno>
+		<idno>92-129</idno>
+	</analytic>
+	<monogr>
+		<title level="s">US Geological Survey</title>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+			<pubPlace>Reston VA, USA</pubPlace>
+		</imprint>
+	</monogr>
+	<note type="report_type">Open-File Report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<monogr>
+		<author>
+			<persName><forename type="first">I</forename><surname>Stewart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cayan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Dettinger</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/JCLI3321.1</idno>
+		<ptr target="https://doi.org/10.1175/JCLI3321.1" />
+		<title level="m">Changes toward earlier streamflow timing across western North America, J. Climate</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<biblScope unit="page" from="1136" to="1155" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Comparative hydrology across AmeriFlux sites: The variable roles of climate, vegetation, and groundwater</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Harman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Konings</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Neal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/JCLI3321.1</idno>
+		<ptr target="https://doi.org/10.1029/2010WR009797" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="1" to="17" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title level="m" type="main">Daymet: Daily surface weather on a 1km grid for North America</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">E</forename><surname>Thornton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Thornton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Mayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wilhelmi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Cook</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010WR009797</idno>
+		<ptr target="http://daymet.ornl.gov/" />
+		<imprint>
+			<date type="published" when="1980">1980-2012. 20 January 2016. 2012</date>
+			<pubPlace>Oak Ridge, Tennessee, USA</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Oak Ridge National Laboratory Distributed Active Archive Center</orgName>
+		</respStmt>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Climate and vegetation water use efficiency at catchment scales</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Martinez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">R N</forename><surname>Pauwels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durcik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Harman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huxman</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.7358</idno>
+		<ptr target="https://doi.org/10.1002/hyp.7358" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Process</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="2409" to="2414" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Seasonal hydrologic responses to climate change in the Pacific Northwest</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Vano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nijssen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/hyp.7358</idno>
+		<ptr target="https://doi.org/10.1002/2014WR015909" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="1959" to="1976" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Preliminary spatial parameters for PRMS based on the Geospatial Fabric, NLCD2001 and SSURGO</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Viger</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2014WR015909</idno>
+		<ptr target="https://doi.org/10.5066/F7WM1BF7" />
+	</analytic>
+	<monogr>
+		<title level="s">US Geological Survey</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Viger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bock</surname></persName>
+		</author>
+		<idno type="DOI">10.5066/F7WM1BF7</idno>
+		<ptr target="https://doi.org/10.5066/F7542KMD" />
+		<title level="m">GIS Features of the Geospatial Fabric for National Hydrologic Modeling, US Geological Survey</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">Quantifying the role of climate and landscape characteristics on hydrologic parti-tioning and vegetation response</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Voepel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ruddell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Schumer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Neal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durcik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<idno type="DOI">10.5066/F7542KMD</idno>
+		<ptr target="https://doi.org/10.1029/2010WR009944" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sivapalan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Troch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010WR009944</idno>
+		<ptr target="https://doi.org/10.1111/j.1749-8198.2007.00039.x" />
+	</analytic>
+	<monogr>
+		<title level="m">Catchment Classification and Hydrologic Similarity</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">A daily hydroclimatological data set for the continental United States, Water Resour</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Wallis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">F</forename><surname>Wood</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1749-8198.2007.00039.x</idno>
+		<ptr target="https://doi.org/10.1029/91WR00977" />
+	</analytic>
+	<monogr>
+		<title level="j">Res</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="1657" to="1663" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Uncertainty in hydrological signatures</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">K</forename><surname>Westerberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-19-3951-2015</idno>
+		<ptr target="https://doi.org/10.5194/hess-19-3951-2015" />
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Earth Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="3951" to="3968" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Uncertainty in hydrological signatures for gauged and ungauged catchments</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">K</forename><surname>Westerberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wagener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Coxon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Castellarin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Montanari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Freer</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/hess-19-3951-2015</idno>
+		<ptr target="https://doi.org/10.1002/2015WR017635" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="1847" to="1865" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Analytical model of seasonal climate impacts on snow hydrology: Continuous snowpacks</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Woods</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/2015WR017635</idno>
+		<ptr target="https://doi.org/10.1016/j.advwatres.2009.06.011" />
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="1465" to="1481" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Continental-scale water and energy flux analysis and validation for the North American Land Data Assimilation System project phase 2 (NLDAS-2): 1. Intercomparison and application of model products</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sheffield</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Cosgrove</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Alonge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Meng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Livneh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lettenmaier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Koren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Duan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mocko</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011jd016048</idno>
+		<ptr target="https://doi.org/10.1029/2011jd016048" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Geophys. Res</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Global Vegetation Root Distribution for Land Modeling</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zeng</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011jd016048</idno>
+		<idno>&lt;0525:GVRDFL&gt;2.0</idno>
+		<ptr target="https://doi.org/10.1175/1525-7541" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Hydrometeorol</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">2</biblScope>
+			<date type="published" when="2001">2001. 2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Response of mean annual evapotranspiration to vegetation changes at catchment scale</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Dawes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">R</forename><surname>Walker</surname></persName>
+		</author>
+		<idno type="DOI">10.1175/1525-7541(2001)002&lt;0525:GVRDFL&gt;2.0.CO;2</idno>
+		<ptr target="https://doi.org/10.1029/2000WR900325" />
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="701" to="708" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

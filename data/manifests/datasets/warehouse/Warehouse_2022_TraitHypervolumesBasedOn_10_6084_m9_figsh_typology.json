@@ -1,0 +1,193 @@
+{
+  "dataset_id": "Warehouse_Warehouse_2022_TraitHypervolumesBasedOn_10_6084_m9_figsh",
+  "package": "warehouse:Warehouse_2022_TraitHypervolumesBasedOn_10_6084_m9_figsh",
+  "dataset": "Warehouse_2022_TraitHypervolumesBasedOn_10_6084_m9_figsh",
+  "source_lang": "python",
+  "conversion_method": "tabular_lonlat:specimen_localities_for_mapping_trait_hypervolumes.csv(decimalLongitude,decimalLatitude)",
+  "rds_path": "data/final_datasets/sf/Warehouse_Warehouse_2022_TraitHypervolumesBasedOn_10_6084_m9_figsh.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "Source",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 10,
+        "pct_na": 0.1
+      },
+      {
+        "name": "Identitiy_number",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[186450.0000, 1931390087.0000]",
+        "n_unique": 25039,
+        "pct_na": 65.8
+      },
+      {
+        "name": "scientificName",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 575,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Country",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 202,
+        "pct_na": 0.1
+      },
+      {
+        "name": "locality",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 36574,
+        "pct_na": 15.2
+      },
+      {
+        "name": "habitat",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 4358,
+        "pct_na": 91.6
+      },
+      {
+        "name": "day",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 32,
+        "pct_na": 20.9
+      },
+      {
+        "name": "month",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.0000, 19.0000]",
+        "n_unique": 13,
+        "pct_na": 18.0
+      },
+      {
+        "name": "year",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1766.0000, 2017.0000]",
+        "n_unique": 213,
+        "pct_na": 16.1
+      },
+      {
+        "name": "recordedBy",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 19301,
+        "pct_na": 15.1
+      },
+      {
+        "name": "rec.Number",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 13847,
+        "pct_na": 65.6
+      },
+      {
+        "name": "Error.Diam.",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.5000, 858.0000]",
+        "n_unique": 101,
+        "pct_na": 94.6
+      },
+      {
+        "name": "Min_Elev.M.",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-390.0000, 4350.0000]",
+        "n_unique": 1806,
+        "pct_na": 78.5
+      },
+      {
+        "name": "Max_Elev.M.",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-390.0000, 4350.0000]",
+        "n_unique": 1801,
+        "pct_na": 79.3
+      },
+      {
+        "name": "decimalLatitude",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-54.5000, 68.4591]",
+        "n_unique": 29018,
+        "pct_na": 0.0
+      },
+      {
+        "name": "decimalLongitude",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-177.9333, 178.5270]",
+        "n_unique": 29729,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Label..notes",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 1153,
+        "pct_na": 97.9
+      },
+      {
+        "name": "Georeferenced",
+        "class": "float64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.2
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 73566,
+    "T": 13,
+    "T_var": "month",
+    "k": 18,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_grand_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "EPSG:4326",
+    "bbox": {
+      "xmin": -177.9333,
+      "xmax": 178.527,
+      "ymin": -54.5,
+      "ymax": 68.4591
+    }
+  },
+  "qc": {
+    "vars_high_na": [
+      "Identitiy_number",
+      "habitat",
+      "day",
+      "rec.Number",
+      "Error.Diam.",
+      "Min_Elev.M.",
+      "Max_Elev.M.",
+      "Label..notes"
+    ],
+    "crs_missing": false,
+    "geom_complex": false
+  }
+}

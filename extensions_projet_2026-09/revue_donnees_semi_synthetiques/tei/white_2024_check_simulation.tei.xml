@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">How to check a simulation study</title>
+				<funder ref="#_YhaRapH">
+					<orgName type="full">Medical Research Council</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-10-18">18 October 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Ian</forename><forename type="middle">R</forename><surname>White</surname></persName>
+							<email>ian.white@ucl.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tra</forename><forename type="middle">My</forename><surname>Pham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Matteo</forename><surname>Quartagno</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tim</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<address>
+									<settlement>London</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="laboratory">MRC Clinical Trials Unit at UCL</orgName>
+								<orgName type="institution">by University College London user on</orgName>
+								<address>
+									<addrLine>90 High Holborn</addrLine>
+									<postCode>WC1V 6LJ</postCode>
+									<settlement>London</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">How to check a simulation study</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2023-10-18">18 October 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">5C147C777A5CC7FE332B6BD59EE5D14B</idno>
+					<idno type="DOI">10.1093/ije/dyad134</idno>
+					<note type="submission">Received: 27 January 2023. Editorial Decision: 3 August 2023. Accepted: 12 October 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:10+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Simulation studies</term>
+					<term>Monte Carlo</term>
+					<term>graphics for simulation</term>
+					<term>avoiding errors</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation studies are powerful tools in epidemiology and biostatistics, but they can be hard to conduct successfully. Sometimes unexpected results are obtained. We offer advice on how to check a simulation study when this occurs, and how to design and conduct the study to give results that are easier to check. Simulation studies should be designed to include some settings in which answers are already known. They should be coded in stages, with data-generating mechanisms checked before simulated data are analysed. Results should be explored carefully, with scatterplots of standard error estimates against point estimates surprisingly powerful tools. Failed estimation and outlying estimates should be identified and dealt with by changing data-generating mechanisms or coding realistic hybrid analysis procedures. Finally, we give a series of ideas that have been useful to us in the past for checking unexpected results. Following our advice may help to prevent errors and to improve the quality of published simulation studies.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Simulation studies are widely used to evaluate statistical methods in epidemiology and biostatistics. We, like many epidemiologists and biostatisticians, often find ourselves not believing, or being sceptical of, the results of a simulation study done by a colleague, a student or ourselves. This article makes a number of suggestions based on our experience of discovering mistakes in our own and collaborators' simulation studies. Our aims are to provide a structured approach to determining whether the results really are wrong and, if so, to identifying the source of the errors and how they can be corrected.</p><p>We can divide the execution of a simulation study into three stages: 'design' (identifying the aims, data-generating mechanisms, estimands, methods of analysis and performance measures 1 ); 'conduct' (writing the code to simulate multiple data sets and analyse each one, yielding a data set of estimates); and 'analysis' (computing the performance measures from the estimates data set). Our advice is intended to apply after the analysis stage is complete. Often the most useful advice is to go back and modify the design or conduct of the simulation study. We therefore structure our advice into these three stages of the simulation study. The advice given under 'design' and 'conduct' is equally applicable at the start of a simulation study. Some parts of our approach are very widely applicable whereas other parts are tailored to a specific setting: they are not all appropriate in every setting.</p><p>In this article, we first set out some established terminology for simulation studies and describe a running example simulation study. We then give our points of advice, arranged as 'design', 'conduct' and 'analysis'. Most of the points of advice are illustrated using the running example. Readers are encouraged to read the illustrations alongside the Stata and/or R code and output available in the <ref type="url" target="https://academic.oup.com/ije/article-lookup/doi/10.1093/ije/dyad134#supplementary-data">Supplementary Materials  (available as Supplementary data</ref> at IJE online) and at <ref type="url" target="https://github.com/UCL/simcheck">https://  github.com/UCL/simcheck</ref>. We end with a short summary.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Terminology</head><p>Table <ref type="table" target="#tab_0">1</ref> summarizes various terms used in simulation studies, including the aspects of a simulation study, the data sets used and some performance measures. <ref type="bibr" target="#b0">1</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>We illustrate our advice using a hypothetical simulation study exploring the use of multiple imputation for epidemiological data with missing values in the confounders (Table <ref type="table" target="#tab_1">2</ref> and Figure <ref type="figure" target="#fig_0">1</ref>). The study aims to compare multiple imputation with complete case analysis and is loosely based on a published study. <ref type="bibr" target="#b1">2</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Design: planning the simulation (i) Include a setting with known properties</head><p>We frequently do simulation studies to learn the properties of methods of analysis, but often we can identify a particular data-generating mechanism and a particular method of analysis where we know some aspect of the answer. This requires knowledge of the statistical properties of the methods. We can then check our results against these known answers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>In the multiple imputation simulation study, we included analysis of the full data before data deletion. Assuming the analysis procedure is correct, we expect this to be unbiased with correct coverage and more precise than any methods of analysis of the incomplete data. We also include a complete case analysis in a scenario with data missing completely at random, which is expected to be unbiased with correct coverage and less precise than multiple imputation methods of analysis. <ref type="bibr" target="#b1">2</ref> The above statements about lack of bias are not strictly correct, since logistic regression is biased in small samples. We could therefore include a further setting with a larger sample size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conduct: coding the simulation (ii) Write well-structured code</head><p>It is helpful to write code that separates data generation, data analysis and computation of performance measures, so that The difference between the model-based standard error and the empirical standard error, expressed as a fraction of the latter Coverage</p><p>The proportion of CIs that include the true estimand value a Strictly, the root mean square of the standard error estimates. each part can be studied separately. Code should be well commented to help collaborators and the coder's future self; the final code should later be published and comments will then help the general reader.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The Stata script simcheck02.do and the R script simcheck02.R separate out data generation and data analysis.</p><p>We will add the calculation of performance measures later.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(iii) Study a single very large data set</head><p>The code for data generation should next be used to generate a single very large data set. Viewing descriptive statistics (e.g. histogram of a continuous outcome, cross-tabulation of exposure by outcome event) allows a check that the data match one's intentions. In many cases, the model used to generate the data can be directly fitted to the simulated data. This should recover the parameters of the data-generating model such that CIs for the results usually include the known true values.</p><p>Then the simulation code should be used to do the analyses. The results should be carefully checked for correct background information (e.g. is the number of observations correct?) and for credibility. Again, where methods are known to be correct, CIs for the results should usually include the known true values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck03.do and simcheck03.R generate a single data set of size 100 000 using a particular data-generating mechanism. They include standard descriptive statistics such as a cross-tabulation of D against E, showing that there is an unconditional association between D and E (log odds ratio ¼ 0.74 in Stata and 0.70 in R). This is important because one way in which imputation procedures could perform badly is by failing to control for confounding. The scripts also show that the logistic regressions of E and D on C have coefficient values very near to the values in the data-generating mechanism and that the analysis program runs successfully.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(iv) Run the simulation with a small number of repetitions</head><p>The simulation code should next be checked with a small number of repetitions: three repetitions are often enough at this stage. The screen output should be switched on so that it can be studied. The size of the simulated data set should be checked for each repetition.</p><p>It is useful to verify that the second and third repetitions produce different data and results. Sometimes simulation code wrongly sets the random number state after starting the first repetition. If (for example) this is at the end of a repetition, then the second and third repetitions would produce identical data and results.</p><p>This is the first time that we have created an estimates data set so it is timely to check that the estimates data set has the right structure, is indexed with the correct simulation repetition number and contains values that match the values reported in the screen output. For example, sometimes users store a variance when they meant to store a standard error estimate. Confusion can arise if screen output displays exponentiated parameters (odds ratios) but estimates are stored on the estimation scale (log odds ratios).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck04.do and simcheck04.R run three repetitions of the simulation. The results look sensible and match the screen output.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(v) Anticipate analysis failures</head><p>If a certain method of analysis can be anticipated to cause an error in some simulated data sets (e.g. perfect prediction in a logistic regression), the code should be written to capture the error so that the simulation does not halt. The method failure (with error code) should be stored in the estimates data set. Strategies for handling failures are described in later points.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck05.do and simcheck05.R recognize that either the imputation step or the model fitting to the imputed data may fail. They therefore detect either of these failures and post missing values to the estimates data set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(vi) Make it easy to recreate any simulated data set</head><p>The estimates data set should include an identifier for the simulated data set alongside every estimate. If we can recreate the simulated data set for any particular identifier, then we can explore method failures and outliers (see points below). There are two ways to do this. One way is to store the random number state at the start of each data generation in a states data set so that the user can recreate any simulated data set. The alternative is to store every simulated data set.</p><p>Some analyses, such as multiple imputation, also use random numbers. Recreating such analyses requires resetting the appropriate random number state. One way is to recreate the simulated data set (as above) and then repeat the analysis; if multiple analyses use random numbers then they must all be repeated in the original order. The alternative is to store the random number state at the start of each stochastic analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck06.do and simcheck06.R store the random number states in a separate file. They then show how to reconstruct the third simulated data set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Analysis: method failures and outliers</head><p>Once the code is written and tested, we are ready to run the simulation study and start looking at the results. We first discuss detecting and handling method failures and outliers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(vii) Count and understand method failures</head><p>For each data-generating mechanism and method, the user should identify what fraction of repetitions led to failed estimation. The reasons for failed estimation need to be understood and the code should be improved if possible. That is, a bad optimization routine should be improved if it makes a method appear to fail. Unexpected results may be specific to particular software or packages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck07.do and simcheck07.R use a different data-generating mechanism from previous runs. Inspecting the estimates data set shows four method failures in Stata and two in R. On closer exploration of the simulated data sets, we find that these data are very sparse, having either no exposed individuals or no outcome events in the individuals with observed C (a random positivity violation that may not be intended), and this is causing the complete case analysis to fail. The R function glm behaves differently and returns estimates even in the absence of outcome events.</p><p>The sensible conclusion (in our setting in which positivity violations are not of main interest) is that the data-generating mechanism is too extreme and should be changed to generate more outcome events. For the purposes of illustration, we do not do this yet.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(viii) Look for outliers</head><p>It is important to examine the estimates data set carefully. A useful visual device is a scatter plot of the standard error estimate against the point estimate over all repetitions, separated by the data-generating mechanism and method. This scatter plot can identify the presence of outliers. Estimates can be outliers for the point estimate or the model-based standard error (or both). Such outliers are frequent causes, respectively, of unexpected bias and of unexpected error in the modelbased standard error. A small number of outliers by themselves do not affect coverage and often researchers are puzzled by, for example, a model-based standard error being apparently very large without any impact on coverage.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck08.do and simcheck08.R explore the estimates data sets produced by simcheck07.do and simcheck07.R. They plot the standard error estimates against the point estimates by method of analysis. Results differ between the packages. In Stata (Figure <ref type="figure">2</ref>, upper part), a substantial number of data sets have standard error estimates equal to zero, which indicates a problem with the analysis. Further inspection shows these data sets also have estimated coefficients equal to zero. In R (Figure <ref type="figure">2</ref>, lower part), a substantial number of data sets have very large standard error estimate (2000-5000). These also have large point estimates, mostly between -10 and -20, some near þ20.</p><p>We could change these outlying standard error estimates and their associated point estimates to missing values, but it is more important to understand their cause. We do this next.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(ix) Understand outliers</head><p>If outliers are found, it is helpful to open or recreate one or more of the corresponding simulated data sets. The user should verify the outlying estimate and explore the reasons for it, such as by checking details of the analysis output and by supplementary analysis such as exploring model residuals or imputed data values.</p><p>Example Scripts simcheck09.do and simcheck09.R each pull out one particular problem data set identified in point (viii). In both cases, the problem data set has no events among individuals with observed confounders. The different outputs from the two software packages (Figure <ref type="figure">2</ref>) arise from the packages' different handling of this problem. Stata has detected perfect prediction, <ref type="bibr" target="#b2">3</ref> has dropped the exposure variable E from the model and has reported zero values for the point estimate and its standard error estimate. R has performed estimation regardless, has found the parameter estimate going towards plus or minus infinity without achieving convergence and has reported values when approximate convergence is achieved.</p><p>Solutions to these problems are discussed next.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(x) Deal with outliers</head><p>Any outliers are likely to strongly affect estimates of performance. It may be appropriate to change the data-generating mechanism to avoid outlying estimates. Otherwise, if outlying estimates would not be believed or reported in practice-that is, if the issue would be detected and the method of analysis not used-then they should not be included in the analysis of the simulation results. One way to do this is to exclude simulated data sets that result in outlying estimates. However, this can introduce a selection bias because the excluded simulated data sets are unlikely to be representative. An alternative is to code an automatic 'backup procedure' when a method returns an absurd result. This changes the method being investigated from a pure method to a hybrid procedure and it should make performance measures more relevant to practice. Alongside any of these approaches, the number of method failures or outliers is a useful additional performance measure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>One way to avoid the problems seen in the multiple imputation simulation study is to increase the proportion of exposed away from the sparse case seen. We adopt this approach in the remaining points. Alternatively, if we were interested in the sparse case, we should ask whether outlying estimates might make sense in practice. An analyst might accept a log odds ratio of -15 and report an estimated odds ratio of zero, which implies either no events in the exposed group or no non-events in the unexposed. However, they should certainly not accept the very wide 95% CI. Instead they would probably use exact methods <ref type="bibr" target="#b3">4</ref> to generate a more correct CI. We could therefore code such exact methods into our simulation study as a backup procedure if extreme estimates are found.</p><p>A different way to fix the analysis, and a more convenient solution for the simulation study, is to handle perfect prediction by using penalized logistic regression. <ref type="bibr" target="#b4">5</ref> This could be done as a backup procedure in analyses exhibiting a problem or in all analyses. The latter is illustrated in simcheck10.do and simcheck10.R.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Analysis: unexpected findings (xi) Check Monte Carlo errors</head><p>Sometimes, some simulation findings are hard to believe: for example, a method selected to be unbiased appears to be biased or one method appears to be more precise than another when it should be less precise. In this case, it is important to look at the Monte Carlo errors and decide whether the findings are compatible with Monte Carlo error.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck11.do and simcheck11.R are our first complete runs of a simulation study avoiding sparse data. Results for bias suggest a larger bias in complete case analysis (e.g. in Stata -0.094) than in the other methods (-0.068 full data, þ0.063 multiple imputation). Given that we are simulating under missing completely at random, we expect complete case analysis to be unbiased. Instead of concluding that our code is wrong, we should spot that these results are compatible with Monte Carlo error-that is, the observed bias for complete case analysis is &lt;2 Monte Carlo standard errors (0.049 Â 2 ¼ 0.098) and hence is perfectly compatible with zero bias. In fact these results were produced with just 100 repetitions. To detect a bias of this magnitude, more repetitions (say 1000) are needed.</p><p>(xii) Why are model-based standard errors wrong?</p><p>If model-based standard errors disagree with the empirical standard errors, it is worth considering whether the sources of variation in the data-generating mechanism and analysis correspond. For example, in a missing data simulation study, if each repetition under a given data-generating mechanism starts from the same full data set, then uncertainty due to the full data set will be reflected in the model-based standard error but not in the empirical standard error, making them not comparable regardless of the analysis used.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>The scripts simcheck12.do and simcheck12.R demonstrate this issue. Previous scripts drew a new full data set for each repetition, but these scripts create each simulated data set by deleting values from the same full data set. The model-based standard errors (e.g. in Stata 0.52 and 0.46 for complete case analysis and multiple imputation, respectively) are found to be substantially larger than the empirical standard errors (0.27 and 0.17). This is because the model-based standard errors account for sampling variation in the full data set whereas the sampling variation in the full data set does not exist in the simulation study so is not reflected in the empirical standard error. One solution here is to generate a new full data set for each repetition.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(xiii) Why is coverage poor?</head><p>If coverage is poor, it is helpful to identify whether it is driven by bias, by intervals of the wrong width or both. Zip plots are a useful visualization devices for this purpose. They plot each interval, ordered according to compatibility with the true value, giving the impression of a 'zip' (or 'zipper'). <ref type="bibr" target="#b0">1</ref> Example Figure <ref type="figure" target="#fig_1">3</ref> shows illustrative zip plots, created by Stata script simzipplot.do and using the new siman suite in Stata (available at <ref type="url" target="https://github.com/UCL/siman">https://github.com/UCL/siman</ref>); a similar plot can be achieved using the rsimsum package in R. One thousand CIs are ranked by their P-values and coloured red if they fail to cover the true value: zero. The left-hand panel shows correct coverage. The middle panel shows low coverage due to negative bias, with most CIs (including an excess of non-covering ones) lying to the left of the true value. The right-hand panel shows low coverage due to low standard error, with an excess of non-covering CIs occurring symmetrically.</p><p>(xiv) Why are power and type I error wrong?</p><p>Somewhat different errors can arise when focusing on test characteristics. Some pitfalls are to interchange power and type I error, or to mistake one-sided and two-sided type I tests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Errors are easy to make if simulating a non-inferiority trial. <ref type="bibr" target="#b5">6</ref> Here, generating data under no treatment effect gives the power whereas generating data with a treatment effect equal to the margin gives the type I error rate.</p><p>(xv) When do unexpected findings occur?</p><p>If some findings remain hard to believe, it may be helpful to ask under what settings these findings occur. For example, if they occur only when the data-generating mechanism includes a particular source of variation, then maybe analyses are not allowing for this source of variation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>We encountered this problem in a simulation study in a metaanalysis. Roughly, data were generated under a common-effect model and a random-effects model. <ref type="bibr" target="#b6">7</ref> However, model-based standard errors were larger than empirical standard errors when data were generated under the random-effects model. It turned out that the random effects were being generated once at the start of the simulation study and not changed thereaftereffectively a fixed-effect rather than random-effects model. As a result, the empirical standard error did not account for variation in the random effects whereas the model-based standard errors did. Generating the random effects afresh at each repetition fixed the problem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(xvi) General checking method</head><p>If after the above steps the results of the simulation study are still in doubt, it can be useful to recode the simulation study in a different statistical package or have a different person code it. Sometimes another closely related simulation study that has been published with code is helpful. The user should first check that the published code does reproduce the published results. They can then change the published data-generating mechanisms to match those in the current simulation study (as closely as possible), run them and compare the results. Alternatively they can change their own datagenerating mechanism parameters to match the published ones (as closely as possible) and run them and compare the results. This should help to narrow down where any errors are occurring. However, if code has been carefully checked and still gives an unexpected result, it is important to consider that the findings may be genuine showing that the theory may be wrong.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A successful simulation study</head><p>The scripts simcheck99.do and simcheck99.R show a successful simulation study using three missing data mechanisms: MCAR, missing completely at random; MAR, missing at random; and MNAR, missing not at random. There are many MAR and MNAR mechanisms, and our results apply only to the particular mechanisms chosen. Results from the Stata code are shown in Table <ref type="table" target="#tab_2">3</ref>. Entries in italics show results to be compared against existing knowledge: for example, multiple imputation has empirical standard error between full data and complete case analysis. Entries in bold show the key findings, namely (i) complete case analysis shows evidence of bias under MAR only; (ii) multiple imputation (MI) shows evidence of bias under MNAR only; and (iii) coverage of 95% CIs is acceptable for both methods, despite these biases and small errors in the model-based standard error.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>Our advice covers a number of issues that have caused difficulties in simulation studies that we have worked on, and we hope they are useful to others. Other useful literature on simulation studies is available. <ref type="bibr" target="#b0">1,</ref><ref type="bibr" target="#b7">8</ref> Our motivation was to explain surprising simulation results after a simulation study is run, but quality should be designed in from the start. We stress that simulation studies should be designed to be easy to check and should be checked repeatedly during the conduct and analysis stages. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Directed acyclic graphs showing the data-generating mechanisms used in the example simulation study under three missing data mechanisms: missing completely at random (MCAR), missing at random (MAR) and missing not at random (MNAR). C is the confounder, E is the exposure, D is the outcome and M C denotes whether C is missing</figDesc><graphic coords="3,98.36,53.86,420.80,153.47" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Zip plots illustrating correct coverage, undercoverage due to bias and undercoverage due to low standard error</figDesc><graphic coords="6,92.98,53.86,420.80,228.47" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><graphic coords="4,135.04,556.84,336.57,177.11" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Terms used in simulation studies<ref type="bibr" target="#b0">1</ref> </figDesc><table><row><cell>Term</cell><cell>Explanation</cell></row><row><cell>Aspects of a simulation study 1</cell><cell></cell></row><row><cell>Aims</cell><cell>What question(s) the simulation study addresses</cell></row><row><cell>Data-generating mechanisms</cell><cell>How the simulated data sets are to be generated</cell></row><row><cell>Estimands</cell><cell>The quantity or quantities to be estimated by the analysis of each simulated data set</cell></row><row><cell>Methods of analysis</cell><cell>How the simulated data sets are to be analysed: typically producing a point estimate, its</cell></row><row><cell></cell><cell>standard error estimate and a CI</cell></row><row><cell>Performance measures</cell><cell>How the performance of the methods of analysis is to be summarized</cell></row><row><cell>Implementation</cell><cell>How the simulation is to be performed, including the software used, the number of</cell></row><row><cell></cell><cell>repetitions and the handling of random number states</cell></row><row><cell>Data sets involved in a simulation study 1</cell><cell></cell></row><row><cell>Simulated data set</cell><cell>A data set produced by one of the data-generating mechanisms in one repetition</cell></row><row><cell>Estimates data set</cell><cell>A data set containing results of each method of analysis for each simulated data set</cell></row><row><cell></cell><cell>across many repetitions, used to estimate performance</cell></row><row><cell>States data set</cell><cell>A data set containing random number states for each simulated data set, that can be</cell></row><row><cell></cell><cell>used to recreate any simulated data set</cell></row><row><cell>Performance measures data set</cell><cell>A data set containing the estimated performance measures for each data-generating</cell></row><row><cell></cell><cell>mechanism and each method of analysis</cell></row><row><cell>Some performance measures</cell><cell></cell></row><row><cell>Bias</cell><cell>How the mean point estimate differs from the true estimand value</cell></row><row><cell>Empirical standard error</cell><cell>The standard deviation of the point estimates in an estimates data set</cell></row><row><cell>Model-based standard error</cell><cell>The average a standard error estimate in an estimates data set</cell></row><row><cell>Relative error in model-based standard error</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Key features of the example simulation study</figDesc><table><row><cell>Aim</cell><cell>To compare multiple imputation with complete case analysis</cell></row><row><cell>Data-generating methods a</cell><cell>Quantitative confounder C is drawn from a standard Normal distribution. Binary exposure E and</cell></row><row><cell></cell><cell>binary outcome D are drawn from logistic models depending on C (so E does not cause D). Values</cell></row><row><cell></cell><cell>of C are made missing, initially using a missing completely at random model.</cell></row><row><cell></cell><cell>Parameters to be varied are the marginal probabilities of E and D, the strength of the dependence of</cell></row><row><cell></cell><cell>E and D on C, and the missing data mechanism. The sample size of 500 is fixed.</cell></row><row><cell>Estimand</cell><cell>The log odds ratio between E and D, conditional on C. Its true value is zero.</cell></row><row><cell>Methods</cell><cell>Logistic regression of D on E and C, using</cell></row><row><cell></cell><cell>i) full data before data deletion in C</cell></row><row><cell></cell><cell>ii) complete cases (excluding cases with missing C)</cell></row><row><cell></cell><cell>iii) multiply imputed data to handle missing values of C-various imputation models may be used.</cell></row><row><cell>Performance measures</cell><cell>Bias, empirical standard error, relative error in model-based standard error, coverage.</cell></row><row><cell>Implementation</cell><cell>1000 repetitions-advice on choosing this is available. 1</cell></row></table><note><p>a Specific values used in the data-generating mechanisms can be found in the code.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Results of final simulation study</figDesc><table><row><cell>Performance measure</cell><cell>Data-generating mechanism</cell><cell>Full data</cell><cell>Complete case analysis</cell><cell>Multiple imputation</cell></row><row><cell>Bias in point estimate (Monte Carlo error &lt; 0.02)</cell><cell>MCAR</cell><cell>0.00</cell><cell>-0.01</cell><cell>0.00</cell></row><row><cell></cell><cell>MAR</cell><cell>-0.02</cell><cell>-0.16</cell><cell>-0.02</cell></row><row><cell></cell><cell>MNAR</cell><cell>-0.01</cell><cell>-0.03</cell><cell>0.05</cell></row><row><cell>Empirical standard error (Monte Carlo error &lt; 0.02)</cell><cell>MCAR</cell><cell>0.43</cell><cell>0.52</cell><cell>0.45</cell></row><row><cell></cell><cell>MAR</cell><cell>0.43</cell><cell>0.58</cell><cell>0.46</cell></row><row><cell></cell><cell>MNAR</cell><cell>0.43</cell><cell>0.54</cell><cell>0.46</cell></row><row><cell>Relative error in model-based standard error</cell><cell>MCAR</cell><cell>-4%</cell><cell>-4%</cell><cell>-4%</cell></row><row><cell>(Monte Carlo error ¼ 2%)</cell><cell>MAR</cell><cell>-5%</cell><cell>-6%</cell><cell>-3%</cell></row><row><cell></cell><cell>MNAR</cell><cell>-5%</cell><cell>-3%</cell><cell>-6%</cell></row><row><cell>Coverage of 95% CI (Monte Carlo error &lt; 1%)</cell><cell>MCAR</cell><cell>95%</cell><cell>95%</cell><cell>95%</cell></row><row><cell></cell><cell>MAR</cell><cell>94%</cell><cell>95%</cell><cell>94%</cell></row><row><cell></cell><cell>MNAR</cell><cell>94%</cell><cell>96%</cell><cell>93%</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Figure 2. Looking for outliers in the estimates data from simcheck08.do and simcheck08.R. CCA, complete case analysis; MI, multiple imputation</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>International Journal of Epidemiology, 2023, Vol. 00, No. 0 Downloaded from https://academic.oup.com/ije/advance-article/doi/10.1093/ije/dyad134/7313663 by University College London user on 18 October 2023</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_2"><p>International Journal of Epidemiology, 2023, Vol. 00, No. 0</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work was supported by the <rs type="funder">Medical Research Council</rs> (grant number <rs type="grantNumber">MC_UU_00004/07</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_YhaRapH">
+					<idno type="grant-number">MC_UU_00004/07</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data availability</head><p>No patient data were generated or analysed in support of this research.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>None declared.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author contributions</head><p>I.R.W. and T.P.M. conceived the study. All authors contributed points to be included. I.R.W. drafted the paper and wrote the Stata code. M.Q. wrote the R code. All authors critically revised the paper. I.R.W. is the guarantor.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ethics approval</head><p>Ethics approval is not needed for this study since it uses no real data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary data</head><p><ref type="url" target="https://academic.oup.com/ije/article-lookup/doi/10.1093/ije/dyad134#supplementary-data">Supplementary data</ref> are available at IJE online.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Using simulation studies to evaluate statistical methods</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="2074" to="2102" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Bias and efficiency of multiple imputation compared with complete-case analysis for missing covariate values</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="2920" to="2931" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A solution to the problem of separation in logistic regression</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Heinze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schemper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="2409" to="2419" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Exact logistic regression: Theory and examples</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">R</forename><surname>Patel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="2143" to="2160" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Bias Reduction of Maximum Likelihood Estimates</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Firth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="page" from="27" to="38" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Through the looking glass: understanding noninferiority</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schumi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">T</forename><surname>Wittes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trials</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page">106</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A re-evaluation of random-effects meta-analysis</title>
+		<author>
+			<persName><forename type="first">Jpt</forename><surname>Higgins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Spiegelhalter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc Ser A Stat Soc</title>
+		<imprint>
+			<biblScope unit="volume">172</biblScope>
+			<biblScope unit="page" from="137" to="159" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Simulation practices for adaptive trial designs in drug and device development</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Perevozskaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Leonov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Biopharm Res</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="325" to="335" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

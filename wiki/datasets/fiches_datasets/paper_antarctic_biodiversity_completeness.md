@@ -1,0 +1,233 @@
+---
+title: paper_antarctic_biodiversity_completeness
+type: dataset
+created: 2026-09-14
+updated: 2026-09-07
+sources:
+  - data/final_datasets/sf/paper_antarctic_biodiversity_completeness.rds
+  - DatasetFirst_10_5281_zenodo_13988131
+tags: [dataset, paper-derived, spatial, point]
+---
+
+Dataset spatial converti en sf a partir des donnees brutes du papier "Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity" (DOI 10.1126/science.adk2118).
+
+## Description du jeu de donnees
+
+- Topic: biodiversite / completude d'inventaires en Antarctique
+- Observation unit: cellule de grille Antarctique
+- Observed population: cellules de grille d'inventaire biodiversite, Antarctique, N=1518
+- Geographic context: Etendue mesuree dans le RDS : x [-175.2329739, 176.2378637], y [-89.6447261, -60.2477987]; CRS EPSG:4326.
+- Temporal context: none (cross-sectional)
+- Source description: Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity
+- Description source: paper_dataset_uses.json + lecture directe du papier
+- Description confidence: medium
+- Paper DOI: 10.1126/science.adk2118
+- Dataset DOI: 10.5281/zenodo.13988131
+- Source URL: https://doi.org/10.5281/zenodo.13988131
+- Local raw dir: `data/raw/papers/DatasetFirst_10_5281_zenodo_13988131/`
+- Local sf output: `data/final_datasets/sf/paper_antarctic_biodiversity_completeness.rds`
+
+## Bloc 1 - Formule et variables
+
+### Variables (niveau systeme - inspection directe du sf)
+
+- Candidate Y variables: `Cmpltns`
+- Candidate Y typology: continuous
+- Candidate X variables in local artifact: `Shp_Lng`, `Shap_Ar`, `Records`, `Obsrvd_`, `Richnss`, `Slope`, `Ratio`
+- Candidate X count in local artifact: 7
+- Candidate X typology: unknown, continuous
+- Published X variables from paper: Records (nombre d'enregistrements d'occurrence dans la cellule, proxy d'effort d'echantillonnage -- entree independante du calcul KnowBR), Shap_Ar (aire de la cellule de grille -- geometrie independante)
+- Published X count: 2
+- Coordinates (x, y - excluded from X candidates): `true_lon`, `true_lat`
+- Identifier columns (excluded from X candidates): `OBJECTID`, `PagNmbr`, `OID_`, `PageNam`, `FID_1`, `ORIG_FID`, `Latitude`, `Longitude`
+- Variables inspected: yes (auto - generate_fiches_papers.R)
+- Presence of imputed X: unknown
+
+#### Detail Y
+
+| Variable | Classe R | Typologie Y | Plage | NA (%) |
+|---|---|---|---|---|
+| `Cmpltns` | `numeric` | continuous | [0, 99.0513] | 0% |
+
+> Selection Y/X (paper-loader / curated evidence) : Pour `antarctic_biodiversity_completeness`, la ou les reponses `Cmpltns` viennent du loader papier et/ou des preuves de l article `Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity`. Les covariables X retenues sont `Records`, `Shap_Ar` ; 5 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`true_lon`, `true_lat`), identifiants (`OBJECTID`, `PagNmbr`, `OID_`, `PageNam`, `FID_1`, `ORIG_FID`, `Latitude`, `Longitude`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready ; la promotion package reste conditionnee au bloc benchmark_readiness.
+
+#### Detail X
+
+| Variable | Classe R | Role X | NA (%) |
+|---|---|---|---|
+| `Shp_Lng` | `integer` | unknown | 0% |
+| `Shap_Ar` | `numeric` | continuous | 0% |
+| `Records` | `integer` | unknown | 0% |
+| `Obsrvd_` | `integer` | unknown | 0% |
+| `Richnss` | `numeric` | continuous | 0% |
+| `Slope` | `numeric` | rate | 0% |
+| `Ratio` | `numeric` | continuous | 0% |
+
+### Formule - niveau publication
+
+- formula_pub: aucune regression Y~X publiee -- Cmpltns est un indice descriptif (KnowBR), voir Note
+- x_terms_pub: Records (nombre d'enregistrements d'occurrence dans la cellule, proxy d'effort d'echantillonnage -- entree independante du calcul KnowBR), Shap_Ar (aire de la cellule de grille -- geometrie independante)
+- y_term_pub: Cmpltns (completude de l'inventaire biodiversite par cellule de grille Antarctique, %, calculee via le package KnowBR a partir de courbes d'accumulation d'especes, estimateur de Ugland et al. 2003)
+- Reference publication: REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier retrouve et DOI corrige -- Pertierra et al. (2025, pas 2024), 'Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity', Science 387:609-615, doi:10.1126/science.adk2118. Le script R original des auteurs est present dans ce meme depot (SUPPORTING FILE 4 Spatial Completeness R CODE.R) et confirme sans ambiguite que le pipeline se limite a KnowBR::KnowBPolygon() (calcul de completude par courbe d'accumulation d'especes) suivi d'une carte -- aucune regression Y~X publiee sur cette table. DECOUVERTE METHODOLOGIQUE IMPORTANTE (documentation officielle CRAN du package KnowBR, Lobo et al.) : Slope et Obsrvd_ (richesse observee) sont des INGREDIENTS DIRECTS du calcul de Completeness lui-meme (la completude = richesse observee / richesse extrapolee par la courbe d'accumulation, dont Slope est la pente finale) -- les inclure comme covariables X d'une regression Cmpltns~... serait quasi-circulaire (tautologique par construction de l'algorithme), pas une relation causale testable. formula_used corrigee (session 2026-08-16) : Slope et Obsrvd_ retires, ne restent que Records (entree brute independante, proxy d'effort d'echantillonnage) et Shap_Ar (geometrie de cellule, independante). CSV original (SUPPORTING FILE 3 Antarctic Inventories Spatial Completeness.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=1518 cellules de grille Antarctique. VERIFICATION EMPIRIQUE (session 2026-08-16) : les colonnes 'Latitude'/'Longitude' du CSV source sont inversees (colonne 'Latitude' variant sur [-175,176], plage de longitude ; colonne 'Longitude' variant sur [-89.6,-60.2], plage de latitude coherente avec l'Antarctique) -- corrige dans le loader (true_lat=Longitude, true_lon=Latitude), verifie geographiquement valide apres correction. package_include laisse en manual_review : formule corrigee pour eviter la circularite mais reste une proposition du curateur, le papier lui-meme ne publie aucune regression sur cette table.
+
+### Statut regression canonique
+
+- Statut: generated_system_formula
+- Niveau de preuve: system_generated
+- Methode d estimation: formule proposee par le curateur (Records + Shap_Ar) ; aucune regression Y~X publiee pour cette table -- voir Note
+- Correspondance Python/R: aucune identifiee
+- Note: Cmpltns est un diagnostic descriptif KnowBR, pas une variable expliquee dans le papier (script R original des auteurs confirme aucune regression ajustee). Slope/Obsrvd_ exclus des X car ingredients directs du calcul (circularite). Voir 'Reference publication' pour le detail complet.
+
+### Formule - niveau systeme
+
+- formula_used: Cmpltns ~ Records + Shap_Ar
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: Records, Shap_Ar
+- y_term_used: Cmpltns
+- Note: Formule proposee par le curateur, pas une formule publiee. Le script R original des auteurs (SUPPORTING FILE 4, present dans le depot Zenodo) utilise uniquement KnowBR::KnowBPolygon() pour produire ce CSV, suivi d'une carte -- aucune regression ajustee. Slope et Obsrvd_ sont des ingredients directs du calcul de Cmpltns (documentation CRAN KnowBR) et ont ete exclus des X pour eviter la circularite ; ne restent que Records et Shap_Ar (entrees independantes). Voir source_ref pour la citation complete et le detail methodologique.
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "Cmpltns ~ Records + Shap_Ar"
+    response: "Cmpltns (completude de l'inventaire biodiversite par cellule de grille Antarctique, %, calculee via le package KnowBR a partir de courbes d'accumulation d'especes, estimateur de Ugland et al. 2003)"
+    predictors: ["Records (nombre d'enregistrements d'occurrence dans la cellule, proxy d'effort d'echantillonnage -- entree independante du calcul KnowBR)", "Shap_Ar (aire de la cellule de grille -- geometrie independante)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "Cmpltns ~ Records + Shap_Ar"
+    response: "Cmpltns"
+    predictors: ["Records", "Shap_Ar"]
+    role: "ml_candidate_features"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["ols", "gwr", "random_forest", "sar_lag"]
+    status: "executable_continuous_variant"
+```
+
+## Bloc 2 - Identification et DOI
+
+- Dataset ID: `paper_antarctic_biodiversity_completeness`
+- Dataset name: Supplementary Files to: Advances and shortfalls in the knowledge of Antarctic terrestrial biodiversity
+- Source family: paper-derived
+- Source: papier scientifique (voir Paper DOI)
+- Paper title: Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity
+- Paper DOI: 10.1126/science.adk2118
+- Dataset DOI: 10.5281/zenodo.13988131
+- Source URL: https://doi.org/10.5281/zenodo.13988131
+- Year: 2025
+
+## Bloc 3 - Typologie des modeles
+
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
+- Modele niveau 2 (famille): pending
+- Modele niveau 3 (variante): pending
+
+```yaml
+modeling_evidence:
+  existing_model_found: true
+  equation_text: "aucune regression Y~X publiee -- Cmpltns est un indice descriptif (KnowBR), voir Note"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "REVISE (session 2026-08-16, recherche bibliographique demandee par l'utilisateur) : papier retrouve et DOI corrige -- Pertierra et al. (2025, pas 2024), 'Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity', Science 387:609-615, doi:10.1126/science.adk2118. Le script R original des auteurs est present dans ce meme depot (SUPPORTING FILE 4 Spatial Completeness R CODE.R) et confirme sans ambiguite que le pipeline se limite a KnowBR::KnowBPolygon() (calcul de completude par courbe d'accumulation d'especes) suivi d'une carte -- aucune regression Y~X publiee sur cette table. DECOUVERTE METHODOLOGIQUE IMPORTANTE (documentation officielle CRAN du package KnowBR, Lobo et al.) : Slope et Obsrvd_ (richesse observee) sont des INGREDIENTS DIRECTS du calcul de Completeness lui-meme (la completude = richesse observee / richesse extrapolee par la courbe d'accumulation, dont Slope est la pente finale) -- les inclure comme covariables X d'une regression Cmpltns~... serait quasi-circulaire (tautologique par construction de l'algorithme), pas une relation causale testable. formula_used corrigee (session 2026-08-16) : Slope et Obsrvd_ retires, ne restent que Records (entree brute independante, proxy d'effort d'echantillonnage) et Shap_Ar (geometrie de cellule, independante). CSV original (SUPPORTING FILE 3 Antarctic Inventories Spatial Completeness.csv) telecharge directement depuis Zenodo -- pas une reconstruction, N=1518 cellules de grille Antarctique. VERIFICATION EMPIRIQUE (session 2026-08-16) : les colonnes 'Latitude'/'Longitude' du CSV source sont inversees (colonne 'Latitude' variant sur [-175,176], plage de longitude ; colonne 'Longitude' variant sur [-89.6,-60.2], plage de latitude coherente avec l'Antarctique) -- corrige dans le loader (true_lat=Longitude, true_lon=Latitude), verifie geographiquement valide apres correction. package_include laisse en manual_review : formule corrigee pour eviter la circularite mais reste une proposition du curateur, le papier lui-meme ne publie aucune regression sur cette table."
+  confidence: medium
+```
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "papier confirme (Pertierra et al. 2025, Science, doi:10.1126/science.adk2118) -- script R original des auteurs retrouve dans le depot, confirme aucune regression publiee ; formula_used corrigee pour eviter la circularite methodologique (Slope/Obsrvd_ retires, ingredients directs du calcul KnowBR) -- promu a package_include='yes' apres validation utilisateur (session 2026-08-16)"
+  reason: "Y continu reel (Cmpltns, completude d'inventaire biodiversite, indice KnowBR), N=1518 cellules de grille Antarctique avec coordonnees reelles. CSV original telecharge directement depuis Zenodo, pas une reconstruction. Bug d'inversion Latitude/Longitude dans le CSV source detecte et corrige empiriquement (verifie geographiquement valide apres correction : latitude [-89.6,-60.2], coherent avec l'Antarctique)."
+```
+
+- Decision: ready
+- Manque principal: papier confirme (Pertierra et al. 2025, Science, doi:10.1126/science.adk2118) -- script R original des auteurs retrouve dans le depot, confirme aucune regression publiee ; formula_used corrigee pour eviter la circularite methodologique (Slope/Obsrvd_ retires, ingredients directs du calcul KnowBR) -- promu a package_include="yes" apres validation utilisateur (session 2026-08-16)
+- Raison: Y continu reel (Cmpltns, completude d'inventaire biodiversite, indice KnowBR), N=1518 cellules de grille Antarctique avec coordonnees reelles. CSV original telecharge directement depuis Zenodo, pas une reconstruction. Bug d'inversion Latitude/Longitude dans le CSV source detecte et corrige empiriquement (verifie geographiquement valide apres correction : latitude [-89.6,-60.2], coherent avec l'Antarctique).
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
+  conditionally_eligible_estimators: []
+  ineligible_reason: ""
+  rule: "paper fiches are eligible only when response, predictors and coordinates/geometry are executable in the local artifact; local W is optional when it can be reconstructed by the benchmark from spatial support, and blocking only for source-specific non-geographic W"
+```
+
+## Bloc 4 - Typologie des donnees
+
+- Data type: spatial
+- Structure: coupe_transversale
+- N observations: 1518
+- k variables: 20
+- T periods: 1
+- Variable temporelle: n/a
+- N/T profile: N_moyen_T_petit
+
+## Bloc 5 - Resolution et etendue
+
+- Type de geometrie: POINT
+- Spatial resolution: point observation (support reel : cellule de grille Antarctique (taille non precisee dans Observation unit))
+- Temporal resolution: not applicable (cross-sectional dataset)
+- CRS EPSG: 4326
+- CRS nom: WGS 84
+- Spatial extent: x [-175.2329739, 176.2378637], y [-89.6447261, -60.2477987]
+- Time range: not applicable (cross-sectional dataset)
+- CRS analyse recommande: pending — etendue continentale/mondiale (span=351.5deg) -- projection nationale non pertinente ; privilegier une projection equal-area continentale ou mondiale (ex: Albers equal-area continental, Behrmann/Mollweide pour une couverture mondiale)
+
+## Bloc 6 - Reproductibilite
+
+- License present: yes
+- License name: Creative Commons Attribution 4.0 International
+- License URL: https://creativecommons.org/licenses/by/4.0/legalcode
+- License open: yes
+- License evidence: DataCite API record for DOI 10.5281/zenodo.13988131 (checked 2026-09-10): rightsList = 'Creative Commons Attribution 4.0 International'.
+- Reproducibility status: OK - loader R enregistre et reexecutable (`antarctic_biodiversity_completeness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+- Code available: yes (loader `antarctic_biodiversity_completeness` dans `code/r_catalog/build_sf_datasets_papers.R`)
+- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
+
+## Quality Control
+
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
+- Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
+- Formula: OK - Statut 'generated_system_formula' documente et intentionnel (voir Bloc 1 > Statut regression canonique > Note) ; ne pas retraiter sans revue.
+- CRS: OK - CRS renseigne dans le Bloc 5 (4326).
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - loader R enregistre et reexecutable (`antarctic_biodiversity_completeness` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
+- Source: Advances and shortfalls in knowledge of Antarctic terrestrial and freshwater biodiversity
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

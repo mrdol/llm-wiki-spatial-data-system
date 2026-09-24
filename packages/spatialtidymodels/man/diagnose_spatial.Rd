@@ -13,7 +13,8 @@ diagnose_spatial(
   k_neighbors = NULL,
   style = NULL,
   zero_policy = NULL,
-  include_baseline = TRUE
+  include_baseline = TRUE,
+  response_typology = "continuous"
 )
 }
 \arguments{
@@ -38,6 +39,14 @@ de la recuperer depuis un fit cree par \code{fit_sar()}, \code{fit_sem()} ou
 \item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
 
 \item{include_baseline}{Si \code{TRUE}, ajoute une baseline OLS.}
+
+\item{response_typology}{Type de la reponse: \code{"continuous"} (defaut),
+\code{"binary"} ou \code{"count"} (\code{NULL}/\code{NA} sont traites comme \code{"continuous"}).
+\code{rmse} et \code{mae} sont toujours calcules; pour \code{"binary"} s'ajoutent
+\code{accuracy} (seuil 0,5), \code{auc} et \code{deviance}, pour \code{"count"} la \code{deviance}
+de Poisson; ces colonnes valent \code{NA} quand elles ne s'appliquent pas.
+Pour un workflow de classification binaire, la probabilite de la derniere
+colonne de \code{predict(type = "prob")} est utilisee.}
 }
 \value{
 Un data frame de diagnostics.

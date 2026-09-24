@@ -19,6 +19,17 @@ set -euo pipefail
 
 export PYTHONIOENCODING=utf-8
 
+# --- Package R spatialtidymodels : NAMESPACE et man/ doivent rester synchronises
+# avec les tags roxygen. Ne s'execute que si le commit touche R/*.R, DESCRIPTION,
+# NAMESPACE ou man/*.Rd (voir tools/check_roxygen_sync.sh). Place AVANT la logique
+# des fiches, qui fait "exit 0" des qu'aucune fiche wiki n'est indexee.
+ROXYGEN_CHECK="$(git rev-parse --show-toplevel)/tools/check_roxygen_sync.sh"
+if [ -f "$ROXYGEN_CHECK" ]; then
+  if ! bash "$ROXYGEN_CHECK"; then
+    exit 1
+  fi
+fi
+
 META_PATTERN="(index|log|overview|glossary|eval_queue)\.md$"
 
 STAGED=$(git diff --cached --name-only --diff-filter=ACM \

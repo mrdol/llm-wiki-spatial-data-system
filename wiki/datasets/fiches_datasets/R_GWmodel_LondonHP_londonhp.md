@@ -1,8 +1,8 @@
 ---
 title: R_GWmodel_LondonHP_londonhp
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_GWmodel_LondonHP_londonhp.rds
 tags: [dataset, r-package, spatial, point]
@@ -15,7 +15,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 - Topic: immobilier / prix des logements
 - Observation unit: logement, transaction immobiliere ou zone residentielle selon la documentation source
 - Observed population: marche immobilier documente par le package source
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Geographic context: Etendue mesuree dans le RDS : x [507399.99999999965, 552300.0000000005], y [159400.00000000081, 194900.000000001]; CRS EPSG:27700.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: A house price data set with 18 hedonic variables for London in 2001.
 - Description source: package R `GWmodel`
@@ -40,8 +40,7 @@ A house price data set with 18 hedonic variables for London in 2001.
 |---|---|---|---|---|
 | `PURCHASE` | `numeric` | continuous | [45000, 567500] | 0% |
 
-
-> Note doc : y is detached (i
+> Correction 2026-09-15 (mode production de secours, tools::Rd_db("GWmodel")) : la ligne "Note doc" precedente etait tronquee/corrompue (bug d'extraction automatique) et a ete retiree.
 
 > Selection Y/X (claude-sonnet-4-6) : PURCHASE (prix d'achat) est la variable réponse naturelle d'un modèle hédonique de prix immobiliers. Toutes les autres colonnes sont des attributs hédoniques du logement (surface, type, époque de construction, équipements) ou des indicateurs socio-économiques du voisinage (chômage, proportion de professions libérales), qui constituent des covariables explicatives classiques dans ce type de modèle.
 
@@ -69,27 +68,63 @@ A house price data set with 18 hedonic variables for London in 2001.
 | `UNEMPLOY` | `numeric` | rate | 0% |
 | `PROF` | `numeric` | rate | 0% |
 
-
 ### Formule — niveau publication
 
 - formula_pub: PURCHASE ~ FLOORSZ + PROF + BATH2
 - x_terms_pub: FLOORSZ, PROF, BATH2
 - y_term_pub: PURCHASE
-- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681
+- Reference publication: Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739
 
 ### Statut regression canonique
 
 - Statut: resolu
-- Niveau de preuve: publication
-- Methode d'estimation: formule publication confirmee et utilisee
-- Correspondance Python/R: R_GWmodel_LondonBorough_londonborough
-- Note: Formule issue de la publication ou documentation scientifique et retenue comme formule systeme.
+- Niveau de preuve: verbatim
+- Methode d'estimation: procedure "pseudo stepwise" OLS/GWR decrite en Section 4.2.1 du papier (selection ascendante par AICc)
+- Correspondance Python/R: aucune identifiee
+- Note: Citation verbatim retrouvee dans le texte integral du papier (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section "Hedonic variable selection") : "a model with FLOORSZ as the hedonic variable produces the lowest AICc for the first round of bivariate regressions... for the regressions with two hedonic variables, a model with FLOORSZ and PROF produces the lowest AICc... (i.e. first FLOORSZ, then PROF, then BATH2, etc., which is the order given in the legend)." Confirme exactement formula_pub. Correction 2026-09-15 : le champ "Correspondance Python/R" citait a tort R_GWmodel_LondonBorough_londonborough, qui n'est pas une fiche existante ni une correspondance Python/R (LondonBorough est un fichier de contours administratifs du meme package GWmodel, utilise uniquement pour l'affichage cartographique).
 
 ### Formule — niveau systeme
 
 - formula_used: PURCHASE ~ FLOORSZ + PROF + BATH2
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: FLOORSZ, PROF, BATH2
 - y_term_used: PURCHASE
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "PURCHASE ~ FLOORSZ + PROF + BATH2"
+    response: "PURCHASE"
+    predictors: ["FLOORSZ, PROF, BATH2"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681, DOI 10.1080/13658816.2013.865739"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -112,11 +147,11 @@ A house price data set with 18 hedonic variables for London in 2001.
 modeling_evidence:
   existing_model_found: true
   equation_text: "PURCHASE ~ FLOORSZ + PROF + BATH2"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Lu, B., Charlton, M., Harris, P., Fotheringham, A.S. (2014) Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data. International Journal of Geographical Information Science, 28(4): 660-681"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -126,8 +161,8 @@ modeling_evidence:
 - N observations: 316
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
-- Temporal note: aucune variable temporelle structurelle detectee
+- N/T profile: N_moyen_T_petit
+- Temporal note: aucune variable temporelle structurelle detectee ; verification 2026-09-15 (tools::Rd_db("GWmodel")) : la documentation du package mentionne 372 observations, mais l'objet reellement charge par data(LondonHP) et le .rds local n'en comptent que 316 (verifie directement via nrow()) -- N observations reflete l'artefact local reel, pas le chiffre de la documentation.
 
 ## Bloc 5 — Resolution et etendue
 
@@ -138,7 +173,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 27700
 - CRS nom: OSGB36 / British National Grid
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:27700, OSGB36 / British National Grid)
 
 ## Bloc 6 — Reproductibilite
 
@@ -149,6 +184,22 @@ modeling_evidence:
 - Reproducibility status: available via package R `GWmodel`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
 
 ## Estimator eligibility
 
@@ -180,6 +231,7 @@ estimator_eligibility:
     notes: "Useful for mixed stationary/non-stationary MGWRSAR tests with SAR autocorrelation."
 ```
 
+
 ## Quality Control
 
 - Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches.py`.
@@ -194,3 +246,9 @@ estimator_eligibility:
 ## Related Pages
 
 - Source: package R `GWmodel`
+
+## Curation documentée — 2026-09-07
+
+Verification 2026-09-15 (mode production de secours) : lecture directe du texte integral du papier Lu et al. (2014) disponible dans le corpus (corpus/papers/tei/Geographicallyweightedregressionwithanon-Euclideandistance.tei.xml, section 4.2.1 "Global regressions"/"Hedonic variable selection") confirme verbatim l'ordre d'inclusion des variables (FLOORSZ, puis PROF, puis BATH2) deja retenu dans formula_pub -- Niveau de preuve releve de "publication" a "verbatim". Ligne "Note doc" tronquee supprimee. Champ "Correspondance Python/R" corrige (citait a tort une fiche R_GWmodel_LondonBorough_londonborough qui n'existe pas). N observations (316) verifie coherent avec l'objet R reellement charge par data(LondonHP), bien que la documentation du package mentionne 372 -- ecart documente honnetement plutot que silencieusement ignore.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

@@ -1,8 +1,8 @@
 ---
 title: R_sfdep_guerry_nb_guerry_nb
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_sfdep_guerry_nb_guerry_nb.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_sfdep_guerry_nb_guerry_nb
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 85 enregistrements dans l’artefact local R_sfdep_guerry_nb_guerry_nb.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [143129.70709570957, 983300.7956123737], y [1735692.5, 2615767.5]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 - Description source: package R `sfdep`
@@ -86,9 +86,47 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 
 ### Formule — niveau systeme
 
-- formula_used: pending
-- x_terms_used: pending
-- y_term_used: pending
+- formula_used: crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+- Formula used evidence: generated_system_formula
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: count
+- x_terms_used: wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance
+- y_term_used: crime_pers
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance"
+    response: "crime_pers"
+    predictors: ["wealth", "commerce", "clergy", "crime_parents", "donation_clergy", "instruction", "prostitutes", "distance"]
+    role: "ml_candidate_features"
+    source_type: "generated_system_formula"
+    source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+    estimator_context: ["random_forest", "xgboost", "gamboost", "spboost"]
+    status: "generated"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -110,12 +148,12 @@ Dataset spatial issu du package R `sfdep` (`guerry_nb`).
 ```yaml
 modeling_evidence:
   existing_model_found: false
-  equation_text: "null"
-  equation_family: unknown
-  model_family: "n/a"
-  source_type: unknown
-  source_ref: "Dray, S. and Jombart, T. (2011) Revisiting Guerry's Data: Introducing Spatial Constraints in Multivariate Analysis. The Annals of Applied Statistics, Vol. 5, No. 4, 2278-2299"
-  confidence: low
+  equation_text: "crime_pers ~ wealth + commerce + clergy + crime_parents + donation_clergy + instruction + prostitutes + distance"
+  equation_family: regression_candidate
+  model_family: "regression_candidate"
+  source_type: generated_system_formula
+  source_ref: "data/manifests/datasets/proposed_formula_used_audit.csv"
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -125,16 +163,16 @@ modeling_evidence:
 - N observations: 85
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
 
-- Spatial resolution: point observation
+- Spatial resolution: point observation (derive d'un polygone source par reduction geometrique -- st_point_on_surface(), rien n'est perdu -- voir Type de geometrie et geom_origine)
 - Temporal resolution: not applicable (cross-sectional dataset)
 - Spatial extent: x [143129.7071, 983300.7956], y [1735692.5, 2615767.5] (CRS unknown)
 - Time range: not applicable (cross-sectional dataset)
-- Type de geometrie: POINT
+- Type de geometrie: POINT (source native : MULTIPOLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
 - CRS EPSG: unknown [lookup required]
 - CRS nom: unknown
 - CRS analyse recommande: pending — CRS source non geographique ou inconnu
@@ -148,6 +186,23 @@ modeling_evidence:
 - Reproducibility status: available via package R `sfdep`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "almost_ready_generated_formula"
+  benchmark_task: "regression_spatial_generated_formula"
+  package_include: "manual_review"
+  has_local_rds: true
+  missing_items: "valider la formule generee avant inclusion automatique dans le package"
+  reason: "La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee."
+```
+
+- Decision: almost_ready_generated_formula
+- Manque principal: valider la formule generee avant inclusion automatique dans le package
+- Raison: La formule est executable et le support spatial existe, mais elle provient d une proposition systeme plutot que d une source scientifique confirmee.
+
 
 ## Quality Control
 
@@ -163,3 +218,9 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `sfdep`
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : count. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.

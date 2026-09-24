@@ -2,7 +2,7 @@
 title: Wiki Index
 type: metadata
 created: 2026-04-07
-updated: 2026-07-20
+updated: 2026-09-08
 sources: []
 tags: [index, wiki, catalog]
 ---
@@ -43,6 +43,10 @@ Each entry follows this format:
 
 *One entry per dataset identified.*
 *Storage convention: dataset fiches are grouped by warehouse under `wiki/datasets/<warehouse>/`.*
+
+- [[R_agridat_lasrosas.corn_lasrosas.corn]] - Source Las Rosas a deux campagnes, conservee hors benchmark direct | dataset | 2026-08-21
+- [[R_agridat_lasrosas.corn_lasrosas.corn_1999]] - Coupe 1999 de Las Rosas, tache spatiale continue documentee par Anselin et al. (2004) | dataset | 2026-08-21
+- [[R_agridat_lasrosas.corn_lasrosas.corn_2001]] - Coupe 2001 de Las Rosas, conservee en revue manuelle | dataset | 2026-08-21
 
 - [[zenodo_18421412_mountain_fire]] - Zenodo candidate dataset on climate-fire relationships across global mountain systems | dataset | 2026-05-06
 - [[zenodo_5534232_linear_pottery_harris]] - Zenodo supplementary graph and table files for Linear Pottery and Harris Figure 8 | dataset | 2026-05-06
@@ -225,7 +229,19 @@ Each entry follows this format:
 
 ## Index Maintenance Notes
 
+- [[protocole_plasmode_spatial_2026-09-08]] - Cadrage plasmode exclusif, alternatives a D9, protocole et pilote Georgia/Meuse execute | analysis | 2026-09-08
+
+- [[dataset_fiches_consistency_audit_2026-09-07]] - Audit historique des 292 fiches datasets | analysis | 2026-09-07
+- [[dataset_fiches_corrections_2026-09-07]] - Corrections des generateurs, provenance, routage et admission ; 15 recuperations prioritaires | analysis | 2026-09-07
+- [[paper_dataset_benchmark_candidates_2026-09-07]] - Candidats et HTML interactif regeneres apres corrections | analysis | 2026-09-07
+- [[paper_dataset_medium_review_2026-09-07]] - Candidats medium a examiner | analysis | 2026-09-07
+- [[paper_dataset_low_archive_2026-09-07]] - Archive des candidats low | analysis | 2026-09-07
+
 - Add new pages immediately after creation
 - Update the "last updated" date when a page changes substantially
 - Mark orphan pages with `orphan`
 - Prefer linking pages together
+
+- [[revue_fidelite_quatre_datasets_2026-09-09]] - Audit des quatre fiches, données restaurées, équations vérifiées et modèles marsouin reproduits | analysis | 2026-09-09
+- [[revue_panel_spatial_2026-09-09]] - Revue ciblée Li/Elhorst/Baltagi et préparation du support panel spatial | analysis | 2026-09-09
+- [[plan_implementation_panel_spatial_2026-09-09]] - Architecture, jalons et critères d'acceptation pour intégrer les panels spatiaux à spatialtidymodels | analysis | 2026-09-09

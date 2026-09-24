@@ -1897,3 +1897,283 @@ Key changes:
 Verification:
 - Checked that `CONTEXT.md` no longer contains obvious mojibake markers
   (`Ã`, `â`, `Â`).
+
+## [2026-08-10] datapaper | package-derived benchmark datasets, scope refresh
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Decision and evidence:
+- User selected scope A: package-derived datasets only.
+- Direct inventory found 91 package-derived Bloc 1-6 fiches; 31 `paper_*.md` fiches were excluded from this manuscript.
+- The separate Bloc 2 readiness pipeline and audit are cited in the draft to prevent conflation with package-derived benchmark claims.
+
+Next step:
+- Update the existing draft one manuscript section at a time, with dated source paths for each factual claim.
+## [2026-08-10] datapaper | Bloc 1 data-bank foundation
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Methodological grounding:
+- Read the initial stage proposal, enriched-metadata design, preliminary framing, and detailed INRAE stage plan in `raw/docs_methodology/`.
+- Reframed the manuscript as the first, bounded, package-derived release of a spatial benchmark data bank.
+- Added release-boundary and submission prerequisites without asserting an uncreated archive DOI or completed benchmark results.
+
+Next step:
+- Revise the abstract and Background & Summary against the frozen Bloc 1 release evidence.
+## [2026-08-10] datapaper | Bloc 1 abstract revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Rewrote the abstract around the Bloc 1 release of a curated spatial benchmark data bank.
+- Removed unstable counts of estimator variants and CV schemes from the abstract.
+- Kept the boundary explicit: documentation does not itself promote every entry to a runnable benchmark and no empirical ranking is claimed.
+## [2026-08-10] datapaper | Bloc 1 Background and motivation revision
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Reframed the background around the reference data-bank objective and coverage-oriented design.
+- Explained the enriched-metadata chain from source description to typology, estimator eligibility, validation, and benchmarking.
+- Kept the Bloc 1 scope bounded and avoided claims of universal benchmark readiness or empirical model performance.
+## [2026-08-10] datapaper | Bloc 1 scope and inclusion criteria
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Replaced the placeholder with an operational, evidence-backed inclusion rule for package-derived `sf` dataset objects.
+- Recorded exclusions for raw documentation, non-inspectable objects, separate source layers, and duplicate artifacts.
+- Clarified that DOI, published formula, and a completed benchmark are documentation fields rather than admission gates.
+## [2026-08-10] datapaper | Blocs 1-2 scope and empirical-validation rationale
+
+Files updated:
+- `wiki/analyses/datapapers/spatial_benchmark_databank_blocs_1_2_datapaper_draft_2026_08.md`
+
+Changes:
+- Expanded the manuscript from the package-derived layer to a two-route bank: package objects (Bloc 1) and publication-linked records (Bloc 2).
+- Added explicit separation of the registry, bibliographic candidates, raw downloads, converted artifacts, and the benchmark-ready core.
+- Rewrote the abstract, foundation, background, and scope to explain the complementary roles of theoretical analysis, Monte Carlo simulation, and empirical evaluation.
+- Positioned `spatialtidymodels` as the reproducible execution interface for the explicit benchmark core, not as evidence of readiness or estimator performance.
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## [2026-08-21] maintenance | Las Rosas benchmark task split
+
+Files updated:
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_1999.md`
+- `wiki/datasets/fiches_datasets/R_agridat_lasrosas.corn_lasrosas.corn_2001.md`
+- `code/r_catalog/prepare_lasrosas_benchmark_tasks.R`
+- package metadata, bundled data preparation and manual benchmark configuration
+
+Decision and evidence:
+- The source object contains 1,738 observations for 1999 and 1,705 for 2001.
+- The 2004 Anselin, Bongiovanni and Lowenberg-DeBoer article analyses the 1999 cross-section after grid aggregation, not the two campaigns pooled as a panel.
+- `lasrosas` now denotes the 1999 bundled task with the published quadratic topographic specification. The full source and the 2001 cross-section remain distinct, with the latter in manual review.
+
+Verification:
+- Derived RDS files were regenerated with 1,738 observations for 1999 and 1,705 for 2001.
+- `load_benchmark_dataset("lasrosas")` loads the bundled 1999 task and its published formula; an OLS holdout completed without failed resamples.
+- The metadata-registry tests passed. The full package suite reached exit code 0 but reports two existing `processx` worker errors caused by Windows pipe permission denial, not by the Las Rosas changes.
+
+## [2026-08-21] maintenance | Eligible estimator metadata normalization
+
+Files updated:
+- `code/package_metadata/export_spatialtidymodels_metadata.py`
+- `code/r_catalog/generate_fiches_papers.R`
+- `packages/spatialtidymodels/R/metadata-registry.R`
+- `packages/spatialtidymodels/R/benchmark-datasets.R`
+- package metadata JSON and registry tests
+
+Changes and verification:
+- Preserved published method names separately from executable package routes.
+- Mapped documented GWR and SAR-error families to `mgwrsar_gwr` and `sem_error` when appropriate.
+- Kept unsupported source methods non-blocking and proposed only compatible continuous-regression comparators from documented Y/X and spatial-support rules.
+- Removed the fixed default estimator list for single-dataset benchmarks; metadata now selects the executable routes unless the caller supplies names.
+- Added fold-safe coordinate derivation from `sf` geometry when a ready fiche omits explicit coordinate columns.
+- Regenerated metadata with no invalid non-empty package route and passed `metadata-registry` tests.
+
+## [2026-08-10] ingest-papers-incremental | Incremental DataCite paper ingestion 2026-08
+
+PDF selected:
+- `corpus/papers/raw_pdf/Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf`
+
+TEI generated:
+- none
+
+TEI parsed incrementally:
+- none
+
+Graph rebuild:
+- `.kg/graph.sqlite` rebuilt once from extracted layers.
+
+Failures:
+- Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf: [Errno 2] No such file or directory: "C:\\Users\\jdoliveira\\SynologyDrive\\johnny D'OLIVEIRA\\Travaux stages\\llm-wiki-karpathy\\corpus\\papers\\raw_pdf\\Spatial trends and projections of chronic malnutrition among children under 5 years of age in Ethiopia from 2011 to 2019 a geographically weighted regression analysis.pdf"
+
+## 2026-09-07 — Corrections des fiches datasets après audit
+
+Corrections appliquées aux générateurs R/Python, à l’export metadata, au routage
+des réponses et aux loaders Las Rosas/ade4. 286 fiches modifiées sur 292 ;
+20 constats critiques corrigés et 2 neutralisés sans prétendre à une résolution
+scientifique. 119 passages yes vers manual_review, 1 yes vers no et 3
+manual_review vers no ; 3 réouvertures no vers manual_review, aucune promotion
+vers yes. État final : 35 yes, 175 manual_review, 82 no.
+
+Vérifications : 292 RDS lisibles et structures sf utilisables, 231 formules
+disponibles valides avec variables présentes, 61 indisponibles, 35 chargements
+package réussis, 6 tests Python et 9 assertions R de routage passants.
+Jointures ade4 testées sur clés permutées/manquantes ; sous-ensembles Las Rosas
+comparés au parent. Curation idempotente, CSV 292 lignes/33 colonnes contrôlé,
+JavaScript du HTML régénéré parseable. Aucun benchmark complet.
+
+KG : red deer relié au dépôt et à l’article vérifiés ; sugar glider distingue
+dataset réutilisé, dataset source et article. Extraction, graphe et index
+régénérés sans nouveau GROBID. Les archives brutes et l’audit initial sont
+conservés. Quinze récupérations sont priorisées sans promotion automatique.
+
+Livrables : [[dataset_fiches_corrections_2026-09-07]],
+data/manifests/datasets/dataset_fiches_corrections_2026-09-07.csv,
+dataset_curation_overrides.json, dataset_fiches_validation_2026-09-07.json et
+dataset_recovery_priorities_2026-09-07.json. Candidats et HTML :
+[[paper_dataset_benchmark_candidates_2026-09-07]].
+
+## 2026-09-08 — Plasmode : cadrage encadrant et pilote exécuté
+
+Programme actif limité au plasmode ; EMCS placebo, GAN et morphing restent
+bibliographiques. Les deux HTML sont actualisés ; la synthèse originale de
+l'encadrant est conservée. Une structure spatiale peut résulter d'information
+omise, d'une forme inadéquate ou du processus d'observation : D9 n'est pas unique.
+
+Page créée : [[protocole_plasmode_spatial_2026-09-08]].
+Sorties dans extensions_projet_2026-09/revue_donnees_semi_synthetiques/ :
+scripts de génération, tests et rapport ; objets de calibration, vérités,
+graines, folds, W, results.rds/results.json, figure PNG et rapport Markdown/HTML.
+
+Exécution : Georgia et Meuse, 7 scénarios, 20 réplications, 3 concurrents et
+une référence privilégiée séparée ; 1120 évaluations / 3360 ajustements de fold,
+0 échec et 0 warning de modèle. Tests de partitions, non-fuite des Y de test,
+covariance du bruit, SNR, masquage, proxy et reproductibilité passants.
+Figure scientifique inspectée. Aucun benchmark complet ni changement
+d'admission ; les résultats sont descriptifs et conditionnels.
+
+Point matériel : la géométrie convertie de Georgia est incohérente ; le pilote
+utilise les longitude/latitude vérifiées contre spgwr::gSRDF et projetées en
+mètres, sans modifier l'artefact. R² du générateur réel hors calibration :
+0.235 Georgia, 0.747 Meuse ; sa fidélité Georgia reste limitée.
+
+KG consulté pour Georgia, Meuse et la confusion spatiale ; aucune nouvelle
+relation de formule publiée n'est créée pour les constructions du pilote.
+Navigation, CONTEXT, glossaire, overview et statut pipeline mis à jour.
+Suites : valider mécanismes/cibles, seconde famille génératrice, folds et
+proxies répétés, calibration/precision, puis intégration package.
+
+## [2026-09-09] bibliographie | Deux revues des extensions
+Trois PDF fournis par l’utilisateur reçus depuis Downloads, contrôlés et classés. Biblio_from_pdf : 20 notices semi-synthétiques et 11 notices benchmark relues ; deux exports .bib dans les dossiers correspondants, PDF originaux conservés. Validation : 31 clés et 24 DOI sans doublon, liens/empreintes PDF et compilation LaTeX/BibTeX réussis. Corrections de DOI et versions documentées dans extensions_projet_2026-09/bilan_recherche_articles_2026-09-09.md. Aucun changement de fiche dataset, de statut d’admission ni ingestion dans le corpus/KG. Pilote en pause.
+
+## [2026-09-09] curation | Fidélité de quatre datasets aux publications
+Fiches SFBay, harbour porpoise, CO2 Chine et NO2 AQS corrigées contre PDF/données/code auteur. SFBay : retrait du dédoublonnage sur FID_DTSC_S=0, 5297 lignes et attributs source restaurés. Marsouin : 722 lignes conservées, 3 GLMM probit du tableau 1 réexécutés (N=654/654/623, AIC conformes). CO2 : neuf X et Y en log, He L., statut ready_in_data_bank ; NO2 : réponse annuelle et matrice dérivée reconnues non conformes à la tâche quotidienne publiée. Deux loaders corrigés, sorties antérieures sauvegardées. Huit tests Python réussis, curation idempotente, zéro contradiction de promotion sur les quatre fiches. Quatre notices du registre synchronisées ; KG régénéré par extraction des preuves modèle, construction et résumés. Revues et preuves : revue_fidelite_quatre_datasets_2026-09-09, revue_panel_spatial_2026-09-09, data/manifests/datasets/review_2026-09-09/. Aucun moteur panel ni ensemble NN/RF/GB/GAM implémenté ; provenance géographique CO2 et matrice quotidienne NO2 restent ouvertes.
+
+
+## 2026-09-09 — Recensement des applications de panel spatial dans les fiches
+
+Criblage des 409 fiches datasets et vérification ciblée des sources : Li–Fang–He confirmé ; diffusion spatiale retardée testée dans Seshat ; faux positifs documentés. Deux applications supplémentaires identifiées dans le corpus sans fiche dataset correspondante (Yun–Gramig, De Siano–Chiariello). Inventaire JSON traçable et revue [[revue_panel_spatial_2026-09-09]] enrichie. Aucun changement de statut dataset par ce recensement.
+
+## 2026-09-09 — Enrichissement externe de la revue panel spatial
+
+Quinze références empiriques proposées ont été contrôlées et ajoutées à [[revue_panel_spatial_2026-09-09]], avec DOI, structure, méthode, intérêt pour la banque et vérifications de données encore nécessaires. Priorités : Yun–Gramig, Baylis–Paulson–Piras, Pu et al., Parent–LeSage, Bouayad-Agha–Védrine, puis Baltagi–Bresson. Les études provinciales chinoises sur le carbone sont conservées comme lot comparatif afin de préserver la diversité méthodologique et thématique. Aucun PDF, dataset, statut de fiche ou composant du harnais n'a été modifié.
+
+## 2026-09-09 — Plan d'implémentation des panels spatiaux
+
+Plan [[plan_implementation_panel_spatial_2026-09-09]] ajouté à partir de l'architecture réelle de `spatialtidymodels` et de la revue des articles. La route commence par un contrat unité–temps–W et les modèles FE/SAR statiques, puis SEM/SAC/SDM et validation temporelle. Les modèles dynamiques, SUR, flux dyadiques et panels non équilibrés sont reportés jusqu'à validation du socle. Aucun code du package n'est modifié par ce plan.
+
+Précision de périmètre : les SAR/SEM existants sont transversaux ; les futurs SAR/SEM de panel formeront un harnais distinct, sans comparaison automatique avec les coupes. Le tableau de bord est reporté. L'entrée du nouveau harnais sera constituée des panels parents conservés dans les fiches, après inventaire de leurs liens `parent_dataset`/`source_dataset_id`, et non de leurs coupes temporelles dérivées.
+
+## 2026-09-14 — Lecture intégrale de la revue des jeux de benchmark
+
+Les onze PDF complémentaires ont été lus intégralement et synthétisés dans `extensions_projet_2026-09/revue_jeux_donnees_benchmark/lecture_integrale_et_comparaison_2026-09-14.md`. Le HTML compare désormais OpenML Suites, PMLB, AMLB, TableShift, TabZilla et TabReD ; traduit Datasheets et FAIR en exigences documentaires ; et confronte CAMELS-US, LamaH-CE et Caravan à la banque. Le positionnement est corrigé : les banques hydrologiques sont déjà fortement documentées ; l'apport visé est la couverture multi-domaines, la provenance jusqu'à la formule et une couche distincte de tâches/runs pour le noyau exécutable. Aucun dataset hydrologique n'a été téléchargé ou admis.
+
+Deuxième intégration : les formulations affirmant un vide général de documentation spatiale ont été retirées du README et du HTML. La contribution est définie comme la combinaison d'une couverture multi-domaines, d'une provenance distincte pour Y/X/géométrie/temps/W, du lien aux formules publiées et de la séparation `Dataset`/`BenchmarkTask`/`BenchmarkSuite`/`BenchmarkRun`. Un texte anglais directement réutilisable dans l'introduction et la discussion est disponible dans `synthese_introduction_discussion_datapaper_2026-09-14.md` et résumé dans le HTML.
+
+## 2026-09-16 — Extension du pilote S4 à Banff
+
+Le scénario de champs spatiaux calibrés S4 a été étendu à une troisième source de la banque, `paper_banff_stream_temperature`, après contrôle de la fiche, du RDS, du graphe de connaissances, du TEI du papier et du README des données brutes. Le pilote reprend `WaterTemp ~ Elev + RSlope + LE`; `LE`, binaire, est traité comme effet paramétrique dans les GAM. Les coordonnées `Easting`/`Northing` UTM en mètres sont utilisées directement. Cette covariance euclidienne ne reproduit pas les covariances de réseau hydrographique SSN/INLA du papier.
+
+Contrôles : 110 sites complets et sans doublon de coordonnées ; 36 sites de calibration et 74 d'évaluation ; champs vérifiés sur 3 000 tirages pour huit réglages ; tests de covariance, tampon et conditionnement passants. Deux lots de 40 répétitions, non conditionnel et conditionnel par pli, ont produit 4 000 évaluations et 200 contrastes chacun, sans échec ni avertissement. Le contrôle sans champ est identique entre les deux modes. Les résultats sont regroupés dans `extensions_projet_2026-09/revue_donnees_semi_synthetiques/scenario_s4_banff_40_2026-09-15/results.rds`; aucun CSV ajouté.
+
+Résultat descriptif : une portée longue augmente le risque dans 34/40 contextes Banff sans conditionnement et 27/40 avec conditionnement, contre 80/80 et 53/80 sur Georgia/Meuse. Pour la tendance conditionnelle Banff, le signe est positif dans 8/20 contextes. La faible fidélité des générateurs à la température réelle hors calibration (R² 0,16 et 0,25), les valeurs conditionnantes fixes et l'absence de connectivité fluviale interdisent une conclusion générale. Le HTML, la note S4, le suivi et le point encadrant ont été actualisés. Aucun changement de fiche dataset, de statut d'admission ou de moteur du package.
+
+## 2026-09-16 — Audit de synchronisation pour le data paper
+
+Ajout de `tools/audit_datapaper_repo.py` et du dossier `extensions_projet_2026-09/redaction_datapaper/`. L'outil parcourt les fiches datasets, le registre `spatialtidymodels`, le KG SQLite, toutes les bibliographies locales, les deux revues de septembre et les brouillons de data paper. Il produit un snapshot JSON, une synthèse consolidée, une synthèse courte pour le porteur du projet et un plan de synchronisation.
+
+Le snapshot vérifié compte 381 fiches et 381 entrées de registre, avec tous les identifiants appariés. Deux désaccords substantiels fiche–registre restent à examiner (`R_spData_nydata_nydata` et `R_spData_properties_properties`). Le registre exporté contient 260 `package_include: yes`, 65 `manual_review` et 56 `no` ; ces valeurs ne prouvent pas l'exécution des jeux et remplacent les anciens totaux seulement après validation du sens de la promotion. Le KG contient 80 653 nœuds et 108 366 relations. Douze fichiers BibTeX totalisent 669 entrées ; les doublons entre bibliographies restent à résoudre dans une bibliographie maître. Les brouillons d'août à 91 ou 289 fiches sont identifiés comme périmés. Aucune fiche, décision d'admission ou donnée n'a été modifiée par cet audit.
+
+## 2026-09-16 — Réexécution et actualisation de l'audit data paper
+
+Après régénération du registre et relance de l'audit, les 381 fiches et les 381 entrées du registre sont entièrement appariées et aucun désaccord de champ non vide n'est désormais détecté. Les écarts précédemment signalés pour `R_spData_nydata_nydata` et `R_spData_properties_properties` sont résolus dans le snapshot courant. Les deux synthèses et le plan ont été régénérés ; P2 distingue maintenant les contrôles fiches–registre terminés de la comparaison KG–fiches qui reste à mener. La synthèse précise que les 260 décisions `package_include: yes` ne sont ni les anciens totaux de 35/155 jeux ni un décompte de benchmarks exécutés.
+
+## 2026-09-16 — Synthèse des références du data paper
+
+Ajout de `extensions_projet_2026-09/redaction_datapaper/SYNTHESE_REFERENCES_DATAPAPER.md`. La note synthétise les onze références centrales sur les collections, tâches, harnais, documentation et banques spatiales, puis les vingt-quatre références méthodologiques sur simulations, plasmodes, validation spatiale, changement de support, erreurs d'observation et géostatistique. Elle hiérarchise leur place dans l'introduction, la discussion et les perspectives semi-synthétiques. Aucun ajout bibliographique ni changement de fiche dataset n'a été effectué.
+
+## 2026-09-16 — Cadrage du data paper après entretien
+
+Le plan V1 d'août est marqué historique et remplacé par `extensions_projet_2026-09/redaction_datapaper/PLAN_DATAPAPER_V2_2026-09-16.md`, accompagné d'un compte rendu de l'entretien. Correction de périmètre après clarification utilisateur : le data paper conserve trois blocs de méthodes — collecte, sous-échantillonnage et semi-synthétique — et écarte pour l'instant la description du package et du benchmark comparatif `spatialtidymodels`. Le plan prévoit aussi une petite méta-analyse des articles méthodologiques spatiaux, une comparaison des banques existantes et un corpus d'environ vingt data papers comparables. Aucun résultat scientifique, dataset ou statut d'admission n'a été modifié.
+
+## 2026-09-16 — Correspondance entre le rapport de stage et le plan V2
+
+Le rapport de stage complet, y compris ses annexes, a été relu comme document d'orientation. Le tableau `extensions_projet_2026-09/redaction_datapaper/CORRESPONDANCE_RAPPORT_PLAN_V2_2026-09-16.md` indique pour chaque partie du plan V2 ce que le rapport peut aider à retrouver, ce qui doit être revérifié dans les sources actuelles et ce qui doit rester hors du data paper. Le rapport n'est pas retenu comme base rédactionnelle ou probante. Ses anciens effectifs, statuts, résultats de benchmark et descriptions du package ne seront pas transférés au manuscrit. Ses apports utiles concernent surtout l'histoire des trois voies de collecte, les métadonnées, le KG/wiki et les difficultés de curation.
+
+## 2026-09-16 — Lancement du pilote de la petite méta-analyse
+
+Le protocole Monte-Carlo/données réelles a été testé sur six articles méthodologiques disposant d'un texte TEI complet. Après clarification, ces textes sont explicitement requalifiés comme **corpus de calibration de la grille**, et non comme sélection bibliographique du pilote. La sélection devra être construite indépendamment sur le web via des requêtes et critères reproductibles, puis seulement rapprochée des fichiers locaux. Les valeurs observées sur les six textes ne sont donc pas des résultats du pilote et ne sont pas destinées à l'introduction du data paper. La calibration montre que les expériences, structures de DGP, cellules, répétitions et bootstraps internes doivent être comptés séparément.
+
+## 2026-09-16 — Réception d'une présélection web pour la méta-analyse
+
+Une proposition externe de 50 articles a été conservée dans `extensions_projet_2026-09/redaction_datapaper/CORPUS_WEB_BRUT_META_ANALYSE_2026-09-16.md`. Le contrôle structurel confirme 50 DOI de syntaxe plausible, aucun doublon de DOI et la répartition annoncée entre cinq familles. Ce fichier reste un corpus brut : les simulations, applications, datasets, disponibilités et citations ne sont pas encore validés. La sélection mélange des comptes de citations hétérogènes, neuf applications déclarées n'ont pas de dataset identifié, et la liste dite de 18 priorités ne contient que 16 articles. Avant codage, il faut vérifier les métadonnées officielles, préciser les strates et documenter le flux de sélection.
+
+## 2026-09-17 — Collecte des PDF de la présélection méta-analyse
+
+Les 50 DOI ont été soumis successivement aux résolveurs du dépôt (`download_regression_article_pdfs.py`, puis `pdf_resolver.py` avec PMC, Unpaywall, OpenAlex et Playwright). Les versions auteur ou institutionnelles ont ensuite été recherchées uniquement pour les échecs. Vingt-sept articles disposent désormais d'un PDF lisible et paginé dans `corpus/papers/raw_pdf/`; le titre a été contrôlé dans les deux premières pages. Vingt-trois DOI restent indisponibles en raison de restrictions éditeur, CAPTCHA, absence de copie ouverte détectable ou indisponibilité temporaire du dépôt. Le manifeste `extensions_projet_2026-09/redaction_datapaper/meta_analyse_50_pdf_manifest_2026-09-17.tsv` conserve les 50 lignes, leurs chemins et leur statut. Aucun article n'a encore été admis ou exclu scientifiquement sur la base du texte intégral, et GROBID n'a pas encore été lancé sur ce lot.
+
+Complément du même jour : les 23 PDF manquants ont été fournis par l'utilisateur dans `Downloads`. Ils ont été ouverts, paginés et rapprochés des titres et DOI, puis déplacés vers `corpus/papers/raw_pdf/` sous les identifiants E/G/S/T/C du corpus. Les fichiers sources correspondants ont été retirés de `Downloads`; les autres PDF présents dans ce dossier n'ont pas été touchés. Le manifeste compte maintenant 50 articles disponibles, 0 manquant, 1 284 pages et 70,31 Mio au total. Le lancement de GROBID reste l'étape suivante.
+
+Conversion GROBID terminée : `tools/kg/02_run_grobid.py` accepte désormais l'option `--manifest`, qui limite la conversion aux chemins de la colonne `path` d'un TSV. Sur le manifeste de la méta-analyse, 47 TEI ont été écrits et trois TEI existants réutilisés, sans échec. Les 50 XML sont bien formés et contiennent ensemble 6 283 paragraphes pour 5,67 Mio. Le manifeste a été enrichi avec `tei_status`, `tei_path`, `tei_bytes` et `tei_paragraphs`. Le parsing vers le KG et le codage scientifique de la méta-analyse n'ont pas encore été lancés.
+## 2026-09-23 — Reconstructions S01 et G06 depuis les sources publiques
+
+- S01 : relecture integrale du TEI. Le papier indique 217 stations completes en 1981 mais ne fournit aucun identifiant ni filtre supplementaire. Le critere publie applique a l'objet historique UCAR produit 244 stations ; cette reconstruction est conservee avec un avertissement explicite et sans pretendre reproduire l'echantillon auteur.
+- G06 : reconstruction de l'application PM2.5 de l'equation (16) depuis EPA AQS, Livneh et NARR. L'agregation DJF 2011 et la jointure aux cellules valides les plus proches produisent 838 sites continentaux complets pour `PM25 ~ PPTN + RH + Tmin + Tmax + WS + TCDC`.
+- Ajout de deux scripts reproductibles, de deux loaders `sf`, des RDS finaux, de deux fiches dataset et des relations correspondantes dans `inst/kg/paper_dataset_uses.json`.
+- Les deux jeux restent en `manual_review` : S01 diverge de 217 a 244 stations et G06 ne dispose pas de la liste finale ni du code de jointure des auteurs.
+
+## 2026-09-23 — Conversion S02 et G09 (loaders deja ecrits, execution manquante)
+
+- S02 : le loader `load_s02_us_april_1948_precip()` et sa fiche etaient deja codes dans `build_sf_datasets_papers.R` mais jamais executes. Execution du loader officiel `spam::USprecip` (Furrer, Genton & Nychka) : 5 906 stations observees (infill=1) sur les 11 918 du fichier CRAN, coherent avec la Figure 8 du papier malgre une prose qui annonce 5 909.
+- G09 : le loader `load_g09_nyc_covid_zcta()` etait deja code de meme. Execution sur le paquet de replication Figshare officiel (Sachdeva et al. 2023) : 183 ZCTA newyorkaises completes, modele `Positive ~ perc_black + heart_perc + pop_density + schools_per_mile + perc_pub_ast + perc_hispanic` (Poisson, lien log, offset=Total). CRS EPSG:2263 reconstruit avec confiance elevee depuis les metadonnees MODZCTA officielles (ni le papier ni le notebook ne le declarent explicitement) -- documente comme infere, pas declare par les auteurs.
+- Ajout des deux entrees dans `LOADER_TO_DIR` (`generate_fiches_papers.R`) et de deux relations dans `inst/kg/paper_dataset_uses.json`, puis generation des deux fiches dataset. Tier 1 PASS sur les deux.
+- Les deux jeux restent en `manual_review` : S02 conserve l'ecart prose/figure du papier source, G09 conserve le CRS infere.
+
+## 2026-09-23 — Conversion N04 (Glasgow) et N03 (Macoma balthica)
+
+- N04 : nouveau loader (`load_n04_glasgow_respiratory()`), jointure officielle CARBayesdata (`respiratorydata.rda` x 134 IZ + `GGHB.IZ.rda` x 271 polygones, CRS EPSG:27700 declare). TEI relu integralement (pas seulement grep) : le papier ajuste reellement TROIS modeles sur ce jeu -- HGP (propose, correlation par distance de Hausdorff entre polygones), DAGAR et BYM (comparateurs reels, pas juste cites, Table 2). Aucun des trois n'est implemente dans spatialtidymodels. Une matrice d'adjacence (`spdep::poly2nb`, contiguite reine) a ete construite comme infrastructure (`data/final_datasets/weights/paper_n04_glasgow_respiratory_W.rds`, decision utilisateur explicite, exception a la regle habituelle) mais n'est consommee par aucun estimateur actuel.
+- N03 : nouveau loader (`load_n03_macoma_balthica()`), depot officiel des auteurs (github.com/benee55/PICAR_Z_Code, `samples/datsc.csv`, 4026 lignes). TEI relu integralement : le papier propose PICAR-Z, un modele hurdle a deux processus spatiaux latents independants (occurrence + prevalence), non implemente. Ecart initialement signale entre "n=4029" et les 4026 lignes deposees resolu : le 4029 cite un autre papier (Lyashevska et al. 2016) en introduction, pas ce jeu. CRS (EPSG:28992, RD New/Amersfoort) infere avec confiance elevee mais non declare par les auteurs.
+- Les deux jeux restent en `manual_review` : aucune methode spatiale publiee n'a d'equivalent dans le harnais actuel (HGP/DAGAR/BYM pour N04 ; hurdle PICAR-Z pour N03).

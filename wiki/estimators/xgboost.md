@@ -162,6 +162,28 @@ The benchmark now fits two variants:
 The `xgboost_xy` variant is not a spatial econometric model. It only tests
 whether a standard ML model can exploit raw coordinates as predictors.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "xgboost_xy"
+    package: "xgboost"
+    backend: "xgboost::xgb.train"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords_as_covariates"
+    tunable_parameters: ""
+    family: "xgboost"
+    role: "variant"
+    reference_estimator: "xgboost"
+    variant_family: "coordinate_augmented"
+    dashboard_group: "Machine Learning"
+    response_typologies: ["continuous", "binary", "count"]
+    notes: "Baseline XGBoost native tidymodels sur X et coordonnees brutes."
+```
+
 ## Related Pages
 
 - [[gam]]

@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial econometric Monte Carlo studies: raising the bar</title>
+				<funder ref="#_gBr5XMQ">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+							<email>james.lesage@txstate.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Finance and Economics</orgName>
+								<orgName type="institution">Texas State University</orgName>
+								<address>
+									<settlement>San Marcos</settlement>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">•</forename><forename type="middle">R</forename><surname>Kelley</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Finance</orgName>
+								<orgName type="institution">Louisiana State University</orgName>
+								<address>
+									<addrLine>Baton Rouge</addrLine>
+									<region>LA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+						</author>
+						<title level="a" type="main">Spatial econometric Monte Carlo studies: raising the bar</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">5253A0244A8A15C4F7F824A11CB87BC3</idno>
+					<idno type="DOI">10.1007/s00181-017-1330-6</idno>
+					<note type="submission">Received: 2 November 2016 / Accepted: 5 July 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T15:01+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial autoregressive models</term>
+					<term>Simulation of scalar summary direct and indirect effects</term>
+					<term>Estimated variance-covariance matrices JEL Classification C11</term>
+					<term>C18</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We discuss Monte Carlo methodology that can be used to explore alternative approaches to estimating spatial regression models. Our focus is on models that include spatial lags of the dependent variable, e.g., the SAR specification. A major point is that practitioners rely on scalar summary measures of direct and indirect effects estimates to interpret the impact of changes in explanatory variables on the dependent variable of interest. We argue that these should be the focus of Monte Carlo experiments. Since effects estimates reflect a nonlinear function of both β and ρ, past studies' focus exclusively on β and ρ parameter estimates may not provide useful information regarding statistical properties of effects estimates produced by alternative estimators. Since effects estimates have recently become the focus of inference regarding the significance of (scalar summary) direct and indirect impacts arising from changes in the explanatory variables, empirical measures of dispersion produced by simulating draws from the (estimated) variance-covariance matrix of the parameters β and ρ should be part of the Monte Carlo study. An implication is that differences in the quality of estimated variance-covariance matrices arising from alternative estimators also plays a role in determining the accuracy of inference. An applied illustration is used to demonstrate how these issues can impact conclusions regarding the performance of alternative estimators.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>According to <ref type="bibr" target="#b5">Elhorst (2010)</ref>, the period 2007-2009 ushered in a "sea change" in spatial econometrics, with focus on models that included more than one spatial interaction effect. For example, Elhorst notes that Kelejian in his 2007 keynote address to the first World Conference of the Spatial Econometrics Association advocated models that include both a spatially lagged dependent variable plus a spatial lag of the error term. In contrast, LeSage in his 2007 presidential address at the 54th North American Meeting of the Regional Science Association International advocated models that included spatial lags of the dependent and explanatory variables. Such models have often been incorrectly interpreted in the past. <ref type="bibr" target="#b5">Elhorst (2010)</ref> in his review of the 2009 book Introduction to Spatial Econometrics by LeSage and Pace entitled: "Applied spatial econometrics: raising the bar" provides a lucid presentation of the issues and the interpretive approach followed by LeSage and Pace. 1  LeSage and <ref type="bibr" target="#b14">Pace (2009)</ref> proposed summary estimates for the impacts arising from changes in explanatory variables of spatial regression models containing spatial lags of the dependent (and possibly spatial lags of independent) variables. These would include the spatial autoregessive (SAR) specification: y = ρW y + Xβ + ε, or spatial Durbin model (SDM) specification: y = ρW y + Xβ + W Xθ + ε, [see LeSage and <ref type="bibr" target="#b14">Pace (2009)</ref>]. These reflect scalar summary measures of the own-and cross-partial derivatives from these models, showing how the dependent variable in (the typical) region i responds to changes in characteristics of (the typical) region i (own-partials), and how neighboring regions j respond to the same change in characteristics of region i (cross-partials).</p><p>They labeled these direct and indirect effects estimates, respectively, and these are calculated by most spatial regression software (e.g., the Spatial Econometrics Toolbox for MATLAB software by LeSage,<ref type="foot" target="#foot_1">foot_1</ref> the R-language package spdep by Roger Bivand,<ref type="foot" target="#foot_2">foot_2</ref> and the Stata code described in <ref type="bibr">Drukker et al. (2013a, b)</ref> all report these estimates). <ref type="foot" target="#foot_3">4</ref> In addition to reporting scalar summary estimates, these software provide empirically derived measures of dispersion used for inference regarding the statistical significance of direct and indirect (spillover) effects. Because of the widely available software for spatial regression models, it is now almost universal practice to properly interpret estimates from spatial regression models, rather than rely on past practice where β coefficients were incorrectly interpreted as if they represented partial derivative responses of the dependent variable to changes in the explanatory variables.</p><p>In light of these recent changes in applied practice regarding spatial regression models, Monte Carlo studies should assess performance of alternative estimators using a comparison of bias and mean squared error (MSE) of the parameter estimates of β and ρ as well as the effects estimates on which practitioners base their inferences about the impact of explanatory variables. Since the effects estimates involve nonlinear transformations of possibly covarying underlying parameter estimates of (β and ρ), assessing bias or MSE for the parameters estimates of β and ρ may not provide useful information regarding the statistical operating characteristics of alternative estimators when it comes to the effects estimates used by practitioners. An implication is that Monte Carlo practice should examine the distribution of the effects estimates.</p><p>A related point is that empirical estimates of dispersion for the effects estimates used for inference regarding the significance of (scalar summary) direct and indirect impacts arising from changes in the explanatory variables are produced by simulating from the (estimated) variance-covariance matrix of the parameter estimates of β, ρ and σ ε . An implication is that differences in the quality of estimated variance-covariance matrices arising from alternative estimators also plays a role in the accuracy of inference, and should be part of the Monte Carlo study.</p><p>Section 2 provides background information on the relationship between underlying parameters β, θ, ρ and the effects estimates for the SAR and SDM spatial regression models. Section 3 focuses on issues pertaining to Monte Carlo approaches that can be used to produce evidence regarding empirical measures of dispersion calculated by alternative spatial regression estimators for the effects estimates that are used for inference. Since these measures of dispersion are empirically determined using simulated values for the underlying parameters β, θ, ρ, σ ε from the (estimated) variance-covariance matrix, alternative variance-covariance expressions can have a large impact on the empirical estimates of dispersion arising from alternative estimation procedures. Section 4 carries out an applied illustration based on a recent Monte Carlo study by <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> to demonstrate how these issues impact conclusions regarding the performance of alternative estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background</head><p>For concreteness in our discussion we let a spatial regression (SAR) model take the form:</p><formula xml:id="formula_0">y = αι n + ρW y + Xβ + ε ε ∼ N 0, σ 2 ε I n (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where y is an n × 1 vector of observations on the dependent variable and X is an n × k matrix of observations on the explanatory variables. Each of these observations on the dependent and explanatory variables comes from regions or points in space. Also, β is a k × 1 vector of parameters associated with the explanatory variables, ι n is a vector of ones and α is the associated intercept parameter. The n disturbances ε are distributed normally with constant variance σ 2 ε and zero covariance across observations. The spatial Durbin model (SDM) replaces the matrix X with ( X W X ). The matrix W is the spatial weight matrix that contains positive elements w i j if observations j and i are neighbors and zero otherwise. Typically, the matrix W is normalized to have row sums of unity, so the n × 1 spatial lag vector W y contains values constructed from a linear combination of values from neighboring observations. Elements of the weight matrix W are assumed to be fixed or nonstochastic, which means the elements are not random variables.</p><p>LeSage and <ref type="bibr" target="#b14">Pace (2009)</ref> propose cumulative scalar summary measures of the impacts or partial derivative responses of the dependent variable to changes in the explanatory variables in spatial lag regression models. The partial derivatives take the form of n × n matrices shown in (2) for the kth explanatory variable in the SAR specification and (3) for the SDM.</p><formula xml:id="formula_2">∂ y/∂ X k = (I n -ρW ) -1 I n β k (2) ∂ y/∂ X k = (I n -ρW ) -1 (I n β k + W θ k ) (<label>3</label></formula><formula xml:id="formula_3">)</formula><p>To produce manageable estimates that mirror standard regression practice, LeSage and <ref type="bibr" target="#b14">Pace (2009)</ref> summarize the n × n matrix of partial derivatives using an average (or median) of the main diagonal elements reflecting own-partial derivatives: ∂ y i /∂ X i,k which they label direct effects. The cumulative sum of off-diagonal elements are also averaged to produce a scalar summary of the cross-partial derivatives: ∂ y j /∂ X i,k , which they label indirect effects. <ref type="foot" target="#foot_4">5</ref>We note that the SAR and SDM models allow for spillovers from neighbors to neighbors of neighbors, and so on, which accounts for the popularity of these models in regional science applications. To see this, consider the infinite series expansion of the matrix inverse: (I n -ρW ) -1 shown in (4).</p><formula xml:id="formula_4">(I n -ρW ) -1 = I n + ρW + ρ 2 W 2 + ρ 3 W 3 . . . (<label>4</label></formula><formula xml:id="formula_5">)</formula><p>The matrix W reflects neighboring regions, W 2 neighbors to the neighboring regions, W 3 neighbors to the neighbors of W 2 , and so on. Since the spatial dependence parameter is bounded by ρ &lt; 1, the matrix inverse assigns declining influence to higher-order neighbors.</p><p>An implication of the matrix inverse is that the scalar summary measures of direct and indirect effects arising from changes in the kth explanatory variable are nonlinear functions of the parameters ρ and β k (and θ k in the case of the SDM specification). Monte Carlo studies that focus on bias and MSE assessments for the parameter estimates β, ρ (in the case of the SAR model), might not adequately reflect bias and MSE in the effects estimates used by practitioners. The goal of most applied spatial regression analysis is to determine how the dependent variable responds to changes in the explanatory variables, information provided by the (scalar summary) effects estimates. Since the parameter estimates β are not useful for this purpose, some recent studies using spatial regression models do not report estimates of the parameters β (e.g., <ref type="bibr" target="#b16">LeSage and Sheng 2014)</ref>. For studies that do report these estimates, there is typically no discussion of the signs or statistical significance of the estimates for β or θ , since these may not reflect the signs or significance of the effects estimates. <ref type="foot" target="#foot_5">6</ref>Given this disconnect between the object of inference represented by the (scalar summary) effects estimates, and the parameter estimates of β, ρ or in the case of SDM β, ρ, θ, we propose that Monte Carlo studies focus their comparative assessment of alternative estimation methods on effects estimates rather than the underlying parameter estimates of β and ρ.</p><p>We note that our focus here is on Monte Carlo practice as it relates to cross-sectional spatial regression models involving continuous dependent variables. However, the proposals set forth also apply to scalar summary measures of effects estimates that have been proposed for the case of spatial regression variants of probit models, <ref type="bibr" target="#b15">LeSage et al. (2011)</ref>, as well as spatial regression versions of spatial interaction (gravity) models, LeSage and Thomas-Agnan (2015), static spatial regression panel models, <ref type="bibr" target="#b6">Elhorst (2014)</ref>, and space-time dynamic spatial panel models, <ref type="bibr" target="#b1">Debarsy et al. (2012)</ref>.</p><p>Our focus here is on the issue of Monte Carlo methodology as it applies to examination of effects estimates and associated measures of dispersion for these estimates. Therefore, we avoid discussion of other potential issues that arise when designing a Monte Carlo study. For example, issues pertaining to design of spatial weight matrix specifications, use of spatially dependent versus independent explanatory variables, controlling for signal-to-noise, etc.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Proper statistical summaries of Monte Carlo outcomes</head><p>Practitioners motivation for use of spatial regression models that include spatial lags of the dependent variable is often inference regarding the magnitude and significance of spatial spillovers. Because of this, indirect effects estimates as well as measures of dispersion for these should be a focus of Monte Carlo studies.</p><p>Let V represent the variance-covariance matrix pertaining to estimates from the SDM model in (5), and let τ represent the total effect, which is the sum of direct and indirect effects.</p><formula xml:id="formula_6">y = Xβ + W Xθ + ρW y + ε (<label>5</label></formula><formula xml:id="formula_7">) τ = β -θ 1 -ρ (<label>6</label></formula><formula xml:id="formula_8">) V = ⎛ ⎝ var( β) cov( β, θ) cov( β, ρ) cov( θ, β) var( θ) cov( θ, ρ) cov( ρ, β) cov( ρ, θ) var( ρ) ⎞ ⎠<label>(7)</label></formula><p>A Monte Carlo study could examine the distributions of the estimates β, θ ρ for different estimators. This information provides an incomplete picture when the desire is to examine the distribution of statistics such as τ for different estimators, since τ is a nonlinear function of the parameters β, θ, ρ. Conclusions regarding bias and mean squared error of parameters β, θ, ρ do not necessarily reflect bias and mean squared Footnote 6 continued specification, the statistical significance of the coefficients β will not necessarily relate to the statistical significance of the direct and indirect effects associated with a particular explanatory variable.</p><p>error of (scalar summary) effects estimates like the total effect τ (or the direct and indirect effects component parts).</p><p>In general, the covariance of estimates will play a role. For example, when the explanatory variables in the matrix X are spatially dependent, they will be positively correlated with those in W X, leading to nonzero covariance between β and θ . It is also the case that ρ may not vary independently from β and θ .</p><p>For example, in the case of the SAR specification, negative covariance between the parameter β r for the r th explanatory variable and ρ implies that combining these two parameters in the matrix expression for the effects associated with the r th explanatory variable: ∂ y/∂ X r = (I n -ρW ) -1 β r allows upward bias in the parameter β r to be offset by downward bias in ρ (and vice versa) when calculating effects estimates.</p><p>In addition, measures of dispersion related to parameters β, ρ will not reflect the empirically derived measures of dispersion for the effects estimates. There is an important role played by the estimated variance-covariance matrix used to simulate draws of the parameters β, ρ that are in turn used to determine empirical measures of dispersion for the effects. Ultimately, inference regarding the significance of spatial spillovers may depend heavily on alternative estimated variance-covariance matrices used by different estimators.</p><p>Even for a given estimation method such as maximum likelihood, different approaches can be used to construct an estimate of the variance-covariance matrix for the parameter estimates of β, ρ, σ ε . LeSage and Pace (2009, Chapter 3) point out that various procedures appear in the literature regarding use of an analytical or numerical Hessian, or the related information matrix to produce an estimate of the variance-covariance matrix conventionally used to produce t-statistics associated with the estimates of β, ρ. For maximum likelihood, the Hessian is the matrix of second-derivatives of the log-likelihood with respect to the parameters.</p><p>For large numbers of observations, calculation of the dense matrix inverse: (I n -ρW ) -1 that is part of the analytical Hessian may become computationally difficult. <ref type="foot" target="#foot_6">7</ref>This has lead to use of a numerical procedure to calculate second-derivatives of the log-likelihood with respect to the parameters for the Hessian. <ref type="foot" target="#foot_7">8</ref> There is also a mixed analytical and numerical procedure proposed in <ref type="bibr">LeSage and Pace (2009, Chapter 3)</ref>.</p><p>When we compare alternative estimation approaches such as maximum likelihood (ML) or generalized method of moments (GMM), differences in variance-covariance matrix calculation may have an important impact on bias and mean squared error of the effects estimates. This is because the empirical measures of dispersion for the effects estimates are constructed using draws for the parameter estimates of β, ρ based on the estimated variance-covariance matrix. These draws are then used in the nonlinear matrix expression: ∂ y/∂ X r = (I n -ρW ) -1 β to simulate (say) m different n × n matrices. Empirical measures of dispersion for the scalar summary direct effect estimates are based on an average (or median) of the main diagonal of these m different n × n matrices. Empirical measures of dispersion for the (cumulative) scalar summary indirect effect estimates are based on the sum of off-diagonal elements (for each row) using the average (or median) of the rows. 9 Despite the obvious importance of different approaches to calculating estimates of the variance-covariance matrices used by different estimators, there has been little attention given to this issue in the spatial econometrics Monte Carlo literature.</p><p>Practitioners may question the accuracy of numerical Hessian estimates calculated by maximum likelihood estimation. A comparison of t-statistics from maximum likelihood to those from Bayesian MCMC estimation of the same model using uninformative priors for the parameters in Bayesian MCMC estimation should produce estimates quite similar to maximum likelihood. The variance-covariance matrix does not need to be constructed during Bayesian MCMC estimation to produce simulated draws for calculating empirical measures of dispersion for the effects estimates. Instead, (retained) MCMC draws made during estimation of β, ρ are used to produce empirical measures of dispersion for the effects estimates (as well as for the parameters β, ρ). Large differences between t-statistics from MCMC versus maximum likelihood estimation likely point to a problem with the numerical estimate of the variance-covariance matrix. <ref type="bibr" target="#b7">Gelfand et al. (1990)</ref> point out that draws from MCMC sampling can be used to produce valid posterior distributions for nonlinear functions of the parameters that are of interest, such as the direct and indirect effects estimates.</p><p>We propose an approach that can be used in Monte Carlo studies to explore the impact of alternative variance-covariance estimates on empirical measures of dispersion for the effects estimates. In terms of alternative variance-covariance estimates, we can rely on numerical or analytic Hessian matrices, as well as different asymptotic analytical expressions employed by GMM, or Bayesian Markov Chain Monte Carlo (MCMC) draws. 10  For a Monte Carlo experiment involving m = 1, . . . , M iterations/trials, where we are interested in calculating bias and mean squared error of the direct and indirect effects estimates:</p><p>Step (1) For each Monte Carlo iteration m, calculate mean/median direct and indirect effects estimates based on the last q MCMC draws in the case of Bayesian MCMC estimation, or q simulated draws of the parameter estimates from the asymptotic variance-covariance matrix from GMM, maximum likelihood, or some other method of interest where q is a large number such as 1000.</p><p>Step (2) For each Monte Carlo iteration m, calculate empirical standard deviations (measures of dispersion) for the direct and indirect effects estimates based on the q simulated draws of the parameter estimates or MCMC draws of the parameters. 9 Of course, the row and column sums are the same, so either could be used. 10 The retained MCMC draws (those collected after a "burn-in" set of draws) have been shown by <ref type="bibr" target="#b7">Gelfand and Smith (1990)</ref> to reflect draws from the joint posterior distribution of the parameters β and ρ. As such, they should embody any nonzero covariance between these sets of parameters.</p><p>Step (3) Store these mean/median and standard deviation estimates for the direct and indirect effects, producing a sample of size M.</p><p>We then suggest calculating measures of bias and mean squared error based on the set of M point estimates of the direct and indirect effects, as well as the set of M empirical estimates of the standard deviations.</p><p>Calculation of bias and mean squared error would involve:</p><p>-Analyze bias of the estimator using the difference between the true direct and indirect effects and each of the m point estimates for these effects. An average (mean) of the M different measures of bias should be used as a scalar summary measure of bias. -Analyze dispersion of the estimator using the mean of the M empirical standard deviation estimates from each of the m Monte Carlo iterations. -Mean squared error (MSE) measures for the estimator should be calculated using mean of the M different biases squared plus the mean of the M different empirical standard deviations squared.</p><p>The intuitive motivation for this approach is that practitioners will use the mean/median and empirical standard deviation constructed from the q simulated effects estimates to draw inferences. We care about the quality of inferences on average arising from different estimators. The quality of inference will depend on the process used to produce empirical standard deviations based on simulated effects estimates by different estimators. This of course will be a function of alternative approaches to estimating the variance-covariance matrix. This is because empirical measures of dispersion are based on draws made using the (estimated) variance-covariance matrix.</p><p>In applied practice we use numerical or analytical Hessians in maximum likelihood, Bayesian MCMC draws, or a GMM asymptotic variance-covariance matrix to calculate standard deviations of the effects estimates for practitioners. Our proposed Monte Carlo approach includes an examination of variance-covariance estimates produced by these various estimators.</p><p>By way of conclusion, we should not ignore the fact that draws from MCMC or an estimated variance-covariance matrix are used to produce measures of dispersion for estimated β, ρ that play an important role in inference. Further, alternative approaches to calculating dispersion for these parameters may play an important role when it comes to producing draws used in the nonlinear relationship between these parameters and our empirical measures of dispersion for the effect estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">An illustrative example</head><p>To illustrate how these issues impact conclusions drawn from Monte Carlo studies, we compare three estimation procedures, maximum likelihood (ML), robust Bayesian MCMC sampling (RBayes) and a robust GMM (RGMM) method set forth in a Monte Carlo study by <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref>.</p><p>We carry out two Monte Carlo experiments, one in Sect. 4.1 where the three methods are applied to a data generating process (DGP) that exhibits the typical normally distributed constant variance disturbances, with explanatory variables that are independent normally distributed. From the spatial econometric literature we known that all three estimators ML, RBayes, RGMM produce estimates of β, ρ that are asymptotically equivalent <ref type="bibr" target="#b12">(Lee 2007)</ref>. This means we would expect similar bias and MSE for β, ρ from all three estimation procedures as the Monte Carlo experiment sample size increases. It should be noted that we rely on the best moment functions for the i.i.d normal case from <ref type="bibr" target="#b12">Lee (2007)</ref> that produce GMM estimators with the same asymptotic efficiency as ML. Differences in outcomes from various approaches to determining measures of dispersion should become small as sample size increases, but asymptotic properties may manifest themselves at very large sample sizes. As a practical matter, the efficiency of GMM can depend on correlation between W y and the instruments W (I n -ρW ) -1 Xβ. For example, <ref type="bibr" target="#b19">Pace et al. (2012)</ref> show that IV estimation methods produce poor performance for some spatial regression models even for sample sizes of 250,000-500,000 in the face of spatial dependence in the explanatory variables.</p><p>A second experiment in Sect. 4.2 follows the Monte Carlo study by <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> that relies on a DGP involving a special type of heteroscedasticity that relates to the number of neighboring observations (more generally, aspects of the W -matrix). As a practical matter, <ref type="bibr" target="#b9">Griffiths (2007)</ref> and <ref type="bibr" target="#b13">Lee (2010)</ref> argue that this type of heteroscedasticity arises when spatial data are created by averaging regions with a different number of observations/subregions. In the presence of heteroscedastic disturbances of this type both ML and GMM estimators are inconsistent. <ref type="bibr" target="#b11">Kelejian and Prucha (2010)</ref> modify the moment functions from their two-step GMM estimation approach to accommodate unknown forms of heteroscedasticity, and Lin and <ref type="bibr" target="#b13">Lee (2010)</ref> propose a one-step robust GMM estimator for the heteroscedastic SAR specification, which they show is consistent and asymptotically normally distributed. In practice, a consistent estimate of the asymptotic covariance matrix is used to construct empirical confidence regions. In this case of heteroscedasticity, there is no set of best moment functions, so Lin and Lee (2010) suggest use of the moment conditions from the i.i.d case (without normality). These were used in <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> and in this study as well. This second experiment should produce systematic bias in ML estimates, but other estimators such as RBayes and RGMM that do not exhibit bias may lead to increased dispersion, resulting in the classic trade-off between bias and precision, which we examine using mean squared error.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">A comparison of ML, RBayes, RGMM when disturbances are normal and homoscedastic</head><p>We use the spatial coordinates added to the Boston house price data from <ref type="bibr" target="#b10">Harrison and Rubinfeld (1978)</ref> by <ref type="bibr" target="#b8">Gilley and Pace (1996)</ref> to create a 506 observation dataset. A larger sample of 3107 observations was based on spatial coordinates for US counties from <ref type="bibr" target="#b18">Pace and Barry (1997)</ref>.</p><p>The SAR model DGP was used: y = ρW y + Xβ + ε, where β = 1 0 -1 . Normal, independent and constant variance disturbances were used, ε ∼ N (0, σ 2 ε ). Three explanatory variables were generated from an independent normal distribution with a mean of zero and variance of unity. The same set of explanatory variables, parameters for β, ρ were used in all experiments with n = 506, with changes in the noise variance σ 2 ε made to explore the impact of changes in the signal-to-noise ratio on estimation performance. The same was true for the case of n = 3, 107, explanatory variables were fixed across all experiments.</p><p>It should be noted that we are only interested in providing an illustrative example of the implications of adopting our proposed Monte Carlo methodology. We do not intend an exhaustive study of the alternative estimators over the full range of parameter values, signal-to-noise ratios, etc.</p><p>Table <ref type="table" target="#tab_0">1</ref> shows results averaged over 1000 trials based on the proposed procedure set forth in Sect. 3. The signal-to-nose ratio (SNR) was controlled using a noise variance σ 2 calculated using the relationships in (8).<ref type="foot" target="#foot_8">foot_8</ref> </p><formula xml:id="formula_9">SNR = A A A A + σ 2 tr(B B) A = B Xβ B = (I n -ρW ) -1 σ 2 = A A(1 -SNR) tr(B B)(SNR) (<label>8</label></formula><formula xml:id="formula_10">)</formula><p>Of course, the SNR in (8) will lie between 0 and 1, similar to the R 2statistic. To impose a value of (say) SNR = 0.7, we solve expression (8) for σ 2 = 0.3(A A)/0.7tr <ref type="bibr">(B B</ref>). An R-squared statistic calculated using: ŷ = (I n -ρW ) -1 X β in the usual least-squares formula tends to values similar to the SNR.</p><p>The lowest bias and MSE across the three alternative estimators are indicated with an asterisk ( * ) symbol in the table. We see similar performance in terms of MSE for all three methods in terms of the parameters β, ρ.</p><p>Empirical estimates of means and standard deviations for the direct and indirect effects were constructed based on 1000 draws used in the nonlinear expressions for calculating scalar summary measures of the effects estimates (LeSage and Pace, p 115). These draws were constructed using: (1) for RBayes, the last 1000 draws of β, ρ from a total of 2500 MCMC draws used for estimation, 12 (2) for ML, 1000 draws for β, ρ made using a normal distribution with a variance-covariance matrix based on the analytical Hessian, and (3) for RGMM, 1000 draws based on the asymptotic variance-covariance matrix associated with the best moment functions for the i.i.d case (without normality) from Lin and <ref type="bibr" target="#b13">Lee (2010)</ref>. 13  The MSE reported in the table show roughly equal performance for direct effects across all three methods for the three explanatory variables. The MSE associated with the indirect effects estimates show a slight advantage for the ML estimator. This arises from slightly less bias and increased precision indicated by the lower empirical standard deviations for the indirect effects presented in the table. Given the controlled nature of our experiment, this arose from additional accuracy provided by use of the analytical variance-covariance matrix to produce simulated draws that were in turn used to calculate empirical measures of dispersion for the scalar summary indirect effects estimates.</p><p>As a validity check, we report results for an experiment with n = 3107 and moderate SNR producing a median R 2 over the 1000 trials equal to 0.6729. We would expect ML and GMM methods to produce similar performance for this larger sample given our theoretical knowledge about consistency of the GMM estimator and variancecovariance matrix. Results presented in Table <ref type="table" target="#tab_1">2</ref> show this to be the case. These results also make the point that any bias or imprecision in β, ρ estimates tend to become amplified for the direct and indirect effects estimates, presumably due to the nonlinear relationships involved. In addition, indirect effects will exhibit more amplification because of cumulation over all off-diagonal elements of the n × n matrices, than direct effects based only on the main diagonal elements.</p><p>Table <ref type="table" target="#tab_2">3</ref> shows the impact of lowering the SNR to 0.3528, consistent with a median R-squared of 0.35 over the 1000 trials. This set of results indicates similarly equivalent MSE across the three methods for the parameters β, ρ. In contrast, the MSE for indirect effects provides a distinct advantage for the ML procedure. The source of this advantage can be seen in the standard deviations for the indirect effects reported in the Table . 
+Table <ref type="table" target="#tab_3">4</ref> shows results for a further lowering of SNR to produce a model with R 2 around 0.19. These results show a dramatic increase in bias and dispersion of 12 A random-walk Metropolis-Hastings approach was used to sample the parameter ρ with a tuning procedure described in LeSage and Pace (2009, Chapter 5). 13 See <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> for details regarding this. the RGMM indirect effects estimates. Examining only MSE for the parameters β, ρ would provide no indication of the magnitude of this problem. The problem seems to stem from large bias in estimation of the parameter ρ, which of course is magnified when calculating indirect effects as well as the empirical measure of dispersion for these. This is because of the nonlinear transformation: (I n -ρW ) -1 = I n + ρW + ρ 2 W 2 + ρ 3 W 3 . . ., which plays an important role in calculating empirical measures of dispersion for the indirect effects.</p><p>The divergence between conclusions drawn from examining only outcomes for the parameters β, ρ while ignoring direct and indirect effect outcomes can be seen more clearly for a larger sample of n = 3109 observations. Table <ref type="table" target="#tab_4">5</ref> reports results from this experiment, where low SNR has been used. In this experiment, the MSE for the parameters β, ρ from all three methods is identical. The conclusion that would be drawn is that all three estimators provide equally good performance. However, an examination of the MSE for these methods based on indirect effects estimates would lead to a very different conclusion. Here we see a five-to sixfold increase in MSE for the RGMM estimator relative to ML and RBayes. This increased MSE arises in large part from a fifty-fold increase in bias of the indirect effects estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">A comparison of ML, RBayes, RGMM when disturbances are heteroscedastic</head><p>In this section, we turn to a second experiment that follows the Monte Carlo study by <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref>. They rely on a DGP that produces heteroscedasticity that is related to the number of neighboring observations. We use the same consistent estimate of the asymptotic covariance matrix to construct empirical measures of dispersion for the effects estimates as in <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref>. This experiment should produce systematic bias in ML estimates. A Monte Carlo study of this situation can be used to examine the classic trade-off between bias and precision, which we examine using mean squared error.</p><p>An experiment similar to those reported in <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref>, for n = 945 was carried out. The nature of heteroscedasticity in their experiment is such that:</p><formula xml:id="formula_11">ε ni = σ ni u ni σ ni = c h i n j=1 h j /n</formula><p>where h i is the number of neighbors to observation i, and u ni ∼ N (0, 1), a standard normal distribution. Neighbors are defined as in <ref type="bibr" target="#b0">Arraiz et al. (2010)</ref>, which is intended to reflect a scenario based on the fact that for the U.S. states there are relatively more states located in the northeast.</p><p>Table <ref type="table" target="#tab_5">6</ref> shows results for a case where SNR is moderate. The results mirror those reported in <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref>, who indicate that RGMM produces lower bias, but RBayes estimates are more precise, with the MSE trade-off leading to RBayes being the preferred estimator in terms of β, ρ, direct and indirect effects in our results. It should be noted that results reported in Table <ref type="table" target="#tab_5">6</ref> follow the proposed Monte Carlo study approach that does not produce variances of the estimates β, ρ using a variance calculated over the 1000 Monte Carlo trial outcomes. Rather, we calculate the mean of standard deviations that would be reported by the estimator using either MCMC draws, an analytical Hessian, or asymptotic variance-covariance matrix. These are what practitioners would use to draw inferences in applied practice. As noted earlier, there are a number of reasons why these would diverge from a variance determined using M Monte Carlo point estimates of the effects. The nature of the experiments conducted here is such that we attempt to eliminate all reasons for divergence between these measures of dispersion other than the nature of the approach taken to determining estimated standard deviations by the different estimators (e.g., MCMC draws, an analytical Hessian, or asymptotic variance-covariance matrix).</p><p>A second experiment where the SNR is lowered to 0.2569, producing a median R 2 over the 1000 trials equal to 0.2718 was carried out, with results reported in Table <ref type="table" target="#tab_6">7</ref>. These results also mirror those reported in <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> for the parameters β, ρ. The RGMM estimator produces lower bias, but RBayes better precision, leading to superior MSE for RBayes. The improved precision of RBayes is shown by reported standard deviations, where again these were calculated on the basis of MCMC draws used in each of the 1000 Monte Carlo trials. An examination of the indirect effects estimates shows that conclusions based on the parameters β, ρ do not carry over to these estimates. We see bias across all three estimators, with the bias for indirect effects estimates calculated by RGMM being the largest. We would theoretically expect ML estimates to be biased, but the RGMM method proposed by <ref type="bibr" target="#b2">Dogan and Taspinar (2014)</ref> to correct for this results in larger bias than that from an ML estimation procedure. This reversal in conclusions comes about because we have considered all facets of the three different estimators, which has not been traditionally done in applied Monte Carlo practice. The three estimators behave as theoretically expected based on examining only parameters β, ρ, leading to a conclusion that RGMM helps solve the bias problem introduced for ML estimators in the face of this type of heteroscedasticity. However, in applied practice practitioners would not experience this type of improved performance when they attempt to draw inferences regarding the direct and indirect effects estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusion</head><p>We argue that we have not payed enough attention to direct and indirect effects estimates and inference in past Monte Carlo studies. If we want to provide Monte Carlo results that will be meaningful with regard to the experience that applied practitioners will have using alternative estimation methods, we need to start doing this.</p><p>We cannot ignore the role played by estimated variance-covariance matrices used to simulate draws for calculating empirical measures of dispersion for the direct and indirect effects estimates. These are frequently the major focus of inference by practitioners who are using spatial regression models that include a spatial lag of the dependent variable.</p><p>Differences in the quality of estimated dispersion arising from use of an analytical or numerical ML Hessian, Bayesian MCMC draws or asymptotic covariance matrices may have an important impact on practitioner experience when using algorithms constructed to implement different estimation methodologies. Monte Carlo practices should evolve to consider this very important aspect of spatial econometric work on different approaches to estimating our models.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Results for n = 506, SNR = 0.8972, R 2 = 0.8993</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0047</cell><cell>0.0035  *</cell><cell>0.0040</cell><cell>0.0005  *</cell><cell>0.0005  *</cell><cell>0.0005  *</cell></row><row><cell>β 2</cell><cell>0.0019  *</cell><cell>0.0037</cell><cell>0.0019  *</cell><cell>0.0005  *</cell><cell>0.0005  *</cell><cell>0.0005  *</cell></row><row><cell>β 3</cell><cell>0.0042  *</cell><cell>0.0050</cell><cell>0.0051</cell><cell>0.0005  *</cell><cell>0.0005  *</cell><cell>0.0005  *</cell></row><row><cell>ρ</cell><cell>-0.0019</cell><cell>-0.0023</cell><cell>-0.0001  *</cell><cell>0.0001  *</cell><cell>0.0003  *</cell><cell>0.0003  *</cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0398</cell><cell>0.0013  *</cell><cell>-0.0399</cell><cell>0.0022</cell><cell>0.0008  *</cell><cell>0.0008  *</cell></row><row><cell>x 2</cell><cell>-0.0001</cell><cell>-0.0000  *</cell><cell>0.0003</cell><cell>0.0006  *</cell><cell>0.0007</cell><cell>0.0007</cell></row><row><cell>x 3</cell><cell>0.0400</cell><cell>-0.0011  *</cell><cell>0.0402</cell><cell>0.0022</cell><cell>0.0007  *</cell><cell>0.0007  *</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.0111  *</cell><cell>-0.0366</cell><cell>0.0287</cell><cell>0.0351  *</cell><cell>0.0369</cell><cell>0.0368</cell></row><row><cell>x 2</cell><cell>0.0005</cell><cell>0.0004  *</cell><cell>0.0012</cell><cell>0.0025</cell><cell>0.0024  *</cell><cell>0.0025</cell></row><row><cell>x 3</cell><cell>-0.0102  *</cell><cell>0.0374</cell><cell>-0.0271</cell><cell>0.0343  *</cell><cell>0.0367</cell><cell>0.0360</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.1285  *</cell><cell>0.1916</cell><cell>0.1912</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.0504</cell><cell>0.0500  *</cell><cell>0.0512</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.1267  *</cell><cell>0.1901</cell><cell>0.1878</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Results for n = 3107, SNR = 0.6737, R 2 = 0.6729</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0001</cell><cell>0.0001</cell><cell>-0.0004</cell><cell>0.0003</cell><cell>0.0003</cell><cell>0.0003</cell></row><row><cell>β 2</cell><cell>-0.0008</cell><cell>-0.0009</cell><cell>-0.0008</cell><cell>0.0003</cell><cell>0.0003</cell><cell>0.0003</cell></row><row><cell>β 3</cell><cell>-0.0004</cell><cell>-0.0007</cell><cell>0.0002</cell><cell>0.0003</cell><cell>0.0003</cell><cell>0.0003</cell></row><row><cell>ρ</cell><cell>-0.0025</cell><cell>-0.0040</cell><cell>-0.0007</cell><cell>0.0001</cell><cell>0.0002</cell><cell>0.0001</cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0423</cell><cell>-0.0026</cell><cell>-0.0421</cell><cell>0.0022</cell><cell>0.0005</cell><cell>0.0022</cell></row><row><cell>x 2</cell><cell>-0.0009</cell><cell>-0.0010</cell><cell>-0.0009</cell><cell>0.0004</cell><cell>0.0004</cell><cell>0.0004</cell></row><row><cell>x 3</cell><cell>0.0419</cell><cell>0.0019</cell><cell>0.0420</cell><cell>0.0021</cell><cell>0.0005</cell><cell>0.0021</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.0194</cell><cell>-0.0358</cell><cell>0.0381</cell><cell>0.0171</cell><cell>0.0180</cell><cell>0.0185</cell></row><row><cell>x 2</cell><cell>-0.0017</cell><cell>-0.0020</cell><cell>-0.0019</cell><cell>0.0016</cell><cell>0.0015</cell><cell>0.0016</cell></row><row><cell>x 3</cell><cell>-0.0199</cell><cell>0.0346</cell><cell>-0.0385</cell><cell>0.0169</cell><cell>0.0179</cell><cell>0.0182</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3</head><label>3</label><figDesc>Results for n = 506, SNR = 0.3528, R 2 = 0.3534</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0181</cell><cell>0.0131  *</cell><cell>0.0150</cell><cell>0.0079</cell><cell>0.0078</cell><cell>0.0077  *</cell></row><row><cell>β 2</cell><cell>0.0081  *</cell><cell>0.0155</cell><cell>0.0090</cell><cell>0.0081</cell><cell>0.0084</cell><cell>0.0080  *</cell></row><row><cell>β 3</cell><cell>0.0177  *</cell><cell>0.0206</cell><cell>0.0215</cell><cell>0.0078</cell><cell>0.0079</cell><cell>0.0077  *</cell></row><row><cell>ρ</cell><cell>-0.0044</cell><cell>-0.0050</cell><cell>0.0030  *</cell><cell>0.0003  *</cell><cell>0.0014</cell><cell>0.0013</cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0220</cell><cell>0.0149  *</cell><cell>-0.0225</cell><cell>0.0096  *</cell><cell>0.0108</cell><cell>0.0096  *</cell></row><row><cell>x 2</cell><cell>-0.0094  *</cell><cell>-0.0174</cell><cell>0.0097</cell><cell>0.0098  *</cell><cell>0.0109</cell><cell>0.0098  *</cell></row><row><cell>x 3</cell><cell>0.0608</cell><cell>-0.0228  *</cell><cell>0.0620</cell><cell>0.0124  *</cell><cell>0.0107</cell><cell>0.0124  *</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.0710</cell><cell>-0.0154  *</cell><cell>0.1426</cell><cell>0.1028  *</cell><cell>0.2060</cell><cell>0.2466</cell></row><row><cell>x 2</cell><cell>0.0212  *</cell><cell>0.0343</cell><cell>0.0226</cell><cell>0.0425  *</cell><cell>0.0446</cell><cell>0.0483</cell></row><row><cell>x 3</cell><cell>-0.0012  *</cell><cell>0.0507</cell><cell>-0.0695</cell><cell>0.0942  *</cell><cell>0.1975</cell><cell>0.2143</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.3128  *</cell><cell>0.4536</cell><cell>0.4757</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.2051  *</cell><cell>0.2083</cell><cell>0.2185</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.3069  *</cell><cell>0.4416</cell><cell>0.4577</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4</head><label>4</label><figDesc>Result for n = 506, SNR = 0.1951, R 2 = 0.1907</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0269</cell><cell>0.0196</cell><cell>-0.0251</cell><cell>0.0178</cell><cell>0.0176  *</cell><cell>0.0179</cell></row><row><cell>β 2</cell><cell>0.0126</cell><cell>0.0234</cell><cell>0.0484</cell><cell>0.0183  *</cell><cell>0.0189</cell><cell>0.0206</cell></row><row><cell>β 3</cell><cell>0.0270</cell><cell>0.0309</cell><cell>0.0750</cell><cell>0.0171  *</cell><cell>0.0176</cell><cell>0.0223</cell></row><row><cell>ρ</cell><cell>-0.0033</cell><cell>-0.0054</cell><cell>0.2376</cell><cell>0.0004  *</cell><cell>0.0016</cell><cell>0.0570</cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0120</cell><cell>0.0224</cell><cell>0.0335</cell><cell>0.0207  *</cell><cell>0.0236</cell><cell>0.0267</cell></row><row><cell>x 2</cell><cell>0.0145</cell><cell>-0.0264</cell><cell>0.0590</cell><cell>0.0221  *</cell><cell>0.0245</cell><cell>0.0305</cell></row><row><cell>x 3</cell><cell>0.0703</cell><cell>-0.0340</cell><cell>0.0253</cell><cell>0.0246</cell><cell>0.0234  *</cell><cell>0.0250</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.1059</cell><cell>0.0245  *</cell><cell>21.5002</cell><cell>0.1825  *</cell><cell>0.2856</cell><cell>478.9915</cell></row><row><cell>x 2</cell><cell>0.0324  *</cell><cell>0.0519</cell><cell>1.6604</cell><cell>0.0982  *</cell><cell>0.1018</cell><cell>16.0252</cell></row><row><cell>x 3</cell><cell>-0.0018  *</cell><cell>0.0729</cell><cell>-20.4693</cell><cell>0.1639  *</cell><cell>0.2709</cell><cell>434.9305</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.4139  *</cell><cell>0.5338</cell><cell>4.0907</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.3116  *</cell><cell>0.3148</cell><cell>3.6426</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.4048  *</cell><cell>0.5154</cell><cell>3.9923</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5</head><label>5</label><figDesc>Result for n = 3, 109, SNR = 0.0925, R 2 = 0.0905</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>-0.0008*</cell><cell>-0.0016</cell><cell>-0.0034</cell><cell>0.0065*</cell><cell>0.0065*</cell><cell>0.0065*</cell></row><row><cell>β 2</cell><cell>-0.0037</cell><cell>-0.0043</cell><cell>-0.0035*</cell><cell>0.0065*</cell><cell>0.0066*</cell><cell>0.0065*</cell></row><row><cell>β 3</cell><cell>-0.0002*</cell><cell>-0.0005</cell><cell>0.0026</cell><cell>0.0065*</cell><cell>0.0065*</cell><cell>0.0065*</cell></row><row><cell>ρ</cell><cell>-0.0031*</cell><cell>-0.0058</cell><cell>0.0070</cell><cell>0.0003*</cell><cell>0.0003*</cell><cell>0.0003*</cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0435</cell><cell>-0.0054</cell><cell>-0.0433</cell><cell>0.0097</cell><cell>0.0085*</cell><cell>0.0097</cell></row><row><cell>x 2</cell><cell>-0.0040</cell><cell>-0.0049</cell><cell>-0.0038</cell><cell>0.0079*</cell><cell>0.0085</cell><cell>0.0079*</cell></row><row><cell>x 3</cell><cell>0.0421</cell><cell>0.0029</cell><cell>0.0424</cell><cell>0.0095</cell><cell>0.0084*</cell><cell>0.0096</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.0141*</cell><cell>-0.0560</cell><cell>0.5091</cell><cell>0.0622*</cell><cell>0.0624</cell><cell>0.3492</cell></row><row><cell>x 2</cell><cell>-0.0087*</cell><cell>-0.0094</cell><cell>0.0242</cell><cell>0.0328</cell><cell>0.0308*</cell><cell>0.0544</cell></row><row><cell>x 3</cell><cell>-0.0173*</cell><cell>0.0506</cell><cell>-0.5614</cell><cell>0.0616*</cell><cell>0.0621</cell><cell>0.4042</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.2490</cell><cell>0.2436*</cell><cell>0.3001</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.1808</cell><cell>0.1754*</cell><cell>0.2319</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.2476</cell><cell>0.2439*</cell><cell>0.2984</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6</head><label>6</label><figDesc>Results for n = 945, SNR = 0.5804, R 2 = 0.6045</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0055</cell><cell>0.0034</cell><cell>-0.0004*</cell><cell>0.0014</cell><cell>0.0009*</cell><cell>0.0012</cell></row><row><cell>β 2</cell><cell>0.0013</cell><cell>0.0012</cell><cell>-0.0005*</cell><cell>0.0014</cell><cell>0.0009*</cell><cell>0.0015</cell></row><row><cell>β 3</cell><cell>-0.0043</cell><cell>-0.0023*</cell><cell>0.0045</cell><cell>0.0014</cell><cell>0.0010*</cell><cell>0.0015</cell></row><row><cell>ρ</cell><cell>-0.0428</cell><cell>-0.0205</cell><cell>-0.0012*</cell><cell>0.0019</cell><cell>0.0009</cell><cell>0.0007*</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1</cell><cell>0.0369</cell><cell>0.0296*</cell><cell>0.0350</cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 2</cell><cell>0.0375</cell><cell>0.0307*</cell><cell>0.0383</cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 3</cell><cell>0.0378</cell><cell>0.0309*</cell><cell>0.0386</cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>0.0047</cell><cell>0.0213*</cell><cell>0.0264</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0627</cell><cell>-0.0234*</cell><cell>-0.0529</cell><cell>0.0056</cell><cell>00019*</cell><cell>0.0043</cell></row><row><cell>x 2</cell><cell>0.0014</cell><cell>0.0014</cell><cell>-0.0005*</cell><cell>0.0017</cell><cell>00012*</cell><cell>0.0019</cell></row><row><cell>x 3</cell><cell>0.0641</cell><cell>0.0247*</cell><cell>0.0575</cell><cell>0.0059</cell><cell>00020*</cell><cell>0.0051</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.3128</cell><cell>-0.1630</cell><cell>0.0632*</cell><cell>0.1055</cell><cell>0.0699*</cell><cell>0.0900</cell></row><row><cell>x 2</cell><cell>0.0021</cell><cell>0.0025</cell><cell>-0.0012*</cell><cell>0.0048</cell><cell>0.0038*</cell><cell>0.0077</cell></row><row><cell>x 3</cell><cell>0.3162</cell><cell>0.1656</cell><cell>-0.0535*</cell><cell>0.1077</cell><cell>0.0709*</cell><cell>0.0858</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.0873*</cell><cell>0.2082</cell><cell>0.2932</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.0691</cell><cell>0.0619*</cell><cell>0.0876</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.0880*</cell><cell>0.2084</cell><cell>0.2879</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7</head><label>7</label><figDesc>Results for n = 945, SNR = 0.2569, R 2 = 0.2718</figDesc><table><row><cell></cell><cell>Bias</cell><cell></cell><cell></cell><cell>MSE</cell><cell></cell><cell></cell></row><row><cell></cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell><cell>ML</cell><cell>RBayes</cell><cell>RGMM</cell></row><row><cell>β 1</cell><cell>0.0084</cell><cell>0.0057</cell><cell>-0.0023*</cell><cell>0.0056</cell><cell>0.0035*</cell><cell>0.0049</cell></row><row><cell>β 2</cell><cell>0.0018</cell><cell>0.0022</cell><cell>-0.0009*</cell><cell>0.0057</cell><cell>0.0038*</cell><cell>0.0059</cell></row><row><cell>β 3</cell><cell>-0.0046</cell><cell>-0.0028*</cell><cell>0.0114</cell><cell>0.0058</cell><cell>0.0038*</cell><cell>0.0060</cell></row><row><cell>ρ</cell><cell>-0.0653</cell><cell>-0.0330</cell><cell>0.0086*</cell><cell>0.0043</cell><cell>0.0019</cell><cell>0.0014*</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1</cell><cell>0.0740</cell><cell>0.0592*</cell><cell>0.0697</cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 2</cell><cell>0.0753</cell><cell>0.0615*</cell><cell>0.0766</cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 3</cell><cell>0.0757</cell><cell>0.0617*</cell><cell>0.0764</cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ</cell><cell>0.0046</cell><cell>0.0277*</cell><cell>0.0365</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Direct</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.0671</cell><cell>-0.0275*</cell><cell>-0.0473</cell><cell>0.0111</cell><cell>0.0056*</cell><cell>0.0085</cell></row><row><cell>x 2</cell><cell>0.0019</cell><cell>0.0025</cell><cell>-0.0012*</cell><cell>0.0069</cell><cell>0.0049*</cell><cell>0.0075</cell></row><row><cell>x 3</cell><cell>0.0716</cell><cell>0.0309*</cell><cell>0.0580</cell><cell>0.0120</cell><cell>0.0062*</cell><cell>0.0107</cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>-0.4646</cell><cell>-0.2565</cell><cell>1.3281</cell><cell>0.2347</cell><cell>0.1387*</cell><cell>2.1271</cell></row><row><cell>x 2</cell><cell>0.0024</cell><cell>0.0041</cell><cell>-0.0580</cell><cell>0.0161</cell><cell>0.0142*</cell><cell>0.0856</cell></row><row><cell>x 3</cell><cell>0.4735</cell><cell>0.2625</cell><cell>-1.2256</cell><cell>0.2437</cell><cell>0.1424*</cell><cell>1.8636</cell></row><row><cell></cell><cell cols="2">Standard deviation</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Indirect</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 1</cell><cell>0.1375*</cell><cell>0.2700</cell><cell>0.6027</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 2</cell><cell>0.1269</cell><cell>0.1192*</cell><cell>0.2868</cell><cell></cell><cell></cell><cell></cell></row><row><cell>x 3</cell><cell>0.1394*</cell><cell>0.2711</cell><cell>0.6012</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>The title of Elhorst's review inspired the title of this manuscript.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>http://www.spatial-econometrics.com.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>https://r-forge.r-project.org/projects/spdep/.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>We provide more details regarding effects estimates in the next section.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>One can also use the median rather than average of the cumulative sum of off-diagonal elements.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>This is true for the SDM specification, but not for the SAR specification where the signs of the coefficients β will have the same sign as both the direct and indirect effects. However even in the case of the SAR</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_6"><p>The most difficult term to compute is trace(W (I n -ρW ) -1 W (I n -ρW ) -1 ). However, this can be expanded as a weighted sum of trace(W j ) for j = 1 . . . n and these traces can be easily estimated as discussed in LeSage andPace (2009, p. 98).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_7"><p>The Spatial Econometrics Toolbox uses numerical derivatives for problems involving more than 500 observations. This approach can of course be changed by users, at the cost of additional time (and computer memory) required to produce estimates based on the analytical Hessian for large values of n.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_8"><p>This approach was proposed by<ref type="bibr" target="#b19">Pace et al. (2012)</ref>.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>This research was partially supported by a grant from the <rs type="funder">National Science Foundation</rs> (Award No. <rs type="grantNumber">1212112</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_gBr5XMQ">
+					<idno type="grant-number">1212112</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A spatial Clifford-type model with heteroskedastic innovations: small and large sample results</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Arraiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="592" to="614" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Interpreting dynamic space-time panel models</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methodol</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="158" to="171" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial autoregressive models with unknown heteroskedasticity: a comparison of Bayesian and Robust GMM approach</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Dogan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taspinar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urb Econ</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="1" to="21" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A command for estimating spatial-autoregressive models with spatial-autoregressive disturbances and additional endogenous variables</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Raciborski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata J</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="287" to="301" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood and generalized spatial two-stage least-squares estimators for a spatial-autoregressive model with spatial-autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Raciborski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata J</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="221" to="241" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Applied spatial econometrics: raising the bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Econ Anal</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Illustration of Bayesian inference in normal data models using Gibbs sampling</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="972" to="985" />
+			<date type="published" when="1990">2014. 1990</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin Gelfand AE, Hills SE, Racine-Poon A, Smith AFM</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Spatial econometrics: from cross-sectional data to spatial panels</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Sampling-based approaches to calculating marginal densities</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Afm</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="398" to="409" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">On the Harrison and Rubinfeld data</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Environ Econ Manag</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="403" to="405" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">A companion to theoretical econometrics</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">E</forename><surname>Griffiths</surname></persName>
+		</author>
+		<editor>Baltagi BH</editor>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<publisher>Blackwell Publishing Ltd</publisher>
+			<biblScope unit="page" from="82" to="100" />
+		</imprint>
+	</monogr>
+	<note>Heteroskedasticity</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Hedonic prices and the demand for clean air</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Harrison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Rubinfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Environ Econ Manag</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010. 2010</date>
+			<publisher>Springer</publisher>
+			<pubPlace>New York Lin X, Lee LF</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Microeconometrics: methods of moments and limited dependent variables</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>CRC Press Taylor &amp; Francis Group</publisher>
+			<pubPlace>Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">New Orleans business recovery in the aftermath of Hurricane Katrina</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Campanella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc Ser A</title>
+		<imprint>
+			<biblScope unit="volume">174</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1007" to="1027" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A spatial econometric panel data examination of endogenous versus exogenous interaction in Chinese province-level patenting</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="233" to="262" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Interpreting spatial autoregressive interaction models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thomas-Agnan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="188" to="208" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Quick computation of spatial autoregressive estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">P</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr Anal</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="232" to="246" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in regressors</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in econometrics</title>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Terrell</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Millimet</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Amsterdam</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="257" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

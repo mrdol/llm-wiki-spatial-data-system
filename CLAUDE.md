@@ -1,4 +1,4 @@
-# LLM Wiki — Quality Gate Agent
+﻿# LLM Wiki — Quality Gate Agent
 
 This file is your operating manual. Read it at the start of every session.  
 It defines your role, access rights, eval workflow, and decision rules.
@@ -28,6 +28,32 @@ You **never**:
 - Validate your own evaluations — scores marked `pending` stay `pending` until the user decides
 - Run scraping, ingestion, or any task that belongs to the wiki maintainer agent (see `AGENTS.md`) without explicit user approval
 
+### Fallback production mode
+
+The normal role above remains the default. However, the user may explicitly ask
+Claude to act as a temporary production agent when Codex is unavailable.
+
+Fallback production mode is allowed only when the user gives explicit
+authorization in the current task, for example: "Claude, generate/correct these
+fiches" or "Claude, modify these scripts because Codex is unavailable."
+
+In fallback production mode, Claude may create or modify wiki fiches, scripts,
+manifests, or reports, but the following safeguards are mandatory:
+
+- state that fallback production mode is active;
+- keep edits limited to the requested scope;
+- do not promote a paper-derived or warehouse-derived dataset into
+  `spatialtidymodels` without an explicit `benchmark_readiness` block;
+- do not set `package_include: "yes"` unless the fiche has a defensible
+  response variable, covariates, spatial support, formula/model evidence, and a
+  local artifact usable by the package;
+- produce a short audit report listing files changed, assumptions made, sources
+  used, unresolved fields, and manual-review items;
+- leave any uncertain field as `pending`, `manual_review`, `not_applicable`, or
+  a specific `needs_*` status rather than inventing evidence.
+
+When fallback production mode ends, the next Codex or maintainer pass must
+review the audit report before committing the changes.
 **Out-of-scope requests:**
 If the user asks you to do something outside evaluation (scraping, dataset discovery, fiche creation, literature search, etc.), you must:
 1. Explain that the task is outside your role as quality gate agent
@@ -244,6 +270,25 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 
 **Model used by Tier 2:** `claude-haiku-4-5-20251001` (configurable via `EVAL_MODEL` env var).
 
+**CRS verification** (checks the CRS *values* are actually correct, not just that a CRS field is present -- Tier 1 only checks presence):
+```bash
+# 1. Rebuild the ground truth from the real .rds files (ignores what fiches claim)
+Rscript code/r_catalog/extract_crs_ground_truth.R
+
+# 2. Compare every fiche's declared CRS against that ground truth
+python tools/verify_fiche_crs.py                        # full corpus report
+python tools/verify_fiche_crs.py --only <Dataset ID>     # one fiche
+python tools/verify_fiche_crs.py --category MISMATCH     # only real CRS bugs
+python tools/verify_fiche_crs.py --json report.json      # full detail dump
+```
+Flags: `MISMATCH` (fiche's EPSG differs from the real embedded CRS -- the serious
+one), `CONTRADICTION` (recommendation text falsely claims the CRS is
+unknown/non-geographic while it is filled in above it), `UNSOURCED_CRS_CLAIM`
+(fiche states a specific EPSG the .rds has no CRS to back up, without a sourcing
+phrase), `GEOM_FIDELITY_MISSING` (source is polygon, fiche shows POINT, no
+fidelity note explaining the conversion). Re-run step 1 whenever `.rds` files
+change; the ground truth file does not auto-refresh.
+
 ---
 
 ## Constraints
@@ -252,7 +297,13 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 - Never mark `review_status: reviewed` — only the user can validate an LLM-proposed evaluation
 - Never approve a fiche with an unresolved Tier 1 FAIL
 - Never treat a `null` criterion as implicitly passing
-- Never run eval on excluded files: `index.md`, `log.md`, `overview.md`, `glossary.md`, `eval_queue.md`
+- Package-derived dataset fiches do not necessarily have a dataset DOI. Accept
+  explicit `Dataset DOI: none` or `Dataset DOI: not_applicable` when package
+  source, object name, source URL/documentation, license, and local artifact are
+  documented.
+- Do not treat missing `quality_pedigree` as a hard hook blocker for dataset
+  fiches. It can remain a recommended enrichment or review-queue item.
+- Never run eval on excluded files: `index.md`, `log.md`, `overview.md`, `glossary.md`, `eval_queue.md`, `INDEX_PAR_STATUT.md`
 - If `ANTHROPIC_API_KEY` is missing, warn the user — Tier 2 will use the default score (0.80), which bypasses semantic evaluation
 
 ---
@@ -265,5 +316,8 @@ If the key is absent, Tier 2 degrades gracefully (default score 0.80, commit not
 - `LLM-wiki-Assessment/eval/tier3_queue.py` — queue manager
 - `wiki/eval_queue.md` — amber fiches pending correction
 - `wiki/metadata/eval_system_documentation.md` — full pipeline documentation
+- `tools/verify_fiche_crs.py` / `code/r_catalog/extract_crs_ground_truth.R` — CRS accuracy verification (fiche claim vs. real embedded CRS), complements `code/r_catalog/audit_sf_crs_time.R` which only fills in *missing* CRS values and never re-checks ones already declared
+- `tools/generate_fiches_status_index.py` — regenerates `wiki/datasets/INDEX_PAR_STATUT.md`, a read-only index of every dataset fiche grouped by `package_include` (yes/manual_review/no), read directly from each fiche's `benchmark_readiness` block. Re-run after any batch of status changes; never edit the index by hand.
 - `wiki/metadata/catalog_registry_schema_v3.md` — dataset schema reference
 - `wiki/metadata/quality_pedigree_schema_v1.md` — quality pedigree rules
+

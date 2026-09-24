@@ -1,0 +1,583 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+% Theme
+\usetheme{Berlin}
+\usecolortheme{dolphin}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% \usepackage[french]{babel} % activez si texlive-lang-french est installé
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{ragged2e}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\pgfplotsset{compat=1.18}
+% Colors
+\definecolor{myblue}{RGB}{35,55,120}
+\definecolor{myred}{RGB}{150,60,60}
+\definecolor{mygreen}{RGB}{45,110,85}
+\definecolor{mygray}{RGB}{90,90,90}
+\setbeamercolor{title}{fg=myblue}
+\setbeamercolor{frametitle}{fg=white,bg=myblue}
+\setbeamercolor{structure}{fg=myblue}
+\setbeamercolor{section in head/foot}{bg=myblue,fg=white}
+\setbeamercolor{subsection in head/foot}{bg=myblue!80,fg=white}
+\setbeamercolor{title in head/foot}{bg=myblue,fg=white}
+\setbeamercolor{author in head/foot}{bg=myblue!85,fg=white}
+\setbeamercolor{date in head/foot}{bg=myblue!85,fg=white}
+\setbeamercolor{block title}{bg=myblue,fg=white}
+\setbeamercolor{block body}{bg=blue!5,fg=black}
+\setbeamercolor{itemize item}{fg=myblue}
+\setbeamercolor{itemize subitem}{fg=myblue}
+
+\title[Banque de données spatio-temporelles]{Constitution d'une banque de données de référence pour la validation de modèles prédictifs spatio-temporels}
+\author{Johnny D'OLIVEIRA}
+\institute{Aix-Marseille School of Economics \\ \small Stage INRAE Avignon --- Unité Écodéveloppement \\ \small Encadrant : Ghislain Geniaux}
+\date{9 juin 2026}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Plan}
+    \tableofcontents
+\end{frame}
+
+% ============================================================
+\section{Contexte et problème}
+% ============================================================
+\begin{frame}{Contexte : des méthodes qui ont besoin d'être validées}
+\small
+L'INRAE d'Avignon développe des méthodes statistiques avancées pour les données \textbf{spatiales} et \textbf{spatio-temporelles} (packages R maison : \texttt{mgwrsar}, \emph{boosting spatialisé}).
+\vspace{0.2cm}
+
+Pour démontrer qu'une méthode est robuste et prédictive, les publications
+s'appuient sur \textbf{trois étapes complémentaires} :
+\begin{itemize}
+    \item étudier ses \textbf{propriétés asymptotiques} mathématiquement \hfill{\footnotesize\textcolor{mygray}{(quand cela est possible)}}
+    \item la tester sur des \textbf{données simulées} avec de nombreuses répétitions,
+    par une \emph{expérience de Monte-Carlo} \hfill{\footnotesize\textcolor{mygray}{(étape incontournable)}}
+    \item la confronter à des \textbf{données réelles et variées} \hfill{\footnotesize\textcolor{mygray}{(souvent 1 à 2 études empiriques)}}
+\end{itemize}
+\vspace{0.2cm}
+\begin{block}{Le problème}
+Il n'existe pas de jeux de données \textbf{standardisés et diversifiés en grand nombre}, en spatial et en spatio-temporel.
+\end{block}
+\end{frame}
+
+\begin{frame}{Qu'est-ce qui rend les données spatio-temporelles particulières ?}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.32\textwidth} >{\RaggedRight\arraybackslash}X}
+\toprule
+\textbf{Propriété} & \textbf{Conséquence pour la modélisation} \\
+\midrule
+Autocorrélation spatiale & « Tout est lié, mais le proche l'est davantage » \\
+Hétérogénéité spatiale & Les effets changent d'un lieu à l'autre \\
+Dépendance temporelle & Le passé influence le présent \\
+Interaction espace--temps & La dépendance spatiale évolue dans le temps \\
+\bottomrule
+\end{tabularx}
+\vspace{0.3cm}
+\begin{itemize}
+    \item Un découpage Train/Test naïf donne des performances \emph{trop optimistes}.
+    \item Chaque structure appelle un \textbf{estimateur adapté} : pas de modèle universel.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Un jeu de données idéal : des données reliées à leurs usages}
+\scriptsize
+\centering
+\begin{tikzpicture}[
+    source/.style={draw=myblue!55, rounded corners=2pt, fill=blue!3,
+        minimum width=2.75cm, text width=2.5cm, align=center, inner sep=3pt},
+    data/.style={draw=mygreen!80, rounded corners=2pt, very thick, fill=mygreen!5,
+        minimum width=7.0cm, text width=6.7cm, align=center, inner sep=4pt},
+    link/.style={-{Latex[length=2mm]}, thick, myblue},
+    linklabel/.style={fill=white, inner sep=1pt, text=mygray, font=\tiny}
+]
+% Figurine de l'article scientifique
+\node[source] (article) at (0,0.4) {
+    \includegraphics[page=1,width=1.55cm,height=1.95cm,keepaspectratio]
+        {assets/muenchow2012_lsl.pdf}\\[-1mm]
+    \textbf{Article scientifique}\\
+    Muenchow, Brenning \& Richter (2012)\\
+    {\tiny \emph{Geomorphology}}
+};
+
+% Dataset central : valeurs réelles de head(lsl)
+\node[data] (dataset) at (5.25,0.45) {
+    \textbf{\large \texttt{spDataLarge::lsl}}\\[-1mm]
+    {\tiny 350 observations --- glissements de terrain, sud de l'Équateur}\\[1mm]
+    \resizebox{6.45cm}{!}{%
+    \begin{tabular}{rrrrrr}
+    \toprule
+    \textbf{lslpts} & \textbf{slope} & \textbf{cplan} &
+    \textbf{cprof} & \textbf{elev} & \textbf{log10\_carea}\\
+    \midrule
+    FALSE & 33.75 &  0.0232 &  0.0032 & 2422.8 & 2.784\\
+    FALSE & 39.41 & -0.0386 & -0.0172 & 2051.8 & 4.146\\
+    FALSE & 37.45 & -0.0133 &  0.0097 & 1957.8 & 3.644\\
+    FALSE & 31.50 &  0.0409 &  0.0059 & 1968.6 & 2.269\\
+    FALSE & 44.07 &  0.0097 &  0.0051 & 3007.8 & 3.003\\
+    \bottomrule
+    \end{tabular}}\\[-0.5mm]
+    {\tiny Extrait réel obtenu avec \texttt{head(lsl)}}
+};
+
+% Figurine du livre / chapitre
+\node[source] (book) at (10.55,1.35) {
+    \includegraphics[page=1,width=1.45cm,height=1.55cm,keepaspectratio]
+        {assets/geocomputation_with_r.pdf}\\[-1mm]
+    \textbf{Geocomputation with R}\\
+    {\tiny chapitre \emph{Statistical learning for geographic data}}\\[-0.5mm]
+    {\tiny\color{myred}\textbf{Source de la formule}}
+};
+
+% Figurine du package R
+\node[source] (package) at (10.55,-1.45) {
+    {\color{myblue}\fontsize{24}{24}\selectfont\textbf{R}}\\[-1mm]
+    \textbf{Package \texttt{spDataLarge}}\\
+    {\tiny fournit et documente le dataset \texttt{lsl}}
+};
+
+% Relations explicites
+\draw[link] (article.east) -- node[linklabel,above]{utilise / documente} (dataset.west);
+\draw[link] (package.west) -- (dataset.south east);
+\draw[link] (book.west) -- node[linklabel,above]{utilise} (dataset.north east);
+
+% Formule issue du chapitre en ligne
+\node[draw=myred!70, rounded corners=2pt, fill=myred!5,
+      text width=7.0cm, align=center, inner sep=3pt]
+      (formula) at (5.25,-2.35) {
+    \textbf{Formule donnée dans le chapitre :}\\[-1mm]
+    $\texttt{lslpts} \sim \texttt{slope}+\texttt{cplan}+\texttt{cprof}
+       +\texttt{elev}+\texttt{log10\_carea}$
+};
+\draw[link,myred] (book.south west)
+    .. controls (8.85,0.15) and (9.15,-2.25) ..
+    (formula.east);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Objectif du stage}
+\small
+\begin{block}{Question directrice}
+Comment construire une banque de données spatio-temporelles \emph{diversifiée, documentée et réutilisable} pour comparer équitablement des modèles prédictifs --- \textbf{en utilisant l'IA pour automatiser sa conception et faciliter sa mise à jour} ?
+\end{block}
+\vspace{0.2cm}
+\textbf{Trois axes de travail}
+\begin{enumerate}
+    \item \textbf{Collecte \& curation} : récolter des jeux ouverts (entrepôts scientifiques, open data) couvrant des domaines variés.
+    \item \textbf{Structuration} : architecture de stockage standardisée + protocoles de séparation Train/Test/Validation.
+    \item \textbf{Modélisation \& benchmarking} : baselines classiques (GLM, GAM), modèles spatiaux (SAR, MGWR) et Machine Learning.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Où chercher les données ? Trois étages}
+\small
+La collecte s'organise en trois familles de sources complémentaires.
+\vspace{0.3cm}
+\begin{enumerate}
+    \item \textbf{Packages R / Python} \\
+    {\footnotesize Jeux spatiaux et spatio-temporels embarqués dans les librairies (\texttt{spData}, \texttt{sf}, \texttt{mgwrsar}\dots). \emph{Étage prioritaire} : le mieux documenté et le plus contrôlé.}
+    \vspace{0.2cm}
+    \item \textbf{Articles scientifiques} \\
+    {\footnotesize Jeux publiés en open source par des articles de statistique / économétrie spatiale et spatio-temporelle.}
+    \vspace{0.2cm}
+    \item \textbf{Banques de données et portails} \\
+    {\footnotesize Jeux spatiaux et spatio-temporels des entrepôts institutionnels (INSEE, Eurostat, Zenodo, Dryad\dots).}
+\end{enumerate}
+\end{frame}
+
+% ============================================================
+\section{Idée directrice : des métadonnées qui guident}
+% ============================================================
+\begin{frame}{L'idée centrale : décrire ne suffit pas}
+\small
+\begin{itemize}
+    \item Habituellement, on \emph{décrit} un jeu de données (titre, source, taille).
+    \vspace{0.2cm}
+    \item Notre idée : construire des \textbf{métadonnées enrichies} qui \emph{guident automatiquement} les choix méthodologiques.
+\end{itemize}
+\vspace{0.4cm}
+\begin{center}
+\begin{tikzpicture}[
+    node distance=0.55cm and 0.7cm,
+    box/.style={rectangle, rounded corners, draw=myblue, fill=blue!5,
+                text width=2.1cm, align=center, minimum height=1cm, font=\footnotesize},
+    arr/.style={-{Stealth[length=2.5mm]}, myblue, thick}]
+\node[box] (a) {Données};
+\node[box, right=of a] (b) {Métadonnées enrichies};
+\node[box, right=of b] (c) {Typologie};
+\node[box, right=of c] (d) {Estimateurs éligibles};
+\node[box, right=of d] (e) {Pipeline \& analyse};
+\draw[arr] (a)--(b);
+\draw[arr] (b)--(c);
+\draw[arr] (c)--(d);
+\draw[arr] (d)--(e);
+\end{tikzpicture}
+\end{center}
+\vspace{0.2cm}
+\footnotesize \centering Le fil conducteur méthodologique : \textbf{donnée $\rightarrow$ métadonnée $\rightarrow$ typologie $\rightarrow$ modèle $\rightarrow$ analyse}.
+\end{frame}
+
+\begin{frame}{Les six blocs de métadonnées enrichies}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.30\textwidth} >{\RaggedRight\arraybackslash}X}
+\toprule
+\textbf{Bloc} & \textbf{Ce qu'il capture} \\
+\midrule
+1. Formule \& variables & Variable réponse Y, explicatives X, formule (publiée vs reconstruite) \\
+2. Identification \& DOI & Traçabilité : DOI dataset, DOI publication, source, script \\
+3. Typologie des modèles & Tâche (régression / classification), famille, variante \\
+4. Typologie des données & Spatial / spatio-temporel, panel, type de Y, profil N/T \\
+5. Résolution \& étendue & Grain (commune, parcelle, grille) et emprise spatiale/temporelle \\
+6. Reproductibilité & Code disponible, dépôt, licence \\
+\bottomrule
+\end{tabularx}
+\vspace{0.25cm}
+\begin{itemize}
+    \item Inspiration : le package R \texttt{caret} (registre de modèles), mais en \emph{reliant} données et estimateurs.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Une typologie des jeux de données en 6 axes}
+\footnotesize
+La banque n'est pas une accumulation : c'est un \textbf{plan d'expérience}. Chaque jeu est positionné selon 6 axes orthogonaux.
+\vspace{0.25cm}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{enumerate}
+    \item \textbf{Domaine} (immobilier, climat, santé\dots)
+    \item \textbf{Support spatial} (points, polygones, grille, réseau)
+    \item \textbf{Structure temporelle} (coupe, panel, séries)
+\end{enumerate}
+\column{0.5\textwidth}
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item \textbf{Type de réponse Y} (continue, comptage, binaire\dots)
+    \item \textbf{Dépendance} (autocorrélation, hétérogénéité, diffusion)
+    \item \textbf{Taille} (N, T, nombre de covariables)
+\end{enumerate}
+\end{columns}
+\vspace{0.3cm}
+\centering\small Objectif : couvrir au moins 5 domaines et 5 types de réponse distincts.
+\end{frame}
+
+\begin{frame}{Matrice de couverture cible (extrait)}
+\footnotesize
+\centering
+On vise à \emph{remplir des cases} plutôt qu'à collecter au hasard.
+\vspace{0.3cm}
+\begin{tabularx}{0.95\textwidth}{>{\RaggedRight\arraybackslash}p{0.40\textwidth} c c c c}
+\toprule
+ & \textbf{CONT} & \textbf{COUNT} & \textbf{BIN} & \textbf{PROP} \\
+\midrule
+Immobilier + points + événements & \textcolor{myred}{\textbf{Oblig.}} & --- & Opt. & --- \\
+Écologie + points + panel & Opt. & \textcolor{myred}{\textbf{Oblig.}} & \textcolor{myred}{\textbf{Oblig.}} & --- \\
+Environnement + grille + série & \textcolor{myred}{\textbf{Oblig.}} & --- & --- & Opt. \\
+Épidémio + polygones + panel & --- & \textcolor{myred}{\textbf{Oblig.}} & \textcolor{myred}{\textbf{Oblig.}} & \textcolor{myred}{\textbf{Oblig.}} \\
+Économie rég. + polygones + panel & \textcolor{myred}{\textbf{Oblig.}} & --- & --- & \textcolor{myred}{\textbf{Oblig.}} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.3cm}
+\footnotesize CONT = continue, COUNT = comptage, BIN = binaire, PROP = proportion.
+\end{frame}
+
+% ============================================================
+\section{Le système et son ingénierie}
+% ============================================================
+\begin{frame}{Le défi : collecter à grande échelle}
+\begin{itemize}
+    \item Des centaines de jeux candidats, dispersés dans des entrepôts et des articles.
+    \vspace{0.2cm}
+    \item Remplir manuellement les métadonnées de chacun serait \textbf{trop long}.
+    \vspace{0.2cm}
+    \item Idée : confier le travail répétitif (lire, résumer, ranger, relier) à un \textbf{assistant IA}, et garder l'humain pour les décisions.
+\end{itemize}
+\vspace{0.3cm}
+\centering\emph{Métaphore : un bibliothécaire infatigable qui lit, résume et range tout, pendant que l'humain décide.}
+\end{frame}
+
+\begin{frame}{Le système en pratique}
+\footnotesize
+\begin{block}{Le pattern « wiki maintenu par IA » (d'après A. Karpathy)}
+Au lieu de re-lire les sources à chaque question, l'IA construit \emph{une fois} une base structurée et interconnectée, puis la \emph{maintient à jour}. La connaissance s'accumule.
+\end{block}
+\vspace{0.05cm}
+\begin{columns}
+\column{0.39\textwidth}
+\textbf{Trois couches}
+\begin{itemize}
+    \item \textbf{Corpus} : sources curées (articles, docs, données) — la matière première.
+    \item \textbf{Graphe de connaissances} : relie papiers, données, variables et formules.
+    \item \textbf{Wiki} : la synthèse validée, lisible par l'humain.
+\end{itemize}
+\column{0.61\textwidth}
+\centering
+\resizebox{0.95\linewidth}{!}{%
+\begin{tikzpicture}[
+    node distance=6mm and 8mm,
+    every node/.style={font=\tiny, align=center},
+    dataset/.style={draw=mygreen!80, fill=mygreen!10, rounded corners,
+        minimum width=2.0cm, minimum height=0.72cm, font=\scriptsize\bfseries},
+    paper/.style={draw=myblue!70, fill=blue!7, rounded corners,
+        text width=2.05cm, minimum height=0.8cm},
+    package/.style={draw=violet!70, fill=violet!7, rounded corners,
+        minimum width=1.75cm, minimum height=0.65cm},
+    formula/.style={draw=myred!75, fill=myred!7, rounded corners,
+        text width=3.25cm, minimum height=0.65cm},
+    varnode/.style={draw=mygray!60, fill=black!3, rounded corners,
+        minimum width=1.15cm, minimum height=0.52cm},
+    edge/.style={-{Latex[length=1.6mm]}, thick, mygray}
+]
+\node[dataset] (lsl) {\texttt{spDataLarge::lsl}};
+\node[paper, above left=7mm and 12mm of lsl] (article)
+    {Muenchow et al.\\article, 2012};
+\node[paper, above right=7mm and 12mm of lsl] (book)
+    {\emph{Geocomputation with R}\\chapitre spatial-cv};
+\node[package, left=16mm of lsl] (pkg) {package R\\\texttt{spDataLarge}};
+\node[formula, below=9mm of lsl] (form)
+    {\texttt{lslpts} $\sim$ \texttt{slope + cplan + cprof}\\
+     \texttt{+ elev + log10\_carea}};
+\node[varnode, below left=7mm and 11mm of form] (y)
+    {\texttt{lslpts}\\réponse};
+\node[varnode, below=7mm of form] (x)
+    {\texttt{slope, elev}\\covariables};
+\node[varnode, below right=7mm and 11mm of form] (xy)
+    {\texttt{x, y}\\coordonnées};
+
+\draw[edge] (pkg) -- node[above]{fournit} (lsl);
+\draw[edge] (article) -- node[left]{utilise} (lsl);
+\draw[edge] (book) -- node[right]{utilise} (lsl);
+\draw[edge,myred] (book) to[bend left=12] node[right]{donne} (form);
+\draw[edge] (lsl) -- node[right]{formule} (form);
+\draw[edge] (lsl) to[bend right=15] (y);
+\draw[edge] (lsl) -- (x);
+\draw[edge] (lsl) to[bend left=15] (xy);
+\end{tikzpicture}
+}
+
+{\tiny\textcolor{mygray}{Sous-graphe réel centré sur un dataset :
+le KG complet contient plus de 15\,000 nœuds.}}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Garder la qualité : un contrôle à trois niveaux}
+\small
+Chaque fiche produite par l'IA passe un contrôle qualité automatique avant d'être validée.
+\vspace{0.3cm}
+\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.22\textwidth} >{\RaggedRight\arraybackslash}X c}
+\toprule
+\textbf{Niveau} & \textbf{Vérifie} & \textbf{Feu} \\
+\midrule
+Structurel & Forme : sections obligatoires, liens valides & \textcolor{mygreen}{$\bullet$} \\
+Sémantique & Cohérence du contenu, fidélité à la source & \textcolor{myred}{$\bullet$} \\
+File d'attente & Cas douteux orientés vers \textbf{révision humaine} & \textcolor{orange}{$\bullet$} \\
+\bottomrule
+\end{tabularx}
+\vspace{0.3cm}
+\begin{itemize}
+    \item Principe clé : \textbf{l'IA propose, l'humain valide}. Aucune auto-validation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Le blocage rencontré}
+\begin{itemize}
+    \item Première version : l'assistant IA \textbf{lisait tout}, en entier, à chaque tâche.
+    \vspace{0.25cm}
+    \item Conséquence : un coût en « tokens » (la matière première de l'IA) qui explose.
+    \vspace{0.25cm}
+    \item L'avancement s'est retrouvé \textbf{bloqué} : trop lent, trop coûteux pour passer à l'échelle.
+\end{itemize}
+\vspace{0.4cm}
+\begin{center}
+\emph{Métaphore : un bibliothécaire qui relirait tous les rayons pour répondre à la moindre question.}
+\end{center}
+\end{frame}
+
+\begin{frame}{La solution : donner une mémoire et des résumés à l'IA}
+\footnotesize
+\begin{columns}
+\column{0.43\textwidth}
+On a ajouté des outils qui évitent à l'IA de tout relire :
+\begin{itemize}
+    \item un \textbf{graphe de connaissances} qu'on interroge au lieu de relire les sources ;
+    \item des \textbf{résumés} des sources et des longues sorties techniques ;
+    \item une \textbf{compression} du contexte avant chaque appel.
+\end{itemize}
+\vspace{0.1cm}
+\textbf{Exemple mesuré :}\\
+« Quelles sources sont reliées à \texttt{lsl} ? »
+
+\column{0.57\textwidth}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=\textwidth, height=0.48\textheight,
+    ybar, bar width=25pt,
+    symbolic x coords={Fichiers sources,Requête KG},
+    xtick=data,
+    ymode=log,
+    ymin=100, ymax=1000000,
+    ylabel={Volume estimé (tokens, échelle log.)},
+    nodes near coords,
+    point meta=explicit symbolic,
+    nodes near coords style={font=\scriptsize},
+    tick label style={font=\scriptsize},
+    label style={font=\scriptsize},
+    x tick label style={align=center}]
+\addplot[fill=myred!75] coordinates
+    {(Fichiers sources,521443) [\scriptsize $\approx$521\,000]
+     (Requête KG,722) [\scriptsize $\approx$720]};
+\end{axis}
+\end{tikzpicture}
+\\[-0.05cm]
+\colorbox{mygreen!12}{\parbox{0.88\linewidth}{\centering
+\textbf{Temps local de la requête KG :} environ \textbf{0,12 seconde}}}
+\end{columns}
+\vspace{0.05cm}
+
+{\tiny\textcolor{mygray}{Estimation de volume : nombre de caractères
+divisé par 4. Ce n'est pas un relevé de tokens facturés par une API.}}
+\end{frame}
+
+% ============================================================
+\section{Application et premiers résultats}
+% ============================================================
+\begin{frame}{Le jeu de données central}
+\small
+Un jeu unique sert de \textbf{fil conducteur} pédagogique et méthodologique.
+\vspace{0.25cm}
+\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.34\textwidth} >{\RaggedRight\arraybackslash}X}
+\toprule
+\textbf{Dimension} & \textbf{Caractéristique retenue} \\
+\midrule
+Structure temporelle & Panel spatial équilibré, T moyen (10--20 périodes) \\
+Support spatial & Polygones administratifs, exhaustif \\
+Type de réponse & Continue \\
+Dépendance & Autocorrélation + hétérogénéité + dépendance temporelle \\
+Taille & N moyen (500--2000), 5--15 covariables \\
+Licence & CC-BY 4.0 \\
+\bottomrule
+\end{tabularx}
+\vspace{0.2cm}
+\footnotesize Candidats naturels : chômage communal ou qualité de l'air départementale sur $\sim$15 ans. \textcolor{mygray}{(à confirmer)}
+\end{frame}
+
+\begin{frame}{État d'avancement de la banque}
+\footnotesize
+\centering
+\begin{tikzpicture}[
+    metric/.style={rounded corners=2pt, minimum width=2.45cm,
+        minimum height=1.1cm, text width=2.2cm, align=center,
+        font=\scriptsize, inner sep=3pt},
+    flow/.style={-{Latex[length=2mm]}, very thick, myblue}
+]
+\node[metric, draw=myblue!70, fill=blue!7] (kg) at (0,0)
+    {\textbf{\Large 1\,435}\\nœuds Dataset\\dans le KG brut};
+\node[metric, draw=mygreen!70, fill=mygreen!8] (canon) at (3.55,0)
+    {\textbf{\Large 1\,388}\\datasets\\canoniques};
+\node[metric, draw=orange!80, fill=orange!9] (curated) at (7.1,0)
+    {\textbf{\Large 758}\\datasets\\déjà curés};
+\draw[flow] (kg) -- node[above,font=\tiny]{rapprochement} (canon);
+\draw[flow] (canon) -- node[above,font=\tiny]{validation} (curated);
+
+\node[metric, draw=myblue!55, fill=blue!4] at (-0.3,-1.75)
+    {\textbf{356} papiers\\
+     \textbf{1\,827} formules\\
+     \textbf{10\,398} variables};
+\node[metric, draw=violet!60, fill=violet!5] at (2.55,-1.75)
+    {\textbf{38} packages R\\
+     \textbf{19} packages Python\\
+     \textbf{24} objets auxiliaires};
+\node[metric, draw=mygreen!60, fill=mygreen!5] at (5.4,-1.75)
+    {\textbf{760} avec une\\réponse candidate\\
+     \textbf{541} avec formule};
+\node[metric, draw=myred!60, fill=myred!5] at (8.25,-1.75)
+    {\textbf{474} datasets\\reliés à au moins\\un article};
+\end{tikzpicture}
+
+\vspace{0.15cm}
+\begin{block}{Lecture}
+\centering
+L'infrastructure et l'indexation sont en place ; l'étape actuelle est la
+\textbf{curation}, le dédoublonnage et la sélection d'un sous-ensemble final.
+\end{block}
+\end{frame}
+
+\begin{frame}{Les modèles à comparer}
+\small
+Un portefeuille gradué, du plus simple au plus spécialisé.
+\vspace{0.3cm}
+\begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{0.26\textwidth} >{\RaggedRight\arraybackslash}X}
+\toprule
+\textbf{Niveau} & \textbf{Modèles} \\
+\midrule
+1. Baselines & GLM, GAM, Random Forest, Gradient Boosting \\
+2. Spatiaux statiques & SAR / SEM, GWR / MGWR, SVC (coefficients variables) \\
+3. Spatio-temporels & Panel spatial, MGWRSAR, boosting spatial (BSPA), STVC \\
+\bottomrule
+\end{tabularx}
+\vspace{0.3cm}
+\begin{itemize}
+    \item Métriques comparables : RMSE/MAE, autocorrélation résiduelle (Moran), temps de calcul.
+    \item Les méthodes maison (MGWRSAR, boosting spatial) sont comparées au reste.
+\end{itemize}
+\end{frame}
+
+% ============================================================
+\section{Calendrier et conclusion}
+% ============================================================
+\begin{frame}{Où en est-on, et la suite}
+\small
+\begin{itemize}
+    \item \textbf{Fait} : typologie, pipelines de collecte, contrôle qualité, couche d'efficience (tokens).
+    \vspace{0.15cm}
+    \item \textbf{En cours} : sélection des jeux finaux (8--12), traitement du jeu central.
+    \vspace{0.15cm}
+    \item \textbf{À venir} : protocoles de split, sélection des matrices de voisinage W, benchmarking complet.
+    \vspace{0.15cm}
+    \item \textbf{Finalité} : un \emph{datapaper} (cible : \textit{Scientific Data}) + dépôt Zenodo + code GitHub.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+\small
+Ce stage construit une banque de données spatio-temporelles de référence pour valider des méthodes prédictives.
+\vspace{0.3cm}
+\textbf{Trois messages à retenir}
+\begin{itemize}
+    \item Des \textbf{métadonnées enrichies} qui ne décrivent pas seulement, mais \emph{guident} le choix des modèles.
+    \vspace{0.15cm}
+    \item Un \textbf{système wiki maintenu par IA} pour passer à l'échelle, avec contrôle qualité et révision humaine.
+    \vspace{0.15cm}
+    \item Une \textbf{ingénierie d'efficience} (économie de tokens) qui a débloqué le projet.
+\end{itemize}
+\end{frame}
+
+\section*{}
+\begin{frame}[plain]
+\centering
+\vfill
+{\Huge \textbf{Merci}}
+\\[0.5cm]
+{\large Questions ?}
+\vfill
+\end{frame}
+
+\end{document}
+{\large Questions ?}
+\vfill
+\end{frame}
+
+\end{document}

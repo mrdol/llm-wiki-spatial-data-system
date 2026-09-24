@@ -29,6 +29,25 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run KG pipeline.")
     parser.add_argument("--run-grobid", action="store_true", help="lancer aussi l'etape PDF -> TEI")
     parser.add_argument("--from-bib", action="store_true", help="avec --run-grobid, traiter seulement les PDF du .bib")
+    parser.add_argument(
+        "--llm-disambiguate",
+        action="store_true",
+        help=(
+            "appeler Claude sur les candidats deja prioritaires par mots-cles pour "
+            "declasser les faux positifs theoriques (necessite ANTHROPIC_API_KEY, "
+            "resultats mis en cache). Desactive par defaut car ca implique des "
+            "appels API payants."
+        ),
+    )
+    parser.add_argument(
+        "--check-dataset-fiches",
+        action="store_true",
+        help=(
+            "lancer le controle bloquant des fiches datasets apres l export "
+            "metadata. Non active par defaut tant que les fiches historiques "
+            "package/paper ne sont pas toutes stabilisees."
+        ),
+    )
     args = parser.parse_args()
 
     run_step(["tools/kg/01_extract_bib.py"])
@@ -41,8 +60,13 @@ def main() -> None:
     run_step(["tools/kg/04_extract_dataset_catalogs.py"])
     run_step(["tools/kg/04_extract_web_sources.py"])
     run_step(["code/package_metadata/export_spatialtidymodels_metadata.py"])
+    if args.check_dataset_fiches:
+        run_step(["tools/check_dataset_fiche_readiness.py", "--all"])
     run_step(["tools/kg/08_extract_model_evidence.py"])
     run_step(["tools/kg/09_extract_paper_dataset_uses.py"])
+    if args.llm_disambiguate:
+        run_step(["tools/kg/09b_llm_disambiguate_candidates.py"])
+    run_step(["tools/kg/10_make_audit_candidate_review.py"])
     run_step(["tools/kg/04_build_graph.py"])
     run_step(["tools/kg/06_make_summaries.py"])
     run_step(["tools/kg/07_export_agent_index.py", "stats"])
